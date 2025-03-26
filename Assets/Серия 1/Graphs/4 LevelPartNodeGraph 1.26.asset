@@ -1,0 +1,5318 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8991453445533291836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 6312, y: -1656}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -8991453445533291836}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: 5697201539788426771}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -8991453445533291836}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0427\u0442\u043E \u043C\u043D\u0435 \u0434\u0435\u043B\u0430\u0442\u044C?\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-7802274383471543464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9992, y: -712}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7802274383471543464}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      - fieldName: Choice2Output
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7802274383471543464}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+2 \u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+  _showTime: 2
+  _delayDisplayTime: 0
+  _color: {r: 0.8745099, g: 0.14117648, b: 0.14117648, a: 1}
+--- !u!114 &-7665101552359386547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386d9413e31d43a4b8342aeb4a2e8c50, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 6312, y: -1272}
+  ports:
+    keys:
+    - Choice1Output
+    - Choice2Output
+    - Choice3Output
+    - Input
+    - Output
+    values:
+    - _fieldName: Choice1Output
+      _node: {fileID: -7665101552359386547}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice2Output
+      _node: {fileID: -7665101552359386547}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice3Output
+      _node: {fileID: -7665101552359386547}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -7665101552359386547}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: 5697201539788426771}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7665101552359386547}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -590783630031607251}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _choiceText1: "\u0412\u0441\u0442\u0430\u0442\u044C \u0438 \u043F\u043E\u043C\u0430\u0445\u0430\u0442\u044C
+    \u0432\u043C\u0435\u0441\u0442\u0435 \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439 "
+  _choiceText2: "\u041D\u0435 \u043E\u0431\u0440\u0430\u0449\u0430\u0442\u044C \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u044F
+    \u043D\u0430 \u044F\u0445\u0442\u0443 "
+  _choiceText3: "\u0412\u0441\u0442\u0430\u0442\u044C \u0438 \u0437\u0430\u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043E\u0432\u0430\u043D\u043D\u043E
+    \u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443
+    \u044F\u0445\u0442\u044B."
+  _timerValue: 0
+  _timerPortIndex: 0
+  _choice1Price: 0
+  _choice2Price: 0
+  _choice3Price: 0
+  _showStatsChoice1Key: 0
+  _showStatsChoice2Key: 0
+  _showStatsChoice3Key: 0
+  _showChoice3Key: 1
+  _showOutput: 1
+  _addTimer: 0
+  _baseStatsChoice1:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: -1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice2:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice3:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+--- !u!114 &-7228866632041436332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4368.142, y: -1525.0869}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7228866632041436332}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4518873748260366804}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7228866632041436332}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1776559098806228701}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u0435 \u0437\u043D\u0430\u044E, \u043A\u0430\u043A \u043D\u0430\u0441\u0447\u0435\u0442
+    \u0445\u043E\u0440\u043E\u0448\u0438\u0445, \u043D\u043E, \u0434\u0443\u043C\u0430\u044E,
+    \u0438\u043C \u0431\u0443\u0434\u0435\u0442 \u0447\u0435\u043C \u043D\u0430\u0441
+    \u0443\u0434\u0438\u0432\u0438\u0442\u044C!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-7177125040672397359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 8424, y: -1384}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7177125040672397359}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 6343930532233924825}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7177125040672397359}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5239472641822572007}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.46 '
+  _text: "\u041C\u0430\u0440\u043A \u043F\u043E\u043C\u0430\u0445\u0430\u043B \u043D\u0430\u043C.\r\n"
+--- !u!114 &-6968371161452380553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7416, y: -1160}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6968371161452380553}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6860087254744305527}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6968371161452380553}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5136743663509539326}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0411\u043E\u0436\u0435, \u0441\u043C\u043E\u0442\u0440\u0438 \u043A\u0430\u043A\u0438\u0435
+    \u043A\u0440\u0430\u0441\u0430\u0432\u0446\u044B, \u0447\u0443\u0440, \u043C\u043E\u0439
+    \u0442\u0435\u043C\u043D\u0435\u043D\u044C\u043A\u0438\u0439.\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 3
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-6860087254744305527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7432, y: -1544}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6860087254744305527}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2423335836172623969}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6860087254744305527}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6968371161452380553}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.41 '
+  _text: "\u041D\u0430\u0434\u0435\u044E\u0441\u044C, \u043E\u043D\u043E \u0442\u043E\u0433\u043E
+    \u0441\u0442\u043E\u0438\u043B\u043E..."
+  _indexCharacter: 2
+  _indexEmotion: 1
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 6
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-6855145879511858059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f180cf4cc964f7b88f574a1bfe7919b, type: 3}
+  m_Name: Switch
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3610.7112, y: -1801.812}
+  ports:
+    keys:
+    - OutputTrueBool
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    - Port 2
+    values:
+    - _fieldName: OutputTrueBool
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -5111360659676696179}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2288360995067521985}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 780696658309425493}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4518873748260366804}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 2
+      _node: {fileID: -6855145879511858059}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2288360995067521985}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _casesForStats:
+  - _foldoutKey: 0
+    _caseStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 3
+      _indexCurrentOperator: 3
+      _includeKey: 1
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    _name: Port 0
+  - _foldoutKey: 0
+    _caseStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 3
+      _indexCurrentOperator: 3
+      _includeKey: 1
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    _name: Port 1
+  - _foldoutKey: 0
+    _caseStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 3
+      _indexCurrentOperator: 3
+      _includeKey: 1
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    _name: Port 2
+  _isNodeForStats: 1
+  _isNodeForBool: 0
+--- !u!114 &-6571547281321827430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9896, y: -1128}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6571547281321827430}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice2Output
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6571547281321827430}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8697544736875365432}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: ...
+  _indexCharacter: 1
+  _indexEmotion: 1
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 0
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-6404848454088155958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2264, y: -1560}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6404848454088155958}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: 4459645084949810054}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6404848454088155958}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: bavkground
+  _index: 1
+  _isSmoothCurtain: 0
+  _backgroundPosition: 1
+--- !u!114 &-5960555792529482667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10184, y: -424}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5960555792529482667}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 8267487675171760982}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5960555792529482667}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 78911399086781087}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.51 '
+  _text: "\u042D\u0442\u043E \u042D\u043B\u0438\u0441, \u043C\u044B \u0442\u0443\u0442
+    \u0441\u0435\u0433\u043E\u0434\u043D\u044F \u043F\u0435\u0440\u0432\u044B\u0439
+    \u0434\u0435\u043D\u044C, \u043D\u043E \u0443\u0436\u0435 \u0433\u043E\u0442\u043E\u0432\u044B
+    \u043E\u0442\u043E\u0440\u0432\u0430\u0442\u044C\u0441\u044F \u043F\u043E \u043F\u043E\u043B\u043D\u043E\u0439!
+    \r\n"
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-5111360659676696179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3224, y: -1784}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5111360659676696179}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 6591086268862595461}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5111360659676696179}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6855145879511858059}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u0443 \u0441\u043A\u043E\u0440\u0435\u0435 \u0441\u0440\u0435\u0434\u043D\u044F\u044F.
+    \u041D\u043E \u044D\u0442\u043E \u0432\u0441\u0435 \u0440\u0430\u0432\u043D\u043E
+    \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E. \u041C\u043E\u0436\u0435\u0442
+    \u0431\u044B\u0442\u044C \u043D\u0430 \u043D\u0435\u0439 \u043A\u0430\u043A\u0438\u0435-\u043D\u0438\u0431\u0443\u0434\u044C
+    \u043F\u0430\u0440\u043D\u0438?"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-4730770070378689122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2264, y: -1800}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4730770070378689122}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: 4459645084949810054}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4730770070378689122}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1076177177033730469}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: trans
+  _isStartCurtain: 1
+  _isEndCurtain: 0
+--- !u!114 &-4518873748260366804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4056, y: -1592}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4518873748260366804}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -6855145879511858059}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4518873748260366804}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -7228866632041436332}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0413\u043B\u0430\u0432\u043D\u043E\u0435, \u0447\u0442\u043E\u0431\u044B
+    \u043B\u044E\u0434\u0438 \u0431\u044B\u043B\u0438 \u0445\u043E\u0440\u043E\u0448\u0438\u0435,
+    \u0430 \u043A\u0442\u043E - \u044D\u0442\u043E \u0443\u0436\u0435 \u043D\u0435
+    \u0442\u0430\u043A \u0432\u0430\u0436\u043D\u043E!\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 2
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 6
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-4302526150654160598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4344, y: -1944}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4302526150654160598}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 780696658309425493}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4302526150654160598}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1776559098806228701}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0414\u0430, \u0434\u0435\u0442\u043A\u0430! \u041C\u044B \u043F\u043E\u0439\u0434\u0435\u043C
+    \u0432 \u043E\u0442\u0440\u044B\u0432!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-3155518346499144898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9016, y: -1368}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -3155518346499144898}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5239472641822572007}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -3155518346499144898}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2855918040819713376}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.49 '
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0430
+    \u043D\u0430 \u043C\u0435\u043D\u044F \u043C\u043D\u043E\u0433\u043E\u0437\u043D\u0430\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C
+    \u0432\u0437\u0433\u043B\u044F\u0434\u043E\u043C, \u044F\u0432\u043D\u043E \u043E\u0437\u043D\u0430\u0447\u0430\u044E\u0449\u0438\u043C
+    \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u0441\u0442\u044C
+    \u043F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u044C\u0441\u044F.\r\n"
+--- !u!114 &-2508526727149663210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1256, y: -1976}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2508526727149663210}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -117766076041353531}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2508526727149663210}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentSoundIndex: 0
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 0
+  _isSmoothVolumeDecrease: 1
+  _isInstantNodeTransition: 0
+  _lowPassEffectKey: 0
+--- !u!114 &-2132678835900812531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1032, y: -2424}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2132678835900812531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -117766076041353531}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2132678835900812531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3855540957067419196}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 0
+  _isEndCurtain: 1
+--- !u!114 &-1632077148325378144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1896, y: -2296}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1632077148325378144}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3855540957067419196}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1632077148325378144}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4459645084949810054}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: sound
+  _currentSoundIndex: 1
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 1
+  _isSmoothVolumeDecrease: 0
+  _isInstantNodeTransition: 1
+  _lowPassEffectKey: 0
+--- !u!114 &-1153319412353954978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9384, y: -392}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1153319412353954978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: 2855918040819713376}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1153319412353954978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: ...
+  _indexCharacter: 2
+  _indexEmotion: 2
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 0
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-1076177177033730469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2520, y: -2072}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1076177177033730469}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4730770070378689122}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1076177177033730469}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2797179363040325001}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041C\u044B \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439 \u0440\u0430\u0437\u043B\u043E\u0436\u0438\u043B\u0438
+    \u043F\u043E\u043B\u043E\u0442\u0435\u043D\u0446\u0430 \u0438 \u043F\u0440\u0438\u043D\u044F\u043B\u0438\u0441\u044C
+    \u0437\u0430\u0433\u043E\u0440\u0430\u0442\u044C \u043F\u043E\u0434 \u043B\u0443\u0447\u0430\u043C\u0438
+    \u043B\u0435\u0442\u043D\u0435\u0433\u043E \u0441\u043E\u043B\u043D\u0446\u0430.\r\n"
+--- !u!114 &-964166827913597760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386d9413e31d43a4b8342aeb4a2e8c50, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9400, y: -1352}
+  ports:
+    keys:
+    - Choice1Output
+    - Choice2Output
+    - Choice3Output
+    - Input
+    - Output
+    values:
+    - _fieldName: Choice1Output
+      _node: {fileID: -964166827913597760}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -960723826819853486}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -7802274383471543464}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice2Output
+      _node: {fileID: -964166827913597760}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6571547281321827430}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -7802274383471543464}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice3Output
+      _node: {fileID: -964166827913597760}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8267487675171760982}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -964166827913597760}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: 2855918040819713376}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -964166827913597760}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _choiceText1: "\u041A\u043E\u043A\u0435\u0442\u043B\u0438\u0432\u043E \u043F\u043E\u0434\u043C\u0438\u0433\u043D\u0443\u0442\u044C
+    \u042D\u0434\u0432\u0438\u043D\u0443"
+  _choiceText2: "\u041A\u043E\u043A\u0435\u0442\u043B\u0438\u0432\u043E \u043F\u043E\u0434\u043C\u0438\u0433\u043D\u0443\u0442\u044C
+    \u041C\u0430\u0440\u043A\u0443 "
+  _choiceText3: "\u0421\u043A\u0430\u0437\u0430\u0442\u044C: \xAB\u041F\u0440\u0438\u0432\u0435\u0442\xBB.
+    \r"
+  _timerValue: 0
+  _timerPortIndex: 0
+  _choice1Price: 0
+  _choice2Price: 0
+  _choice3Price: 0
+  _showStatsChoice1Key: 0
+  _showStatsChoice2Key: 0
+  _showStatsChoice3Key: 0
+  _showChoice3Key: 1
+  _showOutput: 0
+  _addTimer: 1
+  _baseStatsChoice1:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 2
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 2
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice2:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 2
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: -2
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 2
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice3:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+--- !u!114 &-960723826819853486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9896, y: -1720}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -960723826819853486}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -960723826819853486}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5434850890912470856}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: ...
+  _indexCharacter: 0
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 0
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-864026737047115648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7768, y: -1416}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -864026737047115648}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5136743663509539326}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -864026737047115648}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6343930532233924825}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.44 '
+  _text: "\u041F\u043E\u043A\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u043D\u0430\u0433\u043B\u043E
+    \u043F\u044F\u043B\u0438\u043B\u0430\u0441\u044C \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443
+    \u044F\u0445\u0442\u044B, \u043F\u0430\u0440\u043D\u0438 \u0443\u0436\u0435 \u0443\u0441\u043F\u0435\u043B
+    \u0434\u043E\u0431\u0440\u0430\u0442\u044C\u0441\u044F \u0434\u043E \u0431\u0435\u0440\u0435\u0433\u0430
+    \u0438 \u043F\u0440\u0438\u043F\u0430\u0440\u043A\u043E\u0432\u0430\u043B\u0438
+    \u0441\u0432\u043E\u0438 \u0433\u0438\u0434\u0440\u043E\u0446\u0438\u043A\u043B\u044B.\r\n"
+--- !u!114 &-590783630031607251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 6696, y: -1560}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -590783630031607251}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -7665101552359386547}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -590783630031607251}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4547284061267202952}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u042F\u0445\u0442\u0430 \u043F\u043E\u043C\u0435\u043D\u044F\u043B\u0430
+    \u0441\u0432\u043E\u0439 \u043A\u0443\u0440\u0441 \u0438 \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u043B\u0430\u0441\u044C
+    \u043A \u0431\u0435\u0440\u0435\u0433\u0443. \u041D\u0430 \u043D\u0435\u0439
+    \u0432\u044B\u0440\u0438\u0441\u043E\u0432\u044B\u0432\u0430\u043B\u0438\u0441\u044C
+    \u0434\u0432\u0430 \u043C\u0443\u0436\u0441\u043A\u0438\u0445 \u043D\u0430\u043A\u0430\u0447\u0435\u043D\u043D\u044B\u0445
+    \u0441\u0438\u043B\u0443\u044D\u0442\u0430.\r\n"
+--- !u!114 &-365061338596194191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7080, y: -1160}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -365061338596194191}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 4547284061267202952}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -365061338596194191}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2423335836172623969}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.39 '
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0437\u0430\u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043E\u0432\u0430\u043D\u043D\u043E
+    \u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0430 \u043D\u0430 \u044F\u0445\u0442\u0443.\r\n"
+--- !u!114 &-117766076041353531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1016, y: -2184}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -117766076041353531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5269683608841733735}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -117766076041353531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -117766076041353531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2132678835900812531}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -117766076041353531}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2508526727149663210}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b7f1f7c509ff0458f1ba4499fd9d72, type: 3}
+  m_Name: 4 LevelPartNodeGraph 1.26
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 5269683608841733735}
+  - {fileID: 3855540957067419196}
+  - {fileID: 4459645084949810054}
+  - {fileID: -4730770070378689122}
+  - {fileID: -1076177177033730469}
+  - {fileID: 2797179363040325001}
+  - {fileID: 7317785311111705305}
+  - {fileID: 6591086268862595461}
+  - {fileID: -5111360659676696179}
+  - {fileID: 780696658309425493}
+  - {fileID: -4518873748260366804}
+  - {fileID: 2288360995067521985}
+  - {fileID: -4302526150654160598}
+  - {fileID: -7228866632041436332}
+  - {fileID: 7348365139087758757}
+  - {fileID: 1776559098806228701}
+  - {fileID: 5589072999162652820}
+  - {fileID: 3378499023638336405}
+  - {fileID: 5697201539788426771}
+  - {fileID: -8991453445533291836}
+  - {fileID: -590783630031607251}
+  - {fileID: 4547284061267202952}
+  - {fileID: -365061338596194191}
+  - {fileID: 2423335836172623969}
+  - {fileID: -6860087254744305527}
+  - {fileID: -6968371161452380553}
+  - {fileID: -6404848454088155958}
+  - {fileID: 5136743663509539326}
+  - {fileID: -864026737047115648}
+  - {fileID: 6343930532233924825}
+  - {fileID: -7177125040672397359}
+  - {fileID: 5239472641822572007}
+  - {fileID: -3155518346499144898}
+  - {fileID: -964166827913597760}
+  - {fileID: -960723826819853486}
+  - {fileID: -6571547281321827430}
+  - {fileID: 8697544736875365432}
+  - {fileID: 5434850890912470856}
+  - {fileID: -1153319412353954978}
+  - {fileID: 2855918040819713376}
+  - {fileID: 8017220669513359631}
+  - {fileID: -5960555792529482667}
+  - {fileID: 8267487675171760982}
+  - {fileID: 78911399086781087}
+  - {fileID: 2842029839591268206}
+  - {fileID: -6855145879511858059}
+  - {fileID: -7665101552359386547}
+  - {fileID: -117766076041353531}
+  - {fileID: 6071468108855876012}
+  - {fileID: -2132678835900812531}
+  - {fileID: -2508526727149663210}
+  - {fileID: -1632077148325378144}
+  - {fileID: 8824422642132676277}
+  - {fileID: 7222574241284045528}
+  - {fileID: -7802274383471543464}
+--- !u!114 &78911399086781087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10581.187, y: -420.14664}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 78911399086781087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -5960555792529482667}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 78911399086781087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7222574241284045528}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0425\u0430\u0445\u0430, \u043A\u0430\u043A\u0438\u0435 \u0431\u044B\u0441\u0442\u0440\u044B\u0435.
+    \u0412\u044B \u0447\u0442\u043E \u0436\u0438\u0432\u0435\u0442\u0435 \u043F\u0440\u044F\u043C\u043E
+    \u043D\u0430 \u043F\u043B\u044F\u0436\u0435?\r\n"
+  _indexCharacter: 0
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &780696658309425493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3992, y: -1976}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 780696658309425493}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -6855145879511858059}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 780696658309425493}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4302526150654160598}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041A\u0430\u0436\u0435\u0442\u0441\u044F, \u0441\u0435\u0433\u043E\u0434\u043D\u044F
+    \u0431\u0443\u0434\u0435\u0442 \u0433\u043E\u0440\u044F\u0447\u043E!\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 2
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &1776559098806228701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4856, y: -1560}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1776559098806228701}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4302526150654160598}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -7228866632041436332}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 7348365139087758757}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1776559098806228701}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5589072999162652820}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u043F\u043E\u0434\u043D\u044F\u043B\u0430\u0441\u044C
+    \u0441 \u043F\u043E\u043B\u043E\u0442\u0435\u043D\u0446\u0430 \u0438 \u043D\u0430\u0447\u0430\u043B\u0430
+    \u043C\u0430\u0445\u0430\u0442\u044C \u0440\u0443\u043A\u0430\u043C\u0438 \u043F\u0440\u043E\u043F\u043B\u044B\u0432\u0430\u044E\u0449\u0435\u0439
+    \u044F\u0445\u0442\u0435.\r\n"
+--- !u!114 &2288360995067521985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4016.3953, y: -1174.5686}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2288360995067521985}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 2
+        node: {fileID: -6855145879511858059}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -6855145879511858059}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2288360995067521985}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7348365139087758757}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0425\u043C\u043C. \u041A\u0430\u043A\u0430\u044F \u0440\u0430\u0437\u043D\u0438\u0446\u0430,
+    \u043C\u044B \u0432\u0435\u0434\u044C \u043D\u0435 \u0441\u0442\u0430\u043D\u0435\u043C
+    \u043A \u043D\u0438\u043C \u043B\u0435\u0437\u0442\u044C?\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 1
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &2423335836172623969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7064, y: -1512}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2423335836172623969}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -365061338596194191}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2423335836172623969}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6860087254744305527}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.40 '
+  _text: "\u042F\u0445\u0442\u0430 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0430\u0441\u044C
+    \u0432 \u043F\u0440\u0438\u0431\u0440\u0435\u0436\u043D\u044B\u0445 \u0432\u043E\u0434\u0430\u0445
+    \u043F\u043B\u044F\u0436\u0430, \u0430 \u043F\u0430\u0440\u043D\u0438 \u0441\u0435\u043B\u0438
+    \u043D\u0430 \u0433\u0438\u0434\u0440\u043E\u0446\u0438\u043A\u043B\u044B \u0438
+    \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u043B\u0438\u0441\u044C \u0432 \u043D\u0430\u0448\u0443
+    \u0441\u0442\u043E\u0440\u043E\u043D\u0443.\r\n"
+--- !u!114 &2797179363040325001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2552, y: -1832}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2797179363040325001}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -1076177177033730469}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2797179363040325001}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7317785311111705305}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u0430\u0448\u0438 \u0442\u0435\u043B\u0430 \u043F\u043E\u0441\u0442\u0435\u043F\u0435\u043D\u043D\u043E
+    \u043D\u0430\u0433\u0440\u0435\u0432\u0430\u043B\u0438\u0441\u044C, \u0430 \u043A\u043E\u0436\u0430,
+    \u0443\u0432\u043B\u0430\u0436\u043D\u0435\u043D\u043D\u0430\u044F \u043A\u0440\u0435\u043C\u043E\u043C
+    \u0434\u043B\u044F \u0437\u0430\u0433\u0430\u0440\u0430, \u043F\u0440\u0438\u044F\u0442\u043D\u043E
+    \u0431\u043B\u0435\u0441\u0442\u0435\u043B\u0430.\r\n"
+--- !u!114 &2842029839591268206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74380bfb914243f187191e8c2c10b30d, type: 3}
+  m_Name: Put On Swimsuits
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 290.31522, y: -1759.5364}
+  ports:
+    keys:
+    - Output
+    - Input
+    values:
+    - _fieldName: Output
+      _node: {fileID: 2842029839591268206}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5269683608841733735}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: 2842029839591268206}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+--- !u!114 &2855918040819713376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9160, y: -1016}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2855918040819713376}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -3155518346499144898}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2855918040819713376}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: 2855918040819713376}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: 2855918040819713376}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1153319412353954978}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 1.50
+  _autoSwitchToNextSlide: 0
+--- !u!114 &3378499023638336405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 5576, y: -1560}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3378499023638336405}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5589072999162652820}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3378499023638336405}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5697201539788426771}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u0430\u0432\u0435\u0440\u043D\u044F\u043A\u0430 \u043A\u0430\u043A\u0430\u044F-\u043D\u0438\u0431\u0443\u0434\u044C
+    \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F \u043C\u043E\u043B\u043E\u0434\u044B\u0445
+    \u0438 \u0432\u0435\u0441\u0435\u043B\u044B\u0445 \u043B\u044E\u0434\u0435\u0439,
+    \u0434\u0430 \u0435\u0449\u0435 \u0438 \u043F\u0440\u0438 \u0434\u0435\u043D\u044C\u0433\u0430\u0445.
+    \u041D\u0430\u043C \u0442\u0430\u043A\u0438\u0435 \u0437\u043D\u0430\u043A\u043E\u043C\u0441\u0442\u0432\u0430
+    \u043D\u0435 \u043F\u043E\u0432\u0440\u0435\u0434\u044F\u0442!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &3855540957067419196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9ecf11374641f5adf2e04e612f3df2, type: 3}
+  m_Name: Customization
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1480, y: -2360}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3855540957067419196}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -2132678835900812531}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3855540957067419196}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1632077148325378144}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _hairIndex: 0
+  _showFoldoutSettingsHairstyles: 0
+  _showFoldoutSettingsClothes: 0
+  _showFoldoutSettingsBodies: 0
+  _showFoldoutSettingsSwimsuits: 1
+  _settingsBodies:
+  - _name: "\u0415\u0432\u0440\u043E\u043F\u0435\u043E\u0438\u0434"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041C\u043E\u043D\u0433\u043E\u043B\u043E\u0438\u0434"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041D\u0435\u0433\u0440\u043E\u0438\u0434"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  _settingsHairstyles:
+  - _name: "\u0411\u043B\u043E\u043D\u0434 \u043A\u0430\u0440\u0435"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0418\u0441\u0441\u0438\u044F \u0447\u0435\u0440\u043D\u044B\u0435"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0430\u0440\u044D \u0440\u0443\u0441\u044B\u0435"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435 \u0432\u043E\u043B\u043D\u0438\u0441\u0442\u044B\u0435"
+    _index: 3
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435"
+    _index: 4
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u0435\u0441\u043E\u0447\u043D\u044B\u0439 \u0431\u043B\u043E\u043D\u0434
+      \u043A\u0430\u0440\u0435"
+    _index: 5
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u043E\u0437\u043E\u0432\u044B\u0435"
+    _index: 6
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u044B\u0436\u0438\u0435 \u0432\u043E\u043B\u043D\u0438\u0441\u0442\u044B\u0435"
+    _index: 7
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u0435\u0440\u043E-\u0433\u043E\u043B\u0443\u0431\u044B\u0435"
+    _index: 8
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0427\u0435\u0440\u043D\u043E-\u0444\u0438\u043E\u043B\u0435\u0442\u043E\u0432\u044B\u0439
+      \u0445\u0432\u043E\u0441\u0442"
+    _index: 9
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0427\u0435\u0440\u043D\u043E\u0435 \u043A\u0430\u0440\u0435"
+    _index: 10
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u0443\u0441\u044B\u0435"
+    _index: 11
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  _settingsClothes:
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0412\u044B\u0441\u043E\u043A\u0438\u0435
+      \u0441\u0430\u043F\u043E\u0433\u0438"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0412\u044B\u0441\u043E\u043A\u0438\u0435
+      \u0441\u0430\u043F\u043E\u0433\u0438"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0420\u043E\u0437\u043E\u0432\u043E\u0435
+      \u0448\u0435\u043B\u043A\u043E\u0432\u043E\u0435"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F \u043C\u0430\u0439\u043A\u0430"
+    _index: 3
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u044E\u0431\u043A\u0430 \u0434\u043B\u044F \u041D\u0435\u0433\u0440\u043E\u0439\u0434\u0430"
+    _index: 4
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u044E\u0431\u043A\u0430"
+    _index: 5
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u042E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _index: 6
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435 \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430
+      \u0420\u0443\u0431\u0430\u0448\u043A\u0430 \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
+    _index: 7
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u0411\u0435\u0436\u0435\u0432\u043E\u0435
+      \u0448\u0435\u043B\u043A\u043E\u0432\u043E\u0435"
+    _index: 8
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u041A\u0440\u0430\u0441\u043D\u043E\u0435
+      \u0431\u043B\u0435\u0441\u0442\u044F\u0449\u0435\u0435"
+    _index: 9
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u041A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _index: 10
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u0422\u043E\u043F \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
+    _index: 11
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u0422\u043E\u043F \u0441 \u043A\u043E\u043B\u044C\u0446\u043E\u043C \u0438
+      \u0434\u0436\u0438\u043D\u0441\u043E\u0432\u044B\u0435 \u0448\u043E\u0440\u0442\u044B"
+    _index: 12
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u042E\u0431\u043A\u0430 \u0438 \u0442\u043E\u043F"
+    _index: 13
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u0442\u043E\u043F \u0447\u0435\u0440\u043D\u044B\u0435"
+    _index: 14
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u041C\u0430\u0439\u043A\u0430
+      \u0438 \u0448\u043E\u0440\u0442\u044B"
+    _index: 15
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u0428\u0442\u0430\u043D\u044B
+      \u0438 \u0442\u043E\u043F"
+    _index: 16
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u0442\u043E\u043F \u0431\u0435\u043B\u044B\u0435"
+    _index: 17
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u041C\u0435\u0434\u043D\u043E\u0435"
+    _index: 18
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u0422\u043E\u043F \u0438
+      \u0448\u043E\u0440\u0442\u044B"
+    _index: 19
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  _settingsSwimsuits:
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421 \u0431\u043B\u0435\u0441\u0442\u043A\u0430\u043C\u0438"
+    _index: 0
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 1
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 1
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421 \u0437\u043E\u043B\u043E\u0442\u044B\u043C
+      \u043F\u043E\u044F\u0441\u043E\u043C"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421\u043E \u0441\u0442\u0440\u0430\u0437\u0430\u043C\u0438
+      \u0444\u0438\u043E\u043B\u0435\u0442\u043E\u0432\u044B\u0439"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421\u043E \u0441\u0442\u0440\u0430\u0437\u0430\u043C\u0438"
+    _index: 3
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0427\u0435\u0440\u043D\u044B\u0439
+      \u043C\u0438\u043D\u0438"
+    _index: 4
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 1
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 1
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0427\u0435\u0440\u043D\u044B\u0439"
+    _index: 5
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 1
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 1
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+--- !u!114 &4459645084949810054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1992, y: -1816}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    - Port 2
+    - Port 3
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 6071468108855876012}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -1632077148325378144}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4730770070378689122}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6404848454088155958}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 2
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 3
+      _node: {fileID: 4459645084949810054}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: merger
+  _autoSwitchToNextSlide: 1
+--- !u!114 &4547284061267202952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 6744, y: -1224}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4547284061267202952}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -590783630031607251}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4547284061267202952}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -365061338596194191}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.38 '
+  _text: "\u0421\u043C\u043E\u0442\u0440\u0438, \u043E\u043D\u0438 \u043D\u0430\u0441
+    \u0437\u0430\u043C\u0435\u0442\u0438\u043B\u0438!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &5136743663509539326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 7736, y: -1128}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5136743663509539326}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6968371161452380553}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5136743663509539326}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -864026737047115648}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.43 '
+  _text: "\u042F \u043E\u0433\u043B\u044F\u0434\u0435\u043B\u0430 \u043C\u043E\u043B\u043E\u0434\u044B\u0445
+    \u043B\u044E\u0434\u0435\u0439. \u041E\u043D\u0438 \u0438 \u0432\u043F\u0440\u0430\u0432\u0434\u0443
+    \u0431\u044B\u043B\u0438 \u043E\u0447\u0435\u043D\u044C \u0441\u0438\u043C\u043F\u0430\u0442\u0438\u0447\u043D\u044B\u0435.
+    \r\n"
+--- !u!114 &5239472641822572007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 8715.095, y: -1377.2773}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5239472641822572007}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -7177125040672397359}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5239472641822572007}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -3155518346499144898}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041F\u0440\u0438\u0432\u0435\u0442, \u043C\u0430\u043B\u044C\u0447\u0438\u043A\u0438!
+    \u041C\u0435\u043D\u044F \u0437\u043E\u0432\u0443\u0442 \u041C\u0438\u0440\u0430\u043D\u0434\u0430!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 0
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &5269683608841733735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f180cf4cc964f7b88f574a1bfe7919b, type: 3}
+  m_Name: Switch
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 616, y: -1944}
+  ports:
+    keys:
+    - Input
+    - Output
+    - OutputTrueBool
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5269683608841733735}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2842029839591268206}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 8824422642132676277}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5269683608841733735}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -117766076041353531}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: OutputTrueBool
+      _node: {fileID: 5269683608841733735}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6071468108855876012}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _casesForStats: []
+  _isNodeForStats: 0
+  _isNodeForBool: 1
+--- !u!114 &5434850890912470856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10248, y: -1272}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5434850890912470856}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -960723826819853486}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5434850890912470856}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8017220669513359631}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.51 '
+  _text: "\u042D\u0434\u0432\u0438\u043D, \u043D\u0435\u043C\u043D\u043E\u0433\u043E
+    \u0441\u043C\u0443\u0442\u0438\u0432\u0448\u0438\u0441\u044C, \u0443\u043B\u044B\u0431\u043D\u0443\u043B\u0441\u044F
+    \u043C\u043D\u0435. "
+--- !u!114 &5589072999162652820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 5206.8984, y: -1581.8623}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5589072999162652820}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1776559098806228701}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5589072999162652820}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3378499023638336405}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0422\u044B \u0447\u0435\u0433\u043E? \u041C\u044B \u0436\u0435 \u043D\u0435
+    \u0437\u043D\u0430\u0435\u043C \u043A\u0442\u043E \u0442\u0430\u043C!\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &5697201539788426771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 5945.0947, y: -1506.8124}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5697201539788426771}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3378499023638336405}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5697201539788426771}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: 5697201539788426771}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -8991453445533291836}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: 5697201539788426771}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -7665101552359386547}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 0
+--- !u!114 &6071468108855876012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1560, y: -1512}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6071468108855876012}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: OutputTrueBool
+        node: {fileID: 5269683608841733735}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6071468108855876012}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4459645084949810054}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 0
+  _isEndCurtain: 1
+--- !u!114 &6343930532233924825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 8104, y: -1416}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6343930532233924825}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -864026737047115648}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6343930532233924825}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -7177125040672397359}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.45 '
+  _text: "\u041F\u0440\u0438\u0432\u0435\u0442, \u0434\u0435\u0432\u043E\u0447\u043A\u0438!
+    \u042F - \u042D\u0434\u0432\u0438\u043D, \u0430 \u044D\u0442\u043E - \u041C\u0430\u0440\u043A!\r\n"
+  _indexCharacter: 0
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 6
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &6591086268862595461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2904.6584, y: -1806.3694}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6591086268862595461}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 7317785311111705305}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6591086268862595461}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -5111360659676696179}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430, \u0441\u043C\u043E\u0442\u0440\u0438!
+    \u0422\u0430\u043C \u0432 \u043C\u043E\u0440\u0435 \u044F\u0445\u0442\u0430,
+    \u043E\u043D\u0430 \u0442\u0430\u043A\u0430\u044F \u0431\u043E\u043B\u044C\u0448\u0430\u044F.\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &7222574241284045528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10888, y: -456}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7222574241284045528}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 78911399086781087}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7222574241284045528}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _nextLevelPartNodeGraph: {fileID: 11400000, guid: bf86fe92a83665f43ba3541ceaed2d92, type: 2}
+  _putOnSwimsuit: 0
+--- !u!114 &7317785311111705305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2600, y: -1624}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7317785311111705305}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2797179363040325001}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7317785311111705305}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6591086268862595461}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u042F \u043E\u0431\u0440\u0430\u0442\u0438\u043B\u0430 \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u0435,
+    \u0447\u0442\u043E \u0432 \u043F\u0440\u0438\u0431\u0440\u0435\u0436\u043D\u044B\u0445
+    \u0432\u043E\u0434\u0430\u0445 \u043F\u043E\u044F\u0432\u0438\u043B\u0438\u0441\u044C
+    \u043E\u0447\u0435\u0440\u0442\u0430\u043D\u0438\u044F \u044F\u0445\u0442\u044B.\r\n"
+--- !u!114 &7348365139087758757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4420.369, y: -1099.9171}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7348365139087758757}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2288360995067521985}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7348365139087758757}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1776559098806228701}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0415\u0449\u0435 \u043A\u0430\u043A \u0441\u0442\u0430\u043D\u0435\u043C!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 1
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &8017220669513359631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10584, y: -1048}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8017220669513359631}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5434850890912470856}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 8697544736875365432}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8017220669513359631}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _nextLevelPartNodeGraph: {fileID: 11400000, guid: bf86fe92a83665f43ba3541ceaed2d92, type: 2}
+  _putOnSwimsuit: 1
+--- !u!114 &8267487675171760982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 9832, y: -376}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8267487675171760982}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice3Output
+        node: {fileID: -964166827913597760}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8267487675171760982}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -5960555792529482667}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041F\u0440\u0438\u0432\u0435\u0442"
+  _indexCharacter: 2
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 1
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &8697544736875365432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 10232, y: -824}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8697544736875365432}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6571547281321827430}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8697544736875365432}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8017220669513359631}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: '1.52 '
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0440\u0435\u0437\u043A\u043E
+    \u043E\u0442\u0442\u043E\u043B\u043A\u043D\u0443\u043B\u0430 \u043C\u0435\u043D\u044F
+    \u0438 \u0441\u043A\u0430\u0437\u0430\u043B\u0430: \xAB\u041A\u0430\u043A \u0445\u043E\u0440\u043E\u0448\u043E,
+    \u0447\u0442\u043E \u043C\u044B \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0438\u0441\u044C\xBB."
+--- !u!114 &8824422642132676277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97475c0406b3428696f2af614c4f657d, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 286.41016, y: -1972.8691}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8824422642132676277}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8824422642132676277}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5269683608841733735}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 

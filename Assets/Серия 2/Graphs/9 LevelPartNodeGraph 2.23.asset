@@ -1,0 +1,3319 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9093686978138020480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3320, y: -2312}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -9093686978138020480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5255169685280246602}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -9093686978138020480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -9093686978138020480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3089330438453524839}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -9093686978138020480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8398354302052996652}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
+--- !u!114 &-8854142099746083277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2712, y: -3336}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -8854142099746083277}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4568845156363025698}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -8854142099746083277}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4947909249137080847}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041A\u0442\u043E \u0437\u043D\u0430\u0435\u0442, \u0432\u0434\u0440\u0443\u0433
+    \u043D\u0430\u0447\u0430\u043B\u043E \u043D\u043E\u0432\u043E\u0439 \u0436\u0438\u0437\u043D\u0438
+    \u0432 \u043E\u0434\u0438\u043D\u043E\u0447\u043A\u0443 \u0441\u0434\u0435\u043B\u0430\u0435\u0442
+    \u043C\u0435\u043D\u044F \u0441\u0438\u043B\u044C\u043D\u0435\u0435, \u0440\u0430\u0441\u043A\u0440\u043E\u0435\u0442
+    \u043C\u0435\u043D\u044F \u043A\u0430\u043A \u043B\u0438\u0447\u043D\u043E\u0441\u0442\u044C.
+    \u041C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C, \u043B\u044E\u0434\u0438
+    \u0441\u0442\u0430\u043D\u0443\u0442 \u0437\u0430\u043C\u0435\u0447\u0430\u0442\u044C
+    \u0438 \u043C\u0435\u043D\u044F?"
+--- !u!114 &-8541445847371782656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1784, y: -2040}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -8541445847371782656}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: 5202609546605668124}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -8541445847371782656}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4617772115227739298}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.41
+  _text: "\u041B\u0430\u0434\u043D\u043E, \u0434\u0430\u0432\u0430\u0439, \u0442\u043E\u043B\u044C\u043A\u043E
+    \u0431\u044B\u0441\u0442\u0440\u043E"
+  _indexCharacter: 1
+  _indexEmotion: 1
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 6
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-7954170512936843406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1192, y: -2728}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7954170512936843406}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -5526250764333968260}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7954170512936843406}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1303370418189013516}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.29
+  _text: "\u041D\u0430\u0432\u0435\u0440\u043D\u043E\u0435, \u0447\u0442\u043E-\u0442\u043E
+    \u0441\u0434\u043E\u0445\u043B\u043E \u0432 \u043A\u0443\u0441\u0442\u0430\u0445.\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-6911080082254465557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2712, y: -2248}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6911080082254465557}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -2793708699317068941}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6911080082254465557}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6150341552054946918}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0427\u0435\u0440\u0435\u0437 \u043F\u0430\u0440\u0443 \u043C\u0435\u0441\u044F\u0446\u0435\u0432
+    \u043C\u044B \u043E\u043A\u0430\u0436\u0435\u043C\u0441\u044F \u0441\u043E\u0432\u0441\u0435\u043C
+    \u0432 \u0440\u0430\u0437\u043D\u044B\u0445 \u0433\u043E\u0440\u043E\u0434\u0430\u0445,
+    \u0438 \u043D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u043E, \u043A\u043E\u0433\u0434\u0430
+    \u0441\u043C\u043E\u0436\u0435\u043C \u0443\u0432\u0438\u0434\u0435\u0442\u044C\u0441\u044F
+    \u0441\u043D\u043E\u0432\u0430. \r\n"
+--- !u!114 &-6230500633718676486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4abed5a34e34afeb2c8a493225c0bf1, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1816, y: -1512}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6230500633718676486}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      - fieldName: Choice2Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      - fieldName: Choice3Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6230500633718676486}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4052235998524205115}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _delay: 1.5
+--- !u!114 &-6150341552054946918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2712, y: -2472}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6150341552054946918}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6911080082254465557}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6150341552054946918}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4597275925876328347}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.24
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0432\u0441\u0435\u0433\u0434\u0430
+    \u0431\u044B\u043B\u0430 \u0441\u043C\u0435\u043B\u0435\u0435 \u0438 \u0441\u0438\u043B\u044C\u043D\u0435\u0435
+    \u043C\u0435\u043D\u044F, \u044F \u0435\u0439 \u0432\u043E\u0441\u0445\u0438\u0449\u0430\u043B\u0430\u0441\u044C
+    \u0438 \u0434\u0430\u0436\u0435 \u043F\u044B\u0442\u0430\u043B\u0430\u0441\u044C
+    \u0431\u044B\u0442\u044C \u0442\u0430\u043A\u043E\u0439 \u0436\u0435: \u0443\u0432\u043B\u0435\u043A\u0430\u0442\u044C\u0441\u044F
+    \u0442\u0435\u043C \u0436\u0435, \u0441\u043B\u0443\u0448\u0430\u0442\u044C \u0442\u0443
+    \u0436\u0435 \u043C\u0443\u0437\u044B\u043A\u0443, \u0445\u043E\u0434\u0438\u0442\u044C
+    \u0432 \u0442\u0435 \u0436\u0435 \u043C\u0435\u0441\u0442\u0430, \u0447\u0442\u043E
+    \u0438 \u043E\u043D\u0430. "
+--- !u!114 &-5668054481969541845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386d9413e31d43a4b8342aeb4a2e8c50, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1160, y: -1448}
+  ports:
+    keys:
+    - Choice1Output
+    - Choice2Output
+    - Choice3Output
+    - Input
+    - Output
+    values:
+    - _fieldName: Choice1Output
+      _node: {fileID: -5668054481969541845}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7494726995924189368}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -6230500633718676486}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice2Output
+      _node: {fileID: -5668054481969541845}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5429434949723537696}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -6230500633718676486}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice3Output
+      _node: {fileID: -5668054481969541845}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7466176253531140170}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -6230500633718676486}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -5668054481969541845}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: 32088132264441449}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5668054481969541845}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _choiceText1: "\u041D\u0430\u0432\u0435\u0440\u043D\u043E\u0435, \u0442\u044B \u043F\u0440\u0430\u0432\u0430.
+    \u041D\u0430\u0434\u0435\u044E\u0441\u044C, \u044D\u0442\u043E \u0447\u0435\u0439-\u0442\u043E
+    \u0440\u043E\u0437\u044B\u0433\u0440\u044B\u0448."
+  _choiceText2: "\u041D\u0435\u0442, \u044D\u0442\u043E \u043D\u0435 \u043D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u043E.
+    \u042F \u0432\u043E\u043E\u0431\u0449\u0435 \u043D\u0435 \u0445\u043E\u0442\u0435\u043B\u0430
+    \u0441\u044E\u0434\u0430 \u0435\u0445\u0430\u0442\u044C. \u041C\u044B \u043C\u043E\u0433\u043B\u0438
+    \u0432\u044B\u0431\u0440\u0430\u0442\u044C \u0447\u0442\u043E-\u0442\u043E \u0431\u043E\u043B\u0435\u0435
+    \u0431\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u043E\u0435, \u043D\u043E \u043A\u0430\u043A
+    \u0432\u0441\u0435\u0433\u0434\u0430 \u0441\u0434\u0435\u043B\u0430\u043B\u0438
+    \u043F\u043E-\u0442\u0432\u043E\u0435\u043C\u0443!"
+  _choiceText3: "\u041D\u0443\u0436\u043D\u043E \u043A\u043E \u0432\u0441\u0435\u043C\u0443
+    \u043E\u0442\u043D\u043E\u0441\u0438\u0442\u044C\u0441\u044F \u043F\u043E\u043F\u0440\u043E\u0449\u0435.
+    \u0410 \u0442\u0435\u043F\u0435\u0440\u044C \u043F\u043E\u0448\u043B\u0438 \u0431\u044B\u0441\u0442\u0440\u0435\u0435,
+    \u043C\u043D\u0435 \u0441\u0435\u0433\u043E\u0434\u043D\u044F \u0442\u043E\u0447\u043D\u043E
+    \u043D\u0443\u0436\u043D\u043E \u0440\u0430\u0437\u0432\u0435\u044F\u0442\u044C\u0441\u044F. "
+  _timerValue: 0
+  _timerPortIndex: 0
+  _choice1Price: 0
+  _choice2Price: 0
+  _choice3Price: 0
+  _showStatsChoice1Key: 0
+  _showStatsChoice2Key: 0
+  _showStatsChoice3Key: 0
+  _showChoice3Key: 1
+  _showOutput: 0
+  _addTimer: 0
+  _baseStatsChoice1:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 1
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: -1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice2:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 1
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice3:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 1
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+--- !u!114 &-5526250764333968260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1480, y: -2744}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5526250764333968260}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 4785581008822658072}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5526250764333968260}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -7954170512936843406}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.28
+  _text: "\u0422\u044B \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0448\u044C
+    \u044D\u0442\u043E\u0442 \u043C\u0435\u0440\u0437\u043A\u0438\u0439 \u0437\u0430\u043F\u0430\u0445?\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-5169400272862196490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1261.7734, y: -3194.1997}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5169400272862196490}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5861879172850607952}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5169400272862196490}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -5169400272862196490}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 830333564456819653}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -5169400272862196490}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4785581008822658072}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
+--- !u!114 &-4947909249137080847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2328, y: -3448}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4947909249137080847}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -8854142099746083277}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4947909249137080847}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -4947909249137080847}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7522831329933621315}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -4947909249137080847}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1132302603019187774}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 0
+--- !u!114 &-4617772115227739298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1560, y: -2008}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4617772115227739298}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -8541445847371782656}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4617772115227739298}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1473985831465967215}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 0
+  _isEndCurtain: 1
+--- !u!114 &-4597275925876328347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2704.3418, y: -2664.684}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4597275925876328347}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6150341552054946918}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4597275925876328347}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 399494311691150364}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u043E \u043F\u043E\u0447\u0435\u043C\u0443-\u0442\u043E \u0432\u0441\u0435\u0433\u0434\u0430
+    \u044F \u043E\u0442\u0445\u043E\u0434\u0438\u043B\u0430 \u043D\u0430 \u0432\u0442\u043E\u0440\u043E\u0439
+    \u043F\u043B\u0430\u043D, \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u044B\u043B\u0430
+    \u0447\u0435\u043C-\u0442\u043E \u0445\u0443\u0436\u0435 \u0435\u0435, \u0438
+    \u043E\u043D\u0430 \u043D\u0435 \u0443\u043F\u0443\u0441\u043A\u0430\u043B\u0430
+    \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u043C\u043D\u0435
+    \u043E\u0431 \u044D\u0442\u043E\u043C \u043D\u0430\u043F\u043E\u043C\u043D\u0438\u0442\u044C. "
+--- !u!114 &-4568845156363025698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2696, y: -3096}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4568845156363025698}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 399494311691150364}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4568845156363025698}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -8854142099746083277}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u043E, \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C,
+    \u043E\u043D\u0430 \u0442\u0430\u043A \u043F\u044B\u0442\u0430\u043B\u0430\u0441\u044C
+    \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043C\u0435\u043D\u044F
+    \u0432 \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u0443\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443?
+    \r\n"
+--- !u!114 &-4052235998524205115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2104, y: -1592}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4052235998524205115}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6230500633718676486}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4052235998524205115}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _nextLevelPartNodeGraph: {fileID: 11400000, guid: d24e9f3c79bc9524ca0fd4361022684d, type: 2}
+  _putOnSwimsuit: 0
+--- !u!114 &-3669534095654531169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -376, y: -1736}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -3669534095654531169}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 709271812907848436}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -3669534095654531169}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1061719084414279633}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.36
+  _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u043D\u0435\u043E\u0445\u043E\u0442\u043D\u043E
+    \u043F\u043E\u043B\u0435\u0437\u043B\u0430 \u0432 \u043A\u0443\u0441\u0442\u044B."
+--- !u!114 &-2793708699317068941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2709.6865, y: -2037.8744}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2793708699317068941}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 8398354302052996652}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2793708699317068941}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6911080082254465557}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.23
+  _text: "\u041F\u043E\u043A\u0430 \u043C\u044B \u0448\u043B\u0438 \u043F\u043E \u0434\u043E\u0440\u043E\u0433\u0435,
+    \u0432\u0435\u0434\u0443\u0449\u0435\u0439 \u043A \u0433\u043E\u0440\u043E\u0434\u0443,
+    \u0432 \u043C\u043E\u044E \u0433\u043E\u043B\u043E\u0432\u0443 \u0437\u0430\u043A\u0440\u0430\u043B\u0438\u0441\u044C
+    \u043C\u044B\u0441\u043B\u0438 \u043E\u0431 \u043E\u0431\u0440\u0435\u0447\u0435\u043D\u043D\u043E\u0441\u0442\u0438
+    \u043D\u0430\u0448\u0435\u0439 \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439
+    \u0434\u0440\u0443\u0436\u0431\u044B. "
+--- !u!114 &-2424221680890777526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 824, y: -904}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2424221680890777526}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: 32088132264441449}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2424221680890777526}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: ...
+  _indexCharacter: 2
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 0
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-2256928874212055257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2088, y: -1288}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2256928874212055257}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -448079792572445002}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2256928874212055257}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: ...
+  _indexCharacter: 2
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 6
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 0
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-2114364683708670425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -712, y: -1736}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2114364683708670425}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 6168433264593242928}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2114364683708670425}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -834662027671601115}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.33
+  _text: "\u0417\u0430 \u043A\u0443\u0441\u0442\u0430\u043C\u0438 \u0432 \u0442\u0440\u0430\u0432\u0435
+    \u0432\u0438\u0434\u043D\u0435\u043B\u0441\u044F \u0436\u0443\u0442\u043A\u0438\u0439
+    \u0430\u043B\u0442\u0430\u0440\u044C. \u0412\u043E\u043A\u0440\u0443\u0433 \u043A\u0440\u0430\u0441\u043D\u043E\u0439
+    \u043F\u0435\u043D\u0442\u0430\u0433\u0440\u0430\u043C\u043C\u044B, \u043D\u0430\u0440\u0438\u0441\u043E\u0432\u0430\u043D\u043D\u043E\u0439
+    \u043D\u0430 \u0437\u0435\u043C\u043B\u0435, \u0441\u0442\u043E\u044F\u043B\u0438
+    \u0441\u0432\u0435\u0447\u0438."
+--- !u!114 &-1212237983944243099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1003.8729, y: -1186.9473}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1212237983944243099}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 8100360415259473529}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1212237983944243099}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _nextLevelPartNodeGraph: {fileID: 11400000, guid: d24e9f3c79bc9524ca0fd4361022684d, type: 2}
+  _putOnSwimsuit: 0
+--- !u!114 &-1132302603019187774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2280, y: -3144}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1132302603019187774}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -4947909249137080847}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1132302603019187774}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041C\u043E\u0436\u0435\u0442, \u043C\u043D\u0435 \u0438 \u0432\u043F\u0440\u0430\u0432\u0434\u0443
+    \u043B\u0443\u0447\u0448\u0435 \u0437\u0430\u0431\u044B\u0442\u044C \u043E \u0434\u0435\u0442\u0441\u043A\u043E\u0439
+    \u043F\u0440\u0438\u0432\u044F\u0437\u0430\u043D\u043D\u043E\u0441\u0442\u0438
+    \u0438 \u043D\u0430\u0447\u0430\u0442\u044C \u043D\u043E\u0432\u0443\u044E \u0436\u0438\u0437\u043D\u044C?\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-1061719084414279633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -8, y: -1864}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1061719084414279633}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -3669534095654531169}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1061719084414279633}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5471035615556139640}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.37
+  _text: "\u0423\u0441\u043F\u043E\u043A\u043E\u0439\u0441\u044F, \u043D\u0430\u0432\u0435\u0440\u043D\u044F\u043A\u0430
+    \u043F\u043E\u0434\u0440\u043E\u0441\u0442\u043A\u0438 \u043F\u0440\u0438\u043A\u0430\u043B\u044B\u0432\u0430\u044E\u0442\u0441\u044F."
+  _indexCharacter: 1
+  _indexEmotion: 1
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 6
+  _directionType: 1
+  _foldoutIsOpen: 0
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &-834662027671601115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -712, y: -1528}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -834662027671601115}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -2114364683708670425}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -834662027671601115}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 709271812907848436}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.34
+  _text: "\u041F\u043E \u0435\u0435 \u0446\u0435\u043D\u0442\u0440\u0443 \u044F \u0443\u0432\u0438\u0434\u0435\u043B\u0430
+    \u0447\u0442\u043E-\u0442\u043E \u0441\u0442\u0440\u0430\u043D\u043D\u043E\u0435,
+    \u043F\u043E\u0445\u043E\u0436\u0435\u0435 \u043D\u0430 \u0442\u0435\u043B\u043E
+    \u043A\u0430\u043A\u043E\u0433\u043E-\u0442\u043E \u0437\u0432\u0435\u0440\u044C\u043A\u0430."
+--- !u!114 &-448079792572445002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2376, y: -1544}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -448079792572445002}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3404237760267345319}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -448079792572445002}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -448079792572445002}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5202609546605668124}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -448079792572445002}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2256928874212055257}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b7f1f7c509ff0458f1ba4499fd9d72, type: 3}
+  m_Name: 9 LevelPartNodeGraph 2.23
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -9093686978138020480}
+  - {fileID: 3089330438453524839}
+  - {fileID: 8398354302052996652}
+  - {fileID: -2793708699317068941}
+  - {fileID: -6911080082254465557}
+  - {fileID: -6150341552054946918}
+  - {fileID: -4597275925876328347}
+  - {fileID: 399494311691150364}
+  - {fileID: -4568845156363025698}
+  - {fileID: -8854142099746083277}
+  - {fileID: -4947909249137080847}
+  - {fileID: 7522831329933621315}
+  - {fileID: -1132302603019187774}
+  - {fileID: 7780168596663787913}
+  - {fileID: 5861879172850607952}
+  - {fileID: -5169400272862196490}
+  - {fileID: 830333564456819653}
+  - {fileID: 4785581008822658072}
+  - {fileID: -5526250764333968260}
+  - {fileID: -7954170512936843406}
+  - {fileID: 1303370418189013516}
+  - {fileID: 3404237760267345319}
+  - {fileID: -448079792572445002}
+  - {fileID: 5202609546605668124}
+  - {fileID: -2256928874212055257}
+  - {fileID: -4617772115227739298}
+  - {fileID: 1041682316814908703}
+  - {fileID: 1473985831465967215}
+  - {fileID: 6338315858068660892}
+  - {fileID: 1465816936774655695}
+  - {fileID: 6168433264593242928}
+  - {fileID: -2114364683708670425}
+  - {fileID: -834662027671601115}
+  - {fileID: 709271812907848436}
+  - {fileID: -3669534095654531169}
+  - {fileID: -1061719084414279633}
+  - {fileID: 5471035615556139640}
+  - {fileID: 5499143803058428340}
+  - {fileID: 32088132264441449}
+  - {fileID: -5668054481969541845}
+  - {fileID: -2424221680890777526}
+  - {fileID: 8100360415259473529}
+  - {fileID: -1212237983944243099}
+  - {fileID: -4052235998524205115}
+  - {fileID: 3714479944824997683}
+  - {fileID: 894622764339943689}
+  - {fileID: 7494726995924189368}
+  - {fileID: 7466176253531140170}
+  - {fileID: 5429434949723537696}
+  - {fileID: -8541445847371782656}
+  - {fileID: -6230500633718676486}
+  - {fileID: 5255169685280246602}
+--- !u!114 &32088132264441449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 504, y: -1112}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: 32088132264441449}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5499143803058428340}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 32088132264441449}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: 32088132264441449}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: 32088132264441449}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2424221680890777526}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 0
+--- !u!114 &399494311691150364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2696, y: -2872}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 399494311691150364}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4597275925876328347}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 399494311691150364}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4568845156363025698}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0418\u043D\u043E\u0433\u0434\u0430 \u044F \u0434\u0430\u0436\u0435 \u0431\u043E\u044F\u043B\u0430\u0441\u044C
+    \u0441\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u0439 \u0447\u0442\u043E-\u043D\u0438\u0431\u0443\u0434\u044C,
+    \u0431\u043E\u044F\u043B\u0430\u0441\u044C, \u0447\u0442\u043E \u043E\u043D\u0430
+    \u0441\u043D\u043E\u0432\u0430 \u043C\u0435\u043D\u044F \u043E\u0441\u0443\u0434\u0438\u0442
+    \u0438\u043B\u0438 \u043F\u043E\u0441\u043C\u0435\u0435\u0442\u0441\u044F \u043D\u0430\u0434
+    \u043C\u043E\u0438\u043C\u0438 \u043D\u0435\u0443\u0434\u0430\u0447\u0430\u043C\u0438."
+--- !u!114 &709271812907848436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -360, y: -1528}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 709271812907848436}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -834662027671601115}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 709271812907848436}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -3669534095654531169}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.35
+  _text: "\u042D\u0442\u043E \u0443\u0436\u0430\u0441\u043D\u043E! \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0438,
+    \u041C\u0438\u0440\u0430\u043D\u0434\u0430!"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &830333564456819653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -916.4337, y: -3172.8796}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 830333564456819653}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -5169400272862196490}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 830333564456819653}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentSoundIndex: 3
+  _smoothTransitionKey: 1
+  _isSmoothVolumeIncrease: 0
+  _isSmoothVolumeDecrease: 0
+  _isInstantNodeTransition: 1
+  _lowPassEffectKey: 0
+--- !u!114 &894622764339943689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1400, y: -1528}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 894622764339943689}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: 5202609546605668124}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 894622764339943689}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+1 \u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+  _showTime: 1.5
+  _delayDisplayTime: 0
+  _color: {r: 0.9843138, g: 0.9450981, b: 0.18431373, a: 1}
+--- !u!114 &1041682316814908703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1048, y: -1768}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1041682316814908703}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: 1473985831465967215}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1041682316814908703}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1465816936774655695}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 1
+  _isEndCurtain: 0
+--- !u!114 &1303370418189013516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -920, y: -2712}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1303370418189013516}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -7954170512936843406}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1303370418189013516}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3404237760267345319}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.30
+  _text: "\u041C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C, \u044F \u0432\u0438\u0436\u0443
+    \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u0441\u0432\u0435\u0442 \u0437\u0430
+    \u0434\u0435\u0440\u0435\u0432\u044C\u044F\u043C\u0438.\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &1465816936774655695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1032, y: -1560}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1465816936774655695}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1041682316814908703}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1465816936774655695}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6168433264593242928}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 5
+  _isSmoothCurtain: 1
+  _backgroundPosition: 1
+--- !u!114 &1473985831465967215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1320, y: -2008}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1473985831465967215}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -4617772115227739298}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1473985831465967215}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: 1473985831465967215}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6338315858068660892}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: 1473985831465967215}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1041682316814908703}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
+--- !u!114 &3089330438453524839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3016, y: -2248}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3089330438453524839}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -9093686978138020480}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3089330438453524839}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 4
+  _isSmoothCurtain: 0
+  _backgroundPosition: 0
+--- !u!114 &3404237760267345319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -648, y: -2712}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3404237760267345319}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1303370418189013516}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3404237760267345319}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -448079792572445002}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.29
+  _text: "\u0412\u043E\u0442 \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u0430\u0432\u0430\u0439
+    \u043D\u0435 \u0431\u0443\u0434\u0435\u043C \u043B\u0430\u0437\u0438\u0442\u044C
+    \u0432 \u043A\u0443\u0441\u0442\u0430\u0445 \u0438 \u0433\u043E\u043D\u044F\u0442\u044C\u0441\u044F
+    \u0437\u0430 \u0441\u0432\u0435\u0442\u043B\u044F\u0447\u043A\u0430\u043C\u0438?\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 1
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &3714479944824997683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1768, y: -1080}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3714479944824997683}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice2Output
+        node: {fileID: 5202609546605668124}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3714479944824997683}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+1 \u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+  _showTime: 1.5
+  _delayDisplayTime: 0
+  _color: {r: 0.33333334, g: 0.4039216, b: 1, a: 1}
+--- !u!114 &4785581008822658072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1800, y: -2760}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4785581008822658072}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -5169400272862196490}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4785581008822658072}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -5526250764333968260}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 4
+  _isSmoothCurtain: 1
+  _backgroundPosition: 1
+--- !u!114 &5202609546605668124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386d9413e31d43a4b8342aeb4a2e8c50, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2056, y: -1736}
+  ports:
+    keys:
+    - Choice1Output
+    - Choice2Output
+    - Choice3Output
+    - Input
+    - Output
+    values:
+    - _fieldName: Choice1Output
+      _node: {fileID: 5202609546605668124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 894622764339943689}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -8541445847371782656}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice2Output
+      _node: {fileID: 5202609546605668124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8100360415259473529}
+        reroutePoints: []
+      - fieldName: Input
+        node: {fileID: 3714479944824997683}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice3Output
+      _node: {fileID: 5202609546605668124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: 5202609546605668124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -448079792572445002}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5202609546605668124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _choiceText1: "\u0414\u0430\u0439 \u043C\u043D\u0435 \u0437\u0430\u0433\u043B\u044F\u043D\u0443\u0442\u044C.
+    \u042F \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u044E, \u0447\u0442\u043E \u0437\u0434\u0435\u0441\u044C
+    \u0447\u0442\u043E-\u0442\u043E \u043D\u0435 \u0442\u0430\u043A "
+  _choiceText2: "\u041B\u0430\u0434\u043D\u043E, \u043D\u043E \u043C\u043D\u0435
+    \u043A\u0430\u0436\u0435\u0442\u0441\u044F \u0442\u0430\u043C \u0447\u0442\u043E-\u0442\u043E
+    \u0441\u0442\u0440\u0430\u043D\u043D\u043E\u0435 "
+  _choiceText3: 
+  _timerValue: 0
+  _timerPortIndex: 0
+  _choice1Price: 15
+  _choice2Price: 0
+  _choice3Price: 0
+  _showStatsChoice1Key: 0
+  _showStatsChoice2Key: 0
+  _showStatsChoice3Key: 0
+  _showChoice3Key: 0
+  _showOutput: 0
+  _addTimer: 0
+  _baseStatsChoice1:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 1
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice2:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 1
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice3:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+--- !u!114 &5255169685280246602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97475c0406b3428696f2af614c4f657d, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3595.0786, y: -2299.8872}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5255169685280246602}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5255169685280246602}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -9093686978138020480}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+--- !u!114 &5429434949723537696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1784, y: -856}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5429434949723537696}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice2Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5429434949723537696}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+1 \u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+  _showTime: 1.4
+  _delayDisplayTime: 0
+  _color: {r: 0.9333334, g: 0.13333334, b: 0.13333334, a: 1}
+--- !u!114 &5471035615556139640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -24, y: -1544}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5471035615556139640}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -1061719084414279633}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5471035615556139640}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5499143803058428340}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.38
+  _text: "\u0422\u0435\u0431\u044F \u0432\u043E\u043E\u0431\u0449\u0435 \u043D\u0438\u0447\u0435\u0433\u043E
+    \u043D\u0435 \u0432\u043E\u043B\u043D\u0443\u0435\u0442? \u042D\u0442\u043E \u043E\u0442\u0432\u0440\u0430\u0442\u0438\u0442\u0435\u043B\u044C\u043D\u043E
+    \u0438 \u0436\u0443\u0442\u043A\u043E, \u0430 \u0435\u0449\u0435 \u044D\u0442\u0430
+    \u043C\u0435\u0440\u0437\u043E\u0441\u0442\u044C \u043D\u0435\u0434\u0430\u043B\u0435\u043A\u043E
+    \u043E\u0442 \u043C\u0435\u0441\u0442\u0430, \u0433\u0434\u0435 \u043C\u044B
+    \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u043C\u0441\u044F \u0441\u043F\u0430\u0442\u044C
+    \u0432 \u043F\u0430\u043B\u0430\u0442\u043A\u0435 \u0446\u0435\u043B\u0443\u044E
+    \u043D\u0435\u0434\u0435\u043B\u044E."
+  _indexCharacter: 2
+  _indexEmotion: 1
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 6
+  _directionType: 0
+  _foldoutIsOpen: 0
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &5499143803058428340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -24, y: -1208}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5499143803058428340}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5471035615556139640}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5499143803058428340}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 32088132264441449}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.39
+  _text: "\u0415\u0441\u043B\u0438 \u0442\u0430\u043A \u043F\u0435\u0440\u0435\u0436\u0438\u0432\u0430\u0442\u044C
+    \u0438\u0437-\u0437\u0430 \u043A\u0430\u0436\u0434\u043E\u0439 \u043C\u0435\u043B\u043E\u0447\u0438,
+    \u0442\u043E\u0433\u0434\u0430 \u0437\u0430\u0447\u0435\u043C \u0432\u043E\u043E\u0431\u0449\u0435
+    \u0432\u044B\u0445\u043E\u0434\u0438\u0442\u044C \u0438\u0437 \u0434\u043E\u043C\u0430?"
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 6
+  _directionType: 1
+  _foldoutIsOpen: 0
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &5861879172850607952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1576, y: -3192}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5861879172850607952}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 7780168596663787913}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5861879172850607952}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -5169400272862196490}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041D\u043E \u0438\u0437 \u044D\u0442\u043E\u0433\u043E \u0437\u0430\u0431\u044B\u0442\u044C\u044F
+    \u043C\u0435\u043D\u044F \u0432\u044B\u0432\u0435\u043B \u0440\u0435\u0437\u043A\u0438\u0439
+    \u0437\u0430\u043F\u0430\u0445 \u0433\u043D\u0438\u043B\u0438, \u043D\u0430\u0433\u043B\u043E
+    \u0432\u0446\u0435\u043F\u0438\u0432\u0448\u0438\u0439\u0441\u044F \u0432 \u043C\u043E\u0438
+    \u043B\u0435\u0433\u043A\u0438\u0435. "
+--- !u!114 &6168433264593242928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -712, y: -1928}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6168433264593242928}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1465816936774655695}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6168433264593242928}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2114364683708670425}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.32
+  _text: "\u042F \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u043E \u043E\u0442\u043E\u0434\u0432\u0438\u043D\u0443\u043B\u0430
+    \u0432\u0435\u0442\u043A\u0438 \u043A\u0443\u0441\u0442\u043E\u0432, \u0447\u0442\u043E\u0431\u044B
+    \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C, \u0447\u0442\u043E
+    \u043D\u0430\u0445\u043E\u0434\u0438\u0442\u0441\u044F \u0437\u0430 \u043D\u0438\u043C\u0438."
+--- !u!114 &6338315858068660892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1032, y: -1960}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6338315858068660892}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: 1473985831465967215}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6338315858068660892}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 5
+  _isSmoothCurtain: 0
+  _backgroundPosition: 0
+--- !u!114 &7466176253531140170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1576, y: -712}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7466176253531140170}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice3Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7466176253531140170}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+1 \u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+  _showTime: 1.4
+  _delayDisplayTime: 0
+  _color: {r: 0.9803922, g: 0.9450981, b: 0.18431373, a: 1}
+--- !u!114 &7494726995924189368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d787dcad858431e9a32cf3c67f43371, type: 3}
+  m_Name: Notification
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1912, y: -1192}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7494726995924189368}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice1Output
+        node: {fileID: -5668054481969541845}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7494726995924189368}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "+1 \u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+  _showTime: 1.4
+  _delayDisplayTime: 0
+  _color: {r: 0.33333334, g: 0.4039216, b: 1, a: 1}
+--- !u!114 &7522831329933621315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386d9413e31d43a4b8342aeb4a2e8c50, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1960, y: -3480}
+  ports:
+    keys:
+    - Choice1Output
+    - Choice2Output
+    - Choice3Output
+    - Input
+    - Output
+    values:
+    - _fieldName: Choice1Output
+      _node: {fileID: 7522831329933621315}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice2Output
+      _node: {fileID: 7522831329933621315}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Choice3Output
+      _node: {fileID: 7522831329933621315}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: 7522831329933621315}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -4947909249137080847}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7522831329933621315}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7780168596663787913}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _choiceText1: "\u041D\u0435\u0442, \u0434\u0440\u0443\u0436\u0431\u0443 \u0441
+    \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439 \u043D\u0435 \u0441\u0442\u043E\u0438\u0442
+    \u0442\u0435\u0440\u044F\u0442\u044C, \u0434\u0430\u0436\u0435 \u043F\u043E\u0441\u043B\u0435
+    \u043F\u0435\u0440\u0435\u0435\u0437\u0434\u0430. \u041F\u0443\u0441\u0442\u044C
+    \u043C\u044B \u0441 \u043D\u0435\u0439 \u0438 \u0440\u0430\u0437\u043D\u044B\u0435,
+    \u043D\u043E \u043C\u044B \u043C\u043D\u043E\u0433\u043E \u043F\u0440\u043E\u0448\u043B\u0438
+    \u0432\u043C\u0435\u0441\u0442\u0435 - \u0432\u0441\u044E \u0448\u043A\u043E\u043B\u0443."
+  _choiceText2: "\u0414\u0430, \u043F\u043E\u0436\u0430\u043B\u0443\u0439, \u0432\u0437\u0440\u043E\u0441\u043B\u0430\u044F
+    \u0436\u0438\u0437\u043D\u044C \u0434\u043E\u043B\u0436\u043D\u0430 \u043F\u0440\u0438\u043D\u0435\u0441\u0442\u0438
+    \u043C\u043D\u0435 \u043D\u043E\u0432\u044B\u0445 \u0434\u0440\u0443\u0437\u0435\u0439,
+    \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u0431\u0443\u0434\u0443\u0442 \u0443\u0432\u0430\u0436\u0430\u0442\u044C
+    \u0438 \u0446\u0435\u043D\u0438\u0442\u044C \u043C\u0435\u043D\u044F \u0442\u0430\u043A\u043E\u0439,
+    \u043A\u0430\u043A\u0430\u044F \u044F \u0435\u0441\u0442\u044C. "
+  _choiceText3: "\u0414\u0440\u0443\u0436\u0431\u0443 \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439
+    \u043D\u0435 \u0441\u0442\u043E\u0438\u0442 \u0442\u0435\u0440\u044F\u0442\u044C, 
+    \u043C\u044B \u043C\u043D\u043E\u0433\u043E \u043F\u0440\u043E\u0448\u043B\u0438
+    \u0432\u043C\u0435\u0441\u0442\u0435 \u2013 \u0432\u0441\u044E \u0448\u043A\u043E\u043B\u0443."
+  _timerValue: 0
+  _timerPortIndex: 0
+  _choice1Price: 0
+  _choice2Price: 0
+  _choice3Price: 0
+  _showStatsChoice1Key: 0
+  _showStatsChoice2Key: 0
+  _showStatsChoice3Key: 0
+  _showChoice3Key: 0
+  _showOutput: 1
+  _addTimer: 0
+  _baseStatsChoice1:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: -1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice2:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: -1
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  _baseStatsChoice3:
+  - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+    _value: 0
+  - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+    _value: 0
+  - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+    _value: 0
+  - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+    _value: 0
+  - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+    _value: 0
+  - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+    _value: 0
+  - _name: "\u042F \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+    _value: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _value: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u043C\u0430\u0439\u043A\u0430"
+    _value: 0
+  - _name: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+  - _name: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+    _value: 0
+--- !u!114 &7780168596663787913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1576, y: -3416}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7780168596663787913}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 7522831329933621315}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7780168596663787913}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5861879172850607952}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0421\u0442\u043E\u043B\u044C\u043A\u043E \u0432\u043E\u043F\u0440\u043E\u0441\u043E\u0432
+    \u0438 \u0441\u0442\u0440\u0430\u0445\u043E\u0432 \u043A\u0440\u0443\u0442\u0438\u043B\u043E\u0441\u044C
+    \u0432 \u043C\u043E\u0435\u0439 \u0433\u043E\u043B\u043E\u0432\u0435."
+--- !u!114 &8100360415259473529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1528, y: -1272}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8100360415259473529}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Choice2Output
+        node: {fileID: 5202609546605668124}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8100360415259473529}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -1212237983944243099}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 2.41
+  _text: "\u041F\u043E\u0448\u043B\u0438, \u043D\u0430\u043C \u043E\u0441\u0442\u0430\u043B\u043E\u0441\u044C
+    \u0438\u0434\u0442\u0438 \u0432\u0441\u0435\u0433\u043E \u043F\u0430\u0440\u0443
+    \u043C\u0438\u043D\u0443\u0442."
+  _indexCharacter: 1
+  _indexEmotion: 8
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 6
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &8398354302052996652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3035.503, y: -2046.5917}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8398354302052996652}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -9093686978138020480}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8398354302052996652}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -2793708699317068941}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 1
+  _isEndCurtain: 0

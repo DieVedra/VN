@@ -1,0 +1,4038 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7017862862797871136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 20975.578, y: 645.8419}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    - Port 2
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7017862862797871136}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5635944243291547816}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7017862862797871136}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -7017862862797871136}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4504612375291963444}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -7017862862797871136}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 582318343869053253}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 2
+      _node: {fileID: -7017862862797871136}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4820449250354014943}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
+--- !u!114 &-6882247559007104225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 22838.82, y: 606.15857}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6882247559007104225}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -388137489046611095}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6882247559007104225}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3269424866575435329}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0423\u0433\u0440\u043E\u0436\u0430\u044E\u0449\u0435 \u043F\u0440\u043E\u0438\u0437\u043D\u0435\u0441
+    \u043C\u0443\u0436\u0447\u0438\u043D\u0430, \u043F\u043E\u0434\u043E\u0448\u0435\u0434\u0448\u0438\u0439
+    \u043A \u043D\u0430\u043C \u0432\u043F\u043B\u043E\u0442\u043D\u0443\u044E.\r\n"
+--- !u!114 &-4514830865489917668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 23400, y: 488}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -4514830865489917668}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3269424866575435329}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -4514830865489917668}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _nextLevelPartNodeGraph: {fileID: 11400000, guid: ae9928afe675d49488176315f5a1d2a0, type: 2}
+  _putOnSwimsuit: 0
+--- !u!114 &-388137489046611095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 22529.193, y: 591.4385}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -388137489046611095}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5033091300071262195}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -388137489046611095}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6882247559007104225}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435,
+    \u0434\u0435\u0432\u043E\u0447\u043A\u0438!\r\n"
+  _indexCharacter: 4
+  _indexEmotion: 4
+  _indexLook: 0
+  _previousIndexCharacter: 4
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b7f1f7c509ff0458f1ba4499fd9d72, type: 3}
+  m_Name: 7 LevelPartNodeGraph 1.100
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -7017862862797871136}
+  - {fileID: 4504612375291963444}
+  - {fileID: 4820449250354014943}
+  - {fileID: 863166563272850069}
+  - {fileID: 3557674215843501537}
+  - {fileID: 2358576093379074015}
+  - {fileID: 7172675818429960656}
+  - {fileID: 1559261277435248533}
+  - {fileID: 5033091300071262195}
+  - {fileID: -388137489046611095}
+  - {fileID: -6882247559007104225}
+  - {fileID: 3269424866575435329}
+  - {fileID: 6785219594674214798}
+  - {fileID: -4514830865489917668}
+  - {fileID: 582318343869053253}
+  - {fileID: 5635944243291547816}
+--- !u!114 &582318343869053253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21368, y: 952}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 582318343869053253}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -7017862862797871136}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 582318343869053253}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 3
+  _isSmoothCurtain: 0
+  _backgroundPosition: 1
+--- !u!114 &863166563272850069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21832, y: 344}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 863166563272850069}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 4820449250354014943}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 863166563272850069}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3557674215843501537}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0412\u0441\u0435, \u0442\u0435\u043F\u0435\u0440\u044C \u043C\u043E\u0436\u043D\u043E
+    \u0438\u0434\u0442\u0438!\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 2
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &1559261277435248533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 22184, y: 1320}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 1559261277435248533}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2358576093379074015}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 1559261277435248533}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 7172675818429960656}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _index: 3
+  _isSmoothCurtain: 1
+  _backgroundPosition: 2
+--- !u!114 &2358576093379074015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21816, y: 1272}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2358576093379074015}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3557674215843501537}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2358576093379074015}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 1559261277435248533}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u042D\u0442\u043E \u043F\u0440\u044F\u043C\u043E \u0432\u043E\u0437\u043B\u0435
+    \u043D\u0430\u0441. \u041F\u043E\u0448\u043B\u0438 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0438\u043C.\r\n"
+  _indexCharacter: 1
+  _indexEmotion: 3
+  _indexLook: 2
+  _previousIndexCharacter: 1
+  _previousCharactersCount: 5
+  _directionType: 1
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &3269424866575435329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 23127.297, y: 626.7103}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3269424866575435329}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6882247559007104225}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3269424866575435329}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4514830865489917668}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 0
+  _isEndCurtain: 1
+--- !u!114 &3557674215843501537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e560d9acdfe8451b8352635c82361688, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21848, y: 840}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 3557674215843501537}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 863166563272850069}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 3557674215843501537}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2358576093379074015}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u041C\u043D\u0435 \u043A\u0430\u0436\u0435\u0442\u0441\u044F, \u044F \u0441\u043B\u044B\u0448\u0443
+    \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u0441\u0442\u0440\u0430\u043D\u043D\u044B\u0439
+    \u0448\u0443\u043C.\r\n"
+  _indexCharacter: 2
+  _indexEmotion: 3
+  _indexLook: 0
+  _previousIndexCharacter: 2
+  _previousCharactersCount: 5
+  _directionType: 0
+  _foldoutIsOpen: 1
+  _toggleIsSwimsuit: 0
+  _toggleShowPanel: 1
+  _overrideName: 0
+  _overridedName: 
+--- !u!114 &4504612375291963444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21374.396, y: 627.9417}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4504612375291963444}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -7017862862797871136}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4504612375291963444}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentSoundIndex: 2
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 1
+  _isSmoothVolumeDecrease: 0
+  _isInstantNodeTransition: 0
+  _lowPassEffectKey: 0
+--- !u!114 &4820449250354014943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 21313.945, y: 1198.0586}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4820449250354014943}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 2
+        node: {fileID: -7017862862797871136}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4820449250354014943}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 863166563272850069}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartCurtain: 1
+  _isEndCurtain: 0
+--- !u!114 &5033091300071262195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 22200, y: 712}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5033091300071262195}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 7172675818429960656}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5033091300071262195}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -388137489046611095}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0424\u0438\u0433\u0443\u0440\u0430 \u0440\u0435\u0437\u043A\u043E \u043E\u0431\u0435\u0440\u043D\u0443\u043B\u0430\u0441\u044C
+    \u0438 \u043F\u043E\u0448\u043B\u0430 \u043F\u0440\u044F\u043C\u043E \u043D\u0430
+    \u043D\u0430\u0441. \r\n"
+--- !u!114 &5635944243291547816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9ecf11374641f5adf2e04e612f3df2, type: 3}
+  m_Name: Customization
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 20424, y: 648}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5635944243291547816}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 6785219594674214798}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5635944243291547816}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -7017862862797871136}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _hairIndex: 0
+  _showFoldoutSettingsHairstyles: 0
+  _showFoldoutSettingsClothes: 1
+  _showFoldoutSettingsBodies: 0
+  _showFoldoutSettingsSwimsuits: 0
+  _settingsBodies:
+  - _name: "\u0415\u0432\u0440\u043E\u043F\u0435\u043E\u0438\u0434"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041C\u043E\u043D\u0433\u043E\u043B\u043E\u0438\u0434"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041D\u0435\u0433\u0440\u043E\u0438\u0434"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  _settingsHairstyles:
+  - _name: "\u0411\u043B\u043E\u043D\u0434 \u043A\u0430\u0440\u0435"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0418\u0441\u0441\u0438\u044F \u0447\u0435\u0440\u043D\u044B\u0435"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0430\u0440\u044D \u0440\u0443\u0441\u044B\u0435"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435 \u0432\u043E\u043B\u043D\u0438\u0441\u0442\u044B\u0435"
+    _index: 3
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435"
+    _index: 4
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u0435\u0441\u043E\u0447\u043D\u044B\u0439 \u0431\u043B\u043E\u043D\u0434
+      \u043A\u0430\u0440\u0435"
+    _index: 5
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u043E\u0437\u043E\u0432\u044B\u0435"
+    _index: 6
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 5
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u044B\u0436\u0438\u0435 \u0432\u043E\u043B\u043D\u0438\u0441\u0442\u044B\u0435"
+    _index: 7
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 0
+    _price: 30
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u0435\u0440\u043E-\u0433\u043E\u043B\u0443\u0431\u044B\u0435"
+    _index: 8
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0427\u0435\u0440\u043D\u043E-\u0444\u0438\u043E\u043B\u0435\u0442\u043E\u0432\u044B\u0439
+      \u0445\u0432\u043E\u0441\u0442"
+    _index: 9
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0427\u0435\u0440\u043D\u043E\u0435 \u043A\u0430\u0440\u0435"
+    _index: 10
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0420\u0443\u0441\u044B\u0435"
+    _index: 11
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  _settingsClothes:
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0412\u044B\u0441\u043E\u043A\u0438\u0435
+      \u0441\u0430\u043F\u043E\u0433\u0438"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0412\u044B\u0441\u043E\u043A\u0438\u0435
+      \u0441\u0430\u043F\u043E\u0433\u0438"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: " \u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435
+      \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430 \u0420\u043E\u0437\u043E\u0432\u043E\u0435
+      \u0448\u0435\u043B\u043A\u043E\u0432\u043E\u0435"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F \u043C\u0430\u0439\u043A\u0430"
+    _index: 3
+    _keyAdd: 1
+    _keyShowParams: 1
+    _keyShowStats: 1
+    _price: 5
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 1
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 1
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 1
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u044E\u0431\u043A\u0430 \u0434\u043B\u044F \u041D\u0435\u0433\u0440\u043E\u0439\u0434\u0430"
+    _index: 4
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+      \u044E\u0431\u043A\u0430"
+    _index: 5
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u042E\u0431\u043A\u0430 \u0438
+      \u0442\u043E\u043F"
+    _index: 6
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 5
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 1
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 1
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 1
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041E\u0434\u0435\u0436\u0434\u0430 \u043F\u043E\u0441\u043B\u0435 \u0438\u043D\u0446\u0438\u0434\u0435\u043D\u0442\u0430
+      \u0420\u0443\u0431\u0430\u0448\u043A\u0430 \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
+    _index: 7
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u0411\u0435\u0436\u0435\u0432\u043E\u0435
+      \u0448\u0435\u043B\u043A\u043E\u0432\u043E\u0435"
+    _index: 8
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u041A\u0440\u0430\u0441\u043D\u043E\u0435
+      \u0431\u043B\u0435\u0441\u0442\u044F\u0449\u0435\u0435"
+    _index: 9
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u041A\u0440\u0430\u0441\u043D\u043E\u0435"
+    _index: 10
+    _keyAdd: 1
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 1
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 1
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 1
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u0422\u043E\u043F \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
+    _index: 11
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u0422\u043E\u043F \u0441 \u043A\u043E\u043B\u044C\u0446\u043E\u043C \u0438
+      \u0434\u0436\u0438\u043D\u0441\u043E\u0432\u044B\u0435 \u0448\u043E\u0440\u0442\u044B"
+    _index: 12
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
+      \u042E\u0431\u043A\u0430 \u0438 \u0442\u043E\u043F"
+    _index: 13
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u0442\u043E\u043F \u0447\u0435\u0440\u043D\u044B\u0435"
+    _index: 14
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u041C\u0430\u0439\u043A\u0430
+      \u0438 \u0448\u043E\u0440\u0442\u044B"
+    _index: 15
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0421\u043F\u043E\u0440\u0442\u0438\u0432\u043D\u043E\u0435 \u0428\u0442\u0430\u043D\u044B
+      \u0438 \u0442\u043E\u043F"
+    _index: 16
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
+      \u0438 \u0442\u043E\u043F \u0431\u0435\u043B\u044B\u0435"
+    _index: 17
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u041C\u0435\u0434\u043D\u043E\u0435"
+    _index: 18
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u0423\u043B\u0438\u0447\u043D\u043E\u0435 \u0422\u043E\u043F \u0438
+      \u0448\u043E\u0440\u0442\u044B"
+    _index: 19
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  _settingsSwimsuits:
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421 \u0431\u043B\u0435\u0441\u0442\u043A\u0430\u043C\u0438"
+    _index: 0
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421 \u0437\u043E\u043B\u043E\u0442\u044B\u043C
+      \u043F\u043E\u044F\u0441\u043E\u043C"
+    _index: 1
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421\u043E \u0441\u0442\u0440\u0430\u0437\u0430\u043C\u0438
+      \u0444\u0438\u043E\u043B\u0435\u0442\u043E\u0432\u044B\u0439"
+    _index: 2
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0421\u043E \u0441\u0442\u0440\u0430\u0437\u0430\u043C\u0438"
+    _index: 3
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0427\u0435\u0440\u043D\u044B\u0439
+      \u043C\u0438\u043D\u0438"
+    _index: 4
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+  - _name: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A \u0427\u0435\u0440\u043D\u044B\u0439"
+    _index: 5
+    _keyAdd: 0
+    _keyShowParams: 0
+    _keyShowStats: 1
+    _price: 0
+    _gameStats:
+    - _name: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.99215686, g: 0.1254902, b: 0.1254902, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435:"
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+    - _name: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C:"
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F:"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.3254717, g: 1, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      _value: 0
+      _colorField: {r: 0.9716981, g: 0.3254272, b: 0.6993447, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.33490568, g: 1, b: 0.3922912, a: 1}
+      _showKey: 0
+    - _name: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u043E\u043C"
+      _value: 0
+      _colorField: {r: 0.9622642, g: 0.6383385, b: 0.004538993, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      _value: 0
+      _colorField: {r: 1, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      _value: 0
+      _colorField: {r: 0, g: 0, b: 1, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 0.6037736, g: 0.31892568, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u042F \u043D\u0435 \u043D\u0435\u0433\u0440"
+      _value: 0
+      _colorField: {r: 1, g: 0.8295563, b: 0.5990566, a: 1}
+      _showKey: 0
+    - _name: "\u041F\u043B\u0430\u0442\u044C\u0435 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
+      _value: 0
+      _colorField: {r: 0.7264151, g: 0, b: 0, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u044E\u0431\u043A\u0430
+        \u0438 \u0442\u043E\u043F"
+      _value: 0
+      _colorField: {r: 0.745283, g: 0.13710396, b: 0.57866997, a: 1}
+      _showKey: 0
+    - _name: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F
+        \u043C\u0430\u0439\u043A\u0430"
+      _value: 0
+      _colorField: {r: 0.3037113, g: 0.6788342, b: 0.990566, a: 1}
+      _showKey: 0
+--- !u!114 &6785219594674214798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97475c0406b3428696f2af614c4f657d, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 20014.121, y: 606.6233}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6785219594674214798}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6785219594674214798}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5635944243291547816}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+--- !u!114 &7172675818429960656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 22200, y: 1016}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7172675818429960656}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1559261277435248533}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7172675818429960656}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 5033091300071262195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _text: "\u0414\u0435\u0432\u0443\u0448\u043A\u0438 \u043E\u0442\u043E\u0448\u043B\u0438
+    \u043E\u0442 \u043F\u0430\u043B\u0430\u0442\u043A\u0438 \u0438 \u0443\u0432\u0438\u0434\u0435\u043B\u0438
+    \u043C\u0443\u0436\u0441\u043A\u0443\u044E \u0444\u0438\u0433\u0443\u0440\u0443.
+    \u041A\u0430\u0436\u0435\u0442\u0441\u044F, \u043C\u0443\u0436\u0447\u0438\u043D\u0430
+    \u0440\u0430\u0437\u0433\u043E\u0432\u0430\u0440\u0438\u0432\u0430\u043B \u0441\u0430\u043C
+    \u0441 \u0441\u043E\u0431\u043E\u0439 \u0438 \u0447\u0442\u043E-\u0442\u043E
+    \u043D\u0435\u0440\u0432\u043D\u043E \u043F\u0435\u0440\u0435\u0431\u0438\u0440\u0430\u043B
+    \u0432 \u0440\u0443\u043A\u0430\u0445. \r\n"

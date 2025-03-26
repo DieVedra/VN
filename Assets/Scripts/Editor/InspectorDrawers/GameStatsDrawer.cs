@@ -1,0 +1,140 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
+
+[CustomEditor(typeof(GameStatsCustodian))]
+public class GameStatsDrawer : Editor
+{
+    private string _nameField;
+    private Color _colorField;
+    private GameStatsCustodian _gameStatsCustodian;
+    private SerializedProperty _listStatsProperty;
+    private SerializedProperty _serializedProperty;
+    private MethodInfo _addNewStatMethod;
+    private MethodInfo _removeStat;
+    private GUIStyle _guiStyle;
+    private int _statIndex;
+    private string[] _names;
+
+    private void OnEnable()
+    {
+        _gameStatsCustodian = target as GameStatsCustodian;
+        _listStatsProperty = serializedObject.FindProperty($"_stats");
+        _addNewStatMethod = _gameStatsCustodian.GetType().GetMethod("AddNewStat", BindingFlags.NonPublic | BindingFlags.Instance);
+        _removeStat = _gameStatsCustodian.GetType().GetMethod("RemoveStat", BindingFlags.NonPublic | BindingFlags.Instance);
+        SetStatNameIndex();
+        _colorField = Color.white;
+
+        TryInitStatNames();
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        if (_listStatsProperty != null)
+        {
+            for (int i = 0; i < _listStatsProperty.arraySize; i++)
+            {
+                _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
+                DrawFieldColor(
+                    _serializedProperty.FindPropertyRelative("_name").stringValue,
+                    _serializedProperty.FindPropertyRelative("_value").intValue,
+                    _serializedProperty.FindPropertyRelative("_colorField").colorValue);
+            }
+        }
+        EditorGUILayout.Space(30f);
+        DrawAdd();
+        if (_listStatsProperty.arraySize > 0)
+        {
+            DrawRemove();
+        }
+        serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawFieldColor(string fieldName, int value, Color color)
+    {
+        EditorGUILayout.Space(20f);
+        EditorGUILayout.BeginHorizontal();
+        Color oldColor = GUI.color;
+        _guiStyle = new GUIStyle(GUI.skin.label);
+        _guiStyle.normal.textColor = color;
+        DrawField(fieldName, _guiStyle, 200f, 2);
+        _guiStyle.normal.textColor = oldColor;
+        DrawField(value.ToString(), _guiStyle, 30f, 2);
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void DrawField(string fieldName, GUIStyle style, float width = 0f, int addFontSize = 0, FontStyle fontStyle = FontStyle.Normal)
+    {
+        int fontSize = style.fontSize;
+        style.fontSize = style.fontSize + addFontSize;
+        style.fontStyle = fontStyle;
+        EditorGUILayout.LabelField(fieldName, style, GUILayout.Width(width));
+        style.fontSize = fontSize;
+    }
+
+    private void DrawAdd()
+    {
+        _guiStyle = new GUIStyle(GUI.skin.label);
+        LineDrawer.DrawHorizontalLine(Color.red);
+        DrawField("Add Stat: ", _guiStyle, 80f, 1, FontStyle.Bold);
+        EditorGUILayout.Space(10f);
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Name: ", GUILayout.Width(40f));
+        _nameField = EditorGUILayout.TextField(_nameField, GUILayout.Width(150f));
+        EditorGUILayout.LabelField("Color: ", GUILayout.Width(40f));
+        _colorField = EditorGUILayout.ColorField(_colorField, GUILayout.Width(40f));
+        if (GUILayout.Button("Add", GUILayout.Width(40f)))
+        {
+            _addNewStatMethod.Invoke(_gameStatsCustodian, new object[]{new Stat(_nameField, 0, false, _colorField)});
+            TryInitStatNames();
+            _colorField = Color.white;
+            _nameField = String.Empty;
+            SetStatNameIndex();
+            serializedObject.Update();
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void DrawRemove()
+    {
+        EditorGUILayout.Space(20f);
+        _guiStyle = new GUIStyle(GUI.skin.label);
+        DrawField("Remove Stat: ", _guiStyle, 100f, 1, FontStyle.Bold);
+        EditorGUILayout.BeginHorizontal();
+        _statIndex = EditorGUILayout.Popup(_statIndex, _names, GUILayout.Width(150f));
+        if (GUILayout.Button("Remove", GUILayout.Width(60f)))
+        {
+            _removeStat.Invoke(_gameStatsCustodian, new object[]{_statIndex});
+            TryInitStatNames();
+            SetStatNameIndex();
+            serializedObject.Update();
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void SetStatNameIndex()
+    {
+        if (_listStatsProperty.arraySize > 0)
+        {
+            _statIndex = _listStatsProperty.arraySize - 1;
+        }
+        else
+        {
+            _statIndex = 0;
+        }
+    }
+    private void TryInitStatNames()
+    {
+        serializedObject.Update();
+        List<string> names = new List<string>(_listStatsProperty.arraySize);
+        for (int i = 0; i < _listStatsProperty.arraySize; i++)
+        {
+            _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
+            names.Add(_serializedProperty.FindPropertyRelative("_name").stringValue);
+        }
+        _names = names.ToArray();
+    }
+}

@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CharacterViewerMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: 4ab0c7d6a1a0fbc4a882fd792f898782, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_2d2fa58633e345ab933be875220c8559:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_687dc16c891644649181e958d442b677:
+        m_Texture: {fileID: 2800000, guid: 4dcae474bc3e7a7479643793ff901eff, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_86686373517147989fe5276734b015a6:
+        m_Texture: {fileID: 2800000, guid: d7de586911cf18843a6dcf00ff0d6e2a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_cb7bf261fea14e529575fe2219607f60:
+        m_Texture: {fileID: 2800000, guid: 0dcccebe50b7abd44bb929876e95fc37, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_e37ceb6972a849508592968c82089771:
+        m_Texture: {fileID: 2800000, guid: a6251962047985149a63fa64a19ed1c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClothesTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmotionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairTex:
+        m_Texture: {fileID: 2800000, guid: b90e8939a97e6414a81955e4b223d38b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairstyleTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LookTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Boolean_949ca7c42f8743bc83fe1fdf676e5f2b: 1
+    - Boolean_a5e1378194ae4345ae047b9d9556cc79: 1
+    - Boolean_dfaaee9a6945460db898a0e3cf3ae52a: 0
+    - Boolean_f0f71a03e7f141dc8e5b543f0627c06e: 1
+    - Vector1_4978ab341fa642399e03f5c5134f17dc: 1
+    - Vector1_86ad04e9ad4341ac95fad2e24aa4d82c: 0.5
+    - Vector1_94411c3206384d5698ac5cc855385a62: 0
+    - Vector1_ab28b15c788848d7b7940b6bb45ad81a: 0.5
+    - Vector1_cf32d718c1f34dbcb7c4678d6eb8c251: 0.5
+    - Vector1_cf32d718c1f34dbcb7c4678d6eb8c251_1: 0.5
+    - Vector1_cf32d718c1f34dbcb7c4678d6eb8c251_2: 0.5
+    - Vector1_d03716f8796a435181bac67d89a29b06: 0.5
+    - Vector1_d03716f8796a435181bac67d89a29b06_1: 0.66
+    - Vector1_d03716f8796a435181bac67d89a29b06_2: 0.5
+    - Vector1_f5260b227c8c4e438ac76f347715dd87: 0.5
+    - Vector1_f5260b227c8c4e438ac76f347715dd87_1: 0.5
+    - Vector1_f5260b227c8c4e438ac76f347715dd87_2: 0.5
+    - _AddClothes: 0
+    - _AddEmotion: 0
+    - _AddHairstyle: 0
+    - _AddLook: 0
+    - _ClothesPositionX: 0.5
+    - _ClothesPositionY: 0.5
+    - _ClothesScale: 0.5
+    - _EmotionPositionX: 0.5
+    - _EmotionPositionY: 0.5
+    - _EmotionScale: 0.5
+    - _HairstylePositionX: 0.5
+    - _HairstylePositionY: 0.5
+    - _HairstyleScale: 0.5
+    m_Colors:
+    - Color_a2220a555a294bfdbf2d87b94d15fd86: {r: 0.754717, g: 0.56961447, b: 0.0035599943, a: 0}
+    - Vector2_1202ad3578184a8f9046568db647a46a: {r: 0.06, g: 0.08, b: 0, a: 0}
+    - Vector2_15f1e5d8e80d47e38430128ace9545e8: {r: -0.01, g: 0, b: 0, a: 0}
+    - Vector2_21831e05fc5d4ce1a09d210f1ff1b934: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_e694d59bcef646e4b861b7ddc1bcb4f6: {r: 3.21, g: 3.21, b: 0, a: 0}
+    - Vector4_34c590e30c3b441984abc3995b16d453: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
