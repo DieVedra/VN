@@ -41,6 +41,7 @@ public class GameStatsDrawer : Editor
                 DrawFieldColor(
                     _serializedProperty.FindPropertyRelative("_name").stringValue,
                     _serializedProperty.FindPropertyRelative("_value").intValue,
+                    _serializedProperty.FindPropertyRelative("_showInEndGameResultKey"),
                     _serializedProperty.FindPropertyRelative("_colorField").colorValue);
             }
         }
@@ -53,7 +54,7 @@ public class GameStatsDrawer : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawFieldColor(string fieldName, int value, Color color)
+    private void DrawFieldColor(string fieldName, int value, SerializedProperty showInEndGameResultKeySerializedProperty, Color color)
     {
         EditorGUILayout.Space(20f);
         EditorGUILayout.BeginHorizontal();
@@ -63,6 +64,11 @@ public class GameStatsDrawer : Editor
         DrawField(fieldName, _guiStyle, 200f, 2);
         _guiStyle.normal.textColor = oldColor;
         DrawField(value.ToString(), _guiStyle, 30f, 2);
+        
+        DrawField("ShowInGameResult:", _guiStyle, 100f, -3);
+        showInEndGameResultKeySerializedProperty.boolValue =
+            EditorGUILayout.Toggle(showInEndGameResultKeySerializedProperty.boolValue);
+
         EditorGUILayout.EndHorizontal();
     }
 

@@ -4,13 +4,13 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(GameEntryPoint))]
+[CustomEditor(typeof(LevelEntryPointEditor))]
 public class GameEntryPointDrawer : Editor
 {
-    private GameEntryPoint _gameEntryPoint;
+    private LevelEntryPointEditor _gameEntryPoint;
     private void OnEnable()
     {
-        _gameEntryPoint = target as GameEntryPoint;
+        _gameEntryPoint = target as LevelEntryPointEditor;
     }
 
     public override void OnInspectorGUI()

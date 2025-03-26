@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\Roboter\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Roboter\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_VN.-361876852.00" t="ExcludeRecursive" />
-    <e p="E:\Project\VN" t="IncludeRecursive">
+    <e p="C:\Users\Roboter\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_VN.-1777160619.00" t="ExcludeRecursive" />
+    <e p="E:\PROJECTS\VN" t="IncludeRecursive">
       <e p="Analytics.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
@@ -610,30 +610,21 @@
             <e p="BootScene" t="Include">
               <e p="BootGame.cs" t="Include" />
             </e>
-            <e p="CharacterViewer" t="Include">
-              <e p="BaseCharacterViewer.cs" t="Include" />
-              <e p="CharacterViewer.cs" t="Include" />
-              <e p="ViewerCreator" t="Include">
-                <e p="ViewerCreator.cs" t="Include" />
-                <e p="ViewerCreatorBuildMode.cs" t="Include" />
-                <e p="ViewerCreatorEditMode.cs" t="Include" />
-              </e>
-              <e p="WardrobeCharacterViewer.cs" t="Include" />
-            </e>
             <e p="GlobalSound.cs" t="Include" />
             <e p="Level" t="Include">
               <e p="Background" t="Include">
                 <e p="AdditionalImagesToBackground.cs" t="Include" />
                 <e p="Background.cs" t="Include" />
-                <e p="BackgroundBuildMode.cs" t="Include" />
                 <e p="BackgroundContent" t="Include">
                   <e p="BackgroundContent.cs" t="Include" />
-                  <e p="BackgroundContentBuildMode.cs" t="Include" />
-                  <e p="BackgroundContentEditMode.cs" t="Include" />
                 </e>
-                <e p="BackgroundEditMode.cs" t="Include" />
                 <e p="BackgroundPoints.cs" t="Include" />
                 <e p="BackgroundViewSetting.cs" t="Include" />
+                <e p="SpriteRendererCreator" t="Include">
+                  <e p="SpriteRendererCreator.cs" t="Include" />
+                  <e p="SpriteRendererCreatorBuild.cs" t="Include" />
+                  <e p="SpriteRendererCreatorEditor.cs" t="Include" />
+                </e>
               </e>
               <e p="Character" t="Include">
                 <e p="Anim" t="Include">
@@ -652,6 +643,16 @@
                   <e p="SpriteViewerMaterialPropertiesNames.cs" t="Include" />
                 </e>
               </e>
+              <e p="CharacterViewer" t="Include">
+                <e p="BaseCharacterViewer.cs" t="Include" />
+                <e p="CharacterViewer.cs" t="Include" />
+                <e p="ViewerCreator" t="Include">
+                  <e p="ViewerCreator.cs" t="Include" />
+                  <e p="ViewerCreatorBuildMode.cs" t="Include" />
+                  <e p="ViewerCreatorEditMode.cs" t="Include" />
+                </e>
+                <e p="WardrobeCharacterViewer.cs" t="Include" />
+              </e>
               <e p="Events" t="Include">
                 <e p="BaseEvent.cs" t="Include" />
                 <e p="ChoiceResultEvent.cs" t="Include" />
@@ -661,7 +662,6 @@
                 <e p="SwitchToAnotherNodeGraphEvent.cs" t="Include" />
                 <e p="SwitchToNextNodeEvent.cs" t="Include" />
               </e>
-              <e p="GameEntryPoint.cs" t="Include" />
               <e p="GameInitializer.cs" t="Include" />
               <e p="GameStats" t="Include">
                 <e p="BaseStat.cs" t="Include" />
@@ -679,6 +679,13 @@
                 <e p="Sound.cs" t="Include" />
               </e>
               <e p="MySprite.cs" t="Include" />
+              <e p="NodeGraphs" t="Include">
+                <e p="GameSeriaHandler.cs" t="Include" />
+                <e p="LevelPartNodeGraph.cs" t="Include" />
+                <e p="NodeGraphInitializer.cs" t="Include" />
+                <e p="NodeGraphsHandler.cs" t="Include" />
+                <e p="SeriaData.cs" t="Include" />
+              </e>
               <e p="PrefabAssetsLoader" t="Include">
                 <e p="BackgroundContentPrefabAssetLoader.cs" t="Include" />
               </e>
@@ -780,11 +787,6 @@
             <e p="HeaderNode.cs" t="Include" />
             <e p="MergerNode.cs" t="Include" />
             <e p="NarrativeNode.cs" t="Include" />
-            <e p="NodeGraphs" t="Include">
-              <e p="LevelPartNodeGraph.cs" t="Include" />
-              <e p="NodeGraphInitializer.cs" t="Include" />
-              <e p="NodeGraphsHandler.cs" t="Include" />
-            </e>
             <e p="NotificationNode.cs" t="Include" />
             <e p="PutOnSwimsuitsNode.cs" t="Include" />
             <e p="SelectedCustomizationContentIndexes.cs" t="Include" />
@@ -800,6 +802,7 @@
               <e p="SwitchNodeLogicResult.cs" t="Include" />
             </e>
             <e p="SwitchToAnotherNodeGraphNode.cs" t="Include" />
+            <e p="SwitchToNextSeria.cs" t="Include" />
           </e>
           <e p="UI" t="Include">
             <e p="LevelUI" t="Include">

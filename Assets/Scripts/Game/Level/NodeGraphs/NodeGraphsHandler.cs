@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class NodeGraphsHandler : MonoBehaviour
 {
+    [SerializeField, Expandable] private List<SeriaData> _seriaDatas;
     [SerializeField] private List<LevelPartNodeGraph> _levelPartNodeGraphs;
 
     public int CurrentNodeGraphIndex { get; private set; }
@@ -51,7 +53,6 @@ public class NodeGraphsHandler : MonoBehaviour
     }
     private void InitCurrentGraph()
     {
-        // Debug.Log($"Init {_levelPartNodeGraphs[CurrentNodeGraphIndex].name}");
         _levelPartNodeGraphs[CurrentNodeGraphIndex].Init(_nodeGraphInitializer);
 
     }

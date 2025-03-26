@@ -6,6 +6,8 @@ using Zenject;
 public class LevelEntryPointBuild : LevelEntryPoint
 {
     [SerializeField, ReadOnly] private WardrobeCharacterViewer _wardrobeCharacterViewer;
+    [SerializeField, ReadOnly] private BackgroundContent _wardrobeBackground;
+
     [SerializeField, Expandable] protected AudioData _audioData;
     [Inject] private GlobalSound _globalSound;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
@@ -64,7 +66,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _characterViewer.Construct(_disableNodesContentEvent, viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
 
-        _background.Construct(_disableNodesContentEvent, _characterViewer);
+        SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
+        InitBackground(spriteRendererCreator);
+        
         _nodeGraphInitializer = new NodeGraphInitializer(_characters, _background.GetBackgroundContent, _background,
             _levelUIProvider,
             _characterViewer, _wardrobeCharacterViewer, _customizableCharacter, _globalSound, _gameStatsCustodian,
@@ -127,5 +131,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);
             _wardrobeCharacterViewer.Construct(_disableNodesContentEvent, viewerCreator);
         }
+    }
+
+    protected override void InitBackground(SpriteRendererCreator spriteRendererCreator)
+    {
+        _background.Construct(_disableNodesContentEvent, _characterViewer, spriteRendererCreator, _wardrobeBackground);
     }
 }

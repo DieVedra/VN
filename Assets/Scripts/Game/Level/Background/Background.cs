@@ -5,29 +5,32 @@ using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 
-public abstract class Background : MonoBehaviour
+public class Background : MonoBehaviour
 {
-    [SerializeField] protected SpriteRenderer ShowerImage;
+    [SerializeField] private SpriteRenderer ShowerImage;
     [SerializeField, Expandable] private AdditionalImagesToBackground _additionalImagesToBackground;
-    [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
+    [SerializeField] private List<BackgroundContent> _backgroundContent;
+
+    [SerializeField] private float DurationMovementDuringDialogue = 0.2f;
 
     private readonly float _durationScale = 2f;
     private readonly float _durationFade = 1.5f;
     private readonly float _startValueScale = 1.25f;
     private readonly float _endValueScale = 0.88f;
     private int _currentIndex = 0;
-
-    private List<BackgroundContent> _backgroundContent;
+    private BackgroundContent _wardrobeBackground;
     public List<BackgroundContent> GetBackgroundContent => _backgroundContent;
     public AdditionalImagesToBackground AdditionalImagesToBackground => _additionalImagesToBackground;
 
 
-    public abstract void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting);
-
-    protected void BaseConstruct(List<BackgroundContent> backgroundContents)
+    public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting,
+        SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
     {
-        _backgroundContent = backgroundContents;
-        ShowerImage.gameObject.SetActive(false);
+        _wardrobeBackground = wardrobeBackground;
+        foreach (var content in _backgroundContent)
+        {
+            content.Construct(disableNodesContentEvent, setLighting, spriteRendererCreator, DurationMovementDuringDialogue);
+        }
     }
     public void ShowImage(Sprite sprite)
     {
@@ -50,6 +53,13 @@ public abstract class Background : MonoBehaviour
         EnableBackgroundByIndex(index);
         _backgroundContent[index].SetBackgroundPosition(backgroundPosition);
     }
+
+    public void SetWardrobeBackground()
+    {
+        DisableBackground();
+        _wardrobeBackground.gameObject.SetActive(true);
+        _wardrobeBackground.SetBackgroundPosition(BackgroundPosition.Central);
+    }
     public async UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, int index)
     {
         EnableBackgroundByIndex(index);
@@ -66,13 +76,20 @@ public abstract class Background : MonoBehaviour
 
     private void EnableBackgroundByIndex(int index)
     {
+        DisableBackground();
+        _backgroundContent[index].Activate();
+        _currentIndex = index;
+    }
+
+    private void DisableBackground()
+    {
         ShowerImage.gameObject.SetActive(false);
+        _wardrobeBackground.gameObject.SetActive(false);
         ShowerImage.sprite = null;
         foreach (var background in _backgroundContent)
         {
             background.Diactivate();
         }
-        _backgroundContent[index].Activate();
-        _currentIndex = index;
     }
+    
 }

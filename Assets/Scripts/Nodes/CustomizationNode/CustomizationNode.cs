@@ -19,7 +19,6 @@ public class CustomizationNode : BaseNode
     [SerializeField] private List<CustomizationSettings> _settingsSwimsuits; // Купальник черный, Купальник с блестками , Купальник черный мини   
 
     private readonly int _smileEmotionIndex = 2;
-    private readonly int _backgroundCustomizationIndex = 2;
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private CustomizableCharacter _customizableCharacter;
@@ -94,7 +93,7 @@ public class CustomizationNode : BaseNode
     protected override void SetInfoToView()
     {
         _wardrobeCharacterViewer.gameObject.SetActive(true);
-        _background.SetBackgroundPosition(BackgroundPosition.Central, _backgroundCustomizationIndex);
+        _background.SetWardrobeBackground();
         _selectedCustomizationContentIndexes = CreateCustomizationContent();
         _customizableCharacter.SetIndexes(
             GetIndex(_selectedCustomizationContentIndexes.SpriteIndexesBodies, _customizableCharacter.BodyIndex),

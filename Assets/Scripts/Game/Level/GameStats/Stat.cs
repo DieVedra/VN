@@ -7,9 +7,11 @@ public class Stat : BaseStat
 {
     [SerializeField] private Color _colorField;
     [SerializeField] private bool _showKey;
+    [SerializeField] private bool _showInEndGameResultKey;
 
     public Color ColorField => _colorField;
     public bool ShowKey => _showKey;
+    public bool ShowInEndGameResultKey => _showInEndGameResultKey;
 
     public Stat(string name, int value, bool showKey, Color colorField) : base(name, value)
     {

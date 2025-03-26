@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class BackgroundContent : MonoBehaviour
+public class BackgroundContent : MonoBehaviour
 {
     [SerializeField] protected SpriteRenderer SpriteRenderer;
     [SerializeField] private Transform _leftBordTransform;
@@ -12,15 +12,11 @@ public abstract class BackgroundContent : MonoBehaviour
     [SerializeField] private Transform _rightBordTransform;
     [SerializeField] private float _movementDuringDialogueValue = 0.25f;
     [SerializeField] private Color _colorLighting = Color.white;
-
-// #if UNITY_EDITOR
-//     private SpriteRenderer _spriteRendererPrefab;
-// #endif
     
     private readonly float _durationMovementSmoothBackgroundChangePosition = 2f;
     private float _durationMovementDuringDialogue;
 
-    // private SpriteRenderer _spriteRendererPrefab;
+    private SpriteRendererCreator _spriteRendererCreator;
     private Transform _transformSprite;
     private ISetLighting _setLighting;
     private BackgroundPosition _currentBackgroundPosition;
@@ -35,8 +31,9 @@ public abstract class BackgroundContent : MonoBehaviour
     public Transform RightBordTransform => _rightBordTransform;
 
     public void Construct(DisableNodesContentEvent disableNodesContentEvent,
-        ISetLighting setLighting, float durationMovementDuringDialogue)
+        ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, float durationMovementDuringDialogue)
     {
+        _spriteRendererCreator = spriteRendererCreator;
         _durationMovementDuringDialogue = durationMovementDuringDialogue;
         _transformSprite = SpriteRenderer.transform;
         _setLighting = setLighting;
@@ -45,12 +42,6 @@ public abstract class BackgroundContent : MonoBehaviour
         disableNodesContentEvent.Subscribe(DestroyAddContent);
         gameObject.SetActive(false);
     }
-// #if UNITY_EDITOR
-//     public void SetPrefab(SpriteRenderer spriteRendererPrefab)
-//     {
-//         _spriteRendererPrefab = spriteRendererPrefab;
-//     }
-// #endif
     public void Activate()
     {
         gameObject.SetActive(true);
@@ -105,19 +96,7 @@ public abstract class BackgroundContent : MonoBehaviour
         {
             _addContent = new List<SpriteRenderer>();
         }
-        // SpriteRenderer spriteRenderer = Instantiate(_spriteRendererPrefab, SpriteRenderer.transform, true);
-        SpriteRenderer spriteRenderer = CreateAddContent();
-        
-        // if (_gameMode == GameMode.BuildMode)
-        // {
-        //     spriteRenderer =
-        //         PrefabsProvider.SpriteRendererAssetProvider.CreateSpriteRenderer(SpriteRenderer.transform);
-        // }
-        // else
-        // {
-        //     spriteRenderer = Instantiate(_spriteRendererPrefab, SpriteRenderer.transform, true);
-        // }
-
+        SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(SpriteRenderer.transform);
         spriteRenderer.sprite = sprite;
         spriteRenderer.color = color;
         spriteRenderer.transform.localPosition = localPosition;
@@ -181,8 +160,6 @@ public abstract class BackgroundContent : MonoBehaviour
         }
         await SmoothMovement(cancellationToken, bordTransform.position, Ease.InOutSine, duration);
     }
-
-    protected abstract SpriteRenderer CreateAddContent();
     private void DestroyAddContent()
     {
         if (Application.isPlaying == false)

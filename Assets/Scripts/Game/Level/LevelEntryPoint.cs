@@ -21,4 +21,5 @@ public abstract class LevelEntryPoint : MonoBehaviour
 
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
+    protected abstract void InitBackground(SpriteRendererCreator spriteRendererCreator);
 }

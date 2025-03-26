@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 public static class GameInitializer
 {
     public static bool IsGamePlayMode { get; private set; }
-    private static GameEntryPoint _gameEntryPoint;
+    private static LevelEntryPointEditor _levelEntryPointEditor;
     private static CompositeDisposable _compositeDisposable;
     
     [InitializeOnLoadMethod]
@@ -64,11 +64,11 @@ public static class GameInitializer
 
     private static bool TryInitGameEntryPoint()
     {
-        if (_gameEntryPoint != null && IsGamePlayMode == false)
+        if (_levelEntryPointEditor != null && IsGamePlayMode == false)
         {
-            if (_gameEntryPoint.InitializeInEditMode)
+            if (_levelEntryPointEditor.InitializeInEditMode)
             {
-                _gameEntryPoint.Init();
+                _levelEntryPointEditor.Init();
             }
             return true;
         }
@@ -78,19 +78,19 @@ public static class GameInitializer
         }
     }
 
-    private static GameEntryPoint TryGetGameEntryPoint()
+    private static LevelEntryPointEditor TryGetGameEntryPoint()
     {
-        if (_gameEntryPoint == null)
+        if (_levelEntryPointEditor == null)
         {
-            _gameEntryPoint = Object.FindObjectOfType<GameEntryPoint>();
+            _levelEntryPointEditor = Object.FindObjectOfType<LevelEntryPointEditor>();
         }
-        if (_gameEntryPoint == null)
+        if (_levelEntryPointEditor == null)
         {
             return null;
         }
         else
         {
-            return _gameEntryPoint;
+            return _levelEntryPointEditor;
         }
     }
 }

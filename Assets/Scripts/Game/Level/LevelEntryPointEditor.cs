@@ -1,20 +1,19 @@
 ﻿
 
-using System.Collections.Generic;
-using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
-    [SerializeField] private GameObject _eventSystem;
-    [SerializeField] private CharacterViewer _characterViewer;
     [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
+    [SerializeField] private BackgroundContent _wardrobeBackground;
     [SerializeField] private LevelSound _levelSound;
 
+    [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
-    
+    [SerializeField] private SpriteRenderer _spriteRendererPrefab;
+
+    [Space]
     [SerializeField] private bool _initializeInEditMode;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private SwitchToAnotherNodeGraphEvent _switchToAnotherNodeGraphEvent;
@@ -77,7 +76,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _characterViewer.Construct(_disableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
-        _background.Construct(_disableNodesContentEvent, _characterViewer);
+        SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
+        InitBackground(spriteRendererCreator);
+        
         _nodeGraphInitializer = new NodeGraphInitializer(_characters, _background.GetBackgroundContent, _background, _levelUIProvider,
             _characterViewer, _wardrobeCharacterViewer, _customizableCharacter, _levelSound, _gameStatsCustodian, _wallet,
             _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent, _disableNodesContentEvent);
@@ -142,5 +143,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             _wardrobeCharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorEditMode);
         }
+    }
+
+    protected override void InitBackground(SpriteRendererCreator spriteRendererCreator)
+    {
+        _background.Construct(_disableNodesContentEvent, _characterViewer, spriteRendererCreator, _wardrobeBackground);
+
     }
 }

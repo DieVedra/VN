@@ -31,7 +31,6 @@ public class SceneLoader
     }
     private async UniTask LoadPercentUpdate(AsyncOperation operation)
     {
-        // while (operation.progress < 0.9f)
         while (operation.progress < 0.9f)
         {
             Debug.Log($"operation.progress {operation.progress}");

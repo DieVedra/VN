@@ -1077,7 +1077,7 @@ Transform:
   - {fileID: 683729430}
   - {fileID: 1429903798}
   m_Father: {fileID: 1136002826}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &368123234
 MonoBehaviour:
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 368123232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 544ae6d82cdb4a49a199fa34779f2732, type: 3}
+  m_Script: {fileID: 11500000, guid: 97b62157c38341ed9901fc431b62a739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 1429903799}
@@ -2363,7 +2363,7 @@ Transform:
   m_LocalScale: {x: 0.88, y: 0.88, z: 0}
   m_Children: []
   m_Father: {fileID: 1136002826}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &843111235
 SpriteRenderer:
@@ -3195,6 +3195,7 @@ MonoBehaviour:
   _testHearts: 0
   _loadSaveData: 0
   _wardrobeCharacterViewer: {fileID: 0}
+  _wardrobeBackground: {fileID: 0}
   _audioData: {fileID: 11400000, guid: 0880ed53799cb2c49a134837362c82be, type: 2}
 --- !u!4 &1036595728
 Transform:
@@ -3317,9 +3318,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 843111234}
   - {fileID: 1612851623}
   - {fileID: 368123233}
-  - {fileID: 843111234}
   m_Father: {fileID: 1036595728}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3332,15 +3333,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1136002825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1d65e1d1b39477194023cc606d5aeea, type: 3}
+  m_Script: {fileID: 11500000, guid: 784bb5bffded2fb40a31da7a3bdefd32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowerImage: {fileID: 843111235}
   _additionalImagesToBackground: {fileID: 11400000, guid: 535a80b3865d9584c816f4c861c425ac, type: 2}
-  DurationMovementDuringDialogue: 0.2
-  Backgrounds:
+  _backgroundContent:
   - {fileID: 1612851624}
   - {fileID: 368123234}
+  DurationMovementDuringDialogue: 0.2
 --- !u!1 &1191380696
 GameObject:
   m_ObjectHideFlags: 0
@@ -4708,7 +4709,7 @@ Transform:
   - {fileID: 1856829396}
   - {fileID: 1031240025}
   m_Father: {fileID: 1136002826}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1612851624
 MonoBehaviour:
@@ -4719,7 +4720,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1612851622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 544ae6d82cdb4a49a199fa34779f2732, type: 3}
+  m_Script: {fileID: 11500000, guid: 97b62157c38341ed9901fc431b62a739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 1031240026}
