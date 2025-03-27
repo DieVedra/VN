@@ -87,9 +87,9 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
 
     protected override void SetInfoToView()
     {
+        _characterViewer.ResetCharacterView();
         _characterViewer.gameObject.SetActive(true);
         _characterViewer.SetDirection(_directionType);
-        // _characterViewer.SetName(GetName());
         if (_characters[_indexCharacter] is CustomizableCharacter)
         {
             CustomizableCharacter customizableCharacter = _characters[_indexCharacter] as CustomizableCharacter;

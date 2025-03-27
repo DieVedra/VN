@@ -26,7 +26,7 @@ public class CustomizationNode : BaseNode
 
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     
-    private CustomizationEndEvent _customizationEndEvent;
+    private CustomizationEndEvent<CustomizationResult> _customizationEndEvent;
     private Sound _sound;
     private Wallet _wallet;
     private GameStatsCustodian _gameStatsCustodian;
@@ -45,7 +45,7 @@ public class CustomizationNode : BaseNode
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
-        _customizationEndEvent = new CustomizationEndEvent();
+        _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
             TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.LooksData.MySprites, 1,1);

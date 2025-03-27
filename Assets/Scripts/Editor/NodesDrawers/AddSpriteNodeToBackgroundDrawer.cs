@@ -31,6 +31,8 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
                 _serializedPropertyPosition = serializedObject.FindProperty("_localPosition");
                 _serializedPropertyIndexSprite = serializedObject.FindProperty("_indexSprite");
                 _serializedPropertyIndexBackground = serializedObject.FindProperty("_indexBackground");
+                InitPopup();
+
             }
             NodeEditorGUILayout.PropertyField(_serializedPropertyInputPort);
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
@@ -39,17 +41,12 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
                 EditorGUILayout.ColorField("Color: ", _serializedPropertyColor.colorValue);
             _serializedPropertyPosition.vector2Value =
                 EditorGUILayout.Vector2Field("Position: ", _serializedPropertyPosition.vector2Value);
-            if (_namesBackgroundToPopup != null)
-            {
-                
-                _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
-                _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesCharactersToPopup);
+            
+            
+            // InitPopup();
 
-            }
-            else
-            {
-                InitPopup();
-            }
+            _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
+            _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesCharactersToPopup);
         }
     }
 

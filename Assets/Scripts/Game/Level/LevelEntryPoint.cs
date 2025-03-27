@@ -4,20 +4,21 @@ using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
 {
-    [SerializeField] protected GameObject _eventSystem;
-    [SerializeField] protected CharacterViewer _characterViewer;
-    [SerializeField] protected NodeGraphsHandler _nodeGraphsHandler;
-    [SerializeField] protected List<Character> _characters;
-    [SerializeField] protected CustomizableCharacter _customizableCharacter;
-    [SerializeField] protected Background _background;
-    [SerializeField] protected LevelUIView _levelUIView;
-    [SerializeField] protected GameStatsCustodian _gameStatsCustodian;
+    [SerializeField] protected GameObject EventSystem;
+    [SerializeField] protected CharacterViewer CharacterViewer;
+    [SerializeField] protected GameSeriesHandler GameSeriesHandler;
+    [SerializeField] protected List<Character> Characters;
+    [SerializeField] protected CustomizableCharacter CustomizableCharacter;
+    [SerializeField] protected Background Background;
+    [SerializeField] protected LevelUIView LevelUIView;
+    [SerializeField] protected GameStatsCustodian GameStatsCustodian;
 
-    [SerializeField, Space(10f)] protected int _testMonets;
-    [SerializeField, Space(10f)] protected int _testHearts;
+    [SerializeField, Space(10f)] protected int TestMonets;
+    [SerializeField, Space(10f)] protected int TestHearts;
     
-    [SerializeField] protected bool _loadSaveData;
+    [SerializeField] protected bool LoadSaveData;
 
+    protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
 
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);

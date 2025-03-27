@@ -303,7 +303,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _sprite: {fileID: 21300000, guid: 797baf19a4c3d3e40ad74c6cd698a211, type: 3}
   _localPosition: {x: 0, y: 0}
   _color: {r: 0.28235295, g: 0.19607843, b: 0.5058824, a: 1}
   _indexSprite: 0
@@ -1255,7 +1254,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _sprite: {fileID: 21300000, guid: d4a586907300a8f4c8077c8fb763a751, type: 3}
   _localPosition: {x: 0, y: 0}
   _color: {r: 0.28235295, g: 0.19607843, b: 0.5058824, a: 1}
   _indexSprite: 2
@@ -1575,6 +1573,48 @@ MonoBehaviour:
     \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u044C \u0447\u0435\u0440\u0435\u0437
     \u0442\u0440\u0443\u0431\u043E\u0447\u043A\u0443 \u0438 \u043E\u0433\u043B\u044F\u0434\u044B\u0432\u0430\u043B\u0430\u0441\u044C
     \u043F\u043E \u0441\u0442\u043E\u0440\u043E\u043D\u0430\u043C."
+--- !u!114 &-2135869286876688976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
+  m_Name: Switch To Next Seria
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 25880, y: 968}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -2135869286876688976}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2230941410202676553}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2135869286876688976}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _putOnSwimsuit: 0
 --- !u!114 &-1633839506183149604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,12 +1923,12 @@ MonoBehaviour:
   - {fileID: -7856711876449324205}
   - {fileID: -6372295358011803035}
   - {fileID: 2230941410202676553}
-  - {fileID: 6758674657165604923}
   - {fileID: -3775451342878952230}
   - {fileID: -8954026789219630917}
   - {fileID: -4318417226748423979}
   - {fileID: -5784505831579208886}
   - {fileID: 7720901893434564447}
+  - {fileID: -2135869286876688976}
 --- !u!114 &162701674570281561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2073,7 +2113,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _sprite: {fileID: 21300000, guid: 0bc57792a83391a408b5efb9ba897290, type: 3}
   _localPosition: {x: 0, y: 0}
   _color: {r: 0.30588236, g: 0.14901961, b: 0.7058824, a: 1}
   _indexSprite: 1
@@ -3051,7 +3090,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 6758674657165604923}
+        node: {fileID: -2135869286876688976}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -3698,55 +3737,6 @@ MonoBehaviour:
   _text: "\u041E\u0442 \u044D\u0442\u0438\u0445 \u0441\u043B\u043E\u0432 \u043D\u0430
     \u043C\u043E\u0435\u043C \u043B\u0438\u0446\u0435 \u0437\u0430\u0441\u0432\u0435\u0440\u043A\u0430\u043B\u0430
     \u043B\u0443\u043A\u0430\u0432\u0430\u044F \u0443\u043B\u044B\u0431\u043A\u0430."
---- !u!114 &6758674657165604923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 735c8d2d32034e85ae8b3b470855b1f8, type: 3}
-  m_Name: Header
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 25832, y: 904}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 6758674657165604923}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 2230941410202676553}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 6758674657165604923}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _text1: "\u041A\u043E\u043D\u0435\u0446 \u0433\u043B\u0430\u0432\u044B 2"
-  _colorField1: {r: 1, g: 1, b: 1, a: 1}
-  _textSize1: 140
-  _text2: "\xAB\u041C\u043D\u043E\u0433\u043E\u043E\u0431\u0435\u0449\u0430\u044E\u0449\u0430\u044F
-    \u043D\u043E\u0447\u044C\xBB"
-  _colorField2: {r: 1, g: 1, b: 1, a: 1}
-  _textSize2: 80
-  _sprite: {fileID: 21300000, guid: 483350f15486da042990c67f9766bfdb, type: 3}
 --- !u!114 &7006453331777587976
 MonoBehaviour:
   m_ObjectHideFlags: 0

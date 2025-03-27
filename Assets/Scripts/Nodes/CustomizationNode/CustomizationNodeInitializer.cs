@@ -45,7 +45,7 @@ public class CustomizationNodeInitializer
                 if (settings.Count - 1 <= i)
                 {
                     // CustomizationSettings customizationSettings = new CustomizationSettings(
-                    //     _gameStatsCustodian.GetGameStatsForm(),
+                    //     GameStatsCustodian.GetGameStatsForm(),
                     //     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     //     i);
                     newSettings.Add(new CustomizationSettings(

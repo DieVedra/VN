@@ -2,7 +2,10 @@
 
 public class NodeGraphInitializer
 {
-    public readonly SendCurrentNodeEvent SendCurrentNodeEvent;
+    public readonly SendCurrentNodeEvent<BaseNode> SendCurrentNodeEvent;
+    public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
+    public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
+
     private readonly Background _background;
     private readonly LevelUIProvider _levelUIProvider;
     private readonly CharacterViewer _characterViewer;
@@ -11,17 +14,18 @@ public class NodeGraphInitializer
     private readonly Sound _sound;
     private readonly GameStatsCustodian _gameStatsCustodian;
     private readonly Wallet _wallet;
-    private readonly SwitchToNextNodeEvent _switchToNextNodeEvent;
-    private readonly SwitchToAnotherNodeGraphEvent _switchToAnotherNodeGraphEvent;
     private readonly DisableNodesContentEvent _disableNodesContentEvent;
+    private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly List<BackgroundContent> _backgrounds;
     private readonly List<Character> _characters;
+
+
     public NodeGraphInitializer(List<Character> characters, List<BackgroundContent> backgrounds, Background background, 
         LevelUIProvider levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
         CustomizableCharacter customizableCharacter,
         Sound sound, GameStatsCustodian gameStatsCustodian, Wallet wallet,
-        SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent switchToAnotherNodeGraphEvent,
-        DisableNodesContentEvent disableNodesContentEvent)
+        SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
+        DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
     {
         _backgrounds = backgrounds;
         _background = background;
@@ -32,10 +36,11 @@ public class NodeGraphInitializer
         _sound = sound;
         _gameStatsCustodian = gameStatsCustodian;
         _wallet = wallet;
-        _switchToNextNodeEvent = switchToNextNodeEvent;
-        _switchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
+        SwitchToNextNodeEvent = switchToNextNodeEvent;
+        SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
         _disableNodesContentEvent = disableNodesContentEvent;
-        SendCurrentNodeEvent = new SendCurrentNodeEvent();
+        _switchToNextSeriaEvent = switchToNextSeriaEvent;
+        SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
         if (characters == null)
         {
             _characters = new List<Character>();
@@ -50,7 +55,7 @@ public class NodeGraphInitializer
     {
         foreach (var node in nodes)
         {
-            node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, _switchToNextNodeEvent, _disableNodesContentEvent);
+            node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent);
 
             if (node is CharacterNode characterNode)
             {
@@ -84,7 +89,7 @@ public class NodeGraphInitializer
 
             if (node is SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode)
             {
-                switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(_switchToAnotherNodeGraphEvent);
+                switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent);
                 continue;
             }
             
@@ -137,7 +142,12 @@ public class NodeGraphInitializer
                 characterColorByBackgroundNode.Construct(_characterViewer);
                 continue;
             }
-
+            if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
+            {
+                switchToNextSeriaNode.Construct(_switchToNextSeriaEvent);
+                continue;
+            }
+            
             if (node is ShowImageNode showImageNode)
             {
                 showImageNode.Construct(_background);

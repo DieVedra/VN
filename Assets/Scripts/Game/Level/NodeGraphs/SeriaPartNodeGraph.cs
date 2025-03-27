@@ -3,8 +3,8 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using XNode;
 
-[CreateAssetMenu(fileName = "LevelPartNodeGraph", menuName = "NodeGraphs/LevelPartNodeGraph", order = 51)]
-public class LevelPartNodeGraph : NodeGraph
+[CreateAssetMenu(fileName = "SeriaPartNodeGraph", menuName = "NodeGraphs/SeriaPartNodeGraph", order = 51)]
+public class SeriaPartNodeGraph : NodeGraph
 {
 	private BaseNode _currentNode;
 	private int _nodeCount = 0;

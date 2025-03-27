@@ -172,7 +172,7 @@ public class ChoiceNodeDrawer : NodeEditor
         for (int i = 0; i < gameStatsFormsSerializedProperty.arraySize; i++)
         {
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
-            DrawField(statFormSerializedProperty.FindPropertyRelative("_value"), statFormSerializedProperty.FindPropertyRelative("Name").stringValue);
+            DrawField(statFormSerializedProperty.FindPropertyRelative("_value"), statFormSerializedProperty.FindPropertyRelative("_name").stringValue);
         }
         EditorGUILayout.EndVertical();
     }

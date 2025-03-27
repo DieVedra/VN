@@ -2,19 +2,19 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(NodeGraphsHandler))]
+[CustomEditor(typeof(SeriaNodeGraphsHandler))]
 public class NodeGraphsHandlerDrawer : Editor
 { 
-    private NodeGraphsHandler _nodeGraphsHandler;
+    private SeriaNodeGraphsHandler _seriaNodeGraphsHandler;
 
     private MethodInfo _moveNextMethod;
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if (_nodeGraphsHandler == null)
+        if (_seriaNodeGraphsHandler == null)
         {
-            _nodeGraphsHandler = target as NodeGraphsHandler;
+            _seriaNodeGraphsHandler = target as SeriaNodeGraphsHandler;
         }
         else
         {
@@ -32,7 +32,7 @@ public class NodeGraphsHandlerDrawer : Editor
     {
         if (_moveNextMethod == null)
         {
-            _moveNextMethod = _nodeGraphsHandler.GetType().GetMethod("MoveNext", BindingFlags.NonPublic | BindingFlags.Instance);
+            _moveNextMethod = _seriaNodeGraphsHandler.GetType().GetMethod("MoveNext", BindingFlags.NonPublic | BindingFlags.Instance);
             if (_moveNextMethod != null)
             {
                 TryCallMethod();
@@ -40,7 +40,7 @@ public class NodeGraphsHandlerDrawer : Editor
         }
         else
         {
-            _moveNextMethod.Invoke(_nodeGraphsHandler, null);
+            _moveNextMethod.Invoke(_seriaNodeGraphsHandler, null);
         }
     }
 }

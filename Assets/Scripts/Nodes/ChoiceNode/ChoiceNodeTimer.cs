@@ -62,7 +62,7 @@ public class ChoiceNodeTimer
             _timerPanelCanvasGroup.gameObject.SetActive(false);
         }
     }
-    public async UniTaskVoid TryStartTimer(ChoiceResultEvent choiceResultEvent, Action operation, int index, CancellationToken cancellationToken)
+    public async UniTaskVoid TryStartTimer(ChoiceResultEvent<int> choiceResultEvent, Action operation, int index, CancellationToken cancellationToken)
     {
         if (_timerCanBeOn)
         {

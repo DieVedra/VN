@@ -17,7 +17,7 @@ public class SwitchToAnotherNodeGraphNodeDrawer : NodeEditor
 
         if (_serializedProperty == null)
         {
-            _serializedProperty = serializedObject.FindProperty("_nextLevelPartNodeGraph");
+            _serializedProperty = serializedObject.FindProperty("_seriaPartNodeGraph");
             _serializedPropertyPutOnSwimsuit = serializedObject.FindProperty("_putOnSwimsuit");
         }
         serializedObject.Update();
@@ -25,7 +25,7 @@ public class SwitchToAnotherNodeGraphNodeDrawer : NodeEditor
 
         EditorGUILayout.BeginVertical();
         EditorGUILayout.LabelField("NextNodeGraph");
-        _serializedProperty.objectReferenceValue = EditorGUILayout.ObjectField(_serializedProperty.objectReferenceValue, typeof(LevelPartNodeGraph), true, GUILayout.Width(180f));
+        _serializedProperty.objectReferenceValue = EditorGUILayout.ObjectField(_serializedProperty.objectReferenceValue, typeof(SeriaPartNodeGraph), true, GUILayout.Width(180f));
         
         EditorGUILayout.Space(10f);
         EditorGUILayout.LabelField("Put On Swimsuit Character");

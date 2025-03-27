@@ -116,7 +116,7 @@ public class ChoicePanelUIHandler
         _choicePanelUI.gameObject.SetActive(false);
     }
 
-    public void ActivateTimerChoice(ChoiceResultEvent choiceResultEvent, int index, CancellationToken cancellationToken)
+    public void ActivateTimerChoice(ChoiceResultEvent<int> choiceResultEvent, int index, CancellationToken cancellationToken)
     {
         _choiceNodeTimer.TryStartTimer(choiceResultEvent,
             () =>
@@ -126,7 +126,7 @@ public class ChoicePanelUIHandler
             }, index, cancellationToken).Forget();
     }
 
-    public void ActivateButtonsChoice(ChoiceResultEvent choiceResultEvent, bool keyButtonChoice3)
+    public void ActivateButtonsChoice(ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
         ActivateButtonChoice(_choicePanelUI.ButtonChoice1, choiceResultEvent, _button1PressIndex, _choiceNodePriceHandler.Choice1ButtonCanPress);
 
@@ -149,7 +149,7 @@ public class ChoicePanelUIHandler
         }
     }
 
-    private void ActivateButtonChoice(Button buttonChoice, ChoiceResultEvent choiceResultEvent, int buttonPressIndex, bool buttonCanPress)
+    private void ActivateButtonChoice(Button buttonChoice, ChoiceResultEvent<int> choiceResultEvent, int buttonPressIndex, bool buttonCanPress)
     {
         if (buttonCanPress)
         {

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class SwitchToAnotherNodeGraphNode : BaseNode, IPutOnSwimsuit
 {
-    [SerializeField] private LevelPartNodeGraph _nextLevelPartNodeGraph;
+    [SerializeField] private SeriaPartNodeGraph _seriaPartNodeGraph;
     [SerializeField] private bool _putOnSwimsuit;
     
-    private SwitchToAnotherNodeGraphEvent _switchToAnotherNodeGraphEvent;
-    public void ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent switchToAnotherNodeGraphEvent)
+    private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> _switchToAnotherNodeGraphEvent;
+    public void ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent)
     {
         _switchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
     }
     public override UniTask Enter(bool isMerged = false)
     {
-        _nextLevelPartNodeGraph.TryPutOnSwimsuit(_putOnSwimsuit);
-        _switchToAnotherNodeGraphEvent.Execute(_nextLevelPartNodeGraph);
+        _seriaPartNodeGraph.TryPutOnSwimsuit(_putOnSwimsuit);
+        _switchToAnotherNodeGraphEvent.Execute(_seriaPartNodeGraph);
         return default;
     }
 

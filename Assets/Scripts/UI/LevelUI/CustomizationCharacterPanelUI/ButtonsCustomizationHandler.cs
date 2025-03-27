@@ -25,7 +25,7 @@ public class ButtonsCustomizationHandler
         _switchInfoCustodian = switchInfoCustodian;
     }
 
-    public void ActivateButtonsCustomization(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, CustomizationEndEvent customizationEndEvent)
+    public void ActivateButtonsCustomization(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, CustomizationEndEvent<CustomizationResult> customizationEndEvent)
     {
         SubscribeButtonModeCustomization(
             _customizationCharacterPanelUI.SkinColorButton,

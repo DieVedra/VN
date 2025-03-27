@@ -2,10 +2,10 @@
 using UnityEngine;
 using XNodeEditor;
 
-[CustomNodeGraphEditor(typeof(LevelPartNodeGraph))]
+[CustomNodeGraphEditor(typeof(SeriaPartNodeGraph))]
 public class GraphDrawer : NodeGraphEditor
 {
-    private LevelPartNodeGraph _levelPartNodeGraph;
+    private SeriaPartNodeGraph _seriaPartNodeGraph;
     private SerializedProperty _nodeListProperty;
     private int _indexValue;
     private string _textNameNode;
@@ -13,9 +13,9 @@ public class GraphDrawer : NodeGraphEditor
     public override void OnGUI()
     {
         base.OnGUI();
-        if (_levelPartNodeGraph == null)
+        if (_seriaPartNodeGraph == null)
         {
-            _levelPartNodeGraph = target as LevelPartNodeGraph;
+            _seriaPartNodeGraph = target as SeriaPartNodeGraph;
         }
         if (_nodeListProperty == null)
         {

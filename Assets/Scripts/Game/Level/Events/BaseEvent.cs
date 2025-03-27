@@ -27,3 +27,28 @@ public class BaseEvent
         BaseReactiveCommand.Execute();
     }
 }
+
+public class BaseEvent<T>
+{
+    protected ReactiveCommand<T> BaseReactiveCommand;
+
+    public BaseEvent()
+    {
+        BaseReactiveCommand = new ReactiveCommand<T>();
+    }
+    public void Dispose()
+    {
+        BaseReactiveCommand.Dispose();
+    }
+    public virtual void Subscribe(Action<T> operation)
+    {
+        BaseReactiveCommand.Subscribe(_ =>
+        {
+            operation.Invoke(_);
+        });
+    }
+    public virtual void Execute(T somebody)
+    {
+        BaseReactiveCommand.Execute(somebody);
+    }
+}

@@ -11,7 +11,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField, Expandable] protected AudioData _audioData;
     [Inject] private GlobalSound _globalSound;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
-    private SwitchToAnotherNodeGraphEvent _switchToAnotherNodeGraphEvent;
+    private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> _switchToAnotherNodeGraphEvent;
     private DisableNodesContentEvent _disableNodesContentEvent;
     private NodeGraphInitializer _nodeGraphInitializer;
     private LevelUIProvider _levelUIProvider;
@@ -24,65 +24,65 @@ public class LevelEntryPointBuild : LevelEntryPoint
         Init();
         _onSceneTransition.Subscribe(_ =>
         {
-            _characterViewer.Dispose();
-            _nodeGraphsHandler.Dispose();
+            CharacterViewer.Dispose();
+            GameSeriesHandler.Dispose();
             _levelUIProvider.Dispose();
-            _eventSystem.gameObject.SetActive(false);
+            EventSystem.gameObject.SetActive(false);
             Save();
         });
         //
-        // var handle = Addressables.LoadAssetAsync<LevelPartNodeGraph>("8 LevelPartNodeGraph 2.1");
+        // var handle = Addressables.LoadAssetAsync<SeriaPartNodeGraph>("8 SeriaPartNodeGraph 2.1");
         // _test1 = await handle.Task;
     }
 
     public void Init()
     {
-        if (_loadSaveData == true)
+        if (LoadSaveData == true)
         {
             _saveData = SaveServiceProvider.SaveData;
             _storyData = _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-            _testMonets = _saveData.Monets;
-            _testHearts = _saveData.Hearts;
+            TestMonets = _saveData.Monets;
+            TestHearts = _saveData.Hearts;
             _wallet = new Wallet(_saveData);
-            _gameStatsCustodian.Init(_storyData.Stats);
+            GameStatsCustodian.Init(_storyData.Stats);
             _globalSound.Init(_saveData.SoundIsOn);
             _globalSound.SetAudioData(_audioData);
         }
         else
         {
-            _wallet = new Wallet(_testMonets, _testHearts);
-            _gameStatsCustodian.Init();
+            _wallet = new Wallet(TestMonets, TestHearts);
+            GameStatsCustodian.Init();
             _globalSound.Init();
             _globalSound.SetAudioData(_audioData);
         }
 
         _onSceneTransition = new ReactiveCommand();
         _switchToNextNodeEvent = new SwitchToNextNodeEvent();
-        _switchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent();
+        _switchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
         _disableNodesContentEvent = new DisableNodesContentEvent();
 
         InitLevelUIProvider();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode();
-        _characterViewer.Construct(_disableNodesContentEvent, viewerCreatorBuildMode);
+        CharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
 
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
         InitBackground(spriteRendererCreator);
         
-        _nodeGraphInitializer = new NodeGraphInitializer(_characters, _background.GetBackgroundContent, _background,
+        _nodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background,
             _levelUIProvider,
-            _characterViewer, _wardrobeCharacterViewer, _customizableCharacter, _globalSound, _gameStatsCustodian,
+            CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _globalSound, GameStatsCustodian,
             _wallet,
-            _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent, _disableNodesContentEvent);
+            _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent, _disableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (_saveData == null)
         {
-            _nodeGraphsHandler.Init(_nodeGraphInitializer, _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent);
+            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent);
 
         }
         else
         {
-            _nodeGraphsHandler.Init(_nodeGraphInitializer, _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent,
+            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent,
                 _storyData.CurrentNodeGraphIndex, _storyData.CurrentNodeIndex);
         }
 
@@ -91,20 +91,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private void OnApplicationQuit()
     {
-        _characterViewer.Dispose();
-        _nodeGraphsHandler.Dispose();
+        CharacterViewer.Dispose();
+        GameSeriesHandler.Dispose();
         _levelUIProvider.Dispose();
-        _eventSystem.gameObject.SetActive(false);
+        EventSystem.gameObject.SetActive(false);
         Save();
     }
 
     private void Save()
     {
-        if (_loadSaveData == true)
+        if (LoadSaveData == true)
         {
-            _storyData.CurrentNodeGraphIndex = _nodeGraphsHandler.CurrentNodeGraphIndex;
-            _storyData.CurrentNodeIndex = _nodeGraphsHandler.CurrentNodeIndex;
-            _storyData.Stats = _gameStatsCustodian.GetSaveStatsToSave();
+            _storyData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
+            _storyData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
+            _storyData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = _storyData;
             SaveServiceProvider.SaveService.Save(_saveData);
         }
@@ -112,12 +112,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private void InitLevelUIProvider()
     {
-        _levelUIView.CustomizationCharacterPanelUI.gameObject.SetActive(false);
+        LevelUIView.CustomizationCharacterPanelUI.gameObject.SetActive(false);
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
-            PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(_levelUIView
+            PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
-        _levelUIProvider = new LevelUIProvider(_levelUIView, _wallet, _onSceneTransition, _disableNodesContentEvent,
+        _levelUIProvider = new LevelUIProvider(LevelUIView, _wallet, _onSceneTransition, _disableNodesContentEvent,
             _switchToNextNodeEvent, customizationCharacterPanelUI);
     }
 
@@ -135,6 +135,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     protected override void InitBackground(SpriteRendererCreator spriteRendererCreator)
     {
-        _background.Construct(_disableNodesContentEvent, _characterViewer, spriteRendererCreator, _wardrobeBackground);
+        Background.Construct(_disableNodesContentEvent, CharacterViewer, spriteRendererCreator, _wardrobeBackground);
     }
 }

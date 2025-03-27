@@ -1,28 +1,21 @@
 ﻿using System;
 using UniRx;
 
-public class CustomizationEndEvent 
+public class CustomizationEndEvent<T> : BaseEvent<T>
 {
-    private readonly ReactiveCommand<CustomizationResult> _reactiveCommand;
     private CompositeDisposable _compositeDisposable;
-    public CustomizationEndEvent()
-    {
-        _reactiveCommand = new ReactiveCommand<CustomizationResult>();
-    }
-    
-    public void Dispose()
-    {
-        _reactiveCommand.Dispose();
-    }
-    public void Subscribe(Action<CustomizationResult> operation)
+    public override void Subscribe(Action<T> operation)
     {
         _compositeDisposable = new CompositeDisposable();
-        _reactiveCommand.Subscribe(operation.Invoke).AddTo(_compositeDisposable);
+        BaseReactiveCommand.Subscribe(_=>
+        {
+            operation.Invoke(_);
+        }).AddTo(_compositeDisposable);
     }
 
-    public void Execute(CustomizationResult customizationResult)
+    public override void Execute(T customizationResult)
     {
-        _reactiveCommand.Execute(customizationResult);
+        BaseReactiveCommand.Execute(customizationResult);
         _compositeDisposable.Clear();
     }
 }

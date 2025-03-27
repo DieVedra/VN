@@ -32,20 +32,20 @@ public class ChoiceNode : BaseNode
     [SerializeField, HideInInspector, Output] private Empty Choice2Output;
     [SerializeField, HideInInspector, Output] private Empty Choice3Output;
     
-    private ChoiceResultEvent _choiceResultEvent;
+    private ChoiceResultEvent<int> _choiceResultEvent;
     private GameStatsCustodian _gameStatsCustodian;
     private ChoicePanelUIHandler _choicePanelUIHandler;
-    private SendCurrentNodeEvent _sendCurrentNodeEvent;
+    private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
     private string[] _namesPortsPorts;
     private List<List<BaseStat>> _allStatsChoice;
     public IReadOnlyList<string> NamesPorts => _namesPortsPorts;
     public void ConstructMyChoiceNode(GameStatsCustodian gameStatsCustodian, ChoicePanelUIHandler choicePanelUIHandler,
-        SendCurrentNodeEvent sendCurrentNodeEvent)
+        SendCurrentNodeEvent<BaseNode> sendCurrentNodeEvent)
     {
         _namesPortsPorts = new[] {$"Choice1Output", $"Choice2Output", $"Choice3Output"};
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
-        _choiceResultEvent = new ChoiceResultEvent();
+        _choiceResultEvent = new ChoiceResultEvent<int>();
         _choiceResultEvent.Subscribe(SetNextNodeFromResultChoice);
         _gameStatsCustodian = gameStatsCustodian;
         _choicePanelUIHandler = choicePanelUIHandler;
