@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -8,8 +9,11 @@ using UnityEngine;
 public class Background : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer ShowerImage;
-    [SerializeField, Expandable] private AdditionalImagesToBackground _additionalImagesToBackground;
+    [SerializeField] private List<Sprite> _additionalImagesToBackground;
+    [SerializeField] private List<Sprite> _arts;
     [SerializeField] private List<BackgroundContent> _backgroundContent;
+    
+    [SerializeField, ReadOnly] private List<int> _artOpenedIndexes;
 
     [SerializeField] private float DurationMovementDuringDialogue = 0.2f;
 
@@ -17,32 +21,126 @@ public class Background : MonoBehaviour
     private readonly float _durationFade = 1.5f;
     private readonly float _startValueScale = 1.25f;
     private readonly float _endValueScale = 0.88f;
-    private int _currentIndex = 0;
+    // private int _currentIndex = 0;
     private BackgroundContent _wardrobeBackground;
+    private DisableNodesContentEvent _disableNodesContentEvent;
+    private ISetLighting _setLighting;
+    private SpriteRendererCreator _spriteRendererCreator;
+    // private BackgroundSaveData _backgroundSaveData;
+    public int CurrentArtIndex { get; private set; }
+    public int CurrentIndexAdditionalImage { get; private set; }
+    public int CurrentIndexBackgroundContent { get; private set; }
     public List<BackgroundContent> GetBackgroundContent => _backgroundContent;
-    public AdditionalImagesToBackground AdditionalImagesToBackground => _additionalImagesToBackground;
+    public IReadOnlyList<Sprite> AdditionalImagesToBackground => _additionalImagesToBackground;
+    public IReadOnlyList<int> ArtOpenedIndexes => _artOpenedIndexes;
 
+    public IReadOnlyList<Sprite> Arts => _arts;
 
-    public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting,
+    public void ConstructSaveOn(BackgroundSaveData backgroundSaveData,
+        DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting,
+        SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
+    {
+        // _backgroundSaveData = backgroundSaveData;
+        _artOpenedIndexes = backgroundSaveData.ArtOpenedIndexes;
+        // CurrentIndexBackgroundContent = backgroundSaveData.CurrentIndexBackgroundContent;
+        
+        
+
+        ConstructSaveOff(disableNodesContentEvent, setLighting, spriteRendererCreator, wardrobeBackground);
+        TryAddAddebleContentToBackgroundContent(backgroundSaveData.IndexesBackgroundContentWithAdditionalImage, _backgroundContent.Count);
+    }
+
+    public void ConstructSaveOff(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting,
         SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
     {
         _wardrobeBackground = wardrobeBackground;
-        foreach (var content in _backgroundContent)
+        _disableNodesContentEvent = disableNodesContentEvent;
+        _setLighting = setLighting;
+        _spriteRendererCreator = spriteRendererCreator;
+
+
+        ConstructBackgroundContent(_backgroundContent);
+    }
+
+    public BackgroundSaveData GetBackgroundSaveData()
+    {
+        BackgroundSaveData backgroundSaveData;
+        backgroundSaveData.ArtOpenedIndexes = _artOpenedIndexes;
+        backgroundSaveData.CurrentIndexBackgroundContent = CurrentIndexBackgroundContent;
+        backgroundSaveData.IndexesBackgroundContentWithAdditionalImage = new List<IndexesBackgroundContentWithAdditionalImage>();
+        for (int i = 0; i < _backgroundContent.Count; i++)
         {
-            content.Construct(disableNodesContentEvent, setLighting, spriteRendererCreator, DurationMovementDuringDialogue);
+            if (_backgroundContent[i].GetIndexesAdditionalImage.Count > 0)
+            {
+                IndexesBackgroundContentWithAdditionalImage indexes;
+                indexes.IndexesAdditionalImages = _backgroundContent[i].GetIndexesAdditionalImage.ToList();
+                indexes.IndexBackgroundContent = i;
+                backgroundSaveData.IndexesBackgroundContentWithAdditionalImage.Add(indexes);
+            }
+        }
+        return backgroundSaveData;
+    }
+
+    private void ConstructBackgroundContent(List<BackgroundContent> backgroundContent)
+    {
+        for (int i = 0; i < backgroundContent.Count; ++i)
+        {
+            backgroundContent[i].Construct(_disableNodesContentEvent, _setLighting, _spriteRendererCreator, DurationMovementDuringDialogue);
         }
     }
-    public void ShowImage(Sprite sprite)
+
+    private void TryAddAddebleContentToBackgroundContent(IReadOnlyList<IndexesBackgroundContentWithAdditionalImage> indexes, int count)
+    {
+        for (int i = 0; i < count; ++i)
+        {
+            if (indexes.Count > 0)
+            {
+                for (int j = 0; j < indexes.Count; ++j)
+                {
+                    if (i == indexes[j].IndexBackgroundContent)
+                    {
+                        for (int k = 0; k < indexes[j].IndexesAdditionalImages.Count; ++k)
+                        {
+                            AddContent(i,
+                                indexes[j].IndexesAdditionalImages[k].IndexAdditionalImage,
+                                indexes[j].IndexesAdditionalImages[k].LocalPosition,
+                                indexes[j].IndexesAdditionalImages[k].Color);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public void AddContent(int indexBackground, int indexAdditionalImage, Vector2 localPosition, Color color)
+    {
+        _backgroundContent[indexBackground].AddContent(_additionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
+        CurrentIndexAdditionalImage = indexAdditionalImage;
+    }
+
+    public void AddToAdditionalImagesToBackground(List<Sprite> addableSprites)
+    {
+        _additionalImagesToBackground.AddRange(addableSprites);
+    }
+    public void AddToArts(List<Sprite> addableSprites)
+    {
+        _arts.AddRange(addableSprites);
+    }
+    
+    
+    public void ShowImage(int indexArt)
     {
         ShowerImage.color = new Color(1f,1f,1f,1f);
         ShowerImage.transform.localScale = new Vector2(_endValueScale,_endValueScale);
         ShowerImage.gameObject.SetActive(true);
-        ShowerImage.sprite = sprite;
+        ShowerImage.sprite = _arts[indexArt];
     }
-    public async UniTask ShowImageInPlayMode(Sprite sprite, CancellationToken cancellationToken)
+    public async UniTask ShowImageInPlayMode(int indexArt, CancellationToken cancellationToken)
     {
         ShowerImage.color = new Color(1f,1f,1f,0f);
-        ShowerImage.sprite = sprite;
+        ShowerImage.sprite = _arts[indexArt];
+        CurrentArtIndex = indexArt;
+        _artOpenedIndexes.Add(indexArt);
         ShowerImage.transform.localScale = new Vector2(_startValueScale,_startValueScale);
         ShowerImage.gameObject.SetActive(true);
         await UniTask.WhenAll(ShowerImage.DOFade(1f, _durationFade).WithCancellation(cancellationToken),
@@ -67,18 +165,18 @@ public class Background : MonoBehaviour
     }
     public void SetBackgroundMovementDuringDialogueInEditMode(DirectionType directionType)
     {
-        _backgroundContent[_currentIndex].MovementDuringDialogueInEditMode(directionType);
+        _backgroundContent[CurrentIndexBackgroundContent].MovementDuringDialogueInEditMode(directionType);
     }
     public async UniTask SetBackgroundMovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
-        await _backgroundContent[_currentIndex].MovementDuringDialogueInPlayMode(cancellationToken, directionType);
+        await _backgroundContent[CurrentIndexBackgroundContent].MovementDuringDialogueInPlayMode(cancellationToken, directionType);
     }
 
     private void EnableBackgroundByIndex(int index)
     {
         DisableBackground();
         _backgroundContent[index].Activate();
-        _currentIndex = index;
+        CurrentIndexBackgroundContent = index;
     }
 
     private void DisableBackground()

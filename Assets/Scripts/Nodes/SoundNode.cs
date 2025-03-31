@@ -9,11 +9,15 @@ using UnityEngine;
 public class SoundNode : BaseNode
 {
     [SerializeField, HideInInspector] private int _currentSoundIndex;
+    [SerializeField, HideInInspector] private int _currentAdditionalSoundIndex;
+    [SerializeField, HideInInspector] private float _volumeSound = 1f;
+    [SerializeField, HideInInspector] private float _volumeAdditionalSound = 1f;
     [SerializeField, HideInInspector] private bool _smoothTransitionKey;
     [SerializeField, HideInInspector] private bool _isSmoothVolumeIncrease;
     [SerializeField, HideInInspector] private bool _isSmoothVolumeDecrease;
     [SerializeField, HideInInspector] private bool _isInstantNodeTransition;
     [SerializeField, HideInInspector] private bool _lowPassEffectKey;
+    [SerializeField, HideInInspector] private bool _mergeSoundsKey;
     
     private Sound _sound;
     private string[] _names;
@@ -96,7 +100,12 @@ public class SoundNode : BaseNode
 
     private void PlayAudio()
     {
-        _sound.PlayAudio(_currentSoundIndex);
+        _sound.PlayAudioByIndex(_currentSoundIndex);
+        if (_mergeSoundsKey)
+        {
+            _sound.PlayAdditionalAudioByIndex(_currentSoundIndex);
+        }
+
         _isStarted = true;
     }
 
@@ -106,6 +115,15 @@ public class SoundNode : BaseNode
         _isStarted = false;
     }
 
+    private void SetVolume()
+    {
+        _sound.SetVolume(_volumeSound);
+    }
+
+    private void SetAdditionalVolume()
+    {
+        _sound.SetVolume(_volumeAdditionalSound, 1);
+    }
     private Action GetEffectsOperations()
     {
         return () => { _sound.AudioEffectsHandler.SetLowPassEffect(_lowPassEffectKey); };

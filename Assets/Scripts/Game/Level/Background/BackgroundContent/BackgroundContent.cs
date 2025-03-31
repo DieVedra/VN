@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class BackgroundContent : MonoBehaviour
@@ -12,7 +13,8 @@ public class BackgroundContent : MonoBehaviour
     [SerializeField] private Transform _rightBordTransform;
     [SerializeField] private float _movementDuringDialogueValue = 0.25f;
     [SerializeField] private Color _colorLighting = Color.white;
-    
+    [SerializeField, ReadOnly] private List<AdditionalImageData> _indexesAdditionalImage;
+
     private readonly float _durationMovementSmoothBackgroundChangePosition = 2f;
     private float _durationMovementDuringDialogue;
 
@@ -29,6 +31,7 @@ public class BackgroundContent : MonoBehaviour
     public Transform LeftBordTransform => _leftBordTransform;
     public Transform CentralBordTransform => _centralTransform;
     public Transform RightBordTransform => _rightBordTransform;
+    public IReadOnlyList<AdditionalImageData> GetIndexesAdditionalImage => _indexesAdditionalImage;
 
     public void Construct(DisableNodesContentEvent disableNodesContentEvent,
         ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, float durationMovementDuringDialogue)
@@ -40,6 +43,7 @@ public class BackgroundContent : MonoBehaviour
         _currentBackgroundPosition = BackgroundPosition.Central;
         _addContent = null;
         disableNodesContentEvent.Subscribe(DestroyAddContent);
+        _indexesAdditionalImage = new List<AdditionalImageData>();
         gameObject.SetActive(false);
     }
     public void Activate()
@@ -90,12 +94,19 @@ public class BackgroundContent : MonoBehaviour
         }
     }
 
-    public void AddContent(Sprite sprite, Vector2 localPosition, Color color)
+    public void AddContent(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
     {
         if (_addContent == null)
         {
             _addContent = new List<SpriteRenderer>();
         }
+
+        AdditionalImageData additionalImageData;
+        additionalImageData.IndexAdditionalImage = indexAdditionalImage;
+        additionalImageData.LocalPosition = localPosition;
+        additionalImageData.Color = color;
+        
+        _indexesAdditionalImage.Add(additionalImageData);
         SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(SpriteRenderer.transform);
         spriteRenderer.sprite = sprite;
         spriteRenderer.color = color;

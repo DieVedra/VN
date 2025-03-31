@@ -1,5 +1,4 @@
 ﻿
-using System.Collections.Generic;
 [System.Serializable]
 public class StoryData
 {
@@ -8,11 +7,13 @@ public class StoryData
     public int CurrentNodeGraphIndex;
     public int CurrentNodeIndex;
     public int CurrentProgressPercent;
+    public int CurrentAudioClipIndex;
     public bool IsLiked;
+    public bool LowPassEffectIsOn;
     public int MyIndex;
 
     public SaveStat[] Stats;
-
+    public BackgroundSaveData BackgroundSaveData;
 
     public StoryData(string nameAsset)
     {

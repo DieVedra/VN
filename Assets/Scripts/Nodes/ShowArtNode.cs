@@ -1,15 +1,17 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-[NodeTint("#515000")]
+[NodeTint("#515000"), NodeWidth(350)]
 
-public class ShowImageNode : BaseNode
+public class ShowArtNode : BaseNode
 {
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private int _spriteIndex;
 
     private Background _background;
-    
+    public IReadOnlyList<Sprite> Arts => _background.Arts;
+
     public void Construct(Background background)
     {
         _background = background;
@@ -21,13 +23,13 @@ public class ShowImageNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _background.ShowImageInPlayMode(_sprite, CancellationTokenSource.Token);
+        await _background.ShowImageInPlayMode(_spriteIndex, CancellationTokenSource.Token);
         TryActivateButtonSwitchToNextSlide();
     }
 
     protected override void SetInfoToView()
     {
-        _background.ShowImage(_sprite);
+        _background.ShowImage(_spriteIndex);
     }
 
     public override void SkipEnterTransition()
