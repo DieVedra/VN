@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
@@ -16,15 +18,18 @@ public class SoundNode : BaseNode
     [SerializeField, HideInInspector] private bool _isSmoothVolumeIncrease;
     [SerializeField, HideInInspector] private bool _isSmoothVolumeDecrease;
     [SerializeField, HideInInspector] private bool _isInstantNodeTransition;
-    [SerializeField, HideInInspector] private bool _lowPassEffectKey;
     [SerializeField, HideInInspector] private bool _mergeSoundsKey;
+
+    [SerializeField/*, HideInInspector*/] private List<AudioEffect> _audioEffects;
+    [SerializeField/*, HideInInspector*/] private List<bool> _effectKeys;
     
     private Sound _sound;
-    private string[] _names;
+    private TaskRunner _taskRunner;
     private bool _isStarted;
     public IReadOnlyList<AudioClip> Clips => _sound.Clips;
     public Sound Sound => _sound;
-    public string[] Names => _names;
+    public string[] Names { get; private set; }
+    public string[] AdditionalNames { get; private set; }
 
     public bool IsStarted => _isStarted;
 
@@ -32,7 +37,10 @@ public class SoundNode : BaseNode
     {
         _sound = sound;
         _isStarted = false;
-        InitNames();
+        _taskRunner = new TaskRunner();
+        Names = _sound.Clips.Select(x => x.name.MyCutString(0,1, separator: '_')).ToArray();
+        AdditionalNames = _sound.AdditionalClips.Select(x => x.name).ToArray();
+
         _sound.PlayEvent.Subscribe(_=>
         {
             StopAudio();
@@ -43,69 +51,81 @@ public class SoundNode : BaseNode
     {
         CancellationTokenSource = new CancellationTokenSource();
 
+        if (_smoothTransitionKey == true && _isStarted == false)
+        {
+            _isStarted = true;
+            SmoothTransition();
+        }
+        else if (_isSmoothVolumeIncrease == true)
+        {
+            SmoothPlayAudio();
+        }
+        else if (_isSmoothVolumeDecrease == true)
+        {
+            SmoothStopAudio();
+        }
+        TryPushEffects();
+
         if (_isInstantNodeTransition == false)
         {
-            if (_smoothTransitionKey == true && _isStarted == false)
-            {
-                _isStarted = true;
-                await _sound.SmoothReplacementAudio(CancellationTokenSource.Token, GetEffectsOperations() ,_currentSoundIndex);
-            }
-            else if (_isSmoothVolumeIncrease == true)
-            {
-                await _sound.SmoothPlayAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex);
-            }
-            else if (_isSmoothVolumeDecrease == true)
-            {
-                await _sound.SmoothStopAudio(CancellationTokenSource.Token, GetEffectsOperations());
-            }
-            else
-            {
-                await _sound.AudioEffectsHandler.SetLowPassEffectSmooth(CancellationTokenSource.Token, _lowPassEffectKey);
-            }
+            await _taskRunner.TryRunTasks();
         }
         else
         {
-            if (_smoothTransitionKey == true && _isStarted == false)
-            {
-                _isStarted = true;
-                _sound.SmoothReplacementAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex).Forget();
-            }
-            else if (_isSmoothVolumeIncrease == true)
-            {
-                _sound.SmoothPlayAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex).Forget();
-            }
-            else if (_isSmoothVolumeDecrease == true)
-            {
-                _sound.SmoothStopAudio(CancellationTokenSource.Token, GetEffectsOperations()).Forget();
-            }
-            else
-            {
-                await _sound.AudioEffectsHandler.SetLowPassEffectSmooth(CancellationTokenSource.Token, _lowPassEffectKey);
-            }
+            _taskRunner.TryRunTasks().Forget();
         }
+        
+        // if (_isInstantNodeTransition == false)
+        // {
+        //     if (_smoothTransitionKey == true && _isStarted == false)
+        //     {
+        //         _isStarted = true;
+        //         _taskRunner.AddOperationToList(()=> _sound.SmoothReplacementAudio(CancellationTokenSource.Token, _currentSoundIndex));
+        //     }
+        //     else if (_isSmoothVolumeIncrease == true)
+        //     {
+        //         _taskRunner.AddOperationToList(()=> _sound.SmoothPlayAudio(CancellationTokenSource.Token, _currentSoundIndex));
+        //     }
+        //     else if (_isSmoothVolumeDecrease == true)
+        //     {
+        //         _taskRunner.AddOperationToList(()=>_sound.SmoothStopAudio(CancellationTokenSource.Token));
+        //     }
+        //     
+        //     TryPushEffects();
+        //     await _taskRunner.TryRunTasks();
+        // }
+        // else
+        // {
+        //     if (_smoothTransitionKey == true && _isStarted == false)
+        //     {
+        //         _isStarted = true;
+        //         _sound.SmoothReplacementAudio(CancellationTokenSource.Token, _currentSoundIndex).Forget();
+        //     }
+        //     else if (_isSmoothVolumeIncrease == true)
+        //     {
+        //         _sound.SmoothPlayAudio(CancellationTokenSource.Token, _currentSoundIndex).Forget();
+        //     }
+        //     else if (_isSmoothVolumeDecrease == true)
+        //     {
+        //         _sound.SmoothStopAudio(CancellationTokenSource.Token).Forget();
+        //     }
+        //     
+        //     TryPushEffects();
+        // }
         if (isMerged == false)
         {
             SwitchToNextNodeEvent.Execute();
         }
     }
-
-    private void InitNames()
-    {
-        _names = new string[Clips.Count];
-        for (int i = 0; i < Clips.Count; i++)
-        {
-            _names[i] = Clips[i].name.MyCutString(0,1, separator: '_');
-        }
-    }
-
+    
     private void PlayAudio()
     {
+        _isStarted = false;
         _sound.PlayAudioByIndex(_currentSoundIndex);
         if (_mergeSoundsKey)
         {
-            _sound.PlayAdditionalAudioByIndex(_currentSoundIndex);
+            _sound.PlayAudioByClip(_sound.AdditionalClips[_currentAdditionalSoundIndex],1);
         }
-
         _isStarted = true;
     }
 
@@ -124,8 +144,75 @@ public class SoundNode : BaseNode
     {
         _sound.SetVolume(_volumeAdditionalSound, 1);
     }
-    private Action GetEffectsOperations()
+    private void TryPushEffects()
     {
-        return () => { _sound.AudioEffectsHandler.SetLowPassEffect(_lowPassEffectKey); };
+        IAudioEffectHandler handler;
+        for (int i = 0; i < _audioEffects.Count; i++)
+        {
+            handler = _sound.AudioEffectsCustodian.GetAudioEffect(_audioEffects[i]);
+            if (_effectKeys[i] == true)
+            {
+                if (handler.EffectIsOn == false)
+                {
+                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, true));
+                }
+            }
+            else
+            {
+                if (handler.EffectIsOn == true)
+                {
+                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, false));
+                }
+            }
+        }
+    }
+
+    private void AddEffect(AudioEffect audioEffect)
+    {
+        if (_audioEffects.Contains(audioEffect) == false)
+        {
+            _audioEffects.Add(audioEffect);
+            _effectKeys.Add(false);
+        }
+    }
+
+    private void RemoveEffect(int index)
+    {
+        _audioEffects.RemoveAt(index);
+        _effectKeys.RemoveAt(index);
+    }
+
+    private void SmoothTransition()
+    {
+        MergeCheck(
+            ()=> _sound.SmoothAudio.SmoothReplacementAudio(CancellationTokenSource.Token, _currentSoundIndex, 0),
+            ()=> _sound.SmoothAudio.SmoothReplacementAudio(CancellationTokenSource.Token, _currentAdditionalSoundIndex, 1));
+    }
+
+    private void SmoothPlayAudio()
+    {
+        MergeCheck(
+            ()=> _sound.SmoothAudio.SmoothPlayAudio(CancellationTokenSource.Token, _currentSoundIndex, 0),
+            ()=> _sound.SmoothAudio.SmoothPlayAudio(CancellationTokenSource.Token, _currentAdditionalSoundIndex, 1));
+    }
+
+    private void SmoothStopAudio()
+    {
+        MergeCheck(
+            ()=>_sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, 0),
+            ()=>_sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, 1));
+    }
+
+    private void MergeCheck(Func<UniTask> operation1, Func<UniTask> operation2)
+    {
+        if (_mergeSoundsKey == true)
+        {
+            _taskRunner.AddOperationToList(operation1);
+            _taskRunner.AddOperationToList(operation2);
+        }
+        else
+        {
+            _taskRunner.AddOperationToList(operation1);
+        }
     }
 }

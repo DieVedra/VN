@@ -11,11 +11,13 @@ public class SmoothTransitionNodeDrawer : NodeEditor
     private SmoothTransitionNode _smoothTransitionNode;
     private SerializedProperty _isStartCurtainSerializedProperty;
     private SerializedProperty _isEndCurtainSerializedProperty;
+    private LineDrawer _lineDrawer;
     public override void OnBodyGUI()
     {
         if (_smoothTransitionNode == null)
         {
             _smoothTransitionNode = target as SmoothTransitionNode;
+            _lineDrawer = new LineDrawer();
         }
         serializedObject.Update();
         if (_isStartCurtainSerializedProperty == null)
@@ -27,7 +29,7 @@ public class SmoothTransitionNodeDrawer : NodeEditor
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
         EditorGUI.BeginChangeCheck();
-        LineDrawer.DrawHorizontalLine(Color.green);
+        _lineDrawer.DrawHorizontalLine(Color.green);
 
         EditorGUILayout.Space(20f);
         if (_isEndCurtainSerializedProperty.boolValue == false)

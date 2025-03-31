@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using XNodeEditor;
 
 public class TextNodeDrawer
 {
@@ -10,7 +8,8 @@ public class TextNodeDrawer
     private readonly string _labelText;
 
     private string _validText;
-    
+
+    private readonly LineDrawer _lineDrawer;
     private readonly SerializedProperty _textNarrativeProperty;
     private readonly SimpleTextValidator _textValidator;
     private readonly SerializedObject _serializedObject;
@@ -26,12 +25,13 @@ public class TextNodeDrawer
         _callMethod = callMethod;
         _labelText = labelText;
         _maxCountSymbol = maxCountSymbol;
+        _lineDrawer = new LineDrawer();
     }
 
     public void DrawGUI()
     {
         _serializedObject.Update();
-        LineDrawer.DrawHorizontalLine(Color.green);
+        _lineDrawer.DrawHorizontalLine(Color.green);
         EditorGUILayout.LabelField(_labelText);
         EditorGUI.BeginChangeCheck();
         _validText = EditorGUILayout.TextArea(_validText, GUILayout.Height(50f), GUILayout.Width(150f));

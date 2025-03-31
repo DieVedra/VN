@@ -47,14 +47,16 @@ public class CharacterNodeDrawer : NodeEditor
     private CharacterNode _characterNode;
     private SimpleTextValidator _simpleTextValidator;
     private PopupDrawer _popupDrawer;
+    private LineDrawer _lineDrawer;
     private List<string> _namesCharactersToPopup;
     private string[] _namesLookCharactersToPopup;
     private string[] _namesEmotionsCharactersToPopup;
     public override void OnBodyGUI()
     {
-        _characterNode = target as CharacterNode;
-        if (_characterNode != null)
+        if (_characterNode == null)
         {
+            _characterNode = target as CharacterNode;
+            _lineDrawer = new LineDrawer();
             serializedObject.Update();
             TryInitProperty(ref _indexLookProperty, _indexLookNameProperty);
             TryInitProperty(ref _indexEmotionProperty, _indexEmotionNameProperty);
@@ -69,21 +71,18 @@ public class CharacterNodeDrawer : NodeEditor
             TryInitProperty(ref _directionCharacterProperty, _directionTypeNameProperty);
             TryInitProperty(ref _textCharacterProperty, _textNameProperty);
             TryInitProperty(ref _foldoutIsOpenProperty, _foldoutIsOpenNameProperty);
+        }
 
-
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
-            EditorGUI.BeginChangeCheck();
-
-            DrawTextField();
-            DrawLine();
-            DrawPopupCharacters();
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                serializedObject.ApplyModifiedProperties();
-                SetInfoToView();
-            }
+        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+        EditorGUI.BeginChangeCheck();
+        DrawTextField();
+        _lineDrawer.DrawHorizontalLine(Color.green);
+        DrawPopupCharacters();
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            SetInfoToView();
         }
     }
 
@@ -105,10 +104,6 @@ public class CharacterNodeDrawer : NodeEditor
         {
             EditorGUILayout.HelpBox("Размер строки превышен " , MessageType.Error);
         }
-    }
-    private void DrawLine()
-    {
-        LineDrawer.DrawHorizontalLine(Color.green);
     }
 
     private void DrawPopupCharacters()

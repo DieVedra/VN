@@ -32,6 +32,8 @@ public abstract class LevelEntryPoint : MonoBehaviour
 
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
+    protected abstract void InitGlobalSound();
+
     protected void InitBackground(SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
     {
         if (LoadSaveData == true)

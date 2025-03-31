@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -18,19 +19,22 @@ public class Sound : MonoBehaviour
     private readonly float _duration = 1f;
     private readonly float _stopEndValue = 0f;
     private readonly float _playEndValue = 1f;
-    private AudioEffectsHandler _audioEffectsHandler;
+    private AudioEffectsCustodian _audioEffectsCustodian;
     private ReactiveCommand _playEvent;
     private AudioSource[] _audioSources;
     [SerializeField, ReadOnly] protected List<AudioClip> AudioData;
     [SerializeField, ReadOnly] protected List<AudioClip> AdditionalAudioData;
-    [SerializeField, ReadOnly] protected GlobalAudioData GlobalAudioData;
+    [SerializeField, Expandable, ReadOnly] protected GlobalAudioData GlobalAudioData;
     
     public float PlayTime => _audioSource1.time;
     public float CurrentClipTime => _audioSource1.clip == null ? 0f : _audioSource1.clip.length;
     public int CurrentClipIndex { get; private set; }
     public int CurrentAdditionalClipIndex { get; private set; }
-    public AudioEffectsHandler AudioEffectsHandler => _audioEffectsHandler;
+    public SmoothAudio SmoothAudio { get; private set; }
+
+    public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
     public IReadOnlyList<AudioClip> Clips => AudioData;
+    public IReadOnlyList<AudioClip> AdditionalClips => AdditionalAudioData;
     public ReactiveCommand PlayEvent => _playEvent;
     public virtual void Init(bool soundOn = true)
     {
@@ -44,7 +48,8 @@ public class Sound : MonoBehaviour
         {
             _audioSource1.mute = true;
         }
-        _audioEffectsHandler = new AudioEffectsHandler(_mixer);
+        SmoothAudio = new SmoothAudio(_audioSources, AudioData, AdditionalAudioData);
+        _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
         _playEvent = new ReactiveCommand();
     }
 
@@ -57,26 +62,20 @@ public class Sound : MonoBehaviour
         _audioSource1.time = time;
     }
 
-    public void PlayAudioByIndex(int audioClipIndex)
+    public void PlayAudioByIndex(int audioClipIndex, int audioSourceIndex = 0)
     {
         CurrentClipIndex = audioClipIndex;
-        PlayAudioByClip(AudioData[audioClipIndex]);
+        PlayAudioByClip(AudioData[audioClipIndex], audioSourceIndex);
     }
-    
-    public void PlayAdditionalAudioByIndex(int audioClipIndex)
-    {
-        CurrentAdditionalClipIndex = audioClipIndex;
-        PlayAudioByClip(AdditionalAudioData[audioClipIndex], 1);
-    }
-
     public void SetVolume(float volume, int audioSourceIndex = 0)
     {
         _audioSources[audioSourceIndex].volume = volume;
     }
     public void PlayAudioByClip(AudioClip clip, int audioSourceIndex = 0)
     {
-        _playEvent.Execute();
+        // _playEvent.Execute();
         _audioSources[audioSourceIndex].clip = clip;
+
         _audioSources[audioSourceIndex].Play();
     }
     public void StopAudio()
@@ -85,28 +84,6 @@ public class Sound : MonoBehaviour
         _audioSource2.Stop();
         SetPlayTime(0f);
     }
-    public async UniTask SmoothStopAudio(CancellationToken cancellationToken, Action effectsOperation)
-    {
-        if (_audioSource1.clip != null)
-        {
-            await _audioSource1.DOFade(_stopEndValue, _duration).WithCancellation(cancellationToken);
-            effectsOperation?.Invoke();
-            _audioSource1.clip = null;
-        }
-    }
-    public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, Action effectsOperation = null, int secondAudioClipIndex = 0)
-    {
-        _audioSource1.volume = 0f;
-        PlayAudioByIndex(secondAudioClipIndex);
-        await _audioSource1.DOFade(_playEndValue, _duration).WithCancellation(cancellationToken);
-        effectsOperation?.Invoke();
-    }
-    public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, Action effectsOperation, int secondAudioClipIndex)
-    {
-        await SmoothStopAudio(cancellationToken, effectsOperation);
-        effectsOperation?.Invoke();
-        await SmoothPlayAudio(cancellationToken, effectsOperation, secondAudioClipIndex);
-    }
 
     public async UniTask SmoothPlayWardrobeAudio(CancellationToken cancellationToken)
     {
@@ -114,11 +91,9 @@ public class Sound : MonoBehaviour
         PlayAudioByClip(GlobalAudioData.GetWardrobeAudioClip);
         await _audioSource1.DOFade(_playEndValue, _duration).WithCancellation(cancellationToken);
     }
-    protected void AddAudioClips(IReadOnlyList<AudioClip> clips)
+    public void SetAudioDatas(List<AudioData> clips, List<AudioData> additionalClips)
     {
-        for (int i = 0; i < clips.Count; ++i)
-        {
-            AudioData.Add(clips[i]);
-        }
+        AudioData = clips.SelectMany(x=>x.Clips).ToList();
+        AdditionalAudioData = additionalClips.SelectMany(x=>x.Clips).ToList();
     }
 }

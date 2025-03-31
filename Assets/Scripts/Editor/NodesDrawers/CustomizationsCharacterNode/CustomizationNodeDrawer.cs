@@ -8,6 +8,7 @@ public class CustomizationNodeDrawer : NodeEditor
 {
     private CustomizationNode _customizationNode;
     private PopupDrawer _popupDrawer;
+    private LineDrawer _lineDrawer;
     private SerializedProperty _foldoutHairstyleIsOpenProperty;
     private SerializedProperty _foldoutClothesIsOpenProperty;
     private SerializedProperty _foldoutBodiesIsOpenProperty;
@@ -17,6 +18,9 @@ public class CustomizationNodeDrawer : NodeEditor
     private SerializedProperty _listSettingsHairstylesProperty;
     private SerializedProperty _listSettingsClothesProperty;
     private SerializedProperty _listSettingsSwimsuitsProperty;
+    
+    private SerializedProperty _inputSerializedProperty;
+    private SerializedProperty _outputSerializedProperty;
     private Vector2 pos;
     public override void OnBodyGUI()
     {
@@ -44,10 +48,15 @@ public class CustomizationNodeDrawer : NodeEditor
             _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
             _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
             _listSettingsSwimsuitsProperty = serializedObject.FindProperty("_settingsSwimsuits");
+            
+            _inputSerializedProperty = serializedObject.FindProperty("Input");
+            _outputSerializedProperty = serializedObject.FindProperty("Output");
+            
+            _lineDrawer = new LineDrawer();
         }
 
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+        NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
+        NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
 
         if (_listSettingsBodyProperty != null)
         {
@@ -85,7 +94,7 @@ public class CustomizationNodeDrawer : NodeEditor
             InvokeMethod(nameResetMethod);
         }
         EditorGUILayout.EndHorizontal();
-        LineDrawer.DrawHorizontalLine(Color.black);
+        _lineDrawer.DrawHorizontalLine(Color.black);
     }
     private void DrawCustomizationSettingsFields(SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
     {
@@ -106,7 +115,7 @@ public class CustomizationNodeDrawer : NodeEditor
                 keyAddSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyAdd");
                 showParamsKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowParams");
                 showStatKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowStats");
-                LineDrawer.DrawHorizontalLine(Color.green);
+                _lineDrawer.DrawHorizontalLine(Color.green);
                 EditorGUILayout.LabelField(nameLabel, GUILayout.Width(300f));
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.BeginHorizontal();

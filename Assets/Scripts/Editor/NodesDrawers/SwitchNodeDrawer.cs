@@ -9,6 +9,7 @@ using XNodeEditor;
 public class SwitchNodeDrawer : NodeEditor
 {
     private SwitchNode _switchNode;
+    private LineDrawer _lineDrawer;
     private MethodInfo _addStatPortMethod;
     private MethodInfo _removeStatPortMethod;
     private SerializedProperty _nodeForStatsKeySerializedProperty;
@@ -19,6 +20,7 @@ public class SwitchNodeDrawer : NodeEditor
         if (_switchNode == null)
         {
             _switchNode = target as SwitchNode;
+            _lineDrawer = new LineDrawer();
         }
         if (_nodeForStatsKeySerializedProperty == null)
         {
@@ -85,7 +87,7 @@ public class SwitchNodeDrawer : NodeEditor
             EditorGUILayout.LabelField("If Input True",GUILayout.Width(100f));
             NodeEditorGUILayout.PortField(new GUIContent($"Output True Bool Port"), _switchNode.GetOutputPort("OutputTrueBool"));
         }
-        LineDrawer.DrawHorizontalLine(Color.yellow);
+        _lineDrawer.DrawHorizontalLine(Color.yellow);
 
         if (_nodeForBoolSerializedProperty.boolValue == true)
         {

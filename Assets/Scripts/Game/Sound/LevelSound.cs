@@ -11,14 +11,10 @@ using UnityEngine.Audio;
 public class LevelSound : Sound
 {
     [SerializeField, Expandable] private List<AudioData> _audioDatas;
+    [SerializeField, Expandable] private List<AudioData> _additionalAudioDatas;
     public override void Init(bool soundOn)
     {
         base.Init(soundOn);
-        for (int i = 0; i < _audioDatas.Count; ++i)
-        {
-            AddAudioClips(_audioDatas[i].Clips);
-        }
+        SetAudioDatas(_audioDatas, _additionalAudioDatas);
     }
-
-    
 }

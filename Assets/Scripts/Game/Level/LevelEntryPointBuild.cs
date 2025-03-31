@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -8,7 +9,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField, ReadOnly] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField, ReadOnly] private BackgroundContent _wardrobeBackground;
 
-    [SerializeField, Expandable] protected AudioData _audioData;
+    [SerializeField, Expandable] private AudioData _audioData;
+    [SerializeField, Expandable] private AudioData _additionalAudioData;
     [Inject] private GlobalSound _globalSound;
     private async void Awake()
     {
@@ -36,16 +38,15 @@ public class LevelEntryPointBuild : LevelEntryPoint
             TestHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             GameStatsCustodian.Init(StoryData.Stats);
-            _globalSound.Init(SaveData.SoundIsOn);
-            _globalSound.SetAudioData(_audioData);
+            // _globalSound.Init(SaveData.SoundIsOn);
         }
         else
         {
             Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
-            _globalSound.Init();
-            _globalSound.SetAudioData(_audioData);
+            // _globalSound.Init();
         }
+        InitGlobalSound();
 
         OnSceneTransition = new ReactiveCommand();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -99,7 +100,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
             
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentClipIndex;
-            StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsHandler.LowPassEffectIsOn;
+            StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveService.Save(SaveData);
@@ -115,6 +116,19 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI);
+    }
+
+    protected override void InitGlobalSound()
+    {
+        if (LoadSaveData == true)
+        {
+            _globalSound.Init(SaveData.SoundIsOn);
+        }
+        else
+        {
+            _globalSound.Init();
+        }
+        _globalSound.SetAudioDatas(new List<AudioData> {_audioData}, new List<AudioData> {_additionalAudioData});
     }
 
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)

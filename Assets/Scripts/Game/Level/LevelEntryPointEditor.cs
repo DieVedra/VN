@@ -66,6 +66,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _levelSound.Init(true);
             _levelSound.SetGlobalSoundData(_globalAudioData);
         }
+
+        InitGlobalSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransition = new ReactiveCommand();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -116,7 +118,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
             StoryData.CurrentAudioClipIndex = _levelSound.CurrentClipIndex;
-            StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsHandler.LowPassEffectIsOn;
+            StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsCustodian.LowPassEffectIsOn;
             
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveService.Save(SaveData);
@@ -148,5 +150,18 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         }
+    }
+
+    protected override void InitGlobalSound()
+    {
+        if (LoadSaveData == true)
+        {
+            _levelSound.Init(SaveData.SoundIsOn);
+        }
+        else
+        {
+            _levelSound.Init(true);
+        }
+        _levelSound.SetGlobalSoundData(_globalAudioData);
     }
 }

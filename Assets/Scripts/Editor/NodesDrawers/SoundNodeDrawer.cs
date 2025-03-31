@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -17,17 +18,25 @@ public class SoundNodeDrawer : NodeEditor
     private SerializedProperty _smoothTransitionKeySerializedProperty;
     private SerializedProperty _smoothVolumeIncreaseSerializedProperty;
     private SerializedProperty _smoothVolumeDecreaseSerializedProperty;
-    private SerializedProperty _lowPassEffectSerializedProperty;
     private SerializedProperty _mergeSoundsKeySerializedProperty;
-    
+
+    private SerializedProperty _audioEffectsSerializedProperty;
+
+    private SerializedProperty _effectKeysSerializedProperty;
     private SerializedProperty _volumeSoundSerializedProperty;
     private SerializedProperty _volumeAdditionalSoundSerializedProperty;
     private MethodInfo _playAudioMethod;
     private MethodInfo _stopAudioMethod;
     private MethodInfo _setVolumeMethod;
     private MethodInfo _setAdditionalVolumeMethod;
+    
+    private MethodInfo _addEffectMethod;
+    private MethodInfo _removeEffectMethod;
+    private LineDrawer _lineDrawer;
     private float _sliderValue;
-
+    private int _currentEnumIndex;
+    private AudioEffect _audioEffect;
+    private string[] _namesEffects; 
     public override void OnBodyGUI()
     {
         if (_soundNode == null)
@@ -42,16 +51,13 @@ public class SoundNodeDrawer : NodeEditor
             _smoothVolumeIncreaseSerializedProperty = serializedObject.FindProperty("_isSmoothVolumeIncrease");
             _smoothVolumeDecreaseSerializedProperty = serializedObject.FindProperty("_isSmoothVolumeDecrease");
             _instantNodeTransitionSerializedProperty = serializedObject.FindProperty("_isInstantNodeTransition");
-            _lowPassEffectSerializedProperty = serializedObject.FindProperty("_lowPassEffectKey");
             _currentAdditionalSoundIndexSerializedProperty = serializedObject.FindProperty("_currentAdditionalSoundIndex");
             _mergeSoundsKeySerializedProperty = serializedObject.FindProperty("_mergeSoundsKey");
             _volumeSoundSerializedProperty = serializedObject.FindProperty("_volumeSound");
             _volumeAdditionalSoundSerializedProperty = serializedObject.FindProperty("_volumeAdditionalSound");
-
-            InitMethod(_playAudioMethod, "PlayAudio");
-            InitMethod(_stopAudioMethod, "StopAudio");
-            InitMethod(_setVolumeMethod, "SetVolume");
-            InitMethod(_setAdditionalVolumeMethod, "SetAdditionalVolume");
+            _audioEffectsSerializedProperty = serializedObject.FindProperty("_audioEffects");
+            _effectKeysSerializedProperty = serializedObject.FindProperty("_effectKeys");
+            _lineDrawer = new LineDrawer();
         }
         serializedObject.Update();
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
@@ -67,18 +73,20 @@ public class SoundNodeDrawer : NodeEditor
 
         DrawPlayerAndPopup();
 
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("LowPassEffect ", GUILayout.Width(100f));
-        _lowPassEffectSerializedProperty.boolValue =
-            EditorGUILayout.Toggle(_lowPassEffectSerializedProperty.boolValue);
-        EditorGUILayout.EndHorizontal();
+        // EditorGUI.BeginChangeCheck();
+        // EditorGUILayout.BeginHorizontal();
         
-        if (EditorGUI.EndChangeCheck())
-        {
-            _soundNode.Sound.AudioEffectsHandler.SetLowPassEffect(_lowPassEffectSerializedProperty.boolValue);
-        }
-
+        // EditorGUILayout.LabelField("LowPassEffect ", GUILayout.Width(100f));
+        // _lowPassEffectSerializedProperty.boolValue =
+        //     EditorGUILayout.Toggle(_lowPassEffectSerializedProperty.boolValue);
+        // EditorGUILayout.EndHorizontal();
+        //
+        //
+        // if (EditorGUI.EndChangeCheck())
+        // {
+        //     _soundNode.Sound.AudioEffectsCustodian.SetLowPassEffect(_lowPassEffectSerializedProperty.boolValue);
+        // }
+        DrawAddEffectsPanel();
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -97,7 +105,6 @@ public class SoundNodeDrawer : NodeEditor
             EditorGUILayout.LabelField(fieldName);
             serializedProperty3.boolValue = EditorGUILayout.Toggle(serializedProperty3.boolValue);
             EditorGUILayout.EndHorizontal();
-
         }
     }
 
@@ -107,20 +114,20 @@ public class SoundNodeDrawer : NodeEditor
         {
             if (_soundNode.Names != null)
             {
-                DrawPopupClips(_currentSoundIndexSerializedProperty, "Audio Clips: ");
-                DrawVolumeSlider(_volumeSoundSerializedProperty, _setVolumeMethod, "Volume: ");
-
+                DrawPopupClips(_soundNode.Names, _currentSoundIndexSerializedProperty, "Audio Clips: ");
+                DrawVolumeSlider(ref  _setVolumeMethod, _volumeSoundSerializedProperty, "SetVolume", "Volume: ");
                 _mergeSoundsKeySerializedProperty.boolValue =
                     EditorGUILayout.Toggle("MergeSounds: ",_mergeSoundsKeySerializedProperty.boolValue);
                 if (_mergeSoundsKeySerializedProperty.boolValue == true)
                 {
-                    DrawPopupClips(_currentAdditionalSoundIndexSerializedProperty, "Audio Clips: ");
+                    DrawPopupClips(_soundNode.AdditionalNames, _currentAdditionalSoundIndexSerializedProperty, "Additional Audio Clips: ");
+                    DrawVolumeSlider(ref _setAdditionalVolumeMethod, _volumeAdditionalSoundSerializedProperty, "SetAdditionalVolume", "Volume: ");
                 }
-
-
                 EditorGUI.BeginChangeCheck();
+                
+                EditorGUILayout.Space(25f);
+                EditorGUILayout.LabelField($"Play Time: {_sliderValue}");
                 _sliderValue = GUILayout.HorizontalSlider(_sliderValue, 0f, _soundNode.Sound.CurrentClipTime, GUILayout.Width(170f));
-
                 if (_soundNode.IsStarted)
                 {
                     if (EditorGUI.EndChangeCheck())
@@ -137,14 +144,12 @@ public class SoundNodeDrawer : NodeEditor
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Play"))
                 {
-                    // InitMethod(_playAudioMethod, "PlayAudio");
-                    _playAudioMethod.Invoke(_soundNode, null);
+                    InvokeMethod(ref _playAudioMethod, "PlayAudio");
                 }
 
                 if (GUILayout.Button("Stop"))
                 {
-                    // InitMethod(_stopAudioMethod, "StopAudio");
-                    _stopAudioMethod.Invoke(_soundNode, null);
+                    InvokeMethod(ref _stopAudioMethod, "StopAudio");
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -152,40 +157,92 @@ public class SoundNodeDrawer : NodeEditor
         }
     }
 
-    private void InitMethod(MethodInfo methodInfo, string name, Type parameterType = null)
+    private void InvokeMethod(ref MethodInfo methodInfo, string name, object[] parameter = null)
     {
         if (methodInfo == null)
         {
-            methodInfo =  _soundNode.GetType().GetMethod(name,
-                BindingFlags.NonPublic | BindingFlags.Instance,
-                types: new [] {parameterType},
-                modifiers: null,
-                binder: null);
+            methodInfo =  _soundNode.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
         }
+        else if (methodInfo == null)
+        {
+            methodInfo = _soundNode.GetType().GetMethods()
+                .FirstOrDefault(m => m.Name == name && m.GetParameters().Length == 1);
 
-        // if (methodInfo != null)
-        // {
-        //     methodInfo.Invoke(_soundNode, null );
-        // }
+        }
+        if (methodInfo != null)
+        {
+            methodInfo.Invoke(_soundNode, parameter);
+        }
     }
 
-    private void DrawPopupClips(SerializedProperty serializedProperty, string label)
+    private void DrawPopupClips(string[] names, SerializedProperty serializedProperty, string label)
     {
-        EditorGUILayout.LabelField("Audio Clips: ");
-        serializedProperty.intValue = EditorGUILayout.Popup(_currentSoundIndexSerializedProperty.intValue,  _soundNode.Names);
+        EditorGUILayout.LabelField(label);
+        serializedProperty.intValue = EditorGUILayout.Popup(serializedProperty.intValue,  names);
         EditorGUILayout.Space(10f);
     }
 
-    private void DrawVolumeSlider(SerializedProperty serializedProperty, MethodInfo methodInfo, string label)
+    private void DrawVolumeSlider(ref MethodInfo methodInfo, SerializedProperty serializedProperty, string nameMethod, string label)
     {
         EditorGUI.BeginChangeCheck();
         EditorGUILayout.LabelField(label);
         serializedProperty.floatValue = GUILayout.HorizontalSlider(serializedProperty.floatValue, 0f, 1f, GUILayout.Width(170f));
         if (EditorGUI.EndChangeCheck())
         {
-            methodInfo.Invoke(_soundNode, null);
+            InvokeMethod(ref methodInfo, nameMethod);
         }
+        EditorGUILayout.Space(25f);
+    }
+
+    private void DrawAddEffectsPanel()
+    {
         EditorGUILayout.Space(10f);
+        EditorGUILayout.BeginHorizontal();
+        _namesEffects = Enum.GetNames(typeof(AudioEffect));
+        _currentEnumIndex = EditorGUILayout.Popup(_currentEnumIndex, _namesEffects);
+
+        if (GUILayout.Button("Add") && _currentEnumIndex != 0)
+        {
+            AddEffect();
+        }
+        EditorGUILayout.EndHorizontal();
+
+        if (_audioEffectsSerializedProperty.arraySize > 0)
+        {
+            for (int i = 0; i < _audioEffectsSerializedProperty.arraySize; ++i)
+            {
+                DrawEffectField(_audioEffectsSerializedProperty.GetArrayElementAtIndex(i),
+                    _effectKeysSerializedProperty.GetArrayElementAtIndex(i),
+                    i);
+            }
+        }
+    }
+
+    private void DrawEffectField(SerializedProperty audioEffectsSerializedProperty, SerializedProperty effectKeysSerializedProperty, int currentIndex)
+    {
+        _audioEffect = (AudioEffect)audioEffectsSerializedProperty.enumValueIndex;
+        EditorGUILayout.LabelField($"Effect {_audioEffect.ToString()}");
+        EditorGUILayout.BeginHorizontal();
+
+        // EditorGUILayout.LabelField($"Effect {_audioEffect.ToString()}", GUILayout.Width(50f));
+
+        effectKeysSerializedProperty.boolValue = EditorGUILayout.Toggle("IsOn", effectKeysSerializedProperty.boolValue);
+        
+        if (GUILayout.Button("X"))
+        {
+            RemoveEffect(currentIndex);
+        }
+        EditorGUILayout.EndHorizontal();
+        _lineDrawer.DrawHorizontalLine(Color.cyan);
+    }
+    private void AddEffect()
+    {
+        InvokeMethod(ref _addEffectMethod, "AddEffect", new object[]{(AudioEffect)_currentEnumIndex});
+    }
+
+    private void RemoveEffect(int index)
+    {
+        InvokeMethod(ref _removeEffectMethod, "RemoveEffect", new object[]{index});
 
     }
 }

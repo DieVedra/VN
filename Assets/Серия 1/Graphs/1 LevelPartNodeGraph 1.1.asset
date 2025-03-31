@@ -878,7 +878,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3560, y: -1912}
+  position: {x: -3624, y: -2264}
   ports:
     keys:
     - Input
@@ -907,11 +907,16 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 1
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 0
   _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,11 +1098,16 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 0
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 1
   _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _mergeSoundsKey: 0
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &1513862931268629265
 MonoBehaviour:
   m_ObjectHideFlags: 0
