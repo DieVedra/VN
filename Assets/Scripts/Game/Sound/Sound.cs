@@ -12,45 +12,54 @@ using UnityEngine.Audio;
 
 public class Sound : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audioSource1;
-    [SerializeField] private AudioSource _audioSource2;
+    [SerializeField] private AudioSource _audioSourceMusic;
+    [SerializeField] private AudioSource _audioSourceAmbient;
 
     [SerializeField] protected AudioMixer _mixer;
-    private readonly float _duration = 1f;
-    private readonly float _stopEndValue = 0f;
-    private readonly float _playEndValue = 1f;
     private AudioEffectsCustodian _audioEffectsCustodian;
-    private ReactiveCommand _playEvent;
-    private AudioSource[] _audioSources;
-    [SerializeField, ReadOnly] protected List<AudioClip> AudioData;
-    [SerializeField, ReadOnly] protected List<AudioClip> AdditionalAudioData;
+    private ClipProvider _clipProvider;
+
+    // private ReactiveCommand _playEvent;
+    private Dictionary <AudioSourceType, AudioSource>  _audioSources;
+    [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
+    [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
     [SerializeField, Expandable, ReadOnly] protected GlobalAudioData GlobalAudioData;
     
-    public float PlayTime => _audioSource1.time;
-    public float CurrentClipTime => _audioSource1.clip == null ? 0f : _audioSource1.clip.length;
-    public int CurrentClipIndex { get; private set; }
+    public float PlayTimeMusic => _audioSourceMusic.time;
+    public float PlayTimeAmbient => _audioSourceAmbient.time;
+    public float VolumeMusic => _audioSourceMusic.volume;
+    public float VolumeAmbient => _audioSourceAmbient.volume;
+
+    public float CurrentMusicClipTime => _audioSourceMusic.clip == null ? 0f : _audioSourceMusic.clip.length;
+    public float CurrentAmbientClipTime => _audioSourceAmbient.clip == null ? 0f : _audioSourceAmbient.clip.length;
+    public int CurrentMusicClipIndex { get; private set; }
     public int CurrentAdditionalClipIndex { get; private set; }
     public SmoothAudio SmoothAudio { get; private set; }
 
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
-    public IReadOnlyList<AudioClip> Clips => AudioData;
-    public IReadOnlyList<AudioClip> AdditionalClips => AdditionalAudioData;
-    public ReactiveCommand PlayEvent => _playEvent;
+    public IReadOnlyList<AudioClip> Clips => MusicAudioData;
+    public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
+    // public ReactiveCommand PlayEvent => _playEvent;
     public virtual void Init(bool soundOn = true)
     {
-        _audioSources = new[] {_audioSource1, _audioSource2};
-        AudioData = new List<AudioClip>();
+        _audioSources = new Dictionary<AudioSourceType, AudioSource>()
+        {
+            {AudioSourceType.Music, _audioSourceMusic},
+            {AudioSourceType.Ambient, _audioSourceAmbient}
+        };
+        MusicAudioData = new List<AudioClip>();
         if (soundOn == true)
         {
-            _audioSource1.mute = false;
+            _audioSourceMusic.mute = false;
         }
         else
         {
-            _audioSource1.mute = true;
+            _audioSourceMusic.mute = true;
         }
-        SmoothAudio = new SmoothAudio(_audioSources, AudioData, AdditionalAudioData);
+        _clipProvider = new ClipProvider(ref MusicAudioData, ref AmbientAudioData);
+        SmoothAudio = new SmoothAudio(_audioSources, _clipProvider);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
-        _playEvent = new ReactiveCommand();
+        // _playEvent = new ReactiveCommand();
     }
 
     public void SetGlobalSoundData(GlobalAudioData globalAudioData)
@@ -59,41 +68,62 @@ public class Sound : MonoBehaviour
     }
     public void SetPlayTime(float time)
     {
-        _audioSource1.time = time;
+        _audioSourceMusic.time = time;
     }
 
-    public void PlayAudioByIndex(int audioClipIndex, int audioSourceIndex = 0)
+    public void PlayAudioByIndex(int audioClipIndex, AudioSourceType audioSourceType)
     {
-        CurrentClipIndex = audioClipIndex;
-        PlayAudioByClip(AudioData[audioClipIndex], audioSourceIndex);
+        switch (audioSourceType)
+        {
+            case AudioSourceType.Music:
+                CurrentMusicClipIndex = audioClipIndex;
+                break;
+            case AudioSourceType.Ambient:
+                CurrentAdditionalClipIndex = audioClipIndex;
+                break;
+        }
+        Debug.Log($"audioSourceType {audioSourceType}   audioClipIndex {audioClipIndex}");
+        PlayAudioByClip(_clipProvider.GetClip(audioSourceType, audioClipIndex), audioSourceType);
     }
-    public void SetVolume(float volume, int audioSourceIndex = 0)
+    public void SetVolume(float volume, AudioSourceType audioSourceType)
     {
-        _audioSources[audioSourceIndex].volume = volume;
+        _audioSources[audioSourceType].volume = volume;
     }
-    public void PlayAudioByClip(AudioClip clip, int audioSourceIndex = 0)
+    public void PlayAudioByClip(AudioClip clip, AudioSourceType audioSourceType)
     {
         // _playEvent.Execute();
-        _audioSources[audioSourceIndex].clip = clip;
-
-        _audioSources[audioSourceIndex].Play();
+        _audioSources[audioSourceType].clip = clip;
+        _audioSources[audioSourceType].Play();
     }
-    public void StopAudio()
+    public void StopAudio(AudioSourceType audioSourceType)
     {
-        _audioSource1.Stop();
-        _audioSource2.Stop();
-        SetPlayTime(0f);
+        _audioSources[audioSourceType].Stop();
+        _audioSources[audioSourceType].time = 0f;
     }
 
     public async UniTask SmoothPlayWardrobeAudio(CancellationToken cancellationToken)
     {
-        _audioSource1.volume = 0f;
-        PlayAudioByClip(GlobalAudioData.GetWardrobeAudioClip);
-        await _audioSource1.DOFade(_playEndValue, _duration).WithCancellation(cancellationToken);
+        await SmoothAudio.SmoothPlayWardrobeAudio(GlobalAudioData.GetWardrobeAudioClip, cancellationToken);
     }
-    public void SetAudioDatas(List<AudioData> clips, List<AudioData> additionalClips)
+    public void SetAudioDatas(List<AudioData> musicClips, List<AudioData> ambientClips)
     {
-        AudioData = clips.SelectMany(x=>x.Clips).ToList();
-        AdditionalAudioData = additionalClips.SelectMany(x=>x.Clips).ToList();
+        for (int i = 0; i < musicClips.Count; ++i)
+        {
+            AddClips(ref MusicAudioData, musicClips[i].Clips);
+        }
+
+        for (int i = 0; i < ambientClips.Count; i++)
+        {
+            AddClips(ref AmbientAudioData, ambientClips[i].Clips);
+
+        }
+    }
+
+    private void AddClips(ref List<AudioClip> musicAudioData, IReadOnlyList<AudioClip> clips)
+    {
+        for (int i = 0; i < clips.Count; i++)
+        {
+            musicAudioData.Add(clips[i]);
+        }
     }
 }

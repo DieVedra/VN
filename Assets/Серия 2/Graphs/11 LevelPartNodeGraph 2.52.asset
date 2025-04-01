@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2648, y: -2808}
+  position: {x: -2744, y: -2696}
   ports:
     keys:
     - Input
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2600, y: -3112}
+  position: {x: -2536, y: -3176}
   ports:
     keys:
     - Input
@@ -738,11 +738,19 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 4
+  _currentAdditionalSoundIndex: 0
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 1
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 0
-  _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 0
+  _mergeSoundsKey: 0
+  _audioEffects: 01000000
+  _effectKeys: 00
 --- !u!114 &1947824207352610372
 MonoBehaviour:
   m_ObjectHideFlags: 0

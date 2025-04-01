@@ -80,7 +80,7 @@ public class CustomizationNode : BaseNode
     {
         CancellationTokenSource = new CancellationTokenSource();
         await UniTask.WhenAll(
-            _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token),
+            _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music),
             _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
             _customizationCharacterPanelUIHandler.ButtonPlayHandler.OffAnim());
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();

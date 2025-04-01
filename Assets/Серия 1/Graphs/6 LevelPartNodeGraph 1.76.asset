@@ -858,7 +858,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 23479.766, y: 1337.6013}
+  position: {x: 23512, y: 1208}
   ports:
     keys:
     - Input
@@ -887,11 +887,19 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 0
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 1
-  _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 1
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &-3007996785440353112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1493,7 +1501,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 16517.91, y: -39.237267}
+  position: {x: 16520, y: -40}
   ports:
     keys:
     - Input

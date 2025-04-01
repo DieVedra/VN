@@ -1221,11 +1221,19 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 0
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 1
-  _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 1
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &-2132678835900812531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,7 +1293,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1896, y: -2296}
+  position: {x: 1992, y: -2440}
   ports:
     keys:
     - Input
@@ -1317,11 +1325,19 @@ MonoBehaviour:
       _dynamic: 0
   namenode: sound
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _isInstantNodeTransition: 1
+  _volumeSound: 0.64375
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 0
   _isSmoothVolumeIncrease: 1
   _isSmoothVolumeDecrease: 0
-  _isInstantNodeTransition: 1
-  _lowPassEffectKey: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 1
+  _isSmoothVolumeDecreaseAdditionalSound: 0
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &-1153319412353954978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4711,7 +4727,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1992, y: -1816}
+  position: {x: 1912, y: -1864}
   ports:
     keys:
     - Input
@@ -4907,7 +4923,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 8715.095, y: -1377.2773}
+  position: {x: 8712, y: -1384}
   ports:
     keys:
     - Input
@@ -5131,7 +5147,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 5945.0947, y: -1506.8124}
+  position: {x: 5944, y: -1512}
   ports:
     keys:
     - Input

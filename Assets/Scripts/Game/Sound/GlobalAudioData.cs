@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "GlobalAudioData", menuName = "AudioData/GlobalAudioData", order = 51)]
+[CreateAssetMenu(fileName = "GlobalAudioData", menuName = "MusicAudioData/GlobalAudioData", order = 51)]
 
 public class GlobalAudioData : ScriptableObject
 {

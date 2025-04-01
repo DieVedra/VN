@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -11,36 +10,93 @@ public class SmoothAudio
     private readonly float _duration = 1f;
     private readonly float _stopEndValue = 0f;
     private readonly float _playEndValue = 1f;
-    private readonly AudioSource[] _audioSources;
-    private readonly IReadOnlyList<AudioClip> _audioData;
-    private readonly IReadOnlyList<AudioClip> _additionalAudioData;
-
-    public event Action<AudioClip, int> OnPlayAudioByClip;
-    public SmoothAudio(AudioSource[] audioSources, IReadOnlyList<AudioClip> audioData, IReadOnlyList<AudioClip> additionalAudioData)
+    private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
+    private readonly IReadOnlyList<AudioClip> _musicAudioData;
+    private readonly IReadOnlyList<AudioClip> _ambientAudioData;
+    private readonly ClipProvider _clipProvider;
+    public SmoothAudio(Dictionary<AudioSourceType, AudioSource> audioSources, ClipProvider clipProvider)
     {
         _audioSources = audioSources;
-        _audioData = audioData;
-        _additionalAudioData = additionalAudioData;
+        _clipProvider = clipProvider;
     }
 
-    public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, int secondAudioClipIndex, int audioSourceIndex)
+    public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
     {
-        await SmoothStopAudio(cancellationToken, audioSourceIndex);
-        await SmoothPlayAudio(cancellationToken, secondAudioClipIndex, audioSourceIndex);
+        await SmoothStopAudio(cancellationToken, audioSourceType);
+        await SmoothPlayAudio(cancellationToken, secondAudioClipIndex, audioSourceType);
     }
-    public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, int secondAudioClipIndex, int audioSourceIndex)
+    public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
     {
-        _audioSources[audioSourceIndex].volume = 0f;
-        _audioSources[audioSourceIndex].clip = audioSourceIndex == 0 ? _audioData[secondAudioClipIndex] : _additionalAudioData[secondAudioClipIndex];
-        _audioSources[audioSourceIndex].Play();
-        await _audioSources[audioSourceIndex].DOFade(_playEndValue, _duration).WithCancellation(cancellationToken);
+        MinVolume(audioSourceType);
+        SetClip(_clipProvider.GetClip(audioSourceType, secondAudioClipIndex), audioSourceType);
+        _audioSources[audioSourceType].clip = (int)audioSourceType == 0 ? _musicAudioData[secondAudioClipIndex] : _ambientAudioData[secondAudioClipIndex];
+        _audioSources[audioSourceType].Play();
+        await Fade(cancellationToken, _playEndValue, _duration, audioSourceType);
     }
-    public async UniTask SmoothStopAudio(CancellationToken cancellationToken, int audioSourceIndex = 0)
+    public async UniTask SmoothStopAudio(CancellationToken cancellationToken, AudioSourceType audioSourceType)
     {
-        if (_audioSources[audioSourceIndex].clip != null)
+        if (_audioSources[audioSourceType].clip != null)
         {
-            await _audioSources[audioSourceIndex].DOFade(_stopEndValue, _duration).WithCancellation(cancellationToken);
-            _audioSources[audioSourceIndex].clip = null;
+            await Fade(cancellationToken, _stopEndValue, _duration, audioSourceType);
+            _audioSources[audioSourceType].clip = null;
         }
+    }
+    public async UniTask SmoothPlayWardrobeAudio(AudioClip audioClip, CancellationToken cancellationToken)
+    {
+        MinVolume(AudioSourceType.Music);
+        SetClip(audioClip, AudioSourceType.Music);
+        await Fade(cancellationToken, _playEndValue, _duration, AudioSourceType.Music);
+    }
+
+    public async UniTask SmoothVolumeChange(CancellationToken cancellationToken, float volume, AudioSourceType audioSourceType)
+    {
+        switch (audioSourceType)
+        {
+            case AudioSourceType.Music:
+                await Fade(cancellationToken, volume, CalculateDuration(_audioSources[audioSourceType].volume, volume), audioSourceType);
+                break;
+            case AudioSourceType.Ambient:
+                await Fade(cancellationToken, volume, CalculateDuration(_audioSources[audioSourceType].volume, volume), audioSourceType);
+                break;
+        }
+    }
+
+    private bool CheckVolume(AudioSource audioSource, float volume)
+    {
+        if ((Math.Abs(audioSource.volume - volume) > 0.05f) == false)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private async UniTask Fade(CancellationToken cancellationToken, float endValue, float duration, AudioSourceType audioSourceType)
+    {
+        await _audioSources[audioSourceType].DOFade(endValue, duration).WithCancellation(cancellationToken);
+    }
+
+    private void SetClip(AudioClip audioClip, AudioSourceType audioSourceType)
+    {
+        switch (audioSourceType)
+        {
+            case AudioSourceType.Music:
+                _audioSources[audioSourceType].clip = audioClip;
+                break;
+            case AudioSourceType.Ambient:
+                _audioSources[audioSourceType].clip = audioClip;
+                break;
+        }
+    }
+    private void MinVolume(AudioSourceType audioSourceType)
+    {
+        _audioSources[audioSourceType].volume = 0f;
+    }
+
+    private float CalculateDuration(float currentVolume, float targetVolume)
+    {
+        float section = Math.Abs(currentVolume - targetVolume);
+        return Mathf.Lerp(0f, _duration, section);
     }
 }

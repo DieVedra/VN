@@ -99,7 +99,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
             
-            StoryData.CurrentAudioClipIndex = _globalSound.CurrentClipIndex;
+            StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
