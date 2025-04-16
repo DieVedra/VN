@@ -18,13 +18,13 @@ public class SeriaNodeGraphsHandler : ScriptableObject
         CurrentNodeGraphIndex = currentNodeGraphIndex;
         _nodeGraphInitializer.SwitchToNextNodeEvent.Subscribe(MoveNext);
         _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Subscribe(SwitchToAnotherNodeGraph);
-        if (Application.isPlaying == true)
+        if (_seriaPartNodeGraphs.Count > 0)
         {
-            InitCurrentGraph(currentNodeIndex);
-        }
-        else
-        {
-            if (_seriaPartNodeGraphs.Count > 0)
+            if (Application.isPlaying == true)
+            {
+                InitCurrentGraph(currentNodeIndex);
+            }
+            else
             {
                 for (int i = 0; i < _seriaPartNodeGraphs.Count; i++)
                 {
@@ -32,7 +32,6 @@ public class SeriaNodeGraphsHandler : ScriptableObject
                 }
             }
         }
-        
     }
 
     public void Dispose()

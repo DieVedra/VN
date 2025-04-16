@@ -22,9 +22,18 @@ public class GameSeriesHandler : MonoBehaviour
         _switchToNextSeriaEvent.Subscribe(SwitchSeria);
         _currentSeriaIndex = currentSeriaIndex;
         _nodeGraphInitializer = nodeGraphInitializer;
-        InitCurrentSeria(currentNodeGraphIndex, currentNodeIndex);
-        
-        
+        if (Application.isPlaying == false)
+        {
+            for (int i = 0; i < _seriaNodeGraphsHandlers.Count; i++)
+            {
+                InitSeria(i, currentNodeGraphIndex, currentNodeIndex);
+
+            }
+        }
+        else
+        {
+            InitSeria(_currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        }
     }
 
     public void Dispose()
@@ -39,16 +48,16 @@ public class GameSeriesHandler : MonoBehaviour
         _seriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
     }
 
-    private void InitCurrentSeria(int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+    private void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaNodeGraphsHandlers[_currentSeriaIndex].Construct(_nodeGraphInitializer, currentNodeGraphIndex, currentNodeIndex);
+        _seriaNodeGraphsHandlers[currentSeriaIndex].Construct(_nodeGraphInitializer, currentNodeGraphIndex, currentNodeIndex);
     }
     private void SwitchSeria(bool putSwimsuits = false)
     {
         if (_currentSeriaIndex < _seriaNodeGraphsHandlers.Count - 1)
         {
             _currentSeriaIndex++;
-            InitCurrentSeria();
+            InitSeria(_currentSeriaIndex);
         }
         else
         {

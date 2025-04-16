@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -66,7 +65,6 @@ public class SpriteViewer : MonoBehaviour
     }
     public void ResetCharacterView()
     {
-        // transform.localPosition = _customizationPosition;
         _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameAddLookFloatProperty, 0f);
         _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameAddEmotionFloatProperty, 0f);
         _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameAddHairstyleFloatProperty, 0f);

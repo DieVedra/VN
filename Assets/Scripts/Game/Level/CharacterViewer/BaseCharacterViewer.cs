@@ -1,7 +1,4 @@
-﻿
-
-using NaughtyAttributes;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class BaseCharacterViewer : MonoBehaviour
 {

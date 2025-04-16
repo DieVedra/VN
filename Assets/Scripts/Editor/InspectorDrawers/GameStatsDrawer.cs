@@ -9,6 +9,7 @@ public class GameStatsDrawer : Editor
 {
     private string _nameField;
     private Color _colorField;
+    private LineDrawer _lineDrawer;
     private GameStatsCustodian _gameStatsCustodian;
     private SerializedProperty _listStatsProperty;
     private SerializedProperty _serializedProperty;
@@ -21,6 +22,7 @@ public class GameStatsDrawer : Editor
     private void OnEnable()
     {
         _gameStatsCustodian = target as GameStatsCustodian;
+        _lineDrawer = new LineDrawer();
         _listStatsProperty = serializedObject.FindProperty($"_stats");
         _addNewStatMethod = _gameStatsCustodian.GetType().GetMethod("AddNewStat", BindingFlags.NonPublic | BindingFlags.Instance);
         _removeStat = _gameStatsCustodian.GetType().GetMethod("RemoveStat", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -84,7 +86,7 @@ public class GameStatsDrawer : Editor
     private void DrawAdd()
     {
         _guiStyle = new GUIStyle(GUI.skin.label);
-        LineDrawer.DrawHorizontalLine(Color.red);
+        _lineDrawer.DrawHorizontalLine(Color.red);
         DrawField("Add Stat: ", _guiStyle, 80f, 1, FontStyle.Bold);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();

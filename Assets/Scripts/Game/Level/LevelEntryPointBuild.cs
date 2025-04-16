@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -8,25 +9,17 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField, ReadOnly] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField, ReadOnly] private BackgroundContent _wardrobeBackground;
 
-    [SerializeField, Expandable] protected AudioData _audioData;
+    [SerializeField, Expandable] private AudioData _audioData;
+    [SerializeField, Expandable] private AudioData _additionalAudioData;
     [Inject] private GlobalSound _globalSound;
-    private SwitchToNextNodeEvent _switchToNextNodeEvent;
-    private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> _switchToAnotherNodeGraphEvent;
-    private DisableNodesContentEvent _disableNodesContentEvent;
-    private NodeGraphInitializer _nodeGraphInitializer;
-    private LevelUIProvider _levelUIProvider;
-    private Wallet _wallet;
-    private SaveData _saveData;
-    private StoryData _storyData;
-    private ReactiveCommand _onSceneTransition;
     private async void Awake()
     {
         Init();
-        _onSceneTransition.Subscribe(_ =>
+        OnSceneTransition.Subscribe(_ =>
         {
             CharacterViewer.Dispose();
             GameSeriesHandler.Dispose();
-            _levelUIProvider.Dispose();
+            LevelUIProvider.Dispose();
             EventSystem.gameObject.SetActive(false);
             Save();
         });
@@ -39,51 +32,50 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _saveData = SaveServiceProvider.SaveData;
-            _storyData = _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-            TestMonets = _saveData.Monets;
-            TestHearts = _saveData.Hearts;
-            _wallet = new Wallet(_saveData);
-            GameStatsCustodian.Init(_storyData.Stats);
-            _globalSound.Init(_saveData.SoundIsOn);
-            _globalSound.SetAudioData(_audioData);
+            SaveData = SaveServiceProvider.SaveData;
+            StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+            TestMonets = SaveData.Monets;
+            TestHearts = SaveData.Hearts;
+            Wallet = new Wallet(SaveData);
+            GameStatsCustodian.Init(StoryData.Stats);
+            // _globalSound.Init(SaveData.SoundIsOn);
         }
         else
         {
-            _wallet = new Wallet(TestMonets, TestHearts);
+            Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
-            _globalSound.Init();
-            _globalSound.SetAudioData(_audioData);
+            // _globalSound.Init();
         }
+        InitGlobalSound();
 
-        _onSceneTransition = new ReactiveCommand();
-        _switchToNextNodeEvent = new SwitchToNextNodeEvent();
-        _switchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
-        _disableNodesContentEvent = new DisableNodesContentEvent();
+        OnSceneTransition = new ReactiveCommand();
+        SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
+        SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
+        DisableNodesContentEvent = new DisableNodesContentEvent();
 
         InitLevelUIProvider();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode();
-        CharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorBuildMode);
+        CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
 
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
-        InitBackground(spriteRendererCreator);
+        InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        _nodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background,
-            _levelUIProvider,
+        NodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background,
+            LevelUIProvider,
             CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _globalSound, GameStatsCustodian,
-            _wallet,
-            _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent, _disableNodesContentEvent, SwitchToNextSeriaEvent);
+            Wallet,
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
-        if (_saveData == null)
+        if (SaveData == null)
         {
-            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent);
+            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
 
         }
         else
         {
-            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent,
-                _storyData.CurrentNodeGraphIndex, _storyData.CurrentNodeIndex);
+            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
+                StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
 
 
@@ -93,7 +85,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         CharacterViewer.Dispose();
         GameSeriesHandler.Dispose();
-        _levelUIProvider.Dispose();
+        LevelUIProvider.Dispose();
         EventSystem.gameObject.SetActive(false);
         Save();
     }
@@ -102,11 +94,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _storyData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
-            _storyData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
-            _storyData.Stats = GameStatsCustodian.GetSaveStatsToSave();
-            _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = _storyData;
-            SaveServiceProvider.SaveService.Save(_saveData);
+            StoryData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
+            StoryData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
+            StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
+            StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
+            
+            StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
+            StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
+
+            SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
+            SaveServiceProvider.SaveService.Save(SaveData);
         }
     }
 
@@ -117,24 +114,33 @@ public class LevelEntryPointBuild : LevelEntryPoint
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
-        _levelUIProvider = new LevelUIProvider(LevelUIView, _wallet, _onSceneTransition, _disableNodesContentEvent,
-            _switchToNextNodeEvent, customizationCharacterPanelUI);
+        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI);
+    }
+
+    protected override void InitGlobalSound()
+    {
+        if (LoadSaveData == true)
+        {
+            _globalSound.Init(SaveData.SoundIsOn);
+        }
+        else
+        {
+            _globalSound.Init();
+        }
+        _globalSound.SetAudioDatas(new List<AudioData> {_audioData}, new List<AudioData> {_additionalAudioData});
     }
 
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)
     {
         if (Application.isPlaying)
         {
-            Destroy(_wardrobeCharacterViewer.gameObject);
+            // Destroy(_wardrobeCharacterViewer.gameObject);
 
             _wardrobeCharacterViewer =
                 PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);
-            _wardrobeCharacterViewer.Construct(_disableNodesContentEvent, viewerCreator);
+            _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreator);
+            PrefabsProvider.SpriteViewerAssetProvider.UnloadAsset();
         }
-    }
-
-    protected override void InitBackground(SpriteRendererCreator spriteRendererCreator)
-    {
-        Background.Construct(_disableNodesContentEvent, CharacterViewer, spriteRendererCreator, _wardrobeBackground);
     }
 }

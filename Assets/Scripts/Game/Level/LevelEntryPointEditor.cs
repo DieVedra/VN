@@ -10,19 +10,19 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
     [SerializeField] private SpriteRenderer _spriteRendererPrefab;
-
+    [SerializeField] private GlobalAudioData _globalAudioData;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
-    private SwitchToNextNodeEvent _switchToNextNodeEvent;
-    private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> _switchToAnotherNodeGraphEvent;
-    private DisableNodesContentEvent _disableNodesContentEvent;
+    // private SwitchToNextNodeEvent SwitchToNextNodeEvent;
+    // private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
+    // private DisableNodesContentEvent DisableNodesContentEvent;
 
-    private NodeGraphInitializer _nodeGraphInitializer;
-    private LevelUIProvider _levelUIProvider;
-    private Wallet _wallet;
-    private SaveData _saveData;
-    private StoryData _storyData;
-    private ReactiveCommand _onSceneTransition;
+    // private NodeGraphInitializer NodeGraphInitializer;
+    // private LevelUIProvider LevelUIProvider;
+    // private Wallet Wallet;
+    // private SaveData SaveData;
+    // private StoryData StoryData;
+    // private ReactiveCommand OnSceneTransition;
 
     public bool InitializeInEditMode => _initializeInEditMode;
 
@@ -33,11 +33,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
             await PrefabsProvider.Init();
         }
         Init();
-        _onSceneTransition.Subscribe(_ =>
+        OnSceneTransition.Subscribe(_ =>
         {
             CharacterViewer.Dispose();
             GameSeriesHandler.Dispose();
-            _levelUIProvider.Dispose();
+            LevelUIProvider.Dispose();
             EventSystem.gameObject.SetActive(false);
             Save();
         });
@@ -50,47 +50,51 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _saveData = SaveServiceProvider.SaveData;
-            _storyData = _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-            TestMonets = _saveData.Monets;
-            TestHearts = _saveData.Hearts;
-            _wallet = new Wallet(_saveData);
-            GameStatsCustodian.Init(_storyData.Stats);
-            _levelSound.Init(_saveData.SoundIsOn);
+            SaveData = SaveServiceProvider.SaveData;
+            StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+            TestMonets = SaveData.Monets;
+            TestHearts = SaveData.Hearts;
+            Wallet = new Wallet(SaveData);
+            GameStatsCustodian.Init(StoryData.Stats);
+            _levelSound.Init(SaveData.SoundIsOn);
+            _levelSound.SetGlobalSoundData(_globalAudioData);
         }
         else
         {
-            _wallet = new Wallet(TestMonets, TestHearts);
+            Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
-            _levelSound.Init();
+            _levelSound.Init(true);
+            _levelSound.SetGlobalSoundData(_globalAudioData);
         }
+
+        InitGlobalSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-        _onSceneTransition = new ReactiveCommand();
-        _switchToNextNodeEvent = new SwitchToNextNodeEvent();
-        _switchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
-        _disableNodesContentEvent = new DisableNodesContentEvent();
+        OnSceneTransition = new ReactiveCommand();
+        SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
+        SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
+        DisableNodesContentEvent = new DisableNodesContentEvent();
         InitLevelUIProvider();
 
         ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
-        CharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorEditMode);
+        CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
-        InitBackground(spriteRendererCreator);
+        InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        _nodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background, _levelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _levelSound, GameStatsCustodian, _wallet,
-            _switchToNextNodeEvent, _switchToAnotherNodeGraphEvent, _disableNodesContentEvent, SwitchToNextSeriaEvent);
+        NodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background, LevelUIProvider,
+            CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _levelSound, GameStatsCustodian, Wallet,
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
-        if (_saveData == null)
+        if (SaveData == null)
         {
-            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent);
+            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
 
         }
         else
         {
-            GameSeriesHandler.Construct(_nodeGraphInitializer, SwitchToNextSeriaEvent,
-                _storyData.CurrentNodeGraphIndex, _storyData.CurrentNodeIndex);
+            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
+                StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
 
         
@@ -100,7 +104,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         CharacterViewer.Dispose();
         GameSeriesHandler.Dispose();
-        _levelUIProvider.Dispose();
+        LevelUIProvider.Dispose();
         EventSystem.gameObject.SetActive(false);
         Save();
     }
@@ -109,18 +113,22 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _storyData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
-            _storyData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
-            _storyData.Stats = GameStatsCustodian.GetSaveStatsToSave();
-            _saveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = _storyData;
-            SaveServiceProvider.SaveService.Save(_saveData);
+            StoryData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
+            StoryData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
+            StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
+            StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
+            StoryData.CurrentAudioClipIndex = _levelSound.CurrentMusicClipIndex;
+            StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsCustodian.LowPassEffectIsOn;
+            
+            SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
+            SaveServiceProvider.SaveService.Save(SaveData);
         }
     }
     private void InitLevelUIProvider()
     {
         CustomizationCharacterPanelUI customizationCharacterPanelUI;
         customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
-        _levelUIProvider = new LevelUIProvider(LevelUIView, _wallet, _onSceneTransition, _disableNodesContentEvent, _switchToNextNodeEvent, customizationCharacterPanelUI);
+        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
@@ -135,18 +143,25 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
             _wardrobeCharacterViewer =
                 PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);
-            _wardrobeCharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorEditMode);
+            _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
             PrefabsProvider.SpriteViewerAssetProvider.UnloadAsset();
         }
         else
         {
-            _wardrobeCharacterViewer.Construct(_disableNodesContentEvent, viewerCreatorEditMode);
+            _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         }
     }
 
-    protected override void InitBackground(SpriteRendererCreator spriteRendererCreator)
+    protected override void InitGlobalSound()
     {
-        Background.Construct(_disableNodesContentEvent, CharacterViewer, spriteRendererCreator, _wardrobeBackground);
-
+        if (LoadSaveData == true)
+        {
+            _levelSound.Init(SaveData.SoundIsOn);
+        }
+        else
+        {
+            _levelSound.Init(true);
+        }
+        _levelSound.SetGlobalSoundData(_globalAudioData);
     }
 }

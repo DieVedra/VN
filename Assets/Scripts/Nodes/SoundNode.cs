@@ -1,83 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 
 [NodeTint("#00536A"), NodeWidth(200)]
 public class SoundNode : BaseNode
 {
-    [SerializeField, HideInInspector] private int _currentSoundIndex;
-    [SerializeField, HideInInspector] private bool _smoothTransitionKey;
-    [SerializeField, HideInInspector] private bool _isSmoothVolumeIncrease;
-    [SerializeField, HideInInspector] private bool _isSmoothVolumeDecrease;
-    [SerializeField, HideInInspector] private bool _isInstantNodeTransition;
-    [SerializeField, HideInInspector] private bool _lowPassEffectKey;
-    
-    private Sound _sound;
-    private string[] _names;
-    private bool _isStarted;
-    public IReadOnlyList<AudioClip> Clips => _sound.Clips;
-    public Sound Sound => _sound;
-    public string[] Names => _names;
+    [SerializeField, HideInInspector] private int _currentMusicSoundIndex;
+    [SerializeField, HideInInspector] private int _currentAmbientSoundIndex;
 
-    public bool IsStarted => _isStarted;
+    [SerializeField, HideInInspector] private bool _isInstantNodeTransition;
+    
+    [SerializeField, HideInInspector] private float _volumeMusicSound = 1f;
+    [SerializeField, HideInInspector] private float _volumeAmbientSound = 1f;
+
+    [SerializeField, HideInInspector] private bool _smoothMusicTransitionKey;
+    [SerializeField, HideInInspector] private bool _isMusicSmoothVolumeIncrease;
+    [SerializeField, HideInInspector] private bool _isMusicSmoothVolumeDecrease;
+
+    [SerializeField, HideInInspector] private bool _smoothTransitionKeyAmbientSound;
+    [SerializeField, HideInInspector] private bool _isSmoothVolumeIncreaseAmbientSound;
+    [SerializeField, HideInInspector] private bool _isSmoothVolumeDecreaseAmbientSound;
+    
+    [SerializeField, HideInInspector] private bool _showMusicSoundsKey;
+    [SerializeField, HideInInspector] private bool _showAmbientSoundsKey;
+    [SerializeField, HideInInspector] private bool _showEffectsKey;
+
+    [SerializeField] private List<AudioEffect> _audioEffects;
+    [SerializeField] private List<bool> _effectKeys;
+
+    private Sound _sound;
+    private TaskRunner _taskRunner;
+    private bool _startedPlayMusicPlayMusic;
+    private bool _startedPlayAmbient;
+    public Sound Sound => _sound;
+    public string[] Names { get; private set; }
+    public string[] AmbientNames { get; private set; }
+
+    public bool StartedPlayMusic => _startedPlayMusicPlayMusic;
+    public bool StartedPlayAmbient => _startedPlayAmbient;
 
     public void ConstructMySoundNode(Sound sound)
     {
         _sound = sound;
-        _isStarted = false;
-        InitNames();
-        _sound.PlayEvent.Subscribe(_=>
-        {
-            StopAudio();
-        });
+        _startedPlayMusicPlayMusic = false;
+        _startedPlayAmbient = false;
+        _taskRunner = new TaskRunner();
+        Names = _sound.Clips.Select(x => x.name.MyCutString(0,1, separator: '_')).ToArray();
+        AmbientNames = _sound.AmbientClips.Select(x => x.name).ToArray();
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-
+        ChangeSound(_smoothMusicTransitionKey, _isMusicSmoothVolumeIncrease, _isMusicSmoothVolumeDecrease, _currentMusicSoundIndex,
+            AudioSourceType.Music);
+        ChangeSound(_smoothTransitionKeyAmbientSound, _isSmoothVolumeIncreaseAmbientSound, _isSmoothVolumeDecreaseAmbientSound,
+            _currentAmbientSoundIndex, AudioSourceType.Ambient);
+        TryPushEffects();
         if (_isInstantNodeTransition == false)
         {
-            if (_smoothTransitionKey == true && _isStarted == false)
-            {
-                _isStarted = true;
-                await _sound.SmoothReplacementAudio(CancellationTokenSource.Token, GetEffectsOperations() ,_currentSoundIndex);
-            }
-            else if (_isSmoothVolumeIncrease == true)
-            {
-                await _sound.SmoothPlayAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex);
-            }
-            else if (_isSmoothVolumeDecrease == true)
-            {
-                await _sound.SmoothStopAudio(CancellationTokenSource.Token, GetEffectsOperations());
-            }
-            else
-            {
-                await _sound.AudioEffectsHandler.SetLowPassEffectSmooth(CancellationTokenSource.Token, _lowPassEffectKey);
-            }
+            await _taskRunner.TryRunTasks();
         }
         else
         {
-            if (_smoothTransitionKey == true && _isStarted == false)
-            {
-                _isStarted = true;
-                _sound.SmoothReplacementAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex).Forget();
-            }
-            else if (_isSmoothVolumeIncrease == true)
-            {
-                _sound.SmoothPlayAudio(CancellationTokenSource.Token, GetEffectsOperations(), _currentSoundIndex).Forget();
-            }
-            else if (_isSmoothVolumeDecrease == true)
-            {
-                _sound.SmoothStopAudio(CancellationTokenSource.Token, GetEffectsOperations()).Forget();
-            }
-            else
-            {
-                await _sound.AudioEffectsHandler.SetLowPassEffectSmooth(CancellationTokenSource.Token, _lowPassEffectKey);
-            }
+            _taskRunner.TryRunTasks().Forget();
         }
         if (isMerged == false)
         {
@@ -85,29 +74,116 @@ public class SoundNode : BaseNode
         }
     }
 
-    private void InitNames()
+    private void PlayMusicAudio()
     {
-        _names = new string[Clips.Count];
-        for (int i = 0; i < Clips.Count; i++)
+        _startedPlayMusicPlayMusic = true;
+        _sound.PlayAudioByIndex(_currentMusicSoundIndex, AudioSourceType.Music);
+        Debug.Log(11);
+    }
+
+    private void PlayAmbientAudio()
+    {
+        _startedPlayAmbient = true;
+        _sound.PlayAudioByIndex(_currentAmbientSoundIndex, AudioSourceType.Ambient);
+        Debug.Log(22);
+    }
+
+    private void StopMusicAudio()
+    {
+        _startedPlayMusicPlayMusic = false;
+        _sound.StopAudio(AudioSourceType.Music);
+    }
+
+    private void StopAmbientAudio()
+    {
+        _startedPlayAmbient = false;
+        _sound.StopAudio(AudioSourceType.Ambient);
+    }
+    private void SetVolume()
+    {
+        _sound.SetVolume(_volumeMusicSound, AudioSourceType.Music);
+    }
+
+    private void SetAdditionalVolume()
+    {
+        _sound.SetVolume(_volumeAmbientSound, AudioSourceType.Ambient);
+    }
+    private void TryPushEffects()
+    {
+        IAudioEffectHandler handler;
+        for (int i = 0; i < _audioEffects.Count; i++)
         {
-            _names[i] = Clips[i].name.MyCutString(0,1, separator: '_');
+            handler = _sound.AudioEffectsCustodian.GetAudioEffect(_audioEffects[i]);
+            if (_effectKeys[i] == true)
+            {
+                if (handler.EffectIsOn == false)
+                {
+                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, true));
+                }
+            }
+            else
+            {
+                if (handler.EffectIsOn == true)
+                {
+                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, false));
+                }
+            }
         }
     }
 
-    private void PlayAudio()
+    private void AddEffect(AudioEffect audioEffect)
     {
-        _sound.PlayAudio(_currentSoundIndex);
-        _isStarted = true;
+        if (_audioEffects.Contains(audioEffect) == false)
+        {
+            _audioEffects.Add(audioEffect);
+            _effectKeys.Add(false);
+        }
     }
 
-    private void StopAudio()
+    private void RemoveEffect(int index)
     {
-        _sound.StopAudio();
-        _isStarted = false;
+        _audioEffects.RemoveAt(index);
+        _effectKeys.RemoveAt(index);
     }
 
-    private Action GetEffectsOperations()
+    private void ChangeSound(bool smoothTransitionKey, bool isSmoothVolumeIncrease, bool isSmoothVolumeDecrease, int currentSoundIndex, AudioSourceType audioSourceType)
     {
-        return () => { _sound.AudioEffectsHandler.SetLowPassEffect(_lowPassEffectKey); };
+        if (smoothTransitionKey == true )
+        {
+            _taskRunner.AddOperationToList(
+                ()=> _sound.SmoothAudio.SmoothReplacementAudio(CancellationTokenSource.Token, currentSoundIndex, audioSourceType));
+        }
+        else if (isSmoothVolumeIncrease == true)
+        {
+            _taskRunner.AddOperationToList(
+                ()=> _sound.SmoothAudio.SmoothPlayAudio(CancellationTokenSource.Token, currentSoundIndex, audioSourceType));
+        }
+        else if (isSmoothVolumeDecrease == true)
+        {
+            _taskRunner.AddOperationToList(
+                ()=> _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, audioSourceType));
+        }
+
+        if (CheckVolume(_sound.VolumeMusic, _volumeMusicSound))
+        {
+            _taskRunner.AddOperationToList(
+                ()=> _sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeMusicSound, AudioSourceType.Music));
+        }
+        if (CheckVolume(_sound.VolumeAmbient, _volumeAmbientSound))
+        {
+            _taskRunner.AddOperationToList(
+                ()=> _sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeAmbientSound, AudioSourceType.Ambient));
+        }
+    }
+    private bool CheckVolume(float currentVolume, float targetVolume)
+    {
+        if ((Math.Abs(currentVolume - targetVolume) > 0.05f) == false)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

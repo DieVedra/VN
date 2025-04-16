@@ -72,7 +72,7 @@ public class CustomizationNode : BaseNode
         _customizationCharacterPanelUIHandler.ButtonsCustomizationHandler.ActivateButtonsCustomization(_selectedCustomizationContentIndexes, _customizationEndEvent);
         _customizationEndEvent.Subscribe(CustomizationEnd);
         await UniTask.WhenAll(
-            _sound.SmoothPlayAudio(CancellationTokenSource.Token, null),
+            _sound.SmoothPlayWardrobeAudio(CancellationTokenSource.Token),
             _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token));
     }
 
@@ -80,7 +80,7 @@ public class CustomizationNode : BaseNode
     {
         CancellationTokenSource = new CancellationTokenSource();
         await UniTask.WhenAll(
-            _sound.SmoothStopAudio(CancellationTokenSource.Token, null),
+            _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music),
             _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
             _customizationCharacterPanelUIHandler.ButtonPlayHandler.OffAnim());
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();

@@ -1,7 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 using XNodeEditor;
 
 [CustomNodeEditor(typeof(AddSpriteNodeToBackground))]
@@ -42,8 +40,6 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             _serializedPropertyPosition.vector2Value =
                 EditorGUILayout.Vector2Field("Position: ", _serializedPropertyPosition.vector2Value);
             
-            
-            // InitPopup();
 
             _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
             _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesCharactersToPopup);
@@ -64,9 +60,9 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
 
         if (_addSpriteNodeToBackground.AdditionalImagesToBackground != null)
         {
-            for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Additional.Count; ++i)
+            for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Count; ++i)
             {
-                namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground.Additional[i].name);
+                namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
             }
         }
 

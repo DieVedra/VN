@@ -878,7 +878,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3560, y: -1912}
+  position: {x: -3624, y: -2264}
   ports:
     keys:
     - Input
@@ -906,12 +906,20 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _currentSoundIndex: 1
-  _smoothTransitionKey: 1
-  _isSmoothVolumeIncrease: 0
-  _isSmoothVolumeDecrease: 0
+  _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
   _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _volumeSound: 0.60625
+  _volumeAdditionalSound: 1
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 1
+  _isSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 1
+  _isSmoothVolumeDecreaseAdditionalSound: 0
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,6 +968,7 @@ MonoBehaviour:
   - {fileID: -8287040382720569815}
   - {fileID: 4133872993187370784}
   - {fileID: 5712739522091788798}
+  - {fileID: 8302261360956621105}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,7 +1073,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -141.42787, y: -1837.9707}
+  position: {x: -104, y: -2024}
   ports:
     keys:
     - Input
@@ -1093,11 +1102,19 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 0
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 1
   _smoothTransitionKey: 0
   _isSmoothVolumeIncrease: 0
   _isSmoothVolumeDecrease: 1
-  _isInstantNodeTransition: 0
-  _lowPassEffectKey: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 1
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &1513862931268629265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1507,6 +1524,7 @@ MonoBehaviour:
     - Output
     - Port 0
     - Port 1
+    - Port 2
     values:
     - _fieldName: Input
       _node: {fileID: 5468900250082618446}
@@ -1548,6 +1566,18 @@ MonoBehaviour:
       connections:
       - fieldName: Input
         node: {fileID: 8011839864939221692}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 2
+      _node: {fileID: 5468900250082618446}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 8302261360956621105}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -5036,6 +5066,61 @@ MonoBehaviour:
   _colorField2: {r: 1, g: 1, b: 1, a: 1}
   _textSize2: 80
   _sprite: {fileID: 21300000, guid: 2738a705ca1bdf04ebfc658dcfca3f2e, type: 3}
+--- !u!114 &8302261360956621105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2360, y: -2600}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8302261360956621105}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 2
+        node: {fileID: 5468900250082618446}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8302261360956621105}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 2
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 0.73125
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 0
+  _isSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAdditionalSound: 1
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 0
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &8524908385115253876
 MonoBehaviour:
   m_ObjectHideFlags: 0

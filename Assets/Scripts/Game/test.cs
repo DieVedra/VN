@@ -32,7 +32,7 @@ public class test : MonoBehaviour
     private async UniTask Load()
     {
         
-        _asyncOperationHandle = Addressables.LoadAssetAsync<AudioData>("AudioData");
+        _asyncOperationHandle = Addressables.LoadAssetAsync<AudioData>("MusicAudioData");
         await _asyncOperationHandle.Task;
         if (_asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
         {

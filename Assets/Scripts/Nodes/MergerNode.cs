@@ -13,6 +13,7 @@ public class MergerNode : BaseNode
     private ChoiceNode _choiceNode;
     private SwitchNode _switchNode;
     private CustomizationNode _customizationNode;
+    private TaskRunner _taskRunner;
     private List<BaseNode> _mergedNodes;
     
     private List<string> _names;
@@ -24,6 +25,7 @@ public class MergerNode : BaseNode
 
     public void ConstructMyMergerNode()
     {
+        _taskRunner = new TaskRunner();
         _choiceNodeConnected = false;
         _switchNodeConnected = false;
         _smoothTransitionNodeConnected = false;
@@ -80,7 +82,7 @@ public class MergerNode : BaseNode
             });
         }
 
-        await TryRunTasks(CreateTasksEnteredList());
+        await _taskRunner.TryRunTasks(CreateTasksEnteredList());
         TryActivateButtonSwitchToNextSlide();
     }
 
@@ -100,7 +102,7 @@ public class MergerNode : BaseNode
         }
 
         ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
-        await TryRunTasks(CreateTasksExitedList());
+        await _taskRunner.TryRunTasks(CreateTasksExitedList());
     }
 
     private List<Func<UniTask>> CreateTasksExitedList()
@@ -201,22 +203,22 @@ public class MergerNode : BaseNode
         }
     }
 
-    private async UniTask TryRunTasks(List<Func<UniTask>> tasksEntered)
-    {
-        switch (tasksEntered.Count)
-        {
-            case 1 :
-                await UniTask.WhenAll(tasksEntered[0].Invoke());
-                break;
-            case 2 :
-                await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke());
-                break;
-            case 3 :
-                await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke());
-                break;
-            case 4 :
-                await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke());
-                break;
-        }
-    }
+    // private async UniTask TryRunTasks(List<Func<UniTask>> tasksEntered)
+    // {
+    //     switch (tasksEntered.Count)
+    //     {
+    //         case 1 :
+    //             await UniTask.WhenAll(tasksEntered[0].Invoke());
+    //             break;
+    //         case 2 :
+    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke());
+    //             break;
+    //         case 3 :
+    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke());
+    //             break;
+    //         case 4 :
+    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke());
+    //             break;
+    //     }
+    // }
 }

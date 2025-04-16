@@ -127,7 +127,7 @@ public class NodeGraphInitializer
 
             if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
             {
-                addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background.GetBackgroundContent, _background.AdditionalImagesToBackground);
+                addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
                 continue;
             }
 
@@ -148,7 +148,7 @@ public class NodeGraphInitializer
                 continue;
             }
             
-            if (node is ShowImageNode showImageNode)
+            if (node is ShowArtNode showImageNode)
             {
                 showImageNode.Construct(_background);
             }

@@ -8,7 +8,7 @@ public class ChoiceNodeDrawer : NodeEditor
 {
     private readonly int _maxPortCount = 3;
     private ChoiceNode _choiceNode;
-    
+    private LineDrawer _lineDrawer;
     private SerializedProperty _choiceText1Property;
     private SerializedProperty _choiceText2Property;
     private SerializedProperty _choiceText3Property;
@@ -78,6 +78,7 @@ public class ChoiceNodeDrawer : NodeEditor
             _choice1PriceProperty = serializedObject.FindProperty("_choice1Price");
             _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
             _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
+            _lineDrawer = new LineDrawer();
         }
 
         serializedObject.Update();
@@ -148,7 +149,7 @@ public class ChoiceNodeDrawer : NodeEditor
         {
             DrawPort(_choiceNode.NamesPorts[indexNamePort]);
         }
-        LineDrawer.DrawHorizontalLine(Color.green);
+        _lineDrawer.DrawHorizontalLine(Color.green);
     }
     private void DrawTextField(SerializedProperty textProperty, string label)
     {

@@ -586,6 +586,7 @@
               <e p="MergerNodeDrawer.cs" t="Include" />
               <e p="NarrativeNodeDrawer.cs" t="Include" />
               <e p="NotificationNodeDrawer.cs" t="Include" />
+              <e p="ShowArtNodeDrawer.cs" t="Include" />
               <e p="SmoothTransitionNodeDrawer.cs" t="Include" />
               <e p="SoundNodeDrawer.cs" t="Include" />
               <e p="StartNodeDrawer.cs" t="Include" />
@@ -598,6 +599,8 @@
           </e>
           <e p="Enums" t="Include">
             <e p="ArrowSwitchMode.cs" t="Include" />
+            <e p="AudioEffect.cs" t="Include" />
+            <e p="AudioSourceType.cs" t="Include" />
             <e p="BackgroundPosition.cs" t="Include" />
             <e p="DirectionType.cs" t="Include" />
             <e p="EmotionType.cs" t="Include" />
@@ -620,6 +623,10 @@
                   <e p="BackgroundContent.cs" t="Include" />
                 </e>
                 <e p="BackgroundPoints.cs" t="Include" />
+                <e p="BackgroundSaveData" t="Include">
+                  <e p="BackgroundSaveData.cs" t="Include" />
+                  <e p="IndexesBackgroundContentWithAdditionalImage.cs" t="Include" />
+                </e>
                 <e p="BackgroundViewSetting.cs" t="Include" />
                 <e p="SpriteRendererCreator" t="Include">
                   <e p="SpriteRendererCreator.cs" t="Include" />
@@ -674,12 +681,6 @@
               <e p="LevelEntryPoint.cs" t="Include" />
               <e p="LevelEntryPointBuild.cs" t="Include" />
               <e p="LevelEntryPointEditor.cs" t="Include" />
-              <e p="LevelSound" t="Include">
-                <e p="AudioData.cs" t="Include" />
-                <e p="AudioEffectsHandler.cs" t="Include" />
-                <e p="LevelSound.cs" t="Include" />
-                <e p="Sound.cs" t="Include" />
-              </e>
               <e p="MySprite.cs" t="Include" />
               <e p="NodeGraphs" t="Include">
                 <e p="GameSeriesHandler.cs" t="Include" />
@@ -747,9 +748,26 @@
               <e p="SceneLoader.cs" t="Include" />
             </e>
             <e p="ShowUI.cs" t="Include" />
+            <e p="Sound" t="Include">
+              <e p="AudioData.cs" t="Include" />
+              <e p="AudioEffectsCustodian.cs" t="Include" />
+              <e p="AudioEffectsHandler" t="Include">
+                <e p="AudioEffectHandler.cs" t="Include" />
+                <e p="LowPassAudioEffect.cs" t="Include" />
+              </e>
+              <e p="ClipProvider.cs" t="Include" />
+              <e p="GlobalAudioData.cs" t="Include" />
+              <e p="LevelSound.cs" t="Include" />
+              <e p="SmoothAudio.cs" t="Include" />
+              <e p="Sound.cs" t="Include" />
+            </e>
+            <e p="TaskRunner.cs" t="Include" />
             <e p="test.cs" t="Include" />
             <e p="test2.cs" t="Include" />
             <e p="Wallet.cs" t="Include" />
+            <e p="Wardrobe" t="Include">
+              <e p="WardrobeHandler.cs" t="Include" />
+            </e>
           </e>
           <e p="Input" t="Include">
             <e p="Controls.cs" t="Include" />
@@ -757,6 +775,7 @@
             <e p="SwipeDetector.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
+            <e p="IAudioEffectHandler.cs" t="Include" />
             <e p="ICharacterCustomizationView.cs" t="Include" />
             <e p="ICustomizationSettings.cs" t="Include" />
             <e p="ILoadOperation.cs" t="Include" />
@@ -792,7 +811,7 @@
             <e p="NotificationNode.cs" t="Include" />
             <e p="PutOnSwimsuitsNode.cs" t="Include" />
             <e p="SelectedCustomizationContentIndexes.cs" t="Include" />
-            <e p="ShowImageNode.cs" t="Include" />
+            <e p="ShowArtNode.cs" t="Include" />
             <e p="SmoothTransitionNode.cs" t="Include" />
             <e p="SoundNode.cs" t="Include" />
             <e p="StartNode.cs" t="Include" />

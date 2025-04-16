@@ -47,17 +47,72 @@ MonoBehaviour:
   _text: "\u041E\u043D \u043C\u0435\u043D\u044F \u043D\u0430\u043F\u0443\u0433\u0430\u043B.
     \u041C\u0435\u043D\u044F \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u043F\u0443\u0433\u0430\u0442\u044C
     \u0438 \u044D\u0442\u043E \u043C\u0435\u0441\u0442\u043E."
-  _indexCharacter: 2
-  _indexEmotion: 0
+  _indexCharacter: 0
+  _indexEmotion: 1
   _indexLook: 0
-  _previousIndexCharacter: 2
-  _previousCharactersCount: 5
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 6
   _directionType: 1
   _foldoutIsOpen: 1
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+--- !u!114 &-6741016742894903550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1640, y: -2424}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6741016742894903550}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -1286063111377504087}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6741016742894903550}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentSoundIndex: 0
+  _currentAdditionalSoundIndex: 4
+  _isInstantNodeTransition: 0
+  _volumeSound: 1
+  _volumeAdditionalSound: 0.78125
+  _smoothTransitionKey: 0
+  _isSmoothVolumeIncrease: 0
+  _isSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAdditionalSound: 0
+  _isSmoothVolumeIncreaseAdditionalSound: 0
+  _isSmoothVolumeDecreaseAdditionalSound: 1
+  _mergeSoundsKey: 1
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &-6447932450362875537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +150,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -661645104290293108}
+        node: {fileID: -1286063111377504087}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -740,17 +795,85 @@ MonoBehaviour:
   namenode: 
   _text: "\u0421\u043E\u043C\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F
     \u0440\u043E\u0441\u043A\u043E\u0448\u044C."
-  _indexCharacter: 2
+  _indexCharacter: 0
   _indexEmotion: 4
   _indexLook: 0
-  _previousIndexCharacter: 2
-  _previousCharactersCount: 5
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 6
   _directionType: 1
   _foldoutIsOpen: 1
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+--- !u!114 &-1286063111377504087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1544, y: -2680}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1286063111377504087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6447932450362875537}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1286063111377504087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -1286063111377504087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -661645104290293108}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -1286063111377504087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6741016742894903550}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 1
 --- !u!114 &-1273350109707790401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,7 +935,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1659.0719, y: -2450.9314}
+  position: {x: 1832, y: -2680}
   ports:
     keys:
     - Input
@@ -823,8 +946,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Output
-        node: {fileID: -6447932450362875537}
+      - fieldName: Port 0
+        node: {fileID: -1286063111377504087}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -887,11 +1010,11 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _text: "\u0427\u0442\u043E \u043C\u043D\u0435 \u0434\u0435\u043B\u0430\u0442\u044C?\r\n"
-  _indexCharacter: 2
-  _indexEmotion: 3
+  _indexCharacter: 0
+  _indexEmotion: 4
   _indexLook: 0
-  _previousIndexCharacter: 2
-  _previousCharactersCount: 5
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 6
   _directionType: 0
   _foldoutIsOpen: 1
   _toggleIsSwimsuit: 0
@@ -946,6 +1069,8 @@ MonoBehaviour:
   - {fileID: -6447932450362875537}
   - {fileID: -661645104290293108}
   - {fileID: 1217067511692228063}
+  - {fileID: -1286063111377504087}
+  - {fileID: -6741016742894903550}
 --- !u!114 &90485713825956143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,7 +1328,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _nextLevelPartNodeGraph: {fileID: 11400000, guid: c0c5c52209d241e42a6450d18d980d07, type: 2}
+  _seriaPartNodeGraph: {fileID: 11400000, guid: c0c5c52209d241e42a6450d18d980d07, type: 2}
   _putOnSwimsuit: 0
 --- !u!114 &1580091579695306687
 MonoBehaviour:
@@ -1794,9 +1919,9 @@ MonoBehaviour:
   _indexEmotion: 3
   _indexLook: 0
   _previousIndexCharacter: 4
-  _previousCharactersCount: 5
+  _previousCharactersCount: 6
   _directionType: 1
-  _foldoutIsOpen: 0
+  _foldoutIsOpen: 1
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0
@@ -1846,13 +1971,13 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 2.5
   _text: "\u0410 \u0437\u0430\u0447\u0435\u043C \u0412\u0430\u043C \u043A\u0430\u043C\u043D\u0438?"
-  _indexCharacter: 2
+  _indexCharacter: 0
   _indexEmotion: 3
   _indexLook: 0
-  _previousIndexCharacter: 2
-  _previousCharactersCount: 5
+  _previousIndexCharacter: 0
+  _previousCharactersCount: 6
   _directionType: 0
-  _foldoutIsOpen: 0
+  _foldoutIsOpen: 1
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0

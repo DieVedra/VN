@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
@@ -18,9 +19,32 @@ public abstract class LevelEntryPoint : MonoBehaviour
     
     [SerializeField] protected bool LoadSaveData;
 
+    protected Wallet Wallet;
+    protected SaveData SaveData;
+    protected StoryData StoryData;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
+    protected ReactiveCommand OnSceneTransition;
+    protected LevelUIProvider LevelUIProvider;
+    protected NodeGraphInitializer NodeGraphInitializer;
+    protected DisableNodesContentEvent DisableNodesContentEvent;
+    protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
+    protected SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
 
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
-    protected abstract void InitBackground(SpriteRendererCreator spriteRendererCreator);
+    protected abstract void InitGlobalSound();
+
+    protected void InitBackground(SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
+    {
+        if (LoadSaveData == true)
+        {
+            Background.ConstructSaveOn(
+                StoryData.BackgroundSaveData,
+                DisableNodesContentEvent, CharacterViewer, spriteRendererCreator, wardrobeBackground);
+        }
+        else
+        {
+            Background.ConstructSaveOff(DisableNodesContentEvent, CharacterViewer, spriteRendererCreator, wardrobeBackground);
+        }
+    }
 }

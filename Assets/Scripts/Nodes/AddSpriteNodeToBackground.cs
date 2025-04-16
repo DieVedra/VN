@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -10,14 +9,13 @@ public class AddSpriteNodeToBackground : BaseNode
     [SerializeField] private Color _color = Color.white;
     [SerializeField, HideInInspector] private int _indexSprite;
     [SerializeField, HideInInspector] private int _indexBackground;
-    
-    public IReadOnlyList<BackgroundContent> Backgrounds;
 
-    public AdditionalImagesToBackground AdditionalImagesToBackground { get; private set; }
-    public void ConstructMyAddSpriteNode(List<BackgroundContent> backgrounds, AdditionalImagesToBackground additionalImagesToBackground)
+    private Background _background;
+    public IReadOnlyList<BackgroundContent> Backgrounds => _background.GetBackgroundContent;
+    public IReadOnlyList<Sprite> AdditionalImagesToBackground => _background.AdditionalImagesToBackground;
+    public void ConstructMyAddSpriteNode(Background background)
     {
-        Backgrounds = backgrounds;
-        AdditionalImagesToBackground = additionalImagesToBackground;
+        _background = background;
     }
     
     public override UniTask Enter(bool isMerged = false)
@@ -34,6 +32,6 @@ public class AddSpriteNodeToBackground : BaseNode
 
     protected override void SetInfoToView()
     {
-        Backgrounds[_indexBackground].AddContent(AdditionalImagesToBackground.Additional[_indexSprite], _localPosition, _color);
+        _background.AddContent(_indexBackground, _indexSprite, _localPosition, _color);
     }
 }

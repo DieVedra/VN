@@ -2,9 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class LineDrawer
+public class LineDrawer
 {
-    public static void DrawHorizontalLine(Color color, int height = 20, int minWidth = 10, int maxWidth = 1000)
+    public void DrawHorizontalLine(Color color, int height = 20, int minWidth = 10, int maxWidth = 1000)
     {
         EditorGUILayout.Space(5f);
         Rect layoutRectangle = GUILayoutUtility.GetRect(minWidth,maxWidth,20,height);
