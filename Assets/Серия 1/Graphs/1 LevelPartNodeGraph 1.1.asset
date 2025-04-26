@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2360, y: -2120}
+  position: {x: -2248, y: -2600}
   ports:
     keys:
     - Input
@@ -906,18 +906,20 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _currentSoundIndex: 0
-  _currentAdditionalSoundIndex: 0
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
   _isInstantNodeTransition: 0
-  _volumeSound: 0.60625
-  _volumeAdditionalSound: 1
-  _smoothTransitionKey: 0
-  _isSmoothVolumeIncrease: 1
-  _isSmoothVolumeDecrease: 0
-  _smoothTransitionKeyAdditionalSound: 0
-  _isSmoothVolumeIncreaseAdditionalSound: 1
-  _isSmoothVolumeDecreaseAdditionalSound: 0
-  _mergeSoundsKey: 1
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 0
+  _isSmoothVolumeDecreaseAmbientSound: 0
+  _showMusicSoundsKey: 0
+  _showAmbientSoundsKey: 0
+  _showEffectsKey: 0
   _audioEffects: 
   _effectKeys: 
 --- !u!114 &11400000
@@ -1101,18 +1103,20 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _currentSoundIndex: 0
-  _currentAdditionalSoundIndex: 0
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
   _isInstantNodeTransition: 0
-  _volumeSound: 1
-  _volumeAdditionalSound: 1
-  _smoothTransitionKey: 0
-  _isSmoothVolumeIncrease: 0
-  _isSmoothVolumeDecrease: 1
-  _smoothTransitionKeyAdditionalSound: 0
-  _isSmoothVolumeIncreaseAdditionalSound: 0
-  _isSmoothVolumeDecreaseAdditionalSound: 1
-  _mergeSoundsKey: 1
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 0
+  _isSmoothVolumeDecreaseAmbientSound: 0
+  _showMusicSoundsKey: 0
+  _showAmbientSoundsKey: 0
+  _showEffectsKey: 0
   _audioEffects: 
   _effectKeys: 
 --- !u!114 &1513862931268629265
@@ -1778,13 +1782,13 @@ MonoBehaviour:
   _hairIndex: 0
   _showFoldoutSettingsHairstyles: 0
   _showFoldoutSettingsClothes: 0
-  _showFoldoutSettingsBodies: 1
+  _showFoldoutSettingsBodies: 0
   _showFoldoutSettingsSwimsuits: 0
   _settingsBodies:
   - _name: "\u0415\u0432\u0440\u043E\u043F\u0435\u043E\u0438\u0434"
     _index: 0
     _keyAdd: 1
-    _keyShowParams: 1
+    _keyShowParams: 0
     _keyShowStats: 0
     _price: 0
     _gameStats:
@@ -4981,7 +4985,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2376, y: -1928}
+  position: {x: -2168, y: -2408}
   ports:
     keys:
     - Input
@@ -5079,7 +5083,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2360, y: -2600}
+  position: {x: -2632, y: -2408}
   ports:
     keys:
     - Input
@@ -5107,18 +5111,20 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _currentSoundIndex: 0
-  _currentAdditionalSoundIndex: 2
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
   _isInstantNodeTransition: 0
-  _volumeSound: 1
-  _volumeAdditionalSound: 0.73125
-  _smoothTransitionKey: 0
-  _isSmoothVolumeIncrease: 0
-  _isSmoothVolumeDecrease: 0
-  _smoothTransitionKeyAdditionalSound: 1
-  _isSmoothVolumeIncreaseAdditionalSound: 0
-  _isSmoothVolumeDecreaseAdditionalSound: 0
-  _mergeSoundsKey: 1
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 0
+  _isSmoothVolumeDecreaseAmbientSound: 0
+  _showMusicSoundsKey: 0
+  _showAmbientSoundsKey: 0
+  _showEffectsKey: 0
   _audioEffects: 
   _effectKeys: 
 --- !u!114 &8524908385115253876
