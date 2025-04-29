@@ -16,8 +16,8 @@ public class CustomizationDataProvider
     public CustomizationData CreateCustomizationData(int currentSwitchIndex)
     {
         return new CustomizationData(
-            _selectedCustomizationContentIndexes.CustomizableCharacter.GetBodySprite(),
-            _selectedCustomizationContentIndexes.CustomizableCharacter.GetEmotionToCustomization(),
+            _selectedCustomizationContentIndexes.CustomizableCharacter.GetLookMySprite(),
+            _selectedCustomizationContentIndexes.CustomizableCharacter.GetEmotionMySprite(),
             _selectedCustomizationContentIndexes.CustomizableCharacter.GetHairstyleSprite(),
             _isNuClothesReactiveProperty.Value == true ? _selectedCustomizationContentIndexes.CustomizableCharacter.GetSwimsuitSprite()
                 : _selectedCustomizationContentIndexes.CustomizableCharacter.GetClothesSprite(),

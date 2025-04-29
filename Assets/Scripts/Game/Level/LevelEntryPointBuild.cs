@@ -61,9 +61,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background,
+        NodeGraphInitializer = new NodeGraphInitializer(CharacterHandler.Characters, Background.GetBackgroundContent, Background,
             LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _globalSound, GameStatsCustodian,
+            CharacterViewer, _wardrobeCharacterViewer, CharacterHandler.CustomizableCharacter, _globalSound, GameStatsCustodian,
             Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 

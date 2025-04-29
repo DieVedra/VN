@@ -30,12 +30,12 @@ public class CustomizationSettings : ICustomizationSettings
         _keyShowParams = keyShowParams;
         _keyShowStats = keyShowStats;
     }
-    public CustomizationSettings(List<Stat> gameStats, string name, int index)
+    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price)
     {
         _gameStats = gameStats;
         _name = name;
         _index = index;
-        _price = 0;
+        _price = price;
         _keyAdd = false;
         _keyShowParams  = false;
         _keyShowStats  = true;

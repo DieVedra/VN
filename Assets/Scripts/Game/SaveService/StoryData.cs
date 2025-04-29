@@ -14,7 +14,7 @@ public class StoryData
 
     public SaveStat[] Stats;
     public BackgroundSaveData BackgroundSaveData;
-
+    public WardrobeSaveData WardrobeSaveData;
     public StoryData(string nameAsset)
     {
         NameAsset = nameAsset;

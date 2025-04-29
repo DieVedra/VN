@@ -18,7 +18,7 @@ public class CustomizationNode : BaseNode
     [SerializeField] private List<CustomizationSettings> _settingsClothes; // топ и джинсы, топ с кольцом и джинсовые шорты, юбка и топ, 
     [SerializeField] private List<CustomizationSettings> _settingsSwimsuits; // Купальник черный, Купальник с блестками , Купальник черный мини   
 
-    private readonly int _smileEmotionIndex = 2;
+    private const int SmileEmotionIndex = 2;
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private CustomizableCharacter _customizableCharacter;
@@ -48,7 +48,7 @@ public class CustomizationNode : BaseNode
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
-            TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.LooksData.MySprites, 1,1);
+            TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.BodiesSprites, 1,1);
             TryInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData.MySprites);
             TryInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData.MySprites, 1);
             TryInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData.MySprites, 1);
@@ -110,8 +110,9 @@ public class CustomizationNode : BaseNode
             _wardrobeCharacterViewer.SetClothes(_customizableCharacter.GetClothesSprite());
         }
         _wardrobeCharacterViewer.SetHairstyle(_customizableCharacter.GetHairstyleSprite());
-        _wardrobeCharacterViewer.SetLook(_customizableCharacter.GetBodySprite());
-        _wardrobeCharacterViewer.SetEmotion(_customizableCharacter.GetCurrentEmotionsData().MySprites[_smileEmotionIndex]);
+        _wardrobeCharacterViewer.SetLook(_customizableCharacter.GetLookMySprite());
+        
+        _wardrobeCharacterViewer.SetEmotion(_customizableCharacter.GetEmotionMySprite(SmileEmotionIndex));
 
         if (IsPlayMode())
         {
@@ -136,7 +137,7 @@ public class CustomizationNode : BaseNode
         SwitchToNextNodeEvent.Execute();
     }
 
-    private void TryInitCustomizationSettings(ref List<CustomizationSettings> settings, List<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    private void TryInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         if (sprites != null)
         {
@@ -157,12 +158,12 @@ public class CustomizationNode : BaseNode
 
     private void ResetBodiesCustomizationSettings()
     {
-        _settingsBodies = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.LooksData.MySprites, 1,1);
+        _settingsBodies = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.BodiesSprites, 1,1);
     }
 
     private void ReinitBodiesCustomizationSettings()
     {
-        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.LooksData.MySprites, 1,1);
+        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.BodiesSprites, 1,1);
     }
 
     private void ResetHairstylesCustomizationSettings()

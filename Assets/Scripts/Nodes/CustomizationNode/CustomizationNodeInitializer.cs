@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class CustomizationNodeInitializer
@@ -12,7 +10,7 @@ public class CustomizationNodeInitializer
         _gameStatsCustodian = gameStatsCustodian;
     }
 
-    public List<CustomizationSettings> InitCustomizationSettings(List<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public List<CustomizationSettings> InitCustomizationSettings(IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         List<CustomizationSettings> settings = new List<CustomizationSettings>();
         for (int i = 0; i < sprites.Count; i++)
@@ -20,12 +18,12 @@ public class CustomizationNodeInitializer
             settings.Add(new CustomizationSettings(
                 _gameStatsCustodian.GetGameStatsForm(),
                 sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                i));
+                i, sprites[i].Price));
         }
         return settings;
     }
     
-    public List<CustomizationSettings> ReInitCustomizationSettings(ref List<CustomizationSettings> settings, List<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public List<CustomizationSettings> ReInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         List<CustomizationSettings> newSettings = new List<CustomizationSettings>();
         if (settings.Count > sprites.Count)
@@ -44,13 +42,10 @@ public class CustomizationNodeInitializer
             {
                 if (settings.Count - 1 <= i)
                 {
-                    // CustomizationSettings customizationSettings = new CustomizationSettings(
-                    //     GameStatsCustodian.GetGameStatsForm(),
-                    //     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                    //     i);
                     newSettings.Add(new CustomizationSettings(
                         _gameStatsCustodian.GetGameStatsForm(),
                         sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+                        sprites[i].Price,
                         i));
                 }
                 else
@@ -58,6 +53,7 @@ public class CustomizationNodeInitializer
                     newSettings.Add(new CustomizationSettings(
                         _gameStatsCustodian.GetGameStatsForm(),
                         sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+                        sprites[i].Price,
                         i));
                 }
             }

@@ -30,8 +30,6 @@ public class CustomizationNodeDrawer : NodeEditor
         }
         serializedObject.Update();
         
-        
-        
         if (_popupDrawer == null)
         {
             _popupDrawer = new PopupDrawer();
@@ -57,7 +55,7 @@ public class CustomizationNodeDrawer : NodeEditor
 
         NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
         NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
-
+        
         if (_listSettingsBodyProperty != null)
         {
             DrawCustomizationFields(_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
@@ -129,8 +127,7 @@ public class CustomizationNodeDrawer : NodeEditor
                     if (showParamsKeySerializedProperty.boolValue)
                     {
                         priceSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_price");
-                        EditorGUILayout.LabelField("Price: ", GUILayout.Width(40f));
-                        priceSerializedProperty.intValue = EditorGUILayout.IntField(priceSerializedProperty.intValue, GUILayout.Width(30f));
+                        EditorGUILayout.LabelField($"Price: {priceSerializedProperty.intValue}", GUILayout.Width(80f));
                     }
                 }
                 EditorGUILayout.EndHorizontal();

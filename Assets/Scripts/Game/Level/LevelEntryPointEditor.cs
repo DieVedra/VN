@@ -13,16 +13,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private GlobalAudioData _globalAudioData;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
-    // private SwitchToNextNodeEvent SwitchToNextNodeEvent;
-    // private SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
-    // private DisableNodesContentEvent DisableNodesContentEvent;
-
-    // private NodeGraphInitializer NodeGraphInitializer;
-    // private LevelUIProvider LevelUIProvider;
-    // private Wallet Wallet;
-    // private SaveData SaveData;
-    // private StoryData StoryData;
-    // private ReactiveCommand OnSceneTransition;
 
     public bool InitializeInEditMode => _initializeInEditMode;
 
@@ -58,6 +48,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             GameStatsCustodian.Init(StoryData.Stats);
             _levelSound.Init(SaveData.SoundIsOn);
             _levelSound.SetGlobalSoundData(_globalAudioData);
+            CharacterHandler.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
         }
         else
         {
@@ -82,8 +73,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(Characters, Background.GetBackgroundContent, Background, LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, CustomizableCharacter, _levelSound, GameStatsCustodian, Wallet,
+        NodeGraphInitializer = new NodeGraphInitializer(CharacterHandler.Characters, Background.GetBackgroundContent, Background, LevelUIProvider,
+            CharacterViewer, _wardrobeCharacterViewer, CharacterHandler.CustomizableCharacter, _levelSound, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -96,8 +87,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
             GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
-
-        
     }
 
     private void OnApplicationQuit()
@@ -116,10 +105,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
-            StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
             StoryData.CurrentAudioClipIndex = _levelSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsCustodian.LowPassEffectIsOn;
             
+            StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
+
+            StoryData.WardrobeSaveData = CharacterHandler.CustomizableCharacter.GetWardrobeSaveData();
+
+
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveService.Save(SaveData);
         }

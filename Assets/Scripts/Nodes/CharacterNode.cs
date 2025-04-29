@@ -90,9 +90,8 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterViewer.ResetCharacterView();
         _characterViewer.gameObject.SetActive(true);
         _characterViewer.SetDirection(_directionType);
-        if (_characters[_indexCharacter] is CustomizableCharacter)
+        if (_characters[_indexCharacter] is CustomizableCharacter customizableCharacter)
         {
-            CustomizableCharacter customizableCharacter = _characters[_indexCharacter] as CustomizableCharacter;
             if (_toggleIsSwimsuit)
             {
                 _characterViewer.SetClothes(customizableCharacter.GetSwimsuitSprite());
@@ -102,7 +101,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
                 _characterViewer.SetClothes(customizableCharacter.GetClothesSprite());
             }
             _characterViewer.SetHairstyle(customizableCharacter.GetHairstyleSprite());
-            _characterViewer.SetLook(customizableCharacter.GetBodySprite());
+            _characterViewer.SetLook(customizableCharacter.GetLookMySprite());
             _characterViewer.SetEmotion(GetEmotionFromCustomization(customizableCharacter));
         }
         else
@@ -135,31 +134,37 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     }
     private MySprite GetLook()
     {
-        return _characters[_indexCharacter].LooksData.MySprites[_indexLook];
+        // return _characters[_indexCharacter].LooksData.MySprites[_indexLook];
+        return _characters[_indexCharacter].GetLookMySprite(_indexLook);
     }
     
     private MySprite GetEmotionCharacter()
     {
-        MySprite result = null;
-        if (_characters[_indexCharacter].EmotionsData != null)
-        {
-            if (_indexEmotion < _characters[_indexCharacter].EmotionsData.MySprites.Count)
-            {
-                result = _characters[_indexCharacter].EmotionsData.MySprites[_indexEmotion];
-            }
-        }
-        return result;
+        // MySprite result = null;
+        // if (_characters[_indexCharacter].EmotionsData != null)
+        // {
+        // }
+        //
+        // if (_indexEmotion < _characters[_indexCharacter].EmotionsData.MySprites.Count)
+        // {
+        // }
+
+        // result = _characters[_indexCharacter].EmotionsData.MySprites[_indexEmotion];
+        // return result;
+        return _characters[_indexCharacter].GetEmotionMySprite(_indexEmotion);
     }
     private MySprite GetEmotionFromCustomization(CustomizableCharacter customizableCharacter)
     {
-        if (_indexEmotion < customizableCharacter.GetCurrentEmotionsData().MySprites.Count)
-        {
-            return customizableCharacter.GetCurrentEmotionsData().MySprites[_indexEmotion];
-        }
-        else
-        {
-            return null;
-        }
+        // if (_indexEmotion < customizableCharacter.GetCurrentEmotionsDataByBodyIndex().MySprites.Count)
+        // {
+        //     return customizableCharacter.GetCurrentEmotionsDataByBodyIndex().MySprites[_indexEmotion];
+        // }
+        // else
+        // {
+        //     return null;
+        // }
+        
+        return customizableCharacter.GetEmotionMySprite(_indexEmotion);
     }
     private string GetName()
     {

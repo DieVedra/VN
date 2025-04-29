@@ -623,10 +623,6 @@
                   <e p="BackgroundContent.cs" t="Include" />
                 </e>
                 <e p="BackgroundPoints.cs" t="Include" />
-                <e p="BackgroundSaveData" t="Include">
-                  <e p="BackgroundSaveData.cs" t="Include" />
-                  <e p="IndexesBackgroundContentWithAdditionalImage.cs" t="Include" />
-                </e>
                 <e p="BackgroundViewSetting.cs" t="Include" />
                 <e p="SpriteRendererCreator" t="Include">
                   <e p="SpriteRendererCreator.cs" t="Include" />
@@ -646,11 +642,13 @@
                 <e p="CharacterViewSetting.cs" t="Include" />
                 <e p="CustomizableCharacter.cs" t="Include" />
                 <e p="CustomizationData.cs" t="Include" />
+                <e p="SimpleCharacter.cs" t="Include" />
                 <e p="SpriteViewer" t="Include">
                   <e p="SpriteViewer.cs" t="Include" />
                   <e p="SpriteViewerMaterialPropertiesNames.cs" t="Include" />
                 </e>
               </e>
+              <e p="CharacterHandler.cs" t="Include" />
               <e p="CharacterViewer" t="Include">
                 <e p="BaseCharacterViewer.cs" t="Include" />
                 <e p="CharacterViewer.cs" t="Include" />
@@ -661,6 +659,7 @@
                 </e>
                 <e p="WardrobeCharacterViewer.cs" t="Include" />
               </e>
+              <e p="CustomizationDataHandler.cs" t="Include" />
               <e p="Events" t="Include">
                 <e p="BaseEvent.cs" t="Include" />
                 <e p="ChoiceResultEvent.cs" t="Include" />
@@ -721,7 +720,6 @@
               <e p="Story" t="Include">
                 <e p="StoriesProvider.cs" t="Include" />
                 <e p="Story.cs" t="Include" />
-                <e p="StoryData.cs" t="Include" />
               </e>
             </e>
             <e p="OpenUrl.cs" t="Include" />
@@ -735,6 +733,10 @@
               <e p="WardrobeCharacterViewerAssetProvider.cs" t="Include" />
             </e>
             <e p="SaveService" t="Include">
+              <e p="BackgroundSaveData" t="Include">
+                <e p="BackgroundSaveData.cs" t="Include" />
+                <e p="IndexesBackgroundContentWithAdditionalImage.cs" t="Include" />
+              </e>
               <e p="SaveData.cs" t="Include" />
               <e p="SaveMetods" t="Include">
                 <e p="BinarySave.cs" t="Include" />
@@ -742,6 +744,8 @@
               </e>
               <e p="SaveService.cs" t="Include" />
               <e p="SaveServiceProvider.cs" t="Include" />
+              <e p="StoryData.cs" t="Include" />
+              <e p="WardrobeSaveData.cs" t="Include" />
             </e>
             <e p="SceneLoader" t="Include">
               <e p="SceneAssetLoader.cs" t="Include" />

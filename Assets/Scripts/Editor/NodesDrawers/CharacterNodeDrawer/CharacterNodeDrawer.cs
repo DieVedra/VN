@@ -124,7 +124,6 @@ public class CharacterNodeDrawer : NodeEditor
                 _indexLookProperty.intValue = 0;
                 _previousIndexCharacterProperty.intValue = _indexCharacterProperty.intValue;
             }
-            // _overrideNameProperty = serializedObject.FindProperty("_overrideName");
 
             DrawToggle(_overrideNameProperty, "Override Name ");
             if (_overrideNameProperty.boolValue == true)
@@ -137,32 +136,61 @@ public class CharacterNodeDrawer : NodeEditor
             if (_foldoutIsOpenProperty.boolValue)
             {
                 DrawEnumPopup();
-                if (CheckCustomizableCharacter() == false)
-                {
-                    TryInitNames(ref _namesLookCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].LooksData);
-                    _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
-                        _characterNode.Characters[_indexCharacterProperty.intValue].LooksData, _indexLookProperty);
 
-                    if (_characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData != null)
-                    {
-                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData);
-                        _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
-                            _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData, _indexEmotionProperty);
-                    }
-                }
-                else
+
+                if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
                 {
-                    CustomizableCharacter customizableCharacter = _characterNode.Characters[_indexCharacterProperty.intValue] as CustomizableCharacter;
-                    if (customizableCharacter != null)
-                    {
-                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData);
-                        _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
-                            _currentEmotionLabel,
-                            customizableCharacter.GetCurrentEmotionsData(), _indexEmotionProperty);
+                    TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup,
+                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex());
                         
-                        DrawToggle(serializedObject.FindProperty("_toggleIsSwimsuit"), "Is Swimsuit Look");
+                    _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
+                        _currentEmotionLabel,
+                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex(), _indexEmotionProperty);
+                        
+                    DrawToggle(serializedObject.FindProperty("_toggleIsSwimsuit"), "Is Swimsuit Look");
+                }
+                else if(_characterNode.Characters[_indexCharacterProperty.intValue] is SimpleCharacter simpleCharacter)
+                {
+                    TryInitNames(ref _namesLookCharactersToPopup, simpleCharacter.LooksData);
+                    _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
+                        simpleCharacter.LooksData, _indexLookProperty);
+
+                    if (simpleCharacter.EmotionsData != null)
+                    {
+                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, simpleCharacter.EmotionsData);
+                        _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
+                            simpleCharacter.EmotionsData, _indexEmotionProperty);
                     }
                 }
+                
+                
+                // if (CheckCustomizableCharacter() == false)
+                // {
+                //     TryInitNames(ref _namesLookCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].LooksData);
+                //     _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
+                //         _characterNode.Characters[_indexCharacterProperty.intValue].LooksData, _indexLookProperty);
+                //
+                //     if (_characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData != null)
+                //     {
+                //         TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData);
+                //         _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
+                //             _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData, _indexEmotionProperty);
+                //     }
+                // }
+                // else
+                // {
+                //     if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
+                //     {
+                //         TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup,
+                //             customizableCharacter.GetCurrentEmotionsDataByBodyIndex());
+                //         
+                //         _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
+                //             _currentEmotionLabel,
+                //             customizableCharacter.GetCurrentEmotionsDataByBodyIndex(), _indexEmotionProperty);
+                //         
+                //         DrawToggle(serializedObject.FindProperty("_toggleIsSwimsuit"), "Is Swimsuit Look");
+                //     }
+                // }
 
                 DrawToggle(_toggleShowPanelProperty, "Show text panel");
             }
@@ -180,17 +208,6 @@ public class CharacterNodeDrawer : NodeEditor
         string[] names2 = {"Стандарт"};
         string[] newNames = names.Concat(names2).ToArray();
         names = newNames;
-    }
-    private bool CheckCustomizableCharacter()
-    {
-        if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
     private void DrawEnumPopup()
     {
