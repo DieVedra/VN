@@ -6,12 +6,11 @@ using UnityEngine;
 public class SeriaNodeGraphsHandler : ScriptableObject
 {
     [SerializeField, Expandable] private List<SeriaPartNodeGraph> _seriaPartNodeGraphs;
-
     public int CurrentNodeGraphIndex { get; private set; }
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
     private NodeGraphInitializer _nodeGraphInitializer;
-    public void Construct(NodeGraphInitializer nodeGraphInitializer,
+    public void Construct(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
     {
         _nodeGraphInitializer = nodeGraphInitializer;
@@ -28,7 +27,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
             {
                 for (int i = 0; i < _seriaPartNodeGraphs.Count; i++)
                 {
-                    _seriaPartNodeGraphs[i].Init(_nodeGraphInitializer);
+                    _seriaPartNodeGraphs[i].Init(_nodeGraphInitializer, currentSeriaIndex);
                 }
             }
         }

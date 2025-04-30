@@ -11,9 +11,19 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     [SerializeField, Expandable] private AudioData _audioData;
     [SerializeField, Expandable] private AudioData _additionalAudioData;
+    
     [Inject] private GlobalSound _globalSound;
+    private WardrobeSeriaDataProviderBuildMode _wardrobeSeriaDataProviderBuildMode;
+    private CharacterHandlerBuildMode _characterHandlerBuildMode;
     private async void Awake()
     {
+        _characterHandlerBuildMode = new CharacterHandlerBuildMode();
+        _wardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
+        
+        await _wardrobeSeriaDataProviderBuildMode.DownloadFirstWardrobeSeriaData();
+        await _characterHandlerBuildMode.DownloadFirstsCharacters();
+        
+        
         Init();
         OnSceneTransition.Subscribe(_ =>
         {
@@ -47,7 +57,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
             // _globalSound.Init();
         }
         InitGlobalSound();
-
         OnSceneTransition = new ReactiveCommand();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
@@ -61,9 +70,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(CharacterHandler.Characters, Background.GetBackgroundContent, Background,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterHandlerBuildMode.GetCharacters(), Background.GetBackgroundContent, Background,
             LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, CharacterHandler.CustomizableCharacter, _globalSound, GameStatsCustodian,
+            CharacterViewer, _wardrobeCharacterViewer, _characterHandlerBuildMode.CustomizableCharacter, _wardrobeSeriaDataProviderBuildMode, _globalSound, GameStatsCustodian,
             Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 

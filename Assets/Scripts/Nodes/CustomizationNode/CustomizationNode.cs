@@ -22,6 +22,7 @@ public class CustomizationNode : BaseNode
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private CustomizableCharacter _customizableCharacter;
+    private WardrobeSeriaData _wardrobeSeriaData;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
 
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
@@ -32,8 +33,9 @@ public class CustomizationNode : BaseNode
     private GameStatsCustodian _gameStatsCustodian;
     private CustomizationNodeInitializer _customizationNodeInitializer;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
-    public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        CustomizableCharacter customizableCharacter, Background background, Sound sound, GameStatsCustodian gameStatsCustodian,
+    public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
+        CustomizationCurtainUIHandler customizationCurtainUIHandler,
+        CustomizableCharacter customizableCharacter, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound, GameStatsCustodian gameStatsCustodian,
         Wallet wallet, WardrobeCharacterViewer wardrobeCharacterViewer)
     {
         _sound = sound;
@@ -42,17 +44,24 @@ public class CustomizationNode : BaseNode
         _wallet = wallet;
         _background = background;
         _customizableCharacter = customizableCharacter;
+        _wardrobeSeriaData = wardrobeSeriaData;
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
-            TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.BodiesSprites, 1,1);
-            TryInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData.MySprites);
-            TryInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData.MySprites, 1);
-            TryInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData.MySprites, 1);
+            // TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
+            // TryInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData);
+            // TryInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData, 1);
+            // TryInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
 
+            TryInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+            TryInitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
+            TryInitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
+            TryInitCustomizationSettings(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
+            
+            
             _gameStatsCustodian.StatsChangedReactiveCommand.Subscribe(_ =>
             {
                 ReinitBodiesCustomizationSettings();
@@ -158,40 +167,40 @@ public class CustomizationNode : BaseNode
 
     private void ResetBodiesCustomizationSettings()
     {
-        _settingsBodies = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.BodiesSprites, 1,1);
+        _settingsBodies = _customizationNodeInitializer.InitCustomizationSettings(_wardrobeSeriaData.GetBodiesSprites(), 1,1);
     }
 
     private void ReinitBodiesCustomizationSettings()
     {
-        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.BodiesSprites, 1,1);
+        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
     }
 
     private void ResetHairstylesCustomizationSettings()
     {
-        _settingsHairstyles = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.HairstylesData.MySprites);
+        _settingsHairstyles = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.HairstylesData);
     }
 
     private void ReinitHairstylesCustomizationSettings()
     {
-        _settingsHairstyles = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData.MySprites);
+        _settingsHairstyles = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData);
     }
 
     private void ResetClothesCustomizationSettings()
     {
-        _settingsClothes = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.ClothesData.MySprites, 1);
+        _settingsClothes = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.ClothesData, 1);
     }
 
     private void ReinitClothesCustomizationSettings()
     {
-        _settingsClothes = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData.MySprites, 1);
+        _settingsClothes = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData, 1);
     }
     private void ResetSwimsuitsCustomizationSettings()
     {
-        _settingsSwimsuits = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.SwimsuitsData.MySprites, 1);
+        _settingsSwimsuits = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.SwimsuitsData, 1);
     }
     private void ReinitSwimsuitsCustomizationSettings()
     {
-        _settingsSwimsuits = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData.MySprites, 1);
+        _settingsSwimsuits = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
     }
     private SelectedCustomizationContentIndexes CreateCustomizationContent()
     {

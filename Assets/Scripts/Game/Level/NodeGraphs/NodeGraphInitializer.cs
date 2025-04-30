@@ -6,6 +6,7 @@ public class NodeGraphInitializer
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
     public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
 
+    private readonly IWardrobeSeriaDataProvider _wardrobeSeriaDataProvider;
     private readonly Background _background;
     private readonly LevelUIProvider _levelUIProvider;
     private readonly CharacterViewer _characterViewer;
@@ -17,16 +18,17 @@ public class NodeGraphInitializer
     private readonly DisableNodesContentEvent _disableNodesContentEvent;
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly List<BackgroundContent> _backgrounds;
-    private readonly List<Character> _characters;
+    private readonly IReadOnlyList<Character> _characters;
 
 
-    public NodeGraphInitializer(List<Character> characters, List<BackgroundContent> backgrounds, Background background, 
+    public NodeGraphInitializer(IReadOnlyList<Character> characters, List<BackgroundContent> backgrounds, Background background, 
         LevelUIProvider levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
-        CustomizableCharacter customizableCharacter,
+        CustomizableCharacter customizableCharacter, IWardrobeSeriaDataProvider wardrobeSeriaDataProvider,
         Sound sound, GameStatsCustodian gameStatsCustodian, Wallet wallet,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
     {
+        _wardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
         _backgrounds = backgrounds;
         _background = background;
         _levelUIProvider = levelUIProvider;
@@ -41,17 +43,10 @@ public class NodeGraphInitializer
         _disableNodesContentEvent = disableNodesContentEvent;
         _switchToNextSeriaEvent = switchToNextSeriaEvent;
         SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
-        if (characters == null)
-        {
-            _characters = new List<Character>();
-        }
-        else
-        {
-            _characters = characters;
-        }
+        _characters = characters;
     }
 
-    public void Init(List<BaseNode> nodes)
+    public void Init(List<BaseNode> nodes, int seriaIndex)
     {
         foreach (var node in nodes)
         {
@@ -115,7 +110,9 @@ public class NodeGraphInitializer
                 customizationNode.ConstructMyCustomizationNode(
                     _levelUIProvider.CustomizationCharacterPanelUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler,
-                    _customizableCharacter, _background, _sound, _gameStatsCustodian, _wallet, _wardrobeCharacterViewer);
+                    _customizableCharacter,
+                    _wardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
+                    _background, _sound, _gameStatsCustodian, _wallet, _wardrobeCharacterViewer);
                 continue;
             }
 

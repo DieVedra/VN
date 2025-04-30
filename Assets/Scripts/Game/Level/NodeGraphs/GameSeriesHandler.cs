@@ -24,7 +24,7 @@ public class GameSeriesHandler : MonoBehaviour
         _nodeGraphInitializer = nodeGraphInitializer;
         if (Application.isPlaying == false)
         {
-            for (int i = 0; i < _seriaNodeGraphsHandlers.Count; i++)
+            for (int i = 0; i < _seriaNodeGraphsHandlers.Count; ++i)
             {
                 InitSeria(i, currentNodeGraphIndex, currentNodeIndex);
 
@@ -50,7 +50,7 @@ public class GameSeriesHandler : MonoBehaviour
 
     private void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaNodeGraphsHandlers[currentSeriaIndex].Construct(_nodeGraphInitializer, currentNodeGraphIndex, currentNodeIndex);
+        _seriaNodeGraphsHandlers[currentSeriaIndex].Construct(_nodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     private void SwitchSeria(bool putSwimsuits = false)
     {

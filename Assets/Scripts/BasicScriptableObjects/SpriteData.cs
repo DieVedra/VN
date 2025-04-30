@@ -5,10 +5,14 @@ using UnityEngine;
 public class SpriteData : ScriptableObject
 {
     [SerializeField] private List<Sprite> _sprites;
-    [SerializeField/*, HideInInspector*/] private List<MySprite> _mySprites;
+    [SerializeField] private List<MySprite> _mySprites;
     public List<Sprite> Sprites => _sprites;
     public List<MySprite> MySprites => _mySprites;
 
+    public void AddMySprites(List<MySprite> mySprites)
+    {
+        _mySprites.AddRange(mySprites);
+    }
     public string[] GetNames()
     {
         List<string> names = new List<string>(_sprites.Count);

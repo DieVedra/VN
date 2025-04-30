@@ -19,17 +19,17 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     [SerializeField, HideInInspector] private bool _overrideName;
     [SerializeField, HideInInspector] private string _overridedName;
 
-    private List<Character> _characters;
     private Background _background;
     private CharacterTalkData _characterTalkData;
     private CharacterPanelUIHandler _characterPanelUIHandler;
     private CharacterViewer _characterViewer;
-    public List<Character> Characters => _characters;
+    
+    public IReadOnlyList<Character> Characters;
 
-    public void ConstructMyCharacterNode(List<Character> characters, CharacterPanelUIHandler characterPanelUIHandler,
+    public void ConstructMyCharacterNode(IReadOnlyList<Character> characters, CharacterPanelUIHandler characterPanelUIHandler,
         Background background, CharacterViewer characterViewer)
     {
-        _characters = characters;
+        Characters = characters;
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
@@ -90,7 +90,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterViewer.ResetCharacterView();
         _characterViewer.gameObject.SetActive(true);
         _characterViewer.SetDirection(_directionType);
-        if (_characters[_indexCharacter] is CustomizableCharacter customizableCharacter)
+        if (Characters[_indexCharacter] is CustomizableCharacter customizableCharacter)
         {
             if (_toggleIsSwimsuit)
             {
@@ -134,24 +134,24 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     }
     private MySprite GetLook()
     {
-        // return _characters[_indexCharacter].LooksData.MySprites[_indexLook];
-        return _characters[_indexCharacter].GetLookMySprite(_indexLook);
+        // return Characters[_indexCharacter].LooksData.MySprites[_indexLook];
+        return Characters[_indexCharacter].GetLookMySprite(_indexLook);
     }
     
     private MySprite GetEmotionCharacter()
     {
         // MySprite result = null;
-        // if (_characters[_indexCharacter].EmotionsData != null)
+        // if (Characters[_indexCharacter].EmotionsData != null)
         // {
         // }
         //
-        // if (_indexEmotion < _characters[_indexCharacter].EmotionsData.MySprites.Count)
+        // if (_indexEmotion < Characters[_indexCharacter].EmotionsData.MySprites.Count)
         // {
         // }
 
-        // result = _characters[_indexCharacter].EmotionsData.MySprites[_indexEmotion];
+        // result = Characters[_indexCharacter].EmotionsData.MySprites[_indexEmotion];
         // return result;
-        return _characters[_indexCharacter].GetEmotionMySprite(_indexEmotion);
+        return Characters[_indexCharacter].GetEmotionMySprite(_indexEmotion);
     }
     private MySprite GetEmotionFromCustomization(CustomizableCharacter customizableCharacter)
     {
@@ -168,7 +168,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     }
     private string GetName()
     {
-        return _characters[_indexCharacter].MyName;
+        return Characters[_indexCharacter].MyName;
     }
     protected override void TryActivateButtonSwitchToNextSlide()
     {

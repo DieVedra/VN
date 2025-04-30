@@ -560,6 +560,7 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="BasicScriptableObjects" t="Include">
+            <e p="BodySpriteData.cs" t="Include" />
             <e p="SpriteData.cs" t="Include" />
           </e>
           <e p="Editor" t="Include">
@@ -638,6 +639,12 @@
                 </e>
                 <e p="Character.cs" t="Include" />
                 <e p="CharacterDirectionView.cs" t="Include" />
+                <e p="CharacterHandler" t="Include">
+                  <e p="CharacterHandlerBuildMode.cs" t="Include" />
+                  <e p="CharacterHandlerEditMode.cs" t="Include" />
+                  <e p="CharactersData.cs" t="Include" />
+                  <e p="ICharacterHandler.cs" t="Include" />
+                </e>
                 <e p="CharacterSettings.cs" t="Include" />
                 <e p="CharacterViewSetting.cs" t="Include" />
                 <e p="CustomizableCharacter.cs" t="Include" />
@@ -648,7 +655,6 @@
                   <e p="SpriteViewerMaterialPropertiesNames.cs" t="Include" />
                 </e>
               </e>
-              <e p="CharacterHandler.cs" t="Include" />
               <e p="CharacterViewer" t="Include">
                 <e p="BaseCharacterViewer.cs" t="Include" />
                 <e p="CharacterViewer.cs" t="Include" />
@@ -771,6 +777,12 @@
             <e p="Wallet.cs" t="Include" />
             <e p="Wardrobe" t="Include">
               <e p="WardrobeHandler.cs" t="Include" />
+              <e p="WardrobeSeriaData.cs" t="Include" />
+              <e p="WardrobeSeriaDataProvider" t="Include">
+                <e p="IWardrobeSeriaDataProvider.cs" t="Include" />
+                <e p="WardrobeSeriaDataProviderBuildMode.cs" t="Include" />
+                <e p="WardrobeSeriaDataProviderEditMode.cs" t="Include" />
+              </e>
             </e>
           </e>
           <e p="Input" t="Include">

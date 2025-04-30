@@ -4,9 +4,9 @@ using UnityEngine;
 [System.Serializable]
 public class MySprite
 {
-    [SerializeField] private float _offsetXValue;
-    [SerializeField] private float _offsetYValue;
-    [SerializeField] private float _scaleValue;
+    [SerializeField] private float _offsetXValue = 0.5f;
+    [SerializeField] private float _offsetYValue = 0.5f;
+    [SerializeField] private float _scaleValue = 0.5f;
     [SerializeField] private int _price;
     [SerializeField] private Sprite _sprite;
     public string Name => _sprite.name;

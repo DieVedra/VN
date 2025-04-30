@@ -12,28 +12,21 @@ public class CustomizableCharacter : Character
     [SerializeField, ReadOnly] private int _hairstyleIndex;
     
     
-    [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("Bodies"), Expandable] private List<MySprite> _bodiesSprites;
-
-    [SerializeField, BoxGroup("Emotions"), Expandable] private List<SpriteData> _emotionsData;
-    // [SerializeField, BoxGroup("Emotions"), Expandable] private SpriteData _emotionsData3;
-    [SerializeField, HorizontalLine(color:EColor.Pink), BoxGroup("Clothes"), Expandable] private SpriteData _clothesData;
-    [SerializeField, HorizontalLine(color:EColor.Blue), BoxGroup("Swimsuits"), Expandable] private SpriteData _swimsuitsData;
-    [SerializeField, HorizontalLine(color:EColor.Green), BoxGroup("Hairstyles"), Expandable] private SpriteData _hairstylesData;
-
-    private const int CustomizationEmotionIndex = 2;
-    private const int EuropeoidBodyIndex = 0;
-    private const int MongoloidBodyIndex = 1;
-    private const int NegroidBodyIndex = 2;
+    [SerializeField, HorizontalLine(color:EColor.Yellow), ReadOnly] private List<BodySpriteData> _bodiesData;
+    [SerializeField, HorizontalLine(color:EColor.Pink), ReadOnly] private List<MySprite> _clothesData;
+    [SerializeField, HorizontalLine(color:EColor.Blue), ReadOnly] private List<MySprite> _swimsuitsData;
+    [SerializeField, HorizontalLine(color:EColor.Green), ReadOnly] private List<MySprite> _hairstylesData;
+    
+    
     
     private WardrobeSaveData _wardrobeSaveData;
-    public SpriteData ClothesData => _clothesData;
-    public SpriteData SwimsuitsData => _swimsuitsData;
-    public SpriteData HairstylesData => _hairstylesData;
+    public IReadOnlyList<MySprite> ClothesData => _clothesData;
+    public IReadOnlyList<MySprite> SwimsuitsData => _swimsuitsData;
+    public IReadOnlyList<MySprite> HairstylesData => _hairstylesData;
     public int BodyIndex => _bodyIndex;
     public int ClothesIndex => _clothesIndex;
     public int SwimsuitsIndex => _swimsuitsIndex;
     public int HairstyleIndex => _hairstyleIndex;
-    public IReadOnlyList<MySprite> BodiesSprites => _bodiesSprites;
 
     public void Construct(WardrobeSaveData wardrobeSaveData)
     {
@@ -41,19 +34,52 @@ public class CustomizableCharacter : Character
         SetIndexes(wardrobeSaveData.BodyIndex, wardrobeSaveData.HairstyleIndex, wardrobeSaveData.ClothesIndex, wardrobeSaveData.SwimsuitsIndex);
     }
 
+    public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
+    {
+        if (wardrobeSeriaData.BodiesDataSeria.Count > 0)
+        {
+            _bodiesData.AddRange(wardrobeSeriaData.BodiesDataSeria);
+        }
+
+        if (wardrobeSeriaData.ClothesDataSeria.MySprites.Count > 0)
+        {
+            _clothesData.AddRange(wardrobeSeriaData.ClothesDataSeria.MySprites);
+        }
+
+        if (wardrobeSeriaData.HairstylesDataSeria.MySprites.Count > 0)
+        {
+            _hairstylesData.AddRange(wardrobeSeriaData.HairstylesDataSeria.MySprites);
+        }
+
+        if (wardrobeSeriaData.SwimsuitsDataSeria.MySprites.Count > 0)
+        {
+            _swimsuitsData.AddRange(wardrobeSeriaData.SwimsuitsDataSeria.MySprites);
+        }
+    }
     public WardrobeSaveData GetWardrobeSaveData()
     {
         return _wardrobeSaveData;
     }
 
+    // public IReadOnlyList<MySprite> GetBodiesSprites()
+    // {
+    //     List<MySprite> bodiesSprites = new List<MySprite>(_bodiesData.Count);
+    //     for (int i = 0; i < _bodiesData.Count; ++i)
+    //     {
+    //         bodiesSprites.Add(_bodiesData[i].Body);
+    //     }
+    //
+    //     return bodiesSprites;
+    // }
+
     public SpriteData GetCurrentEmotionsDataByBodyIndex()
     {
         SpriteData spriteData = null;
-        for (int i = 0; i < _emotionsData.Count; ++i)
+        for (int i = 0; i < _bodiesData.Count; ++i)
         {
             if (_bodyIndex == i)
             {
-                spriteData = _emotionsData[i];
+                spriteData = _bodiesData[i].EmotionsData;
                 break;
             }
         }
@@ -62,33 +88,33 @@ public class CustomizableCharacter : Character
 
     public override MySprite GetEmotionMySprite(int index = 0)
     {
-        return _emotionsData[_bodyIndex].MySprites[index];
+        return _bodiesData[_bodyIndex].EmotionsData.MySprites[index];
     }
 
     public override MySprite GetLookMySprite(int index = 0)
     {
-        return _bodiesSprites[_bodyIndex];
+        return _bodiesData[_bodyIndex].Body;
     }
 
     public MySprite GetClothesSprite()
     {
-        return _clothesData.MySprites[_clothesIndex];
+        return _clothesData[_clothesIndex];
     }
 
     public MySprite GetSwimsuitSprite()
     {
-        return _swimsuitsData.MySprites[_swimsuitsIndex];
+        return _swimsuitsData[_swimsuitsIndex];
     }
 
     public MySprite GetHairstyleSprite()
     {
-        return _hairstylesData.MySprites[_hairstyleIndex];
+        return _hairstylesData[_hairstyleIndex];
     }
 
-    public MySprite GetBodySprite()
-    {
-        return _bodiesSprites[_bodyIndex];
-    }
+    // public MySprite GetBodySprite()
+    // {
+    //     return GetBodiesSprites[_bodyIndex];
+    // }
 
     public void SetBodyIndex(int bodyIndex)
     {

@@ -6,11 +6,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField] private BackgroundContent _wardrobeBackground;
     [SerializeField] private LevelSound _levelSound;
-
+    [SerializeField] private WardrobeSeriaDataProviderEditMode _wardrobeSeriaDataProviderEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
     [SerializeField] private SpriteRenderer _spriteRendererPrefab;
     [SerializeField] private GlobalAudioData _globalAudioData;
+    [SerializeField] private CharacterHandlerEditMode _characterHandlerEditMode;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
@@ -48,7 +49,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             GameStatsCustodian.Init(StoryData.Stats);
             _levelSound.Init(SaveData.SoundIsOn);
             _levelSound.SetGlobalSoundData(_globalAudioData);
-            CharacterHandler.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
+            _characterHandlerEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
         }
         else
         {
@@ -73,8 +74,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(CharacterHandler.Characters, Background.GetBackgroundContent, Background, LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, CharacterHandler.CustomizableCharacter, _levelSound, GameStatsCustodian, Wallet,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterHandlerEditMode.GetCharacters(), Background.GetBackgroundContent, Background, LevelUIProvider,
+            CharacterViewer, _wardrobeCharacterViewer, _characterHandlerEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, _levelSound, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -110,7 +111,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
 
-            StoryData.WardrobeSaveData = CharacterHandler.CustomizableCharacter.GetWardrobeSaveData();
+            StoryData.WardrobeSaveData = _characterHandlerEditMode.CustomizableCharacter.GetWardrobeSaveData();
 
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;

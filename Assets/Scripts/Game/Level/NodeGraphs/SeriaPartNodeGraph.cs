@@ -9,16 +9,18 @@ public class SeriaPartNodeGraph : NodeGraph
 	private BaseNode _currentNode;
 	private int _nodeCount = 0;
 	private int _currentNodeIndex;
+	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
 	
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
 
 
-	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentNodeIndex = 0)
+	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
 		_nodeGraphInitializer = nodeGraphInitializer;
 		_currentNodeIndex = currentNodeIndex;
+		_currentSeriaIndex = currentSeriaIndex;
 		_nodeCount = nodes.Count;
 		
 		TryInitNodes();
@@ -93,7 +95,7 @@ public class SeriaPartNodeGraph : NodeGraph
 					}
 				}
 			}
-			_nodeGraphInitializer.Init(_baseNodes);
+			_nodeGraphInitializer.Init(_baseNodes, _currentSeriaIndex);
 			_currentNode = _baseNodes[_currentNodeIndex];
 		}
 	}

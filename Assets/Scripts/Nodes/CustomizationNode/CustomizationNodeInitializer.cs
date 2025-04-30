@@ -81,8 +81,8 @@ public class CustomizationNodeInitializer
     {
         return new SelectedCustomizationContentIndexes(settingsBodies.Where(n => n.KeyAdd == true).ToList(), 
             settingsHairstyles.Where(n => n.KeyAdd == true).ToList(),
-            GetRenamedFieldsToView(settingsClothes, customizableCharacter.ClothesData.MySprites), 
-            GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData.MySprites),
+            GetRenamedFieldsToView(settingsClothes, customizableCharacter.ClothesData), 
+            GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData),
             customizableCharacter);
     }
 

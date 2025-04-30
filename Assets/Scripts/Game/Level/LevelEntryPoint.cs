@@ -1,5 +1,4 @@
 ﻿
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     [SerializeField] protected GameObject EventSystem;
     [SerializeField] protected CharacterViewer CharacterViewer;
     [SerializeField] protected GameSeriesHandler GameSeriesHandler;
-    [SerializeField] protected CharacterHandler CharacterHandler;
     [SerializeField] protected Background Background;
     [SerializeField] protected LevelUIView LevelUIView;
     [SerializeField] protected GameStatsCustodian GameStatsCustodian;
