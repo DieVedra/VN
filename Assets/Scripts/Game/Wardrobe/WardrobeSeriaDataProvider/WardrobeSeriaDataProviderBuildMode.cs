@@ -23,7 +23,7 @@ public class WardrobeSeriaDataProviderBuildMode : IWardrobeSeriaDataProvider
         }
     }
 
-    public UniTask DownloadFirstWardrobeSeriaData()
+    public UniTask LoadFirstSeriaWardrobeContent()
     {
         
         

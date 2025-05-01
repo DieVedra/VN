@@ -640,10 +640,10 @@
                 <e p="Character.cs" t="Include" />
                 <e p="CharacterDirectionView.cs" t="Include" />
                 <e p="CharacterHandler" t="Include">
-                  <e p="CharacterHandlerBuildMode.cs" t="Include" />
-                  <e p="CharacterHandlerEditMode.cs" t="Include" />
+                  <e p="CharacterProviderBuildMode.cs" t="Include" />
+                  <e p="CharacterProviderEditMode.cs" t="Include" />
                   <e p="CharactersData.cs" t="Include" />
-                  <e p="ICharacterHandler.cs" t="Include" />
+                  <e p="ICharacterProvider.cs" t="Include" />
                 </e>
                 <e p="CharacterSettings.cs" t="Include" />
                 <e p="CharacterViewSetting.cs" t="Include" />
@@ -687,15 +687,19 @@
               <e p="LevelEntryPointBuild.cs" t="Include" />
               <e p="LevelEntryPointEditor.cs" t="Include" />
               <e p="MySprite.cs" t="Include" />
-              <e p="NodeGraphs" t="Include">
+              <e p="PrefabAssetsLoader" t="Include">
+                <e p="BackgroundContentPrefabAssetLoader.cs" t="Include" />
+              </e>
+              <e p="ScriptableObjectAssetLoader.cs" t="Include" />
+              <e p="SeriaHandler" t="Include">
                 <e p="GameSeriesHandler.cs" t="Include" />
+                <e p="GameSeriesHandlerBuildMode.cs" t="Include" />
+                <e p="GameSeriesHandlerEditorMode.cs" t="Include" />
+                <e p="GameSeriesProvider.cs" t="Include" />
                 <e p="NodeGraphInitializer.cs" t="Include" />
                 <e p="SeriaData.cs" t="Include" />
                 <e p="SeriaNodeGraphsHandler.cs" t="Include" />
                 <e p="SeriaPartNodeGraph.cs" t="Include" />
-              </e>
-              <e p="PrefabAssetsLoader" t="Include">
-                <e p="BackgroundContentPrefabAssetLoader.cs" t="Include" />
               </e>
             </e>
             <e p="LocalizableString.cs" t="Include" />

@@ -8,30 +8,29 @@ public class LevelEntryPointBuild : LevelEntryPoint
 {
     [SerializeField, ReadOnly] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField, ReadOnly] private BackgroundContent _wardrobeBackground;
-
+    [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField, Expandable] private AudioData _audioData;
     [SerializeField, Expandable] private AudioData _additionalAudioData;
     
     [Inject] private GlobalSound _globalSound;
+    
     private WardrobeSeriaDataProviderBuildMode _wardrobeSeriaDataProviderBuildMode;
-    private CharacterHandlerBuildMode _characterHandlerBuildMode;
+    private CharacterProviderBuildMode _characterProviderBuildMode;
+    private GameSeriesProvider _gameSeriesProvider;
     private async void Awake()
     {
-        _characterHandlerBuildMode = new CharacterHandlerBuildMode();
+        _characterProviderBuildMode = new CharacterProviderBuildMode();
         _wardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
-        
-        await _wardrobeSeriaDataProviderBuildMode.DownloadFirstWardrobeSeriaData();
-        await _characterHandlerBuildMode.DownloadFirstsCharacters();
-        
-        
+        _gameSeriesProvider = new GameSeriesProvider();
+
+        await _wardrobeSeriaDataProviderBuildMode.LoadFirstSeriaWardrobeContent();
+        await _characterProviderBuildMode.LoadFirstSeriaCharacters();
+        await _gameSeriesProvider.LoadFirstSeria();
+
         Init();
         OnSceneTransition.Subscribe(_ =>
         {
-            CharacterViewer.Dispose();
-            GameSeriesHandler.Dispose();
-            LevelUIProvider.Dispose();
-            EventSystem.gameObject.SetActive(false);
-            Save();
+            Dispose();
         });
         //
         // var handle = Addressables.LoadAssetAsync<SeriaPartNodeGraph>("8 SeriaPartNodeGraph 2.1");
@@ -70,20 +69,19 @@ public class LevelEntryPointBuild : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(_characterHandlerBuildMode.GetCharacters(), Background.GetBackgroundContent, Background,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderBuildMode.GetCharacters(), Background.GetBackgroundContent, Background,
             LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, _characterHandlerBuildMode.CustomizableCharacter, _wardrobeSeriaDataProviderBuildMode, _globalSound, GameStatsCustodian,
+            CharacterViewer, _wardrobeCharacterViewer, _characterProviderBuildMode.CustomizableCharacter, _wardrobeSeriaDataProviderBuildMode, _globalSound, GameStatsCustodian,
             Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
         {
-            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
-
+            _gameSeriesHandlerBuildMode.Construct(_gameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent);
         }
         else
         {
-            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
+            _gameSeriesHandlerBuildMode.Construct(_gameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
 
@@ -92,19 +90,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private void OnApplicationQuit()
     {
-        CharacterViewer.Dispose();
-        GameSeriesHandler.Dispose();
-        LevelUIProvider.Dispose();
-        EventSystem.gameObject.SetActive(false);
-        Save();
+        Dispose();
     }
 
+    protected override void Dispose()
+    {
+        _gameSeriesHandlerBuildMode.Dispose();
+        base.Dispose();
+    }
     private void Save()
     {
         if (LoadSaveData == true)
         {
-            StoryData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
-            StoryData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
+            StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
+            StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
             

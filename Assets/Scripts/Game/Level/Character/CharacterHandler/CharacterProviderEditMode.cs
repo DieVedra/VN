@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class CharacterHandlerEditMode : MonoBehaviour, ICharacterHandler
+public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
 {
     [SerializeField, BoxGroup("Simple Characters: ")] private List<SimpleCharacter> _simpleCharacters;
     [SerializeField, BoxGroup("CustomizableCharacter: ")] private CustomizableCharacter _customizableCharacter;

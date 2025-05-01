@@ -6,7 +6,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
 {
     [SerializeField] protected GameObject EventSystem;
     [SerializeField] protected CharacterViewer CharacterViewer;
-    [SerializeField] protected GameSeriesHandler GameSeriesHandler;
     [SerializeField] protected Background Background;
     [SerializeField] protected LevelUIView LevelUIView;
     [SerializeField] protected GameStatsCustodian GameStatsCustodian;
@@ -43,5 +42,12 @@ public abstract class LevelEntryPoint : MonoBehaviour
         {
             Background.ConstructSaveOff(DisableNodesContentEvent, CharacterViewer, spriteRendererCreator, wardrobeBackground);
         }
+    }
+
+    protected virtual void Dispose()
+    {
+        CharacterViewer.Dispose();
+        LevelUIProvider.Dispose();
+        EventSystem.gameObject.SetActive(false);
     }
 }

@@ -11,7 +11,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
     [SerializeField] private SpriteRenderer _spriteRendererPrefab;
     [SerializeField] private GlobalAudioData _globalAudioData;
-    [SerializeField] private CharacterHandlerEditMode _characterHandlerEditMode;
+    [SerializeField] private CharacterProviderEditMode characterProviderEditMode;
+    [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
@@ -27,7 +28,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         OnSceneTransition.Subscribe(_ =>
         {
             CharacterViewer.Dispose();
-            GameSeriesHandler.Dispose();
+            _gameSeriesHandlerEditorMode.Dispose();
             LevelUIProvider.Dispose();
             EventSystem.gameObject.SetActive(false);
             Save();
@@ -49,7 +50,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             GameStatsCustodian.Init(StoryData.Stats);
             _levelSound.Init(SaveData.SoundIsOn);
             _levelSound.SetGlobalSoundData(_globalAudioData);
-            _characterHandlerEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
+            characterProviderEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
         }
         else
         {
@@ -74,44 +75,45 @@ public class LevelEntryPointEditor : LevelEntryPoint
         SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
-        NodeGraphInitializer = new NodeGraphInitializer(_characterHandlerEditMode.GetCharacters(), Background.GetBackgroundContent, Background, LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, _characterHandlerEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, _levelSound, GameStatsCustodian, Wallet,
+        NodeGraphInitializer = new NodeGraphInitializer(characterProviderEditMode.GetCharacters(), Background.GetBackgroundContent, Background, LevelUIProvider,
+            CharacterViewer, _wardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, _levelSound, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
         {
-            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
 
         }
         else
         {
-            GameSeriesHandler.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
 
     private void OnApplicationQuit()
     {
-        CharacterViewer.Dispose();
-        GameSeriesHandler.Dispose();
-        LevelUIProvider.Dispose();
-        EventSystem.gameObject.SetActive(false);
+        Dispose();
+    }
+    protected override void Dispose()
+    {
+        _gameSeriesHandlerEditorMode.Dispose();
+        base.Dispose();
         Save();
     }
-
     private void Save()
     {
         if (LoadSaveData == true)
         {
-            StoryData.CurrentNodeGraphIndex = GameSeriesHandler.CurrentNodeGraphIndex;
-            StoryData.CurrentNodeIndex = GameSeriesHandler.CurrentNodeIndex;
+            StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
+            StoryData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             StoryData.CurrentAudioClipIndex = _levelSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsCustodian.LowPassEffectIsOn;
             
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
 
-            StoryData.WardrobeSaveData = _characterHandlerEditMode.CustomizableCharacter.GetWardrobeSaveData();
+            StoryData.WardrobeSaveData = characterProviderEditMode.CustomizableCharacter.GetWardrobeSaveData();
 
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;

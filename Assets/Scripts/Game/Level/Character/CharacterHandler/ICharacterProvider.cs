@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface ICharacterHandler
+public interface ICharacterProvider
 {
     public IReadOnlyList<Character> GetCharacters();
 }
