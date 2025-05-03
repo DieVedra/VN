@@ -1,12 +1,8 @@
 ﻿
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using NaughtyAttributes;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -19,7 +15,6 @@ public class Sound : MonoBehaviour
     private AudioEffectsCustodian _audioEffectsCustodian;
     private ClipProvider _clipProvider;
 
-    // private ReactiveCommand _playEvent;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
     [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
     [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
@@ -39,7 +34,6 @@ public class Sound : MonoBehaviour
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
     public IReadOnlyList<AudioClip> Clips => MusicAudioData;
     public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
-    // public ReactiveCommand PlayEvent => _playEvent;
     public virtual void Init(bool soundOn = true)
     {
         _audioSources = new Dictionary<AudioSourceType, AudioSource>()
@@ -59,7 +53,6 @@ public class Sound : MonoBehaviour
         _clipProvider = new ClipProvider(ref MusicAudioData, ref AmbientAudioData);
         SmoothAudio = new SmoothAudio(_audioSources, _clipProvider);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
-        // _playEvent = new ReactiveCommand();
     }
 
     public void SetGlobalSoundData(GlobalAudioData globalAudioData)

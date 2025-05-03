@@ -78,14 +78,12 @@ public class SoundNode : BaseNode
     {
         _startedPlayMusicPlayMusic = true;
         _sound.PlayAudioByIndex(_currentMusicSoundIndex, AudioSourceType.Music);
-        Debug.Log(11);
     }
 
     private void PlayAmbientAudio()
     {
         _startedPlayAmbient = true;
         _sound.PlayAudioByIndex(_currentAmbientSoundIndex, AudioSourceType.Ambient);
-        Debug.Log(22);
     }
 
     private void StopMusicAudio()

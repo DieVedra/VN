@@ -21,10 +21,6 @@ public class GameSeriesHandler : MonoBehaviour
             handler.Dispose();
         }
     }
-    public void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
-    {
-        SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
-    }
 
     protected void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler
@@ -12,6 +13,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         CurrentSeriaIndex = currentSeriaIndex;
         _gameSeriesProvider = gameSeriesProvider;
         NodeGraphInitializer = nodeGraphInitializer;
+        _gameSeriesProvider.OnLoad += AddSeria;
         if (Application.isPlaying == false)
         {
             for (int i = 0; i < SeriaNodeGraphsHandlers.Count; ++i)
@@ -24,7 +26,13 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
             InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
         }
     }
-    public void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
+
+    private void OnDestroy()
+    {
+        _gameSeriesProvider.OnLoad -= AddSeria;
+    }
+
+    private void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
     }

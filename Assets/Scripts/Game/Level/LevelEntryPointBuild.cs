@@ -96,6 +96,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
     protected override void Dispose()
     {
         _gameSeriesHandlerBuildMode.Dispose();
+        _wardrobeSeriaDataProviderBuildMode.Dispose();
+        _characterProviderBuildMode.Dispose();
+        _gameSeriesProvider.Dispose();
         base.Dispose();
     }
     private void Save()

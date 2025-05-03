@@ -12,52 +12,39 @@ using UnityEngine.UI;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] private AudioData _audioData;
-    [SerializeField] private AudioSource _audioSource;
-
-    private AsyncOperationHandle<AudioData> _asyncOperationHandle;
-
-
-
-    public void tst()
+    [SerializeField] private string nameasset;
+    // [SerializeField, Expandable] private CharactersData _wardrobeSeriaData;
+    [SerializeField, Expandable] private ScriptableObject _scriptable;
+    [SerializeField] private List<string> _names;
+    
+    
+    private ScriptableObjectAssetLoader _scriptableObjectAssetLoader;
+    private AssetExistsHandler _assetExistsHandler;
+    [Button()]
+    private void Load()
     {
-        Application.Quit();
+        load().Forget();
+
     }
     [Button()]
-    private void Set()
+    private void Unload()
     {
-        Load().Forget();
+        _scriptableObjectAssetLoader.UnloadAll();
+        _scriptable = null;
+        _names = null;
     }
-
-    private async UniTask Load()
+    private async UniTaskVoid load()
     {
-        
-        _asyncOperationHandle = Addressables.LoadAssetAsync<AudioData>("MusicAudioData");
-        await _asyncOperationHandle.Task;
-        if (_asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
+        await Addressables.InitializeAsync();
+        _scriptableObjectAssetLoader = new ScriptableObjectAssetLoader();
+        _assetExistsHandler = new AssetExistsHandler();
+
+        _names = await _assetExistsHandler.CheckExistsAssetsNames(nameasset);
+        _scriptable = await _scriptableObjectAssetLoader.Load<ScriptableObject>(_names[0]);
+
+        if (_scriptable == null)
         {
-            _audioData = _asyncOperationHandle.Result;
-            
+            Debug.Log(11111);
         }
-    }
-
-    [Button()]
-    private void Remote()
-    {
-        Addressables.ReleaseInstance(_asyncOperationHandle);
-        _audioData = null;
-    }
-
-    [Button()]
-    private void Play()
-    {
-        _audioSource.clip = _audioData.Clips[0];
-        _audioSource.Play();
-    }
-    [Button()]
-    private void Stop()
-    {
-        _audioSource.Stop();
-        _audioSource.clip = null;
     }
 }

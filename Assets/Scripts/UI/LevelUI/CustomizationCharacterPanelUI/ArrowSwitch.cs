@@ -18,9 +18,10 @@ public class ArrowSwitch
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
+    private readonly TaskRunner _taskRunner;
     private bool _isSwitched;
 
-    private Queue<Func<UniTask>> _tasksQueue;
+    private Queue<TaskRunner> _tasksQueue;
     public int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
     public int CurrentCustomizationSettingsesCount => _customizationSettingsCustodian.CurrentCustomizationSettings.Count;
     public ArrowSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
@@ -41,8 +42,9 @@ public class ArrowSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
+        _taskRunner = new TaskRunner();
         _isSwitched = false;
-        _tasksQueue = new Queue<Func<UniTask>>();
+        _tasksQueue = new Queue<TaskRunner>();
     }
 
     public void Dispose()
@@ -99,10 +101,14 @@ public class ArrowSwitch
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
 
         SetTitle();
-        _tasksQueue.Enqueue(() => UniTask.WhenAll(
-            CreateOperationToQueue(customizationSettings, customizationData, directionType, price)
-        ));
+        
+        
+        // _tasksQueue.Enqueue(() => UniTask.WhenAll(
+        //     CreateOperationToQueue(customizationSettings, customizationData, directionType, price)
+        // ));
 
+        _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price));
+        
         TrySwitch().Forget();
     }
 
@@ -111,17 +117,18 @@ public class ArrowSwitch
         _titleTextComponent.text = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Name;
     }
 
-    private List<UniTask> CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData, DirectionType directionType, int price)
+    private TaskRunner CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData, DirectionType directionType, int price)
     {
-        List<UniTask> returnOperations = new List<UniTask>();
+        TaskRunner taskRunner = new TaskRunner();
         switch (directionType)
         {
             case DirectionType.Right:
-                returnOperations.Add(_characterCustomizationView.SetCharacterCustomizationFromRightArrow(customizationData));
+                
+                taskRunner.AddOperationToList(() => _characterCustomizationView.SetCharacterCustomizationFromRightArrow(customizationData));
                 break;
             
             case DirectionType.Left:
-                returnOperations.Add(_characterCustomizationView.SetCharacterCustomizationFromLeftArrow(customizationData));
+                taskRunner.AddOperationToList(() => _characterCustomizationView.SetCharacterCustomizationFromLeftArrow(customizationData));
                 break;
         }
         
@@ -130,18 +137,18 @@ public class ArrowSwitch
             Stat stat = _statViewHandler.GetStatInfo(customizationSettings.GameStats);
             if (_statViewHandler.IsShowed == true)
             {
-                returnOperations.Add(_statViewHandler.HideToShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
+                taskRunner.AddOperationToList(() => _statViewHandler.HideToShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
             }
             else
             {
-                returnOperations.Add( _statViewHandler.ShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
+                taskRunner.AddOperationToList(() => _statViewHandler.ShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
             }
         }
         else
         {
             if (_statViewHandler.IsShowed == true)
             {
-                returnOperations.Add(_statViewHandler.HideAnim());
+                taskRunner.AddOperationToList(() => _statViewHandler.HideAnim());
             }
         }
 
@@ -149,18 +156,18 @@ public class ArrowSwitch
         {
             if (_priceViewHandler.IsShowed == true)
             {
-                returnOperations.Add(_priceViewHandler.HideToShowAnim(price));
+                taskRunner.AddOperationToList(() => _priceViewHandler.HideToShowAnim(price));
             }
             else
             {
-                returnOperations.Add(_priceViewHandler.ShowAnim(price));
+                taskRunner.AddOperationToList(() => _priceViewHandler.ShowAnim(price));
             }
         }
         else
         {
             if (_priceViewHandler.IsShowed == true)
             {
-                returnOperations.Add(_priceViewHandler.HideAnim());
+                taskRunner.AddOperationToList(() => _priceViewHandler.HideAnim());
             }
         }
 
@@ -168,17 +175,17 @@ public class ArrowSwitch
         {
             if (_buttonPlayHandler.IsActive == false)
             {
-                returnOperations.Add(_buttonPlayHandler.TryOnAnim());
+                taskRunner.AddOperationToList(() => _buttonPlayHandler.TryOnAnim());
             }
         }
         else
         {
             if (_buttonPlayHandler.IsActive == true)
             {
-                returnOperations.Add(_buttonPlayHandler.OffAnim());
+                taskRunner.AddOperationToList(() => _buttonPlayHandler.OffAnim());
             }
         }
-        return returnOperations;
+        return taskRunner;
     }
     private void SetChangedCustomizationIndexes()
     {
@@ -213,7 +220,7 @@ public class ArrowSwitch
             _isSwitched = true;
             while (_isSwitched == true)
             {
-                await _tasksQueue.Dequeue().Invoke();
+                await _tasksQueue.Dequeue().TryRunTasks();
 
                 if (_tasksQueue.Count == 0)
                 {
