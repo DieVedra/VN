@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "AdditionalImagesToBackground", menuName = "AdditionalImagesToBackground", order = 51)]
+[CreateAssetMenu(fileName = "AdditionalImagesToBackground", menuName = "Background/AdditionalImagesToBackground", order = 51)]
 public class AdditionalImagesToBackground : ScriptableObject
 {
     [SerializeField] private List<Sprite> _sprites;

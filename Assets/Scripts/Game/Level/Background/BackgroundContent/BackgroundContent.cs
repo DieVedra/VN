@@ -46,6 +46,11 @@ public class BackgroundContent : MonoBehaviour
         _indexesAdditionalImage = new List<AdditionalImageData>();
         gameObject.SetActive(false);
     }
+
+    public void SetSprite(Sprite sprite)
+    {
+        SpriteRenderer.sprite = sprite;
+    }
     public void Activate()
     {
         gameObject.SetActive(true);

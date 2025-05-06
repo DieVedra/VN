@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
+    [SerializeField] private BackgroundData backgroundData;
+    
     [SerializeField] private SpriteRenderer ShowerImage;
     [SerializeField] private List<Sprite> _additionalImagesToBackground;
     [SerializeField] private List<Sprite> _arts;

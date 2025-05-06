@@ -13,12 +13,14 @@ public class Sound : MonoBehaviour
 
     [SerializeField] protected AudioMixer _mixer;
     private AudioEffectsCustodian _audioEffectsCustodian;
-    private ClipProvider _clipProvider;
+    private AudioClipProvider _audioClipProvider;
 
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
+    
     [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
     [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
-    [SerializeField, Expandable, ReadOnly] protected GlobalAudioData GlobalAudioData;
+    
+    [SerializeField, Expandable] protected GlobalAudioData GlobalAudioData;
     
     public float PlayTimeMusic => _audioSourceMusic.time;
     public float PlayTimeAmbient => _audioSourceAmbient.time;
@@ -34,14 +36,13 @@ public class Sound : MonoBehaviour
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
     public IReadOnlyList<AudioClip> Clips => MusicAudioData;
     public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
-    public virtual void Init(bool soundOn = true)
+    protected void Init(bool soundOn = true)
     {
         _audioSources = new Dictionary<AudioSourceType, AudioSource>()
         {
             {AudioSourceType.Music, _audioSourceMusic},
             {AudioSourceType.Ambient, _audioSourceAmbient}
         };
-        MusicAudioData = new List<AudioClip>();
         if (soundOn == true)
         {
             _audioSourceMusic.mute = false;
@@ -50,14 +51,15 @@ public class Sound : MonoBehaviour
         {
             _audioSourceMusic.mute = true;
         }
-        _clipProvider = new ClipProvider(ref MusicAudioData, ref AmbientAudioData);
-        SmoothAudio = new SmoothAudio(_audioSources, _clipProvider);
+        // _audioClipProvider = new AudioClipProvider(ref MusicAudioData, ref AmbientAudioData);
+        SmoothAudio = new SmoothAudio(_audioSources, _audioClipProvider);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
     }
 
-    public void SetGlobalSoundData(GlobalAudioData globalAudioData)
+    public virtual void Dispose()
     {
-        GlobalAudioData = globalAudioData;
+        MusicAudioData = null;
+        AmbientAudioData = null;
     }
     public void SetPlayTime(float time)
     {
@@ -76,7 +78,7 @@ public class Sound : MonoBehaviour
                 break;
         }
         Debug.Log($"audioSourceType {audioSourceType}   audioClipIndex {audioClipIndex}");
-        PlayAudioByClip(_clipProvider.GetClip(audioSourceType, audioClipIndex), audioSourceType);
+        PlayAudioByClip(_audioClipProvider.GetClip(audioSourceType, audioClipIndex), audioSourceType);
     }
     public void SetVolume(float volume, AudioSourceType audioSourceType)
     {
@@ -84,7 +86,6 @@ public class Sound : MonoBehaviour
     }
     public void PlayAudioByClip(AudioClip clip, AudioSourceType audioSourceType)
     {
-        // _playEvent.Execute();
         _audioSources[audioSourceType].clip = clip;
         _audioSources[audioSourceType].Play();
     }
@@ -97,26 +98,5 @@ public class Sound : MonoBehaviour
     public async UniTask SmoothPlayWardrobeAudio(CancellationToken cancellationToken)
     {
         await SmoothAudio.SmoothPlayWardrobeAudio(GlobalAudioData.GetWardrobeAudioClip, cancellationToken);
-    }
-    public void SetAudioDatas(List<AudioData> musicClips, List<AudioData> ambientClips)
-    {
-        for (int i = 0; i < musicClips.Count; ++i)
-        {
-            AddClips(ref MusicAudioData, musicClips[i].Clips);
-        }
-
-        for (int i = 0; i < ambientClips.Count; i++)
-        {
-            AddClips(ref AmbientAudioData, ambientClips[i].Clips);
-
-        }
-    }
-
-    private void AddClips(ref List<AudioClip> musicAudioData, IReadOnlyList<AudioClip> clips)
-    {
-        for (int i = 0; i < clips.Count; i++)
-        {
-            musicAudioData.Add(clips[i]);
-        }
     }
 }

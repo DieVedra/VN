@@ -7,11 +7,14 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.U2D;
 using Zenject;
 using UnityEngine.UI;
 
 public class test : MonoBehaviour
 {
+    [SerializeField, Expandable] private BackgroundData backgroundData;
+    
     [SerializeField] private string nameasset;
     // [SerializeField, Expandable] private CharactersData _wardrobeSeriaData;
     [SerializeField, Expandable] private ScriptableObject _scriptable;
@@ -20,6 +23,20 @@ public class test : MonoBehaviour
     
     private ScriptableObjectAssetLoader _scriptableObjectAssetLoader;
     private AssetExistsHandler _assetExistsHandler;
+    
+    [Button()]
+    private void set()
+    {
+        // Debug.Log($"spriteCount {backgroundData.SpriteAtlas.spriteCount}");
+        // var content = Instantiate(backgroundData.BackgroundContent);
+        // content.SetSprite(backgroundData.SpriteAtlas.GetSprite("Горы и пляж (закат)"));
+        
+        // backgroundData
+
+    }
+    
+    
+    
     [Button()]
     private void Load()
     {

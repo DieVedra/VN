@@ -9,24 +9,25 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField, ReadOnly] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField, ReadOnly] private BackgroundContent _wardrobeBackground;
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
-    [SerializeField, Expandable] private AudioData _audioData;
-    [SerializeField, Expandable] private AudioData _additionalAudioData;
     
     [Inject] private GlobalSound _globalSound;
     
     private WardrobeSeriaDataProviderBuildMode _wardrobeSeriaDataProviderBuildMode;
     private CharacterProviderBuildMode _characterProviderBuildMode;
     private GameSeriesProvider _gameSeriesProvider;
+    private AudioClipProvider _audioClipProvider;
     private async void Awake()
     {
         _characterProviderBuildMode = new CharacterProviderBuildMode();
         _wardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
         _gameSeriesProvider = new GameSeriesProvider();
-
+        _audioClipProvider = new AudioClipProvider();
+        
         await _wardrobeSeriaDataProviderBuildMode.LoadFirstSeriaWardrobeContent();
         await _characterProviderBuildMode.LoadFirstSeriaCharacters();
         await _gameSeriesProvider.LoadFirstSeria();
-
+        await _audioClipProvider.LoadFirstSeriaAudioContent();
+        
         Init();
         OnSceneTransition.Subscribe(_ =>
         {
@@ -47,13 +48,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
             TestHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             GameStatsCustodian.Init(StoryData.Stats);
-            // _globalSound.Init(SaveData.SoundIsOn);
         }
         else
         {
             Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
-            // _globalSound.Init();
         }
         InitGlobalSound();
         OnSceneTransition = new ReactiveCommand();
@@ -99,6 +98,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _wardrobeSeriaDataProviderBuildMode.Dispose();
         _characterProviderBuildMode.Dispose();
         _gameSeriesProvider.Dispose();
+        _audioClipProvider.Dispose();
         base.Dispose();
     }
     private void Save()
@@ -133,13 +133,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _globalSound.Init(SaveData.SoundIsOn);
+            _globalSound.Construct(_audioClipProvider, SaveData.SoundIsOn);
         }
         else
         {
-            _globalSound.Init();
+            _globalSound.Construct(_audioClipProvider, true);
         }
-        _globalSound.SetAudioDatas(new List<AudioData> {_audioData}, new List<AudioData> {_additionalAudioData});
+        // _globalSound.SetAudioDatas(new List<AudioData> {_audioData}, new List<AudioData> {_additionalAudioData});
     }
 
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)

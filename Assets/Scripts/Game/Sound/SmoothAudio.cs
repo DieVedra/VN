@@ -13,11 +13,11 @@ public class SmoothAudio
     private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
     private readonly IReadOnlyList<AudioClip> _musicAudioData;
     private readonly IReadOnlyList<AudioClip> _ambientAudioData;
-    private readonly ClipProvider _clipProvider;
-    public SmoothAudio(Dictionary<AudioSourceType, AudioSource> audioSources, ClipProvider clipProvider)
+    private readonly AudioClipProvider _audioClipProvider;
+    public SmoothAudio(Dictionary<AudioSourceType, AudioSource> audioSources, AudioClipProvider audioClipProvider)
     {
         _audioSources = audioSources;
-        _clipProvider = clipProvider;
+        _audioClipProvider = audioClipProvider;
     }
 
     public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
@@ -28,7 +28,7 @@ public class SmoothAudio
     public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
     {
         MinVolume(audioSourceType);
-        SetClip(_clipProvider.GetClip(audioSourceType, secondAudioClipIndex), audioSourceType);
+        SetClip(_audioClipProvider.GetClip(audioSourceType, secondAudioClipIndex), audioSourceType);
         _audioSources[audioSourceType].clip = (int)audioSourceType == 0 ? _musicAudioData[secondAudioClipIndex] : _ambientAudioData[secondAudioClipIndex];
         _audioSources[audioSourceType].Play();
         await Fade(cancellationToken, _playEndValue, _duration, audioSourceType);

@@ -564,8 +564,14 @@
             <e p="SpriteData.cs" t="Include" />
           </e>
           <e p="Editor" t="Include">
+            <e p="BackgroundDataCreatorWindow" t="Include">
+              <e p="BackgroundDataCreatorWindow.cs" t="Include" />
+              <e p="BackgroundDataCreatorWindowList.cs" t="Include" />
+              <e p="FolderCreator.cs" t="Include" />
+            </e>
             <e p="GraphDrawer.cs" t="Include" />
             <e p="InspectorDrawers" t="Include">
+              <e p="BackgroundDataDrawer.cs" t="Include" />
               <e p="GameEntryPointDrawer.cs" t="Include" />
               <e p="GameStatsDrawer.cs" t="Include" />
               <e p="NodeGraphsHandlerDrawer.cs" t="Include" />
@@ -624,8 +630,11 @@
                 <e p="BackgroundContent" t="Include">
                   <e p="BackgroundContent.cs" t="Include" />
                 </e>
+                <e p="BackgroundContentValues.cs" t="Include" />
+                <e p="BackgroundData.cs" t="Include" />
                 <e p="BackgroundPoints.cs" t="Include" />
                 <e p="BackgroundViewSetting.cs" t="Include" />
+                <e p="SpriteAtlasCreator.cs" t="Include" />
                 <e p="SpriteRendererCreator" t="Include">
                   <e p="SpriteRendererCreator.cs" t="Include" />
                   <e p="SpriteRendererCreatorBuild.cs" t="Include" />
@@ -764,15 +773,15 @@
             </e>
             <e p="ShowUI.cs" t="Include" />
             <e p="Sound" t="Include">
+              <e p="AudioClipProvider.cs" t="Include" />
               <e p="AudioData.cs" t="Include" />
               <e p="AudioEffectsCustodian.cs" t="Include" />
               <e p="AudioEffectsHandler" t="Include">
                 <e p="AudioEffectHandler.cs" t="Include" />
                 <e p="LowPassAudioEffect.cs" t="Include" />
               </e>
-              <e p="ClipProvider.cs" t="Include" />
               <e p="GlobalAudioData.cs" t="Include" />
-              <e p="LevelSound.cs" t="Include" />
+              <e p="LevelSoundEditMode.cs" t="Include" />
               <e p="SmoothAudio.cs" t="Include" />
               <e p="Sound.cs" t="Include" />
             </e>

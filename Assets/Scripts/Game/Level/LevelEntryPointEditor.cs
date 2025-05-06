@@ -5,12 +5,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
 {
     [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField] private BackgroundContent _wardrobeBackground;
-    [SerializeField] private LevelSound _levelSound;
+    
+    [SerializeField] private LevelSoundEditMode levelSoundEditMode;
     [SerializeField] private WardrobeSeriaDataProviderEditMode _wardrobeSeriaDataProviderEditMode;
+
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
+
     [SerializeField] private SpriteRenderer _spriteRendererPrefab;
-    [SerializeField] private GlobalAudioData _globalAudioData;
     [SerializeField] private CharacterProviderEditMode characterProviderEditMode;
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [Space]
@@ -27,15 +29,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         Init();
         OnSceneTransition.Subscribe(_ =>
         {
-            CharacterViewer.Dispose();
-            _gameSeriesHandlerEditorMode.Dispose();
-            LevelUIProvider.Dispose();
-            EventSystem.gameObject.SetActive(false);
-            Save();
+            Dispose();
         });
-        
-        // var handle = Addressables.LoadAssetAsync<SeriaPartNodeGraph>("8 SeriaPartNodeGraph 2.1");
-        // _test1 = await handle.Task;
     }
 
     public void Init()
@@ -48,16 +43,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
             TestHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             GameStatsCustodian.Init(StoryData.Stats);
-            _levelSound.Init(SaveData.SoundIsOn);
-            _levelSound.SetGlobalSoundData(_globalAudioData);
             characterProviderEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
         }
         else
         {
             Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
-            _levelSound.Init(true);
-            _levelSound.SetGlobalSoundData(_globalAudioData);
         }
 
         InitGlobalSound();
@@ -76,7 +67,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground(spriteRendererCreator, _wardrobeBackground);
         
         NodeGraphInitializer = new NodeGraphInitializer(characterProviderEditMode.GetCharacters(), Background.GetBackgroundContent, Background, LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, _levelSound, GameStatsCustodian, Wallet,
+            CharacterViewer, _wardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -108,8 +99,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
             StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
-            StoryData.CurrentAudioClipIndex = _levelSound.CurrentMusicClipIndex;
-            StoryData.LowPassEffectIsOn = _levelSound.AudioEffectsCustodian.LowPassEffectIsOn;
+            StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
+            StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             
             StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
 
@@ -128,10 +119,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
-        // if (_wardrobeCharacterViewer != null)
-        // {
-        //     Destroy(_wardrobeCharacterViewer.gameObject);
-        // }
 
         if (Application.isPlaying)
         {
@@ -152,12 +139,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _levelSound.Init(SaveData.SoundIsOn);
+            levelSoundEditMode.Construct(SaveData.SoundIsOn);
         }
         else
         {
-            _levelSound.Init(true);
+            levelSoundEditMode.Construct(true);
         }
-        _levelSound.SetGlobalSoundData(_globalAudioData);
     }
 }
