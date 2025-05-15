@@ -6,7 +6,8 @@ public abstract class LevelEntryPoint : MonoBehaviour
 {
     [SerializeField] protected GameObject EventSystem;
     [SerializeField] protected CharacterViewer CharacterViewer;
-    [SerializeField] protected Background Background;
+    [SerializeField] protected WardrobeCharacterViewer WardrobeCharacterViewer;
+
     [SerializeField] protected LevelUIView LevelUIView;
     [SerializeField] protected GameStatsCustodian GameStatsCustodian;
 
@@ -30,19 +31,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
     protected abstract void InitGlobalSound();
 
-    protected void InitBackground(SpriteRendererCreator spriteRendererCreator, BackgroundContent wardrobeBackground)
-    {
-        if (LoadSaveData == true)
-        {
-            Background.ConstructSaveOn(
-                StoryData.BackgroundSaveData,
-                DisableNodesContentEvent, CharacterViewer, spriteRendererCreator, wardrobeBackground);
-        }
-        else
-        {
-            Background.ConstructSaveOff(DisableNodesContentEvent, CharacterViewer, spriteRendererCreator, wardrobeBackground);
-        }
-    }
+    protected abstract void InitBackground();
 
     protected virtual void Dispose()
     {

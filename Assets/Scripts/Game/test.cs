@@ -28,7 +28,7 @@ public class test : MonoBehaviour
     private void set()
     {
         // Debug.Log($"spriteCount {backgroundData.SpriteAtlas.spriteCount}");
-        // var content = Instantiate(backgroundData.BackgroundContent);
+        // var content = Instantiate(backgroundData.InstantiatedBackgroundContent);
         // content.SetSprite(backgroundData.SpriteAtlas.GetSprite("Горы и пляж (закат)"));
         
         // backgroundData
@@ -57,7 +57,7 @@ public class test : MonoBehaviour
         _assetExistsHandler = new AssetExistsHandler();
 
         _names = await _assetExistsHandler.CheckExistsAssetsNames(nameasset);
-        _scriptable = await _scriptableObjectAssetLoader.Load<ScriptableObject>(_names[0]);
+        // _scriptable = await ScriptableObjectAssetLoader.Load<ScriptableObject>(_names[0]);
 
         if (_scriptable == null)
         {

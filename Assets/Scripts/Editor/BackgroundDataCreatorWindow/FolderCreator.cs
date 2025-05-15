@@ -3,7 +3,7 @@ using UnityEditor;
 public class FolderCreator
 {
     public const char Separator = '/';
-    public void CreateFolder(string path)
+    public void TryCreateFolder(string path)
     {
         string[] names = path.Split(Separator);
         List<string> paths = new List<string>(names.Length);

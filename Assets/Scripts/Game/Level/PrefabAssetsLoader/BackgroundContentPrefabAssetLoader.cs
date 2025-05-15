@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BackgroundContentPrefabAssetLoader : PrefabLoader
 {
-    // public UniTask<_backgroundContent> LoadAdvertisingPanel()
+    // public UniTask<InstantiatedBackgroundContent> LoadAdvertisingPanel()
     // {
-    //     return Load<_backgroundContent>("_backgroundContent");
+    //     return Load<InstantiatedBackgroundContent>("InstantiatedBackgroundContent");
     // }
     //
     // public void UnloadAsset()

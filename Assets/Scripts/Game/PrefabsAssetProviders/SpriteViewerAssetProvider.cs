@@ -6,7 +6,7 @@ public class SpriteViewerAssetProvider : PrefabLoader
 {
     public async UniTask LoadSpriteViewerPrefab()
     {
-        await Load("SpriteViewer");
+        await Load("SpriteViewerPrefab");
     }
 
     public SpriteViewer CreateSpriteViewer(Transform parent)

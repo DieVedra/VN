@@ -10,7 +10,7 @@ public class ShowArtNode : BaseNode
     [SerializeField] private int _spriteIndex;
 
     private Background _background;
-    public IReadOnlyList<Sprite> Arts => _background.Arts;
+    public IReadOnlyList<Sprite> Arts => _background.GetArtsSprites;
 
     public void Construct(Background background)
     {

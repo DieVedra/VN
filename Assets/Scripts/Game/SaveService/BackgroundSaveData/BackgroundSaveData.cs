@@ -1,7 +1,8 @@
 ﻿
 using System.Collections.Generic;
 
-public struct BackgroundSaveData
+[System.Serializable]
+public class BackgroundSaveData
 {
     public List<int> ArtOpenedIndexes;
     public List<IndexesBackgroundContentWithAdditionalImage> IndexesBackgroundContentWithAdditionalImage;

@@ -51,7 +51,7 @@ public class Sound : MonoBehaviour
         {
             _audioSourceMusic.mute = true;
         }
-        // _audioClipProvider = new AudioClipProvider(ref MusicAudioData, ref AmbientAudioData);
+        // AudioClipProvider = new AudioClipProvider(ref MusicAudioData, ref AmbientAudioData);
         SmoothAudio = new SmoothAudio(_audioSources, _audioClipProvider);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
     }

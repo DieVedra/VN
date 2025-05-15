@@ -12,7 +12,7 @@ public class AddSpriteNodeToBackground : BaseNode
 
     private Background _background;
     public IReadOnlyList<BackgroundContent> Backgrounds => _background.GetBackgroundContent;
-    public IReadOnlyList<Sprite> AdditionalImagesToBackground => _background.AdditionalImagesToBackground;
+    public IReadOnlyList<Sprite> AdditionalImagesToBackground => _background.GetAdditionalImagesToBackground;
     public void ConstructMyAddSpriteNode(Background background)
     {
         _background = background;
@@ -32,6 +32,6 @@ public class AddSpriteNodeToBackground : BaseNode
 
     protected override void SetInfoToView()
     {
-        _background.AddContent(_indexBackground, _indexSprite, _localPosition, _color);
+        _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
     }
 }

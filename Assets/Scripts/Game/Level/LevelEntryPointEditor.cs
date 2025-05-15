@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
-    [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
-    [SerializeField] private BackgroundContent _wardrobeBackground;
+    // [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     
     [SerializeField] private LevelSoundEditMode levelSoundEditMode;
     [SerializeField] private WardrobeSeriaDataProviderEditMode _wardrobeSeriaDataProviderEditMode;
-
+    [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
-
-    [SerializeField] private SpriteRenderer _spriteRendererPrefab;
+    
     [SerializeField] private CharacterProviderEditMode characterProviderEditMode;
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [Space]
@@ -63,11 +61,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
-        SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
-        InitBackground(spriteRendererCreator, _wardrobeBackground);
+        InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(characterProviderEditMode.GetCharacters(), Background.GetBackgroundContent, Background, LevelUIProvider,
-            CharacterViewer, _wardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, GameStatsCustodian, Wallet,
+        NodeGraphInitializer = new NodeGraphInitializer(characterProviderEditMode.GetCharacters(), _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
+            CharacterViewer, WardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -102,7 +99,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             
-            StoryData.BackgroundSaveData = Background.GetBackgroundSaveData();
+            StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
             StoryData.WardrobeSaveData = characterProviderEditMode.CustomizableCharacter.GetWardrobeSaveData();
 
@@ -119,20 +116,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
-
-        if (Application.isPlaying)
-        {
-            Destroy(_wardrobeCharacterViewer.gameObject);
-
-            _wardrobeCharacterViewer =
-                PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);
-            _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
-            PrefabsProvider.SpriteViewerAssetProvider.UnloadAsset();
-        }
-        else
-        {
-            _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
-        }
+        WardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
     }
 
     protected override void InitGlobalSound()
@@ -145,5 +129,13 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             levelSoundEditMode.Construct(true);
         }
+    }
+    protected override void InitBackground()
+    {
+        if (LoadSaveData == true)
+        {
+            _backgroundEditMode.InitSaveData(StoryData.BackgroundSaveData);
+        }
+        _backgroundEditMode.Construct(DisableNodesContentEvent, CharacterViewer);
     }
 }

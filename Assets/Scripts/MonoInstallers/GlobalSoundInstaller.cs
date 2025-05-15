@@ -7,6 +7,6 @@ public class GlobalSoundInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
-        Container.Bind<GlobalSound>().AsSingle();
+        Container.Bind<GlobalSound>().FromInstance(_globalSound).AsSingle();
     }
 }

@@ -20,104 +20,119 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1339a6f3-d5ef-4347-8c7a-45f5e254c391" name="Default Changelist" comment="11">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/LevelGroup.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/LevelGroup.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WardrobeGroup.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WardrobeGroup.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria1.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/BackgroundDataCreatorWindow.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/BlackFrame.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/BlackFrame.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ProjectContext.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/ProjectContext.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save.dat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Save.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WildBeachBuildScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WildBeachBuildScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/WildBeachEditorScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WildBeachEditorScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/GameEntryPointDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/GameEntryPointDrawer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/GlobalSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/GlobalSound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjectsResources/AdditionalImagesToBackground.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjectsResources/AdditionalImagesToBackground.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderEditMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderEditMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderEditMode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharactersData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharactersData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharactersData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharactersData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/ICharacterProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/ICharacterProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/ICharacterProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/ICharacterProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/ClipProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/ClipProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSoundEditMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSound.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSoundEditMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/SmoothAudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/SmoothAudio.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/PrefabAssetsLoader/BackgroundContentPrefabAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/PrefabAssetsLoader/BackgroundContentPrefabAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/Sound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/Sound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/1SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/1SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Горы и пляж (закат).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Горы и пляж (закат).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Пляж (горизонт - море_ солнце в зените).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Пляж (горизонт - море_ солнце в зените).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Пляж и горы(горизонт - горы, скалы_ солнце в зените).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Пляж и горы(горизонт - горы, скалы_ солнце в зените).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Фон 0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/Фон 0.jpg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка желтая (день).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка желтая (день).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка красная (день).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка красная (день).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка синяя (день).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Locations/палатка синяя (день).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Sounds/AdditionalAudioDataSeria1.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Sounds/AdditionalAudioDataSeria1.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Sounds/AudioDataSeria1.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Sounds/AudioDataSeria1.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/2SeriaArtsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/2SeriaArtsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение Поцелуй у дерева..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение Поцелуй у дерева..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение Танец Миранды и Элис в неоне..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение Танец Миранды и Элис в неоне..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение_Тени влюбленных на фоне ночного неба (Элис и Эдвин).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Arts/Изображение_Тени влюбленных на фоне ночного неба (Элис и Эдвин).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/2SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/2SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Кусты(ночь).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Кусты(ночь).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес (ночь).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес (ночь).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес закат.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес закат.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес пентаграмма (день).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Лес пентаграмма (день).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Ночное море - вода.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Ночное море - вода.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Пляж с палаткой (горизонт - горы, скалы_ ночь)..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Пляж с палаткой (горизонт - горы, скалы_ ночь)..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Утес с видом на горы и море.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/Утес с видом на горы и море.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/дверь-вход в клуб.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/дверь-вход в клуб.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб (эффект пьяных глаз).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб (эффект пьяных глаз).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб-танцпол.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб-танцпол.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб-холл.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/клуб-холл.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/кусты (день).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Locations/кусты (день).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Sound/AdditionalAudioDataSeria2.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Sound/AdditionalAudioDataSeria2.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Sound/AudioDataSeria2.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Sound/AudioDataSeria2.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/AddSpriteNodeToBackground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/AddSpriteNodeToBackground.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/AdditionalImagesToBackground.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/AdditionalImagesToBackground.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/newAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/newAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Arts/2SeriaArtsSpriteAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Arts/2SeriaArtsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/2SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/2SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/Ночное море - вода.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/Ночное море - вода.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Arts/4SeriaArtsSpriteAtlas.spriteatlas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Arts/4SeriaArtsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +162,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1FD6BC3A-F931-450B-9772-86A218B046FB/a8/8acdbef4/Image.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/71/72b64dd8/PropertyAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/d5/8c1b56e2/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/61/12a31290/SpriteAtlasUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/c7/fa6ed7cb/EditorStyles.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/5a/28cb9249/PlayModeStateChange.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Unity/2020.3.8f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/MultipleDisplayUtilities.cs" root0="SKIP_HIGHLIGHTING" />
@@ -156,13 +172,14 @@
     <setting file="file://$PROJECT_DIR$/../../Unity/2020.3.8f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A8E296DC-7C7B-4E92-800D-9E996ED99E15/93/9cd35e35/RectTransformUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../EarnToLife/Assets/Scripts/Game/UI/UILevelScene/Logic/NotificationsHandler/NotificationsHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@1.16.19/Runtime/Addressables.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@1.16.19/Runtime/Addressables.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/72/f9fda978/EditorApplication.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaPartNodeGraph.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../EarnToLife/Assets/Scripts/Game/SaveService/Data/SaveParkingIndexes.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask@9057452c86/Runtime/CompilerServices/StateMachineRunner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@1.16.19/Runtime/ResourceManager/AsyncOperations/AsyncOperationBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/6b/a2af74aa/SpriteAtlasPackingSettings.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80F12581-A038-4C93-9623-E1943AD1DE87/74/201786c3/String.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Unity/2020.3.8f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/ef/d3e5bc4f/ReorderableList.cs" root0="SKIP_HIGHLIGHTING" />
@@ -184,6 +201,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/34/e461b951/Editor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C306D079-1A77-45BD-8360-42FD35B2CBE4/27/195e922f/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaNodeGraphsHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.svermeulen.extenject@acfb232f62/Runtime/Install/Contexts/ProjectContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59BBF10A-06A7-44D9-814E-371FB2890793/5a/0688eb4d/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/Character.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FCC0BBF6-BF4E-430C-91D4-AA05736FC5C6/c2/add4f51d/Sequence.cs" root0="SKIP_HIGHLIGHTING" />
@@ -192,63 +210,62 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/8e/6aa73aac/SpriteAtlas.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/015079D9-A4EA-4F97-B438-1E694D2310C1/65/1a259b82/SpriteAtlasAsset.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/94/ab1bb71e/Sprite.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.svermeulen.extenject@acfb232f62/Runtime/Main/DiContainer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/CustomizationNode/CustomizationNodeInitializer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/CharacterNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CustomizableCharacter.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/CustomizationNode/CustomizationNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/NodeGraphs/SeriaNodeGraphsHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/NodeGraphs/GameSeriesHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/NodeGraphs/SeriaPartNodeGraph.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/NodeGraphs/NodeGraphInitializer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterHandlerEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharactersData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterHandlerBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerEditorMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/ICharacterHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/ArrowSwitch.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/TaskRunner.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/SoundNode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentWardrobeDataProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentDataProvider.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundDataProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/ClipProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSound.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/GlobalSound.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/Sound.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/LevelSoundEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/LocationsData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/GameEntryPointDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" />
       </list>
     </option>
   </component>
@@ -476,6 +493,16 @@
       <workItem from="1746355491356" duration="13806000" />
       <workItem from="1746388063785" duration="7080000" />
       <workItem from="1746550774826" duration="18199000" />
+      <workItem from="1746641735799" duration="11000000" />
+      <workItem from="1746694567522" duration="17090000" />
+      <workItem from="1746817972544" duration="6930000" />
+      <workItem from="1746905312872" duration="9876000" />
+      <workItem from="1746916455524" duration="5319000" />
+      <workItem from="1746953785804" duration="9603000" />
+      <workItem from="1747045505818" duration="27135000" />
+      <workItem from="1747115089871" duration="11245000" />
+      <workItem from="1747157287728" duration="10716000" />
+      <workItem from="1747205997214" duration="27790000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1745677347359</created>
@@ -514,10 +541,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="445" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1741713838616" />
-    <state x="393" y="42" key="RiderGenerateDialog" timestamp="1746570016620">
+    <state x="393" y="42" key="RiderGenerateDialog" timestamp="1747207331864">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="393" y="42" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1746570016620" />
+    <state x="393" y="42" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1747207331864" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1746821477886">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1746821477886" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1746556928625">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

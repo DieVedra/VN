@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -11,6 +10,9 @@ public class BackgroundData : ScriptableObject
     public const string Format = ".asset";
     public const string SpriteAtlasPropertyName = "_spriteAtlas";
     public const string ContentValuesPropertyName = "_backgroundContentValues";
-    [SerializeField/*, ReadOnly*/] private SpriteAtlas _spriteAtlas;
+    [SerializeField] private SpriteAtlas _spriteAtlas;
     [SerializeField] private List<BackgroundContentValues> _backgroundContentValues;
+    
+    public Sprite GetSprite(string name) => _spriteAtlas.GetSprite(name);
+    public IReadOnlyList<BackgroundContentValues> BackgroundContentValues => _backgroundContentValues;
 }

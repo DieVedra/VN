@@ -566,12 +566,11 @@
           <e p="Editor" t="Include">
             <e p="BackgroundDataCreatorWindow" t="Include">
               <e p="BackgroundDataCreatorWindow.cs" t="Include" />
-              <e p="BackgroundDataCreatorWindowList.cs" t="Include" />
               <e p="FolderCreator.cs" t="Include" />
+              <e p="SpriteAtlasCreator.cs" t="Include" />
             </e>
             <e p="GraphDrawer.cs" t="Include" />
             <e p="InspectorDrawers" t="Include">
-              <e p="BackgroundDataDrawer.cs" t="Include" />
               <e p="GameEntryPointDrawer.cs" t="Include" />
               <e p="GameStatsDrawer.cs" t="Include" />
               <e p="NodeGraphsHandlerDrawer.cs" t="Include" />
@@ -625,16 +624,17 @@
             <e p="GlobalSound.cs" t="Include" />
             <e p="Level" t="Include">
               <e p="Background" t="Include">
-                <e p="AdditionalImagesToBackground.cs" t="Include" />
                 <e p="Background.cs" t="Include" />
+                <e p="BackgroundBuildMode.cs" t="Include" />
                 <e p="BackgroundContent" t="Include">
                   <e p="BackgroundContent.cs" t="Include" />
+                  <e p="BackgroundContentCreator.cs" t="Include" />
                 </e>
                 <e p="BackgroundContentValues.cs" t="Include" />
                 <e p="BackgroundData.cs" t="Include" />
+                <e p="BackgroundEditMode.cs" t="Include" />
                 <e p="BackgroundPoints.cs" t="Include" />
                 <e p="BackgroundViewSetting.cs" t="Include" />
-                <e p="SpriteAtlasCreator.cs" t="Include" />
                 <e p="SpriteRendererCreator" t="Include">
                   <e p="SpriteRendererCreator.cs" t="Include" />
                   <e p="SpriteRendererCreatorBuild.cs" t="Include" />
@@ -649,12 +649,7 @@
                 </e>
                 <e p="Character.cs" t="Include" />
                 <e p="CharacterDirectionView.cs" t="Include" />
-                <e p="CharacterHandler" t="Include">
-                  <e p="CharacterProviderBuildMode.cs" t="Include" />
-                  <e p="CharacterProviderEditMode.cs" t="Include" />
-                  <e p="CharactersData.cs" t="Include" />
-                  <e p="ICharacterProvider.cs" t="Include" />
-                </e>
+                <e p="CharactersData.cs" t="Include" />
                 <e p="CharacterSettings.cs" t="Include" />
                 <e p="CharacterViewSetting.cs" t="Include" />
                 <e p="CustomizableCharacter.cs" t="Include" />
@@ -700,12 +695,32 @@
               <e p="PrefabAssetsLoader" t="Include">
                 <e p="BackgroundContentPrefabAssetLoader.cs" t="Include" />
               </e>
-              <e p="ScriptableObjectAssetLoader.cs" t="Include" />
+              <e p="Providers" t="Include">
+                <e p="AudioClipProvider.cs" t="Include" />
+                <e p="BackgroundDataProvider.cs" t="Include" />
+                <e p="CharacterProvider" t="Include">
+                  <e p="CharacterProviderBuildMode.cs" t="Include" />
+                  <e p="CharacterProviderEditMode.cs" t="Include" />
+                  <e p="ICharacterProvider.cs" t="Include" />
+                </e>
+                <e p="DataProvider.cs" t="Include" />
+                <e p="GameSeriesProvider.cs" t="Include" />
+                <e p="IParticipiteInLoad.cs" t="Include" />
+                <e p="LevelLoadDataHandler.cs" t="Include" />
+                <e p="LoadAssetsPercentHandler.cs" t="Include" />
+                <e p="LoadPercentProvider.cs" t="Include" />
+                <e p="MatchNumbersHandler.cs" t="Include" />
+                <e p="ScriptableObjectAssetLoader.cs" t="Include" />
+                <e p="WardrobeSeriaDataProvider" t="Include">
+                  <e p="IWardrobeSeriaDataProvider.cs" t="Include" />
+                  <e p="WardrobeSeriaDataProviderBuildMode.cs" t="Include" />
+                  <e p="WardrobeSeriaDataProviderEditMode.cs" t="Include" />
+                </e>
+              </e>
               <e p="SeriaHandler" t="Include">
                 <e p="GameSeriesHandler.cs" t="Include" />
                 <e p="GameSeriesHandlerBuildMode.cs" t="Include" />
                 <e p="GameSeriesHandlerEditorMode.cs" t="Include" />
-                <e p="GameSeriesProvider.cs" t="Include" />
                 <e p="NodeGraphInitializer.cs" t="Include" />
                 <e p="SeriaData.cs" t="Include" />
                 <e p="SeriaNodeGraphsHandler.cs" t="Include" />
@@ -744,6 +759,7 @@
             </e>
             <e p="OpenUrl.cs" t="Include" />
             <e p="PrefabsAssetProviders" t="Include">
+              <e p="BackgroundContentAssetProvider.cs" t="Include" />
               <e p="CustomizationCharacterPanelAssetProvider.cs" t="Include" />
               <e p="PrefabLoader.cs" t="Include" />
               <e p="PrefabsProvider.cs" t="Include" />
@@ -773,7 +789,6 @@
             </e>
             <e p="ShowUI.cs" t="Include" />
             <e p="Sound" t="Include">
-              <e p="AudioClipProvider.cs" t="Include" />
               <e p="AudioData.cs" t="Include" />
               <e p="AudioEffectsCustodian.cs" t="Include" />
               <e p="AudioEffectsHandler" t="Include">
@@ -792,11 +807,6 @@
             <e p="Wardrobe" t="Include">
               <e p="WardrobeHandler.cs" t="Include" />
               <e p="WardrobeSeriaData.cs" t="Include" />
-              <e p="WardrobeSeriaDataProvider" t="Include">
-                <e p="IWardrobeSeriaDataProvider.cs" t="Include" />
-                <e p="WardrobeSeriaDataProviderBuildMode.cs" t="Include" />
-                <e p="WardrobeSeriaDataProviderEditMode.cs" t="Include" />
-              </e>
             </e>
           </e>
           <e p="Input" t="Include">

@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class EntryPoint: MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class EntryPoint: MonoBehaviour
     private ReactiveCommand _onSceneTransition;
     private SaveData _saveData;
     private SaveService _saveService;
+    [Inject, SerializeField] private GlobalSound _globalSound;
+    
+    
     private void Awake()
     {
         LoadSaveData();

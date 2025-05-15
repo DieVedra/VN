@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BackgroundContent : MonoBehaviour
 {
-    [SerializeField] protected SpriteRenderer SpriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Transform _leftBordTransform;
     [SerializeField] private Transform _centralTransform;
     [SerializeField] private Transform _rightBordTransform;
@@ -15,8 +15,7 @@ public class BackgroundContent : MonoBehaviour
     [SerializeField] private Color _colorLighting = Color.white;
     [SerializeField, ReadOnly] private List<AdditionalImageData> _indexesAdditionalImage;
 
-    private readonly float _durationMovementSmoothBackgroundChangePosition = 2f;
-    private float _durationMovementDuringDialogue;
+    private const float _durationMovementSmoothBackgroundChangePosition = 2f;
 
     private SpriteRendererCreator _spriteRendererCreator;
     private Transform _transformSprite;
@@ -33,23 +32,32 @@ public class BackgroundContent : MonoBehaviour
     public Transform RightBordTransform => _rightBordTransform;
     public IReadOnlyList<AdditionalImageData> GetIndexesAdditionalImage => _indexesAdditionalImage;
 
+#if UNITY_EDITOR
+
     public void Construct(DisableNodesContentEvent disableNodesContentEvent,
-        ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, float durationMovementDuringDialogue)
+        ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, Sprite sprite, BackgroundContentValues backgroundContentValues)
     {
+        Construct(setLighting, spriteRendererCreator, sprite, backgroundContentValues);
+        disableNodesContentEvent.Subscribe(DestroyAddContent);
+    }
+#endif
+    public void Construct(ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator,
+        Sprite sprite, BackgroundContentValues backgroundContentValues)
+    {
+        gameObject.name = backgroundContentValues.NameBackground;
+        _spriteRenderer.sprite = sprite;
+        
+        _colorLighting = backgroundContentValues.ColorLighting;
+        _spriteRenderer.color = backgroundContentValues.Color;
+        _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
+        _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
         _spriteRendererCreator = spriteRendererCreator;
-        _durationMovementDuringDialogue = durationMovementDuringDialogue;
-        _transformSprite = SpriteRenderer.transform;
+        _transformSprite = _spriteRenderer.transform;
         _setLighting = setLighting;
         _currentBackgroundPosition = BackgroundPosition.Central;
         _addContent = null;
-        disableNodesContentEvent.Subscribe(DestroyAddContent);
         _indexesAdditionalImage = new List<AdditionalImageData>();
         gameObject.SetActive(false);
-    }
-
-    public void SetSprite(Sprite sprite)
-    {
-        SpriteRenderer.sprite = sprite;
     }
     public void Activate()
     {
@@ -99,20 +107,20 @@ public class BackgroundContent : MonoBehaviour
         }
     }
 
-    public void AddContent(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
+    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
     {
         if (_addContent == null)
         {
             _addContent = new List<SpriteRenderer>();
         }
 
-        AdditionalImageData additionalImageData;
-        additionalImageData.IndexAdditionalImage = indexAdditionalImage;
-        additionalImageData.LocalPosition = localPosition;
-        additionalImageData.Color = color;
-        
+        AdditionalImageData additionalImageData = new AdditionalImageData
+        {
+            IndexAdditionalImage = indexAdditionalImage, LocalPosition = localPosition, Color = color
+        };
+
         _indexesAdditionalImage.Add(additionalImageData);
-        SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(SpriteRenderer.transform);
+        SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
         spriteRenderer.sprite = sprite;
         spriteRenderer.color = color;
         spriteRenderer.transform.localPosition = localPosition;
@@ -124,10 +132,10 @@ public class BackgroundContent : MonoBehaviour
         switch (directionType)
         {
             case DirectionType.Left:
-                await SmoothMovement(cancellationToken, _currentPos + _movementDuringDialogueAddend, Ease.OutSine, _durationMovementDuringDialogue);
+                await SmoothMovement(cancellationToken, _currentPos + _movementDuringDialogueAddend, Ease.OutSine, _movementDuringDialogueValue);
                 break;
             case DirectionType.Right:
-                await SmoothMovement(cancellationToken, _currentPos - _movementDuringDialogueAddend, Ease.OutSine, _durationMovementDuringDialogue);
+                await SmoothMovement(cancellationToken, _currentPos - _movementDuringDialogueAddend, Ease.OutSine, _movementDuringDialogueValue);
                 break;
         }
     }
@@ -158,7 +166,7 @@ public class BackgroundContent : MonoBehaviour
     }
     private void MovementBord(Transform bordTransform)
     {
-        SpriteRenderer.transform.position = bordTransform.position;;
+        _spriteRenderer.transform.position = bordTransform.position;;
         
         _currentPos = bordTransform.position;
     }
@@ -176,6 +184,8 @@ public class BackgroundContent : MonoBehaviour
         }
         await SmoothMovement(cancellationToken, bordTransform.position, Ease.InOutSine, duration);
     }
+    
+#if UNITY_EDITOR
     private void DestroyAddContent()
     {
         if (Application.isPlaying == false)
@@ -191,4 +201,5 @@ public class BackgroundContent : MonoBehaviour
             }
         }
     }
+#endif
 }

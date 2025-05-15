@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizationView
 {
-    private readonly int _sortingOrderDefaultValue = 0;
-    private readonly int _sortingOrderAddableValue = 5;
+    private const int _sortingOrderDefaultValue = 0;
+    private const int _sortingOrderAddableValue = 5;
     private readonly Vector3 _wardrobePosition = new Vector3(-0.58f,3.12f,0f);
     private readonly Vector2 _viewerPosition = new Vector2(0f, -0.6f);
 
@@ -30,9 +30,6 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     public async UniTask SetCharacterCustomizationFromRightArrow(CustomizationData newCustomizationData)
     {
         SetCharacterCustomization(newCustomizationData);
-        // await UniTask.WhenAll(
-        //     SpriteViewer1.DisappearanceCharacterOnCustomization(MoveType.RightToLeft),
-        //     _spriteViewer2.EmergenceCharacterOnCustomization(MoveType.RightToLeft));
         await UniTask.WhenAll(
             SpriteViewer1.DisappearanceCharacterOnCustomization(DirectionType.Left),
             _spriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Left));
@@ -42,9 +39,6 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     public async UniTask SetCharacterCustomizationFromLeftArrow(CustomizationData newCustomizationData)
     {
         SetCharacterCustomization(newCustomizationData);
-        // await UniTask.WhenAll(
-        //     SpriteViewer1.DisappearanceCharacterOnCustomization(MoveType.LeftToRight),
-        //     _spriteViewer2.EmergenceCharacterOnCustomization(MoveType.LeftToRight));
         await UniTask.WhenAll(
             SpriteViewer1.DisappearanceCharacterOnCustomization(DirectionType.Right),
             _spriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Right));
