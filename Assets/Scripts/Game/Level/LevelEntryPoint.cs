@@ -26,7 +26,8 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
     protected SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
-
+    protected PrefabsProvider PrefabsProvider;
+    protected SaveServiceProvider SaveServiceProvider;
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
     protected abstract void InitGlobalSound();

@@ -12,6 +12,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
     private const int _maxPercent = 100;
     private const int _minPercent = 0;
     private readonly Transform _parent;
+    private readonly SpriteRendererAssetProvider _spriteRendererAssetProvider;
     private readonly BackgroundContentAssetProvider _backgroundContentAssetProvider;
     private List<BackgroundContent> _instantiatedBackgroundContent;
     private List<int> _percentsNumbers;
@@ -27,9 +28,10 @@ public class BackgroundContentCreator : IParticipiteInLoad
     public int PercentComplete { get; private set; }
 
     public event Action<BackgroundData> OnCreateContent;
-    public BackgroundContentCreator(Transform parent)
+    public BackgroundContentCreator(Transform parent, SpriteRendererAssetProvider spriteRendererAssetProvider)
     {
         _parent = parent;
+        _spriteRendererAssetProvider = spriteRendererAssetProvider;
         _backgroundContentAssetProvider = new BackgroundContentAssetProvider();
         _cancellationTokenSource = new CancellationTokenSource();
         PercentComplete = _minPercent;
@@ -58,7 +60,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
         _percentCalculatedCount = 0;
         if (ArtShower == null)
         {
-            ArtShower = await PrefabsProvider.SpriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
+            ArtShower = await _spriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
             _percentCalculatedCount++;
         }
         _contentCount += _backgroundData.BackgroundContentValues.Count;

@@ -5,14 +5,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class GameControlPanelUIHandler
 {
-    
-    
-    
     private readonly GameControlPanelView _gameControlPanelView;
     private readonly ReactiveCommand _onSceneTransition;
+    private readonly SaveServiceProvider _saveServiceProvider;
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
@@ -22,10 +21,11 @@ public class GameControlPanelUIHandler
     private ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
     private ReactiveProperty<bool> _anyWindowIsOpen;
     private bool _panelIsVisible;
-    public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, ReactiveCommand onSceneTransition)
+    public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider)
     {
         _gameControlPanelView = gameControlPanelView;
         _onSceneTransition = onSceneTransition;
+        _saveServiceProvider = saveServiceProvider;
         _panelIsVisible = false;
         _anyWindowIsOpen = new ReactiveProperty<bool> {Value = false};
         _gameControlPanelView.CanvasGroup.alpha = 0f;
@@ -37,6 +37,7 @@ public class GameControlPanelUIHandler
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
+        Addressables.ReleaseInstance(_blackFrameView.gameObject);
     }
     private async UniTaskVoid PressShowButton()
     {
@@ -120,16 +121,16 @@ public class GameControlPanelUIHandler
         _blackFrameUIHandler.CloseTranslucent().Forget();
         await TryCreateLoadIndicatorUIHandler();
         _loadIndicatorUIHandler.SetClearIndicateMode();
-        // _loadIndicatorUIHandler.StartIndicate();
+        // LoadIndicatorUIHandler.StartIndicate();
         await TryCreateAndShowConfirmedPanel();
-        // _loadIndicatorUIHandler.StopIndicate();
+        // LoadIndicatorUIHandler.StopIndicate();
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {
         if (_blackFrameUIHandler == null)
         {
-            _blackFrameView = await new BlackFramePanelAssetProvider().LoadBlackFramePanel(_gameControlPanelView.transform.parent);
-            _blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
+            _blackFrameUIHandler = new BlackFrameUIHandler();
+            await _blackFrameUIHandler.Init(_gameControlPanelView.transform.parent);
             _blackFrameUIHandler.SetAsLastSibling();
             _blackFrameView.Image.color = Color.clear;
         }
@@ -158,7 +159,7 @@ public class GameControlPanelUIHandler
         if (_confirmedPanelUIHandler == null)
         {
             _confirmedPanelUIHandler = new ConfirmedPanelUIHandler(_loadIndicatorUIHandler, _blackFrameUIHandler, _blackFrameUIHandler.Transform);
-            _buttonTransitionToMainSceneUIHandler = new ButtonTransitionToMainSceneUIHandler(_onSceneTransition, _blackFrameUIHandler);
+            _buttonTransitionToMainSceneUIHandler = new ButtonTransitionToMainSceneUIHandler(_onSceneTransition, _blackFrameUIHandler, _saveServiceProvider);
             await _confirmedPanelUIHandler.Show(
                 _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
                 _buttonTransitionToMainSceneUIHandler.ButtonText, _buttonTransitionToMainSceneUIHandler.HeightPanel,

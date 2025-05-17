@@ -618,8 +618,39 @@
           </e>
           <e p="Game" t="Include">
             <e p="AssetExistsHandler.cs" t="Include" />
-            <e p="BootScene" t="Include">
-              <e p="BootGame.cs" t="Include" />
+            <e p="AssetLoaders" t="Include">
+              <e p="AdvertisingPanelAssetProvider.cs" t="Include" />
+              <e p="AssetLoaders" t="Include">
+                <e p="AssetLoader.cs" t="Include" />
+              </e>
+              <e p="CircleIndicatorAssetProvider.cs" t="Include" />
+              <e p="LoadIndicatorAssetProvider.cs" t="Include" />
+              <e p="LocalAssetLoader.cs" t="Include" />
+              <e p="MenuBackgroundAssetProvider.cs" t="Include" />
+              <e p="PlayStoryPanelAssetProvider.cs" t="Include" />
+              <e p="PrefabLoaders" t="Include">
+                <e p="BlackFramePanelAssetProvider.cs" t="Include" />
+                <e p="ConfirmedPanelAssetProvider.cs" t="Include" />
+                <e p="LoadScreenAssetProvider.cs" t="Include" />
+                <e p="MainMenuCanvasAssetProvider.cs" t="Include" />
+                <e p="PrefabsProvider.cs" t="Include" />
+                <e p="ProjectContextCanvasAssetProvider.cs" t="Include" />
+                <e p="SpriteRendererAssetProvider.cs" t="Include" />
+                <e p="SpriteViewerAssetProvider.cs" t="Include" />
+              </e>
+              <e p="ScriptableObjectsProvider" t="Include">
+                <e p="ScriptableObjectAssetLoader.cs" t="Include" />
+              </e>
+              <e p="SettingsPanelAssetProvider.cs" t="Include" />
+              <e p="ShopMoneyAssetLoader.cs" t="Include" />
+              <e p="StoriesProviderAssetProvider.cs" t="Include" />
+              <e p="StoryPanelAssetProvider.cs" t="Include" />
+            </e>
+            <e p="AssetProviders" t="Include">
+              <e p="BackgroundContentAssetProvider.cs" t="Include" />
+              <e p="CustomizationCharacterPanelAssetProvider.cs" t="Include" />
+              <e p="WardrobeBackgroundAssetProvider.cs" t="Include" />
+              <e p="WardrobeCharacterViewerAssetProvider.cs" t="Include" />
             </e>
             <e p="GlobalSound.cs" t="Include" />
             <e p="Level" t="Include">
@@ -710,7 +741,6 @@
                 <e p="LoadAssetsPercentHandler.cs" t="Include" />
                 <e p="LoadPercentProvider.cs" t="Include" />
                 <e p="MatchNumbersHandler.cs" t="Include" />
-                <e p="ScriptableObjectAssetLoader.cs" t="Include" />
                 <e p="WardrobeSeriaDataProvider" t="Include">
                   <e p="IWardrobeSeriaDataProvider.cs" t="Include" />
                   <e p="WardrobeSeriaDataProviderBuildMode.cs" t="Include" />
@@ -729,25 +759,7 @@
             </e>
             <e p="LocalizableString.cs" t="Include" />
             <e p="MainMenu" t="Include">
-              <e p="AdvertisingHandler.cs" t="Include" />
               <e p="AppStarter.cs" t="Include" />
-              <e p="AssetLoaders" t="Include">
-                <e p="AdvertisingPanelAssetProvider.cs" t="Include" />
-                <e p="BlackFramePanelAssetProvider.cs" t="Include" />
-                <e p="BottomPanelAssetProvider.cs" t="Include" />
-                <e p="CircleIndicatorAssetProvider.cs" t="Include" />
-                <e p="ConfirmedPanelAssetProvider.cs" t="Include" />
-                <e p="LoadIndicatorAssetProvider.cs" t="Include" />
-                <e p="LoadScreenAssetProvider.cs" t="Include" />
-                <e p="LocalAssetLoader.cs" t="Include" />
-                <e p="MenuBackgroundAssetProvider.cs" t="Include" />
-                <e p="PlayStoryPanelAssetProvider.cs" t="Include" />
-                <e p="SettingsButtonAssetProvider.cs" t="Include" />
-                <e p="SettingsPanelAssetProvider.cs" t="Include" />
-                <e p="ShopMoneyAssetLoader.cs" t="Include" />
-                <e p="ShopMoneyButtonsAssetProvider.cs" t="Include" />
-                <e p="StoryPanelAssetProvider.cs" t="Include" />
-              </e>
               <e p="EntryPoint.cs" t="Include" />
               <e p="LevelLoader.cs" t="Include" />
               <e p="LoadEndEvent.cs" t="Include" />
@@ -758,16 +770,7 @@
               </e>
             </e>
             <e p="OpenUrl.cs" t="Include" />
-            <e p="PrefabsAssetProviders" t="Include">
-              <e p="BackgroundContentAssetProvider.cs" t="Include" />
-              <e p="CustomizationCharacterPanelAssetProvider.cs" t="Include" />
-              <e p="PrefabLoader.cs" t="Include" />
-              <e p="PrefabsProvider.cs" t="Include" />
-              <e p="SpriteRendererAssetProvider.cs" t="Include" />
-              <e p="SpriteViewerAssetProvider.cs" t="Include" />
-              <e p="WardrobeBackgroundAssetProvider.cs" t="Include" />
-              <e p="WardrobeCharacterViewerAssetProvider.cs" t="Include" />
-            </e>
+            <e p="PrefabLoader.cs" t="Include" />
             <e p="SaveService" t="Include">
               <e p="BackgroundSaveData" t="Include">
                 <e p="BackgroundSaveData.cs" t="Include" />
@@ -824,7 +827,9 @@
           </e>
           <e p="MonoInstallers" t="Include">
             <e p="GlobalSoundInstaller.cs" t="Include" />
-            <e p="TestInstaller.cs" t="Include" />
+            <e p="LoadScreenInstaller.cs" t="Include" />
+            <e p="PrefabsProviderInstaller.cs" t="Include" />
+            <e p="SaveServiceProviderInstaller.cs" t="Include" />
           </e>
           <e p="Nodes" t="Include">
             <e p="AddSpriteNodeToBackground.cs" t="Include" />
@@ -937,6 +942,10 @@
               <e p="PanelHeightHandler.cs" t="Include" />
               <e p="TextConsistentlyViewer.cs" t="Include" />
             </e>
+            <e p="LoadScreenUI" t="Include">
+              <e p="LoadScreenUIHandler.cs" t="Include" />
+              <e p="LoadScreenUIView.cs" t="Include" />
+            </e>
             <e p="MainMenuUI" t="Include">
               <e p="AdvertisingPanelView.cs" t="Include" />
               <e p="BlackFrame" t="Include">
@@ -956,10 +965,6 @@
               <e p="LoadIndicator" t="Include">
                 <e p="LoadIndicatorUIHandler.cs" t="Include" />
                 <e p="LoadIndicatorView.cs" t="Include" />
-              </e>
-              <e p="LoadScreenUI" t="Include">
-                <e p="LoadScreenUIHandler.cs" t="Include" />
-                <e p="LoadScreenUIView.cs" t="Include" />
               </e>
               <e p="MainMenuUIProvider.cs" t="Include" />
               <e p="MainMenuUIView.cs" t="Include" />

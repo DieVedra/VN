@@ -1,10 +1,10 @@
 ﻿
 using UnityEngine.ResourceManagement.ResourceProviders;
 
-public static class SaveServiceProvider
+public class SaveServiceProvider
 {
-    public static SaveService SaveService;
-    public static SaveData SaveData;
-    public static int CurrentStoryIndex;
-    public static SceneInstance CashedScene;
+    public SaveService SaveService;
+    public SaveData SaveData;
+    public int CurrentStoryIndex;
+    public SceneInstance CashedScene;
 }

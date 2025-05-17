@@ -4,10 +4,11 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PlayStoryPanelHandler
 {
-    private readonly string _seriaText = "Серия";
+    private const string _seriaText = "Серия";
     private LevelLoader _levelLoader;
     private readonly Transform _parent;
     private PlayStoryPanel _playStoryPanel;
@@ -19,18 +20,17 @@ public class PlayStoryPanelHandler
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
 
-    public PlayStoryPanelHandler(Transform parent, BlackFrameUIHandler blackFrameUIHandler)
+    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler)
     {
-        _parent = parent;
         _blackFrameUIHandler = blackFrameUIHandler;
     }
     public ReactiveCommand OnEndExit { get; private set; }
-    public async UniTask Init(LevelLoader levelLoader)
+    public async UniTask Init(LevelLoader levelLoader, Transform parent)
     {
         _levelLoader = levelLoader;
         OnEndExit = new ReactiveCommand();
         PlayStoryPanelAssetProvider storyPanelAssetProvider = new PlayStoryPanelAssetProvider();
-        _playStoryPanel = await storyPanelAssetProvider.LoadAsset(_parent);
+        _playStoryPanel = await storyPanelAssetProvider.CreatePlayStoryPanel(parent);
         _playStoryPanel.gameObject.SetActive(false);
         _playStoryPanel.transform.SetSiblingIndex(_playStoryPanel.HierarchyIndex);
         _rectTransformPanel = _playStoryPanel.GetComponent<RectTransform>();
@@ -40,6 +40,10 @@ public class PlayStoryPanelHandler
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
+    public void Dispose()
+    {
+        Addressables.ReleaseInstance(_playStoryPanel.gameObject);
+    }
     public async UniTaskVoid Show(Story story)
     {
         

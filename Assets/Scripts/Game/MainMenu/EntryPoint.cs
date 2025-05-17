@@ -1,64 +1,73 @@
 ﻿
-using System;
-using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 public class EntryPoint: MonoBehaviour
 {
-    [SerializeField] private MainMenuUIView _mainMenuUIView;
     [SerializeField, Expandable] private StoriesProvider _storiesProvider;
     private MainMenuUIProvider _mainMenuUIProvider;
     private LevelLoader _levelLoader;
     private AppStarter _appStarter;
     private Wallet _wallet;
-    private AdvertisingHandler _advertisingHandler;
     private ReactiveCommand _onSceneTransition;
     private SaveData _saveData;
     private SaveService _saveService;
-    [Inject, SerializeField] private GlobalSound _globalSound;
-    
-    
-    private void Awake()
-    {
-        LoadSaveData();
-        _storiesProvider.Init(_saveData);
-        _onSceneTransition = new ReactiveCommand();
-        _wallet = new Wallet(_saveData);
-        _advertisingHandler = new AdvertisingHandler(_wallet);
-        _mainMenuUIProvider = new MainMenuUIProvider(_mainMenuUIView, _wallet, _advertisingHandler);
-        _appStarter = new AppStarter(_mainMenuUIProvider);
-        _levelLoader = new LevelLoader(_storiesProvider, _mainMenuUIProvider.GetBlackFrameUIHandler(), _mainMenuUIProvider.GetLoadScreenHandler(),
-            _mainMenuUIProvider.GetLoadIndicatorUIHandler(), _mainMenuUIView.transform, _onSceneTransition);
-        
+    private SaveServiceProvider _saveServiceProvider;
+    private GlobalSound _globalSound;
+    private PrefabsProvider _prefabsProvider;
+    private LoadScreenUIHandler _loadScreenUIHandler;
 
+    [Inject]
+    private void Construct(DiContainer container, SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
+        GlobalSound globalSound, LoadScreenUIHandler loadScreenUIHandler)
+    {
+        _saveServiceProvider = saveServiceProvider;
+        _globalSound = globalSound;
+        _prefabsProvider = prefabsProvider;
+        _onSceneTransition = new ReactiveCommand();
+        LoadSaveData();
+        _wallet = new Wallet(_saveData);
+        container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
+        _loadScreenUIHandler = loadScreenUIHandler;
+        _appStarter = new AppStarter();
+
+    }
+
+    private async void Awake()
+    { 
+        (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
+            await _appStarter.StartApp(_prefabsProvider, _wallet, _loadScreenUIHandler, _onSceneTransition, _saveServiceProvider);
+
+        _storiesProvider = result.Item1;
+        _mainMenuUIProvider = result.Item2;
+        _levelLoader = result.Item3;
+        
+        _storiesProvider.Init(_saveData);
         _onSceneTransition.Subscribe(_ =>
         {
-            SaveProgress();
-            _wallet.Dispose();
-            _storiesProvider.Dispose();
+            Dispose();
         });
     }
 
-    private async void Start()
-    {
-        await _appStarter.StartApp(_storiesProvider, _levelLoader, _wallet);
-        
-        
-    }
-
-    private void OnApplicationQuit()
+    private void Dispose()
     {
         SaveProgress();
+        _wallet.Dispose();
+        _storiesProvider?.Dispose();
+        _mainMenuUIProvider.Dispose();
+    }
+    private void OnApplicationQuit()
+    {
+        Dispose();
+        _loadScreenUIHandler.Dispose();
     }
 
     private void LoadSaveData()
     {
         _saveService = new SaveService();
-        SaveServiceProvider.SaveService = _saveService;
+        _saveServiceProvider.SaveService = _saveService;
 
         _saveData = _saveService.LoadData();
         if (_saveData == null)
@@ -66,7 +75,7 @@ public class EntryPoint: MonoBehaviour
             _saveData = new SaveData {StoryDatas = _storiesProvider.GetStoryDatas()};
         }
 
-        SaveServiceProvider.SaveData = _saveData;
+        _saveServiceProvider.SaveData = _saveData;
     }
 
     private void SaveProgress()

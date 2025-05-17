@@ -9,11 +9,12 @@ public class BackgroundBuildMode : Background
     private BackgroundDataProvider _backgroundDataProvider;
     private BackgroundContentCreator _backgroundContentCreator;
 
-    public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator, ISetLighting setLighting)
+    public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator, ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
     {
         _backgroundDataProvider = backgroundDataProvider;
         _backgroundContentCreator = backgroundContentCreator;
         SetLighting = setLighting;
+        BackgroundContentAdditionalSpriteRendererCreator = spriteRendererCreatorBuild;
         SetArtShower();
         InitWardrobeBackground();
         if (backgroundDataProvider.LocationDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
@@ -35,9 +36,7 @@ public class BackgroundBuildMode : Background
         _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(InitAdditionalImages);
         _backgroundDataProvider.OnLoadArtsData.Subscribe(InitArts);
 
-        
-        BackgroundContentAdditionalSpriteRendererCreator = new SpriteRendererCreatorBuild();
-        
+
         if (BackgroundSaveData != null)
         {
             TryAddAddebleContentToBackgroundContent(BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage, BackgroundContent.Count);

@@ -7,14 +7,23 @@ public class LevelEntryPointBuild : LevelEntryPoint
 {
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
-    [Inject, SerializeField] private GlobalSound _globalSound;
     
+    private GlobalSound _globalSound;
     private LevelLoadDataHandler _levelLoadDataHandler;
     private BackgroundContentCreator _backgroundContentCreator;
+    private LoadScreenUIHandler _loadScreen;
+    private SpriteRendererCreatorBuild _spriteRendererCreator;
 
+    [Inject]
+    private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, LoadScreenUIHandler loadScreen)
+    {
+        _globalSound = globalSound;
+        PrefabsProvider = prefabsProvider;
+        _loadScreen = loadScreen;
+    }
     private async void Awake()
     {
-        _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform);
+        _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator, 5);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
@@ -52,11 +61,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
         DisableNodesContentEvent = new DisableNodesContentEvent();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         InitLevelUIProvider();
-        ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode();
+        ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
 
-        SpriteRendererCreator spriteRendererCreator = new SpriteRendererCreatorBuild();
+        _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.GetCharacters(),
@@ -92,7 +101,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _backgroundBuildMode.InitSaveData(StoryData.BackgroundSaveData);
         }
 
-        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, _backgroundContentCreator, CharacterViewer);
+        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, _backgroundContentCreator, CharacterViewer, _spriteRendererCreator);
     }
     protected override void Dispose()
     {
@@ -130,7 +139,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI);
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
     }
 
     protected override void InitGlobalSound()

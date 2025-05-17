@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StoriesProvider", order = 0)]
+[CreateAssetMenu(fileName = "StoriesProvider", order = 51)]
 public class StoriesProvider : ScriptableObject
 {
     [SerializeField] private List<Story> _stories;

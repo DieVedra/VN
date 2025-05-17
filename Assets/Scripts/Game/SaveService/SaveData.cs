@@ -7,7 +7,7 @@ public class SaveData
     public int Monets;
     public int Hearts;
     public bool SoundIsOn;
-
+    public int StartIndexStory;
     public StoryData[] StoryDatas;
 
 
@@ -17,5 +17,6 @@ public class SaveData
         SoundIsOn = true;
         Monets = 96;
         Hearts = 97;
+        StartIndexStory = 0;
     }
 }

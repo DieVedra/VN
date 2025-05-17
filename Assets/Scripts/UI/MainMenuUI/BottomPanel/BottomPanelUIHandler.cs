@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BottomPanelUIHandler
 {
-    private readonly int _sublingIndex = 4;
-    private readonly BottomPanelAssetProvider _bottomPanelAssetProvider;
+    private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private readonly Transform _parent;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
@@ -15,16 +14,19 @@ public class BottomPanelUIHandler
     
     public BottomPanelUIHandler(ConfirmedPanelUIHandler confirmedPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler, Transform parent)
     {
-        _bottomPanelAssetProvider = new BottomPanelAssetProvider();
         _confirmedPanelUIHandler = confirmedPanelUIHandler;
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
         _parent = parent;
     }
 
-    public async UniTask Init()
+    public void Dispose()
     {
-        _bottomPanelView = await _bottomPanelAssetProvider.LoadBottomPanelAsset(_parent);
+        _advertisingButtonUIHandler.Dispose();
+    }
+    public void Init(BottomPanelView bottomPanelView)
+    {
+        _bottomPanelView = bottomPanelView;
     }
 
     public void SubscribeButtons()
@@ -42,8 +44,8 @@ public class BottomPanelUIHandler
             
             _confirmedPanelUIHandler.Show(
                 _advertisingButtonUIHandler.LabelTextToConfirmedPanel, _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
-                _advertisingButtonUIHandler.ButtonText, _advertisingButtonUIHandler.HeightPanel,
-                _advertisingButtonUIHandler.FontSizeValue,
+                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
+                AdvertisingButtonUIHandler.FontSizeValue,
                 () => { _advertisingButtonUIHandler.Press().Forget();},
                 true).Forget();
         });

@@ -5,10 +5,14 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class LoadIndicatorUIHandler
 {
-    private readonly Vector3 _endRotationValue = new Vector3(0f, 0f, -360f);
+    private const float _minRotationValue = 0f;
+    private const float _maxRotationValue = -360f;
+    private readonly Vector3 _endRotationValue;
+    private readonly Vector3 _startRotationValue;
     private readonly float _duration = 3f;
     private readonly float _textIndicateDuration = 0.5f;
     private readonly string _dot = ".";
@@ -28,12 +32,14 @@ public class LoadIndicatorUIHandler
         _assetLoaded = false;
         _isPercentIndicate = false;
         _isClearIndicate = false;
+        _endRotationValue = new Vector3(_minRotationValue, _minRotationValue, _maxRotationValue);
+        _startRotationValue = new Vector3(_minRotationValue, _minRotationValue, _minRotationValue);
     }
 
     public void Dispose()
     {
         StopIndicate();
-        _loadIndicatorAssetProvider.UnloadAsset();
+        Addressables.ReleaseInstance(_loadIndicatorView.gameObject);
         _assetLoaded = false;
     }
 
@@ -48,11 +54,11 @@ public class LoadIndicatorUIHandler
     {
         if (_assetLoaded == false)
         {
-            _loadIndicatorView = await _loadIndicatorAssetProvider.LoadAsset(parent);
+            _loadIndicatorView = await _loadIndicatorAssetProvider.CreateIndicatorView(parent);
             _assetLoaded = true;
         }
 
-        _loadIndicatorView.RectTransformIcon.rotation = Quaternion.Euler(0f,0f,0f);
+        _loadIndicatorView.RectTransformIcon.rotation = Quaternion.Euler(_startRotationValue);
     }
 
     public void SetPercentIndicateMode(int lastValue)
@@ -74,18 +80,14 @@ public class LoadIndicatorUIHandler
         _loadIndicatorView.LoadText.text = $"{value}%";
     }
 
-    public void StartIndicate(Transform parent = null)
+    public void StartIndicate()
     {
         if (_isIndicate == false)
         {
             _isIndicate = true;
             _cancellationTokenSource = new CancellationTokenSource();
-            if (parent != null)
-            {
-                _loadIndicatorView.transform.SetParent(parent);
-            }
 
-            _loadIndicatorView.transform.SetAsLastSibling();
+            // _loadIndicatorView.transform.SetAsLastSibling();
             _loadIndicatorView.gameObject.SetActive(true);
             _loadIndicatorView.RectTransformIcon.DORotate(_endRotationValue, _duration, RotateMode.FastBeyond360).SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart)

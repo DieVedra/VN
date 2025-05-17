@@ -1,123 +1,55 @@
 ﻿
-using UnityEngine;
 
 public class MainMenuUIProvider
 {
-    public readonly MainMenuUIView MainMenuUIView;
-    private readonly Transform _parent;
-    private readonly Wallet _wallet;
-    private readonly AdvertisingHandler _advertisingHandler;
-    private BlackFrameUIHandler _blackFrameUIHandler;
-    private LoadScreenUIHandler _loadScreenUIHandler;
-    private PlayStoryPanelHandler _playStoryPanelHandler;
-    private LoadIndicatorUIHandler _loadIndicatorUIHandler;
-    private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
-    private SettingsPanelUIHandler _settingsPanelUIHandler;
-    private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
-    private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
-    private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
-    private BottomPanelUIHandler _bottomPanelUIHandler;
-    public MainMenuUIProvider(MainMenuUIView  mainMenuUIView, Wallet wallet, AdvertisingHandler advertisingHandler)
+    public readonly LoadScreenUIHandler LoadScreenUIHandler;
+
+    public readonly BlackFrameUIHandler DarkeningBackgroundFrameUIHandler;
+    public readonly BlackFrameUIHandler BlackFrameUIHandler;
+    public readonly LoadIndicatorUIHandler LoadIndicatorUIHandler;
+    
+    public readonly PlayStoryPanelHandler PlayStoryPanelHandler;
+    public readonly SettingsPanelButtonUIHandler SettingsPanelButtonUIHandler;
+    
+    public readonly SettingsPanelUIHandler SettingsPanelUIHandler;
+    public readonly ShopMoneyPanelUIHandler ShopMoneyPanelUIHandler;
+    
+    public readonly ShopMoneyButtonsUIHandler ShopMoneyButtonsUIHandler;
+    public readonly ConfirmedPanelUIHandler ConfirmedPanelUIHandler;
+    
+    public readonly BottomPanelUIHandler BottomPanelUIHandler;
+    public MainMenuUIProvider(BlackFrameUIHandler blackFrameUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        LoadIndicatorUIHandler loadIndicatorUIHandler,
+        PlayStoryPanelHandler playStoryPanelHandler, SettingsPanelButtonUIHandler settingsPanelButtonUIHandler,
+        SettingsPanelUIHandler settingsPanelUIHandler, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,
+        ShopMoneyButtonsUIHandler shopMoneyButtonsUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler,
+        LoadScreenUIHandler loadScreenUIHandler, BottomPanelUIHandler bottomPanelUIHandler)
     {
-        MainMenuUIView = mainMenuUIView;
-        _wallet = wallet;
-        _advertisingHandler = advertisingHandler;
-        _parent = MainMenuUIView.transform;
+        BlackFrameUIHandler = blackFrameUIHandler;
+        DarkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        LoadIndicatorUIHandler = loadIndicatorUIHandler;
+        PlayStoryPanelHandler = playStoryPanelHandler;
+        SettingsPanelButtonUIHandler = settingsPanelButtonUIHandler;
+        SettingsPanelUIHandler = settingsPanelUIHandler;
+        ShopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
+        ShopMoneyButtonsUIHandler = shopMoneyButtonsUIHandler;
+        ConfirmedPanelUIHandler = confirmedPanelUIHandler;
+        BottomPanelUIHandler = bottomPanelUIHandler;
+        LoadScreenUIHandler = loadScreenUIHandler;
     }
 
-    public BlackFrameUIHandler GetBlackFrameUIHandler()
+    public void Dispose()
     {
-        if (_blackFrameUIHandler == null)
-        {
-            _blackFrameUIHandler = new BlackFrameUIHandler(MainMenuUIView.BlackFrameView);
-        }
-        return _blackFrameUIHandler;
-    }
-
-    public LoadScreenUIHandler GetLoadScreenHandler()
-    {
-        if (_loadScreenUIHandler == null)
-        {
-            _loadScreenUIHandler = new LoadScreenUIHandler();
-        }
-        return _loadScreenUIHandler;
-    }
-
-    public PlayStoryPanelHandler GetPlayStoryPanelHandler()
-    {
-        if (_playStoryPanelHandler == null)
-        {
-            _playStoryPanelHandler = new PlayStoryPanelHandler(_parent,GetBlackFrameUIHandler());
-        }
-        return _playStoryPanelHandler;
-    }
-
-    public LoadIndicatorUIHandler GetLoadIndicatorUIHandler()
-    {
-        if (_loadIndicatorUIHandler == null)
-        {
-            _loadIndicatorUIHandler = new LoadIndicatorUIHandler();
-        }
-        return _loadIndicatorUIHandler;
-    }
-
-    public SettingsPanelButtonUIHandler GetSettingsPanelButtonUIHandler()
-    {
-        if (_settingsPanelButtonUIHandler == null)
-        {
-            _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(_parent,
-                GetSettingsPanelUIHandler(), GetBlackFrameUIHandler(), GetLoadIndicatorUIHandler());
-        }
-        return _settingsPanelButtonUIHandler;
-    }
-
-    public SettingsPanelUIHandler GetSettingsPanelUIHandler()
-    {
-        if (_settingsPanelUIHandler == null)
-        {
-            _settingsPanelUIHandler = new SettingsPanelUIHandler();
-        }
-        return _settingsPanelUIHandler;
-    }
-
-    public ShopMoneyPanelUIHandler GetShopMoneyPanelUIHandler()
-    {
-        if (_shopMoneyPanelUIHandler == null)
-        {
-            _shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(GetLoadIndicatorUIHandler(), GetBlackFrameUIHandler(), _wallet, _parent);
-        }
-        return _shopMoneyPanelUIHandler;
-    }
-
-    public ShopMoneyButtonsUIHandler GetShopMoneyButtonsUIHandler()
-    {
-        if (_shopMoneyButtonsUIHandler == null)
-        {
-            _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(_wallet, GetShopMoneyPanelUIHandler(), _parent);
-        }
-
-        return _shopMoneyButtonsUIHandler;
-    }
-
-    public ConfirmedPanelUIHandler GetConfirmedPanelUIHandler()
-    {
-        if (_confirmedPanelUIHandler == null)
-        {
-            _confirmedPanelUIHandler = new ConfirmedPanelUIHandler(GetLoadIndicatorUIHandler(), GetBlackFrameUIHandler(), _parent);
-        }
-
-        return _confirmedPanelUIHandler;
-    }
-
-    public BottomPanelUIHandler GetBottomPanelUIHandler()
-    {
-        if (_bottomPanelUIHandler == null)
-        {
-            _bottomPanelUIHandler = new BottomPanelUIHandler(GetConfirmedPanelUIHandler(),
-                new AdvertisingButtonUIHandler(GetLoadIndicatorUIHandler(), GetBlackFrameUIHandler(), _advertisingHandler, _parent),
-                _parent);
-        }
-
-        return _bottomPanelUIHandler;
+        BlackFrameUIHandler.Dispose();
+        DarkeningBackgroundFrameUIHandler.Dispose();
+        LoadIndicatorUIHandler.Dispose();
+        PlayStoryPanelHandler.Dispose();
+        // SettingsPanelButtonUIHandler.Dispose();
+        SettingsPanelUIHandler.Dispose();
+        ShopMoneyPanelUIHandler.Dispose();
+        // ShopMoneyButtonsUIHandler.Dispose();
+        ConfirmedPanelUIHandler.Dispose();
+        BottomPanelUIHandler.Dispose();
+        BottomPanelUIHandler.Dispose();
     }
 }

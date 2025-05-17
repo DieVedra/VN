@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class ShopMoneyPanelUIHandler
 {
-    private int _monetIndex = 0;
+    private const int _monetIndex = 0;
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
@@ -27,6 +28,11 @@ public class ShopMoneyPanelUIHandler
         _blackFrameUIHandler = blackFrameUIHandler;
         _wallet = wallet;
         _parent = parent;
+    }
+
+    public void Dispose()
+    {
+        Addressables.ReleaseInstance(_shopMoneyPanelView.gameObject);
     }
 
     public async UniTask Show(int index)

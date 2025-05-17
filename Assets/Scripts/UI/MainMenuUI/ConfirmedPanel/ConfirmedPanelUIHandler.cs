@@ -2,6 +2,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class ConfirmedPanelUIHandler
 {
@@ -21,6 +22,10 @@ public class ConfirmedPanelUIHandler
         _confirmedPanelAssetProvider = new ConfirmedPanelAssetProvider();
     }
 
+    public void Dispose()
+    {
+        Addressables.ReleaseInstance(_confirmedPanelView.gameObject);
+    }
     public async UniTask Show(string labelText, string transcriptionText, string buttonText, float heightPanel, int fontSizeValue,
         Action operation, bool blackFrameNotOpen = false)
     {
@@ -33,7 +38,7 @@ public class ConfirmedPanelUIHandler
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             
-            _confirmedPanelView = await _confirmedPanelAssetProvider.LoadAsset(_parent);
+            _confirmedPanelView = await _confirmedPanelAssetProvider.CreateConfirmedPanel(_parent);
             AssetIsLoaded = true;
         }
         else

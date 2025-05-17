@@ -8,8 +8,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneAssetLoader
 {
+    private readonly SaveServiceProvider _saveServiceProvider;
+
     private readonly float _percentMultiplier = 100f;
     // private SceneInstance _cashedScene;
+    public SceneAssetLoader(SaveServiceProvider saveServiceProvider)
+    {
+        _saveServiceProvider = saveServiceProvider;
+    }
+
     public int LastPercentLoadValue { get; private set; }
     public event Action<int> OnLoadPercentUpdate;
     public event Action<AsyncOperationHandle<SceneInstance>> OnCompleteLoad;
@@ -41,7 +48,7 @@ public class SceneAssetLoader
         if (operationHandle.Status == AsyncOperationStatus.Succeeded)
         {
             // _cashedScene = operationHandle.Result;
-            SaveServiceProvider.CashedScene = operationHandle.Result;
+            _saveServiceProvider.CashedScene = operationHandle.Result;
             operationHandle.Result.ActivateAsync();
         }
     }

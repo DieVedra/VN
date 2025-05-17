@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class ShopMoneyButtonsUIHandler
 {
-    private readonly int _sublingIndexMonet = 2;
-    private readonly int _sublingIndexHearts = 3;
+    private const int _sublingIndexMonet = 2;
+    private const int _sublingIndexHearts = 3;
+    private const int _monetIndex = 0;
+    private const int _heartsIndex = 1;
 
     private readonly Wallet _wallet;
     private readonly ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     private readonly Transform _parent;
-    private readonly int _monetIndex = 0;
-    private readonly int _heartsIndex = 1;
-    private ShopMoneyButtonsAssetProvider _shopMoneyButtonsAssetProvider;
     private ResourcePanelButtonView _monetPanel, _heartsPanel;
     public bool AssetIsLoaded { get; private set; }
 
@@ -22,16 +21,15 @@ public class ShopMoneyButtonsUIHandler
         _wallet = wallet;
         _shopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
         _parent = parent;
-        _shopMoneyButtonsAssetProvider = new ShopMoneyButtonsAssetProvider();
         AssetIsLoaded = false;
     }
 
-    public async UniTask Init()
+    public void Init(ResourcePanelButtonView monetPanel, ResourcePanelButtonView heartsPanel)
     {
         if (AssetIsLoaded == false)
         {
-            _monetPanel = await _shopMoneyButtonsAssetProvider.LoadAssetMonet(_parent);
-            _heartsPanel = await _shopMoneyButtonsAssetProvider.LoadAssetHearth(_parent);
+            _monetPanel = monetPanel;
+            _heartsPanel = heartsPanel;
             _monetPanel.transform.SetSiblingIndex(_sublingIndexMonet);
             _heartsPanel.transform.SetSiblingIndex(_sublingIndexHearts);
 

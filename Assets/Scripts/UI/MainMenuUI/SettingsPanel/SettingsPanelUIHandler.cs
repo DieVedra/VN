@@ -1,6 +1,7 @@
 ﻿
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class SettingsPanelUIHandler
 {
@@ -21,6 +22,13 @@ public class SettingsPanelUIHandler
         }
     }
 
+    public void Dispose()
+    {
+        if (_settingsPanelView != null)
+        {
+            Addressables.ReleaseInstance(_settingsPanelView.gameObject);
+        }
+    }
     public void Show(BlackFrameUIHandler blackFrameUIHandler)
     {
         _settingsPanelView.gameObject.SetActive(true);

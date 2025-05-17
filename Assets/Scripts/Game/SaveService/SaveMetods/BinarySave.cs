@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BinarySave : ISaveMetod
 {
-    private readonly string _fileFormat = ".dat";
+    private const string _fileFormat = ".dat";
 
     private readonly BinaryFormatter _binaryFormatter;
 

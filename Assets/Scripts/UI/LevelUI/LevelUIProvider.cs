@@ -15,7 +15,7 @@ public class LevelUIProvider
     
     public LevelUIProvider(LevelUIView levelUIView, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI)
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, SaveServiceProvider saveServiceProvider)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -36,7 +36,7 @@ public class LevelUIProvider
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
-        GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, onSceneTransition);
+        GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, onSceneTransition, saveServiceProvider);
         
         disableNodesContentEvent.Subscribe(() =>
         {

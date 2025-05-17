@@ -20,119 +20,180 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1339a6f3-d5ef-4347-8c7a-45f5e254c391" name="Default Changelist" comment="11">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AssetLoaders.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AssetLoaders/AssetLoader.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AssetLoaders/AssetLoader.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/BlackFramePanelAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/LoadScreenAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/MainMenuCanvasAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/MainMenuCanvasAssetProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/PrefabsProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ProjectContextCanvasAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ProjectContextCanvasAssetProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ScriptableObjectsProvider.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/StoriesProviderAssetProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/StoriesProviderAssetProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/SaveServiceProviderInstaller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/SaveServiceProviderInstaller.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/LevelGroup.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/LevelGroup.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WardrobeGroup.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WardrobeGroup.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/WildBeachStoryDataSeria2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/BackgroundDataCreatorWindow.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/BlackFrame.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/BlackFrame.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/ConfirmedPanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/ConfirmedPanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/LoadIndicator.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/LoadIndicator.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/LoadScreen.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/LoadScreen.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/PlayStoryPanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/PlayStoryPanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/SettingsPanel/SettingsPanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/SettingsPanel/SettingsPanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/ShopPanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MainMenuPrefabs/ShopPanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/GlobalSound.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/GlobalSound.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/ProjectContext.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/ProjectContext.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Save.dat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Save.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WildBeachBuildScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WildBeachBuildScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/WildBeachEditorScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/WildBeachEditorScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjectsResources/AdditionalImagesToBackground.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjectsResources/AdditionalImagesToBackground.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InspectorDrawers/BackgroundDataDrawer.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/AdditionalImagesToBackground.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteAtlasCreator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/BootScene.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/BootScene/BootGame.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/BootScene/BootGame.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderEditMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderEditMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderEditMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharactersData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharactersData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharactersData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharactersData.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/ICharacterProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/ICharacterProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/ICharacterProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/ICharacterProvider.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/ViewerCreator/ViewerCreatorBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/ViewerCreator/ViewerCreatorBuildMode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/PrefabAssetsLoader/BackgroundContentPrefabAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/PrefabAssetsLoader/BackgroundContentPrefabAssetLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ScriptableObjectsProvider/ScriptableObjectAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ScriptableObjectsProvider/ScriptableObjectAssetLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AdvertisingHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AdvertisingHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AppStarter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AppStarter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/AdvertisingPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AdvertisingPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/AdvertisingPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AdvertisingPanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/BlackFramePanelAssetProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/BlackFramePanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/BlackFramePanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/BottomPanelAssetProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/BottomPanelAssetProvider.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/CircleIndicatorAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/CircleIndicatorAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/CircleIndicatorAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/CircleIndicatorAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ConfirmedPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ConfirmedPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ConfirmedPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ConfirmedPanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LoadIndicatorAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/LoadIndicatorAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LoadIndicatorAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/LoadIndicatorAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LoadScreenAssetProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LoadScreenAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/LoadScreenAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LocalAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/LocalAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/LocalAssetLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/LocalAssetLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/MenuBackgroundAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/MenuBackgroundAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/MenuBackgroundAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/MenuBackgroundAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/PlayStoryPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PlayStoryPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/PlayStoryPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PlayStoryPanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/SettingsButtonAssetProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/SettingsButtonAssetProvider.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/SettingsPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/SettingsPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/SettingsPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/SettingsPanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ShopMoneyAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ShopMoneyAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ShopMoneyAssetLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ShopMoneyAssetLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ShopMoneyButtonsAssetProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/ShopMoneyButtonsAssetProvider.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/StoryPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/StoryPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/StoryPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/StoryPanelAssetProvider.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/Sound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Sound/Sound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/IWardrobeSeriaDataProvider.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderEditMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/AddSpriteNodeToBackground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/AddSpriteNodeToBackground.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/AdditionalImagesToBackground.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/AdditionalImagesToBackground.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaAdditionalImagesSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/1SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/newAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/BackgroundContent/Locations/newAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Arts/2SeriaArtsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Arts/2SeriaArtsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/2SeriaLocationsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/2SeriaLocationsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/Ночное море - вода.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/Locations/Ночное море - вода.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Arts/4SeriaArtsSpriteAtlas.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Arts/4SeriaArtsSpriteAtlas.spriteatlas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/LevelLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/LevelLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/Story/StoriesProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/Story/StoriesProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/BackgroundContentAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/BackgroundContentAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/CustomizationCharacterPanelAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/CustomizationCharacterPanelAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/CustomizationCharacterPanelAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/CustomizationCharacterPanelAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/PrefabsProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/SpriteRendererAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/SpriteRendererAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/SpriteViewerAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/SpriteViewerAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/WardrobeBackgroundAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/WardrobeBackgroundAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/WardrobeBackgroundAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/WardrobeBackgroundAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/WardrobeCharacterViewerAssetProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/WardrobeCharacterViewerAssetProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/WardrobeCharacterViewerAssetProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetProviders/WardrobeCharacterViewerAssetProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/BinarySave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/BinarySave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/ISaveMetod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/ISaveMetod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveServiceProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveServiceProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SceneLoader/SceneAssetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SceneLoader/SceneAssetLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/SceneLoader/SceneLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/SceneLoader/SceneLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/ShowUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/ShowUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/TestInstaller.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/TestInstaller.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/ButtonTransitionToMainSceneUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/ButtonTransitionToMainSceneUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/LevelUIProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/LevelUIProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/AdvertisingButtonUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/AdvertisingButtonUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/BottomPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/BottomPanelUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ConfirmedPanel/ConfirmedPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ConfirmedPanel/ConfirmedPanelUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadScreenUI.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadScreenUI/LoadScreenUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadScreenUI/LoadScreenUIHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadScreenUI/LoadScreenUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadScreenUI/LoadScreenUIView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIView.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MyScrollHorizontal/MyScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MyScrollHorizontal/MyScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/PlayStoryPanel/PlayStoryPanelHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/PlayStoryPanel/PlayStoryPanelHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelButtonUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelButtonUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ResourcePanelButtonView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ResourcePanelButtonView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ShopMoneyButtonsUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ShopMoneyButtonsUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyPanel/ShopMoneyPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyPanel/ShopMoneyPanelUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/1PixelTexture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/1PixelTexture.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Backgrounds/Gradient.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Backgrounds/Gradient.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Backgrounds/SeaBackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Backgrounds/SeaBackground.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/CircleMask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/CircleMask.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/CircleWithBorder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/CircleWithBorder.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/IconLoad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/IconLoad.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/CircleEmpty.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/CircleEmpty.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/LeftArrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/LeftArrow.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/unconfirm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/unconfirm.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/Иконка монета.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/Иконка монета.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/Пауза - меню гардероб, выход.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Icons/Пауза - меню гардероб, выход.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/Exit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/Exit.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/Settings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/Settings.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/SoundIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/SoundIcon.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/messageIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/messageIcon.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/noifcIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/MainMenu/noifcIcon.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Misc/Иконка монета.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Misc/Иконка монета.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Misc/Иконка сердце.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/Misc/Иконка сердце.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/UIAtlas.spriteatlasv2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/UI/UIAtlas.spriteatlasv2.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Ресурс 3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Ресурс 3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/LocationsCompressedAtlasBackgroundDataSeria2.spriteatlas" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/LocationsCompressedAtlasBackgroundDataSeria2.spriteatlas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/LocationsCompressedBackgroundDataSeria2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 2/BackgroundContent/LocationsCompressedBackgroundDataSeria2.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +212,6 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@1.16.19/Runtime/ResourceManager/AsyncOperations/AsyncOperationHandle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BasicScriptableObjects/SpriteData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundPoints.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoInstallers/TestInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Nodes/BaseNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DDF8EAC-3856-492A-B1B8-CF42618915CC/62/80e38b25/GUIStyle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../EarnToLife/Assets/Scripts/Game/SaveService/SaveService.cs" root0="SKIP_HIGHLIGHTING" />
@@ -194,7 +254,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DDF8EAC-3856-492A-B1B8-CF42618915CC/af/63e8feaf/EventType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterDirectionView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4BA9CB05-A91D-445C-B37B-32F4F536B303/9d/9f108f7f/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.svermeulen.extenject@acfb232f62/Runtime/Providers/PrefabProviders/PrefabProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoInstallers/LoadScreenInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/44/584da31c/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../EarnToLife/Assets/Scripts/Game/SaveService/SaveMetods/BinarySave.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/CharacterViewer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -203,6 +265,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaNodeGraphsHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.svermeulen.extenject@acfb232f62/Runtime/Install/Contexts/ProjectContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59BBF10A-06A7-44D9-814E-371FB2890793/5a/0688eb4d/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonoInstallers/PrefabsProviderInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/Character.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FCC0BBF6-BF4E-430C-91D4-AA05736FC5C6/c2/add4f51d/Sequence.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EF667CDC-82BF-4A4E-911D-1DDEA9FF581D/d7/269df231/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
@@ -215,57 +278,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindowList.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/FolderCreator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/SpriteAtlasCreator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentValues.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/BackgroundDataCreatorWindow/BackgroundDataCreatorWindow.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/ShowArtNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentWardrobeDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContentDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetExistsHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CharacterHandler/CharacterProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioClipProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Wardrobe/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/ScriptableObjectAssetLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/ScriptableObjectAssetLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/GameSeriesProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/WardrobeSeriaDataProvider/WardrobeSeriaDataProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Sound/AudioData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadPercentProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContent.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/IParticipiteInLoad.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabsProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/BackgroundContentAssetProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/DataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/BackgroundDataProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteRendererAssetProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/SpriteRendererCreator/SpriteRendererCreatorBuild.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/SpriteViewerAssetProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/CharacterViewer/WardrobeCharacterViewer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPoint.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/BackgroundSaveData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/BackgroundSaveData/IndexesBackgroundContentWithAdditionalImage.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/AudioClipProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/GlobalSoundInstaller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/BlackFrameInstaller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MyScrollHorizontal/MyScroll.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/StoryPanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/Story/StoriesProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/ISaveMetod.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveMetods/BinarySave.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/MenuBackgroundAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/StoriesProviderAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AssetLoaders/AssetLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabsAssetProviders/PrefabLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AssetProviders.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/BlackFramePanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreen.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreen/LoadScreenHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreen/LoadScreenView.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/CharacterProvider/CharacterProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/MatchNumbersHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundContent/BackgroundContentCreator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabProviders/LoadScreenAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/LoadIndicatorAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/WalletInstaller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonoInstallers/LoadScreenInstaller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/MainMenuCanvasAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PrefabLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/AdvertisingPanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PlayStoryPanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/SettingsButtonAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyPanel/ShopMoneyPanelUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/ConfirmedPanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ConfirmedPanelAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ConfirmedPanel/ConfirmedPanelUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AdvertisingHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/BottomPanelUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ShopMoneyButtonsUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/PlayStoryPanel/PlayStoryPanelHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelButtonUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/ShopMoneyButtons/ResourcePanelButtonView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BottomPanel/AdvertisingButtonUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/LevelLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/MainMenuUIView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/ProjectContextCanvasAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/LoadScreenAssetProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/EntryPoint.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LoadScreenUI/LoadScreenUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/SettingsPanel/SettingsPanelUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/SaveData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/MainMenu/AppStarter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" />
       </list>
     </option>
   </component>
@@ -503,6 +566,9 @@
       <workItem from="1747115089871" duration="11245000" />
       <workItem from="1747157287728" duration="10716000" />
       <workItem from="1747205997214" duration="27790000" />
+      <workItem from="1747336258588" duration="6919000" />
+      <workItem from="1747428595287" duration="3426000" />
+      <workItem from="1747485562978" duration="27044000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1745677347359</created>
@@ -541,10 +607,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="445" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1741713838616" />
-    <state x="393" y="42" key="RiderGenerateDialog" timestamp="1747207331864">
+    <state x="393" y="42" key="RiderGenerateDialog" timestamp="1747345803047">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="393" y="42" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1747207331864" />
+    <state x="393" y="42" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1747345803047" />
     <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1746821477886">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -553,9 +619,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1746556928625" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1739825824511">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1747503818033">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1739825824511" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1747503818033" />
   </component>
 </project>

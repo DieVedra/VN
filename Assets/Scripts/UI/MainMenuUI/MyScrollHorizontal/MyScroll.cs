@@ -1,11 +1,9 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 

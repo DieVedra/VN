@@ -1,35 +1,34 @@
 ﻿
-
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsPanelButtonUIHandler
 {
-    private readonly int _sublingIndex = 1;
-    private readonly SettingsButtonAssetProvider _settingsButtonAssetProvider;
+    private const int _sublingIndex = 1;
     private Button _settingsButton;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
-    private BlackFrameUIHandler _blackFrameUIHandler;
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
+    private SettingsButtonView _settingsButtonView;
     private Transform _parent;
     public bool AssetIsLoaded { get; private set; }
-    public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, BlackFrameUIHandler blackFrameUIHandler,
+    public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         LoadIndicatorUIHandler loadIndicatorUIHandler)
     {
-        _settingsButtonAssetProvider = new SettingsButtonAssetProvider();
         _parent = parent;
         _settingsPanelUIHandler = settingsPanelUIHandler;
-        _blackFrameUIHandler = blackFrameUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         AssetIsLoaded = false;
     }
-    public async UniTask Init()
+
+    public void Init(SettingsButtonView settingsButtonView)
     {
         if (AssetIsLoaded == false)
         {
-            _settingsButton = await _settingsButtonAssetProvider.LoadAsset(_parent);
+            _settingsButtonView = settingsButtonView;
+            _settingsButton = settingsButtonView.Button;
             AssetIsLoaded = true;
         }
     }
@@ -48,21 +47,21 @@ public class SettingsPanelButtonUIHandler
     {
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
-            await _loadIndicatorUIHandler.Init(_blackFrameUIHandler.Transform);
+            await _loadIndicatorUIHandler.Init(_darkeningBackgroundFrameUIHandler.Transform);
             _settingsPanelUIHandler.Init(_parent).Forget();
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             
-            _blackFrameUIHandler.CloseTranslucent().Forget();
+            _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
             await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
             
-            _settingsPanelUIHandler.Show(_blackFrameUIHandler);
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
             _loadIndicatorUIHandler.StopIndicate();
         }
         else
         {
-            _blackFrameUIHandler.CloseTranslucent().Forget();
-            _settingsPanelUIHandler.Show(_blackFrameUIHandler);
+            _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
         }
     }
 }

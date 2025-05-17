@@ -1,10 +1,9 @@
 ﻿using UniRx;
 using UnityEngine;
+using Zenject;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
-    // [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
-    
     [SerializeField] private LevelSoundEditMode levelSoundEditMode;
     [SerializeField] private WardrobeSeriaDataProviderEditMode _wardrobeSeriaDataProviderEditMode;
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
@@ -17,6 +16,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private bool _initializeInEditMode;
 
     public bool InitializeInEditMode => _initializeInEditMode;
+
+    [Inject]
+    private void Construct(PrefabsProvider prefabsProvider)
+    {
+        PrefabsProvider = prefabsProvider;
+    }
 
     private async void Awake()
     {
@@ -110,9 +115,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     }
     private void InitLevelUIProvider()
     {
-        CustomizationCharacterPanelUI customizationCharacterPanelUI;
-        customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
-        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI);
+        var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
+        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

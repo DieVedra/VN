@@ -15,10 +15,10 @@ public class ButtonTransitionToMainSceneUIHandler
     private readonly SceneLoader _sceneLoader;
     private bool _firstPartLoadComplete;
 
-    public ButtonTransitionToMainSceneUIHandler(ReactiveCommand onSceneTransition, BlackFrameUIHandler blackFrameUIHandler)
+    public ButtonTransitionToMainSceneUIHandler(ReactiveCommand onSceneTransition, BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider)
     {
         _onSceneTransition = onSceneTransition;
-        _sceneLoader = new SceneLoader();
+        _sceneLoader = new SceneLoader(saveServiceProvider);
         _blackFrameUIHandler = blackFrameUIHandler;
     }
 

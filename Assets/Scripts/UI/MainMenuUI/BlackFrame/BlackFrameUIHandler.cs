@@ -1,33 +1,44 @@
 ﻿
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class BlackFrameUIHandler
 {
-    private readonly RectTransform _parentRectTransform;
-    private readonly Transform _transform;
-    private readonly Image _image;
+    private const float _minValue = 0f;
+    private const float _halfValue = 0.5f;
+    private const float _maxValue = 1f;
+    private RectTransform _parentRectTransform;
+    private Transform _transform;
+    private Image _image;
+    private BlackFrameView _blackFrameView;
     private CancellationTokenSource _cancellationTokenSource;
+    private bool _assetLoaded;
     public Transform Transform => _transform;
     public bool IsOpen { get; private set; }
-    public BlackFrameUIHandler(BlackFrameView blackFrameView)
+    public BlackFrameUIHandler()
     {
-        blackFrameView.Image.color = Color.black;
         IsOpen = false;
-        blackFrameView.gameObject.SetActive(true);
-        _image = blackFrameView.Image;
-        _parentRectTransform = blackFrameView.transform.parent.GetComponent<RectTransform>();
-        _transform = blackFrameView.transform;
-        _cancellationTokenSource = new CancellationTokenSource();
     }
-
+    public async UniTask Init(Transform parent)
+    {
+        if (_assetLoaded == false)
+        {
+            _blackFrameView = await new BlackFramePanelAssetProvider().CreateBlackFramePanel(parent);
+            _image = _blackFrameView.Image;
+            _image.color = Color.black;
+            _parentRectTransform = _blackFrameView.transform.parent.GetComponent<RectTransform>();
+            _transform = _blackFrameView.transform;
+            _assetLoaded = true;
+        }
+    }
     public void Dispose()
     {
-        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource?.Cancel();
+        Addressables.ReleaseInstance(_blackFrameView.gameObject);
     }
 
     public void SetAsLastSibling()
@@ -39,27 +50,34 @@ public class BlackFrameUIHandler
         _transform.SetSiblingIndex(index);
     }
 
+    public void On()
+    {
+        _transform.gameObject.SetActive(true);
+    }
+
+    public void Off()
+    {
+        _transform.gameObject.SetActive(false);
+    }
     public async UniTask Open()
     {
-        SetAsLastSibling();
         _image.color = Color.black;
-        await DoAnimation(0f, 1f);
-        _transform.gameObject.SetActive(false);
+        await DoAnimation(_minValue, _maxValue);
+        Off();
         IsOpen = true;
     }
 
     public async UniTask Close()
     {
-        SetAsLastSibling();
         _image.color = Color.clear;
-        _transform.gameObject.SetActive(true);
-        await DoAnimation(1f, 1f);
+        On();
+        await DoAnimation(_maxValue, _maxValue);
         IsOpen = false;
     }
     public async UniTask OpenTranslucent()
     {
         _transform.gameObject.SetActive(true);
-        await DoAnimation(0f, 0.5f);
+        await DoAnimation(_minValue, _halfValue);
         _transform.gameObject.SetActive(false);
     }
 
@@ -77,12 +95,14 @@ public class BlackFrameUIHandler
 
     private async UniTask BaseCloseTranslucent()
     {
-        _image.color = new Color(0f,0f,0f,0.5f);
+        _cancellationTokenSource = new CancellationTokenSource();
+        _image.color = new Color(_minValue,_minValue,_minValue,_halfValue);
         _transform.gameObject.SetActive(true);
-        await _image.DOFade(0.5f, 0.5f).WithCancellation(_cancellationTokenSource.Token);
+        await _image.DOFade(_halfValue, _halfValue).WithCancellation(_cancellationTokenSource.Token);
     }
     private async UniTask DoAnimation(float end, float duration)
     {
+        _cancellationTokenSource = new CancellationTokenSource();
         await _image.DOFade(end, duration).WithCancellation(_cancellationTokenSource.Token);
     }
 }

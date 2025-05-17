@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SaveService
 {
-    private readonly string _fileName = "/Save";
+    private const string _fileName = "/Save";
     private readonly string _savePath;
     private ISaveMetod _saveMethod;
     public SaveService()

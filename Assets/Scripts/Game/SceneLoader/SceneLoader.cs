@@ -7,7 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader
 {
-    private readonly float _percentMultiplier = 100f;
+    private const float _percentMultiplier = 100f;
+    private readonly SaveServiceProvider _saveServiceProvider;
+
+    public SceneLoader(SaveServiceProvider saveServiceProvider)
+    {
+        _saveServiceProvider = saveServiceProvider;
+    }
+
     public int LastPercentLoadValue { get; private set; }
     public event Action<int> OnLoadPercentUpdate;
     public event Action<AsyncOperation> OnCompleteLoad;
@@ -27,7 +34,7 @@ public class SceneLoader
 
     private void UnloadPreviousScene(AsyncOperation operation)
     {
-        Addressables.UnloadSceneAsync(SaveServiceProvider.CashedScene);
+        Addressables.UnloadSceneAsync(_saveServiceProvider.CashedScene);
     }
     private async UniTask LoadPercentUpdate(AsyncOperation operation)
     {
