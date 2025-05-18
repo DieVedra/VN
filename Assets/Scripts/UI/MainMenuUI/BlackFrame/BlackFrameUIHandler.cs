@@ -8,10 +8,6 @@ using UnityEngine.UI;
 
 public class BlackFrameUIHandler
 {
-    private const float _minValue = 0f;
-    private const float _halfValue = 0.5f;
-    private const float _maxValue = 1f;
-    private RectTransform _parentRectTransform;
     private Transform _transform;
     private Image _image;
     private BlackFrameView _blackFrameView;
@@ -30,7 +26,6 @@ public class BlackFrameUIHandler
             _blackFrameView = await new BlackFramePanelAssetProvider().CreateBlackFramePanel(parent);
             _image = _blackFrameView.Image;
             _image.color = Color.black;
-            _parentRectTransform = _blackFrameView.transform.parent.GetComponent<RectTransform>();
             _transform = _blackFrameView.transform;
             _assetLoaded = true;
         }
@@ -62,7 +57,7 @@ public class BlackFrameUIHandler
     public async UniTask Open()
     {
         _image.color = Color.black;
-        await DoAnimation(_minValue, _maxValue);
+        await DoAnimation(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue);
         Off();
         IsOpen = true;
     }
@@ -71,13 +66,13 @@ public class BlackFrameUIHandler
     {
         _image.color = Color.clear;
         On();
-        await DoAnimation(_maxValue, _maxValue);
+        await DoAnimation(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue);
         IsOpen = false;
     }
     public async UniTask OpenTranslucent()
     {
         _transform.gameObject.SetActive(true);
-        await DoAnimation(_minValue, _halfValue);
+        await DoAnimation(AnimationValuesProvider.MinValue, AnimationValuesProvider.HalfValue);
         _transform.gameObject.SetActive(false);
     }
 
@@ -96,9 +91,9 @@ public class BlackFrameUIHandler
     private async UniTask BaseCloseTranslucent()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        _image.color = new Color(_minValue,_minValue,_minValue,_halfValue);
+        _image.color = new Color(AnimationValuesProvider.MinValue,AnimationValuesProvider.MinValue,AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue);
         _transform.gameObject.SetActive(true);
-        await _image.DOFade(_halfValue, _halfValue).WithCancellation(_cancellationTokenSource.Token);
+        await _image.DOFade(AnimationValuesProvider.HalfValue, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
     }
     private async UniTask DoAnimation(float end, float duration)
     {

@@ -44,6 +44,8 @@ public class ShopMoneyButtonsUIHandler
             
             AssetIsLoaded = true;
         }
+
+        SubscribeButtonsAndSetResourcesIndicate();
     }
     public void SubscribeButtonsAndSetResourcesIndicate()
     {

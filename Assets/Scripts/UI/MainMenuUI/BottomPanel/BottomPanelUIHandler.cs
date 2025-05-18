@@ -9,7 +9,7 @@ public class BottomPanelUIHandler
     private readonly Transform _parent;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
-    
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private BottomPanelView _bottomPanelView;
     
     public BottomPanelUIHandler(ConfirmedPanelUIHandler confirmedPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler, Transform parent)
@@ -24,19 +24,21 @@ public class BottomPanelUIHandler
     {
         _advertisingButtonUIHandler.Dispose();
     }
-    public void Init(BottomPanelView bottomPanelView)
+    public void Init(BottomPanelView bottomPanelView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _bottomPanelView = bottomPanelView;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        SubscribeButtons();
     }
 
-    public void SubscribeButtons()
+    private void SubscribeButtons()
     {
         _bottomPanelView.GameExitButton.onClick.AddListener(() =>
         {
             _confirmedPanelUIHandler.Show(
                 _exitButtonUIHandler.LabelTextToConfirmedPanel, _exitButtonUIHandler.TranscriptionTextToConfirmedPanel,
-                _exitButtonUIHandler.ButtonText, _exitButtonUIHandler.HeightPanel,
-                _exitButtonUIHandler.FontSizeValue,
+                _exitButtonUIHandler.ButtonText, ExitButtonUIHandler.HeightPanel,
+                ExitButtonUIHandler.FontSizeValue,
                 _exitButtonUIHandler.Press).Forget();
         });
         _bottomPanelView.ShowAdvertisingButton.onClick.AddListener(() =>

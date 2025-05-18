@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CustomizationCharacterPanelAssetProvider : PrefabLoader
 {
+    private const string _name = "CustomizationCharacterPanel";
     public async UniTask LoadCustomizationCharacterPanel()
     {
-        await Load("CustomizationCharacterPanel");
+        await Load(_name);
     }
     public CustomizationCharacterPanelUI CreateCustomizationCharacterPanelUI(Transform parent)
     {

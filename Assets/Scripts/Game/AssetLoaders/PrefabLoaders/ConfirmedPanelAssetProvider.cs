@@ -8,15 +8,7 @@ public class ConfirmedPanelAssetProvider : PrefabLoader
 
     public async UniTask<ConfirmedPanelView> CreateConfirmedPanel(Transform parent = null)
     {
-        GameObject instantiated = await InstantiatePrefab(_name, parent);
-        if (instantiated.TryGetComponent(out ConfirmedPanelView confirmedPanelView))
-        {
-            return confirmedPanelView;
-        }
-        else
-        {
-            return default;
-        }
+        return await InstantiatePrefab<ConfirmedPanelView>(_name, parent);
     }
 
     public void UnloadAsset()

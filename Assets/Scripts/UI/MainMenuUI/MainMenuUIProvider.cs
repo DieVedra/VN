@@ -40,9 +40,7 @@ public class MainMenuUIProvider
 
     public void Dispose()
     {
-        BlackFrameUIHandler.Dispose();
         DarkeningBackgroundFrameUIHandler.Dispose();
-        LoadIndicatorUIHandler.Dispose();
         PlayStoryPanelHandler.Dispose();
         // SettingsPanelButtonUIHandler.Dispose();
         SettingsPanelUIHandler.Dispose();

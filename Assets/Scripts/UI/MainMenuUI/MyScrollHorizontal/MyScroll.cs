@@ -233,15 +233,23 @@ public class MyScroll : MonoBehaviour
 
     private void SubscribeContinueButton(Button buttonContinue, Button buttonOpen, Story story, LevelLoader levelLoader)
     {
-        buttonContinue.onClick.AddListener(() =>
+        if (story.StoryStarted)
         {
-            if (_myScrollMover.IsMove == false)
+            buttonContinue.gameObject.SetActive(true);
+            buttonContinue.onClick.AddListener(() =>
             {
-                levelLoader.StartLoadPart1(story).Forget();
-                buttonContinue.onClick.RemoveAllListeners();
-                buttonOpen.onClick.RemoveAllListeners();
-            }
-        });
+                if (_myScrollMover.IsMove == false)
+                {
+                    levelLoader.StartLoadPart1(story).Forget();
+                    buttonContinue.onClick.RemoveAllListeners();
+                    buttonOpen.onClick.RemoveAllListeners();
+                }
+            });
+        }
+        else
+        {
+            buttonContinue.gameObject.SetActive(false);
+        }
     }
 
     private void SubscribeOpenButton(Button buttonOpen, Story story, PlayStoryPanelHandler playStoryPanelHandler)

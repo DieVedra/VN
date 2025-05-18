@@ -47,17 +47,17 @@ public class PlayStoryPanelHandler
     public async UniTaskVoid Show(Story story)
     {
         
-        _playStoryPanel.CanvasGroup.alpha = 0f;
+        _playStoryPanel.CanvasGroup.alpha = AnimationValuesProvider.MinValue;
         _currentStory = story;
         InitLikeButton();
         _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
-        _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaIndex}";
+        _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
         _playStoryPanel.gameObject.SetActive(true);
 
         await UniTask.WhenAll(
             _blackFrameUIHandler.CloseTranslucent(_playStoryPanel.HierarchyIndex),
-            _rectTransformPanel.DOScale(_unhideScale, 0.5f).WithCancellation(_cancellationTokenSource.Token),
-            _playStoryPanel.CanvasGroup.DOFade( 1f,0.5f).WithCancellation(_cancellationTokenSource.Token));
+            _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
+            _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MaxValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token));
         
         _playStoryPanel.ResetProgressButton.onClick.AddListener(story.ResetProgress);
         _playStoryPanel.ButtonOpen.onClick.AddListener(PlayChangedStory);
@@ -74,11 +74,11 @@ public class PlayStoryPanelHandler
     {
         UnsubscrimeAllButtons();
         await UniTask.WhenAll(
-            _rectTransformPanel.DOScale(_hideScale, 0.5f).WithCancellation(_cancellationTokenSource.Token),
-            _playStoryPanel.CanvasGroup.DOFade( 0f,0.5f).WithCancellation(_cancellationTokenSource.Token),
+            _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
+            _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
             _blackFrameUIHandler.OpenTranslucent()
             );
-        await  _rectTransformPanel.DOScale(_hideScale, 0.5f).WithCancellation(_cancellationTokenSource.Token);
+        await  _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
 
         
         _playStoryPanel.gameObject.SetActive(false);

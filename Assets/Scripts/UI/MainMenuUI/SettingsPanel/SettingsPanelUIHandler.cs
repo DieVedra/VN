@@ -17,7 +17,7 @@ public class SettingsPanelUIHandler
     {
         if (AssetIsLoaded == false)
         {
-            _settingsPanelView = await _settingsPanelAssetProvider.LoadAsset(parent);
+            _settingsPanelView = await _settingsPanelAssetProvider.CreateSettingsPanel(parent);
             AssetIsLoaded = true;
         }
     }

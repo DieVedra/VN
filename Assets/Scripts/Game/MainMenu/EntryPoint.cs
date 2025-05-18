@@ -20,7 +20,7 @@ public class EntryPoint: MonoBehaviour
     private LoadScreenUIHandler _loadScreenUIHandler;
 
     [Inject]
-    private void Construct(DiContainer container, SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
+    private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
         GlobalSound globalSound, LoadScreenUIHandler loadScreenUIHandler)
     {
         _saveServiceProvider = saveServiceProvider;
@@ -29,14 +29,13 @@ public class EntryPoint: MonoBehaviour
         _onSceneTransition = new ReactiveCommand();
         LoadSaveData();
         _wallet = new Wallet(_saveData);
-        container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
+        ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         _loadScreenUIHandler = loadScreenUIHandler;
         _appStarter = new AppStarter();
-
     }
 
     private async void Awake()
-    { 
+    {
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _loadScreenUIHandler, _onSceneTransition, _saveServiceProvider);
 
@@ -56,7 +55,7 @@ public class EntryPoint: MonoBehaviour
         SaveProgress();
         _wallet.Dispose();
         _storiesProvider?.Dispose();
-        _mainMenuUIProvider.Dispose();
+        _mainMenuUIProvider?.Dispose();
     }
     private void OnApplicationQuit()
     {

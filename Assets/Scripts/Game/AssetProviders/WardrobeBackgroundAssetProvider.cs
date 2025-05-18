@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class WardrobeBackgroundAssetProvider : PrefabLoader
 {
+    private const string _name = "WardrobeBackground";
     public async UniTask LoadWardrobeBackgroundPrefab()
     {
-        await Load("WardrobeBackground");
+        await Load(_name);
     }
     public BackgroundContent CreateWardrobeBackground(Transform parent)
     {

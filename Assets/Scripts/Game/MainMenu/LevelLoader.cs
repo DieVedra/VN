@@ -38,10 +38,10 @@ public class LevelLoader
         
         
         
-        _loadScreenUIHandler.Show(story.SpriteStorySkin, story.SpriteLogo);
-        _loadIndicatorUIHandler.SetPercentIndicateMode(_sceneAssetLoader.LastPercentLoadValue);
-        _sceneAssetLoader.OnLoadPercentUpdate += _loadIndicatorUIHandler.TextPercentIndicate;
-        _loadIndicatorUIHandler.StartIndicate();
+        await _loadScreenUIHandler.ShowOnLevelMove(story.SpriteStorySkin, story.SpriteLogo);
+        // _loadIndicatorUIHandler.SetPercentIndicateMode(_sceneAssetLoader.LastPercentLoadValue);
+        // _sceneAssetLoader.OnLoadPercentUpdate += _loadIndicatorUIHandler.TextPercentIndicate;
+        // _loadIndicatorUIHandler.StartIndicate();
         _sceneAssetLoader.StartLoad(story.NameSceneAsset).Forget();
         _sceneAssetLoader.OnCompleteLoad += x => { StartLoadPart2(x).Forget();};
         // await _blackFrameUIHandler.Open();
@@ -51,7 +51,7 @@ public class LevelLoader
     {
         await UniTask.WaitUntil(() => _firstPartLoadComplete == true);
         // await  _blackFrameUIHandler.Close();
-        _loadIndicatorUIHandler.Dispose();
+        // _loadIndicatorUIHandler.Dispose();
         _onSceneTransition.Execute();
         _sceneAssetLoader.Activate(operationHandle);
     }

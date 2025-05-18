@@ -15,11 +15,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SpriteRendererCreatorBuild _spriteRendererCreator;
 
     [Inject]
-    private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, LoadScreenUIHandler loadScreen)
+    private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, LoadScreenUIHandler loadScreen,
+        Wallet wallet)
     {
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
         _loadScreen = loadScreen;
+        Wallet = wallet;
     }
     private async void Awake()
     {
@@ -33,8 +35,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
         OnSceneTransition.Subscribe(_ =>
         {
             Dispose();
+            Save();
         });
-        
+
+        await _loadScreen.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
@@ -46,8 +50,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             TestMonets = SaveData.Monets;
             TestHearts = SaveData.Hearts;
-            Wallet = new Wallet(SaveData);
             GameStatsCustodian.Init(StoryData.Stats);
+            StoryData.StoryStarted = true;
         }
         else
         {
@@ -92,6 +96,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private void OnApplicationQuit()
     {
         Dispose();
+        Save();
     }
 
     protected override void InitBackground()

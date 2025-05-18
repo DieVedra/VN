@@ -10,6 +10,7 @@ public class StoryData
     public int CurrentAudioClipIndex;
     public bool IsLiked;
     public bool LowPassEffectIsOn;
+    public bool StoryStarted;
     public int MyIndex;
 
     public SaveStat[] Stats;

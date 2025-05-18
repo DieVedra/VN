@@ -31,9 +31,11 @@ public class SettingsPanelButtonUIHandler
             _settingsButton = settingsButtonView.Button;
             AssetIsLoaded = true;
         }
+
+        SubscribeButtonAndActivate();
     }
 
-    public void SubscribeButtonAndActivate()
+    private void SubscribeButtonAndActivate()
     {
         _settingsButton.transform.SetSiblingIndex(_sublingIndex);
         _settingsButton.gameObject.SetActive(true);

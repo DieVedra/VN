@@ -8,15 +8,7 @@ public class BlackFramePanelAssetProvider : PrefabLoader
 
     public async UniTask<BlackFrameView> CreateBlackFramePanel(Transform parent = null)
     {
-        GameObject instantiated = await InstantiatePrefab(_name, parent);
-        if (instantiated.TryGetComponent(out BlackFrameView blackFrameView))
-        {
-            return blackFrameView;
-        }
-        else
-        {
-            return default;
-        }
+        return await InstantiatePrefab<BlackFrameView>(_name, parent);
     }
 
     public void UnloadAsset()

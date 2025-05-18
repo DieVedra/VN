@@ -7,16 +7,16 @@ using UnityEngine.AddressableAssets;
 public class ConfirmedPanelUIHandler
 {
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
-    private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly Transform _parent;
     private readonly ConfirmedPanelAssetProvider _confirmedPanelAssetProvider;
     private ConfirmedPanelView _confirmedPanelView;
     public bool AssetIsLoaded { get; private set; }
     
-    public ConfirmedPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, Transform parent)
+    public ConfirmedPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent)
     {
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _blackFrameUIHandler = blackFrameUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _parent = parent;
         AssetIsLoaded = false;
         _confirmedPanelAssetProvider = new ConfirmedPanelAssetProvider();
@@ -24,17 +24,20 @@ public class ConfirmedPanelUIHandler
 
     public void Dispose()
     {
-        Addressables.ReleaseInstance(_confirmedPanelView.gameObject);
+        if (_confirmedPanelView != null)
+        {
+            Addressables.ReleaseInstance(_confirmedPanelView.gameObject);
+        }
     }
     public async UniTask Show(string labelText, string transcriptionText, string buttonText, float heightPanel, int fontSizeValue,
         Action operation, bool blackFrameNotOpen = false)
     {
-        _blackFrameUIHandler.CloseTranslucent().Forget();
+        _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
 
         if (AssetIsLoaded == false)
         {
             
-            await _loadIndicatorUIHandler.Init(_blackFrameUIHandler.Transform);
+            await _loadIndicatorUIHandler.Init(_darkeningBackgroundFrameUIHandler.Transform);
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             
@@ -76,7 +79,7 @@ public class ConfirmedPanelUIHandler
         operation?.Invoke();
         if (blackFrameNotOpen == false)
         {
-            await _blackFrameUIHandler.OpenTranslucent();
+            await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
         }
     }
 

@@ -20,7 +20,7 @@ public class LoadIndicatorUIHandler
     private LoadIndicatorView _loadIndicatorView;
     private LoadIndicatorAssetProvider _loadIndicatorAssetProvider;
     private CancellationTokenSource _cancellationTokenSource;
-    
+    private Transform _parent;
     private bool _assetLoaded;
     private bool _isIndicate;
     private bool _isPercentIndicate;
@@ -55,6 +55,7 @@ public class LoadIndicatorUIHandler
         if (_assetLoaded == false)
         {
             _loadIndicatorView = await _loadIndicatorAssetProvider.CreateIndicatorView(parent);
+            _parent = parent;
             _assetLoaded = true;
         }
 
@@ -74,7 +75,12 @@ public class LoadIndicatorUIHandler
         _loadIndicatorView.LoadText.gameObject.SetActive(false);
         _isClearIndicate = true;
     }
-
+    public void SetTextIndicateMode()
+    {
+        _loadIndicatorView.LoadText.gameObject.SetActive(false);
+        _isClearIndicate = false;
+        _isPercentIndicate = false;
+    }
     public void TextPercentIndicate(int value)
     {
         _loadIndicatorView.LoadText.text = $"{value}%";
@@ -84,10 +90,13 @@ public class LoadIndicatorUIHandler
     {
         if (_isIndicate == false)
         {
+            if (_parent.gameObject.activeSelf == false)
+            {
+                _parent.gameObject.SetActive(true);
+            }
             _isIndicate = true;
             _cancellationTokenSource = new CancellationTokenSource();
 
-            // _loadIndicatorView.transform.SetAsLastSibling();
             _loadIndicatorView.gameObject.SetActive(true);
             _loadIndicatorView.RectTransformIcon.DORotate(_endRotationValue, _duration, RotateMode.FastBeyond360).SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart)
@@ -95,6 +104,7 @@ public class LoadIndicatorUIHandler
             if (_isPercentIndicate == false && _isClearIndicate == false)
             {
                 TextIndicate().Forget();
+                Debug.Log($"TextIndicate");
             }
         }
     }
@@ -102,6 +112,8 @@ public class LoadIndicatorUIHandler
     private async UniTaskVoid TextIndicate()
     {
         _isIndicate = true;
+        _loadIndicatorView.LoadText.text = String.Empty;
+        _loadIndicatorView.LoadText.gameObject.SetActive(true);
         string[] dots = new[] { $"{_loadText}{_dot}", $"{_loadText}{_dot}{_dot}", $"{_loadText}{_dot}{_dot}{_dot}"};
         int index = dots.Length - 1;
         while (_isIndicate == true)

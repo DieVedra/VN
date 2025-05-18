@@ -12,35 +12,38 @@ public class ShopMoneyPanelUIHandler
     private const int _monetIndex = 0;
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
-    private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly Transform _parent;
     private readonly Wallet _wallet;
     private ShopMoneyPanelView _shopMoneyPanelView;
 
     public event Action OnHide;
     public bool PanelIsLoaded { get; private set; }
-    public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler,
+    public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         Wallet wallet, Transform parent)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _blackFrameUIHandler = blackFrameUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
         _parent = parent;
     }
 
     public void Dispose()
     {
-        Addressables.ReleaseInstance(_shopMoneyPanelView.gameObject);
+        if (_shopMoneyPanelView != null)
+        {
+            Addressables.ReleaseInstance(_shopMoneyPanelView.gameObject);
+        }
     }
 
     public async UniTask Show(int index)
     {
-        _blackFrameUIHandler.CloseTranslucent().Forget();
+        _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
-            await _loadIndicatorUIHandler.Init(_blackFrameUIHandler.Transform);
+            // await _loadIndicatorUIHandler.Init(_darkeningBackgroundFrameUIHandler.Transform);
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             await LoadPanel();
@@ -61,14 +64,14 @@ public class ShopMoneyPanelUIHandler
         _shopMoneyPanelView.gameObject.SetActive(false);
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
-        await _blackFrameUIHandler.OpenTranslucent();
+        await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
     }
 
     private async UniTask LoadPanel()
     {
         if (PanelIsLoaded == false)
         {
-            _shopMoneyPanelView = await _shopMoneyAssetLoader.LoadAsset(_parent);
+            _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(_parent);
             _shopMoneyPanelView.transform.SetAsLastSibling();
             
             _shopMoneyPanelView.TextMoney.text = _wallet.Monets.ToString();

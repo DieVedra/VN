@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class WardrobeCharacterViewerAssetProvider : PrefabLoader
 {
+    private const string _name = "WardrobeCharacterViewer";
     public async UniTask LoadWardrobeCharacterViewerPrefab()
     {
-        await Load("WardrobeCharacterViewer");
+        await Load(_name);
     }
     public WardrobeCharacterViewer CreateWardrobeCharacterViewer(Transform parent)
     {

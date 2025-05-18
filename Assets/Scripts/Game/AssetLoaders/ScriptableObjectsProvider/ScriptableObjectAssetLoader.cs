@@ -31,8 +31,11 @@ public class ScriptableObjectAssetLoader : LoadPercentProvider
     {
         for (int i = 0; i < _cashedObjects.Count; i++)
         {
-            Addressables.Release(_cashedObjects[i]);
-            _cashedObjects[i] = null;
+            if (_cashedObjects[i] != null)
+            {
+                Addressables.Release(_cashedObjects[i]);
+                _cashedObjects[i] = null;
+            }
         }
 
         _cashedObjects = null;

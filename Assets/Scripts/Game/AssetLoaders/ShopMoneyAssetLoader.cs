@@ -1,13 +1,13 @@
 ﻿
-
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class ShopMoneyAssetLoader : LocalAssetLoader
+public class ShopMoneyAssetLoader : PrefabLoader
 {
-    public UniTask<ShopMoneyPanelView> LoadAsset(Transform parent = null)
+    private const string _name = "ShopPanel";
+    public async UniTask<ShopMoneyPanelView> CreateShopMoneyPanel(Transform parent = null)
     {
-        return Load<ShopMoneyPanelView>("ShopPanel", parent);
+        return await InstantiatePrefab<ShopMoneyPanelView>(_name, parent);
     }
 
     public void UnloadAsset()

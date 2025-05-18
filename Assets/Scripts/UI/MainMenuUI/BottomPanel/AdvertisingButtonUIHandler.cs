@@ -12,16 +12,16 @@ public class AdvertisingButtonUIHandler
     public readonly string ButtonText = "Смотреть рекламу";
 
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
-    private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly Transform _parent;
     private readonly Wallet _wallet;
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
     public bool AssetIsLoad { get; private set; }
-    public AdvertisingButtonUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, Transform parent)
+    public AdvertisingButtonUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Wallet wallet, Transform parent)
     {
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _blackFrameUIHandler = blackFrameUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
         _parent = parent;
         _advertisingPanelPrefabProvider = new AdvertisingPanelPrefabProvider();
@@ -30,7 +30,10 @@ public class AdvertisingButtonUIHandler
 
     public void Dispose()
     {
-        Addressables.ReleaseInstance(_advertisingPanelView.gameObject);
+        if (_advertisingPanelView != null)
+        {
+            Addressables.ReleaseInstance(_advertisingPanelView.gameObject);
+        }
     }
     public async UniTask Press()
     {
@@ -53,7 +56,7 @@ public class AdvertisingButtonUIHandler
         await UniTask.Delay(2000);
         _advertisingPanelView.ButtonExit.onClick.AddListener(() =>
         {
-            _blackFrameUIHandler.OpenTranslucent().Forget();
+            _darkeningBackgroundFrameUIHandler.OpenTranslucent().Forget();
             _advertisingPanelView.gameObject.SetActive(false);
             _wallet.AddCash(_advertisingPanelView.MonetReward, false);
             _wallet.AddHearts(_advertisingPanelView.HeartsReward, false);

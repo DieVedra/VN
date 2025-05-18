@@ -2,11 +2,12 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class SettingsPanelAssetProvider : LocalAssetLoader
+public class SettingsPanelAssetProvider : PrefabLoader
 {
-    public UniTask<SettingsPanelView> LoadAsset(Transform parent = null)
+    private const string _name = "SettingsPanel";
+    public async UniTask<SettingsPanelView> CreateSettingsPanel(Transform parent = null)
     {
-        return Load<SettingsPanelView>("SettingsPanel", parent);
+        return await InstantiatePrefab<SettingsPanelView>(_name, parent);
     }
 
     public void UnloadAsset()

@@ -27,6 +27,29 @@ public class PrefabLoader : LoadPercentProvider
         }
         return handle.Result;
     }
+    protected async UniTask<T> InstantiatePrefab<T>(string assetId, Transform parent = null, bool isSynchronously = false)
+    {
+        var handle = Addressables.InstantiateAsync(assetId, parent);
+        SetHandle(handle);
+        if (isSynchronously == false)
+        {
+            await handle.Task;
+        }
+        else
+        {
+            handle.Task.RunSynchronously();
+        }
+
+        if (handle.Result.TryGetComponent(out T result))
+        {
+            return result;
+
+        }
+        else
+        {
+            return default;
+        }
+    }
     protected void Unload()
     {
         if (CashedPrefab == null)

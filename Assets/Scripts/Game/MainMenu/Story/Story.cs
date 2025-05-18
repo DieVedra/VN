@@ -1,7 +1,6 @@
 ﻿
 using NaughtyAttributes;
 using UniRx;
-using Unity.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +14,7 @@ public class Story
     [SerializeField] private int _currentSeriaIndex;
     [SerializeField] private ReactiveProperty<bool> _isLiked;
     [SerializeField, NaughtyAttributes.ReadOnly] private int _myIndex;
+    [SerializeField, NaughtyAttributes.ReadOnly] private bool _storyStarted;
     private StoryData _storyData;
     private CompositeDisposable _compositeDisposable;
     public Sprite SpriteLogo => _spriteLogo;
@@ -27,6 +27,8 @@ public class Story
     public string NameSceneAsset => _nameSceneAsset;
     public int ProgressPercent => _progressPercent;
     public int CurrentSeriaIndex => _currentSeriaIndex;
+    public int CurrentSeriaNumber => _currentSeriaIndex + 1;
+    public bool StoryStarted => _storyStarted;
 
     public void Init(StoryData storyData)
     {
@@ -34,6 +36,7 @@ public class Story
         _currentSeriaIndex = storyData.CurrentSeriaIndex;
         _progressPercent = storyData.CurrentProgressPercent;
         _isLiked.Value = storyData.IsLiked;
+        _storyStarted = storyData.StoryStarted;
         if (storyData != null)
         {
             _compositeDisposable = new CompositeDisposable();
@@ -74,6 +77,7 @@ public class Story
         _progressPercent = 0;
         _currentSeriaIndex = 0;
         _isLiked.Value = false;
+        _storyStarted = false;
         if (_storyData != null)
         {
             _storyData.Stats = null;

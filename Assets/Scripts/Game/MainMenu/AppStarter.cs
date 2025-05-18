@@ -6,14 +6,6 @@ using UnityEngine.AddressableAssets;
 
 public class AppStarter
 {
-    // private readonly MainMenuUIProvider _mainMenuUIProvider;
-
-    public StoriesProviderAssetProvider StoriesProviderAssetProvider { get; private set; }
-    // public AppStarter()
-    // {
-    //     // _mainMenuUIProvider = mainMenuUIProvider;
-    // }
-
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider)
     {
@@ -22,7 +14,7 @@ public class AppStarter
         var loadIndicatorUIHandler = new LoadIndicatorUIHandler();
         var blackFrameUIHandler = new BlackFrameUIHandler();
         await loadScreenUIHandler.Init(loadIndicatorUIHandler, blackFrameUIHandler);
-        loadScreenUIHandler.Show();
+        loadScreenUIHandler.ShowOnStart();
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(wallet, loadIndicatorUIHandler, blackFrameUIHandler, loadScreenUIHandler);
         var storiesProvider = await CreateStoriesProvider();
@@ -34,17 +26,9 @@ public class AppStarter
         result.Item2.gameObject.SetActive(true);
         await UniTask.Delay(1000);
         
-        loadScreenUIHandler.Hide().Forget();
+        loadScreenUIHandler.HideOnMainMenuMove().Forget();
         return (storiesProvider, result.Item1, levelLoader);
     }
-    // private async UniTask<RectTransform> CreateBackground()
-    // {
-    //     MenuBackgroundAssetProvider menuBackgroundAssetProvider = new MenuBackgroundAssetProvider();
-    //     // RectTransform rectTransformBackground = await menuBackgroundAssetProvider.LoadAsset(mainMenuUIProvider.MainMenuUIView.transform);
-    //     RectTransform rectTransformBackground = null;
-    //     rectTransformBackground.SetAsFirstSibling();
-    //     return rectTransformBackground;
-    // }
 
     private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(Wallet wallet, LoadIndicatorUIHandler loadIndicatorUIHandler,
         BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler)
@@ -56,15 +40,16 @@ public class AppStarter
         var darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
         var settingsPanelUIHandler = new SettingsPanelUIHandler();
-        var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(mainMenuUIViewTransform, settingsPanelUIHandler, darkeningBackgroundFrameUIHandler,loadIndicatorUIHandler);
+        var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(mainMenuUIViewTransform, settingsPanelUIHandler,
+            darkeningBackgroundFrameUIHandler,loadIndicatorUIHandler);
         
-        var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, blackFrameUIHandler, wallet,
+        var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet,
             mainMenuUIViewTransform);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(wallet, shopMoneyPanelUIHandler, mainMenuUIViewTransform);
         
-        var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(loadIndicatorUIHandler, blackFrameUIHandler, mainMenuUIViewTransform);
+        var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
         var bottomPanelUIHandler = new BottomPanelUIHandler(confirmedPanelUIHandler,
-            new AdvertisingButtonUIHandler(loadIndicatorUIHandler, blackFrameUIHandler, wallet, mainMenuUIViewTransform),
+            new AdvertisingButtonUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet, mainMenuUIViewTransform),
             mainMenuUIViewTransform);
         
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(blackFrameUIHandler, darkeningBackgroundFrameUIHandler,
@@ -82,7 +67,7 @@ public class AppStarter
         await mainMenuUIView.MyScroll.Init(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler, levelLoader, startIndexStory);
         mainMenuUIProvider.SettingsPanelButtonUIHandler.Init(mainMenuUIView.SettingsButtonView);
         mainMenuUIProvider.ShopMoneyButtonsUIHandler.Init(mainMenuUIView.MonetPanelView, mainMenuUIView.HeartsPanelView);
-        mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView);
+        mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler);
     }
     private LevelLoader LevelLoaderCreate(MainMenuUIProvider mainMenuUIProvider, ReactiveCommand onSceneTransition,
         SaveServiceProvider saveServiceProvider, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider)
@@ -93,7 +78,7 @@ public class AppStarter
 
     private async UniTask<StoriesProvider> CreateStoriesProvider()
     {
-        StoriesProviderAssetProvider = new StoriesProviderAssetProvider();
-        return await StoriesProviderAssetProvider.Load();
+        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        return await storiesProviderAssetProvider.Load();
     }
 }

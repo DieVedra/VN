@@ -6,32 +6,25 @@ using UnityEngine.AddressableAssets;
 
 public class BackgroundContentAssetProvider : PrefabLoader
 {
-    private const string _backgroundContentAssetName = "BackgroundContentPrefab";
-    private List<GameObject> _createdObjects;
+    private const string _name = "BackgroundContentPrefab";
+    private List<BackgroundContent> _createdObjects;
 
     public async UniTask<BackgroundContent> GetBackgroundContent(Transform parent)
     {
-        GameObject go = await InstantiatePrefab(_backgroundContentAssetName, parent);
-        if (go.TryGetComponent(out BackgroundContent result) == true)
+        var content = await InstantiatePrefab<BackgroundContent>(_name, parent);
+        if (_createdObjects == null)
         {
-            if (_createdObjects == null)
-            {
-                _createdObjects = new List<GameObject>();
-            }
-            _createdObjects.Add(go);
-            return result;
+            _createdObjects = new List<BackgroundContent>();
         }
-        else
-        {
-            return default;
-        }
+        _createdObjects.Add(content);
+        return content;
     }
 
     public void ReleaseAllCreatedObjects()
     {
         for (int i = 0; i < _createdObjects.Count; ++i)
         {
-            Addressables.ReleaseInstance(_createdObjects[i]);
+            Addressables.ReleaseInstance(_createdObjects[i].gameObject);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,15 +8,7 @@ public class AdvertisingPanelPrefabProvider : PrefabLoader
     
     public async UniTask<AdvertisingPanelView> CreateAdvertisingPanel(Transform parent = null)
     {
-        GameObject instantiatedPrefab = await InstantiatePrefab(_name, parent);
-        if (instantiatedPrefab.TryGetComponent(out AdvertisingPanelView advertisingPanelView))
-        {
-            return advertisingPanelView;
-        }
-        else
-        {
-            return default;
-        }
+        return await InstantiatePrefab<AdvertisingPanelView>(_name, parent);
     }
 
     public async UniTask Load()

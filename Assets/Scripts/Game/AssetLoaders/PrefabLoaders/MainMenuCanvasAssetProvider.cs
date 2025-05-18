@@ -8,14 +8,6 @@ public class MainMenuCanvasAssetProvider : PrefabLoader
 
     public async UniTask<MainMenuUIView> CreateAsset()
     {
-        GameObject instantiated = await InstantiatePrefab(_name);
-        if (instantiated.TryGetComponent(out MainMenuUIView mainMenuUIView))
-        {
-            return mainMenuUIView;
-        }
-        else
-        {
-            return default;
-        }
+        return await InstantiatePrefab<MainMenuUIView>(_name);
     }
 }
