@@ -14,6 +14,7 @@ public class PlayStoryPanelHandler
     private PlayStoryPanel _playStoryPanel;
     private RectTransform _rectTransformPanel;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly LocalizationString _seriaTextLocalization = _seriaText;
     private Story _currentStory;
 
     private Vector2 _hideScale;
@@ -51,7 +52,7 @@ public class PlayStoryPanelHandler
         _currentStory = story;
         InitLikeButton();
         _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
-        _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
+        _playStoryPanel.TextSeria.text = $"{_seriaTextLocalization} {story.CurrentSeriaNumber}";
         _playStoryPanel.gameObject.SetActive(true);
 
         await UniTask.WhenAll(

@@ -127,7 +127,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            levelSoundEditMode.Construct(SaveData.SoundIsOn);
+            levelSoundEditMode.Construct(SaveData.SoundStatus);
         }
         else
         {

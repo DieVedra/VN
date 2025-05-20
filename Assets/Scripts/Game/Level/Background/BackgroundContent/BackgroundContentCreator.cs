@@ -1,22 +1,19 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 
 public class BackgroundContentCreator : IParticipiteInLoad
 {
-    private const float _timeDelay = 0.1f;
     private const int _maxPercent = 100;
     private const int _minPercent = 0;
+    private const int _minCount = 0;
     private readonly Transform _parent;
     private readonly SpriteRendererAssetProvider _spriteRendererAssetProvider;
     private readonly BackgroundContentAssetProvider _backgroundContentAssetProvider;
     private List<BackgroundContent> _instantiatedBackgroundContent;
     private List<int> _percentsNumbers;
-    private CancellationTokenSource _cancellationTokenSource;
     private BackgroundData _backgroundData;
     public BackgroundContent WardrobeBackground { get; private set; }
     public SpriteRenderer ArtShower { get; private set; }
@@ -33,7 +30,6 @@ public class BackgroundContentCreator : IParticipiteInLoad
         _parent = parent;
         _spriteRendererAssetProvider = spriteRendererAssetProvider;
         _backgroundContentAssetProvider = new BackgroundContentAssetProvider();
-        _cancellationTokenSource = new CancellationTokenSource();
         PercentComplete = _minPercent;
         ParticipiteInLoad = true;
     }
@@ -57,16 +53,42 @@ public class BackgroundContentCreator : IParticipiteInLoad
         {
             _contentCount++;
         }
-        _percentCalculatedCount = 0;
+        _contentCount += _backgroundData.BackgroundContentValues.Count;
+        InitPercentCalculate();
+        
+        for (int j = 0; j < _contentCount; ++j)
+        {
+            _instantiatedBackgroundContent.Add(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
+            _percentsNumbers[j] = _maxPercent;
+            UpdatePercentComplete();
+        }
+
         if (ArtShower == null)
         {
             ArtShower = await _spriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
+            _percentsNumbers[_percentsNumbers.Count - 1] = _maxPercent;
+            UpdatePercentComplete();
+        }
+        if (WardrobeBackground == null)
+        {
+            WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
+            _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
+        }
+
+        PercentComplete = _maxPercent;
+        _contentCount = _minCount;
+        OnCreateContent?.Invoke(_backgroundData);
+        _backgroundData = null;
+    }
+
+    private void InitPercentCalculate()
+    {
+        _percentCalculatedCount = _minCount;
+        if (ArtShower == null)
+        {
             _percentCalculatedCount++;
         }
-        _contentCount += _backgroundData.BackgroundContentValues.Count;
-
-
-        if (_contentCount == 0)
+        if (_contentCount == _minCount)
         {
             PercentComplete = _maxPercent;
             return;
@@ -77,51 +99,21 @@ public class BackgroundContentCreator : IParticipiteInLoad
             _instantiatedBackgroundContent = new List<BackgroundContent>();
             PercentComplete = _minPercent;
         }
-
-        PercentCalculate().Forget();
-
-        for (int j = 0; j < _contentCount; ++j)
-        {
-            _instantiatedBackgroundContent.Add(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
-        }
-        if (WardrobeBackground == null)
-        {
-            WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
-            _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
-        }
-       
-        
-        _cancellationTokenSource.Cancel();
-        PercentComplete = _maxPercent;
-        _contentCount = 0;
-        OnCreateContent?.Invoke(_backgroundData);
-        _backgroundData = null;
-    }
-
-    private async UniTask PercentCalculate()
-    {
-        _cancellationTokenSource = new CancellationTokenSource();
-        int sum;
         _percentsNumbers = new List<int>(_percentCalculatedCount);
         for (int i = 0; i < _percentCalculatedCount; ++i)
         {
             _percentsNumbers.Add(_minPercent);
         }
-        while (true)
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(_timeDelay), cancellationToken: _cancellationTokenSource.Token);
-            sum = _minPercent;
-            if (_percentsNumbers.Count >= _instantiatedBackgroundContent.Count)
-            {
-                _percentsNumbers[_instantiatedBackgroundContent.Count] = _backgroundContentAssetProvider.GetPercentComplete();
-            }
+    }
 
-            for (int i = 0; i < _percentsNumbers.Count; ++i)
-            {
-                sum += _percentsNumbers[i];
-            }
-            
-            PercentComplete = sum / _contentCount;
+    private void UpdatePercentComplete()
+    {
+        int sum = _minCount;
+
+        for (int i = 0; i < _percentsNumbers.Count; ++i)
+        {
+            sum += _percentsNumbers[i];
         }
+        PercentComplete = sum / _percentsNumbers.Count;
     }
 }

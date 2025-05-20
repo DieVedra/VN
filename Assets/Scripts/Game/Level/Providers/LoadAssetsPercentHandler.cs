@@ -23,20 +23,25 @@ public class LoadAssetsPercentHandler
     public void StartCalculatePercent()
     {
         _percentProvidersParticipiteInLoad = new List<IParticipiteInLoad>();
+        Debug.Log("InitCalculatePercent");
+
         for (int i = 0; i < _allPercentProviders.Length; ++i)
         {
             if (_allPercentProviders[i].ParticipiteInLoad == true)
             {
                 _percentProvidersParticipiteInLoad.Add(_allPercentProviders[i]);
+                
+                Debug.Log($"{_allPercentProviders[i].PercentComplete}  {_allPercentProviders[i].GetType()}");
             }
         }
+        Debug.Log("++++++++++++++++++");
 
         if (_percentProvidersParticipiteInLoad.Count > 0)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             CurrentLoadPercent = 0;
             _isCalculating = true;
-            Debug.Log($"StartCalculatePercent {CurrentLoadPercent}");
+            Debug.Log($"Start CalculatePercent {CurrentLoadPercent}");
 
             CalculatePercent().Forget();
         }
@@ -53,7 +58,7 @@ public class LoadAssetsPercentHandler
     }
     public void StopCalculatePercent()
     {
-        Debug.Log($"StopCalculatePercent {CurrentLoadPercent}");
+        Debug.Log($"Stop CalculatePercent {CurrentLoadPercent}");
         _isCalculating = false;
         _cancellationTokenSource.Cancel();
     }
@@ -63,6 +68,7 @@ public class LoadAssetsPercentHandler
         for (int i = 0; i < _percentProvidersParticipiteInLoad.Count; ++i)
         {
             sum += _percentProvidersParticipiteInLoad[i].PercentComplete;
+
         }
 
         if (sum > 0)

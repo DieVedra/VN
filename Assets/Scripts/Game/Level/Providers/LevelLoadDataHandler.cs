@@ -8,20 +8,19 @@ public class LevelLoadDataHandler
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
     private readonly BackgroundContentCreator _backgroundContentCreator;
-    private readonly int _seriesCount;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
     public readonly GameSeriesProvider GameSeriesProvider;
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
+    private int _seriesCount;
     public int CurrentSeriaLoadedNumber { get; private set; }
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
 
-    public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator, int seriesCount)
+    public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator)
     {
         _backgroundContentCreator = backgroundContentCreator;
-        _seriesCount = seriesCount;
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
         WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
         GameSeriesProvider = new GameSeriesProvider();
@@ -39,7 +38,7 @@ public class LevelLoadDataHandler
             BackgroundDataProvider.LocationDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.WardrobeBackgroundDataLoadProviderParticipiteInLoad,
-            backgroundContentCreator);
+            _backgroundContentCreator);
     }
 
     public async UniTask LoadFirstSeriaContent()
@@ -51,8 +50,18 @@ public class LevelLoadDataHandler
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(NumberFirstSeria, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
-        await TryLoadDatas(_indexFirstName);
+        // await TryLoadDatas(_indexFirstName);
+
+        await GameSeriesProvider.TryLoadData(_indexFirstName);
+
+        await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
+        
+        await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
+        await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
+        await AudioClipProvider.TryLoadDatas(_indexFirstName);
+
+
         _loadAssetsPercentHandler.StopCalculatePercent();
         CurrentSeriaLoadedNumber = NumberFirstSeria;
     }
@@ -63,21 +72,21 @@ public class LevelLoadDataHandler
         for (int i = 0; i < _seriesCount; ++i)
         {
             nextSeriaNumber++;
-            _loadAssetsPercentHandler.StartCalculatePercent();
+            // _loadAssetsPercentHandler.StartCalculatePercent();
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, CurrentSeriaLoadedNumber);
             await TryLoadDatas(CurrentSeriaLoadedNumber);
             await _backgroundContentCreator.TryCreateBackgroundContent();
-            _loadAssetsPercentHandler.StopCalculatePercent();
+            // _loadAssetsPercentHandler.StopCalculatePercent();
             CurrentSeriaLoadedNumber = nextSeriaNumber;
         }
     }
 
     private async UniTask InitLoaders()
     {
+        _seriesCount = await GameSeriesProvider.Init();
         await UniTask.WhenAll(
             WardrobeSeriaDataProviderBuildMode.Init(), 
-            CharacterProviderBuildMode.Init(), 
-            GameSeriesProvider.Init(), 
+            CharacterProviderBuildMode.Init(),
             AudioClipProvider.Init(), 
             BackgroundDataProvider.Init());
     }

@@ -12,10 +12,10 @@ public class CustomizableCharacter : Character
     [SerializeField, ReadOnly] private int _hairstyleIndex;
     
     
-    [SerializeField, HorizontalLine(color:EColor.Yellow), ReadOnly] private List<BodySpriteData> _bodiesData;
-    [SerializeField, HorizontalLine(color:EColor.Pink), ReadOnly] private List<MySprite> _clothesData;
-    [SerializeField, HorizontalLine(color:EColor.Blue), ReadOnly] private List<MySprite> _swimsuitsData;
-    [SerializeField, HorizontalLine(color:EColor.Green), ReadOnly] private List<MySprite> _hairstylesData;
+    [SerializeField, HorizontalLine(color:EColor.Yellow), Expandable] private List<BodySpriteData> _bodiesData;
+    [SerializeField, HorizontalLine(color:EColor.Pink), Expandable] private List<MySprite> _clothesData;
+    [SerializeField, HorizontalLine(color:EColor.Blue), Expandable] private List<MySprite> _swimsuitsData;
+    [SerializeField, HorizontalLine(color:EColor.Green), Expandable] private List<MySprite> _hairstylesData;
     
     
     
@@ -82,6 +82,16 @@ public class CustomizableCharacter : Character
                 spriteData = _bodiesData[i].EmotionsData;
                 break;
             }
+        }
+
+        if (spriteData == null)
+        {
+            Debug.Log($"       spriteData = null");
+        }
+        else
+        {
+            Debug.Log($"       spriteData {spriteData.Sprites.Count}");
+
         }
         return spriteData;
     }

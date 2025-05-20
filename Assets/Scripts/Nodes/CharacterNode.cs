@@ -7,6 +7,7 @@ using UnityEngine;
 public class CharacterNode : BaseNode, IPutOnSwimsuit
 {
     [SerializeField, TextArea] private string _text = "...";
+    [SerializeField, TextArea] private LocalizationString _localizationText;
     [SerializeField, HideInInspector] private int _indexCharacter;
     [SerializeField, HideInInspector] private int _indexEmotion;
     [SerializeField, HideInInspector] private int _indexLook;

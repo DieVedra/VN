@@ -37,7 +37,10 @@ public class GameControlPanelUIHandler
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
-        Addressables.ReleaseInstance(_blackFrameView.gameObject);
+        if (_blackFrameView != null)
+        {
+            Addressables.ReleaseInstance(_blackFrameView.gameObject);
+        }
     }
     private async UniTaskVoid PressShowButton()
     {
@@ -150,7 +153,7 @@ public class GameControlPanelUIHandler
         if (_settingsPanelUIHandler == null)
         {
             _settingsPanelUIHandler = new SettingsPanelUIHandler();
-            await _settingsPanelUIHandler.Init(_blackFrameUIHandler.Transform);
+            // await _settingsPanelUIHandler.Init(_blackFrameUIHandler.Transform);
         }
     }
 

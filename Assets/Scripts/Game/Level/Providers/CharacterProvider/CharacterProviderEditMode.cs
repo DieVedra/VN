@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
 {
-    [SerializeField, BoxGroup("Simple Characters: ")] private List<SimpleCharacter> _simpleCharacters;
-    [SerializeField, BoxGroup("CustomizableCharacter: ")] private CustomizableCharacter _customizableCharacter;
+    [SerializeField, BoxGroup("Simple Characters: "), Expandable] private List<SimpleCharacter> _simpleCharacters;
+    [SerializeField, BoxGroup("CustomizableCharacter: "), Expandable] private CustomizableCharacter _customizableCharacter;
 
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("All Characters: "), ReadOnly] private List<Character> _allCharacters;
     public CustomizableCharacter CustomizableCharacter => _customizableCharacter;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -14,7 +15,7 @@ public class Sound : MonoBehaviour
     [SerializeField] protected AudioMixer _mixer;
     private AudioEffectsCustodian _audioEffectsCustodian;
     private AudioClipProvider _audioClipProvider;
-
+    private ReactiveProperty<bool> _soundStatus;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
     
     [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
@@ -36,6 +37,8 @@ public class Sound : MonoBehaviour
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
     public IReadOnlyList<AudioClip> Clips => MusicAudioData;
     public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
+    public IReactiveProperty<bool> SoundStatus => _soundStatus;
+
     protected void Init(bool soundOn = true)
     {
         _audioSources = new Dictionary<AudioSourceType, AudioSource>()
@@ -43,19 +46,28 @@ public class Sound : MonoBehaviour
             {AudioSourceType.Music, _audioSourceMusic},
             {AudioSourceType.Ambient, _audioSourceAmbient}
         };
-        if (soundOn == true)
-        {
-            _audioSourceMusic.mute = false;
-        }
-        else
-        {
-            _audioSourceMusic.mute = true;
-        }
-        // AudioClipProvider = new AudioClipProvider(ref MusicAudioData, ref AmbientAudioData);
+        
+        _soundStatus = new ReactiveProperty<bool>();
+        _soundStatus.Subscribe(ChangeSound);
+        _soundStatus.Value = soundOn;
+        
         SmoothAudio = new SmoothAudio(_audioSources, _audioClipProvider);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
     }
 
+    private void ChangeSound(bool key)
+    {
+        if (key == true)
+        {
+            _audioSourceMusic.mute = false;
+            _audioSourceAmbient.mute = false;
+        }
+        else
+        {
+            _audioSourceMusic.mute = true;
+            _audioSourceAmbient.mute = true;
+        }
+    }
     public virtual void Dispose()
     {
         MusicAudioData = null;

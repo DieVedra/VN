@@ -1,67 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
+﻿
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.U2D;
-using Zenject;
-using UnityEngine.UI;
 
 public class test : MonoBehaviour
 {
-    [SerializeField, Expandable] private BackgroundData backgroundData;
-    
-    [SerializeField] private string nameasset;
-    // [SerializeField, Expandable] private CharactersData _wardrobeSeriaData;
-    [SerializeField, Expandable] private ScriptableObject _scriptable;
-    [SerializeField] private List<string> _names;
+    [SerializeField] private LocalizationString _localizationString1;
+    [SerializeField] private LocalizationString _localizationString2;
+    [SerializeField] private LocalizationString _localizationString3;
+    [SerializeField] private LocalizationString _localizationString00 = "00000";
+    private LocalizationString _localizationString4 = "Загр";
+    private LocalizationString _localizationString5 = "Загр2";
+    private LocalizationString _localizationString6 = "Загр2";
     
     
     private ScriptableObjectAssetLoader _scriptableObjectAssetLoader;
     private AssetExistsHandler _assetExistsHandler;
     
     [Button()]
-    private void set()
+    private void test1()
     {
-        // Debug.Log($"spriteCount {backgroundData.SpriteAtlas.spriteCount}");
-        // var content = Instantiate(backgroundData.InstantiatedBackgroundContent);
-        // content.SetSprite(backgroundData.SpriteAtlas.GetSprite("Горы и пляж (закат)"));
-        
-        // backgroundData
+        Debug.Log($"LocalizationStringDictionary.Count {LocalizationString.LocalizationStringDictionary.Count}");
 
-    }
-    
-    
-    
-    [Button()]
-    private void Load()
-    {
-        load().Forget();
-
-    }
-    [Button()]
-    private void Unload()
-    {
-        _scriptableObjectAssetLoader.UnloadAll();
-        _scriptable = null;
-        _names = null;
-    }
-    private async UniTaskVoid load()
-    {
-        await Addressables.InitializeAsync();
-        _scriptableObjectAssetLoader = new ScriptableObjectAssetLoader();
-        _assetExistsHandler = new AssetExistsHandler();
-
-        _names = await _assetExistsHandler.CheckExistsAssetsNames(nameasset);
-        // _scriptable = await ScriptableObjectAssetLoader.Load<ScriptableObject>(_names[0]);
-
-        if (_scriptable == null)
+        foreach (var variable in LocalizationString.LocalizationStringDictionary)
         {
-            Debug.Log(11111);
+            Debug.Log($"{variable.Value}     {variable.Key}");
+
         }
+        
+    }
+    
+    [Button()]
+    private void test2()
+    {
+        Debug.Log($"  {_localizationString1.DefaultText} {_localizationString1.Key}");
+        Debug.Log($"  {_localizationString2.DefaultText} {_localizationString2.Key}");
+        Debug.Log($"  {_localizationString3.DefaultText} {_localizationString3.Key}");
+        Debug.Log($"  {_localizationString4.DefaultText} {_localizationString4.Key}");
+        Debug.Log($"  {_localizationString5.DefaultText} {_localizationString5.Key}");
+        Debug.Log($"  {_localizationString6.DefaultText} {_localizationString6.Key}");
     }
 }

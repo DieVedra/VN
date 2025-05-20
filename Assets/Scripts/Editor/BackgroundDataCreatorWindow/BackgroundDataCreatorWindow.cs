@@ -8,6 +8,7 @@ using UnityEditor.U2D;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.U2D;
+using MyNamespace;
 
 public class BackgroundDataCreatorWindow : EditorWindow
 {
@@ -125,7 +126,7 @@ public class BackgroundDataCreatorWindow : EditorWindow
             {
                 _folderCreator.TryCreateFolder(_pathFolderBackgroundDataAsset);
                 string nameData = GetBackgroundDataName();
-                BackgroundData backgroundData = CreateScriptableObjectAsset<BackgroundData>(_pathFolderBackgroundDataAsset, nameData);
+                BackgroundData backgroundData = new ScriptableObjectCreator().CreateScriptableObjectAsset<BackgroundData>(_pathFolderBackgroundDataAsset, nameData);
                 _backgroundDataSerializedObject = new SerializedObject(backgroundData);
                 _backgroundDataSpriteAtlasSerializedProperty = _backgroundDataSerializedObject.FindProperty(BackgroundData.SpriteAtlasPropertyName);
                 _backgroundDataValuesListSerializedProperty = _backgroundDataSerializedObject.FindProperty(BackgroundData.ContentValuesPropertyName);
@@ -198,24 +199,6 @@ public class BackgroundDataCreatorWindow : EditorWindow
     private void CreatePath()
     {
         _pathFolderBackgroundDataAsset = $"{_pathPart1}{_seriaNumber}{_pathPart2}";
-    }
-
-    private T CreateScriptableObjectAsset<T>(string path, string name)  where T : ScriptableObject
-    {
-        string newPath = path;
-        if (name[0] != FolderCreator.Separator)
-        {
-            newPath = $"{path}{FolderCreator.Separator}{name}";
-        }
-        else
-        {
-            newPath = $"{path}{name}";
-        }
-        T scriptableObject = ScriptableObject.CreateInstance<T>();
-        AssetDatabase.CreateAsset(scriptableObject, newPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        return scriptableObject;
     }
     private void TryInitReordableList()
     {

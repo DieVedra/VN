@@ -26,7 +26,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async void Awake()
     {
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
-        _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator, 5);
+        _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         
@@ -39,7 +39,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         });
 
         await _loadScreen.HideOnLevelMove();
-        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+        // _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
     private void Init()
@@ -55,7 +55,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
         else
         {
-            Wallet = new Wallet(TestMonets, TestHearts);
             GameStatsCustodian.Init();
         }
         InitGlobalSound();
@@ -149,13 +148,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     protected override void InitGlobalSound()
     {
+        _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
         if (LoadSaveData == true)
         {
-            _globalSound.Construct(_levelLoadDataHandler.AudioClipProvider, SaveData.SoundIsOn);
+            _globalSound.Construct(SaveData.SoundStatus);
         }
         else
         {
-            _globalSound.Construct(_levelLoadDataHandler.AudioClipProvider, true);
+            _globalSound.Construct(true);
         }
     }
 

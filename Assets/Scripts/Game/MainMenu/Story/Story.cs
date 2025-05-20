@@ -6,9 +6,11 @@ using UnityEngine;
 [System.Serializable]
 public class Story
 {
+    [SerializeField] private string _storyName;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteLogo;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteStorySkin;
     [SerializeField, TextArea] private string _description;
+    [SerializeField] private LocalizationString _description1;
     [SerializeField] private string _nameSceneAsset;
     [SerializeField] private int _progressPercent;
     [SerializeField] private int _currentSeriaIndex;
@@ -25,6 +27,7 @@ public class Story
     public int MyIndex => _myIndex;
 
     public string NameSceneAsset => _nameSceneAsset;
+    public string StoryName => _storyName;
     public int ProgressPercent => _progressPercent;
     public int CurrentSeriaIndex => _currentSeriaIndex;
     public int CurrentSeriaNumber => _currentSeriaIndex + 1;

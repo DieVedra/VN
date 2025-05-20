@@ -33,14 +33,14 @@ namespace UnityToolbarExtender.Examples
 		{
 			GUILayout.FlexibleSpace();
 
-			if(GUILayout.Button(new GUIContent("1", "Start Scene 1"), ToolbarStyles.commandButtonStyle))
+			if(GUILayout.Button(new GUIContent("1", "Start Scene: MenuScene"), ToolbarStyles.commandButtonStyle))
 			{
-				SceneHelper.StartScene("ToolbarExtenderExampleScene1");
+				SceneHelper.StartScene("MenuScene");
 			}
 
-			if(GUILayout.Button(new GUIContent("2", "Start Scene 2"), ToolbarStyles.commandButtonStyle))
+			if(GUILayout.Button(new GUIContent("2", "Start Scene: WildBeachEditorScene"), ToolbarStyles.commandButtonStyle))
 			{
-				SceneHelper.StartScene("ToolbarExtenderExampleScene2");
+				SceneHelper.StartScene("WildBeachEditorScene");
 			}
 		}
 	}

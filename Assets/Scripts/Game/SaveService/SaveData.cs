@@ -3,18 +3,17 @@
 [System.Serializable]
 public class SaveData
 {
-    public int LocalizationIndex;
     public int Monets;
     public int Hearts;
-    public bool SoundIsOn;
+    public bool SoundStatus;
     public int StartIndexStory;
+    public string LanguageLocalizationKey;
     public StoryData[] StoryDatas;
 
 
     public SaveData()
     {
-        LocalizationIndex = 0;
-        SoundIsOn = true;
+        SoundStatus = true;
         Monets = 96;
         Hearts = 97;
         StartIndexStory = 0;

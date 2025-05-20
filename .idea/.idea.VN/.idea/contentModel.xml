@@ -573,10 +573,12 @@
             <e p="InspectorDrawers" t="Include">
               <e p="GameEntryPointDrawer.cs" t="Include" />
               <e p="GameStatsDrawer.cs" t="Include" />
-              <e p="NodeGraphsHandlerDrawer.cs" t="Include" />
               <e p="SpriteDataDrawer.cs" t="Include" />
             </e>
             <e p="LineDrawer.cs" t="Include" />
+            <e p="Localization" t="Include">
+              <e p="LocalizationCreator.cs" t="Include" />
+            </e>
             <e p="NodesDrawers" t="Include">
               <e p="AddSpriteNodeToBackgroundDrawer.cs" t="Include" />
               <e p="BackgroundNodeDrawer.cs" t="Include" />
@@ -601,6 +603,7 @@
               <e p="SwitchToNextSeriaNodeDrawer.cs" t="Include" />
               <e p="TextNodeDrawer.cs" t="Include" />
             </e>
+            <e p="ScriptableObjectCreator.cs" t="Include" />
             <e p="SimpleTextValidator.cs" t="Include" />
           </e>
           <e p="Enums" t="Include">
@@ -640,6 +643,8 @@
                 <e p="SpriteViewerAssetProvider.cs" t="Include" />
               </e>
               <e p="ScriptableObjectsProvider" t="Include">
+                <e p="GlobalAudioAssetProvider.cs" t="Include" />
+                <e p="LocalizationHandlerAssetProvider.cs" t="Include" />
                 <e p="ScriptableObjectAssetLoader.cs" t="Include" />
               </e>
               <e p="SettingsPanelAssetProvider.cs" t="Include" />
@@ -756,6 +761,16 @@
               </e>
             </e>
             <e p="LocalizableString.cs" t="Include" />
+            <e p="Localization" t="Include">
+              <e p="ILocalizationChanger.cs" t="Include" />
+              <e p="LanguagesNamesProvider.cs" t="Include" />
+              <e p="LocalizationHandler.cs" t="Include" />
+              <e p="LocalizationLanguageCode.cs" t="Include" />
+              <e p="LocalizationProvider.cs" t="Include" />
+              <e p="LocalizationString.cs" t="Include" />
+              <e p="MainMenuLocalizationInfoHolder.cs" t="Include" />
+              <e p="MyLanguageName.cs" t="Include" />
+            </e>
             <e p="MainMenu" t="Include">
               <e p="AppStarter.cs" t="Include" />
               <e p="EntryPoint.cs" t="Include" />
@@ -826,6 +841,7 @@
           <e p="MonoInstallers" t="Include">
             <e p="GlobalSoundInstaller.cs" t="Include" />
             <e p="LoadScreenInstaller.cs" t="Include" />
+            <e p="LocalizationHandlerInstaller.cs" t="Include" />
             <e p="PrefabsProviderInstaller.cs" t="Include" />
             <e p="SaveServiceProviderInstaller.cs" t="Include" />
           </e>
@@ -981,6 +997,7 @@
               <e p="PlayStoryPanel.cs" t="Include" />
               <e p="ScrollViewHandler.cs" t="Include" />
               <e p="SettingsPanel" t="Include">
+                <e p="SettingPanelChoiceHandler.cs" t="Include" />
                 <e p="SettingsButtonView.cs" t="Include" />
                 <e p="SettingsPanelButtonUIHandler.cs" t="Include" />
                 <e p="SettingsPanelChoiceField.cs" t="Include" />

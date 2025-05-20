@@ -11,12 +11,12 @@ public class LoadIndicatorUIHandler
 {
     private const float _minRotationValue = 0f;
     private const float _maxRotationValue = -360f;
+    private const string _loadText = "Загрузка";
     private readonly Vector3 _endRotationValue;
     private readonly Vector3 _startRotationValue;
     private readonly float _duration = 3f;
-    private readonly float _textIndicateDuration = 0.5f;
     private readonly string _dot = ".";
-    private readonly string _loadText = "Загрузка";
+    private readonly LocalizationString _loadTextLocalization  = _loadText;
     private LoadIndicatorView _loadIndicatorView;
     private LoadIndicatorAssetProvider _loadIndicatorAssetProvider;
     private CancellationTokenSource _cancellationTokenSource;
@@ -104,7 +104,6 @@ public class LoadIndicatorUIHandler
             if (_isPercentIndicate == false && _isClearIndicate == false)
             {
                 TextIndicate().Forget();
-                Debug.Log($"TextIndicate");
             }
         }
     }
@@ -114,12 +113,12 @@ public class LoadIndicatorUIHandler
         _isIndicate = true;
         _loadIndicatorView.LoadText.text = String.Empty;
         _loadIndicatorView.LoadText.gameObject.SetActive(true);
-        string[] dots = new[] { $"{_loadText}{_dot}", $"{_loadText}{_dot}{_dot}", $"{_loadText}{_dot}{_dot}{_dot}"};
+        string[] dots = new[] { $"{_loadTextLocalization}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}{_dot}"};
         int index = dots.Length - 1;
         while (_isIndicate == true)
         {
             _loadIndicatorView.LoadText.text = dots[index];
-            await UniTask.Delay(TimeSpan.FromSeconds(_textIndicateDuration), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.HalfValue), cancellationToken: _cancellationTokenSource.Token);
             if (index == dots.Length -1)
             {
                 index = 0;

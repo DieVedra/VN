@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -58,12 +57,8 @@ public class BackgroundBuildMode : Background
 
     private void InitLocations( BackgroundData backgroundData)
     {
-        Debug.Log($"_instantiatedBackgroundContent {_backgroundContentCreator.InstantiatedBackgroundContent.Count}");
-        Debug.Log($"_backgroundData  {backgroundData.BackgroundContentValues.Count}");
-
         for (int i = 0; i < _backgroundContentCreator.InstantiatedBackgroundContent.Count; ++i)
         {
-            Debug.Log($" index{i}");
             InitBackgroundContent(_backgroundContentCreator.InstantiatedBackgroundContent[i],
                 backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite),
                 backgroundData.BackgroundContentValues[i]);

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSpriteData", menuName = "Character/SpriteData", order = 0)]
+[CreateAssetMenu(fileName = "NewSpriteData", menuName = "Character/SpriteData", order = 51)]
 public class SpriteData : ScriptableObject
 {
     [SerializeField] private List<Sprite> _sprites;
@@ -9,10 +9,6 @@ public class SpriteData : ScriptableObject
     public List<Sprite> Sprites => _sprites;
     public List<MySprite> MySprites => _mySprites;
 
-    public void AddMySprites(List<MySprite> mySprites)
-    {
-        _mySprites.AddRange(mySprites);
-    }
     public string[] GetNames()
     {
         List<string> names = new List<string>(_sprites.Count);
@@ -23,6 +19,7 @@ public class SpriteData : ScriptableObject
                 names.Add(_sprites[i].name);
             }
         }
+        Debug.Log($"GetNames()  {names.Count}");
         return names.ToArray();
     }
 
