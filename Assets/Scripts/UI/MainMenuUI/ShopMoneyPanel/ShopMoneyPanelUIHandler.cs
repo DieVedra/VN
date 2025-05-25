@@ -10,17 +10,20 @@ using UnityEngine.UI;
 public class ShopMoneyPanelUIHandler
 {
     private const int _monetIndex = 0;
+    private readonly LocalizationString _monetButtonText = "Монеты";
+    private readonly LocalizationString _heartsButtonText = "Сердца";
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly Transform _parent;
+    private readonly ReactiveCommand _languageChanged;
     private readonly Wallet _wallet;
     private ShopMoneyPanelView _shopMoneyPanelView;
 
     public event Action OnHide;
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        Wallet wallet, Transform parent)
+        Wallet wallet, Transform parent, ReactiveCommand languageChanged)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
@@ -28,6 +31,7 @@ public class ShopMoneyPanelUIHandler
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
         _parent = parent;
+        _languageChanged = languageChanged;
     }
 
     public void Dispose()
@@ -43,7 +47,6 @@ public class ShopMoneyPanelUIHandler
         _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
-            // await _loadIndicatorUIHandler.Init(_darkeningBackgroundFrameUIHandler.Transform);
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             await LoadPanel();
@@ -53,8 +56,6 @@ public class ShopMoneyPanelUIHandler
             _shopMoneyPanelView.transform.SetAsLastSibling();
         }
         InitPanel(index);
-        // UpdateMonetIndicate();
-        // UpdateHeartsIndicate();
         _shopMoneyPanelView.gameObject.SetActive(true);
         _loadIndicatorUIHandler.StopIndicate();
     }
@@ -73,6 +74,9 @@ public class ShopMoneyPanelUIHandler
         {
             _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(_parent);
             _shopMoneyPanelView.transform.SetAsLastSibling();
+            
+            _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
+            _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
             
             _shopMoneyPanelView.TextMoney.text = _wallet.Monets.ToString();
             

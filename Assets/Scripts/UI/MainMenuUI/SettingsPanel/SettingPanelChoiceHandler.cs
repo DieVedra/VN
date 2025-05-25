@@ -1,6 +1,5 @@
 ﻿
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingPanelChoiceHandler
@@ -20,7 +19,7 @@ public class SettingPanelChoiceHandler
         
         _leftButton.onClick.AddListener(MoveLeft);
         _rightButton.onClick.AddListener(MoveRight);
-        SetText();
+        SetTextAndExecute();
     }
 
     private void MoveLeft()
@@ -34,7 +33,7 @@ public class SettingPanelChoiceHandler
         {
             _localizationChanger.CurrentLanguageKeyIndex.Value = --index;
         }
-        SetText();
+        SetTextAndExecute();
     }
 
     private void MoveRight()
@@ -48,9 +47,9 @@ public class SettingPanelChoiceHandler
         {
             _localizationChanger.CurrentLanguageKeyIndex.Value = ++index;
         }
-        SetText();
+        SetTextAndExecute();
     }
-    private void SetText()
+    private void SetTextAndExecute()
     {
         _textChoice.text = _localizationChanger.GetName;
     }

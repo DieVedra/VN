@@ -152,7 +152,7 @@ public class GameControlPanelUIHandler
     {
         if (_settingsPanelUIHandler == null)
         {
-            _settingsPanelUIHandler = new SettingsPanelUIHandler();
+            _settingsPanelUIHandler = new SettingsPanelUIHandler(new ReactiveCommand());
             // await _settingsPanelUIHandler.Init(_blackFrameUIHandler.Transform);
         }
     }

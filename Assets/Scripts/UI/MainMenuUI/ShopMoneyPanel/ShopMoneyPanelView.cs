@@ -12,11 +12,15 @@ public class ShopMoneyPanelView : MonoBehaviour
     [SerializeField] private Button _exitButton;
     [SerializeField] private RectTransform _heartsPanel;
     [SerializeField] private RectTransform _monetPanel;
+    [SerializeField] private TextMeshProUGUI _monetButtonText;
+    [SerializeField] private TextMeshProUGUI _heartsButtonText;
     [SerializeField] private List<LotView> _monetLots;
     [SerializeField] private List<LotView> _heartLots;
     
     public TextMeshProUGUI TextMoney => _textMoney;
     public TextMeshProUGUI TextHearts => _textHearts;
+    public TextMeshProUGUI MonetButtonText => _monetButtonText;
+    public TextMeshProUGUI HeartsButtonText => _heartsButtonText;
     public Button ButtonMonet => _buttonMonet;
     public Button ButtonHearts => _buttonHearts;
     public Button ExitButton => _exitButton;

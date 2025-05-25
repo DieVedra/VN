@@ -10,6 +10,7 @@ public class PlayStoryPanel : StoryPanel
     [SerializeField] private Button _exitButton;
     [SerializeField] private TextMeshProUGUI _textSeria;
     [SerializeField] private TextMeshProUGUI _progressText;
+    [SerializeField] private TextMeshProUGUI _playButtonText;
     [SerializeField] private RectTransform _progressPanel;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Image _likeImage;
@@ -22,6 +23,7 @@ public class PlayStoryPanel : StoryPanel
     public Button ExitButton => _exitButton;
     public TextMeshProUGUI TextSeria => _textSeria;
     public TextMeshProUGUI ProgressText => _progressText;
+    public TextMeshProUGUI PlayButtonText => _playButtonText;
     public RectTransform ProgressPanel => _progressPanel;
     public CanvasGroup CanvasGroup => _canvasGroup;
     public Image LikeImage => _likeImage;

@@ -1,9 +1,7 @@
 ﻿
-using System.Collections.Generic;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class LocalizationHandler : ILocalizationChanger
 {
@@ -12,6 +10,7 @@ public class LocalizationHandler : ILocalizationChanger
     private SaveData _saveData;
     private string _currentLanguageKey;
     private ReactiveProperty<int> _currentLanguageKeyIndex;
+    public ReactiveCommand LanguageChanged { get; private set; }
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];
     // public IReadOnlyList<MyLanguageName> MyLanguageNames => _mainMenuLocalizationInfoHolder.LanguageNames;
@@ -22,6 +21,7 @@ public class LocalizationHandler : ILocalizationChanger
     public LocalizationHandler()
     {
         _currentLanguageKeyIndex = new ReactiveProperty<int>();
+        LanguageChanged = new ReactiveCommand();
     }
 
     public async UniTask Init(SaveData saveData)
@@ -60,5 +60,7 @@ public class LocalizationHandler : ILocalizationChanger
     {
         //пройдет по всем строкам локализации и заменит текст
         // Debug.Log($"CurrentLanguageName: {CurrentLanguageName.Name}");
+
+        LanguageChanged.Execute();
     }
 }

@@ -6,16 +6,18 @@ using UnityEngine.AddressableAssets;
 
 public class SettingsPanelUIHandler
 {
+    private readonly ReactiveCommand _languageChanged;
     private readonly SettingsPanelAssetProvider _settingsPanelAssetProvider;
-    private LocalizationString _localizationTextLabel;
-    private LocalizationString _localizationTextLocalizationLabel;
-    private LocalizationString _localizationTextSoundLabel;
+    private LocalizationString _textLabel = "Настройки";
+    private LocalizationString _localizationLabel = "Язык:";
+    private LocalizationString _soundLabel = "Звук:";
     private SettingsPanelView _settingsPanelView;
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     public Transform Transform => _settingsPanelView.transform;
     public bool AssetIsLoaded { get; private set; }
-    public SettingsPanelUIHandler()
+    public SettingsPanelUIHandler(ReactiveCommand languageChanged)
     {
+        _languageChanged = languageChanged;
         _settingsPanelAssetProvider = new SettingsPanelAssetProvider();
     }
     public async UniTask Init(Transform parent, IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger)
@@ -29,9 +31,9 @@ public class SettingsPanelUIHandler
                 soundStatus.Value = _settingsPanelView.SoundField.Toggle.isOn;
             });
             
-            _localizationTextLabel = _settingsPanelView.TextPanelLabel.text;
-            _localizationTextLocalizationLabel = _settingsPanelView.LocalizationField.Text.text;
-            _localizationTextSoundLabel = _settingsPanelView.SoundField.Text.text;
+            _settingsPanelView.TextPanelLabel.text = _textLabel;
+            _settingsPanelView.LocalizationField.Text.text = _localizationLabel;
+            _settingsPanelView.SoundField.Text.text = _soundLabel;
             
             
             _settingPanelChoiceHandler = new SettingPanelChoiceHandler(localizationChanger,
@@ -51,7 +53,7 @@ public class SettingsPanelUIHandler
         {
             Addressables.ReleaseInstance(_settingsPanelView.gameObject);
         }
-        _settingsPanelView.SoundField.Toggle.onValueChanged.RemoveAllListeners();
+        _settingsPanelView?.SoundField.Toggle.onValueChanged.RemoveAllListeners();
     }
     public void Show(BlackFrameUIHandler blackFrameUIHandler)
     {
@@ -62,9 +64,6 @@ public class SettingsPanelUIHandler
             Hide(blackFrameUIHandler);
             _settingsPanelView.ExitButton.onClick.RemoveAllListeners();
         });
-        _settingsPanelView.TextPanelLabel.text = _localizationTextLabel.DefaultText;
-        _settingsPanelView.LocalizationField.Text.text = _localizationTextLocalizationLabel.DefaultText;
-        _settingsPanelView.SoundField.Text.text = _localizationTextSoundLabel.DefaultText;
         _settingsPanelView.gameObject.SetActive(true);
     }
 

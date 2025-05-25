@@ -8,22 +8,26 @@ using UnityEngine.AddressableAssets;
 
 public class PlayStoryPanelHandler
 {
-    private const string _seriaText = "Серия";
+    private readonly LocalizationString _seriaText = "Серия";
+    private readonly LocalizationString _buttonContinueText = "Продолжить";
+    private readonly LocalizationString _buttonOpenText = "Открыть";
+    private readonly LocalizationString _playButtonText = "Играть";
     private LevelLoader _levelLoader;
     private readonly Transform _parent;
     private PlayStoryPanel _playStoryPanel;
     private RectTransform _rectTransformPanel;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
-    private readonly LocalizationString _seriaTextLocalization = _seriaText;
+    private readonly ReactiveCommand _languageChanged;
     private Story _currentStory;
 
     private Vector2 _hideScale;
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
 
-    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler)
+    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, ReactiveCommand languageChanged)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
+        _languageChanged = languageChanged;
     }
     public ReactiveCommand OnEndExit { get; private set; }
     public async UniTask Init(LevelLoader levelLoader, Transform parent)
@@ -52,9 +56,9 @@ public class PlayStoryPanelHandler
         _currentStory = story;
         InitLikeButton();
         _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
-        _playStoryPanel.TextSeria.text = $"{_seriaTextLocalization} {story.CurrentSeriaNumber}";
+        _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
         _playStoryPanel.gameObject.SetActive(true);
-
+        _playStoryPanel.PlayButtonText.text = _playButtonText;
         await UniTask.WhenAll(
             _blackFrameUIHandler.CloseTranslucent(_playStoryPanel.HierarchyIndex),
             _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),

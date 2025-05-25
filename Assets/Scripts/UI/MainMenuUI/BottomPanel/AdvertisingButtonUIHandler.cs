@@ -7,9 +7,10 @@ public class AdvertisingButtonUIHandler
 {
     public const int FontSizeValue = 80;
     public const float HeightPanel = 850f;
-    public readonly string LabelTextToConfirmedPanel = "Бесплатные монеты!";
-    public readonly string TranscriptionTextToConfirmedPanel = "Посмотрите рекламу и получите бесплатные монеты!";
-    public readonly string ButtonText = "Смотреть рекламу";
+    public readonly LocalizationString LabelTextToConfirmedPanel = "Бесплатные монеты!";
+    public readonly LocalizationString TranscriptionTextToConfirmedPanel = "Посмотрите рекламу и получите бесплатные монеты!";
+    public readonly LocalizationString ButtonText = "Смотреть рекламу";
+    public readonly LocalizationString AdvertisingButtonText  = "Реклама";
 
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;

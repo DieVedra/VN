@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class ExitButtonUIHandler
 {
-    public readonly string LabelTextToConfirmedPanel = "Точно?";
-    public readonly string TranscriptionTextToConfirmedPanel = "Покинуть игру?";
-    public readonly string ButtonText = "Да";
     public const float HeightPanel = 700f;
     public const int FontSizeValue = 120;
-    
+    public readonly LocalizationString LabelTextToConfirmedPanel = "Точно?";
+    public readonly LocalizationString TranscriptionTextToConfirmedPanel = "Покинуть игру?";
+    public readonly LocalizationString ButtonText = "Да";
+    public readonly LocalizationString ExitText = "Выход";
+
     public void Press()
     {
         Application.Quit();

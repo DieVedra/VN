@@ -17,7 +17,7 @@ public class AppStarter
         await loadScreenUIHandler.Init(loadIndicatorUIHandler, blackFrameUIHandler);
         loadScreenUIHandler.ShowOnStart();
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(wallet, loadIndicatorUIHandler, blackFrameUIHandler, loadScreenUIHandler);
+            await CreateMainMenuUIProvider(wallet, loadIndicatorUIHandler, blackFrameUIHandler, loadScreenUIHandler, localizationHandler.LanguageChanged);
         var storiesProvider = await CreateStoriesProvider();
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
@@ -38,26 +38,26 @@ public class AppStarter
     }
 
     private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(Wallet wallet, LoadIndicatorUIHandler loadIndicatorUIHandler,
-        BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler)
+        BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand languageChanged)
     {
         MainMenuCanvasAssetProvider menuCanvasAssetProvider = new MainMenuCanvasAssetProvider();
         MainMenuUIView mainMenuUIView = await menuCanvasAssetProvider.CreateAsset();
         mainMenuUIView.GetComponent<Canvas>().worldCamera = Camera.main;
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
-        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
-        var settingsPanelUIHandler = new SettingsPanelUIHandler();
+        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, languageChanged);
+        var settingsPanelUIHandler = new SettingsPanelUIHandler(languageChanged);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(mainMenuUIViewTransform, settingsPanelUIHandler,
             darkeningBackgroundFrameUIHandler,loadIndicatorUIHandler);
         
         var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet,
-            mainMenuUIViewTransform);
+            mainMenuUIViewTransform, languageChanged);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(wallet, shopMoneyPanelUIHandler, mainMenuUIViewTransform);
         
         var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
         var bottomPanelUIHandler = new BottomPanelUIHandler(confirmedPanelUIHandler,
             new AdvertisingButtonUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet, mainMenuUIViewTransform),
-            mainMenuUIViewTransform);
+            mainMenuUIViewTransform, languageChanged);
         
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(blackFrameUIHandler, darkeningBackgroundFrameUIHandler,
             loadIndicatorUIHandler, playStoryPanelHandler, settingsPanelButtonUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
