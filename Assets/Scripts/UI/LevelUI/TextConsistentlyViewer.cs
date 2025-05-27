@@ -2,12 +2,11 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
-using UnityEngine;
 
 public class TextConsistentlyViewer
 {
     private readonly TextMeshProUGUI _textComponent;
-    private readonly float _delay = 0.027f;
+    private const float _delay = 0.027f;
 
     public TextConsistentlyViewer(TextMeshProUGUI textComponent)
     {

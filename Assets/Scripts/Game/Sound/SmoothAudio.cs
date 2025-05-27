@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class SmoothAudio
 {
-    private readonly float _duration = 1f;
-    private readonly float _stopEndValue = 0f;
-    private readonly float _playEndValue = 1f;
+    private const float _duration = 1f;
+    private const float _stopEndValue = 0f;
+    private const float _playEndValue = 1f;
     private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
     private readonly IReadOnlyList<AudioClip> _musicAudioData;
     private readonly IReadOnlyList<AudioClip> _ambientAudioData;

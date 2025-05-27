@@ -559,6 +559,9 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="Attributes" t="Include">
+            <e p="LocalizationAttribute.cs" t="Include" />
+          </e>
           <e p="BasicScriptableObjects" t="Include">
             <e p="BodySpriteData.cs" t="Include" />
             <e p="SpriteData.cs" t="Include" />
@@ -627,13 +630,17 @@
               <e p="AssetLoaders" t="Include">
                 <e p="AssetLoader.cs" t="Include" />
               </e>
-              <e p="CircleIndicatorAssetProvider.cs" t="Include" />
+              <e p="JSonLoaders" t="Include">
+                <e p="JSonAssetLoader.cs" t="Include" />
+                <e p="MainMenuLocalizationFileProvider.cs" t="Include" />
+              </e>
               <e p="LoadIndicatorAssetProvider.cs" t="Include" />
               <e p="LocalAssetLoader.cs" t="Include" />
               <e p="MenuBackgroundAssetProvider.cs" t="Include" />
               <e p="PlayStoryPanelAssetProvider.cs" t="Include" />
               <e p="PrefabLoaders" t="Include">
                 <e p="BlackFramePanelAssetProvider.cs" t="Include" />
+                <e p="CircleIndicatorAssetProvider.cs" t="Include" />
                 <e p="ConfirmedPanelAssetProvider.cs" t="Include" />
                 <e p="LoadScreenAssetProvider.cs" t="Include" />
                 <e p="MainMenuCanvasAssetProvider.cs" t="Include" />
@@ -641,6 +648,7 @@
                 <e p="ProjectContextCanvasAssetProvider.cs" t="Include" />
                 <e p="SpriteRendererAssetProvider.cs" t="Include" />
                 <e p="SpriteViewerAssetProvider.cs" t="Include" />
+                <e p="StoryPanelAssetProvider.cs" t="Include" />
               </e>
               <e p="ScriptableObjectsProvider" t="Include">
                 <e p="GlobalAudioAssetProvider.cs" t="Include" />
@@ -650,7 +658,6 @@
               <e p="SettingsPanelAssetProvider.cs" t="Include" />
               <e p="ShopMoneyAssetLoader.cs" t="Include" />
               <e p="StoriesProviderAssetProvider.cs" t="Include" />
-              <e p="StoryPanelAssetProvider.cs" t="Include" />
             </e>
             <e p="AssetProviders" t="Include">
               <e p="BackgroundContentAssetProvider.cs" t="Include" />
@@ -763,11 +770,10 @@
             <e p="LocalizableString.cs" t="Include" />
             <e p="Localization" t="Include">
               <e p="ILocalizationChanger.cs" t="Include" />
-              <e p="LanguagesNamesProvider.cs" t="Include" />
-              <e p="LocalizationHandler.cs" t="Include" />
-              <e p="LocalizationLanguageCode.cs" t="Include" />
               <e p="LocalizationProvider.cs" t="Include" />
               <e p="LocalizationString.cs" t="Include" />
+              <e p="LocalizationStringCollector.cs" t="Include" />
+              <e p="MainMenuLocalizationHandler.cs" t="Include" />
               <e p="MainMenuLocalizationInfoHolder.cs" t="Include" />
               <e p="MyLanguageName.cs" t="Include" />
             </e>
@@ -986,6 +992,7 @@
                 <e p="ChangeEffectHandler.cs" t="Include" />
                 <e p="IndexFinder.cs" t="Include" />
                 <e p="MyScroll.cs" t="Include" />
+                <e p="MyScrollHandler.cs" t="Include" />
                 <e p="MyScrollMover.cs" t="Include" />
                 <e p="MyScrollScaler.cs" t="Include" />
                 <e p="MyScrollUIView.cs" t="Include" />
@@ -2451,14 +2458,17 @@
               <e p="VSCodeScriptEditor.cs" t="Include" />
             </e>
           </e>
-          <e p="com.unity.inputsystem@1.0.2" t="Include">
+          <e p="com.unity.inputsystem@1.8.0" t="Include">
             <e p="InputSystem" t="Include">
               <e p="Actions" t="Include">
                 <e p="Composites" t="Include">
                   <e p="AxisComposite.cs" t="Include" />
                   <e p="ButtonWithOneModifier.cs" t="Include" />
                   <e p="ButtonWithTwoModifiers.cs" t="Include" />
+                  <e p="OneModifierComposite.cs" t="Include" />
+                  <e p="TwoModifiersComposite.cs" t="Include" />
                   <e p="Vector2Composite.cs" t="Include" />
+                  <e p="Vector3Composite.cs" t="Include" />
                 </e>
                 <e p="IInputActionCollection.cs" t="Include" />
                 <e p="IInputInteraction.cs" t="Include" />
@@ -2466,6 +2476,7 @@
                 <e p="InputActionAsset.cs" t="Include" />
                 <e p="InputActionChange.cs" t="Include" />
                 <e p="InputActionMap.cs" t="Include" />
+                <e p="InputActionParameters.cs" t="Include" />
                 <e p="InputActionPhase.cs" t="Include" />
                 <e p="InputActionProperty.cs" t="Include" />
                 <e p="InputActionRebindingExtensions.cs" t="Include" />
@@ -2494,6 +2505,7 @@
                 <e p="AxisControl.cs" t="Include" />
                 <e p="ButtonControl.cs" t="Include" />
                 <e p="CommonUsages.cs" t="Include" />
+                <e p="DeltaControl.cs" t="Include" />
                 <e p="DiscreteButtonControl.cs" t="Include" />
                 <e p="DoubleControl.cs" t="Include" />
                 <e p="DpadControl.cs" t="Include" />
@@ -2554,6 +2566,7 @@
                   <e p="RequestSyncCommand.cs" t="Include" />
                   <e p="SetIMECursorPositionCommand.cs" t="Include" />
                   <e p="SetSamplingFrequencyCommand.cs" t="Include" />
+                  <e p="UseWindowsGamingInputCommand.cs" t="Include" />
                   <e p="WarpMousePositionCommand.cs" t="Include" />
                 </e>
                 <e p="Gamepad.cs" t="Include" />
@@ -2563,6 +2576,9 @@
                   <e p="IDualMotorRumble.cs" t="Include" />
                   <e p="IHaptics.cs" t="Include" />
                 </e>
+                <e p="ICustomDeviceReset.cs" t="Include" />
+                <e p="IEventMerger.cs" t="Include" />
+                <e p="IEventPreProcessor.cs" t="Include" />
                 <e p="IInputUpdateCallbackReceiver.cs" t="Include" />
                 <e p="InputDevice.cs" t="Include" />
                 <e p="InputDeviceBuilder.cs" t="Include" />
@@ -2575,6 +2591,12 @@
                 <e p="Mouse.cs" t="Include" />
                 <e p="Pen.cs" t="Include" />
                 <e p="Pointer.cs" t="Include" />
+                <e p="Precompiled" t="Include">
+                  <e p="FastKeyboard.cs" t="Include" />
+                  <e p="FastMouse.cs" t="Include" />
+                  <e p="FastMouse.partial.cs" t="Include" />
+                  <e p="FastTouchscreen.cs" t="Include" />
+                </e>
                 <e p="Remote" t="Include">
                   <e p="InputRemoting.cs" t="Include" />
                   <e p="RemoteInputPlayerConnection.cs" t="Include" />
@@ -2597,26 +2619,42 @@
                   <e p="PropertiesViewBase.cs" t="Include" />
                 </e>
                 <e p="AssetImporter" t="Include">
+                  <e p="IInputActionAssetEditor.cs" t="Include" />
                   <e p="InputActionAssetEditor.cs" t="Include" />
+                  <e p="InputActionAssetIconLoader.cs" t="Include" />
                   <e p="InputActionCodeGenerator.cs" t="Include" />
                   <e p="InputActionImporter.cs" t="Include" />
                   <e p="InputActionImporterEditor.cs" t="Include" />
                 </e>
+                <e p="BuildPipeline" t="Include">
+                  <e p="LinkFileGenerator.cs" t="Include" />
+                </e>
                 <e p="ControlPicker" t="Include">
+                  <e p="IInputControlPickerLayout.cs" t="Include" />
                   <e p="InputControlDropdownItem.cs" t="Include" />
                   <e p="InputControlPathEditor.cs" t="Include" />
                   <e p="InputControlPicker.cs" t="Include" />
                   <e p="InputControlPickerDropdown.cs" t="Include" />
                   <e p="InputControlPickerState.cs" t="Include" />
+                  <e p="Layouts" t="Include">
+                    <e p="DefaultInputControlPickerLayout.cs" t="Include" />
+                    <e p="TouchscreenControlPickerLayout.cs" t="Include" />
+                  </e>
                 </e>
                 <e p="Debugger" t="Include">
                   <e p="InputActionDebuggerWindow.cs" t="Include" />
                   <e p="InputDebuggerWindow.cs" t="Include" />
                   <e p="InputDeviceDebuggerWindow.cs" t="Include" />
                 </e>
+                <e p="DeviceSimulator" t="Include">
+                  <e p="InputSystemPlugin.cs" t="Include" />
+                </e>
+                <e p="Dialog.cs" t="Include" />
                 <e p="DownloadableSample.cs" t="Include" />
                 <e p="EditorInputControlLayoutCache.cs" t="Include" />
+                <e p="InputAssetEditorUtils.cs" t="Include" />
                 <e p="InputDiagnostics.cs" t="Include" />
+                <e p="InputLayoutCodeGenerator.cs" t="Include" />
                 <e p="InputParameterEditor.cs" t="Include" />
                 <e p="Internal" t="Include">
                   <e p="AdvancedDropdown" t="Include">
@@ -2629,6 +2667,7 @@
                     <e p="CallbackDataSource.cs" t="Include" />
                     <e p="MultiLevelDataSource.cs" t="Include" />
                   </e>
+                  <e p="BuildProviderHelpers.cs" t="Include" />
                   <e p="EditorHelpers.cs" t="Include" />
                   <e p="GUIHelpers.cs" t="Include" />
                   <e p="InputActionSerializationHelpers.cs" t="Include" />
@@ -2636,13 +2675,22 @@
                   <e p="InputEventTreeView.cs" t="Include" />
                   <e p="InputStateWindow.cs" t="Include" />
                   <e p="SerializedPropertyHelpers.cs" t="Include" />
+                  <e p="SerializedPropertyLinqExtensions.cs" t="Include" />
                   <e p="TreeViewHelpers.cs" t="Include" />
                 </e>
+                <e p="ProjectWideActions" t="Include">
+                  <e p="ProjectWideActionsAsset.cs" t="Include" />
+                  <e p="ProjectWideActionsBuildProvider.cs" t="Include" />
+                </e>
                 <e p="PropertyDrawers" t="Include">
+                  <e p="InputActionAssetDrawer.cs" t="Include" />
+                  <e p="InputActionAssetSearchProvider.cs" t="Include" />
                   <e p="InputActionDrawer.cs" t="Include" />
                   <e p="InputActionDrawerBase.cs" t="Include" />
                   <e p="InputActionMapDrawer.cs" t="Include" />
                   <e p="InputActionPropertyDrawer.cs" t="Include" />
+                  <e p="InputActionReferencePropertyDrawer.cs" t="Include" />
+                  <e p="InputActionReferenceSearchProviders.cs" t="Include" />
                   <e p="InputControlPathDrawer.cs" t="Include" />
                 </e>
                 <e p="Settings" t="Include">
@@ -2651,17 +2699,76 @@
                   <e p="InputSettingsBuildProvider.cs" t="Include" />
                   <e p="InputSettingsProvider.cs" t="Include" />
                 </e>
+                <e p="UITKAssetEditor" t="Include">
+                  <e p="Commands" t="Include">
+                    <e p="Commands.cs" t="Include" />
+                    <e p="ControlSchemeCommands.cs" t="Include" />
+                  </e>
+                  <e p="EnumerableExtensions.cs" t="Include" />
+                  <e p="ExpressionUtils.cs" t="Include" />
+                  <e p="InputActionsEditorConstants.cs" t="Include" />
+                  <e p="InputActionsEditorSettingsProvider.cs" t="Include" />
+                  <e p="InputActionsEditorState.cs" t="Include" />
+                  <e p="InputActionsEditorWindow.cs" t="Include" />
+                  <e p="InputActionsEditorWindowUtils.cs" t="Include" />
+                  <e p="ReactiveProperty.cs" t="Include" />
+                  <e p="Resources" t="Include">
+                    <e p="BindingPanelRowTemplate.uxml" t="Include" />
+                    <e p="CompositeBindingPropertiesEditor.uxml" t="Include" />
+                    <e p="CompositePartBindingPropertiesEditor.uxml" t="Include" />
+                    <e p="ControlSchemeEditor.uxml" t="Include" />
+                    <e p="InputActionMapsTreeViewItem.uxml" t="Include" />
+                    <e p="InputActionsEditor.uxml" t="Include" />
+                    <e p="InputActionsEditorStyles.uss" t="Include" />
+                    <e p="InputActionsProjectSettings.uxml" t="Include" />
+                    <e p="InputActionsTreeViewItem.uxml" t="Include" />
+                    <e p="InputAssetEditorDark.uss" t="Include" />
+                    <e p="InputAssetEditorLight.uss" t="Include" />
+                    <e p="NameAndParameterListViewItemTemplate.uxml" t="Include" />
+                  </e>
+                  <e p="SerializedInputAction.cs" t="Include" />
+                  <e p="SerializedInputActionMap.cs" t="Include" />
+                  <e p="SerializedInputBinding.cs" t="Include" />
+                  <e p="StateContainer.cs" t="Include" />
+                  <e p="Views" t="Include">
+                    <e p="ActionMapsView.cs" t="Include" />
+                    <e p="ActionPropertiesView.cs" t="Include" />
+                    <e p="ActionsTreeView.cs" t="Include" />
+                    <e p="BindingPropertiesView.cs" t="Include" />
+                    <e p="CollectionViewSelectionChangeFilter.cs" t="Include" />
+                    <e p="CompositeBindingPropertiesView.cs" t="Include" />
+                    <e p="CompositePartBindingPropertiesView.cs" t="Include" />
+                    <e p="ContextMenu.cs" t="Include" />
+                    <e p="ControlSchemesView.cs" t="Include" />
+                    <e p="CopyPasteHelper.cs" t="Include" />
+                    <e p="DropManipulator.cs" t="Include" />
+                    <e p="InputActionMapsTreeViewItem.cs" t="Include" />
+                    <e p="InputActionsEditorView.cs" t="Include" />
+                    <e p="InputActionsTreeViewItem.cs" t="Include" />
+                    <e p="IViewStateCollection.cs" t="Include" />
+                    <e p="MatchingControlPaths.cs" t="Include" />
+                    <e p="NameAndParametersListView.cs" t="Include" />
+                    <e p="PropertiesView.cs" t="Include" />
+                    <e p="Selectors.cs" t="Include" />
+                    <e p="ViewBase.cs" t="Include" />
+                    <e p="ViewStateCollection.cs" t="Include" />
+                    <e p="VisualElementExtensions.cs" t="Include" />
+                  </e>
+                </e>
               </e>
               <e p="Events" t="Include">
                 <e p="ActionEvent.cs" t="Include" />
                 <e p="DeltaStateEvent.cs" t="Include" />
                 <e p="DeviceConfigurationEvent.cs" t="Include" />
                 <e p="DeviceRemoveEvent.cs" t="Include" />
+                <e p="DeviceResetEvent.cs" t="Include" />
                 <e p="IInputEventTypeInfo.cs" t="Include" />
                 <e p="IMECompositionEvent.cs" t="Include" />
                 <e p="InputEvent.cs" t="Include" />
                 <e p="InputEventBuffer.cs" t="Include" />
+                <e p="InputEventListener.cs" t="Include" />
                 <e p="InputEventPtr.cs" t="Include" />
+                <e p="InputEventStream.cs" t="Include" />
                 <e p="InputEventTrace.cs" t="Include" />
                 <e p="StateEvent.cs" t="Include" />
                 <e p="TextEvent.cs" t="Include" />
@@ -2670,7 +2777,9 @@
               <e p="IInputRuntime.cs" t="Include" />
               <e p="InputAnalytics.cs" t="Include" />
               <e p="InputExtensions.cs" t="Include" />
+              <e p="InputFeatureNames.cs" t="Include" />
               <e p="InputManager.cs" t="Include" />
+              <e p="InputManagerStateMonitors.cs" t="Include" />
               <e p="InputMetrics.cs" t="Include" />
               <e p="InputSettings.cs" t="Include" />
               <e p="InputSystem.cs" t="Include" />
@@ -2704,8 +2813,17 @@
                   <e p="HIDParser.cs" t="Include" />
                   <e p="HIDSupport.cs" t="Include" />
                 </e>
+                <e p="InputForUI" t="Include">
+                  <e p="AssemblyInfo.cs" t="Include" />
+                  <e p="InputSystemForUI.asmdef" t="Include" />
+                  <e p="InputSystemProvider.cs" t="Include" />
+                </e>
                 <e p="iOS" t="Include">
+                  <e p="InputSettingsiOS.cs" t="Include" />
+                  <e p="InputSettingsiOSProvider.cs" t="Include" />
                   <e p="IOSGameController.cs" t="Include" />
+                  <e p="iOSPostProcessBuild.cs" t="Include" />
+                  <e p="iOSStepCounter.cs" t="Include" />
                   <e p="iOSSupport.cs" t="Include" />
                 </e>
                 <e p="Linux" t="Include">
@@ -2718,7 +2836,12 @@
                   <e p="OnScreenStick.cs" t="Include" />
                   <e p="OnScreenSupport.cs" t="Include" />
                 </e>
+                <e p="OSX" t="Include">
+                  <e p="OSXGameController.cs" t="Include" />
+                  <e p="OSXSupport.cs" t="Include" />
+                </e>
                 <e p="PlayerInput" t="Include">
+                  <e p="DefaultInputActions.cs" t="Include" />
                   <e p="InputValue.cs" t="Include" />
                   <e p="PlayerInput.cs" t="Include" />
                   <e p="PlayerInputEditor.cs" t="Include" />
@@ -2741,6 +2864,7 @@
                 </e>
                 <e p="UI" t="Include">
                   <e p="BaseInputOverride.cs" t="Include" />
+                  <e p="ExtendedAxisEventData.cs" t="Include" />
                   <e p="ExtendedPointerEventData.cs" t="Include" />
                   <e p="InputSystemUIInputModule.cs" t="Include" />
                   <e p="InputSystemUIInputModuleEditor.cs" t="Include" />
@@ -2750,6 +2874,10 @@
                   <e p="StandaloneInputModuleEditor.cs" t="Include" />
                   <e p="TrackedDeviceRaycaster.cs" t="Include" />
                   <e p="UISupport.cs" t="Include" />
+                  <e p="VirtualMouseInput.cs" t="Include" />
+                </e>
+                <e p="UnityRemote" t="Include">
+                  <e p="UnityRemoteSupport.cs" t="Include" />
                 </e>
                 <e p="Users" t="Include">
                   <e p="InputUser.cs" t="Include" />
@@ -2771,6 +2899,9 @@
                   <e p="XInputSupport.cs" t="Include" />
                 </e>
                 <e p="XR" t="Include">
+                  <e p="Controls" t="Include">
+                    <e p="PoseControl.cs" t="Include" />
+                  </e>
                   <e p="Devices" t="Include">
                     <e p="GoogleVR.cs" t="Include" />
                     <e p="Oculus.cs" t="Include" />
@@ -2802,6 +2933,7 @@
               <e p="Unity.InputSystem.asmdef" t="Include" />
               <e p="Utilities" t="Include">
                 <e p="ArrayHelpers.cs" t="Include" />
+                <e p="CallbackArray.cs" t="Include" />
                 <e p="Comparers.cs" t="Include" />
                 <e p="CSharpCodeHelpers.cs" t="Include" />
                 <e p="DelegateHelpers.cs" t="Include" />
@@ -2813,16 +2945,40 @@
                 <e p="InternedString.cs" t="Include" />
                 <e p="JsonParser.cs" t="Include" />
                 <e p="MemoryHelpers.cs" t="Include" />
+                <e p="MiscHelpers.cs" t="Include" />
                 <e p="NameAndParameters.cs" t="Include" />
                 <e p="NamedValue.cs" t="Include" />
                 <e p="NumberHelpers.cs" t="Include" />
+                <e p="Observables" t="Include">
+                  <e p="ForDeviceEventObservable.cs" t="Include" />
+                  <e p="Observable.cs" t="Include" />
+                  <e p="Observer.cs" t="Include" />
+                  <e p="SelectManyObservable.cs" t="Include" />
+                  <e p="SelectObservable.cs" t="Include" />
+                  <e p="TakeNObservable.cs" t="Include" />
+                  <e p="WhereObservable.cs" t="Include" />
+                </e>
                 <e p="OneOrMore.cs" t="Include" />
+                <e p="PredictiveParser.cs" t="Include" />
                 <e p="PrimitiveValue.cs" t="Include" />
                 <e p="ReadOnlyArray.cs" t="Include" />
+                <e p="SavedState.cs" t="Include" />
+                <e p="SpriteUtilities.cs" t="Include" />
                 <e p="StringHelpers.cs" t="Include" />
                 <e p="Substring.cs" t="Include" />
                 <e p="TypeHelpers.cs" t="Include" />
                 <e p="TypeTable.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Tests" t="Include">
+              <e p="TestFixture" t="Include">
+                <e p="AssemblyInfo.cs" t="Include" />
+                <e p="AssetDatabaseUtils.cs" t="Include" />
+                <e p="InputTestFixture.cs" t="Include" />
+                <e p="InputTestRuntime.cs" t="Include" />
+                <e p="ScopedDisposable.cs" t="Include" />
+                <e p="Unity.InputSystem.TestFramework.asmdef" t="Include" />
+                <e p="WinUserInput.cs" t="Include" />
               </e>
             </e>
           </e>
@@ -5969,6 +6125,8 @@
       <e p="Unity.CollabProxy.Editor.csproj" t="IncludeRecursive" />
       <e p="Unity.DeviceSimulator.Editor.csproj" t="IncludeRecursive" />
       <e p="Unity.InputSystem.csproj" t="IncludeRecursive" />
+      <e p="Unity.InputSystem.ForUI.csproj" t="IncludeRecursive" />
+      <e p="Unity.InputSystem.TestFramework.csproj" t="IncludeRecursive" />
       <e p="Unity.InternalAPIEditorBridge.001.csproj" t="IncludeRecursive" />
       <e p="Unity.InternalAPIEngineBridge.001.csproj" t="IncludeRecursive" />
       <e p="Unity.Mathematics.csproj" t="IncludeRecursive" />

@@ -55,6 +55,10 @@ public class ShopMoneyPanelUIHandler
         {
             _shopMoneyPanelView.transform.SetAsLastSibling();
         }
+        _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
+        _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
+        
+        
         InitPanel(index);
         _shopMoneyPanelView.gameObject.SetActive(true);
         _loadIndicatorUIHandler.StopIndicate();
@@ -74,10 +78,7 @@ public class ShopMoneyPanelUIHandler
         {
             _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(_parent);
             _shopMoneyPanelView.transform.SetAsLastSibling();
-            
-            _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
-            _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
-            
+
             _shopMoneyPanelView.TextMoney.text = _wallet.Monets.ToString();
             
             _wallet.MonetsReactiveProperty.Subscribe(_ =>

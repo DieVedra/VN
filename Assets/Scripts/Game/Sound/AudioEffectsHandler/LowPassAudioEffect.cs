@@ -6,10 +6,10 @@ using UnityEngine.Audio;
 
 public class LowPassAudioEffect : IAudioEffectHandler
 {
-    private readonly string LowPassEffectName = "LevelCutoff";
-    private readonly float _valueOn = 1000f;
-    private readonly float _valueOff = 5000f;
-    private readonly float _duration = 1.5f;
+    private const string LowPassEffectName = "LevelCutoff";
+    private const float _valueOn = 1000f;
+    private const float _valueOff = 5000f;
+    private const float _duration = 1.5f;
     private readonly AudioMixer _mixer;
     private bool _effectIsOn;
 

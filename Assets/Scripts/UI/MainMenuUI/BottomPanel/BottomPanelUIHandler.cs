@@ -8,7 +8,6 @@ public class BottomPanelUIHandler
     private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private readonly Transform _parent;
-    private readonly ReactiveCommand _languageChanged;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
@@ -21,7 +20,10 @@ public class BottomPanelUIHandler
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
         _parent = parent;
-        _languageChanged = languageChanged;
+        languageChanged.Subscribe(_=>
+        {
+            ChangedLanguage();
+        });
     }
 
     public void Dispose()
@@ -31,12 +33,19 @@ public class BottomPanelUIHandler
     public void Init(BottomPanelView bottomPanelView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _bottomPanelView = bottomPanelView;
-        _bottomPanelView.GameExitButtonText.text = _exitButtonUIHandler.ExitText;
-        _bottomPanelView.ShowAdvertisingButtonText.text = _exitButtonUIHandler.ExitText;
+        ChangedLanguage();
+
+
+        ChangedLanguage();
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         SubscribeButtons();
     }
 
+    private void ChangedLanguage()
+    {
+        _bottomPanelView.ShowAdvertisingButtonText.text = _advertisingButtonUIHandler.AdvertisingButtonText;
+        _bottomPanelView.GameExitButtonText.text = _exitButtonUIHandler.ExitText;
+    }
     private void SubscribeButtons()
     {
         _bottomPanelView.GameExitButton.onClick.AddListener(() =>

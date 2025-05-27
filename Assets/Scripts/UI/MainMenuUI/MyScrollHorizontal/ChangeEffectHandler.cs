@@ -4,7 +4,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class ChangeEffectHandler

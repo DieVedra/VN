@@ -18,11 +18,12 @@ public class EntryPoint: MonoBehaviour
     private GlobalSound _globalSound;
     private PrefabsProvider _prefabsProvider;
     private LoadScreenUIHandler _loadScreenUIHandler;
-    private LocalizationHandler _localizationHandler;
+    private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
+    // [Localization] private string _testStringLocalization = "TestStringLocalization";
 
     [Inject]
     private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
-        GlobalSound globalSound, LoadScreenUIHandler loadScreenUIHandler, LocalizationHandler localizationHandler)
+        GlobalSound globalSound, LoadScreenUIHandler loadScreenUIHandler, MainMenuLocalizationHandler mainMenuLocalizationHandler)
     {
         _saveServiceProvider = saveServiceProvider;
         _globalSound = globalSound;
@@ -33,14 +34,14 @@ public class EntryPoint: MonoBehaviour
         ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         _loadScreenUIHandler = loadScreenUIHandler;
         _appStarter = new AppStarter();
-        _localizationHandler = localizationHandler;
+        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
     }
 
     private async void Awake()
     {
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _loadScreenUIHandler, _onSceneTransition,
-                _saveServiceProvider, _globalSound, _localizationHandler);
+                _saveServiceProvider, _globalSound, _mainMenuLocalizationHandler);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;

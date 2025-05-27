@@ -139,7 +139,7 @@ public class MyScroll : MonoBehaviour
         {
             StoryPanelAssetProvider storyPanelAssetProvider = new StoryPanelAssetProvider();
 
-            StoryPanel panel = await storyPanelAssetProvider.LoadAsset(_content);
+            StoryPanel panel = null;
             panel.gameObject.SetActive(true);
             _contentChilds.Add(panel);
             _transformsContentChilds.Add(panel.transform);
@@ -156,13 +156,13 @@ public class MyScroll : MonoBehaviour
     {
         CircleIndicatorAssetProvider circleIndicatorAssetProvider = new CircleIndicatorAssetProvider();
         TryClearContent(_swipeProgressIndicatorsParent);
-        _swipeIndicatorFill = await circleIndicatorAssetProvider.LoadCircleIndicatorFillAsset(transform);
+        _swipeIndicatorFill = await circleIndicatorAssetProvider.CreateLoadCircleIndicatorFill(transform);
         
         _swipeIndicatorFill.SetAsFirstSibling();
         _swipeIndicatorFill.gameObject.SetActive(true);
         for (int i = 0; i < _contentCount; i++)
         {
-            RectTransform circle = await circleIndicatorAssetProvider.LoadCircleIndicatorAsset(_swipeProgressIndicatorsParent);
+            RectTransform circle = await circleIndicatorAssetProvider.CreateLoadCircleIndicator(_swipeProgressIndicatorsParent);
             circle.gameObject.SetActive(true);
         }
         _scrollContentIndicatorHandler = new ScrollContentIndicatorHandler(_contentChildsPosX, _swipeIndicatorFill,

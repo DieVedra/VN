@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SpriteViewerAssetProvider : PrefabLoader
 {
+    private const string _name = "SpriteViewerPrefab";
     public async UniTask LoadSpriteViewerPrefab()
     {
-        await Load("SpriteViewerPrefab");
+        await Load(_name);
     }
 
     public SpriteViewer CreateSpriteViewer(Transform parent)

@@ -9,8 +9,8 @@ using UnityEngine.AddressableAssets;
 public class PlayStoryPanelHandler
 {
     private readonly LocalizationString _seriaText = "Серия";
-    private readonly LocalizationString _buttonContinueText = "Продолжить";
-    private readonly LocalizationString _buttonOpenText = "Открыть";
+    // private readonly LocalizationString _buttonContinueText = "Продолжить";
+    // private readonly LocalizationString _buttonOpenText = "Открыть";
     private readonly LocalizationString _playButtonText = "Играть";
     private LevelLoader _levelLoader;
     private readonly Transform _parent;
@@ -74,7 +74,6 @@ public class PlayStoryPanelHandler
             
         });
     }
-
     private async UniTaskVoid Hide()
     {
         UnsubscrimeAllButtons();

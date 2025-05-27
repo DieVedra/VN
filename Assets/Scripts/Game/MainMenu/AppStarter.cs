@@ -8,7 +8,7 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, LocalizationHandler localizationHandler)
+        GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler)
     {
         await Addressables.InitializeAsync();
 
@@ -17,28 +17,29 @@ public class AppStarter
         await loadScreenUIHandler.Init(loadIndicatorUIHandler, blackFrameUIHandler);
         loadScreenUIHandler.ShowOnStart();
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(wallet, loadIndicatorUIHandler, blackFrameUIHandler, loadScreenUIHandler, localizationHandler.LanguageChanged);
+            await CreateMainMenuUIProvider(wallet, loadIndicatorUIHandler, blackFrameUIHandler, loadScreenUIHandler, mainMenuLocalizationHandler.LanguageChanged);
         var storiesProvider = await CreateStoriesProvider();
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
         
         var levelLoader = LevelLoaderCreate(result.Item1, onSceneTransition, saveServiceProvider, result.Item3, storiesProvider);
-        await InitMainMenuUI(globalSound.SoundStatus, localizationHandler, levelLoader, result.Item1, result.Item2, result.Item3, storiesProvider, saveServiceProvider.SaveData.StartIndexStory);
+        await InitMainMenuUI(globalSound.SoundStatus, mainMenuLocalizationHandler, levelLoader, result.Item1, result.Item2, result.Item3, storiesProvider, saveServiceProvider.SaveData.StartIndexStory);
         
         
         await prefabsProvider.Init();
         result.Item2.gameObject.SetActive(true);
         // await UniTask.Delay(1000);
 
-        await localizationHandler.Init(saveServiceProvider.SaveData);
+        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData);
         
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
         return (storiesProvider, result.Item1, levelLoader);
     }
 
-    private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(Wallet wallet, LoadIndicatorUIHandler loadIndicatorUIHandler,
-        BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand languageChanged)
+    private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(Wallet wallet,
+        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler,
+        ReactiveCommand languageChanged)
     {
         MainMenuCanvasAssetProvider menuCanvasAssetProvider = new MainMenuCanvasAssetProvider();
         MainMenuUIView mainMenuUIView = await menuCanvasAssetProvider.CreateAsset();
@@ -53,7 +54,8 @@ public class AppStarter
         var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet,
             mainMenuUIViewTransform, languageChanged);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(wallet, shopMoneyPanelUIHandler, mainMenuUIViewTransform);
-        
+
+        var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged);
         var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
         var bottomPanelUIHandler = new BottomPanelUIHandler(confirmedPanelUIHandler,
             new AdvertisingButtonUIHandler(loadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet, mainMenuUIViewTransform),
@@ -61,7 +63,7 @@ public class AppStarter
         
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(blackFrameUIHandler, darkeningBackgroundFrameUIHandler,
             loadIndicatorUIHandler, playStoryPanelHandler, settingsPanelButtonUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
-            shopMoneyButtonsUIHandler, confirmedPanelUIHandler,loadScreenUIHandler,bottomPanelUIHandler);
+            shopMoneyButtonsUIHandler, confirmedPanelUIHandler,loadScreenUIHandler,bottomPanelUIHandler, myScrollHandler);
         return (mainMenuUIProvider, mainMenuUIView, mainMenuUIViewTransform);
     }
 
@@ -70,8 +72,7 @@ public class AppStarter
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
         await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
-
-        await mainMenuUIView.MyScroll.Init(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler, levelLoader, startIndexStory);
+        await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler, levelLoader, startIndexStory);
         mainMenuUIProvider.SettingsPanelButtonUIHandler.Init(mainMenuUIView.SettingsButtonView, soundStatus, localizationChanger);
         
         

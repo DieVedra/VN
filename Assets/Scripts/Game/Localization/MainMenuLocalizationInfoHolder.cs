@@ -1,7 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Globalization;
-using NaughtyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MainMenuLocalizationInfoHolder", menuName = "MainMenuLocalizationInfoHolder", order = 51)]

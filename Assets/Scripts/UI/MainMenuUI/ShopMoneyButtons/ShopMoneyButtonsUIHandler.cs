@@ -47,7 +47,8 @@ public class ShopMoneyButtonsUIHandler
 
         SubscribeButtonsAndSetResourcesIndicate();
     }
-    public void SubscribeButtonsAndSetResourcesIndicate()
+
+    private void SubscribeButtonsAndSetResourcesIndicate()
     {
         _monetPanel.Text.text = _wallet.Monets.ToString();
         _heartsPanel.Text.text = _wallet.Hearts.ToString();

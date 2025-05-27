@@ -18,12 +18,13 @@ public class MainMenuUIProvider
     public readonly ConfirmedPanelUIHandler ConfirmedPanelUIHandler;
     
     public readonly BottomPanelUIHandler BottomPanelUIHandler;
+    public readonly MyScrollHandler MyScrollHandler;
     public MainMenuUIProvider(BlackFrameUIHandler blackFrameUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         LoadIndicatorUIHandler loadIndicatorUIHandler,
         PlayStoryPanelHandler playStoryPanelHandler, SettingsPanelButtonUIHandler settingsPanelButtonUIHandler,
         SettingsPanelUIHandler settingsPanelUIHandler, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,
         ShopMoneyButtonsUIHandler shopMoneyButtonsUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler,
-        LoadScreenUIHandler loadScreenUIHandler, BottomPanelUIHandler bottomPanelUIHandler)
+        LoadScreenUIHandler loadScreenUIHandler, BottomPanelUIHandler bottomPanelUIHandler, MyScrollHandler myScrollHandler)
     {
         BlackFrameUIHandler = blackFrameUIHandler;
         DarkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
@@ -36,6 +37,7 @@ public class MainMenuUIProvider
         ConfirmedPanelUIHandler = confirmedPanelUIHandler;
         BottomPanelUIHandler = bottomPanelUIHandler;
         LoadScreenUIHandler = loadScreenUIHandler;
+        MyScrollHandler = myScrollHandler;
     }
 
     public void Dispose()
@@ -49,5 +51,6 @@ public class MainMenuUIProvider
         ConfirmedPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();
+        MyScrollHandler.Dispose();
     }
 }

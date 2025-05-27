@@ -10,16 +10,17 @@ public class LocalizationString
 {
     [field: SerializeField, TextArea] public string DefaultText { get; private set; }
     [field: SerializeField] public string Key { get; private set; }
-    public static Dictionary<string, string> LocalizationStringDictionary = new Dictionary<string, string>();
+    public static List<LocalizationString> LocalizationStrings = new List<LocalizationString>();
 
     public LocalizationString(string defaultText, string customKey = null)
     {
         DefaultText = defaultText;
         Key = customKey ?? GenerateStableHash(defaultText);
-        if (LocalizationStringDictionary.TryGetValue(Key, out string value) == false)
+        if (LocalizationStrings == null)
         {
-            LocalizationStringDictionary.Add(Key, DefaultText);
+            LocalizationStrings = new List<LocalizationString>();
         }
+        LocalizationStrings.Add(this);
     }
 
     private static string GenerateStableHash(string input)
@@ -50,19 +51,6 @@ public class LocalizationString
     }
     public override string ToString()
     {
-        // if (LocalizationManager.Instance != null)
-        // {
-        //     return LocalizationManager.Instance.GetTranslation(Key, DefaultText);
-        // }
         return DefaultText;
     }
-
-    // public string ToString(string languageCode)
-    // {
-    //     if (LocalizationManager.Instance != null)
-    //     {
-    //         return LocalizationManager.Instance.GetTranslation(Key, DefaultText, languageCode);
-    //     }
-    //     return DefaultText;
-    // }
 }

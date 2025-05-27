@@ -1,5 +1,5 @@
 ﻿
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UniRx;
 
 public interface ILocalizationChanger
@@ -7,4 +7,5 @@ public interface ILocalizationChanger
     public IReactiveProperty<int> CurrentLanguageKeyIndex { get; }
     public string GetName { get; }
     public int GetMyLanguageNamesCount { get; }
+    public UniTask LoadAllLanguages();
 }
