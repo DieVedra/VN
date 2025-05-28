@@ -137,20 +137,20 @@ public class MyScrollMover
     {
         _time += swipeValue;
         _previousSwipeValue = swipeValue;
-        _time = Mathf.Clamp(_time, 0f, 1f);
+        _time = Mathf.Clamp(_time, AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue);
         IsMove = true;
         if (_panelCloserIsWorking == true)
         {
-            if (directionKeyRight == true && _time > 0.5f)
+            if (directionKeyRight == true && _time > AnimationValuesProvider.HalfValue)
             {
                 TrySetCloserOff();
-                _time = 0.5f;
+                _time = AnimationValuesProvider.HalfValue;
                 IsMove = false;
             }
-            else if(directionKeyRight == false && _time < 0.5f)
+            else if(directionKeyRight == false && _time < AnimationValuesProvider.HalfValue)
             {
                 TrySetCloserOff();
-                _time = 0.5f;
+                _time = AnimationValuesProvider.HalfValue;
                 IsMove = false;
             }
         }

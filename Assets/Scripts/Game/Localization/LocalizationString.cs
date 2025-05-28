@@ -21,9 +21,10 @@ public class LocalizationString
             LocalizationStrings = new List<LocalizationString>();
         }
         LocalizationStrings.Add(this);
+        // Debug.Log($"{Key} {DefaultText}");
     }
 
-    private static string GenerateStableHash(string input)
+    public static string GenerateStableHash(string input)
     {
         using (var sha256 = SHA256.Create())
         {

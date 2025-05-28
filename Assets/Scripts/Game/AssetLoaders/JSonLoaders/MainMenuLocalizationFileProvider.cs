@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MainMenuLocalizationFileProvider : JSonAssetLoader
 {
-    public async UniTask<Dictionary<string, string>> LoadMainMenuLocalizationFile(string name)
+    public async UniTask<Dictionary<string, string>> LoadLocalizationFile(string name)
     {
         string jsonText = await Load(name);
         

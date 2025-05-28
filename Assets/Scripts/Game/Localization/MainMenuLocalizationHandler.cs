@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class MainMenuLocalizationHandler : ILocalizationChanger
 {
@@ -10,9 +11,11 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     // private const string _defaultLanguageKey = "ru";
     private MainMenuLocalizationInfoHolder _mainMenuLocalizationInfoHolder;
     private SaveData _saveData;
+    private StoriesProvider _storiesProvider;
     private MyLanguageName _currentMyLanguageName;
     private ReactiveProperty<int> _currentLanguageKeyIndex;
-    private List<Dictionary<string, string>> _listTranslates;
+    private Dictionary<int, Dictionary<string, string>> _dictionariesMainMenuTranslates;
+    private Dictionary<int, Dictionary<string, string>> _dictionaryStoryTranslates;
     private List<LocalizationString> _localizationStrings;
     public ReactiveCommand LanguageChanged { get; private set; }
 
@@ -27,9 +30,10 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
         LanguageChanged = new ReactiveCommand();
     }
 
-    public async UniTask Init(SaveData saveData)
+    public async UniTask Init(SaveData saveData, StoriesProvider storiesProvider)
     {
         _saveData = saveData;
+        _storiesProvider = storiesProvider;
         _mainMenuLocalizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
         TryDefineLanguageKey();
         await LoadCurrentLanguage();
@@ -43,27 +47,24 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     private void TryDefineLanguageKey()
     {
-        // string systemLanguageKey = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-        string systemLanguageKey;
-        
-        
+        string systemLanguageKey = "";
         if (_saveData != null && string.IsNullOrEmpty(_saveData.LanguageLocalizationKey) == false )
         {
             systemLanguageKey = _saveData.LanguageLocalizationKey;
         }
         else
         {
-            systemLanguageKey = _defaultLanguageKey;
+            // systemLanguageKey = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            if (string.IsNullOrEmpty(systemLanguageKey) == true)
+            {
+                systemLanguageKey = _defaultLanguageKey;
+            }
         }
 
         for (int i = 0; i < _mainMenuLocalizationInfoHolder.LanguageNames.Count; i++)
         {
             _currentLanguageKeyIndex.Value = i;
-            if (_mainMenuLocalizationInfoHolder.LanguageNames[i].Key == _defaultLanguageKey)
-            {
-                _currentMyLanguageName = _mainMenuLocalizationInfoHolder.LanguageNames[i];
-            }
-            
             if (_mainMenuLocalizationInfoHolder.LanguageNames[i].Key == systemLanguageKey)
             {
                 _currentMyLanguageName = _mainMenuLocalizationInfoHolder.LanguageNames[i];
@@ -74,27 +75,31 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     private async UniTask LoadCurrentLanguage()
     {
-        _listTranslates = new List<Dictionary<string, string>>(_mainMenuLocalizationInfoHolder.LanguageNames.Count);
-        await LoadLanguage(new MainMenuLocalizationFileProvider(), _currentLanguageKeyIndex.Value, _currentMyLanguageName.MainMenuLocalizationAssetName);
+        var loader = new MainMenuLocalizationFileProvider();
+        _dictionariesMainMenuTranslates = new Dictionary<int, Dictionary<string, string>>();
+        _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(loader, _currentMyLanguageName.MainMenuLocalizationAssetName);
+        
+        _dictionaryStoryTranslates = new Dictionary<int, Dictionary<string, string>>();
+        _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(loader, _currentMyLanguageName.StoryLocalizationAssetName);
     }
 
     public async UniTask LoadAllLanguages()
     {
+        var loader = new MainMenuLocalizationFileProvider();
         for (int i = 0; i < _mainMenuLocalizationInfoHolder.LanguageNames.Count; i++)
         {
             if (i == _currentLanguageKeyIndex.Value)
             {
                 continue;
             }
-            await LoadLanguage(new MainMenuLocalizationFileProvider(), i, _mainMenuLocalizationInfoHolder.LanguageNames[i].MainMenuLocalizationAssetName);
+            _dictionariesMainMenuTranslates[i] = await LoadLanguageAsset(loader, _mainMenuLocalizationInfoHolder.LanguageNames[i].MainMenuLocalizationAssetName);
+            _dictionaryStoryTranslates[i] = await LoadLanguageAsset(loader, _mainMenuLocalizationInfoHolder.LanguageNames[i].StoryLocalizationAssetName);
         }
     }
 
-    private async UniTask<Dictionary<string, string>> LoadLanguage(MainMenuLocalizationFileProvider provider, int index, string localizationAssetName)
+    private async UniTask<Dictionary<string, string>> LoadLanguageAsset(MainMenuLocalizationFileProvider provider, string localizationAssetName)
     {
-        var result = await provider.LoadMainMenuLocalizationFile(localizationAssetName);
-        _listTranslates.Insert(index, result);
-        return result;
+        return await provider.LoadLocalizationFile(localizationAssetName);
     }
     private void ChangeLanguage()
     {
@@ -104,15 +109,24 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     private void SetLanguage()
     {
-        var dic = _listTranslates[_currentLanguageKeyIndex.Value];
+        var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
+        var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];
+        
         if (_saveData != null)
         {
             _saveData.LanguageLocalizationKey = _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Key;
         }
-        
+
+        foreach (var story in _storiesProvider.Stories)
+        {
+            if (dictionaryStoryTranslates.TryGetValue(story.Description.Key, out string text))
+            {
+                story.Description.SetText(text);
+            }
+        }
         foreach (var localizationString in LocalizationString.LocalizationStrings)
         {
-            if (dic.TryGetValue(localizationString.Key, out string text))
+            if (dictionaryMainMenuTranslate.TryGetValue(localizationString.Key, out string text))
             {
                 localizationString.SetText(text);
             }

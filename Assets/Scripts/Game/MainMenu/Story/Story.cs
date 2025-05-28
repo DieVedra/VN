@@ -9,8 +9,7 @@ public class Story
     [SerializeField] private string _storyName;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteLogo;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteStorySkin;
-    [SerializeField, TextArea] private string _description;
-    [SerializeField] private LocalizationString _description1;
+    [SerializeField] private LocalizationString _description;
     [SerializeField] private string _nameSceneAsset;
     [SerializeField] private int _progressPercent;
     [SerializeField] private int _currentSeriaIndex;
@@ -21,7 +20,7 @@ public class Story
     private CompositeDisposable _compositeDisposable;
     public Sprite SpriteLogo => _spriteLogo;
     public Sprite SpriteStorySkin => _spriteStorySkin;
-    public string Description => _description;
+    public LocalizationString Description => _description;
 
     public bool IsLiked => _isLiked.Value;
     public int MyIndex => _myIndex;

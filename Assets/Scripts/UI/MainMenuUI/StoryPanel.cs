@@ -18,12 +18,6 @@ public class StoryPanel : MonoBehaviour
     public TextMeshProUGUI TextButtonContinue => _textButtonContinue;
     public Button ButtonOpen => _buttonOpen;
     public Button ButtonContinue => _buttonContinue;
-
-
-    public void Construct(Story story)
-    {
-        _imageBackground.sprite = story.SpriteStorySkin;
-        _imageLabel.sprite = story.SpriteLogo;
-        _textDescription.text = story.Description;
-    }
+    public Image ImageBackground => _imageBackground;
+    public Image ImageLabel => _imageLabel;
 }

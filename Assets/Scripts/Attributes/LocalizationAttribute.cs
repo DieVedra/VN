@@ -1,12 +1,4 @@
-﻿
-using System;
-[AttributeUsage(AttributeTargets.Field)]
-public class LocalizationAttribute : Attribute
-{
-    public string Key { get; }
+﻿using System;
 
-    public LocalizationAttribute(string key = null)
-    {
-        Key = key;
-    }
-}
+[AttributeUsage(AttributeTargets.Field  | AttributeTargets.Property)]
+public class LocalizationAttribute : Attribute { }

@@ -6,6 +6,7 @@ using UnityEngine.AddressableAssets;
 
 public class SettingsPanelUIHandler
 {
+    private readonly ReactiveCommand<bool> _swipeDetectorOff;
     private readonly SettingsPanelAssetProvider _settingsPanelAssetProvider;
     private LocalizationString _textLabel = "Настройки";
     private LocalizationString _localizationLabel = "Язык:";
@@ -14,8 +15,9 @@ public class SettingsPanelUIHandler
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     public Transform Transform => _settingsPanelView.transform;
     public bool AssetIsLoaded { get; private set; }
-    public SettingsPanelUIHandler(ReactiveCommand languageChanged)
+    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
+        _swipeDetectorOff = swipeDetectorOff;
         languageChanged.Subscribe(_ =>
         {
             LanguageChanged();
@@ -53,6 +55,7 @@ public class SettingsPanelUIHandler
     }
     public void Show(BlackFrameUIHandler blackFrameUIHandler)
     {
+        _swipeDetectorOff.Execute(true);
         _settingsPanelView.transform.SetAsLastSibling();
         LanguageChanged();
         _settingsPanelView.ExitButton.onClick.AddListener(()=>
@@ -71,7 +74,9 @@ public class SettingsPanelUIHandler
     }
     private void Hide(BlackFrameUIHandler blackFrameUIHandler)
     {
+        _swipeDetectorOff.Execute(false);
         _settingsPanelView.gameObject.SetActive(false);
         blackFrameUIHandler.OpenTranslucent().Forget();
+        _settingsPanelView.transform.parent.gameObject.SetActive(false);
     }
 }

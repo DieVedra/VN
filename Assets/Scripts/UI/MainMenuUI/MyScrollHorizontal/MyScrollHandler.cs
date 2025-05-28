@@ -26,7 +26,7 @@ public class MyScrollHandler
 
     private readonly ReactiveProperty<int> _currentIndex;
     private readonly ReactiveProperty<bool> _isRightMove;
-    
+    private readonly ReactiveCommand<bool> _swipeDetectorOff;
     private readonly AnimationCurve _scaleCurveHide;
     private readonly AnimationCurve _scaleCurveUnhide;
     private readonly InputAction _pressInputAction;
@@ -45,7 +45,7 @@ public class MyScrollHandler
     private CompositeDisposable _compositeDisposable;
     private IReadOnlyList<Story> _stories;
 
-    public MyScrollHandler(MyScrollUIView myScrollUIView, ReactiveCommand languageChanged)
+    public MyScrollHandler(MyScrollUIView myScrollUIView, ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
         _transform = myScrollUIView.Transform;
         _content = myScrollUIView.Content;
@@ -64,6 +64,7 @@ public class MyScrollHandler
         {
             LanguageChanged();
         });
+        _swipeDetectorOff = swipeDetectorOff;
     }
 
     public async UniTask Construct(IReadOnlyList<Story> stories, PlayStoryPanelHandler playStoryPanelHandler,
@@ -113,6 +114,17 @@ public class MyScrollHandler
             }
 
             _swipeDetector.Enable();
+            _swipeDetectorOff.Subscribe(_ =>
+            {
+                if (_ == true)
+                {
+                    _swipeDetector.Disable();
+                }
+                else
+                {
+                    _swipeDetector.Enable();
+                }
+            });
         }
     }
 
@@ -166,7 +178,10 @@ public class MyScrollHandler
             _transformsContentChilds.Add(panel.transform);
             if (_stories != null)
             {
-                panel.Construct(_stories[i]);
+                panel.ImageBackground.sprite = _stories[i].SpriteStorySkin;
+                panel.ImageLabel.sprite = _stories[i].SpriteLogo;
+                panel.TextDescription.text = _stories[i].Description;
+
                 InitContinueButton(panel, _stories[i], levelLoader);
                 InitOpenButton(panel, _stories[i], playStoryPanelHandler);
             }
@@ -299,7 +314,7 @@ public class MyScrollHandler
     {
         for (int i = 0; i < _contentChilds.Count; i++)
         {
-            // _contentChilds[i].TextDescription
+            _contentChilds[i].TextDescription.text = _stories[i].Description;
             _contentChilds[i].TextButtonContinue.text = _buttonContinueText;
             _contentChilds[i].TextButtonOpen.text = _buttonOpenText;
         }

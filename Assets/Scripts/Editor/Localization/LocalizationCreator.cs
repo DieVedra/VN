@@ -8,12 +8,18 @@ using UnityEngine;
 using MyNamespace;
 using Newtonsoft.Json;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 
 [CreateAssetMenu(fileName = "LocalizationCreator", menuName = "LocalizationCreator", order = 51)]
 public class LocalizationCreator : ScriptableObject
 {
+    private const char _forging = '"';
+    private const char _colon = ':';
     private string _path = "/Localization/JsonFile.json";
+
+    [Localization, SerializeField] private string test = "test";
+    [SerializeField] private string _text;
 
     [Button()]
     private void Create()
@@ -22,6 +28,70 @@ public class LocalizationCreator : ScriptableObject
         string file = JsonConvert.SerializeObject(CreateDictionary(), Formatting.Indented);
         File.WriteAllText(path, file);
         AssetDatabase.Refresh();
+    }
+
+    [Button()]
+    private void tst()
+    {
+        var a = this.FindFieldsWithAttribute<LocalizationAttribute>();
+        for (int i = 0; i < a.Count; i++)
+        {
+            Debug.Log($"    {a[i]}");
+        }
+    }
+    [Button()]
+    private void FindAttributes()
+    {
+        Debug.Log($"{test} 1");
+        // MonoBehaviour[] allBehaviours = GameObject.FindObjectsOfType<MonoBehaviour>();
+        Object[] allBehaviours = GameObject.FindObjectsOfType<Object>();
+        var result = new Dictionary<string, List<string>>();
+        foreach (var behaviour in allBehaviours)
+        {
+            // Получаем все поля класса
+            FieldInfo[] fields = behaviour.GetType().GetFields(
+                BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.Instance);
+
+            foreach (FieldInfo field in fields)
+            {
+                // Проверяем наличие нашего атрибута
+                LocalizationAttribute attribute =
+                    Attribute.GetCustomAttribute(
+                            field,
+                            typeof(LocalizationAttribute))
+                        as LocalizationAttribute;
+
+                if (attribute != null && field.FieldType == typeof(string))
+                {
+                    // Debug.Log($"attribute.Key {attribute.Key}");
+                    // string category = attribute.Key;
+                    string fieldValue = (string) field.GetValue(behaviour);
+
+                    // if (!result.ContainsKey(category))
+                    // {
+                    //     result[category] = new List<string>();
+                    // }
+
+                    if (!string.IsNullOrEmpty(fieldValue))
+                    {
+                        Debug.Log($"fieldValue {fieldValue}");
+
+                        // result[category].Add(fieldValue);
+                    }
+                    else
+                    {
+                        Debug.Log($"false");
+
+                    }
+                    field.SetValue(behaviour, "test2");
+                    
+                }
+            }
+        }
+        Debug.Log($"{test} 2");
+
     }
 
     // [Button()]
@@ -82,5 +152,14 @@ public class LocalizationCreator : ScriptableObject
         return LocalizationString.LocalizationStrings.Distinct().ToDictionary(
             x => x.Key,
             x => x.DefaultText);
+    }
+
+    [Button()]
+    private void CreateKeyByText()
+    {
+        if (string.IsNullOrEmpty(_text) == false)
+        {
+            Debug.Log($"{_forging}{LocalizationString.GenerateStableHash(_text)}{_forging}{_colon} {_forging}{_text}{_forging}");
+        }
     }
 }

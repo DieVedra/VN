@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
@@ -168,6 +169,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &108839878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,7 +1021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc470571eed4717b4c226f2a8609331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myScroll: {fileID: 3959702265945712132}
+  _myScrollUIView: {fileID: 0}
   _settingsButtonView: {fileID: 4076250884733550480}
   _monetPanelView: {fileID: 2219840541854995173}
   _heartsPanelView: {fileID: 4695048608285271475}
@@ -1154,6 +1156,8 @@ MonoBehaviour:
   _imageEffectChange: {fileID: 807388448}
   _imageLabel: {fileID: 433834089}
   _textDescription: {fileID: 1821947372}
+  _textButtonOpen: {fileID: 0}
+  _textButtonContinue: {fileID: 0}
   _buttonOpen: {fileID: 1353905979}
   _buttonContinue: {fileID: 0}
 --- !u!222 &1026364573
@@ -3427,10 +3431,8 @@ MonoBehaviour:
   _scaleHide: 0.8
   _scaleUnhide: 1
   _scaleCurveHide:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 3
-      time: 0
+    - time: 0
       value: 1
       inSlope: -0.046776567
       outSlope: -0.046776567
@@ -3438,8 +3440,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 1
-    - serializedVersion: 3
-      time: 0.1
+    - time: 0.1
       value: 0
       inSlope: -0.0374331
       outSlope: -0.0374331
@@ -3447,8 +3448,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.022473278
-    - serializedVersion: 3
-      time: 1
+    - time: 1
       value: 0
       inSlope: -0.025326889
       outSlope: -0.025326889
@@ -3460,10 +3460,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _scaleCurveUnhide:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 3
-      time: 0
+    - time: 0
       value: 0
       inSlope: -0.005393218
       outSlope: -0.005393218
@@ -3471,8 +3469,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0.102057666
-    - serializedVersion: 3
-      time: 0.9
+    - time: 0.9
       value: 0
       inSlope: 0.010932631
       outSlope: 0.010932631
@@ -3480,8 +3477,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.0492641
       outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
+    - time: 1
       value: 1
       inSlope: 0
       outSlope: 0
@@ -3517,6 +3513,7 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Press Input
       m_Flags: 0
+    m_Flags: 0
   _positionInputAction:
     m_Name: Position Input
     m_Type: 2
@@ -3541,6 +3538,11 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Position Input
       m_Flags: 0
+    m_Flags: 0
+  _contentChilds: []
+  _transformsContentChilds: []
+  _contentChildsPosX: []
+  _swipeIndicatorFill: {fileID: 0}
 --- !u!224 &3959702265945712133
 RectTransform:
   m_ObjectHideFlags: 0

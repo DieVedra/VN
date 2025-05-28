@@ -7,6 +7,7 @@ using UnityEngine.AddressableAssets;
 
 public class LoadScreenUIHandler
 {
+    private readonly LocalizationString _disclaimerText = "Все персонажи и описываемые события вымышлены. Все совпадения случайны.";
     private readonly Transform _projectContextParent;
     private readonly LoadScreenAssetProvider _loadScreenAssetProvider;
     private BlackFrameUIHandler _blackFrameUIHandler;
@@ -18,6 +19,9 @@ public class LoadScreenUIHandler
     private Canvas _canvas;
     private bool _isCreatedOneInstance;
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
+    public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
+    public LoadIndicatorUIHandler IndicatorUIHandler => _indicatorUIHandler;
+    public Transform CanvasTransfornLoadScreen => _canvas.transform;
     public LoadScreenUIHandler(Transform projectContextParent)
     {
         _projectContextParent = projectContextParent;
@@ -56,6 +60,7 @@ public class LoadScreenUIHandler
     }
     private async UniTask Show()
     {
+        _loadScreenUIView.DisclaimerText.text = _disclaimerText;
         _loadScreenUIView.gameObject.SetActive(false);
         _indicatorUIHandler.StopIndicate();
         _canvas.gameObject.SetActive(true);
@@ -80,6 +85,7 @@ public class LoadScreenUIHandler
     }
     public void ShowOnStart()
     {
+        SetDisclaimerText();
         _canvas.gameObject.SetActive(true);
         _blackFrameUIHandler.On();
         _loadScreenUIView.gameObject.SetActive(true);
@@ -107,10 +113,14 @@ public class LoadScreenUIHandler
         float paddingValue = Screen.width;
         await DOTween.To(() => padding.z, x => padding.z = x, paddingValue, _loadScreenUIView.MaskHideDuration)
             .OnUpdate(() => _loadScreenUIView.RectMask2D.padding = padding).WithCancellation(_cancellationTokenSource.Token);
-        // _cancellationTokenSource.Cancel();
         _loadScreenUIView.gameObject.SetActive(false);
         _loadScreenUIView.RectMask2D.padding = Vector4.zero;
         _canvas.gameObject.SetActive(false);
+    }
+
+    private void SetDisclaimerText()
+    {
+        _loadScreenUIView.DisclaimerText.text = _disclaimerText;
     }
     // public async UniTaskVoid Hide()
     // {

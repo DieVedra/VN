@@ -16,14 +16,14 @@ public class ShopMoneyPanelUIHandler
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly Transform _parent;
-    private readonly ReactiveCommand _languageChanged;
+    private readonly ReactiveCommand<bool> _swipeDetectorOff;
     private readonly Wallet _wallet;
     private ShopMoneyPanelView _shopMoneyPanelView;
 
     public event Action OnHide;
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        Wallet wallet, Transform parent, ReactiveCommand languageChanged)
+        Wallet wallet, Transform parent, ReactiveCommand<bool> swipeDetectorOff)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
@@ -31,7 +31,7 @@ public class ShopMoneyPanelUIHandler
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
         _parent = parent;
-        _languageChanged = languageChanged;
+        _swipeDetectorOff = swipeDetectorOff;
     }
 
     public void Dispose()
@@ -44,6 +44,7 @@ public class ShopMoneyPanelUIHandler
 
     public async UniTask Show(int index)
     {
+        _swipeDetectorOff.Execute(true);
         _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
@@ -66,10 +67,12 @@ public class ShopMoneyPanelUIHandler
 
     private async UniTask Hide()
     {
+        _swipeDetectorOff.Execute(false);
         _shopMoneyPanelView.gameObject.SetActive(false);
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
         await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
+        _shopMoneyPanelView.transform.parent.gameObject.SetActive(false);
     }
 
     private async UniTask LoadPanel()

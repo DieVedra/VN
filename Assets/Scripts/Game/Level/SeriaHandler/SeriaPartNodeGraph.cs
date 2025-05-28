@@ -38,7 +38,7 @@ public class SeriaPartNodeGraph : NodeGraph
 
 	public void Dispose()
 	{
-		if (_baseNodes.Count > 0)
+		if (_baseNodes != null && _baseNodes.Count > 0)
 		{
 			foreach (var baseNodes in _baseNodes)
 			{
