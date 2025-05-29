@@ -11,16 +11,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private GlobalSound _globalSound;
     private LevelLoadDataHandler _levelLoadDataHandler;
     private BackgroundContentCreator _backgroundContentCreator;
-    private LoadScreenUIHandler _loadScreen;
+    private GlobalUIHandler _globalUIHandler;
     private SpriteRendererCreatorBuild _spriteRendererCreator;
 
     [Inject]
-    private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, LoadScreenUIHandler loadScreen,
+    private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
         Wallet wallet)
     {
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
-        _loadScreen = loadScreen;
+        _globalUIHandler = globalUIHandler;
         Wallet = wallet;
     }
     private async void Awake()
@@ -38,7 +38,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             Save();
         });
 
-        await _loadScreen.HideOnLevelMove();
+        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         // _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 

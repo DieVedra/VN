@@ -1,7 +1,10 @@
 ﻿
 using System;
 using Cysharp.Threading.Tasks;
+using UniRx;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -11,27 +14,24 @@ public class SceneAssetLoader
     private readonly SaveServiceProvider _saveServiceProvider;
 
     private readonly float _percentMultiplier = 100f;
-    // private SceneInstance _cashedScene;
     public SceneAssetLoader(SaveServiceProvider saveServiceProvider)
     {
         _saveServiceProvider = saveServiceProvider;
     }
 
     public int LastPercentLoadValue { get; private set; }
-    public event Action<int> OnLoadPercentUpdate;
-    public event Action<AsyncOperationHandle<SceneInstance>> OnCompleteLoad;
 
-    public async UniTask StartLoad(string sceneId)
+    public async UniTask SceneLoad(string sceneId , ReactiveCommand onSceneTransition)
     {
         var handle = Addressables.LoadSceneAsync(sceneId, LoadSceneMode.Single, false);
-        handle.Completed += CompleteLoad;
-        await LoadPercentUpdate(handle);
+        LoadPercentUpdate(handle).Forget();
+        await handle.Task;
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            onSceneTransition?.Execute();
+            handle.Result.ActivateAsync();
+        }
     }
-
-    // public void Unload()
-    // {
-    //     Addressables.UnloadSceneAsync(_cashedScene);
-    // }
 
     private async UniTask LoadPercentUpdate(AsyncOperationHandle<SceneInstance> operationHandle)
     {
@@ -39,22 +39,6 @@ public class SceneAssetLoader
         {
             await UniTask.Yield();
             LastPercentLoadValue = (int)(operationHandle.PercentComplete * _percentMultiplier);
-            OnLoadPercentUpdate?.Invoke(LastPercentLoadValue);
         }
-    }
-
-    public void Activate(AsyncOperationHandle<SceneInstance> operationHandle)
-    {
-        if (operationHandle.Status == AsyncOperationStatus.Succeeded)
-        {
-            // _cashedScene = operationHandle.Result;
-            _saveServiceProvider.CashedScene = operationHandle.Result;
-            operationHandle.Result.ActivateAsync();
-        }
-    }
-
-    private void CompleteLoad(AsyncOperationHandle<SceneInstance> operationHandle)
-    {
-        OnCompleteLoad?.Invoke(operationHandle);
     }
 }

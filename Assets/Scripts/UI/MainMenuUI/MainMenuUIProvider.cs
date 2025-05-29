@@ -3,6 +3,7 @@
 public class MainMenuUIProvider
 {
     public readonly LoadScreenUIHandler LoadScreenUIHandler;
+    public readonly GlobalUIHandler _globalUIHandler;
 
     public readonly BlackFrameUIHandler DarkeningBackgroundFrameUIHandler;
     public readonly BlackFrameUIHandler BlackFrameUIHandler;
@@ -19,16 +20,15 @@ public class MainMenuUIProvider
     
     public readonly BottomPanelUIHandler BottomPanelUIHandler;
     public readonly MyScrollHandler MyScrollHandler;
-    public MainMenuUIProvider(BlackFrameUIHandler blackFrameUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        LoadIndicatorUIHandler loadIndicatorUIHandler,
+    public MainMenuUIProvider(BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         PlayStoryPanelHandler playStoryPanelHandler, SettingsPanelButtonUIHandler settingsButtonUIHandler,
         SettingsPanelUIHandler settingsPanelUIHandler, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,
         ShopMoneyButtonsUIHandler shopButtonsUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler,
-        LoadScreenUIHandler loadScreenUIHandler, BottomPanelUIHandler bottomPanelUIHandler, MyScrollHandler myScrollHandler)
+        GlobalUIHandler globalUIHandler, BottomPanelUIHandler bottomPanelUIHandler, MyScrollHandler myScrollHandler)
     {
-        BlackFrameUIHandler = blackFrameUIHandler;
+        BlackFrameUIHandler = globalUIHandler.BlackFrameUIHandler;
         DarkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
-        LoadIndicatorUIHandler = loadIndicatorUIHandler;
+        LoadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         PlayStoryPanelHandler = playStoryPanelHandler;
         SettingsButtonUIHandler = settingsButtonUIHandler;
         SettingsPanelUIHandler = settingsPanelUIHandler;
@@ -36,7 +36,8 @@ public class MainMenuUIProvider
         ShopButtonsUIHandler = shopButtonsUIHandler;
         ConfirmedPanelUIHandler = confirmedPanelUIHandler;
         BottomPanelUIHandler = bottomPanelUIHandler;
-        LoadScreenUIHandler = loadScreenUIHandler;
+        _globalUIHandler = globalUIHandler;
+        LoadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
         MyScrollHandler = myScrollHandler;
     }
 

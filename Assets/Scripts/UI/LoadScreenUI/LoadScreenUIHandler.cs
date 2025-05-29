@@ -8,7 +8,6 @@ using UnityEngine.AddressableAssets;
 public class LoadScreenUIHandler
 {
     private readonly LocalizationString _disclaimerText = "Все персонажи и описываемые события вымышлены. Все совпадения случайны.";
-    private readonly Transform _projectContextParent;
     private readonly LoadScreenAssetProvider _loadScreenAssetProvider;
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _indicatorUIHandler;
@@ -16,17 +15,10 @@ public class LoadScreenUIHandler
     private CancellationTokenSource _cancellationTokenSource;
     private Sprite _backgrountSpriteDefault;
     private Sprite _logoSpriteDefault;
-    private Canvas _canvas;
-    private bool _isCreatedOneInstance;
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
-    public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
-    public LoadIndicatorUIHandler IndicatorUIHandler => _indicatorUIHandler;
-    public Transform CanvasTransfornLoadScreen => _canvas.transform;
-    public LoadScreenUIHandler(Transform projectContextParent)
+    public LoadScreenUIHandler()
     {
-        _projectContextParent = projectContextParent;
         _loadScreenAssetProvider = new LoadScreenAssetProvider();
-        _isCreatedOneInstance = false;
     }
 
     public void Dispose()
@@ -37,33 +29,23 @@ public class LoadScreenUIHandler
         _blackFrameUIHandler.Dispose();
     }
 
-    public async UniTask Init(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
+    public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
     {
-        if (_isCreatedOneInstance == false)
-        {
-            var projectContextCanvasAssetProvider = new ProjectContextCanvasAssetProvider();
-            _canvas = await projectContextCanvasAssetProvider.LoadAsset(_projectContextParent);
-            _canvas.gameObject.SetActive(true);
-            var canvasTransform = _canvas.transform;
-            _loadScreenUIView = await _loadScreenAssetProvider.LoadAsset(canvasTransform);
-            _loadScreenUIView.RectMask2D.padding = Vector4.zero;
-
-            _backgrountSpriteDefault = _loadScreenUIView.LoadScreenImage.sprite;
-            _logoSpriteDefault = _loadScreenUIView.LogoImage.sprite;
-            _indicatorUIHandler = loadIndicatorUIHandler;
-            _blackFrameUIHandler = blackFrameUIHandler;
-            await _indicatorUIHandler.Init(canvasTransform);
-            await _blackFrameUIHandler.Init(canvasTransform);
-            _loadScreenUIView.LoadScreenImage.raycastTarget = true;
-            _loadScreenUIView.LoadScreenMaskImage.raycastTarget = true;
-        }
+        _loadScreenUIView = await _loadScreenAssetProvider.LoadAsset(parent);
+        _loadScreenUIView.RectMask2D.padding = Vector4.zero;
+        _backgrountSpriteDefault = _loadScreenUIView.LoadScreenImage.sprite;
+        _logoSpriteDefault = _loadScreenUIView.LogoImage.sprite;
+        _indicatorUIHandler = loadIndicatorUIHandler;
+        _blackFrameUIHandler = blackFrameUIHandler;
+        _loadScreenUIView.LoadScreenImage.raycastTarget = true;
+        _loadScreenUIView.LoadScreenMaskImage.raycastTarget = true;
     }
     private async UniTask Show()
     {
         _loadScreenUIView.DisclaimerText.text = _disclaimerText;
         _loadScreenUIView.gameObject.SetActive(false);
         _indicatorUIHandler.StopIndicate();
-        _canvas.gameObject.SetActive(true);
+        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         await _blackFrameUIHandler.Close();
         _loadScreenUIView.gameObject.SetActive(true);
         _indicatorUIHandler.SetTextIndicateMode();
@@ -86,7 +68,7 @@ public class LoadScreenUIHandler
     public void ShowOnStart()
     {
         SetDisclaimerText();
-        _canvas.gameObject.SetActive(true);
+        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         _blackFrameUIHandler.On();
         _loadScreenUIView.gameObject.SetActive(true);
         _indicatorUIHandler.StartIndicate();
@@ -115,7 +97,7 @@ public class LoadScreenUIHandler
             .OnUpdate(() => _loadScreenUIView.RectMask2D.padding = padding).WithCancellation(_cancellationTokenSource.Token);
         _loadScreenUIView.gameObject.SetActive(false);
         _loadScreenUIView.RectMask2D.padding = Vector4.zero;
-        _canvas.gameObject.SetActive(false);
+        _loadScreenUIView.transform.parent.gameObject.SetActive(false);
     }
 
     private void SetDisclaimerText()

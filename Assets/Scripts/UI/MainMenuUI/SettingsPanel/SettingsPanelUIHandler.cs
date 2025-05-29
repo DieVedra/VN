@@ -55,7 +55,7 @@ public class SettingsPanelUIHandler
     }
     public void Show(BlackFrameUIHandler blackFrameUIHandler)
     {
-        _swipeDetectorOff.Execute(true);
+        _swipeDetectorOff?.Execute(true);
         _settingsPanelView.transform.SetAsLastSibling();
         LanguageChanged();
         _settingsPanelView.ExitButton.onClick.AddListener(()=>
@@ -74,7 +74,7 @@ public class SettingsPanelUIHandler
     }
     private void Hide(BlackFrameUIHandler blackFrameUIHandler)
     {
-        _swipeDetectorOff.Execute(false);
+        _swipeDetectorOff?.Execute(false);
         _settingsPanelView.gameObject.SetActive(false);
         blackFrameUIHandler.OpenTranslucent().Forget();
         _settingsPanelView.transform.parent.gameObject.SetActive(false);

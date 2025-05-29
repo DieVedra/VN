@@ -10,14 +10,16 @@ public class ShopMoneyButtonsUIHandler
     private const int _monetIndex = 0;
     private const int _heartsIndex = 1;
 
+    private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly Wallet _wallet;
     private readonly ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     private readonly Transform _parent;
     private ResourcePanelButtonView _monetPanel, _heartsPanel;
     public bool AssetIsLoaded { get; private set; }
 
-    public ShopMoneyButtonsUIHandler(Wallet wallet, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, Transform parent)
+    public ShopMoneyButtonsUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, Transform parent)
     {
+        _loadIndicatorUIHandler = loadIndicatorUIHandler;
         _wallet = wallet;
         _shopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
         _parent = parent;
@@ -59,13 +61,13 @@ public class ShopMoneyButtonsUIHandler
         _heartsPanel.Button.onClick.AddListener(()=>
         {
             _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_heartsIndex).Forget();
+            _shopMoneyPanelUIHandler.Show(_loadIndicatorUIHandler, _parent, _heartsIndex).Forget();
             OffPanels();
         });
         _monetPanel.Button.onClick.AddListener(()=>
         {
             _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_monetIndex).Forget();
+            _shopMoneyPanelUIHandler.Show(_loadIndicatorUIHandler, _parent, _monetIndex).Forget();
             OffPanels();
         });
     }

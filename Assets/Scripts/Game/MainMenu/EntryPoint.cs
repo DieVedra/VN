@@ -17,13 +17,13 @@ public class EntryPoint: MonoBehaviour
     private SaveServiceProvider _saveServiceProvider;
     private GlobalSound _globalSound;
     private PrefabsProvider _prefabsProvider;
-    private LoadScreenUIHandler _loadScreenUIHandler;
+    private GlobalUIHandler _globalUIHandler;
     private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     [Localization] private string _testStringLocalization = "TestStringLocalization";
 
     [Inject]
     private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
-        GlobalSound globalSound, LoadScreenUIHandler loadScreenUIHandler, MainMenuLocalizationHandler mainMenuLocalizationHandler)
+        GlobalSound globalSound, GlobalUIHandler globalUIHandler, MainMenuLocalizationHandler mainMenuLocalizationHandler)
     {
         _saveServiceProvider = saveServiceProvider;
         _globalSound = globalSound;
@@ -32,7 +32,7 @@ public class EntryPoint: MonoBehaviour
         LoadSaveData();
         _wallet = new Wallet(_saveData);
         ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
-        _loadScreenUIHandler = loadScreenUIHandler;
+        _globalUIHandler = globalUIHandler;
         _appStarter = new AppStarter();
         _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
     }
@@ -40,7 +40,7 @@ public class EntryPoint: MonoBehaviour
     private async void Awake()
     {
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
-            await _appStarter.StartApp(_prefabsProvider, _wallet, _loadScreenUIHandler, _onSceneTransition,
+            await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
                 _saveServiceProvider, _globalSound, _mainMenuLocalizationHandler);
 
         _storiesProvider = result.Item1;
@@ -64,7 +64,7 @@ public class EntryPoint: MonoBehaviour
     private void OnApplicationQuit()
     {
         Dispose();
-        _loadScreenUIHandler.Dispose();
+        _globalUIHandler.Dispose();
     }
 
     private void LoadSaveData()
