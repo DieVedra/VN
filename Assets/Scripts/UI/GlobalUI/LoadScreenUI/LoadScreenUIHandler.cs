@@ -9,6 +9,7 @@ public class LoadScreenUIHandler
 {
     private readonly LocalizationString _disclaimerText = "Все персонажи и описываемые события вымышлены. Все совпадения случайны.";
     private readonly LoadScreenAssetProvider _loadScreenAssetProvider;
+    private readonly LoadWordsHandler _loadWordsHandler;
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _indicatorUIHandler;
     private LoadScreenUIView _loadScreenUIView;
@@ -19,6 +20,7 @@ public class LoadScreenUIHandler
     public LoadScreenUIHandler()
     {
         _loadScreenAssetProvider = new LoadScreenAssetProvider();
+        _loadWordsHandler = new LoadWordsHandler();
     }
 
     public void Dispose()
@@ -27,6 +29,7 @@ public class LoadScreenUIHandler
         Addressables.ReleaseInstance(_loadScreenUIView.gameObject);
         _indicatorUIHandler.Dispose();
         _blackFrameUIHandler.Dispose();
+        _loadWordsHandler.StopSubstitutingWords();
     }
 
     public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
@@ -53,17 +56,20 @@ public class LoadScreenUIHandler
         await _blackFrameUIHandler.Open();
     }
 
-    public async UniTaskVoid ShowOnMainMenuMove()
+    public async UniTaskVoid ShowToMainMenuMove()
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
         _loadScreenUIView.LogoImage.sprite = _logoSpriteDefault;
         await Show();
     }
-    public async UniTask ShowOnLevelMove(Sprite loadScreenSprite, Sprite logoImage)
+    public async UniTask ShowToLevelMove(Sprite loadScreenSprite, Sprite logoImage)
     {
         _loadScreenUIView.LoadScreenImage.sprite = loadScreenSprite;
         _loadScreenUIView.LogoImage.sprite = logoImage;
+        _loadScreenUIView.DisclaimerText.text = string.Empty;
         await Show();
+        _loadWordsHandler.StartSubstitutingWords(_loadScreenUIView.DisclaimerText).Forget();
+
     }
     public void ShowOnStart()
     {

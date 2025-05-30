@@ -2,6 +2,7 @@
 
 public class LevelUIProvider
 {
+    public readonly GlobalUIHandler _globalUIHandler;
     public readonly NarrativePanelUIHandler NarrativePanelUIHandler;
     public readonly NotificationPanelUIHandler NotificationPanelUIHandler;
     public readonly CharacterPanelUIHandler CharacterPanelUIHandler;
@@ -13,15 +14,18 @@ public class LevelUIProvider
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
     
-    public LevelUIProvider(LevelUIView levelUIView, Wallet wallet, ReactiveCommand onSceneTransition,
+    public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, SaveServiceProvider saveServiceProvider)
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, SaveServiceProvider saveServiceProvider,
+        GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
+        GlobalUIHandler globalUIHandler = null)
     {
+        _globalUIHandler = globalUIHandler;
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
         NotificationPanelUI notificationPanelUI = levelUIView.NotificationPanelUI;
         CharacterPanelUI characterPanelUI = levelUIView.CharacterPanelUI;
-        CurtainUI curtainUI = levelUIView.CurtainUI;
+        // BlackFrameView blackFrameView = levelUIView.CurtainUI;
         ChoicePanelUI choicePanelUI = levelUIView.ChoicePanelUI;
         ButtonSwitchSlideUI buttonSwitchSlideUI = levelUIView.ButtonSwitchSlideUI;
 
@@ -30,13 +34,14 @@ public class LevelUIProvider
         NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
-        CurtainUIHandler = new CurtainUIHandler(curtainUI);
-        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(curtainUI);
+        CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
-        GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, onSceneTransition, saveServiceProvider);
+        GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
+            saveServiceProvider, globalSound, mainMenuLocalizationHandler, blackFrameUIHandler);
         
         disableNodesContentEvent.Subscribe(() =>
         {

@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader
+public class MainSceneLoader
 {
     private const float _percentMultiplier = 100f;
     private readonly SaveServiceProvider _saveServiceProvider;
 
-    public SceneLoader(SaveServiceProvider saveServiceProvider)
+    public MainSceneLoader(SaveServiceProvider saveServiceProvider)
     {
         _saveServiceProvider = saveServiceProvider;
     }

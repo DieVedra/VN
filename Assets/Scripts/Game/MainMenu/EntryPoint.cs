@@ -19,7 +19,6 @@ public class EntryPoint: MonoBehaviour
     private PrefabsProvider _prefabsProvider;
     private GlobalUIHandler _globalUIHandler;
     private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
-    [Localization] private string _testStringLocalization = "TestStringLocalization";
 
     [Inject]
     private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,

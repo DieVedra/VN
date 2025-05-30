@@ -1,4 +1,5 @@
 ﻿
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -9,19 +10,22 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
     
     private GlobalSound _globalSound;
+    private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     private LevelLoadDataHandler _levelLoadDataHandler;
     private BackgroundContentCreator _backgroundContentCreator;
     private GlobalUIHandler _globalUIHandler;
     private SpriteRendererCreatorBuild _spriteRendererCreator;
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
 
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
-        Wallet wallet)
+        Wallet wallet, MainMenuLocalizationHandler mainMenuLocalizationHandler)
     {
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
         _globalUIHandler = globalUIHandler;
         Wallet = wallet;
+        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
     }
     private async void Awake()
     {
@@ -29,8 +33,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
-        
-        
+        LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
+        LevelUIView = await levelCanvasAssetProvider.CreateAsset();
+        if (LevelUIView.TryGetComponent(out Canvas canvas))
+        {
+            canvas.worldCamera = Camera.main;
+        }
+        await TryCreateBlackFrameUIHandler();
+
         Init();
         OnSceneTransition.Subscribe(_ =>
         {
@@ -142,10 +152,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
-        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
+        LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider,
+            _globalSound, _mainMenuLocalizationHandler,
+            _globalUIHandler);
     }
-
+    private async UniTask TryCreateBlackFrameUIHandler()
+    {
+        if (_darkeningBackgroundFrameUIHandler == null)
+        {
+            _darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
+            await _darkeningBackgroundFrameUIHandler.Init(LevelUIView.transform);
+            _darkeningBackgroundFrameUIHandler.SetAsLastSibling();
+            _darkeningBackgroundFrameUIHandler.BlackFrameView.Image.color = Color.clear;
+        }
+    }
     protected override void InitGlobalSound()
     {
         _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);

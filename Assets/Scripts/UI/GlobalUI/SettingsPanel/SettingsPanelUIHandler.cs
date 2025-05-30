@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 public class SettingsPanelUIHandler
 {
     private readonly ReactiveCommand<bool> _swipeDetectorOff;
-    private readonly SettingsPanelAssetProvider _settingsPanelAssetProvider;
+    private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private LocalizationString _textLabel = "Настройки";
     private LocalizationString _localizationLabel = "Язык:";
     private LocalizationString _soundLabel = "Звук:";
@@ -15,20 +15,20 @@ public class SettingsPanelUIHandler
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     public Transform Transform => _settingsPanelView.transform;
     public bool AssetIsLoaded { get; private set; }
-    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
+    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff, LoadIndicatorUIHandler loadIndicatorUIHandler)
     {
         _swipeDetectorOff = swipeDetectorOff;
+        _loadIndicatorUIHandler = loadIndicatorUIHandler;
         languageChanged.Subscribe(_ =>
         {
             LanguageChanged();
         });
-        _settingsPanelAssetProvider = new SettingsPanelAssetProvider();
     }
     public async UniTask Init(Transform parent, IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger)
     {
         if (AssetIsLoaded == false)
         {
-            _settingsPanelView = await _settingsPanelAssetProvider.CreateSettingsPanel(parent);
+            _settingsPanelView = await new SettingsPanelAssetProvider().CreateSettingsPanel(parent);
             _settingsPanelView.SoundField.Toggle.isOn = soundStatus.Value;
             _settingsPanelView.SoundField.Toggle.onValueChanged.AddListener(_ =>
             {

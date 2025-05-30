@@ -15,20 +15,31 @@ public class BlackFrameUIHandler
     private bool _assetLoaded;
     public Transform Transform => _transform;
     public bool IsOpen { get; private set; }
-    public BlackFrameUIHandler()
+    public BlackFrameView BlackFrameView => _blackFrameView;
+    public BlackFrameUIHandler(BlackFrameView blackFrameView = null)
     {
         IsOpen = false;
+        if (blackFrameView != null)
+        {
+            _blackFrameView = blackFrameView;
+            InitFrameView();
+        }
     }
     public async UniTask Init(Transform parent)
     {
         if (_assetLoaded == false)
         {
             _blackFrameView = await new BlackFramePanelAssetProvider().CreateBlackFramePanel(parent);
-            _image = _blackFrameView.Image;
-            _image.color = Color.black;
-            _transform = _blackFrameView.transform;
-            _assetLoaded = true;
+            InitFrameView();
         }
+    }
+
+    private void InitFrameView()
+    {
+        _image = _blackFrameView.Image;
+        _image.color = Color.black;
+        _transform = _blackFrameView.transform;
+        _assetLoaded = true;
     }
     public void Dispose()
     {

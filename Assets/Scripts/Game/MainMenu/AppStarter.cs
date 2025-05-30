@@ -17,7 +17,7 @@ public class AppStarter
         var blackFrameUIHandler = new BlackFrameUIHandler();
         var darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
         var loadScreenUIHandler = new LoadScreenUIHandler();
-        var settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
+        var settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff, loadIndicatorUIHandler);
         var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(darkeningBackgroundFrameUIHandler, wallet,
             swipeDetectorOff);
         

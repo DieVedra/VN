@@ -640,10 +640,13 @@
               <e p="PlayStoryPanelAssetProvider.cs" t="Include" />
               <e p="PrefabLoaders" t="Include">
                 <e p="BlackFramePanelAssetProvider.cs" t="Include" />
+                <e p="CanvasLoaders" t="Include">
+                  <e p="LevelCanvasAssetProvider.cs" t="Include" />
+                  <e p="MainMenuCanvasAssetProvider.cs" t="Include" />
+                </e>
                 <e p="CircleIndicatorAssetProvider.cs" t="Include" />
                 <e p="ConfirmedPanelAssetProvider.cs" t="Include" />
                 <e p="LoadScreenAssetProvider.cs" t="Include" />
-                <e p="MainMenuCanvasAssetProvider.cs" t="Include" />
                 <e p="PrefabsProvider.cs" t="Include" />
                 <e p="ProjectContextCanvasAssetProvider.cs" t="Include" />
                 <e p="SpriteRendererAssetProvider.cs" t="Include" />
@@ -808,8 +811,8 @@
               <e p="WardrobeSaveData.cs" t="Include" />
             </e>
             <e p="SceneLoader" t="Include">
+              <e p="MainSceneLoader.cs" t="Include" />
               <e p="SceneAssetLoader.cs" t="Include" />
-              <e p="SceneLoader.cs" t="Include" />
             </e>
             <e p="ShowUI.cs" t="Include" />
             <e p="Sound" t="Include">
@@ -895,6 +898,25 @@
           <e p="UI" t="Include">
             <e p="GlobalUI" t="Include">
               <e p="GlobalUIhandler.cs" t="Include" />
+              <e p="LoadScreenUI" t="Include">
+                <e p="LoadScreenUIHandler.cs" t="Include" />
+                <e p="LoadScreenUIView.cs" t="Include" />
+                <e p="LoadWordsHandler.cs" t="Include" />
+              </e>
+              <e p="SettingsPanel" t="Include">
+                <e p="SettingPanelChoiceHandler.cs" t="Include" />
+                <e p="SettingsButtonView.cs" t="Include" />
+                <e p="SettingsPanelButtonUIHandler.cs" t="Include" />
+                <e p="SettingsPanelChoiceField.cs" t="Include" />
+                <e p="SettingsPanelField.cs" t="Include" />
+                <e p="SettingsPanelUIHandler.cs" t="Include" />
+                <e p="SettingsPanelView.cs" t="Include" />
+              </e>
+              <e p="ShopMoneyPanel" t="Include">
+                <e p="LotView.cs" t="Include" />
+                <e p="ShopMoneyPanelUIHandler.cs" t="Include" />
+                <e p="ShopMoneyPanelView.cs" t="Include" />
+              </e>
             </e>
             <e p="LevelUI" t="Include">
               <e p="Animations" t="Include">
@@ -967,10 +989,6 @@
               <e p="PanelHeightHandler.cs" t="Include" />
               <e p="TextConsistentlyViewer.cs" t="Include" />
             </e>
-            <e p="LoadScreenUI" t="Include">
-              <e p="LoadScreenUIHandler.cs" t="Include" />
-              <e p="LoadScreenUIView.cs" t="Include" />
-            </e>
             <e p="MainMenuUI" t="Include">
               <e p="AdvertisingPanelView.cs" t="Include" />
               <e p="BlackFrame" t="Include">
@@ -1007,25 +1025,11 @@
               </e>
               <e p="PlayStoryPanel.cs" t="Include" />
               <e p="ScrollViewHandler.cs" t="Include" />
-              <e p="SettingsPanel" t="Include">
-                <e p="SettingPanelChoiceHandler.cs" t="Include" />
-                <e p="SettingsButtonView.cs" t="Include" />
-                <e p="SettingsPanelButtonUIHandler.cs" t="Include" />
-                <e p="SettingsPanelChoiceField.cs" t="Include" />
-                <e p="SettingsPanelField.cs" t="Include" />
-                <e p="SettingsPanelUIHandler.cs" t="Include" />
-                <e p="SettingsPanelView.cs" t="Include" />
-              </e>
               <e p="ShopMoneyButtons" t="Include">
                 <e p="ResourcePanelButtonView.cs" t="Include" />
                 <e p="ResourcePanelView.cs" t="Include" />
                 <e p="ResourcePanelWithCanvasGroupView.cs" t="Include" />
                 <e p="ShopMoneyButtonsUIHandler.cs" t="Include" />
-              </e>
-              <e p="ShopMoneyPanel" t="Include">
-                <e p="LotView.cs" t="Include" />
-                <e p="ShopMoneyPanelUIHandler.cs" t="Include" />
-                <e p="ShopMoneyPanelView.cs" t="Include" />
               </e>
               <e p="StoryPanel.cs" t="Include" />
               <e p="swipe.cs" t="Include" />

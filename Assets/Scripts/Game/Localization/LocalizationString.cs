@@ -12,7 +12,7 @@ public class LocalizationString
     [field: SerializeField] public string Key { get; private set; }
     public static List<LocalizationString> LocalizationStrings = new List<LocalizationString>();
 
-    public LocalizationString(string defaultText, string customKey = null)
+    public LocalizationString(string defaultText = null, string customKey = null)
     {
         DefaultText = defaultText;
         Key = customKey ?? GenerateStableHash(defaultText);
@@ -21,9 +21,7 @@ public class LocalizationString
             LocalizationStrings = new List<LocalizationString>();
         }
         LocalizationStrings.Add(this);
-        // Debug.Log($"{Key} {DefaultText}");
     }
-
     public static string GenerateStableHash(string input)
     {
         using (var sha256 = SHA256.Create())
@@ -35,7 +33,7 @@ public class LocalizationString
 
     public static implicit operator LocalizationString(string text)
     {
-        return new LocalizationString(text);
+        return new LocalizationString(defaultText: text);
     }
     public static implicit operator string(LocalizationString localizationString)
     {

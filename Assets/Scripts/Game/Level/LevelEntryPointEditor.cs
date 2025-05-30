@@ -9,18 +9,21 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
-    
+
+    [SerializeField] private BlackFrameView _blackFrameView;
     [SerializeField] private CharacterProviderEditMode characterProviderEditMode;
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
+    private GlobalUIHandler _globalUIHandler;
     public bool InitializeInEditMode => _initializeInEditMode;
 
     [Inject]
-    private void Construct(PrefabsProvider prefabsProvider)
+    private void Construct(PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler)
     {
         PrefabsProvider = prefabsProvider;
+        _globalUIHandler = globalUIHandler;
     }
 
     private async void Awake()
@@ -116,7 +119,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
     private void InitLevelUIProvider()
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
-        LevelUIProvider = new LevelUIProvider(LevelUIView, Wallet, OnSceneTransition, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
+        BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
+        LevelUIProvider = new LevelUIProvider(LevelUIView, blackFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

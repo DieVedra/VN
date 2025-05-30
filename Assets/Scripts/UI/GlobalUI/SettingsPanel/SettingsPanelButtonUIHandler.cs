@@ -50,7 +50,7 @@ public class SettingsPanelButtonUIHandler
         });
     }
 
-    private async UniTask OpenPanel()
+    public async UniTask OpenPanel()
     {
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {

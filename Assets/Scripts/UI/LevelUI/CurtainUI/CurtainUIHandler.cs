@@ -8,43 +8,44 @@ using UnityEngine.UI;
 
 public class CurtainUIHandler
 {
-    protected readonly CurtainUI CurtainUI;
+    private const float _unfadeSkipValue = 0.2f;
+    protected readonly BlackFrameView BlackFrameView;
     protected readonly Image CurtainImage;
-    public CurtainUIHandler(CurtainUI curtainUI)
+    public CurtainUIHandler(BlackFrameView blackFrameView)
     {
-        CurtainUI = curtainUI;
-        CurtainImage = curtainUI.Image;
+        BlackFrameView = blackFrameView;
+        CurtainImage = BlackFrameView.Image;
         if (Application.isPlaying == true)
         {
-            CurtainUI.gameObject.SetActive(true);
+            BlackFrameView.gameObject.SetActive(true);
             SkipAtCloses();
         }
         else
         {
-            CurtainUI.gameObject.SetActive(false);
+            BlackFrameView.gameObject.SetActive(false);
         }
     }
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
-        CurtainUI.gameObject.SetActive(true);
-        CurtainUI.Image.color = Color.black;
-        await UniTask.WhenAny(CurtainImage.DOFade(0f, CurtainUI.DurationAnim).WithCancellation(cancellationToken),
-            UniTask.Delay(TimeSpan.FromSeconds(CurtainUI.DurationAnim - CurtainUI.UnfadeSkipValue), cancellationToken: cancellationToken));
-        CurtainUI.gameObject.SetActive(false);
+        BlackFrameView.gameObject.SetActive(true);
+        BlackFrameView.Image.color = Color.black;
+        await UniTask.WhenAny(CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken),
+            UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.MaxValue - _unfadeSkipValue), cancellationToken: cancellationToken));
+        BlackFrameView.gameObject.SetActive(false);
     }
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)
     {
-        CurtainUI.gameObject.SetActive(true);
-        CurtainUI.Image.color = Color.clear;
-        await CurtainImage.DOFade(1f, CurtainUI.DurationAnim).WithCancellation(cancellationToken);
+        BlackFrameView.gameObject.SetActive(true);
+        BlackFrameView.Image.color = Color.clear;
+        await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
     }
     public void SkipAtOpens()
     {
-        CurtainUI.Image.color = Color.clear;
+        BlackFrameView.Image.color = Color.clear;
     }
     public void SkipAtCloses()
     {
-        CurtainUI.Image.color = Color.black;
+        BlackFrameView.Image.color = Color.black;
     }
 }
