@@ -121,7 +121,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         LevelUIProvider = new LevelUIProvider(LevelUIView, blackFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider);
+            SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

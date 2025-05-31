@@ -39,7 +39,6 @@ public class LoadIndicatorUIHandler
     public void Dispose()
     {
         StopIndicate();
-        Addressables.ReleaseInstance(_loadIndicatorView.gameObject);
         _assetLoaded = false;
     }
 

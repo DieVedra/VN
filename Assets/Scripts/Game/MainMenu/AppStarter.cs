@@ -12,15 +12,62 @@ public class AppStarter
     {
         await Addressables.InitializeAsync();
 
-        var swipeDetectorOff = new ReactiveCommand<bool>();
-        var loadIndicatorUIHandler = new LoadIndicatorUIHandler();
-        var blackFrameUIHandler = new BlackFrameUIHandler();
+        LoadIndicatorUIHandler loadIndicatorUIHandler;
+        if (globalUIHandler.LoadIndicatorUIHandler == null)
+        {
+            loadIndicatorUIHandler = new LoadIndicatorUIHandler();
+        }
+        else
+        {
+            loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
+        }
+
+        BlackFrameUIHandler blackFrameUIHandler;
+        if (globalUIHandler.BlackFrameUIHandler == null)
+        {
+            blackFrameUIHandler = new BlackFrameUIHandler();
+        }
+        else
+        {
+            blackFrameUIHandler = globalUIHandler.BlackFrameUIHandler;
+        }
+
         var darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
-        var loadScreenUIHandler = new LoadScreenUIHandler();
-        var settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff, loadIndicatorUIHandler);
-        var shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(darkeningBackgroundFrameUIHandler, wallet,
-            swipeDetectorOff);
         
+        LoadScreenUIHandler loadScreenUIHandler;
+        if (globalUIHandler.LoadScreenUIHandler == null)
+        {
+            loadScreenUIHandler = new LoadScreenUIHandler();
+        }
+        else
+        {
+            loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
+        }
+
+        ReactiveCommand<bool> swipeDetectorOff = new ReactiveCommand<bool>();;
+
+        SettingsPanelUIHandler settingsPanelUIHandler;
+        if (globalUIHandler.SettingsPanelUIHandler == null)
+        {
+            settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
+        }
+        else
+        {
+            settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
+            swipeDetectorOff = globalUIHandler.SettingsPanelUIHandler.SwipeDetectorOff;
+        }
+
+        ShopMoneyPanelUIHandler shopMoneyPanelUIHandler;
+        if (globalUIHandler.ShopMoneyPanelUIHandler == null)
+        {
+            shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(darkeningBackgroundFrameUIHandler, wallet,
+                swipeDetectorOff);
+        }
+        else
+        {
+            shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
+            swipeDetectorOff = globalUIHandler.ShopMoneyPanelUIHandler.SwipeDetectorOff;
+        }
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler, loadIndicatorUIHandler, blackFrameUIHandler);
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
@@ -28,7 +75,11 @@ public class AppStarter
 
         var storiesProvider = await CreateStoriesProvider();
         await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
-        loadScreenUIHandler.ShowOnStart();
+
+        if (loadScreenUIHandler.IsStarted == false)
+        {
+            loadScreenUIHandler.ShowOnStart();
+        }
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
@@ -96,4 +147,5 @@ public class AppStarter
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
         return await storiesProviderAssetProvider.Load();
     }
+
 }

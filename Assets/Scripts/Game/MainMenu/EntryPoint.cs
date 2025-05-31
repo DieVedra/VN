@@ -29,8 +29,16 @@ public class EntryPoint: MonoBehaviour
         _prefabsProvider = prefabsProvider;
         _onSceneTransition = new ReactiveCommand();
         LoadSaveData();
-        _wallet = new Wallet(_saveData);
-        ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
+        if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
+        {
+            _wallet = new Wallet(_saveData);
+            ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
+        }
+        else
+        {
+            _wallet = ProjectContext.Instance.Container.Resolve<Wallet>();
+        }
+
         _globalUIHandler = globalUIHandler;
         _appStarter = new AppStarter();
         _mainMenuLocalizationHandler = mainMenuLocalizationHandler;

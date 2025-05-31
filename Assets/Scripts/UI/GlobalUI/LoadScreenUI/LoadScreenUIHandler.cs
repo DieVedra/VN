@@ -17,6 +17,9 @@ public class LoadScreenUIHandler
     private Sprite _backgrountSpriteDefault;
     private Sprite _logoSpriteDefault;
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
+    public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
+    public bool IsStarted { get; private set; }
+
     public LoadScreenUIHandler()
     {
         _loadScreenAssetProvider = new LoadScreenAssetProvider();
@@ -26,7 +29,6 @@ public class LoadScreenUIHandler
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
-        Addressables.ReleaseInstance(_loadScreenUIView.gameObject);
         _indicatorUIHandler.Dispose();
         _blackFrameUIHandler.Dispose();
         _loadWordsHandler.StopSubstitutingWords();
@@ -45,21 +47,18 @@ public class LoadScreenUIHandler
     }
     private async UniTask Show()
     {
-        _loadScreenUIView.DisclaimerText.text = _disclaimerText;
-        _loadScreenUIView.gameObject.SetActive(false);
-        _indicatorUIHandler.StopIndicate();
-        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
-        await _blackFrameUIHandler.Close();
         _loadScreenUIView.gameObject.SetActive(true);
         _indicatorUIHandler.SetTextIndicateMode();
         _indicatorUIHandler.StartIndicate();
         await _blackFrameUIHandler.Open();
     }
 
-    public async UniTaskVoid ShowToMainMenuMove()
+    public async UniTask ShowToMainMenuMove()
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
         _loadScreenUIView.LogoImage.sprite = _logoSpriteDefault;
+        SetDisclaimerText();
+        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         await Show();
     }
     public async UniTask ShowToLevelMove(Sprite loadScreenSprite, Sprite logoImage)
@@ -67,6 +66,9 @@ public class LoadScreenUIHandler
         _loadScreenUIView.LoadScreenImage.sprite = loadScreenSprite;
         _loadScreenUIView.LogoImage.sprite = logoImage;
         _loadScreenUIView.DisclaimerText.text = string.Empty;
+        _loadScreenUIView.gameObject.SetActive(false);
+        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        await _blackFrameUIHandler.Close();
         await Show();
         _loadWordsHandler.StartSubstitutingWords(_loadScreenUIView.DisclaimerText).Forget();
 
@@ -79,6 +81,7 @@ public class LoadScreenUIHandler
         _loadScreenUIView.gameObject.SetActive(true);
         _indicatorUIHandler.StartIndicate();
         _blackFrameUIHandler.Open().Forget();
+        IsStarted = true;
     }
 
     public async UniTask HideOnLevelMove()
@@ -86,18 +89,19 @@ public class LoadScreenUIHandler
         await _blackFrameUIHandler.Close();
         _loadScreenUIView.gameObject.SetActive(false);
         _indicatorUIHandler.StopIndicate();
+        _loadWordsHandler.StopSubstitutingWords();
         _blackFrameUIHandler.Open().Forget();
     }
     
     public async UniTaskVoid HideOnMainMenuMove()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-
         Vector4 padding = Vector4.zero;
         _loadScreenUIView.LoadScreenImage.raycastTarget = false;
         _loadScreenUIView.LoadScreenMaskImage.raycastTarget = false;
 
         _indicatorUIHandler.StopIndicate();
+        
         float paddingValue = Screen.width;
         await DOTween.To(() => padding.z, x => padding.z = x, paddingValue, _loadScreenUIView.MaskHideDuration)
             .OnUpdate(() => _loadScreenUIView.RectMask2D.padding = padding).WithCancellation(_cancellationTokenSource.Token);
@@ -110,21 +114,4 @@ public class LoadScreenUIHandler
     {
         _loadScreenUIView.DisclaimerText.text = _disclaimerText;
     }
-    // public async UniTaskVoid Hide()
-    // {
-    //     _cancellationTokenSource = new CancellationTokenSource();
-    //
-    //     Vector4 padding = Vector4.zero;
-    //     _loadScreenUIView.LoadScreenImage.raycastTarget = false;
-    //     _loadScreenUIView.LoadScreenMaskImage.raycastTarget = false;
-    //
-    //     float paddingValue = Screen.width;
-    //     await DOTween.To(() => padding.z, x => padding.z = x, paddingValue, _loadScreenUIView.MaskHideDuration)
-    //         .OnUpdate(() => _loadScreenUIView.RectMask2D.padding = padding).WithCancellation(_cancellationTokenSource.Token);
-    //     _indicatorUIHandler.StopIndicate();
-    //     // _cancellationTokenSource.Cancel();
-    //     _loadScreenUIView.gameObject.SetActive(false);
-    //     _loadScreenUIView.RectMask2D.padding = Vector4.zero;
-    //     _canvas.gameObject.SetActive(false);
-    // }
 }

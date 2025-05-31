@@ -2,42 +2,33 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonTransitionToMainSceneUIHandler
 {
     private const int _mainSceneIndex = 0;
     public const int FontSizeValue = 80;
-    public const float HeightPanel = 700;
+    public const int HeightPanel = 700;
 
     public readonly LocalizationString LabelText = "Точно?";
     public readonly LocalizationString TranscriptionText = "Вернуться в главное меню?";
     public readonly LocalizationString ButtonText = "Да";
 
+    private readonly LoadScreenUIHandler _loadScreenUIHandler;
     private readonly ReactiveCommand _onSceneTransition;
-    private readonly BlackFrameUIHandler _blackFrameUIHandler;
-    private readonly MainSceneLoader _mainSceneLoader;
-    private bool _firstPartLoadComplete;
 
-    public ButtonTransitionToMainSceneUIHandler(ReactiveCommand onSceneTransition, BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider)
+    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand onSceneTransition)
     {
+        _loadScreenUIHandler = loadScreenUIHandler;
         _onSceneTransition = onSceneTransition;
-        _mainSceneLoader = new MainSceneLoader(saveServiceProvider);
-        _blackFrameUIHandler = blackFrameUIHandler;
     }
 
     public async UniTask Press()
     {
-        await _blackFrameUIHandler.Close();
-        _blackFrameUIHandler.SetAsLastSibling();
-        _mainSceneLoader.StartLoad(_mainSceneIndex).Forget();
-        _mainSceneLoader.OnCompleteLoad += x => { StartLoadPart2(x).Forget();};
-        _firstPartLoadComplete = true;
-    }
-    
-    private async UniTask StartLoadPart2(AsyncOperation operation)
-    {
-        await UniTask.WaitUntil(() => _firstPartLoadComplete == true);
+        await _loadScreenUIHandler.BlackFrameUIHandler.Close();
+        Camera.main.gameObject.SetActive(false);
+        await _loadScreenUIHandler.ShowToMainMenuMove();
+        await SceneManager.LoadSceneAsync(_mainSceneIndex, LoadSceneMode.Single);
         _onSceneTransition.Execute();
-        _mainSceneLoader.Activate(operation);
     }
 }

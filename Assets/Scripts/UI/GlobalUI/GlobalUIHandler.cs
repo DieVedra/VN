@@ -32,6 +32,7 @@ public class GlobalUIHandler
     {
         if (_isCreatedOneInstance == false)
         {
+            _isCreatedOneInstance = true;
             _loadScreenUIHandler = loadScreenUIHandler;
             _loadIndicatorUIHandler = loadIndicatorUIHandler;
             _blackFrameUIHandler = blackFrameUIHandler;

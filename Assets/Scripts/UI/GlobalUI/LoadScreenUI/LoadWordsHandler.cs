@@ -6,6 +6,7 @@ using TMPro;
 
 public class LoadWordsHandler
 {
+    private const float _textSize = 70;
     private const float _delay = 1.8f;
     private readonly LocalizationString _loadWordText1 = new LocalizationString(customKey: "str_F8F94E61");
     private readonly LocalizationString _loadWordText2 = new LocalizationString(customKey: "str_20964771");
@@ -14,6 +15,8 @@ public class LoadWordsHandler
     private readonly LocalizationString _loadWordText5 = new LocalizationString(customKey: "str_B5CEE196");
 
     private List<LocalizationString> _loadWords;
+    private TextMeshProUGUI _text;
+    private float _textSizeBuffer;
     private bool _isStarting;
 
     public LoadWordsHandler()
@@ -35,8 +38,12 @@ public class LoadWordsHandler
         {
             return;
         }
+
         _isStarting = true;
-        int i = 0;
+        int i = UnityEngine.Random.Range(0, _loadWords.Count);
+        _text = text;
+        _textSizeBuffer = text.fontSize;
+        text.fontSize = _textSize;
         while (_isStarting)
         {
             text.text = _loadWords[i].DefaultText;
@@ -55,5 +62,10 @@ public class LoadWordsHandler
     public void StopSubstitutingWords()
     {
         _isStarting = false;
+        if (_text != null)
+        {
+            _text.fontSize = _textSizeBuffer;
+            _text = null;
+        }
     }
 }

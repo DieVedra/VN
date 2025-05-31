@@ -37,7 +37,6 @@ public class ConfirmedPanelUIHandler
         if (AssetIsLoaded == false)
         {
             
-            await _loadIndicatorUIHandler.Init(_darkeningBackgroundFrameUIHandler.Transform);
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             

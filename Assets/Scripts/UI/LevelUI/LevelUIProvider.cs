@@ -16,7 +16,7 @@ public class LevelUIProvider
     
     public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, SaveServiceProvider saveServiceProvider,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI,
         GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
         GlobalUIHandler globalUIHandler = null)
     {
@@ -41,7 +41,7 @@ public class LevelUIProvider
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-            saveServiceProvider, globalSound, mainMenuLocalizationHandler, blackFrameUIHandler);
+            globalSound, mainMenuLocalizationHandler, blackFrameUIHandler);
         
         disableNodesContentEvent.Subscribe(() =>
         {

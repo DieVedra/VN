@@ -14,11 +14,12 @@ public class ShopMoneyPanelUIHandler
     private readonly LocalizationString _heartsButtonText = "Сердца";
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
-    private readonly ReactiveCommand<bool> _swipeDetectorOff;
     private readonly Wallet _wallet;
     private ShopMoneyPanelView _shopMoneyPanelView;
 
     public event Action OnHide;
+    public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
+
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
@@ -27,7 +28,7 @@ public class ShopMoneyPanelUIHandler
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
-        _swipeDetectorOff = swipeDetectorOff;
+        SwipeDetectorOff = swipeDetectorOff;
     }
 
     public void Dispose()
@@ -40,7 +41,7 @@ public class ShopMoneyPanelUIHandler
 
     public async UniTask Show(LoadIndicatorUIHandler loadIndicatorUIHandler, Transform parent, int index)
     {
-        _swipeDetectorOff.Execute(true);
+        SwipeDetectorOff.Execute(true);
         _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
@@ -63,7 +64,7 @@ public class ShopMoneyPanelUIHandler
 
     private async UniTask Hide()
     {
-        _swipeDetectorOff.Execute(false);
+        SwipeDetectorOff.Execute(false);
         _shopMoneyPanelView.gameObject.SetActive(false);
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();

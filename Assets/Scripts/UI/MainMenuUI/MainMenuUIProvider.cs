@@ -45,10 +45,6 @@ public class MainMenuUIProvider
     {
         DarkeningBackgroundFrameUIHandler.Dispose();
         PlayStoryPanelHandler.Dispose();
-        // SettingsButtonUIHandler.Dispose();
-        SettingsPanelUIHandler.Dispose();
-        ShopMoneyPanelUIHandler.Dispose();
-        // ShopButtonsUIHandler.Dispose();
         ConfirmedPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();

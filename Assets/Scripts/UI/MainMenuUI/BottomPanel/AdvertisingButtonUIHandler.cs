@@ -40,7 +40,6 @@ public class AdvertisingButtonUIHandler
     {
         if (AssetIsLoad == false)
         {
-            await _loadIndicatorUIHandler.Init(_parent);
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             _advertisingPanelView = await _advertisingPanelPrefabProvider.CreateAdvertisingPanel(_parent);

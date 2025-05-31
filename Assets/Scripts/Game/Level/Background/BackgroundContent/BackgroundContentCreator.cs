@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class BackgroundContentCreator : IParticipiteInLoad
 {
@@ -36,7 +37,10 @@ public class BackgroundContentCreator : IParticipiteInLoad
 
     public void Dispose()
     {
-        _backgroundContentAssetProvider.ReleaseAllCreatedObjects();
+        // for (int i = 0; i < _instantiatedBackgroundContent.Count; ++i)
+        // {
+        //     Addressables.ReleaseInstance(_instantiatedBackgroundContent[i].gameObject);
+        // }
     }
 
     public void SetCurrentBackgroundData(BackgroundData backgroundData)

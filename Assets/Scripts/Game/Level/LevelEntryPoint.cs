@@ -38,6 +38,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     {
         CharacterViewer.Dispose();
         LevelUIProvider.Dispose();
-        EventSystem.gameObject.SetActive(false);
+        // EventSystem.gameObject.SetActive(false);
     }
 }

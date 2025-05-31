@@ -153,8 +153,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, SaveServiceProvider,
-            _globalSound, _mainMenuLocalizationHandler,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _globalSound, _mainMenuLocalizationHandler,
             _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
