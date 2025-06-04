@@ -13,20 +13,20 @@ public class ShopMoneyPanelUIHandler
     private readonly LocalizationString _monetButtonText = "Монеты";
     private readonly LocalizationString _heartsButtonText = "Сердца";
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
-    private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
+    private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly Wallet _wallet;
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
 
     public event Action OnHide;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
     public bool PanelIsLoaded { get; private set; }
-    public ShopMoneyPanelUIHandler(BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
+    public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        _loadIndicatorUIHandler = loadIndicatorUIHandler;
         _wallet = wallet;
         SwipeDetectorOff = swipeDetectorOff;
     }
@@ -39,21 +39,24 @@ public class ShopMoneyPanelUIHandler
         }
     }
 
-    public async UniTask Show(LoadIndicatorUIHandler loadIndicatorUIHandler, Transform parent, int index)
+    public async UniTask Show(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent, int index = 0)
     {
-        SwipeDetectorOff.Execute(true);
+        SwipeDetectorOff?.Execute(true);
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
-            loadIndicatorUIHandler.SetClearIndicateMode();
-            loadIndicatorUIHandler.StartIndicate();
+            _loadIndicatorUIHandler.SetClearIndicateMode();
+            _loadIndicatorUIHandler.StartIndicate();
             await LoadPanel(parent);
-            loadIndicatorUIHandler.StopIndicate();
+            _loadIndicatorUIHandler.StopIndicate();
         }
         else
         {
             _shopMoneyPanelView.transform.SetAsLastSibling();
         }
+
+        _shopMoneyPanelView.transform.parent.gameObject.SetActive(true);
         _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
         _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
         

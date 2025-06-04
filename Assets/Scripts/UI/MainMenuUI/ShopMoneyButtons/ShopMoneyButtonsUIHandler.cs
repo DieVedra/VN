@@ -15,7 +15,8 @@ public class ShopMoneyButtonsUIHandler
     private readonly ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     private readonly Transform _parent;
     private ResourcePanelButtonView _monetPanel, _heartsPanel;
-    public bool AssetIsLoaded { get; private set; }
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
+    public bool IsInited { get; private set; }
 
     public ShopMoneyButtonsUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, Transform parent)
     {
@@ -23,12 +24,26 @@ public class ShopMoneyButtonsUIHandler
         _wallet = wallet;
         _shopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
         _parent = parent;
-        AssetIsLoaded = false;
+        IsInited = false;
     }
 
-    public void Init(ResourcePanelButtonView monetPanel, ResourcePanelButtonView heartsPanel)
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, ResourcePanelButtonView shopButtonOnGameControlPanel)
     {
-        if (AssetIsLoaded == false)
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+
+        if (IsInited == false)
+        {
+            shopButtonOnGameControlPanel.Button.onClick.AddListener(() =>
+            {
+                _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent).Forget();
+            });
+            IsInited = true;
+        }
+    }
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, ResourcePanelButtonView monetPanel, ResourcePanelButtonView heartsPanel)
+    {
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        if (IsInited == false)
         {
             _monetPanel = monetPanel;
             _heartsPanel = heartsPanel;
@@ -44,7 +59,7 @@ public class ShopMoneyButtonsUIHandler
                 _heartsPanel.Text.text = _wallet.Hearts.ToString();
             });
             
-            AssetIsLoaded = true;
+            IsInited = true;
         }
 
         SubscribeButtonsAndSetResourcesIndicate();
@@ -61,13 +76,13 @@ public class ShopMoneyButtonsUIHandler
         _heartsPanel.Button.onClick.AddListener(()=>
         {
             _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_loadIndicatorUIHandler, _parent, _heartsIndex).Forget();
+            _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent, _heartsIndex).Forget();
             OffPanels();
         });
         _monetPanel.Button.onClick.AddListener(()=>
         {
             _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_loadIndicatorUIHandler, _parent, _monetIndex).Forget();
+            _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent, _monetIndex).Forget();
             OffPanels();
         });
     }

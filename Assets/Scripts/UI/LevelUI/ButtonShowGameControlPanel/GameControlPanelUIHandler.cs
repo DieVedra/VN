@@ -23,14 +23,14 @@ public class GameControlPanelUIHandler
     
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
-    
+    private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
     
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     
     private ReactiveProperty<bool> _anyWindowIsOpen;
     private bool _panelIsVisible;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
-        ReactiveCommand onSceneTransition, GlobalSound globalSound,
+        ReactiveCommand onSceneTransition, GlobalSound globalSound, Wallet wallet,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _gameControlPanelView = gameControlPanelView;
@@ -50,38 +50,34 @@ public class GameControlPanelUIHandler
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
         
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
-            _darkeningBackgroundFrameUIHandler, globalUIHandler.LoadIndicatorUIHandler);
-        _settingsPanelButtonUIHandler.Init(_gameControlPanelView.SettingsButtonView, globalSound.SoundStatus, _localizationChanger, false);
+            globalUIHandler.LoadIndicatorUIHandler);
+        _settingsPanelButtonUIHandler.Init(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
+            globalSound.SoundStatus, _localizationChanger, false);
         
+        _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
+            globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
         
-        SubscribeButtonShowPanel();
+        _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);
+        _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
+        { 
+            ShowGameControlPanel().Forget();
+        });
+        _gameControlPanelView.ButtonGoToMainMenu.onClick.AddListener(() =>
+        {
+                
+            PrepareTransitionToMainScene().Forget();
+        });
     }
 
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
     }
-    private async UniTaskVoid PressShowButton()
+    private async UniTaskVoid ShowGameControlPanel()
     {
         if (_panelIsVisible == false)
         {
-            _gameControlPanelView.ButtonShowPanel.onClick.RemoveAllListeners();
-            _cancellationTokenSource = new CancellationTokenSource();
-            
-            _gameControlPanelView.SettingsButtonView.gameObject.SetActive(true);
-            
-            
-            _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(true);
-            
-            _gameControlPanelView.ButtonGoToMainMenu.onClick.AddListener(() =>
-            {
-                
-                PrepareTransitionToMainScene().Forget();
-            });
-            
-            await _gameControlPanelView.CanvasGroup.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(_cancellationTokenSource.Token);
-            SubscribeButtonShowPanel();
-            _panelIsVisible = true;
+            await SetPanelVisible();
             
             await UniTask.Delay(TimeSpan.FromSeconds(_timeDelay), cancellationToken: _cancellationTokenSource.Token);
             
@@ -93,35 +89,30 @@ public class GameControlPanelUIHandler
         }
     }
 
-    private void SubscribeButtonShowPanel()
+    private async UniTask SetPanelVisible()
     {
-        _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
-        { 
-            PressShowButton().Forget();
-        });
-    }
+        _panelIsVisible = true;
 
+        ReInitCancellationSource();
+            
+        _gameControlPanelView.SettingsButtonView.gameObject.SetActive(true);
+        _gameControlPanelView.ShopMoneyButtonView.gameObject.SetActive(true);
+        _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(true);
+        await DoFade(AnimationValuesProvider.MaxValue, GetCurrentDuration());
+    }
     private async UniTaskVoid SetPanelInvisible()
     {
-        UnsubscribeButtons();
-        _cancellationTokenSource.Cancel();
-        _cancellationTokenSource = new CancellationTokenSource();
-        await _gameControlPanelView.CanvasGroup.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(_cancellationTokenSource.Token);
         _panelIsVisible = false;
-        if (_cancellationTokenSource.IsCancellationRequested == false)
-        {
-            _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
-            _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
-        }
+        ReInitCancellationSource();
+        await DoFade(AnimationValuesProvider.MinValue, GetCurrentDuration());
 
-        SubscribeButtonShowPanel();
+        OffButtonsOnPanel();
     }
-
-    private void UnsubscribeButtons()
+    private void OffButtonsOnPanel()
     {
-        _gameControlPanelView.SettingsButtonView.Button.onClick.RemoveAllListeners();
-        _gameControlPanelView.ButtonGoToMainMenu.onClick.RemoveAllListeners();
-        _gameControlPanelView.ButtonShowPanel.onClick.RemoveAllListeners();
+        _gameControlPanelView.SettingsButtonView.Button.gameObject.SetActive(false);
+        _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
+        _gameControlPanelView.ShopMoneyButtonView.gameObject.SetActive(false);
     }
 
     private async UniTask PrepareTransitionToMainScene()
@@ -144,5 +135,28 @@ public class GameControlPanelUIHandler
                     _buttonTransitionToMainSceneUIHandler.Press().Forget();
                 }, true);
         }
+    }
+
+    private void ReInitCancellationSource()
+    {
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
+    }
+
+    private float GetCurrentDuration()
+    {
+        if (_panelIsVisible == false)
+        {
+            return Mathf.Lerp(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue, _gameControlPanelView.CanvasGroup.alpha);
+        }
+        else
+        {
+            return Mathf.Lerp(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MinValue, _gameControlPanelView.CanvasGroup.alpha);
+        }
+    }
+
+    private async UniTask DoFade(float endValue, float duration)
+    {
+        await _gameControlPanelView.CanvasGroup.DOFade(endValue, duration).WithCancellation(_cancellationTokenSource.Token);
     }
 }

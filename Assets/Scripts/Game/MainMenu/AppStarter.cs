@@ -60,7 +60,7 @@ public class AppStarter
         ShopMoneyPanelUIHandler shopMoneyPanelUIHandler;
         if (globalUIHandler.ShopMoneyPanelUIHandler == null)
         {
-            shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(darkeningBackgroundFrameUIHandler, wallet,
+            shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, wallet,
                 swipeDetectorOff);
         }
         else
@@ -108,7 +108,7 @@ public class AppStarter
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, languageChanged);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
-            darkeningBackgroundFrameUIHandler, globalUIHandler.LoadIndicatorUIHandler);
+            globalUIHandler.LoadIndicatorUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet, globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
 
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
@@ -129,10 +129,10 @@ public class AppStarter
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
         await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
         await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler, levelLoader, startIndexStory);
-        mainMenuUIProvider.SettingsButtonUIHandler.Init(mainMenuUIView.SettingsButtonView, soundStatus, localizationChanger);
+        mainMenuUIProvider.SettingsButtonUIHandler.Init(mainMenuUIView.SettingsButtonView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, soundStatus, localizationChanger);
         
         
-        mainMenuUIProvider.ShopButtonsUIHandler.Init(mainMenuUIView.MonetPanelView, mainMenuUIView.HeartsPanelView);
+        mainMenuUIProvider.ShopButtonsUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, mainMenuUIView.MonetPanelView, mainMenuUIView.HeartsPanelView);
         mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler);
     }
     private LevelLoader LevelLoaderCreate(MainMenuUIProvider mainMenuUIProvider, ReactiveCommand onSceneTransition,

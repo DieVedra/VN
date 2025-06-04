@@ -12,7 +12,6 @@ public class SettingsPanelUIHandler
     private LocalizationString _soundLabel = "Звук:";
     private SettingsPanelView _settingsPanelView;
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
-    private Action _subscribeButtonOperation;
     public Transform Transform => _settingsPanelView.transform;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
     public bool AssetIsLoaded { get; private set; }
@@ -27,11 +26,10 @@ public class SettingsPanelUIHandler
         });
     }
     public async UniTask Init(Transform parent, IReactiveProperty<bool> soundStatus,
-        ILocalizationChanger localizationChanger, Action subscribeButtonOperation)
+        ILocalizationChanger localizationChanger)
     {
         if (AssetIsLoaded == false)
         {
-            _subscribeButtonOperation = subscribeButtonOperation;
             _settingsPanelView = await new SettingsPanelAssetProvider().CreateSettingsPanel(parent);
             _settingsPanelView.SoundField.Toggle.isOn = soundStatus.Value;
             _settingsPanelView.SoundField.Toggle.onValueChanged.AddListener(_ =>
@@ -62,7 +60,6 @@ public class SettingsPanelUIHandler
         _settingsPanelView.ExitButton.onClick.AddListener(()=>
         {
             Hide(blackFrameUIHandler);
-            _subscribeButtonOperation?.Invoke();
             _settingsPanelView.ExitButton.onClick.RemoveAllListeners();
         });
         _settingsPanelView.transform.parent.gameObject.SetActive(true);

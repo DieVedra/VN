@@ -41,7 +41,7 @@ public class LevelUIProvider
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-            globalSound, mainMenuLocalizationHandler, blackFrameUIHandler);
+            globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler);
         
         disableNodesContentEvent.Subscribe(() =>
         {

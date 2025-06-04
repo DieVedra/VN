@@ -1,5 +1,4 @@
 ﻿
-using System;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -15,20 +14,19 @@ public class SettingsPanelButtonUIHandler
     private Transform _parent;
     private IReactiveProperty<bool> _soundStatus;
     private ILocalizationChanger _localizationChanger;
-    private bool OnePress;
     public bool IsInited { get; private set; }
-    public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+    public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, 
         LoadIndicatorUIHandler loadIndicatorUIHandler)
     {
         _parent = parent;
         _settingsPanelUIHandler = settingsPanelUIHandler;
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         IsInited = false;
     }
 
-    public void Init(SettingsButtonView settingsButtonView, IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, bool activeKey = true)
+    public void Init(SettingsButtonView settingsButtonView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, bool activeKey = true)
     {
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         if (IsInited == false)
         {
             _settingsButtonView = settingsButtonView;
@@ -37,42 +35,31 @@ public class SettingsPanelButtonUIHandler
             _localizationChanger = localizationChanger;
             IsInited = true;
             _settingsButton.gameObject.SetActive(activeKey);
-            SubscribeButton().Invoke();
+            _settingsButton.onClick.AddListener(() =>
+            {
+                OpenPanel().Forget();
+            });
         }
     }
 
-    public async UniTask OpenPanel()
+    private async UniTask OpenPanel()
     {
-        if (OnePress == false)
+        if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
-            OnePress = true;
-            if (_settingsPanelUIHandler.AssetIsLoaded == false)
-            {
-                _settingsPanelUIHandler.Init(_parent, _soundStatus, _localizationChanger, SubscribeButton()).Forget();
-                _loadIndicatorUIHandler.SetClearIndicateMode();
-                _loadIndicatorUIHandler.StartIndicate();
+            _settingsPanelUIHandler.Init(_parent, _soundStatus, _localizationChanger).Forget();
+            _loadIndicatorUIHandler.SetClearIndicateMode();
+            _loadIndicatorUIHandler.StartIndicate();
             
-                _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-                await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
+            _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
+            await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
 
-                _loadIndicatorUIHandler.StopIndicate();
-                _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
-            }
-            else
-            {
-                _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-                _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
-            }
+            _loadIndicatorUIHandler.StopIndicate();
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
         }
-    }
-
-    private Action SubscribeButton()
-    {
-        return () => _settingsButton.onClick.AddListener(() =>
+        else
         {
-            _settingsButton.onClick.RemoveAllListeners();
-            OnePress = false;
-            OpenPanel().Forget();
-        });
+            _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
+        }
     }
 }
