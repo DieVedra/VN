@@ -75,7 +75,14 @@ public class BackgroundContent : MonoBehaviour
         _currentBackgroundPosition = backgroundPosition;
         SwitchBackgroundPosition();
     }
-    
+    public void SetBackgroundPositionFromSlider(float position)
+    {
+        var newPos = Mathf.Lerp( _leftBordTransform.localPosition.x, _rightBordTransform.localPosition.x,position);
+        var myTransform = transform;
+        var position1 = myTransform.localPosition;
+        position1 = new Vector3(newPos, position1.y, position1.z);
+        myTransform.localPosition = position1;
+    }
     public async UniTask MovementSmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition)
     {
         switch (backgroundPosition)

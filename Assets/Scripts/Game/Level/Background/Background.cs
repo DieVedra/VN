@@ -39,6 +39,7 @@ public class Background : MonoBehaviour
     public int CurrentArtIndex { get; private set; }
     public int CurrentIndexAdditionalImage { get; private set; }
     public int CurrentIndexBackgroundContent { get; private set; }
+    public BackgroundPosition CurrentBackgroundPosition { get; private set; }
     public List<BackgroundContent> GetBackgroundContent => BackgroundContent;
     public IReadOnlyList<Sprite> GetAdditionalImagesToBackground => AdditionalImagesToBackground;
     public IReadOnlyList<int> ArtOpenedIndexes => _artOpenedIndexes;
@@ -125,9 +126,14 @@ public class Background : MonoBehaviour
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition, int index)
     {
         EnableBackgroundByIndex(index);
+        CurrentBackgroundPosition = backgroundPosition;
         BackgroundContent[index].SetBackgroundPosition(backgroundPosition);
     }
-
+    public void SetBackgroundPositionFromSlider(float positionValue, int index)
+    {
+        EnableBackgroundByIndex(index);
+        BackgroundContent[index].SetBackgroundPositionFromSlider(positionValue);
+    }
     public void SetWardrobeBackground()
     {
         DisableBackground();

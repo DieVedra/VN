@@ -64,7 +64,7 @@ namespace XNodeEditor {
             GUILayout.Label("Raw data", "BoldLabel");
 
             // Now draw the node itself.
-            DrawDefaultInspector();
+            // DrawDefaultInspector();
 
             serializedObject.ApplyModifiedProperties();
         }

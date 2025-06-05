@@ -40,6 +40,8 @@ public class AudioClipProvider
     public AudioClip GetClip(AudioSourceType audioSourceType, int secondAudioClipIndex)
     {
         AudioClip clip = null;
+        Debug.Log($"GetClip {MusicAudioData[secondAudioClipIndex]}   {AmbientAudioData[secondAudioClipIndex]}");
+
         switch (audioSourceType)
         {
             case AudioSourceType.Music:

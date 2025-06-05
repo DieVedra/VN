@@ -84,7 +84,7 @@ public class BaseNode : Node
 
     private void DisableAllNodeView()
     {
-        DisableNodesContentEvent.Execute();
+        DisableNodesContentEvent?.Execute();
     }
 
     protected bool IsPlayMode()

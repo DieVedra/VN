@@ -14,7 +14,6 @@ public class Sound : MonoBehaviour
 
     [SerializeField] protected AudioMixer _mixer;
     private AudioEffectsCustodian _audioEffectsCustodian;
-    private AudioClipProvider _audioClipProvider;
     private ReactiveProperty<bool> _soundStatus;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
     
@@ -51,7 +50,7 @@ public class Sound : MonoBehaviour
         _soundStatus.Subscribe(ChangeSound);
         _soundStatus.Value = soundOn;
         
-        SmoothAudio = new SmoothAudio(_audioSources, _audioClipProvider);
+        SmoothAudio = new SmoothAudio(_audioSources, MusicAudioData, AmbientAudioData);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
     }
 
@@ -84,19 +83,21 @@ public class Sound : MonoBehaviour
         {
             case AudioSourceType.Music:
                 CurrentMusicClipIndex = audioClipIndex;
+                PlayAudioByClip(MusicAudioData[audioClipIndex], audioSourceType);
                 break;
             case AudioSourceType.Ambient:
                 CurrentAdditionalClipIndex = audioClipIndex;
+                PlayAudioByClip(AmbientAudioData[audioClipIndex], audioSourceType);
                 break;
         }
         Debug.Log($"audioSourceType {audioSourceType}   audioClipIndex {audioClipIndex}");
-        PlayAudioByClip(_audioClipProvider.GetClip(audioSourceType, audioClipIndex), audioSourceType);
     }
     public void SetVolume(float volume, AudioSourceType audioSourceType)
     {
         _audioSources[audioSourceType].volume = volume;
     }
-    public void PlayAudioByClip(AudioClip clip, AudioSourceType audioSourceType)
+
+    private void PlayAudioByClip(AudioClip clip, AudioSourceType audioSourceType)
     {
         _audioSources[audioSourceType].clip = clip;
         _audioSources[audioSourceType].Play();

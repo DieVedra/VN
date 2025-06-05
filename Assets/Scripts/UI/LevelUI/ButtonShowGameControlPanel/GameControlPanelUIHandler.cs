@@ -38,25 +38,23 @@ public class GameControlPanelUIHandler
         _settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
         _parent = globalUIHandler.GlobalUITransforn;
+        _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         _onSceneTransition = onSceneTransition;
         _globalSound = globalSound;
         _localizationChanger = mainMenuLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
-        _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         _panelIsVisible = false;
         _anyWindowIsOpen = new ReactiveProperty<bool> {Value = false};
         _gameControlPanelView.CanvasGroup.alpha = 0f;
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
-        
+
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
             globalUIHandler.LoadIndicatorUIHandler);
         _settingsPanelButtonUIHandler.Init(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
             globalSound.SoundStatus, _localizationChanger, false);
-        
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
-        
         _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         { 

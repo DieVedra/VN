@@ -19,7 +19,6 @@ public class SpriteData : ScriptableObject
                 names.Add(_sprites[i].name);
             }
         }
-        Debug.Log($"GetNames()  {names.Count}");
         return names.ToArray();
     }
 

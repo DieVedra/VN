@@ -6,12 +6,10 @@ public class NodeGraphInitializer
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
     public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
 
-    private readonly IWardrobeSeriaDataProvider _wardrobeSeriaDataProvider;
     private readonly Background _background;
     private readonly LevelUIProvider _levelUIProvider;
     private readonly CharacterViewer _characterViewer;
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
-    private readonly CustomizableCharacter _customizableCharacter;
     private readonly Sound _sound;
     private readonly GameStatsCustodian _gameStatsCustodian;
     private readonly Wallet _wallet;
@@ -19,6 +17,8 @@ public class NodeGraphInitializer
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly List<BackgroundContent> _backgrounds;
     private readonly IReadOnlyList<Character> _characters;
+    public CustomizableCharacter CustomizableCharacter { get; }
+    public IWardrobeSeriaDataProvider WardrobeSeriaDataProvider { get; }
 
 
     public NodeGraphInitializer(IReadOnlyList<Character> characters, List<BackgroundContent> backgrounds, Background background, 
@@ -28,13 +28,13 @@ public class NodeGraphInitializer
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
     {
-        _wardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
+        WardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
         _backgrounds = backgrounds;
         _background = background;
         _levelUIProvider = levelUIProvider;
         _characterViewer = characterViewer;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
-        _customizableCharacter = customizableCharacter;
+        CustomizableCharacter = customizableCharacter;
         _sound = sound;
         _gameStatsCustodian = gameStatsCustodian;
         _wallet = wallet;
@@ -110,8 +110,8 @@ public class NodeGraphInitializer
                 customizationNode.ConstructMyCustomizationNode(
                     _levelUIProvider.CustomizationCharacterPanelUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler,
-                    _customizableCharacter,
-                    _wardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
+                    CustomizableCharacter,
+                    WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
                     _background, _sound, _gameStatsCustodian, _wallet, _wardrobeCharacterViewer);
                 continue;
             }
@@ -130,7 +130,7 @@ public class NodeGraphInitializer
 
             if (node is HeaderNode handlerNode)
             {
-                handlerNode.Construct(_levelUIProvider.HeaderSeriesPanelHandlerUI, _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler);
+                handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI, _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler);
                 continue;
             }
 

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
@@ -12,10 +13,10 @@ public class CustomizableCharacter : Character
     [SerializeField, ReadOnly] private int _hairstyleIndex;
     
     
-    [SerializeField, HorizontalLine(color:EColor.Yellow), Expandable] private List<BodySpriteData> _bodiesData;
-    [SerializeField, HorizontalLine(color:EColor.Pink), Expandable] private List<MySprite> _clothesData;
-    [SerializeField, HorizontalLine(color:EColor.Blue), Expandable] private List<MySprite> _swimsuitsData;
-    [SerializeField, HorizontalLine(color:EColor.Green), Expandable] private List<MySprite> _hairstylesData;
+    [SerializeField, HorizontalLine(color:EColor.Yellow)] private List<BodySpriteData> _bodiesData;
+    [SerializeField, HorizontalLine(color:EColor.Pink)] private List<MySprite> _clothesData;
+    [SerializeField, HorizontalLine(color:EColor.Blue)] private List<MySprite> _swimsuitsData;
+    [SerializeField, HorizontalLine(color:EColor.Green)] private List<MySprite> _hairstylesData;
     
     
     
@@ -34,8 +35,21 @@ public class CustomizableCharacter : Character
         SetIndexes(wardrobeSaveData.BodyIndex, wardrobeSaveData.HairstyleIndex, wardrobeSaveData.ClothesIndex, wardrobeSaveData.SwimsuitsIndex);
     }
 
+    [Button()]
+    private void Reset()
+    {
+        _bodiesData = new List<BodySpriteData>();
+        _clothesData = new List<MySprite>();
+        _swimsuitsData = new List<MySprite>();
+        _hairstylesData = new List<MySprite>();
+    }
+
     public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
     {
+        if (Application.isPlaying == false)
+        {
+            Reset();
+        }
         if (wardrobeSeriaData.BodiesDataSeria.Count > 0)
         {
             _bodiesData.AddRange(wardrobeSeriaData.BodiesDataSeria);
@@ -61,17 +75,6 @@ public class CustomizableCharacter : Character
         return _wardrobeSaveData;
     }
 
-    // public IReadOnlyList<MySprite> GetBodiesSprites()
-    // {
-    //     List<MySprite> bodiesSprites = new List<MySprite>(_bodiesData.Count);
-    //     for (int i = 0; i < _bodiesData.Count; ++i)
-    //     {
-    //         bodiesSprites.Add(_bodiesData[i].Body);
-    //     }
-    //
-    //     return bodiesSprites;
-    // }
-
     public SpriteData GetCurrentEmotionsDataByBodyIndex()
     {
         SpriteData spriteData = null;
@@ -82,16 +85,6 @@ public class CustomizableCharacter : Character
                 spriteData = _bodiesData[i].EmotionsData;
                 break;
             }
-        }
-
-        if (spriteData == null)
-        {
-            Debug.Log($"       spriteData = null");
-        }
-        else
-        {
-            Debug.Log($"       spriteData {spriteData.Sprites.Count}");
-
         }
         return spriteData;
     }
@@ -120,11 +113,6 @@ public class CustomizableCharacter : Character
     {
         return _hairstylesData[_hairstyleIndex];
     }
-
-    // public MySprite GetBodySprite()
-    // {
-    //     return GetBodiesSprites[_bodyIndex];
-    // }
 
     public void SetBodyIndex(int bodyIndex)
     {

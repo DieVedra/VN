@@ -8,25 +8,25 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(CharacterNode))]
 public class CharacterNodeDrawer : NodeEditor
 {
-    private readonly string _currentCharacterLabel = "Current character: ";
-    private readonly string _currentDirectionLabel = "Current direction: ";
-    private readonly string _currentEmotionLabel = "Current emotion: ";
-    private readonly string _currentLookLabel = "Current look: ";
-    private readonly string _currentTextLabel = "Character Text: ";
-    private readonly string _fouldoutLabel = "Settings character: ";
+    private const string _currentCharacterLabel = "Current character: ";
+    private const string _currentDirectionLabel = "Current direction: ";
+    private const string _currentEmotionLabel = "Current emotion: ";
+    private const string _currentLookLabel = "Current look: ";
+    private const string _currentTextLabel = "Character Text: ";
+    private const string _fouldoutLabel = "Settings character: ";
     
-    private readonly string _indexCharacterNameProperty = "_indexCharacter";
-    private readonly string _indexEmotionNameProperty = "_indexEmotion";
-    private readonly string _indexLookNameProperty = "_indexLook";
-    private readonly string _directionTypeNameProperty = "_directionType";
-    private readonly string _textNameProperty = "_text";
-    private readonly string _foldoutIsOpenNameProperty = "_foldoutIsOpen";
+    private const string _indexCharacterNameProperty = "_indexCharacter";
+    private const string _indexEmotionNameProperty = "_indexEmotion";
+    private const string _indexLookNameProperty = "_indexLook";
+    private const string _directionTypeNameProperty = "_directionType";
+    private const string _textNameProperty = "_text";
+    private const string _foldoutIsOpenNameProperty = "_foldoutIsOpen";
     
-    private readonly string _previousIndexCharacterNameProperty = "_previousIndexCharacter";
-    private readonly string _previousCharactersCountNameProperty = "_previousCharactersCount";
-    private readonly string _nameMethod = "SetInfoToView";
+    private const string _previousIndexCharacterNameProperty = "_previousIndexCharacter";
+    private const string _previousCharactersCountNameProperty = "_previousCharactersCount";
+    private const string _nameMethod = "SetInfoToView";
     
-    private readonly int _symbolMaxCount = 159;
+    private const int _symbolMaxCount = 159;
     private string _validText;
 
     private SerializedProperty _indexLookProperty;

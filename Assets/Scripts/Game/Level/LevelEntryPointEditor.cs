@@ -11,7 +11,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
 
     [SerializeField] private BlackFrameView _blackFrameView;
-    [SerializeField] private CharacterProviderEditMode characterProviderEditMode;
+    [SerializeField] private CharacterProviderEditMode _characterProviderEditMode;
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -49,7 +49,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             TestHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             GameStatsCustodian.Init(StoryData.Stats);
-            characterProviderEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
+            _characterProviderEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
         }
         else
         {
@@ -70,15 +70,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
         InitBackground();
-        
-        NodeGraphInitializer = new NodeGraphInitializer(characterProviderEditMode.GetCharacters(), _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
-            CharacterViewer, WardrobeCharacterViewer, characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, GameStatsCustodian, Wallet,
+
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.GetCharacters(), _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
+            CharacterViewer, WardrobeCharacterViewer, _characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, GameStatsCustodian, Wallet,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
         {
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
-
         }
         else
         {
@@ -109,7 +108,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
-            StoryData.WardrobeSaveData = characterProviderEditMode.CustomizableCharacter.GetWardrobeSaveData();
+            StoryData.WardrobeSaveData = _characterProviderEditMode.CustomizableCharacter.GetWardrobeSaveData();
 
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;

@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-[NodeWidth(350),NodeTint("#890384")]
+[NodeWidth(350), NodeTint("#890384")]
 public class AddSpriteNodeToBackground : BaseNode
 {
     [SerializeField] private Vector2 _localPosition;

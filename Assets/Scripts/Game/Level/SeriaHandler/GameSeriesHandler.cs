@@ -24,6 +24,7 @@ public class GameSeriesHandler : MonoBehaviour
 
     protected void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
+        AddWardrobeData(currentSeriaIndex);
         SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     protected void SwitchSeria(bool putSwimsuits = false)
@@ -36,6 +37,14 @@ public class GameSeriesHandler : MonoBehaviour
         else
         {
             //end game invoke result panel
+        }
+    }
+    protected void AddWardrobeData(int seriaIndex)
+    {
+        var wardrobeSeriaData = NodeGraphInitializer.WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex);
+        if (wardrobeSeriaData != null && wardrobeSeriaData.MySeriaIndex == seriaIndex)
+        {
+            NodeGraphInitializer.CustomizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
         }
     }
 }

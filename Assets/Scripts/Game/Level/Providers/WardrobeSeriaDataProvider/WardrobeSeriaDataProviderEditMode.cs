@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class WardrobeSeriaDataProviderEditMode : MonoBehaviour, IWardrobeSeriaDataProvider
 {
-    [SerializeField] private List<WardrobeSeriaData> _wardrobeSeriaDatas;
+    [SerializeField, Expandable] private List<WardrobeSeriaData> _wardrobeSeriaDatas;
 
     public WardrobeSeriaData GetWardrobeSeriaData(int index)
     {

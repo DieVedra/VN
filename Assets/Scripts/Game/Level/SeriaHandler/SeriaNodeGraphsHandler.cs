@@ -43,6 +43,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
             }
         }
     }
+    
     private void SwitchToAnotherNodeGraph(SeriaPartNodeGraph seriaPartNodeGraph)
     {
         CurrentNodeGraphIndex = GetIndexCurrentNode(seriaPartNodeGraph);
@@ -50,8 +51,8 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     }
     private void InitCurrentGraph(int currentNodeIndex = 0)
     {
+        
         _seriaPartNodeGraphs[CurrentNodeGraphIndex].Init(_nodeGraphInitializer, currentNodeIndex);
-
     }
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {

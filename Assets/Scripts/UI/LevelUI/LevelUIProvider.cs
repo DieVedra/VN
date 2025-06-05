@@ -1,4 +1,5 @@
 ﻿using UniRx;
+using UnityEngine;
 
 public class LevelUIProvider
 {
@@ -25,7 +26,6 @@ public class LevelUIProvider
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
         NotificationPanelUI notificationPanelUI = levelUIView.NotificationPanelUI;
         CharacterPanelUI characterPanelUI = levelUIView.CharacterPanelUI;
-        // BlackFrameView blackFrameView = levelUIView.CurtainUI;
         ChoicePanelUI choicePanelUI = levelUIView.ChoicePanelUI;
         ButtonSwitchSlideUI buttonSwitchSlideUI = levelUIView.ButtonSwitchSlideUI;
 
@@ -40,19 +40,24 @@ public class LevelUIProvider
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
-        GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-            globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler);
-        
-        disableNodesContentEvent.Subscribe(() =>
+        if (Application.isPlaying)
         {
-            narrativePanelUI.gameObject.SetActive(false);
-            notificationPanelUI.gameObject.SetActive(false);
-            characterPanelUI.gameObject.SetActive(false);
-            choicePanelUI.gameObject.SetActive(false);
-            customizationCharacterPanelUI.gameObject.SetActive(false);
-            headerSeriesPanelUI.gameObject.SetActive(false);
-            levelUIView.MonetPanel.gameObject.SetActive(false);
-        });
+            GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
+                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler);
+        }
+        else
+        {
+            disableNodesContentEvent.Subscribe(() =>
+            {
+                narrativePanelUI.gameObject.SetActive(false);
+                notificationPanelUI.gameObject.SetActive(false);
+                characterPanelUI.gameObject.SetActive(false);
+                choicePanelUI.gameObject.SetActive(false);
+                customizationCharacterPanelUI.gameObject.SetActive(false);
+                headerSeriesPanelUI.gameObject.SetActive(false);
+                levelUIView.MonetPanel.gameObject.SetActive(false);
+            });
+        }
     }
 
     public void Dispose()

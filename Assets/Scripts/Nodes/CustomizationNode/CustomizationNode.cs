@@ -51,10 +51,10 @@ public class CustomizationNode : BaseNode
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
-            // TryInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
-            // TryInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData);
-            // TryInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData, 1);
-            // TryInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
+            // TryInitCustomizationSettings(ref _settingsBodies, CustomizableCharacter.GetBodiesSprites(), 1,1);
+            // TryInitCustomizationSettings(ref _settingsHairstyles, CustomizableCharacter.HairstylesData);
+            // TryInitCustomizationSettings(ref _settingsClothes, CustomizableCharacter.ClothesData, 1);
+            // TryInitCustomizationSettings(ref _settingsSwimsuits, CustomizableCharacter.SwimsuitsData, 1);
 
             TryInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
             TryInitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
