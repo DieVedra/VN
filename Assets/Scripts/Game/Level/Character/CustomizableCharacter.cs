@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
@@ -91,7 +90,14 @@ public class CustomizableCharacter : Character
 
     public override MySprite GetEmotionMySprite(int index = 0)
     {
-        return _bodiesData[_bodyIndex].EmotionsData.MySprites[index];
+        if (index == 0)
+        {
+            return null;
+        }
+        else
+        {
+            return _bodiesData[_bodyIndex].EmotionsData.MySprites[--index];
+        }
     }
 
     public override MySprite GetLookMySprite(int index = 0)
@@ -117,25 +123,37 @@ public class CustomizableCharacter : Character
     public void SetBodyIndex(int bodyIndex)
     {
         _bodyIndex = bodyIndex;
-        _wardrobeSaveData.BodyIndex = bodyIndex;
+        if (_wardrobeSaveData != null)
+        {
+            _wardrobeSaveData.BodyIndex = bodyIndex;
+        }
     }
 
     public void SetHairstyleIndex(int hairstyleIndex)
     {
         _hairstyleIndex = hairstyleIndex;
-        _wardrobeSaveData.HairstyleIndex = hairstyleIndex;
+        if (_wardrobeSaveData != null)
+        {
+            _wardrobeSaveData.HairstyleIndex = hairstyleIndex;
+        }
     }
 
     public void SetClothesIndex(int clothesIndex)
     {
         _clothesIndex = clothesIndex;
-        _wardrobeSaveData.ClothesIndex = clothesIndex;
+        if (_wardrobeSaveData != null)
+        {
+            _wardrobeSaveData.ClothesIndex = clothesIndex;
+        }
     }
 
     public void SetSwimsuitsIndex(int swimsuitsIndex)
     {
         _swimsuitsIndex = swimsuitsIndex;
-        _wardrobeSaveData.SwimsuitsIndex = swimsuitsIndex;
+        if (_wardrobeSaveData != null)
+        {
+            _wardrobeSaveData.SwimsuitsIndex = swimsuitsIndex;
+        }
     }
 
     public void SetIndexes(int bodyIndex = 0, int hairstyleIndex = 0, int clothesIndex = 0, int swimsuitsIndex = 0)

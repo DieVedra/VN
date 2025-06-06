@@ -34,6 +34,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
+        StringsToLocalization = new[] { new LocalizationString(_text), new LocalizationString(_overridedName)};
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -135,35 +136,23 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     }
     private MySprite GetLook()
     {
-        // return Characters[_indexCharacter].LooksData.MySprites[_indexLook];
         return Characters[_indexCharacter].GetLookMySprite(_indexLook);
     }
     
     private MySprite GetEmotionCharacter()
     {
-        // MySprite result = null;
-        // if (Characters[_indexCharacter].EmotionsData != null)
-        // {
-        // }
-        //
-        // if (_indexEmotion < Characters[_indexCharacter].EmotionsData.MySprites.Count)
-        // {
-        // }
-
-        // result = Characters[_indexCharacter].EmotionsData.MySprites[_indexEmotion];
-        // return result;
-        return Characters[_indexCharacter].GetEmotionMySprite(_indexEmotion);
+        if (_indexEmotion == 0)
+        {
+            return null;
+        }
+        else
+        {
+            int index = _indexEmotion;
+            return Characters[_indexCharacter].GetEmotionMySprite(--index);
+        }
     }
     private MySprite GetEmotionFromCustomization(CustomizableCharacter customizableCharacter)
     {
-        // if (_indexEmotion < customizableCharacter.GetCurrentEmotionsDataByBodyIndex().MySprites.Count)
-        // {
-        //     return customizableCharacter.GetCurrentEmotionsDataByBodyIndex().MySprites[_indexEmotion];
-        // }
-        // else
-        // {
-        //     return null;
-        // }
         
         return customizableCharacter.GetEmotionMySprite(_indexEmotion);
     }

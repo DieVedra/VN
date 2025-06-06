@@ -14,9 +14,9 @@ public class CustomizationNode : BaseNode
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsSwimsuits;
     
     [SerializeField] private List<CustomizationSettings> _settingsBodies;
-    [SerializeField] private List<CustomizationSettings> _settingsHairstyles; //блонд каре, коричневые, песочный блонд каре, русые, рыжие волнистые, серо голубые 
-    [SerializeField] private List<CustomizationSettings> _settingsClothes; // топ и джинсы, топ с кольцом и джинсовые шорты, юбка и топ, 
-    [SerializeField] private List<CustomizationSettings> _settingsSwimsuits; // Купальник черный, Купальник с блестками , Купальник черный мини   
+    [SerializeField] private List<CustomizationSettings> _settingsHairstyles;
+    [SerializeField] private List<CustomizationSettings> _settingsClothes;
+    [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;  
 
     private const int SmileEmotionIndex = 2;
     private Background _background;
@@ -51,11 +51,6 @@ public class CustomizationNode : BaseNode
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
-            // TryInitCustomizationSettings(ref _settingsBodies, CustomizableCharacter.GetBodiesSprites(), 1,1);
-            // TryInitCustomizationSettings(ref _settingsHairstyles, CustomizableCharacter.HairstylesData);
-            // TryInitCustomizationSettings(ref _settingsClothes, CustomizableCharacter.ClothesData, 1);
-            // TryInitCustomizationSettings(ref _settingsSwimsuits, CustomizableCharacter.SwimsuitsData, 1);
-
             TryInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
             TryInitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
             TryInitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);

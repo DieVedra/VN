@@ -84,6 +84,10 @@ public class HeaderNodeDrawer : NodeEditor
 
     private void DrawPopup()
     {
+        if (_headerNode.Backgrounds == null || _headerNode.Backgrounds.Count == 0)
+        {
+            return;
+        }
         _indexBackgroundSerializedProperty.intValue =
             EditorGUILayout.Popup(_indexBackgroundSerializedProperty.intValue, _backgroundsNames);
     }

@@ -10,6 +10,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
     private NodeGraphInitializer _nodeGraphInitializer;
+    public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
     public void Construct(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
     {

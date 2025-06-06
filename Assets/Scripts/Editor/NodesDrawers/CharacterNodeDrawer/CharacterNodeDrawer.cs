@@ -206,7 +206,7 @@ public class CharacterNodeDrawer : NodeEditor
     {
         TryInitNames(ref names, spriteData);
         string[] names2 = {"Стандарт"};
-        string[] newNames = names.Concat(names2).ToArray();
+        string[] newNames = names2.Concat(names).ToArray();
         names = newNames;
     }
     private void DrawEnumPopup()

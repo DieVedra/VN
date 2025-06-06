@@ -16,6 +16,7 @@ public class BaseNode : Node
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected CancellationTokenSource CancellationTokenSource;
     public string namenode;
+    public LocalizationString[] StringsToLocalization;
     public NodePort OutputPortBaseNode => GetOutputPort("Output");
     private BaseNode _nextNode;
 

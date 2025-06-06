@@ -9,7 +9,8 @@ public class MySprite
     [SerializeField] private float _scaleValue = 0.5f;
     [SerializeField] private int _price;
     [SerializeField] private Sprite _sprite;
-    public string Name => _sprite.name;
+    [SerializeField] private LocalizationString _spriteName;
+    public string Name => _spriteName.DefaultText;
     public float OffsetXValue => _offsetXValue;
     public float OffsetYValue => _offsetYValue;
     public float ScaleValue => _scaleValue;
@@ -23,5 +24,6 @@ public class MySprite
         _offsetYValue = offsetYValue;
         _scaleValue = scaleValue;
         _price = price;
+        _spriteName = _sprite.name;
     }
 }
