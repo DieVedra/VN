@@ -24,7 +24,7 @@ public class NotificationNodeDrawer : NodeEditor
             _delayDisplayTimeSerializedProperty = serializedObject.FindProperty("_delayDisplayTime");
             _privateMethod = _notificationNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
             _textNodeDrawer = new TextNodeDrawer(
-                serializedObject.FindProperty("_text"),
+                serializedObject.FindProperty("_localizationText"),
                 serializedObject,
                 ()=> { _privateMethod.Invoke(_notificationNode, null); },
                 "Notification text: ",

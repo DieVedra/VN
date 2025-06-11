@@ -6,12 +6,16 @@ using UniRx;
 using XNode;
 
 
-[NodeTint("#7B0800"), NodeWidth(250)]
+[NodeTint("#7B0800"), NodeWidth(350)]
 public class ChoiceNode : BaseNode
 {
     [SerializeField, TextArea] private string _choiceText1;
     [SerializeField, TextArea] private string _choiceText2;
     [SerializeField, TextArea] private string _choiceText3;
+    [SerializeField] private LocalizationString _localizationChoiceText1;
+    [SerializeField] private LocalizationString _localizationChoiceText2;
+    [SerializeField] private LocalizationString _localizationChoiceText3;
+
     [SerializeField, HideInInspector] private int _timerValue;
     [SerializeField, HideInInspector] private int _timerPortIndex;
     [SerializeField, HideInInspector] private float _choice1Price;
@@ -54,6 +58,11 @@ public class ChoiceNode : BaseNode
         {
             TryInitAllStats();
         });
+        _localizationChoiceText1.SetText(_choiceText1);
+        _localizationChoiceText2.SetText(_choiceText2);
+        _localizationChoiceText3.SetText(_choiceText3);
+        
+        InitStringsToLocalization(_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3);
     }
 
     public override void Dispose()
@@ -145,13 +154,15 @@ public class ChoiceNode : BaseNode
     {
         if (_showChoice3Key == true)
         {
-            return new ChoiceData(_choiceText1, _choice1Price,
-                _choiceText2, _choice2Price,
-                _choiceText3, _choice3Price,  _addTimer == true ? _timerValue : 0);
+            return new ChoiceData(_localizationChoiceText1, _choice1Price,
+                _localizationChoiceText2, _choice2Price,
+                _localizationChoiceText3, _choice3Price,  _addTimer == true ? _timerValue : 0);
         }
         else
         {
-            return new ChoiceData(_choiceText1, _choice1Price,_choiceText2, _choice2Price, _addTimer == true ? _timerValue : 0);
+            return new ChoiceData(_localizationChoiceText1, _choice1Price,
+                _localizationChoiceText2, _choice2Price,
+                _addTimer == true ? _timerValue : 0);
         }
     }
     

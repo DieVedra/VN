@@ -16,6 +16,13 @@ public class SimpleCharacter : Character
 
     public override MySprite GetEmotionMySprite(int index)
     {
-        return _emotionsData.MySprites[index];
+        if (index > _emotionsData.MySprites.Count -1 || index < 0)
+        {
+            return _emotionsData.MySprites[0];
+        }
+        else
+        {
+            return _emotionsData.MySprites[index];
+        }
     }
 }

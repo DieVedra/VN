@@ -4,7 +4,7 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(NarrativeNode))]
 public class NarrativeNodeDrawer : NodeEditor
 {
-    private readonly int _maxCountSymbols = 200;
+    private const int _maxCountSymbols = 200;
     
     private NarrativeNode _narrativeNode;
     private MethodInfo _privateMethod;
@@ -17,7 +17,7 @@ public class NarrativeNodeDrawer : NodeEditor
             _narrativeNode = target as NarrativeNode;
             _privateMethod = _narrativeNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
             _textNodeDrawer = new TextNodeDrawer(
-                serializedObject.FindProperty("_text"),
+                serializedObject.FindProperty("_localizationText"),
                 serializedObject,
                 ()=> { _privateMethod.Invoke(_narrativeNode, null); },
                 "Narrative text: ",

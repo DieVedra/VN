@@ -44,9 +44,19 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u041E\u043D \u043C\u0435\u043D\u044F \u043D\u0430\u043F\u0443\u0433\u0430\u043B.
+      \u041C\u0435\u043D\u044F \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u043F\u0443\u0433\u0430\u0442\u044C
+      \u0438 \u044D\u0442\u043E \u043C\u0435\u0441\u0442\u043E."
+    <Key>k__BackingField: 
   _text: "\u041E\u043D \u043C\u0435\u043D\u044F \u043D\u0430\u043F\u0443\u0433\u0430\u043B.
     \u041C\u0435\u043D\u044F \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u043F\u0443\u0433\u0430\u0442\u044C
     \u0438 \u044D\u0442\u043E \u043C\u0435\u0441\u0442\u043E."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041E\u043D \u043C\u0435\u043D\u044F \u043D\u0430\u043F\u0443\u0433\u0430\u043B.
+      \u041C\u0435\u043D\u044F \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442 \u043F\u0443\u0433\u0430\u0442\u044C
+      \u0438 \u044D\u0442\u043E \u043C\u0435\u0441\u0442\u043E."
+    <Key>k__BackingField: 
   _indexCharacter: 0
   _indexEmotion: 1
   _indexLook: 0
@@ -58,6 +68,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &-6741016742894903550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +112,21 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
-  _currentSoundIndex: 0
-  _currentAdditionalSoundIndex: 4
+  StringsToLocalization: []
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
   _isInstantNodeTransition: 0
-  _volumeSound: 1
-  _volumeAdditionalSound: 0.78125
-  _smoothTransitionKey: 0
-  _isSmoothVolumeIncrease: 0
-  _isSmoothVolumeDecrease: 0
-  _smoothTransitionKeyAdditionalSound: 0
-  _isSmoothVolumeIncreaseAdditionalSound: 0
-  _isSmoothVolumeDecreaseAdditionalSound: 1
-  _mergeSoundsKey: 1
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 0
+  _isSmoothVolumeDecreaseAmbientSound: 0
+  _showMusicSoundsKey: 0
+  _showAmbientSoundsKey: 0
+  _showEffectsKey: 0
   _audioEffects: 
   _effectKeys: 
 --- !u!114 &-6447932450362875537
@@ -157,10 +173,22 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.20
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0414\u043B\u044F \u043D\u0435\u0433\u043E \u0441\u043E\u0439\u0434\u0435\u0442.
+      \u041F\u043E\u0448\u043B\u0438. \u041D\u0435 \u0445\u043E\u0447\u0443 \u043F\u043E\u0440\u0442\u0438\u0442\u044C
+      \u0441\u0435\u0431\u0435 \u0432\u0435\u0447\u0435\u0440 \u044D\u0442\u0438\u043C
+      \u0443\u0440\u043E\u0434\u043E\u043C. "
+    <Key>k__BackingField: 
   _text: "\u0414\u043B\u044F \u043D\u0435\u0433\u043E \u0441\u043E\u0439\u0434\u0435\u0442.
     \u041F\u043E\u0448\u043B\u0438. \u041D\u0435 \u0445\u043E\u0447\u0443 \u043F\u043E\u0440\u0442\u0438\u0442\u044C
     \u0441\u0435\u0431\u0435 \u0432\u0435\u0447\u0435\u0440 \u044D\u0442\u0438\u043C
     \u0443\u0440\u043E\u0434\u043E\u043C. "
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0414\u043B\u044F \u043D\u0435\u0433\u043E \u0441\u043E\u0439\u0434\u0435\u0442.
+      \u041F\u043E\u0448\u043B\u0438. \u041D\u0435 \u0445\u043E\u0447\u0443 \u043F\u043E\u0440\u0442\u0438\u0442\u044C
+      \u0441\u0435\u0431\u0435 \u0432\u0435\u0447\u0435\u0440 \u044D\u0442\u0438\u043C
+      \u0443\u0440\u043E\u0434\u043E\u043C. "
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 1
   _indexLook: 2
@@ -172,6 +200,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &-6359971540425739610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,9 +247,19 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0417\u0430\u0447\u0435\u043C \u043A\u0440\u0438\u0447\u0430\u0442\u044C,
+      \u044F \u0432\u0435\u0434\u044C \u0435\u0449\u0435 \u043D\u0435 \u043D\u0430\u0447\u0430\u043B
+      \u0434\u0435\u043B\u0430\u0442\u044C \u043D\u0438\u0447\u0435\u0433\u043E \u043F\u043B\u043E\u0445\u043E\u0433\u043E..."
+    <Key>k__BackingField: 
   _text: "\u0417\u0430\u0447\u0435\u043C \u043A\u0440\u0438\u0447\u0430\u0442\u044C,
     \u044F \u0432\u0435\u0434\u044C \u0435\u0449\u0435 \u043D\u0435 \u043D\u0430\u0447\u0430\u043B
     \u0434\u0435\u043B\u0430\u0442\u044C \u043D\u0438\u0447\u0435\u0433\u043E \u043F\u043B\u043E\u0445\u043E\u0433\u043E..."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0417\u0430\u0447\u0435\u043C \u043A\u0440\u0438\u0447\u0430\u0442\u044C,
+      \u044F \u0432\u0435\u0434\u044C \u0435\u0449\u0435 \u043D\u0435 \u043D\u0430\u0447\u0430\u043B
+      \u0434\u0435\u043B\u0430\u0442\u044C \u043D\u0438\u0447\u0435\u0433\u043E \u043F\u043B\u043E\u0445\u043E\u0433\u043E..."
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 0
   _indexLook: 0
@@ -230,6 +271,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &-5343168184437139351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +318,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _text: "\u0425\u043E\u0442\u044F \u0432\u0441\u0435\u0433\u043E \u0432 \u043F\u044F\u0442\u0438
     \u043C\u0438\u043D\u0443\u0442\u0430\u0445 \u043E\u0442 \u043D\u0430\u0441 \u043D\u0430\u0445\u043E\u0434\u0438\u043B\u0438\u0441\u044C
     \u0434\u043E\u0440\u043E\u0433\u0430 \u0438 \u043A\u0430\u043A\u0430\u044F-\u0442\u043E
@@ -281,6 +326,16 @@ MonoBehaviour:
     \u043F\u044F\u0442\u044C \u043C\u0438\u043D\u0443\u0442 \u0443\u0436\u0435 \u043D\u0435
     \u043A\u0430\u0437\u0430\u043B\u0438\u0441\u044C \u043A\u0430\u043A\u0438\u043C-\u0442\u043E
     \u043F\u0443\u0441\u0442\u044F\u043A\u043E\u043C.\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0425\u043E\u0442\u044F \u0432\u0441\u0435\u0433\u043E
+      \u0432 \u043F\u044F\u0442\u0438 \u043C\u0438\u043D\u0443\u0442\u0430\u0445
+      \u043E\u0442 \u043D\u0430\u0441 \u043D\u0430\u0445\u043E\u0434\u0438\u043B\u0438\u0441\u044C
+      \u0434\u043E\u0440\u043E\u0433\u0430 \u0438 \u043A\u0430\u043A\u0430\u044F-\u0442\u043E
+      \u0437\u0430\u043A\u0443\u0441\u043E\u0447\u043D\u0430\u044F, \u043D\u043E
+      \u044D\u0442\u0438 \u043F\u044F\u0442\u044C \u043C\u0438\u043D\u0443\u0442
+      \u0443\u0436\u0435 \u043D\u0435 \u043A\u0430\u0437\u0430\u043B\u0438\u0441\u044C
+      \u043A\u0430\u043A\u0438\u043C-\u0442\u043E \u043F\u0443\u0441\u0442\u044F\u043A\u043E\u043C. "
+    <Key>k__BackingField: 
 --- !u!114 &-5048884564529127290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +380,13 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u041E\u043D \u044D\u0442\u043E \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u0442!"
+    <Key>k__BackingField: 
   _text: "\u041E\u043D \u044D\u0442\u043E \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u0442!"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041E\u043D \u044D\u0442\u043E \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u0442!"
+    <Key>k__BackingField: 
   _showTime: 2
   _delayDisplayTime: 0
   _color: {r: 1, g: 1, b: 1, a: 1}
@@ -373,10 +434,17 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: '2.1 '
+  StringsToLocalization: []
   _text: "\u0412 \u0440\u0443\u043A\u0430\u0445 \u043C\u0443\u0436\u0447\u0438\u043D\u044B
     \u043C\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u043A\u0430\u043C\u043D\u0438,
     \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043E\u043D, \u043A\u0430\u0436\u0435\u0442\u0441\u044F,
     \u0441\u043E\u0431\u0440\u0430\u043B \u043D\u0430 \u043F\u043B\u044F\u0436\u0435."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0412 \u0440\u0443\u043A\u0430\u0445 \u043C\u0443\u0436\u0447\u0438\u043D\u044B
+      \u043C\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u043A\u0430\u043C\u043D\u0438,
+      \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043E\u043D, \u043A\u0430\u0436\u0435\u0442\u0441\u044F,
+      \u0441\u043E\u0431\u0440\u0430\u043B \u043D\u0430 \u043F\u043B\u044F\u0436\u0435."
+    <Key>k__BackingField: 
 --- !u!114 &-4481521479627355888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,10 +495,17 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _text: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0441\u0445\u0432\u0430\u0442\u0438\u043B\u0430
     \u0441 \u0437\u0435\u043C\u043B\u0438 \u0431\u043E\u043B\u044C\u0448\u043E\u0439
     \u043A\u0430\u043C\u0435\u043D\u044C \u0438 \u043F\u0440\u0438\u0433\u0440\u043E\u0437\u0438\u043B\u0430
     \u0435\u043C\u0443.\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0441\u0445\u0432\u0430\u0442\u0438\u043B\u0430
+      \u0441 \u0437\u0435\u043C\u043B\u0438 \u0431\u043E\u043B\u044C\u0448\u043E\u0439
+      \u043A\u0430\u043C\u0435\u043D\u044C \u0438 \u043F\u0440\u0438\u0433\u0440\u043E\u0437\u0438\u043B\u0430
+      \u0435\u043C\u0443. "
+    <Key>k__BackingField: 
 --- !u!114 &-4298868074350585097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,8 +550,13 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.15
+  StringsToLocalization: []
   _text: "\u0421\u0442\u0430\u0440\u0438\u043A \u043F\u043E\u043F\u044F\u0442\u0438\u043B\u0441\u044F
     \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u043E\u0442 \u043D\u0430\u0441."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u0442\u0430\u0440\u0438\u043A \u043F\u043E\u043F\u044F\u0442\u0438\u043B\u0441\u044F
+      \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u043E\u0442 \u043D\u0430\u0441."
+    <Key>k__BackingField: 
 --- !u!114 &-4026910025125126152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,8 +601,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.4
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0414\u0430, \u043B\u044E\u0431\u043B\u044E \u0443\u0435\u0434\u0438\u043D\u0435\u043D\u043D\u044B\u0435
+      \u043C\u0435\u0441\u0442\u0430."
+    <Key>k__BackingField: 
   _text: "\u0414\u0430, \u043B\u044E\u0431\u043B\u044E \u0443\u0435\u0434\u0438\u043D\u0435\u043D\u043D\u044B\u0435
     \u043C\u0435\u0441\u0442\u0430."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0414\u0430, \u043B\u044E\u0431\u043B\u044E \u0443\u0435\u0434\u0438\u043D\u0435\u043D\u043D\u044B\u0435
+      \u043C\u0435\u0441\u0442\u0430."
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 4
   _indexLook: 0
@@ -534,6 +622,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &-3669383093808804875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,13 +669,28 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0427\u0430\u0441\u0442\u044C \u0432\u0442\u043E\u0440\u0430\u044F:"
+    <Key>k__BackingField: 
+  - <DefaultText>k__BackingField: "\u041C\u043D\u043E\u0433\u043E\u043E\u0431\u0435\u0449\u0430\u044E\u0449\u0430\u044F
+      \u043D\u043E\u0447\u044C\r\n"
+    <Key>k__BackingField: 
   _text1: "\u0427\u0430\u0441\u0442\u044C \u0432\u0442\u043E\u0440\u0430\u044F:"
+  _localizationText1:
+    <DefaultText>k__BackingField: "\u0427\u0430\u0441\u0442\u044C \u0432\u0442\u043E\u0440\u0430\u044F:"
+    <Key>k__BackingField: 
   _colorField1: {r: 1, g: 1, b: 1, a: 1}
   _textSize1: 140
   _text2: "\u041C\u043D\u043E\u0433\u043E\u043E\u0431\u0435\u0449\u0430\u044E\u0449\u0430\u044F
     \u043D\u043E\u0447\u044C\r\n"
+  _localizationText2:
+    <DefaultText>k__BackingField: "\u041C\u043D\u043E\u0433\u043E\u043E\u0431\u0435\u0449\u0430\u044E\u0449\u0430\u044F
+      \u043D\u043E\u0447\u044C\r\n"
+    <Key>k__BackingField: 
   _colorField2: {r: 1, g: 1, b: 1, a: 1}
   _textSize2: 80
+  _indexBackground: 0
+  _backgroundPositionValue: 0
   _sprite: {fileID: 21300000, guid: af0f5793dbce9da42ac862313830654e, type: 3}
 --- !u!114 &-3617023885789235370
 MonoBehaviour:
@@ -630,10 +736,18 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.16
+  StringsToLocalization: []
   _text: "\u0421\u0442\u0430\u0440\u0438\u043A \u0443\u0448\u0435\u043B \u0432 \u0442\u0435\u043C\u043D\u043E\u0442\u0443,
     \u0430 \u043C\u044B \u0435\u0449\u0435 \u043F\u0430\u0440\u0443 \u043C\u0438\u043D\u0443\u0442
     \u043C\u043E\u043B\u0447\u0430 \u0441\u0442\u043E\u044F\u043B\u0438, \u043E\u0431\u0435\u0441\u043A\u0443\u0440\u0430\u0436\u0435\u043D\u043D\u044B\u0435
     \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u044F\u0449\u0435\u043C.  "
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u0442\u0430\u0440\u0438\u043A \u0443\u0448\u0435\u043B
+      \u0432 \u0442\u0435\u043C\u043D\u043E\u0442\u0443, \u0430 \u043C\u044B \u0435\u0449\u0435
+      \u043F\u0430\u0440\u0443 \u043C\u0438\u043D\u0443\u0442 \u043C\u043E\u043B\u0447\u0430
+      \u0441\u0442\u043E\u044F\u043B\u0438, \u043E\u0431\u0435\u0441\u043A\u0443\u0440\u0430\u0436\u0435\u043D\u043D\u044B\u0435
+      \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u044F\u0449\u0435\u043C.  "
+    <Key>k__BackingField: 
 --- !u!114 &-2528224622252483311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +815,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   namenode: 2.10
+  StringsToLocalization: []
   _autoSwitchToNextSlide: 0
 --- !u!114 &-2428805520806316315
 MonoBehaviour:
@@ -746,9 +861,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _text: "\u0421\u0430\u043C \u043C\u0443\u0436\u0447\u0438\u043D\u0430 \u0432\u044B\u0433\u043B\u044F\u0434\u0435\u043B
     \u043D\u0435\u043C\u043D\u043E\u0433\u043E \u043F\u0443\u0433\u0430\u044E\u0449\u0435,
     \u0431\u0443\u0434\u0442\u043E \u043E\u043D \u0431\u044B\u043B \u043D\u0435 \u0437\u0434\u0435\u0441\u044C."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u0430\u043C \u043C\u0443\u0436\u0447\u0438\u043D\u0430
+      \u0432\u044B\u0433\u043B\u044F\u0434\u0435\u043B \u043D\u0435\u043C\u043D\u043E\u0433\u043E
+      \u043F\u0443\u0433\u0430\u044E\u0449\u0435, \u0431\u0443\u0434\u0442\u043E
+      \u043E\u043D \u0431\u044B\u043B \u043D\u0435 \u0437\u0434\u0435\u0441\u044C."
+    <Key>k__BackingField: 
 --- !u!114 &-2345477682844039328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,8 +915,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0421\u043E\u043C\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F
+      \u0440\u043E\u0441\u043A\u043E\u0448\u044C."
+    <Key>k__BackingField: 
   _text: "\u0421\u043E\u043C\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F
     \u0440\u043E\u0441\u043A\u043E\u0448\u044C."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u043E\u043C\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F
+      \u0440\u043E\u0441\u043A\u043E\u0448\u044C."
+    <Key>k__BackingField: 
   _indexCharacter: 0
   _indexEmotion: 4
   _indexLook: 0
@@ -806,6 +936,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &-1286063111377504087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,6 +1006,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   namenode: 
+  StringsToLocalization: []
   _autoSwitchToNextSlide: 1
 --- !u!114 &-1273350109707790401
 MonoBehaviour:
@@ -918,10 +1052,17 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _text: "\u041C\u0443\u0436\u0447\u0438\u043D\u0430 \u0440\u0435\u0437\u043A\u043E
     \u0441\u0445\u0432\u0430\u0442\u0438\u043B \u043C\u0435\u043D\u044F \u0437\u0430
     \u0440\u0443\u043A\u0443 \u0438 \u043F\u0440\u0438\u0442\u0430\u0449\u0438\u043B
     \u043A \u0441\u0435\u0431\u0435!"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041C\u0443\u0436\u0447\u0438\u043D\u0430 \u0440\u0435\u0437\u043A\u043E
+      \u0441\u0445\u0432\u0430\u0442\u0438\u043B \u043C\u0435\u043D\u044F \u0437\u0430
+      \u0440\u0443\u043A\u0443 \u0438 \u043F\u0440\u0438\u0442\u0430\u0449\u0438\u043B
+      \u043A \u0441\u0435\u0431\u0435!"
+    <Key>k__BackingField: 
 --- !u!114 &-661645104290293108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,6 +1107,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _isStartCurtain: 0
   _isEndCurtain: 1
 --- !u!114 &-314230175845473035
@@ -1009,7 +1151,13 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0427\u0442\u043E \u043C\u043D\u0435 \u0434\u0435\u043B\u0430\u0442\u044C?\r\n"
+    <Key>k__BackingField: 
   _text: "\u0427\u0442\u043E \u043C\u043D\u0435 \u0434\u0435\u043B\u0430\u0442\u044C?\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0427\u0442\u043E \u043C\u043D\u0435 \u0434\u0435\u043B\u0430\u0442\u044C?\r\n"
+    <Key>k__BackingField: 
   _indexCharacter: 0
   _indexEmotion: 4
   _indexLook: 0
@@ -1021,6 +1169,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,9 +1266,19 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0421\u0442\u0440\u043E\u043F\u0442\u0438\u0432\u0430\u044F
+      \u0434\u0435\u0432\u043E\u0447\u043A\u0430! \u042F \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u043B
+      \u0442\u0432\u043E\u0438 \u043C\u0438\u043B\u044B\u0435 \u0433\u043B\u0430\u0437\u043A\u0438."
+    <Key>k__BackingField: 
   _text: "\u0421\u0442\u0440\u043E\u043F\u0442\u0438\u0432\u0430\u044F \u0434\u0435\u0432\u043E\u0447\u043A\u0430!
     \u042F \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u043B \u0442\u0432\u043E\u0438
     \u043C\u0438\u043B\u044B\u0435 \u0433\u043B\u0430\u0437\u043A\u0438."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u0442\u0440\u043E\u043F\u0442\u0438\u0432\u0430\u044F
+      \u0434\u0435\u0432\u043E\u0447\u043A\u0430! \u042F \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u043B
+      \u0442\u0432\u043E\u0438 \u043C\u0438\u043B\u044B\u0435 \u0433\u043B\u0430\u0437\u043A\u0438."
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 1
   _indexLook: 0
@@ -1129,6 +1290,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &576133708421740258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1173,9 +1337,15 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.7
+  StringsToLocalization: []
   _text: "\u041F\u0440\u043E\u0438\u0437\u043D\u0435\u0441 \u043C\u0443\u0436\u0447\u0438\u043D\u0430
     \u043C\u0435\u0440\u0437\u043A\u0438\u043C, \u0433\u043D\u0443\u0441\u0430\u0432\u044B\u043C
     \u0433\u043E\u043B\u043E\u0441\u043E\u043C."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041F\u0440\u043E\u0438\u0437\u043D\u0435\u0441
+      \u043C\u0443\u0436\u0447\u0438\u043D\u0430 \u043C\u0435\u0440\u0437\u043A\u0438\u043C,
+      \u0433\u043D\u0443\u0441\u0430\u0432\u044B\u043C \u0433\u043E\u043B\u043E\u0441\u043E\u043C."
+    <Key>k__BackingField: 
 --- !u!114 &608009553789732636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1220,6 +1390,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.2
+  StringsToLocalization: []
   _text: "\u0413\u043E\u043B\u043E\u0441 \u043C\u0443\u0436\u0447\u0438\u043D\u044B
     \u0437\u0432\u0443\u0447\u0430\u043B \u0441\u043A\u043E\u043B\u044C\u0437\u043A\u043E
     \u0438 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u043E, \u0430 \u0441\u0430\u043C
@@ -1228,6 +1399,16 @@ MonoBehaviour:
     \u043D\u0435 \u0445\u043E\u0447\u0435\u0442\u0441\u044F \u043E\u0441\u0442\u0430\u0442\u044C\u0441\u044F
     \u043D\u0430\u0435\u0434\u0438\u043D\u0435 \u0432 \u0431\u0435\u0437\u043B\u044E\u0434\u043D\u043E\u043C
     \u043C\u0435\u0441\u0442\u0435."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0413\u043E\u043B\u043E\u0441 \u043C\u0443\u0436\u0447\u0438\u043D\u044B
+      \u0437\u0432\u0443\u0447\u0430\u043B \u0441\u043A\u043E\u043B\u044C\u0437\u043A\u043E
+      \u0438 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u043E, \u0430 \u0441\u0430\u043C
+      \u043E\u043D \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u043B \u0432\u043F\u0435\u0447\u0430\u0442\u043B\u0435\u043D\u0438\u0435
+      \u0442\u043E\u0433\u043E, \u0441 \u043A\u0435\u043C \u0442\u043E\u0447\u043D\u043E
+      \u043D\u0435 \u0445\u043E\u0447\u0435\u0442\u0441\u044F \u043E\u0441\u0442\u0430\u0442\u044C\u0441\u044F
+      \u043D\u0430\u0435\u0434\u0438\u043D\u0435 \u0432 \u0431\u0435\u0437\u043B\u044E\u0434\u043D\u043E\u043C
+      \u043C\u0435\u0441\u0442\u0435."
+    <Key>k__BackingField: 
 --- !u!114 &1110056985433360394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1272,10 +1453,22 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.14
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0423\u0431\u0438\u0440\u0430\u0439\u0441\u044F
+      \u043E\u0442\u0441\u044E\u0434\u0430, \u0438\u043D\u0430\u0447\u0435 \u044F
+      \u0440\u0430\u0437\u043C\u043E\u0437\u0436\u0443 \u0442\u0435\u0431\u0435 \u0433\u043E\u043B\u043E\u0432\u0443
+      \u044D\u0442\u0438\u043C \u043A\u0430\u043C\u043D\u0435\u043C!\r\n"
+    <Key>k__BackingField: 
   _text: "\u0423\u0431\u0438\u0440\u0430\u0439\u0441\u044F \u043E\u0442\u0441\u044E\u0434\u0430,
     \u0438\u043D\u0430\u0447\u0435 \u044F \u0440\u0430\u0437\u043C\u043E\u0437\u0436\u0443
     \u0442\u0435\u0431\u0435 \u0433\u043E\u043B\u043E\u0432\u0443 \u044D\u0442\u0438\u043C
     \u043A\u0430\u043C\u043D\u0435\u043C!\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0423\u0431\u0438\u0440\u0430\u0439\u0441\u044F
+      \u043E\u0442\u0441\u044E\u0434\u0430, \u0438\u043D\u0430\u0447\u0435 \u044F
+      \u0440\u0430\u0437\u043C\u043E\u0437\u0436\u0443 \u0442\u0435\u0431\u0435 \u0433\u043E\u043B\u043E\u0432\u0443
+      \u044D\u0442\u0438\u043C \u043A\u0430\u043C\u043D\u0435\u043C!\r\n"
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 1
   _indexLook: 2
@@ -1287,6 +1480,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &1217067511692228063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1524,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _seriaPartNodeGraph: {fileID: 11400000, guid: c0c5c52209d241e42a6450d18d980d07, type: 2}
   _putOnSwimsuit: 0
 --- !u!114 &1580091579695306687
@@ -1371,6 +1568,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
 --- !u!114 &2458579586880199622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1415,12 +1613,22 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization: []
   _text: "\u0415\u0433\u043E \u0433\u043B\u0430\u0437\u0430 \u0431\u044B\u043B\u0438
     \u0437\u0430\u0442\u0443\u043C\u0430\u043D\u0435\u043D\u044B \u0442\u043E \u043B\u0438
     \u044F\u0440\u043E\u0441\u0442\u044C\u044E, \u0442\u043E \u043B\u0438 \u043A\u0430\u043A\u043E\u0439-\u0442\u043E
     \u043D\u0430\u0434\u043C\u0435\u043D\u043D\u043E\u0441\u0442\u044C\u044E \u043F\u043E
     \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044E \u043A \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u044F\u0449\u0435\u043C\u0443
     \u0438 \u043A \u043D\u0430\u043C."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0415\u0433\u043E \u0433\u043B\u0430\u0437\u0430
+      \u0431\u044B\u043B\u0438 \u0437\u0430\u0442\u0443\u043C\u0430\u043D\u0435\u043D\u044B
+      \u0442\u043E \u043B\u0438 \u044F\u0440\u043E\u0441\u0442\u044C\u044E, \u0442\u043E
+      \u043B\u0438 \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u043D\u0430\u0434\u043C\u0435\u043D\u043D\u043E\u0441\u0442\u044C\u044E
+      \u043F\u043E \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044E \u043A
+      \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u044F\u0449\u0435\u043C\u0443
+      \u0438 \u043A \u043D\u0430\u043C."
+    <Key>k__BackingField: 
 --- !u!114 &5261636979493617961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1465,9 +1673,15 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.17
+  StringsToLocalization: []
   _text: "\u0422\u0435\u043F\u0435\u0440\u044C \u043F\u043B\u044F\u0436 \u0441\u0442\u0430\u043B
     \u0434\u043B\u044F \u043C\u0435\u043D\u044F \u0442\u0440\u0435\u0432\u043E\u0436\u043D\u044B\u043C
     \u043C\u0435\u0441\u0442\u043E\u043C."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0422\u0435\u043F\u0435\u0440\u044C \u043F\u043B\u044F\u0436
+      \u0441\u0442\u0430\u043B \u0434\u043B\u044F \u043C\u0435\u043D\u044F \u0442\u0440\u0435\u0432\u043E\u0436\u043D\u044B\u043C
+      \u043C\u0435\u0441\u0442\u043E\u043C."
+    <Key>k__BackingField: 
 --- !u!114 &5329698231711407501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1512,8 +1726,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u041E\u0442\u043F\u0443\u0441\u0442\u0438 \u0435\u0435,
+      \u0447\u0442\u043E \u0442\u044B \u0442\u0432\u043E\u0440\u0438\u0448\u044C!\r\n"
+    <Key>k__BackingField: 
   _text: "\u041E\u0442\u043F\u0443\u0441\u0442\u0438 \u0435\u0435, \u0447\u0442\u043E
     \u0442\u044B \u0442\u0432\u043E\u0440\u0438\u0448\u044C!\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041E\u0442\u043F\u0443\u0441\u0442\u0438 \u0435\u0435,
+      \u0447\u0442\u043E \u0442\u044B \u0442\u0432\u043E\u0440\u0438\u0448\u044C!\r\n"
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 1
   _indexLook: 2
@@ -1525,6 +1747,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &5364386743923730712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,11 +1836,31 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u041C\u043E\u043B\u0447\u0430 \u0441\u044A\u0435\u0436\u0438\u0442\u044C\u0441\u044F "
+    <Key>k__BackingField: 
+  - <DefaultText>k__BackingField: "\u0423\u0434\u0430\u0440\u0438\u0442\u044C \u0435\u0433\u043E
+      \u0438 \u043E\u0442\u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0435\u0433\u043E
+      \u043E\u0442 \u0441\u0435\u0431\u044F "
+    <Key>k__BackingField: 
+  - <DefaultText>k__BackingField: "\u0417\u0430\u043A\u0440\u0438\u0447\u0430\u0442\u044C.\r"
+    <Key>k__BackingField: 
   _choiceText1: "\u041C\u043E\u043B\u0447\u0430 \u0441\u044A\u0435\u0436\u0438\u0442\u044C\u0441\u044F "
   _choiceText2: "\u0423\u0434\u0430\u0440\u0438\u0442\u044C \u0435\u0433\u043E \u0438
     \u043E\u0442\u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0435\u0433\u043E
     \u043E\u0442 \u0441\u0435\u0431\u044F "
   _choiceText3: "\u0417\u0430\u043A\u0440\u0438\u0447\u0430\u0442\u044C.\r"
+  _localizationChoiceText1:
+    <DefaultText>k__BackingField: "\u041C\u043E\u043B\u0447\u0430 \u0441\u044A\u0435\u0436\u0438\u0442\u044C\u0441\u044F "
+    <Key>k__BackingField: 
+  _localizationChoiceText2:
+    <DefaultText>k__BackingField: "\u0423\u0434\u0430\u0440\u0438\u0442\u044C \u0435\u0433\u043E
+      \u0438 \u043E\u0442\u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0435\u0433\u043E
+      \u043E\u0442 \u0441\u0435\u0431\u044F "
+    <Key>k__BackingField: 
+  _localizationChoiceText3:
+    <DefaultText>k__BackingField: "\u0417\u0430\u043A\u0440\u0438\u0447\u0430\u0442\u044C.\r"
+    <Key>k__BackingField: 
   _timerValue: 20
   _timerPortIndex: 2
   _choice1Price: 0
@@ -1794,8 +2039,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u042D\u0442\u043E \u0435\u0449\u0435 \u043D\u0435
+      \u043A\u043E\u043D\u0435\u0446, \u0434\u0435\u0432\u043E\u0447\u043A\u0438!"
+    <Key>k__BackingField: 
   _text: "\u042D\u0442\u043E \u0435\u0449\u0435 \u043D\u0435 \u043A\u043E\u043D\u0435\u0446,
     \u0434\u0435\u0432\u043E\u0447\u043A\u0438!"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u042D\u0442\u043E \u0435\u0449\u0435 \u043D\u0435
+      \u043A\u043E\u043D\u0435\u0446, \u0434\u0435\u0432\u043E\u0447\u043A\u0438!"
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 1
   _indexLook: 0
@@ -1807,6 +2060,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &5457872109530285944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,6 +2107,16 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.20
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0421\u043F\u043E\u043A\u043E\u0439\u043D\u043E,
+      \u043F\u0441\u0438\u0445\u043E\u0432 \u0432\u0435\u0437\u0434\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442.
+      \u041D\u0435 \u0434\u0443\u043C\u0430\u044E, \u0447\u0442\u043E \u043E\u043D
+      \u043E\u0441\u043C\u0435\u043B\u0438\u0442\u0441\u044F \u043F\u043E\u0434\u043E\u0439\u0442\u0438
+      \u043A \u043D\u0430\u043C \u0435\u0449\u0435 \u0440\u0430\u0437, \u0430 \u0435\u0441\u043B\u0438
+      \u0438 \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0435\u0442, \u0442\u043E
+      \u0443 \u043C\u0435\u043D\u044F \u0433\u0434\u0435-\u0442\u043E \u0437\u0430\u0432\u0430\u043B\u044F\u043B\u0441\u044F
+      \u0433\u0430\u0437\u043E\u0432\u044B\u0439 \u0431\u0430\u043B\u043B\u043E\u043D\u0447\u0438\u043A."
+    <Key>k__BackingField: 
   _text: "\u0421\u043F\u043E\u043A\u043E\u0439\u043D\u043E, \u043F\u0441\u0438\u0445\u043E\u0432
     \u0432\u0435\u0437\u0434\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442. \u041D\u0435
     \u0434\u0443\u043C\u0430\u044E, \u0447\u0442\u043E \u043E\u043D \u043E\u0441\u043C\u0435\u043B\u0438\u0442\u0441\u044F
@@ -1859,6 +2125,16 @@ MonoBehaviour:
     \u0442\u043E \u0443 \u043C\u0435\u043D\u044F \u0433\u0434\u0435-\u0442\u043E
     \u0437\u0430\u0432\u0430\u043B\u044F\u043B\u0441\u044F \u0433\u0430\u0437\u043E\u0432\u044B\u0439
     \u0431\u0430\u043B\u043B\u043E\u043D\u0447\u0438\u043A."
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0421\u043F\u043E\u043A\u043E\u0439\u043D\u043E,
+      \u043F\u0441\u0438\u0445\u043E\u0432 \u0432\u0435\u0437\u0434\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442.
+      \u041D\u0435 \u0434\u0443\u043C\u0430\u044E, \u0447\u0442\u043E \u043E\u043D
+      \u043E\u0441\u043C\u0435\u043B\u0438\u0442\u0441\u044F \u043F\u043E\u0434\u043E\u0439\u0442\u0438
+      \u043A \u043D\u0430\u043C \u0435\u0449\u0435 \u0440\u0430\u0437, \u0430 \u0435\u0441\u043B\u0438
+      \u0438 \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0435\u0442, \u0442\u043E
+      \u0443 \u043C\u0435\u043D\u044F \u0433\u0434\u0435-\u0442\u043E \u0437\u0430\u0432\u0430\u043B\u044F\u043B\u0441\u044F
+      \u0433\u0430\u0437\u043E\u0432\u044B\u0439 \u0431\u0430\u043B\u043B\u043E\u043D\u0447\u0438\u043A."
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 0
   _indexLook: 2
@@ -1870,6 +2146,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &6489790762679866501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1914,18 +2193,29 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.6
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0422\u0435\u0431\u0435 \u043F\u0440\u0430\u0432\u0434\u0430
+      \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E?"
+    <Key>k__BackingField: 
   _text: "\u0422\u0435\u0431\u0435 \u043F\u0440\u0430\u0432\u0434\u0430 \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E?"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0422\u0435\u0431\u0435 \u043F\u0440\u0430\u0432\u0434\u0430
+      \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E?"
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 3
   _indexLook: 0
   _previousIndexCharacter: 4
   _previousCharactersCount: 6
   _directionType: 1
-  _foldoutIsOpen: 1
+  _foldoutIsOpen: 0
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &7305062811996929495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1970,18 +2260,29 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.5
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0410 \u0437\u0430\u0447\u0435\u043C \u0412\u0430\u043C
+      \u043A\u0430\u043C\u043D\u0438?"
+    <Key>k__BackingField: 
   _text: "\u0410 \u0437\u0430\u0447\u0435\u043C \u0412\u0430\u043C \u043A\u0430\u043C\u043D\u0438?"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0410 \u0437\u0430\u0447\u0435\u043C \u0412\u0430\u043C
+      \u043A\u0430\u043C\u043D\u0438?"
+    <Key>k__BackingField: 
   _indexCharacter: 0
   _indexEmotion: 3
   _indexLook: 0
   _previousIndexCharacter: 0
   _previousCharactersCount: 6
   _directionType: 0
-  _foldoutIsOpen: 1
+  _foldoutIsOpen: 0
   _toggleIsSwimsuit: 0
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &7405806179136281629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2026,9 +2327,19 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.3
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435,
+      \u0432\u044B \u0437\u0434\u0435\u0441\u044C \u043E\u0442\u0434\u044B\u0445\u0430\u0435\u0442\u0435?
+      \u041D\u0430 \u043F\u043B\u044F\u0436\u0435?\r\n"
+    <Key>k__BackingField: 
   _text: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435,
     \u0432\u044B \u0437\u0434\u0435\u0441\u044C \u043E\u0442\u0434\u044B\u0445\u0430\u0435\u0442\u0435?
     \u041D\u0430 \u043F\u043B\u044F\u0436\u0435?\r\n"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435,
+      \u0432\u044B \u0437\u0434\u0435\u0441\u044C \u043E\u0442\u0434\u044B\u0445\u0430\u0435\u0442\u0435?
+      \u041D\u0430 \u043F\u043B\u044F\u0436\u0435?\r\n"
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 8
   _indexLook: 2
@@ -2040,6 +2351,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &7528087009715676312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2084,7 +2398,13 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.18
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u041C\u0435\u0440\u0437\u043A\u0438\u0439 \u0441\u0442\u0430\u0440\u0438\u043A\u0430\u0448\u043A\u0430! "
+    <Key>k__BackingField: 
   _text: "\u041C\u0435\u0440\u0437\u043A\u0438\u0439 \u0441\u0442\u0430\u0440\u0438\u043A\u0430\u0448\u043A\u0430! "
+  _localizationText:
+    <DefaultText>k__BackingField: "\u041C\u0435\u0440\u0437\u043A\u0438\u0439 \u0441\u0442\u0430\u0440\u0438\u043A\u0430\u0448\u043A\u0430! "
+    <Key>k__BackingField: 
   _indexCharacter: 1
   _indexEmotion: 1
   _indexLook: 2
@@ -2096,6 +2416,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &8275725871622326352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2140,9 +2463,19 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 2.8
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: "\u042D\u0442\u043E \u0434\u043B\u044F \u043C\u043E\u0435\u0439
+      \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u0438. \u0425\u043E\u0447\u0435\u0448\u044C,
+      \u043F\u043E\u043A\u0430\u0436\u0443 \u0435\u0435 \u0442\u0435\u0431\u0435?"
+    <Key>k__BackingField: 
   _text: "\u042D\u0442\u043E \u0434\u043B\u044F \u043C\u043E\u0435\u0439 \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u0438.
     \u0425\u043E\u0447\u0435\u0448\u044C, \u043F\u043E\u043A\u0430\u0436\u0443 \u0435\u0435
     \u0442\u0435\u0431\u0435?"
+  _localizationText:
+    <DefaultText>k__BackingField: "\u042D\u0442\u043E \u0434\u043B\u044F \u043C\u043E\u0435\u0439
+      \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u0438. \u0425\u043E\u0447\u0435\u0448\u044C,
+      \u043F\u043E\u043A\u0430\u0436\u0443 \u0435\u0435 \u0442\u0435\u0431\u0435?"
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 2
   _indexLook: 0
@@ -2154,6 +2487,9 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
 --- !u!114 &8848897351995716815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2198,10 +2534,24 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  StringsToLocalization:
+  - <DefaultText>k__BackingField: " \u041D\u0430\u0434\u0435\u044E\u0441\u044C, \u043F\u0440\u0438
+      \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439 \u043D\u0430\u0448\u0435\u0439
+      \u0432\u0441\u0442\u0440\u0435\u0447\u0435 \u0432\u044B \u0431\u0443\u0434\u0435\u0442\u0435
+      \u0431\u043E\u043B\u0435\u0435 \u0441\u043D\u0438\u0441\u0445\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B
+      \u043A\u043E \u043C\u043D\u0435 \u0438 \u043C\u043E\u0438\u043C \u0448\u0430\u043B\u043E\u0441\u0442\u044F\u043C."
+    <Key>k__BackingField: 
   _text: " \u041D\u0430\u0434\u0435\u044E\u0441\u044C, \u043F\u0440\u0438 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439
     \u043D\u0430\u0448\u0435\u0439 \u0432\u0441\u0442\u0440\u0435\u0447\u0435 \u0432\u044B
     \u0431\u0443\u0434\u0435\u0442\u0435 \u0431\u043E\u043B\u0435\u0435 \u0441\u043D\u0438\u0441\u0445\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B
     \u043A\u043E \u043C\u043D\u0435 \u0438 \u043C\u043E\u0438\u043C \u0448\u0430\u043B\u043E\u0441\u0442\u044F\u043C."
+  _localizationText:
+    <DefaultText>k__BackingField: " \u041D\u0430\u0434\u0435\u044E\u0441\u044C, \u043F\u0440\u0438
+      \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439 \u043D\u0430\u0448\u0435\u0439
+      \u0432\u0441\u0442\u0440\u0435\u0447\u0435 \u0432\u044B \u0431\u0443\u0434\u0435\u0442\u0435
+      \u0431\u043E\u043B\u0435\u0435 \u0441\u043D\u0438\u0441\u0445\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B
+      \u043A\u043E \u043C\u043D\u0435 \u0438 \u043C\u043E\u0438\u043C \u0448\u0430\u043B\u043E\u0441\u0442\u044F\u043C."
+    <Key>k__BackingField: 
   _indexCharacter: 4
   _indexEmotion: 1
   _indexLook: 0
@@ -2213,3 +2563,6 @@ MonoBehaviour:
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedName: 
+  _overridedNameLocalization:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 

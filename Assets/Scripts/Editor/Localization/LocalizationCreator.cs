@@ -19,16 +19,41 @@ public class LocalizationCreator : ScriptableObject
     private string _path = "/Localization/JsonFile.json";
 
     [SerializeField] private string _text;
+    [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
 
+    [Button()]
+    private void CreateSeriaFileLocalization()
+    {
+        if (_seriaForCreateFileLocalization != null)
+        {
+            List<LocalizationString> seriaStrings = new List<LocalizationString>();
+            foreach (var seria in _seriaForCreateFileLocalization.SeriaPartNodeGraphs)
+            {
+                for (int i = 0; i < seria.nodes.Count; i++)
+                {
+                    if (seria.nodes[i] is BaseNode baseNode)
+                    {
+                        seriaStrings.AddRange(baseNode.StringsToLocalization ?? Enumerable.Empty<LocalizationString>());
+                    }
+                }
+            }
+            CreateFile(CreateDictionary(seriaStrings));
+        }
+    }
+    
     [Button()]
     private void Create()
     {
+        CreateFile(CreateDictionary(LocalizationString.LocalizationStrings));
+    }
+
+    private void CreateFile(Dictionary<string, string> dictionary)
+    {
         string path = $"{Application.dataPath}{_path}";
-        string file = JsonConvert.SerializeObject(CreateDictionary(), Formatting.Indented);
+        string file = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
         File.WriteAllText(path, file);
         AssetDatabase.Refresh();
     }
-
     [Button()]
     private void FindAttributes()
     {
@@ -75,19 +100,34 @@ public class LocalizationCreator : ScriptableObject
     private void Show()
     {
         
-        foreach (var VARIABLE in CreateDictionary())
+        foreach (var VARIABLE in CreateDictionary(LocalizationString.LocalizationStrings))
         {
             Debug.Log($"{VARIABLE.Key} {VARIABLE.Value}");
         }
     }
-
-    private Dictionary<string,string> CreateDictionary()
+    private Dictionary<string,string> CreateDictionary(List<LocalizationString> seriaStrings)
     {
-        return LocalizationString.LocalizationStrings.Distinct().ToDictionary(
-            x => x.Key,
-            x => x.DefaultText);
-    }
+        var dict = new Dictionary<string, string>();
+        foreach (var item in seriaStrings)
+        {
+            if (!dict.ContainsKey(item.Key))
+            {
+                dict.Add(item.Key, item.DefaultText);
+            }
+        }
 
+
+        foreach (var VARIABLE in dict)
+        {
+            Debug.Log($" {VARIABLE.Key }  {VARIABLE.Value}");
+        }
+        return dict;
+        
+        
+        // return seriaStrings.GroupBy(x => x.Key).ToDictionary(
+        //     x => x.Key,
+        //     x => x.First().DefaultText);
+    }
     [Button()]
     private void CreateKeyByText()
     {

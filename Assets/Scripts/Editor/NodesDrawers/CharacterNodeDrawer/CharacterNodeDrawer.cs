@@ -19,13 +19,18 @@ public class CharacterNodeDrawer : NodeEditor
     private const string _indexEmotionNameProperty = "_indexEmotion";
     private const string _indexLookNameProperty = "_indexLook";
     private const string _directionTypeNameProperty = "_directionType";
-    private const string _textNameProperty = "_text";
+    private const string _textProperty = "_localizationText";
     private const string _foldoutIsOpenNameProperty = "_foldoutIsOpen";
     
     private const string _previousIndexCharacterNameProperty = "_previousIndexCharacter";
     private const string _previousCharactersCountNameProperty = "_previousCharactersCount";
     private const string _nameMethod = "SetInfoToView";
+    private const string _overrideNameNameProperty = "_overrideName";
+    private const string _overridedNameNameProperty = "_overridedNameLocalization";
+    private const string _toggleShowPanelNameProperty = "_toggleShowPanel";
+    private const string _toggleIsSwimsuitNameProperty = "_toggleIsSwimsuit";
     
+    private const string _overrideNameLabel = "New name: ";
     private const int _symbolMaxCount = 159;
     private string _validText;
 
@@ -33,7 +38,7 @@ public class CharacterNodeDrawer : NodeEditor
     private SerializedProperty _indexEmotionProperty;
     private SerializedProperty _indexCharacterProperty;
     private SerializedProperty _directionCharacterProperty;
-    private SerializedProperty _textCharacterProperty;
+    private SerializedProperty _localizationTextCharacterProperty;
     private SerializedProperty _toggleShowPanelProperty;
     
     private SerializedProperty _previousIndexCharacterProperty;
@@ -41,11 +46,13 @@ public class CharacterNodeDrawer : NodeEditor
     private SerializedProperty _foldoutIsOpenProperty;
     private SerializedProperty _overrideNameProperty;
     private SerializedProperty _overridedNameProperty;
-    
-    
+    private SerializedProperty _toggleIsSwimsuitProperty;
+
+    private LocalizationStringTextDrawer _localizationStringTextDrawer;
+    private LocalizationString _localizationStringText;
+    private LocalizationString _localizationStringOverridedName;
     private MethodInfo _privateMethod;
     private CharacterNode _characterNode;
-    private SimpleTextValidator _simpleTextValidator;
     private PopupDrawer _popupDrawer;
     private LineDrawer _lineDrawer;
     private List<string> _namesCharactersToPopup;
@@ -57,52 +64,36 @@ public class CharacterNodeDrawer : NodeEditor
         {
             _characterNode = target as CharacterNode;
             _lineDrawer = new LineDrawer();
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_symbolMaxCount));
             serializedObject.Update();
             TryInitProperty(ref _indexLookProperty, _indexLookNameProperty);
             TryInitProperty(ref _indexEmotionProperty, _indexEmotionNameProperty);
-            TryInitProperty(ref _overrideNameProperty, "_overrideName");
-            TryInitProperty(ref _overridedNameProperty, "_overridedName");
-            TryInitProperty(ref _toggleShowPanelProperty, "_toggleShowPanel");
+            TryInitProperty(ref _overrideNameProperty, _overrideNameNameProperty);
+            TryInitProperty(ref _overridedNameProperty, _overridedNameNameProperty);
+            TryInitProperty(ref _toggleShowPanelProperty, _toggleShowPanelNameProperty);
 
             
             TryInitProperty(ref _indexCharacterProperty, _indexCharacterNameProperty);
             TryInitProperty(ref _previousIndexCharacterProperty, _previousIndexCharacterNameProperty);
             TryInitProperty(ref _previousCharactersCountProperty, _previousCharactersCountNameProperty);
             TryInitProperty(ref _directionCharacterProperty, _directionTypeNameProperty);
-            TryInitProperty(ref _textCharacterProperty, _textNameProperty);
+            TryInitProperty(ref _localizationTextCharacterProperty, _textProperty);
             TryInitProperty(ref _foldoutIsOpenProperty, _foldoutIsOpenNameProperty);
+            TryInitProperty(ref _toggleIsSwimsuitProperty, _toggleIsSwimsuitNameProperty);
+            _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
+            _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
         }
-
+        
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
         EditorGUI.BeginChangeCheck();
-        DrawTextField();
+        _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel);
         _lineDrawer.DrawHorizontalLine(Color.green);
         DrawPopupCharacters();
         if (EditorGUI.EndChangeCheck())
         {
             serializedObject.ApplyModifiedProperties();
             SetInfoToView();
-        }
-    }
-
-    private void DrawTextField()
-    {
-        if (_simpleTextValidator == null)
-        {
-            _simpleTextValidator = new SimpleTextValidator();
-            _validText = _textCharacterProperty.stringValue;
-        }
-        EditorGUILayout.LabelField(_currentTextLabel);
-        _validText = EditorGUILayout.TextArea(_validText, GUILayout.Height(50f), GUILayout.Width(150f));
-
-        if (_simpleTextValidator.TryValidate(ref _validText, _symbolMaxCount))
-        {
-            _textCharacterProperty.stringValue = _validText;
-        }
-        else
-        {
-            EditorGUILayout.HelpBox("Размер строки превышен " , MessageType.Error);
         }
     }
 
@@ -128,8 +119,7 @@ public class CharacterNodeDrawer : NodeEditor
             DrawToggle(_overrideNameProperty, "Override Name ");
             if (_overrideNameProperty.boolValue == true)
             {
-                _overridedNameProperty.stringValue =
-                    EditorGUILayout.TextField("New name: ", _overridedNameProperty.stringValue);
+                _localizationStringTextDrawer.DrawTextField(_localizationStringOverridedName, _overrideNameLabel, false);
             }
             
             _foldoutIsOpenProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutIsOpenProperty.boolValue, _fouldoutLabel);
@@ -147,7 +137,7 @@ public class CharacterNodeDrawer : NodeEditor
                         _currentEmotionLabel,
                         customizableCharacter.GetCurrentEmotionsDataByBodyIndex(), _indexEmotionProperty);
                         
-                    DrawToggle(serializedObject.FindProperty("_toggleIsSwimsuit"), "Is Swimsuit Look");
+                    DrawToggle(_toggleIsSwimsuitProperty, "Is Swimsuit Look");
                 }
                 else if(_characterNode.Characters[_indexCharacterProperty.intValue] is SimpleCharacter simpleCharacter)
                 {
@@ -162,36 +152,6 @@ public class CharacterNodeDrawer : NodeEditor
                             simpleCharacter.EmotionsData, _indexEmotionProperty);
                     }
                 }
-                
-                
-                // if (CheckCustomizableCharacter() == false)
-                // {
-                //     TryInitNames(ref _namesLookCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].LooksData);
-                //     _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
-                //         _characterNode.Characters[_indexCharacterProperty.intValue].LooksData, _indexLookProperty);
-                //
-                //     if (_characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData != null)
-                //     {
-                //         TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData);
-                //         _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
-                //             _characterNode.Characters[_indexCharacterProperty.intValue].EmotionsData, _indexEmotionProperty);
-                //     }
-                // }
-                // else
-                // {
-                //     if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
-                //     {
-                //         TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup,
-                //             customizableCharacter.GetCurrentEmotionsDataByBodyIndex());
-                //         
-                //         _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
-                //             _currentEmotionLabel,
-                //             customizableCharacter.GetCurrentEmotionsDataByBodyIndex(), _indexEmotionProperty);
-                //         
-                //         DrawToggle(serializedObject.FindProperty("_toggleIsSwimsuit"), "Is Swimsuit Look");
-                //     }
-                // }
-
                 DrawToggle(_toggleShowPanelProperty, "Show text panel");
             }
             EditorGUILayout.EndFoldoutHeaderGroup();

@@ -6,7 +6,8 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(ChoiceNode))]
 public class ChoiceNodeDrawer : NodeEditor
 {
-    private readonly int _maxPortCount = 3;
+    private const int _maxPortCount = 3;
+    private const int _maxCountSymbols = 500;
     private ChoiceNode _choiceNode;
     private LineDrawer _lineDrawer;
     private SerializedProperty _choiceText1Property;
@@ -22,10 +23,14 @@ public class ChoiceNodeDrawer : NodeEditor
     private SerializedProperty _showStatsChoice1KeyProperty;
     private SerializedProperty _showStatsChoice2KeyProperty;
     private SerializedProperty _showStatsChoice3KeyProperty;
-    
+
+    private LocalizationString _localizationStringText1;
+    private LocalizationString _localizationStringText2;
+    private LocalizationString _localizationStringText3;
     private SerializedProperty _choice1PriceProperty;
     private SerializedProperty _choice2PriceProperty;
     private SerializedProperty _choice3PriceProperty;
+    private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private MethodInfo _privateMethod;
     private string[] _timerPortIndexes;
 
@@ -60,9 +65,9 @@ public class ChoiceNodeDrawer : NodeEditor
 
         if (_choiceText1Property == null)
         {
-            _choiceText1Property = serializedObject.FindProperty("_choiceText1");
-            _choiceText2Property = serializedObject.FindProperty("_choiceText2");
-            _choiceText3Property = serializedObject.FindProperty("_choiceText3");
+            _choiceText1Property = serializedObject.FindProperty("_localizationChoiceText1");
+            _choiceText2Property = serializedObject.FindProperty("_localizationChoiceText2");
+            _choiceText3Property = serializedObject.FindProperty("_localizationChoiceText3");
             _showChoice3Property = serializedObject.FindProperty("_showChoice3Key");
             _showOutputProperty = serializedObject.FindProperty("_showOutput");
         
@@ -79,6 +84,10 @@ public class ChoiceNodeDrawer : NodeEditor
             _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
             _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
             _lineDrawer = new LineDrawer();
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
+            _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
+            _localizationStringText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText2Property);
+            _localizationStringText3 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText3Property);
         }
 
         serializedObject.Update();
@@ -110,8 +119,8 @@ public class ChoiceNodeDrawer : NodeEditor
         
         
         EditorGUI.BeginChangeCheck();
-        DrawChoiceField(_choiceText1Property, _showStatsChoice1KeyProperty, _choice1PriceProperty,"Choice 1", "_baseStatsChoice1", 0);
-        DrawChoiceField(_choiceText2Property, _showStatsChoice2KeyProperty, _choice2PriceProperty,"Choice 2", "_baseStatsChoice2", 1);
+        DrawChoiceField(_localizationStringText1, _showStatsChoice1KeyProperty, _choice1PriceProperty,"Choice 1", "_baseStatsChoice1", 0);
+        DrawChoiceField(_localizationStringText2, _showStatsChoice2KeyProperty, _choice2PriceProperty,"Choice 2", "_baseStatsChoice2", 1);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Show choice3: ");
@@ -119,7 +128,7 @@ public class ChoiceNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         if (_showChoice3Property.boolValue)
         {
-            DrawChoiceField(_choiceText3Property, _showStatsChoice3KeyProperty, _choice3PriceProperty, "Choice 3", "_baseStatsChoice3", 2);
+            DrawChoiceField(_localizationStringText3, _showStatsChoice3KeyProperty, _choice3PriceProperty, "Choice 3", "_baseStatsChoice3", 2);
         }
         if (EditorGUI.EndChangeCheck())
         {
@@ -133,11 +142,11 @@ public class ChoiceNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawChoiceField(SerializedProperty textProperty, SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty,
+    private void DrawChoiceField(LocalizationString textProperty, SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty,
         string label, string nameBaseStatsChoice, int indexNamePort)
     {
-        DrawTextField(textProperty, label);
-        
+        EditorGUILayout.Space(10f);
+        _localizationStringTextDrawer.DrawTextField(textProperty, label,false);
         choicePriceProperty.floatValue = EditorGUILayout.FloatField("Choice price: ", choicePriceProperty.floatValue, GUILayout.Width(120f));
 
         showStatsChoiceProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", showStatsChoiceProperty.boolValue);
@@ -150,12 +159,6 @@ public class ChoiceNodeDrawer : NodeEditor
             DrawPort(_choiceNode.NamesPorts[indexNamePort]);
         }
         _lineDrawer.DrawHorizontalLine(Color.green);
-    }
-    private void DrawTextField(SerializedProperty textProperty, string label)
-    {
-        EditorGUILayout.Space(10f);
-        EditorGUILayout.LabelField(label);
-        textProperty.stringValue = EditorGUILayout.TextArea(textProperty.stringValue);
     }
     private void DrawPort(string name)
     {

@@ -99,4 +99,9 @@ public class BaseNode : Node
             return false;
         }
     }
+
+    protected virtual void InitStringsToLocalization(params LocalizationString[] strings)
+    {
+        StringsToLocalization = strings;
+    }
 }

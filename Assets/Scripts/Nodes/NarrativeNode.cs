@@ -6,6 +6,7 @@ using UnityEngine;
 public class NarrativeNode : BaseNode
 {
 	[SerializeField, TextArea] private string _text;
+	[SerializeField] private LocalizationString _localizationText;
 
 	private NarrativePanelUIHandler _narrativePanelUI;
 	public void ConstructMyNarrativeNode(NarrativePanelUIHandler narrativePanelUI)
@@ -25,6 +26,8 @@ public class NarrativeNode : BaseNode
 		await _narrativePanelUI.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
 		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _text);
 		TryActivateButtonSwitchToNextSlide();
+		_localizationText.SetText(_text);
+		InitStringsToLocalization(_localizationText);
 	}
 
 	public override async UniTask Exit()
@@ -40,7 +43,7 @@ public class NarrativeNode : BaseNode
 	
 	protected override void SetInfoToView()
 	{
-		_narrativePanelUI.NarrativeInEditMode(_text);
+		_narrativePanelUI.NarrativeInEditMode(_localizationText);
 	}
 	public override void SkipEnterTransition()
 	{

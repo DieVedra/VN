@@ -6,8 +6,8 @@ using UnityEngine;
 [NodeTint("#515000")]
 public class CharacterNode : BaseNode, IPutOnSwimsuit
 {
-    [SerializeField, TextArea] private string _text = "...";
-    [SerializeField, TextArea] private LocalizationString _localizationText;
+    [SerializeField, TextArea] private string _text;
+    [SerializeField] private LocalizationString _localizationText;
     [SerializeField, HideInInspector] private int _indexCharacter;
     [SerializeField, HideInInspector] private int _indexEmotion;
     [SerializeField, HideInInspector] private int _indexLook;
@@ -19,6 +19,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     [SerializeField, HideInInspector] private bool _toggleShowPanel = true;
     [SerializeField, HideInInspector] private bool _overrideName;
     [SerializeField, HideInInspector] private string _overridedName;
+    [SerializeField, HideInInspector] private LocalizationString _overridedNameLocalization;
 
     private Background _background;
     private CharacterTalkData _characterTalkData;
@@ -34,7 +35,17 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
-        StringsToLocalization = new[] { new LocalizationString(_text), new LocalizationString(_overridedName)};
+        Debug.Log($"_localizationText {_localizationText.DefaultText}");
+
+        // _localizationText.SetText(_text);
+        if (_overrideName == true)
+        {
+            InitStringsToLocalization(_localizationText, _overridedNameLocalization);
+        }
+        else
+        {
+            InitStringsToLocalization(_localizationText);
+        }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -111,7 +122,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
             _characterViewer.SetEmotion(GetEmotionCharacter());
             _characterViewer.SetLook(GetLook());
         }
-        _characterTalkData = new CharacterTalkData(_directionType, _overrideName == true ? _overridedName : GetName(), _text);
+        _characterTalkData = new CharacterTalkData(_directionType, _overrideName == true ? _overridedName : GetName(), _localizationText);
         if (_toggleShowPanel == true)
         {
             _characterPanelUIHandler.CharacterTalkInEditMode(_characterTalkData);

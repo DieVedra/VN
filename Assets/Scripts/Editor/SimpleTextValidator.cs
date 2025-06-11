@@ -3,15 +3,24 @@ using UnityEngine;
 
 public class SimpleTextValidator
 {
-    public bool TryValidate(ref string text, int maxSymbolsValue)
+    private readonly int _symbolMaxCount;
+
+    public string ValidText;
+
+    public SimpleTextValidator(int symbolMaxCount)
     {
-        if (text.Length <= maxSymbolsValue)
+        _symbolMaxCount = symbolMaxCount;
+    }
+
+    public bool TryValidate()
+    {
+        if (ValidText.Length <= _symbolMaxCount)
         {
             return true;
         }
         else
         {
-            Debug.LogWarning($"Размер строки превышен   {text.Length}");
+            Debug.LogWarning($"Размер строки превышен   {ValidText.Length} {ValidText}");
             return false;
         }
     }

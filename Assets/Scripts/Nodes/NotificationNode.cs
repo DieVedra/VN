@@ -7,6 +7,7 @@ using UnityEngine;
 public class NotificationNode : BaseNode
 {
     [SerializeField, TextArea] private string _text;
+    [SerializeField] private LocalizationString _localizationText;
     [SerializeField] private float _showTime = 1.5f;
     [SerializeField] private float _delayDisplayTime = 0f;
     [SerializeField] private Color _color = Color.white;
@@ -15,6 +16,8 @@ public class NotificationNode : BaseNode
     public void ConstructMyNotificationNode(NotificationPanelUIHandler notificationPanelUIHandler)
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
+        _localizationText.SetText(_text);
+        InitStringsToLocalization(_localizationText);
     }
     public override async UniTask Enter(bool isMerged = false)
     {
@@ -23,7 +26,7 @@ public class NotificationNode : BaseNode
 
     protected override void SetInfoToView()
     {
-        _notificationPanelUIHandler.ShowNotificationInEditMode(_text);
+        _notificationPanelUIHandler.ShowNotificationInEditMode(_localizationText);
         _notificationPanelUIHandler.SetColorText(_color);
     }
 
