@@ -105,16 +105,18 @@ public class HeaderNodeDrawer : NodeEditor
     }
     private void InitNames()
     {
-        if (_headerNode.Backgrounds == null || _headerNode.Backgrounds.Count == 0)
+        if (_headerNode.Backgrounds != null && _headerNode.Backgrounds.Count > 0)
         {
-            return;
-        }
-        List<string> backgroundsNames = new List<string>();
-        foreach (BackgroundContent content in _headerNode.Backgrounds)
-        {
-            backgroundsNames.Add(content.name);
-        }
+            List<string> backgroundsNames = new List<string>();
+            for (int i = 0; i < _headerNode.Backgrounds.Count; i++)
+            {
+                if (_headerNode.Backgrounds[i] != null)
+                {
+                    backgroundsNames.Add(_headerNode.Backgrounds[i].name);
+                }
+            }
 
-        _backgroundsNames = backgroundsNames.ToArray();
+            _backgroundsNames = backgroundsNames.ToArray();
+        }
     }
 }

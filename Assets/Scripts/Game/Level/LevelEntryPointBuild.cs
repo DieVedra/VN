@@ -16,6 +16,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private GlobalUIHandler _globalUIHandler;
     private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
+    private LevelLocalizationProvider _levelLocalizationProvider;
 
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
@@ -29,6 +30,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
+        _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
 

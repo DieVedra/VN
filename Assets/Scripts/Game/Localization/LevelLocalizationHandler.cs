@@ -13,7 +13,7 @@ public class LevelLocalizationHandler
         
     }
 
-    public void LoadLocalization(int seriaIndex)
+    public void LoadLocalization(int seriaIndex, string language)
     {
         
     }
@@ -26,13 +26,13 @@ public class LevelLocalizationHandler
             {
                 if (seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes[j] is BaseNode baseNode)
                 {
-                    if (baseNode.StringsToLocalization != null && baseNode.StringsToLocalization.Length > 0)
+                    if (baseNode.StringsLocalization != null && baseNode.StringsLocalization.Count > 0)
                     {
-                        for (int k = 0; k < baseNode.StringsToLocalization.Length; k++)
+                        for (int k = 0; k < baseNode.StringsLocalization.Count; k++)
                         {
-                            if (_localizationDictionary.TryGetValue(baseNode.StringsToLocalization[k].Key, out string value))
+                            if (_localizationDictionary.TryGetValue(baseNode.StringsLocalization[k].Key, out string value))
                             {
-                                baseNode.StringsToLocalization[k].SetText(value);
+                                baseNode.StringsLocalization[k].SetText(value);
                             }
                         }
                     }

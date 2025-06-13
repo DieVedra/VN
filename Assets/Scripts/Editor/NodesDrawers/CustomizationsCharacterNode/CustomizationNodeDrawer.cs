@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -9,6 +11,7 @@ public class CustomizationNodeDrawer : NodeEditor
     private CustomizationNode _customizationNode;
     private PopupDrawer _popupDrawer;
     private LineDrawer _lineDrawer;
+    private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private SerializedProperty _foldoutHairstyleIsOpenProperty;
     private SerializedProperty _foldoutClothesIsOpenProperty;
     private SerializedProperty _foldoutBodiesIsOpenProperty;
@@ -49,7 +52,7 @@ public class CustomizationNodeDrawer : NodeEditor
             
             _inputSerializedProperty = serializedObject.FindProperty("Input");
             _outputSerializedProperty = serializedObject.FindProperty("Output");
-            
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer();
             _lineDrawer = new LineDrawer();
         }
 
@@ -58,33 +61,33 @@ public class CustomizationNodeDrawer : NodeEditor
         
         if (_listSettingsBodyProperty != null)
         {
-            DrawCustomizationFields(_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.LocalizationBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
                 "Choice Bodies","ResetBodiesCustomizationSettings", "ReinitBodiesCustomizationSettings");
         }
 
         if (_listSettingsHairstylesProperty != null)
         {
-            DrawCustomizationFields(_listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.LocalizationHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
                 "Choice Hairstyles","ResetHairstylesCustomizationSettings", "ReinitHairstylesCustomizationSettings");
         }
 
         if (_listSettingsClothesProperty != null)
         {
-            DrawCustomizationFields(_listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.LocalizationClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
                 "Choice Clothes","ResetClothesCustomizationSettings", "ReinitClothesCustomizationSettings");
         }
 
         if (_listSettingsSwimsuitsProperty != null)
         {
-            DrawCustomizationFields(_listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.LocalizationSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
                 "Choice Swimsuits","ResetSwimsuitsCustomizationSettings", "ReinitSwimsuitsCustomizationSettings");
         }
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawCustomizationFields(SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
+    private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettingsLocalization> settingsLocalization, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
     {
-        DrawCustomizationSettingsFields(listSerializedProperty, foldoutSerializedProperty, label);
+        DrawCustomizationSettingsFields(settingsLocalization, listSerializedProperty, foldoutSerializedProperty, label);
         EditorGUILayout.Space(5f);
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Reset", GUILayout.Width(50f), GUILayout.Height(20f)))
@@ -94,7 +97,7 @@ public class CustomizationNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         _lineDrawer.DrawHorizontalLine(Color.black);
     }
-    private void DrawCustomizationSettingsFields(SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
+    private void DrawCustomizationSettingsFields(IReadOnlyList<ICustomizationSettingsLocalization> settingsLocalization, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
     {
         foldoutSerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(foldoutSerializedProperty.boolValue,  label);
         if (foldoutSerializedProperty.boolValue)
@@ -105,16 +108,17 @@ public class CustomizationNodeDrawer : NodeEditor
             SerializedProperty keyAddSerializedProperty;
             SerializedProperty showParamsKeySerializedProperty;
             SerializedProperty showStatKeySerializedProperty;
-            string nameLabel;
+            SerializedProperty nameLabelSerializedProperty;
+            LocalizationString nameLabel;
             for (int i = 0; i < listSerializedProperty.arraySize; i++)
             {
                 customizationSettingsSerializedProperty = listSerializedProperty.GetArrayElementAtIndex(i);
-                nameLabel = customizationSettingsSerializedProperty.FindPropertyRelative("_name").stringValue;
+                nameLabel = settingsLocalization[i].LocalizationName;
                 keyAddSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyAdd");
                 showParamsKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowParams");
                 showStatKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowStats");
                 _lineDrawer.DrawHorizontalLine(Color.green);
-                EditorGUILayout.LabelField(nameLabel, GUILayout.Width(300f));
+                EditorGUILayout.LabelField(nameLabel.DefaultText, GUILayout.Width(300f));
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Add: ", GUILayout.Width(30f));

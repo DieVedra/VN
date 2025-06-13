@@ -35,7 +35,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
-        Debug.Log($"_localizationText {_localizationText.DefaultText}");
+        // Debug.Log($"_localizationText {_localizationText.DefaultText}");
 
         // _localizationText.SetText(_text);
         if (_overrideName == true)

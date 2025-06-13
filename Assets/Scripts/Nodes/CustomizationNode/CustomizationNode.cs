@@ -33,6 +33,10 @@ public class CustomizationNode : BaseNode
     private GameStatsCustodian _gameStatsCustodian;
     private CustomizationNodeInitializer _customizationNodeInitializer;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
+    public IReadOnlyList<ICustomizationSettingsLocalization> LocalizationBodies => _settingsBodies;
+    public IReadOnlyList<ICustomizationSettingsLocalization> LocalizationHairstyles => _settingsHairstyles;
+    public IReadOnlyList<ICustomizationSettingsLocalization> LocalizationClothes => _settingsClothes;
+    public IReadOnlyList<ICustomizationSettingsLocalization> LocalizationSwimsuits => _settingsSwimsuits;
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
         CustomizableCharacter customizableCharacter, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound, GameStatsCustodian gameStatsCustodian,
@@ -51,20 +55,31 @@ public class CustomizationNode : BaseNode
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         if (IsPlayMode() == false)
         {
-            TryInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
-            TryInitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
-            TryInitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
-            TryInitCustomizationSettings(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
+            _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+            _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
+            _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
+            _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
             
-            
+            // TryInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+            // TryInitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
+            // TryInitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
+            // TryInitCustomizationSettings(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
             _gameStatsCustodian.StatsChangedReactiveCommand.Subscribe(_ =>
             {
-                ReinitBodiesCustomizationSettings();
+                InitBodiesCustomizationSettings();
                 ReinitHairstylesCustomizationSettings();
                 ReinitClothesCustomizationSettings();
                 ReinitSwimsuitsCustomizationSettings();
             });
         }
+
+        // for (int i = 0; i < _settingsClothes.Count; i++)
+        // {
+        //     Debug.Log($"                           {_settingsClothes[i].LocalizationName.DefaultText}");
+        //     Debug.Log($"                           {_settingsClothes[i].Name}");
+        // }
+        InitStringsToLocalization(_customizationNodeInitializer.CreateLocalizationArray(
+            _settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -131,7 +146,7 @@ public class CustomizationNode : BaseNode
             _customizationCharacterPanelUIHandler.SetContentInEditMode(_selectedCustomizationContentIndexes);
         }
     }
-    
+
     private void CustomizationEnd(CustomizationResult customizationResult)
     {
         // PS engage
@@ -141,38 +156,39 @@ public class CustomizationNode : BaseNode
         SwitchToNextNodeEvent.Execute();
     }
 
-    private void TryInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
-    {
-        if (sprites != null)
-        {
-            if (settings == null)
-            {
-                settings = _customizationNodeInitializer.InitCustomizationSettings(sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
-            }
-            else if (settings.Count != sprites.Count)
-            {
-                settings = _customizationNodeInitializer.ReInitCustomizationSettings(ref settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
-            }
-            else if (settings.Count > 2 && settings[1].Index == 0)
-            {
-                settings = _customizationNodeInitializer.InitCustomizationSettings(sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
-            }
-        }
-    }
+    // private void TryInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    // {
+    //     Debug.Log(1);
+    //     if (sprites != null)
+    //     {
+    //         settings = _customizationNodeInitializer.InitCustomizationSettings1(ref settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
+    //
+    //     }
+    // }
 
     private void ResetBodiesCustomizationSettings()
     {
-        _settingsBodies = _customizationNodeInitializer.InitCustomizationSettings(_wardrobeSeriaData.GetBodiesSprites(), 1,1);
-    }
-
-    private void ReinitBodiesCustomizationSettings()
-    {
-        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+        _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
     }
 
     private void ResetHairstylesCustomizationSettings()
     {
-        _settingsHairstyles = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.HairstylesData);
+        _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsHairstyles, _customizableCharacter.HairstylesData);
+    }
+
+    private void ResetClothesCustomizationSettings()
+    {
+        _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsClothes, _customizableCharacter.ClothesData, 1);
+    }
+
+    private void ResetSwimsuitsCustomizationSettings()
+    {
+        _customizationNodeInitializer.InitCustomizationSettings1(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
+    }
+
+    private void InitBodiesCustomizationSettings()
+    {
+        _settingsBodies = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
     }
 
     private void ReinitHairstylesCustomizationSettings()
@@ -180,19 +196,11 @@ public class CustomizationNode : BaseNode
         _settingsHairstyles = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsHairstyles, _customizableCharacter.HairstylesData);
     }
 
-    private void ResetClothesCustomizationSettings()
-    {
-        _settingsClothes = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.ClothesData, 1);
-    }
-
     private void ReinitClothesCustomizationSettings()
     {
         _settingsClothes = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsClothes, _customizableCharacter.ClothesData, 1);
     }
-    private void ResetSwimsuitsCustomizationSettings()
-    {
-        _settingsSwimsuits = _customizationNodeInitializer.InitCustomizationSettings(_customizableCharacter.SwimsuitsData, 1);
-    }
+
     private void ReinitSwimsuitsCustomizationSettings()
     {
         _settingsSwimsuits = _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);

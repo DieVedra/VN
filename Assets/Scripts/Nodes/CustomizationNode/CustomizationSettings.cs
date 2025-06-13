@@ -2,17 +2,18 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CustomizationSettings : ICustomizationSettings
+public class CustomizationSettings : ICustomizationSettings, ICustomizationSettingsLocalization
 {
-    [SerializeField/*, HideInInspector*/] private string _name;
-    [SerializeField/*, HideInInspector*/] private int _index;
-    [SerializeField/*, HideInInspector*/] private bool _keyAdd;
-    [SerializeField/*, HideInInspector*/] private bool _keyShowParams;
-    [SerializeField/*, HideInInspector*/] private bool _keyShowStats;
-    [SerializeField/*, HideInInspector*/] private int _price;
+    [SerializeField] private LocalizationString _name;
+    [SerializeField] private int _index;
+    [SerializeField] private bool _keyAdd;
+    [SerializeField] private bool _keyShowParams;
+    [SerializeField] private bool _keyShowStats;
+    [SerializeField] private int _price;
 
-    [SerializeField/*, HideInInspector*/] private List<Stat> _gameStats;
+    [SerializeField] private List<Stat> _gameStats;
     public string Name => _name;
+    public LocalizationString LocalizationName => _name;
     public int Index => _index;
     public bool KeyAdd => _keyAdd;
     public bool KeyShowParams => _keyShowParams;

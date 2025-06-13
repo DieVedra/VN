@@ -16,7 +16,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     private ReactiveProperty<int> _currentLanguageKeyIndex;
     private Dictionary<int, Dictionary<string, string>> _dictionariesMainMenuTranslates;
     private Dictionary<int, Dictionary<string, string>> _dictionaryStoryTranslates;
-    private List<LocalizationString> _localizationStrings;
+    // private List<LocalizationString> _localizationStrings;
     public ReactiveCommand LanguageChanged { get; private set; }
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];

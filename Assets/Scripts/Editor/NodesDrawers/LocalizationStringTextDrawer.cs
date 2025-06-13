@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -12,9 +13,13 @@ public class LocalizationStringTextDrawer
     {
         _simpleTextValidator = simpleTextValidator;
     }
-
+    public LocalizationStringTextDrawer() { }
     public void DrawTextField(LocalizationString localizationString, string label, bool drawTextArea = true)
     {
+        if (_simpleTextValidator == null)
+        {
+            return;
+        }
         _simpleTextValidator.ValidText = localizationString.DefaultText;
         if (drawTextArea)
         {
@@ -38,7 +43,7 @@ public class LocalizationStringTextDrawer
     public LocalizationString GetLocalizationStringFromProperty(SerializedProperty property)
     {
         object targetObject = property.serializedObject.targetObject;
-        System.Type parentType = targetObject.GetType();
+        Type parentType = targetObject.GetType();
         FieldInfo fieldInfo = parentType.GetField(
             property.propertyPath,
             BindingFlags.Instance | 

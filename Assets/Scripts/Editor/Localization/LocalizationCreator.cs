@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using NaughtyAttributes;
 using UnityEngine;
-using MyNamespace;
 using Newtonsoft.Json;
 using UnityEditor;
 using Object = UnityEngine.Object;
@@ -16,7 +15,8 @@ public class LocalizationCreator : ScriptableObject
 {
     private const char _forging = '"';
     private const char _colon = ':';
-    private string _path = "/Localization/JsonFile.json";
+    private string _path = "/Localization";
+    private string _fileName = "/JsonFile.json";
 
     [SerializeField] private string _text;
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
@@ -33,25 +33,29 @@ public class LocalizationCreator : ScriptableObject
                 {
                     if (seria.nodes[i] is BaseNode baseNode)
                     {
-                        seriaStrings.AddRange(baseNode.StringsToLocalization ?? Enumerable.Empty<LocalizationString>());
+                        seriaStrings.AddRange(baseNode.StringsLocalization ?? Enumerable.Empty<LocalizationString>());
                     }
                 }
             }
-            CreateFile(CreateDictionary(seriaStrings));
+            
+            
+            
+            CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}/SeriaFileLocalization.json");
         }
     }
-    
+
+
     [Button()]
     private void Create()
     {
-        CreateFile(CreateDictionary(LocalizationString.LocalizationStrings));
+        CreateFile(CreateDictionary(LocalizationString.LocalizationStrings), $"{Application.dataPath}{_path}{_fileName}");
     }
 
-    private void CreateFile(Dictionary<string, string> dictionary)
+    private void CreateFile(Dictionary<string, string> dictionary, string newPath)
     {
-        string path = $"{Application.dataPath}{_path}";
+        // string path = $"{Application.dataPath}{_path}";
         string file = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
-        File.WriteAllText(path, file);
+        File.WriteAllText(newPath, file);
         AssetDatabase.Refresh();
     }
     [Button()]
@@ -110,9 +114,15 @@ public class LocalizationCreator : ScriptableObject
         var dict = new Dictionary<string, string>();
         foreach (var item in seriaStrings)
         {
-            if (!dict.ContainsKey(item.Key))
+            if (item != null)
             {
-                dict.Add(item.Key, item.DefaultText);
+                if (item.TryRegenerateKey())
+                {
+                    if (!dict.ContainsKey(item.Key))
+                    {
+                        dict.Add(item.Key, item.DefaultText);
+                    }
+                }
             }
         }
 
@@ -122,11 +132,6 @@ public class LocalizationCreator : ScriptableObject
             Debug.Log($" {VARIABLE.Key }  {VARIABLE.Value}");
         }
         return dict;
-        
-        
-        // return seriaStrings.GroupBy(x => x.Key).ToDictionary(
-        //     x => x.Key,
-        //     x => x.First().DefaultText);
     }
     [Button()]
     private void CreateKeyByText()

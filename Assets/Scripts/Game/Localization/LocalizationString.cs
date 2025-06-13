@@ -48,6 +48,17 @@ public class LocalizationString
     {
         DefaultText = text;
     }
+
+    public bool TryRegenerateKey()
+    {
+        bool res = false;
+        if (string.IsNullOrEmpty(DefaultText) == false && string.IsNullOrWhiteSpace(DefaultText) == false)
+        {
+            Key = GenerateStableHash(DefaultText);
+            res = true;
+        }
+        return res;
+    }
     public override string ToString()
     {
         return DefaultText;

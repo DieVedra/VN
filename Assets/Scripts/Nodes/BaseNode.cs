@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using XNode;
@@ -16,8 +17,9 @@ public class BaseNode : Node
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected CancellationTokenSource CancellationTokenSource;
     public string namenode;
-    public LocalizationString[] StringsToLocalization;
+    protected LocalizationString[] StringsToLocalization;
     public NodePort OutputPortBaseNode => GetOutputPort("Output");
+    public IReadOnlyList<LocalizationString> StringsLocalization => StringsToLocalization;
     private BaseNode _nextNode;
 
     public void ConstructBaseNode(ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, SwitchToNextNodeEvent switchToNextNodeEvent,
@@ -100,7 +102,7 @@ public class BaseNode : Node
         }
     }
 
-    protected virtual void InitStringsToLocalization(params LocalizationString[] strings)
+    protected void InitStringsToLocalization(params LocalizationString[] strings)
     {
         StringsToLocalization = strings;
     }
