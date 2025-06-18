@@ -1,90 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class CustomizationNodeInitializer
 {
-    private readonly GameStatsCustodian _gameStatsCustodian;
+    private GameStatsHandler _gameStatsHandler;
+    public GameStatsHandler GameStatsHandler => _gameStatsHandler;
 
-    public CustomizationNodeInitializer(GameStatsCustodian gameStatsCustodian)
+    public CustomizationNodeInitializer(List<Stat> stats)
     {
-        _gameStatsCustodian = gameStatsCustodian;
+        _gameStatsHandler = new GameStatsHandler(stats);
     }
-    public void InitCustomizationSettings1(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void InitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
-        if (sprites == null)
-        {
-            return;
-        }
-        List<CustomizationSettings> newSettings = new List<CustomizationSettings>();
-        CustomizationSettings customizationSetting;
-        for (int i = 0; i < sprites.Count; i++)
-        {
-            if (settings[i] != null && settings[i].Name == sprites[i].Name)
-            {
-                customizationSetting = new CustomizationSettings(
-                    _gameStatsCustodian.GetGameStatsForm(),
-                    sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                    i, sprites[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats);
-                continue;
-            }
-            customizationSetting = new CustomizationSettings(
-                _gameStatsCustodian.GetGameStatsForm(),
-                sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                i, sprites[i].Price);
-            newSettings.Insert(i, customizationSetting);
-        }
-
-        settings = newSettings;
+        BaseInit(ref settings, sprites, false, skipFirstWordsInLabel, skipEndWordsInLabel);
     }
     
-    public List<CustomizationSettings> ReInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void ReInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
-        List<CustomizationSettings> newSettings = new List<CustomizationSettings>();
-        if (settings.Count > sprites.Count)
-        {
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                newSettings.Add(new CustomizationSettings(
-                    TryReInitGameStats(settings[i].GameStats),
-                    settings[i].Name, settings[i].Index, settings[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats));
-            }
-            return newSettings;
-        }
-        else if (settings.Count < sprites.Count)
-        {
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                if (settings.Count - 1 <= i)
-                {
-                    newSettings.Add(new CustomizationSettings(
-                        _gameStatsCustodian.GetGameStatsForm(),
-                        sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                        sprites[i].Price,
-                        i));
-                }
-                else
-                {
-                    newSettings.Add(new CustomizationSettings(
-                        _gameStatsCustodian.GetGameStatsForm(),
-                        sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                        sprites[i].Price,
-                        i));
-                }
-            }
-            return newSettings;
-        }
-        else
-        {
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                newSettings.Add(new CustomizationSettings(
-                    TryReInitGameStats(settings[i].GameStats),
-                    sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                    i, settings[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats));
-            }
-            return newSettings;
-        } 
+        BaseInit(ref settings, sprites, true, skipFirstWordsInLabel, skipEndWordsInLabel);
     }
 
     public SelectedCustomizationContentIndexes CreateCustomizationContent(
@@ -101,34 +34,51 @@ public class CustomizationNodeInitializer
             customizableCharacter);
     }
 
-    private List<Stat> TryReInitGameStats(List<Stat> oldStats)
+    private void BaseInit(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, bool keyReinit, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
-        List<Stat> newStats = _gameStatsCustodian.GetGameStatsForm();
-        if (oldStats.Count > newStats.Count)
+        if (sprites == null)
         {
-            for (int i = 0; i < newStats.Count; i++)
-            {
-                ReInitStat(ref newStats, i, oldStats[i]);
-            }
+            return;
         }
-        else if (oldStats.Count < newStats.Count)
-        {
-            for (int i = 0; i < oldStats.Count; i++)
-            {
-                ReInitStat(ref newStats, i, oldStats[i]);
-            }
-        }
-        return newStats;
-    }
 
-    private void ReInitStat(ref List<Stat> newStats, int index, Stat oldStat)
-    {
-        if (oldStat.Name == newStats[index].Name)
+        if (settings == null)
         {
-            newStats[index] = new Stat(oldStat.Name, oldStat.Value, oldStat.ShowKey, oldStat.ColorField);
+            settings = new List<CustomizationSettings>();
         }
-    }
+        List<CustomizationSettings> newSettings = new List<CustomizationSettings>();
+        List<Stat> gameStats = null;
+        if (keyReinit == false)
+        {
+            gameStats = _gameStatsHandler.GetGameStatsForm();
+        }
+        CustomizationSettings customizationSetting;
+        for (int i = 0; i < sprites.Count; i++)
+        {
+            if (CheckListElementContents(settings, i))
+            {
+                for (int j = 0; j < sprites.Count; j++)
+                {
+                    if (settings[i].Name == sprites[j].Name)
+                    {
+                        customizationSetting = new CustomizationSettings(
+                            keyReinit == false ? gameStats : _gameStatsHandler.ReinitStats(settings[i].GameStats),
+                            sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+                            i, sprites[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats);
+                        break;
+                    }
+                }
+                continue;
+            }
 
+            customizationSetting = new CustomizationSettings(
+                gameStats,
+                sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+                i, sprites[i].Price);
+            newSettings.Insert(i, customizationSetting);
+        }
+
+        settings = newSettings;
+    }
     private List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
     {
         List<CustomizationSettings> spriteIndexesClothes = new List<CustomizationSettings>();
@@ -147,19 +97,15 @@ public class CustomizationNodeInitializer
         return spriteIndexesClothes;
     }
 
-    public LocalizationString[] CreateLocalizationArray(params List<CustomizationSettings>[] lists)
+    private bool CheckListElementContents(List<CustomizationSettings> settings, int index)
     {
-        List<LocalizationString> strings = new List<LocalizationString>();
-        for (int i = 0; i < lists.Length; i++)
+        if (settings.Count > index && settings[index] != null)
         {
-            if (lists[i] != null)
-            {
-                for (int j = 0; j < lists[i].Count; j++)
-                {
-                    strings.Add(lists[i][j].LocalizationName);
-                }
-            }
+            return true;
         }
-        return strings.ToArray();
+        else
+        {
+            return false;
+        }
     }
 }

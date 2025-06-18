@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -119,8 +120,10 @@ public class ChoiceNodeDrawer : NodeEditor
         
         
         EditorGUI.BeginChangeCheck();
-        DrawChoiceField(_localizationStringText1, _showStatsChoice1KeyProperty, _choice1PriceProperty,"Choice 1", "_baseStatsChoice1", 0);
-        DrawChoiceField(_localizationStringText2, _showStatsChoice2KeyProperty, _choice2PriceProperty,"Choice 2", "_baseStatsChoice2", 1);
+        DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
+            _showStatsChoice1KeyProperty, _choice1PriceProperty,"Choice 1", "_baseStatsChoice1", 0);
+        DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
+            _showStatsChoice2KeyProperty, _choice2PriceProperty,"Choice 2", "_baseStatsChoice2", 1);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Show choice3: ");
@@ -128,7 +131,8 @@ public class ChoiceNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         if (_showChoice3Property.boolValue)
         {
-            DrawChoiceField(_localizationStringText3, _showStatsChoice3KeyProperty, _choice3PriceProperty, "Choice 3", "_baseStatsChoice3", 2);
+            DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
+                _showStatsChoice3KeyProperty, _choice3PriceProperty, "Choice 3", "_baseStatsChoice3", 2);
         }
         if (EditorGUI.EndChangeCheck())
         {
@@ -142,7 +146,7 @@ public class ChoiceNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawChoiceField(LocalizationString textProperty, SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty,
+    private void DrawChoiceField(LocalizationString textProperty, IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations, SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty,
         string label, string nameBaseStatsChoice, int indexNamePort)
     {
         EditorGUILayout.Space(10f);
@@ -152,7 +156,7 @@ public class ChoiceNodeDrawer : NodeEditor
         showStatsChoiceProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", showStatsChoiceProperty.boolValue);
         if (showStatsChoiceProperty.boolValue == true)
         {
-            DrawStats(serializedObject.FindProperty(nameBaseStatsChoice));
+            DrawStats(baseStatsChoiceLocalizations, serializedObject.FindProperty(nameBaseStatsChoice));
         }
         if (NamesNotEmpty())
         {
@@ -168,7 +172,7 @@ public class ChoiceNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawStats(SerializedProperty gameStatsFormsSerializedProperty)
+    private void DrawStats(IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations, SerializedProperty gameStatsFormsSerializedProperty)
     {
         SerializedProperty statFormSerializedProperty;
         EditorGUILayout.BeginVertical();
@@ -176,7 +180,8 @@ public class ChoiceNodeDrawer : NodeEditor
         for (int i = 0; i < gameStatsFormsSerializedProperty.arraySize; i++)
         {
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
-            DrawField(statFormSerializedProperty.FindPropertyRelative("_value"), statFormSerializedProperty.FindPropertyRelative("_name").stringValue);
+            DrawField(statFormSerializedProperty.FindPropertyRelative("_value"),
+                baseStatsChoiceLocalizations[i].LocalizationName.DefaultText);
         }
         EditorGUILayout.EndVertical();
     }

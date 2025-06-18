@@ -17,6 +17,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
+    private SeriaGameStatsProviderBuild _seriaGameStatsProviderBuild;
 
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
@@ -30,6 +31,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
+        _seriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
@@ -56,19 +58,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private void Init()
     {
+        // GameStatsCustodian.Construct();
+
         if (LoadSaveData == true)
         {
             SaveData = SaveServiceProvider.SaveData;
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             TestMonets = SaveData.Monets;
             TestHearts = SaveData.Hearts;
-            GameStatsCustodian.Init(StoryData.Stats);
+            // GameStatsCustodian.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }
-        else
-        {
-            GameStatsCustodian.Init();
-        }
+        // else
+        // {
+        //     GameStatsCustodian.Construct();
+        // }
         InitGlobalSound();
         OnSceneTransition = new ReactiveCommand();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -88,9 +92,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             LevelUIProvider,
             CharacterViewer, WardrobeCharacterViewer,
             _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacter,
-            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode,
-            _globalSound, GameStatsCustodian,
-            Wallet,
+            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _seriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -136,7 +138,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
-            StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
+            // StoryData.Stats = GameStatsCustodian.GetSaveStatsToSave();
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
             
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;

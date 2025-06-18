@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CustomizationSettings : ICustomizationSettings, ICustomizationSettingsLocalization
+public class CustomizationSettings : ICustomizationSettings
 {
     [SerializeField] private LocalizationString _name;
     [SerializeField] private int _index;
@@ -20,6 +20,7 @@ public class CustomizationSettings : ICustomizationSettings, ICustomizationSetti
     public bool KeyShowStats => _keyShowStats;
     public int Price => _price;
     public List<Stat> GameStats => _gameStats;
+    public IReadOnlyList<ILocalizationString> GameStatsLocalizationStrings => _gameStats;
     public CustomizationSettings(List<Stat> gameStats, string name, int index, int price,
         bool keyAdd, bool keyShowParams, bool keyShowStats)
     {

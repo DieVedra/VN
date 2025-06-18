@@ -51,14 +51,20 @@ public class BackgroundNodeDrawer : NodeEditor
 
     private void DrawPopup()
     {
-        _namesToPopup = new List<string>();
-        foreach (BackgroundContent content in _backgroundNode.Backgrounds)
+        if (_backgroundNode.Backgrounds != null)
         {
-            _namesToPopup.Add(content.name);
+            _namesToPopup = new List<string>();
+            foreach (BackgroundContent content in _backgroundNode.Backgrounds)
+            {
+                if (content != null)
+                {
+                    _namesToPopup.Add(content.name);
+                }
+            }
+            SerializedProperty serializedPropertyValue = serializedObject.FindProperty("_index");
+            GUIContent arrayLabel = new GUIContent("Current: ");
+            serializedPropertyValue.intValue = EditorGUILayout.Popup(arrayLabel, serializedPropertyValue.intValue,  _namesToPopup.ToArray());
         }
-        SerializedProperty serializedPropertyValue = serializedObject.FindProperty("_index");
-        GUIContent arrayLabel = new GUIContent("Current: ");
-        serializedPropertyValue.intValue = EditorGUILayout.Popup(arrayLabel, serializedPropertyValue.intValue,  _namesToPopup.ToArray());
     }
 
     private void DrawEnumPopup()

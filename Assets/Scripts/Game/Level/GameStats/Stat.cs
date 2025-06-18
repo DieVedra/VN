@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class Stat : BaseStat
 {
-    [SerializeField] private Color _colorField;
+    [SerializeField] private Color _colorField = Color.white;
     [SerializeField] private bool _showKey;
     [SerializeField] private bool _showInEndGameResultKey;
 

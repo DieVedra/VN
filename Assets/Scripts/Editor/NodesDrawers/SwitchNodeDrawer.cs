@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -76,7 +77,7 @@ public class SwitchNodeDrawer : NodeEditor
                     if (i < _casesForStatsListProperty.arraySize)
                     {
                         NodePort port = _switchNode.GetOutputPort(_casesForStatsListProperty.GetArrayElementAtIndex(i).FindPropertyRelative("_name").stringValue);
-                        DrawCase( _casesForStatsListProperty.GetArrayElementAtIndex(i), port.fieldName, $"CaseForStats {i + 1} port");
+                        DrawCase(_switchNode.CaseLocalizations[i], _casesForStatsListProperty.GetArrayElementAtIndex(i), port.fieldName, $"CaseForStats {i + 1} port");
                     }
                 }
             }
@@ -117,21 +118,21 @@ public class SwitchNodeDrawer : NodeEditor
         }
         methodInfo.Invoke(_switchNode, null);
     }
-    private void DrawCase(SerializedProperty serializedPropertyMyCase, string portName, string portViewName)
+    private void DrawCase(CaseForStats statsLocalizations, SerializedProperty serializedPropertyMyCase, string portName, string portViewName)
     {
         SerializedProperty serializedProperty = serializedPropertyMyCase.FindPropertyRelative("_foldoutKey");
         serializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(serializedProperty.boolValue,  "Settings");
         
         if (serializedProperty.boolValue == true)
         {
-            DrawStats(serializedPropertyMyCase.FindPropertyRelative("_caseStats"));
+            DrawStats(statsLocalizations.StatsLocalizations, serializedPropertyMyCase.FindPropertyRelative("_caseStats"));
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
         NodeEditorGUILayout.PortField(new GUIContent(portViewName), _switchNode.GetOutputPort(portName));
         EditorGUILayout.Space(10f);
 
     }
-    private void DrawStats(SerializedProperty statsSerializedPropertyMyCase)
+    private void DrawStats(IReadOnlyList<ILocalizationString> caseStats, SerializedProperty statsSerializedPropertyMyCase)
     {
         SerializedProperty serializedPropertyToggle;
         SerializedProperty serializedProperty;
@@ -141,7 +142,7 @@ public class SwitchNodeDrawer : NodeEditor
             serializedProperty = statsSerializedPropertyMyCase.GetArrayElementAtIndex(i);
             serializedPropertyToggle = serializedProperty.FindPropertyRelative("_includeKey");
             serializedPropertyToggle.boolValue = EditorGUILayout.Toggle(serializedPropertyToggle.boolValue, GUILayout.Width(20f));
-            DrawLabel(serializedProperty.FindPropertyRelative("_name"));
+            DrawLabel(caseStats[i].LocalizationName.DefaultText);
             if (serializedPropertyToggle.boolValue)
             {
                 DrawPopup(serializedProperty.FindPropertyRelative("_indexCurrentOperator"));
@@ -151,9 +152,9 @@ public class SwitchNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawLabel(SerializedProperty serializedProperty)
+    private void DrawLabel(string name)
     {
-        EditorGUILayout.LabelField(serializedProperty.stringValue,GUILayout.Width(150f));
+        EditorGUILayout.LabelField(name,GUILayout.Width(150f));
     }
 
     private void DrawPopup(SerializedProperty indexSerializedProperty)

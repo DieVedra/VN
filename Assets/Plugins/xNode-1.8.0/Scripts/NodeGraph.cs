@@ -11,7 +11,7 @@ namespace XNode {
         /// See: <see cref="AddNode{T}"/> </summary>
         [SerializeField] public List<Node> nodes = new List<Node>();
 
-        protected Action OnChangeGraph;
+        protected event Action<Node> OnChangeGraph;
         /// <summary> Add a node to the graph by type (convenience method - will call the System.Type version) </summary>
         public T AddNode<T>() where T : Node {
             return AddNode(typeof(T)) as T;
@@ -23,7 +23,7 @@ namespace XNode {
             Node node = ScriptableObject.CreateInstance(type) as Node;
             node.graph = this;
             nodes.Add(node);
-            OnChangeGraph?.Invoke();
+            OnChangeGraph?.Invoke(node);
             return node;
         }
 
@@ -34,7 +34,7 @@ namespace XNode {
             node.graph = this;
             node.ClearConnections();
             nodes.Add(node);
-            OnChangeGraph?.Invoke();
+            OnChangeGraph?.Invoke(node);
             return node;
         }
 
@@ -43,7 +43,6 @@ namespace XNode {
         public virtual void RemoveNode(Node node) {
             node.ClearConnections();
             nodes.Remove(node);
-            OnChangeGraph?.Invoke();
             if (Application.isPlaying) Destroy(node);
         }
 
@@ -55,7 +54,6 @@ namespace XNode {
                 }
             }
             nodes.Clear();
-            OnChangeGraph?.Invoke();
         }
 
         /// <summary> Create a new deep copy of this graph </summary>

@@ -9,8 +9,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     [SerializeField] protected WardrobeCharacterViewer WardrobeCharacterViewer;
 
     [SerializeField] protected LevelUIView LevelUIView;
-    [SerializeField] protected GameStatsCustodian GameStatsCustodian;
-
     [SerializeField, Space(10f)] protected int TestMonets;
     [SerializeField, Space(10f)] protected int TestHearts;
     

@@ -7,10 +7,11 @@ public class CalculateStatsHandler
     public List<BaseStat> PreliminaryStats;
     private List<BaseStat> _stats;
     
-    public CalculateStatsHandler(List<BaseStat> preliminaryStats)
+    public CalculateStatsHandler(List<Stat> preliminaryStats)
     {
-        _stats = preliminaryStats;
-        PreliminaryStats = preliminaryStats.ToList();
+        _stats = preliminaryStats.Cast<BaseStat>().ToList();
+        
+        PreliminaryStats = _stats;
     }
     public void PreliminaryStatsCalculation(params SwitchInfo[] switchInfo)
     {

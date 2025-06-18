@@ -1,5 +1,5 @@
 ﻿
-public interface ICustomizationSettingsLocalization
+public interface ILocalizationString
 {
     public LocalizationString LocalizationName {get; }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class NodeGraphInitializer
 {
@@ -11,12 +12,13 @@ public class NodeGraphInitializer
     private readonly CharacterViewer _characterViewer;
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
     private readonly Sound _sound;
-    private readonly GameStatsCustodian _gameStatsCustodian;
     private readonly Wallet _wallet;
+    private readonly IGameStatsProvider _gameStatsProvider;
     private readonly DisableNodesContentEvent _disableNodesContentEvent;
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly List<BackgroundContent> _backgrounds;
     private readonly IReadOnlyList<Character> _characters;
+    private List<Stat> _stats;
     public CustomizableCharacter CustomizableCharacter { get; }
     public IWardrobeSeriaDataProvider WardrobeSeriaDataProvider { get; }
 
@@ -24,7 +26,7 @@ public class NodeGraphInitializer
     public NodeGraphInitializer(IReadOnlyList<Character> characters, List<BackgroundContent> backgrounds, Background background, 
         LevelUIProvider levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
         CustomizableCharacter customizableCharacter, IWardrobeSeriaDataProvider wardrobeSeriaDataProvider,
-        Sound sound, GameStatsCustodian gameStatsCustodian, Wallet wallet,
+        Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
     {
@@ -36,8 +38,8 @@ public class NodeGraphInitializer
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         CustomizableCharacter = customizableCharacter;
         _sound = sound;
-        _gameStatsCustodian = gameStatsCustodian;
         _wallet = wallet;
+        _gameStatsProvider = gameStatsProvider;
         SwitchToNextNodeEvent = switchToNextNodeEvent;
         SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
         _disableNodesContentEvent = disableNodesContentEvent;
@@ -46,110 +48,103 @@ public class NodeGraphInitializer
         _characters = characters;
     }
 
-    public void Init(List<BaseNode> nodes, int seriaIndex)
+    public void Init(List<BaseNode> nodes, List<Stat> stats, int seriaIndex)
     {
         foreach (var node in nodes)
         {
-            node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent);
-
-            if (node is CharacterNode characterNode)
-            {
-                characterNode.ConstructMyCharacterNode(_characters, _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
-                continue;
-            }
-
-            if (node is NarrativeNode narrativeNode)
-            {
-                narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
-                continue;
-            }
-
-            if (node is NotificationNode notificationNode)
-            {
-                notificationNode.ConstructMyNotificationNode(_levelUIProvider.NotificationPanelUIHandler);
-                continue;
-            }
-            
-            if (node is SmoothTransitionNode smoothTransitionNode)
-            {
-                smoothTransitionNode.ConstructMySmoothTransitionNode(_levelUIProvider.CurtainUIHandler);
-                continue;
-            }
-            
-            if (node is BackgroundNode backgroundNode)
-            {
-                backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
-                continue;
-            }
-
-            if (node is SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode)
-            {
-                switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent);
-                continue;
-            }
-            
-            if (node is MergerNode mergerNode)
-            {
-                mergerNode.ConstructMyMergerNode();
-                continue;
-            }
-            
-            if (node is ChoiceNode choiceNode)
-            {
-                choiceNode.ConstructMyChoiceNode(_gameStatsCustodian, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent);
-                continue;
-            }
-            if (node is SoundNode soundNode)
-            {
-                soundNode.ConstructMySoundNode(_sound);
-                continue;
-            }
-            
-            if (node is CustomizationNode customizationNode)
-            {
-                customizationNode.ConstructMyCustomizationNode(
-                    _levelUIProvider.CustomizationCharacterPanelUIHandler,
-                    _levelUIProvider.CustomizationCurtainUIHandler,
-                    CustomizableCharacter,
-                    WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
-                    _background, _sound, _gameStatsCustodian, _wallet, _wardrobeCharacterViewer);
-                continue;
-            }
-
-            if (node is SwitchNode switchNode)
-            {
-                switchNode.ConstructMySwitchNode(_gameStatsCustodian);
-                continue;
-            }
-
-            if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
-            {
-                addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
-                continue;
-            }
-
-            if (node is HeaderNode handlerNode)
-            {
-                handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI, _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler);
-                continue;
-            }
-
-            if (node is CharacterColorByBackgroundNode characterColorByBackgroundNode)
-            {
-                characterColorByBackgroundNode.Construct(_characterViewer);
-                continue;
-            }
-            if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
-            {
-                switchToNextSeriaNode.Construct(_switchToNextSeriaEvent);
-                continue;
-            }
-            
-            if (node is ShowArtNode showImageNode)
-            {
-                showImageNode.Construct(_background);
-            }
+            InitOneNode(node, seriaIndex);
         }
         _disableNodesContentEvent.Execute();
+    }
+
+    public void InitOneNode(BaseNode node, int seriaIndex)
+    {
+        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent);
+        if (node is CharacterNode characterNode)
+        {
+            characterNode.ConstructMyCharacterNode(_characters, _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 
+            return;
+        }
+        if (node is NarrativeNode narrativeNode)
+        {
+            narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
+            return;
+        }
+        if (node is NotificationNode notificationNode)
+        {
+            notificationNode.ConstructMyNotificationNode(_levelUIProvider.NotificationPanelUIHandler);
+            return;
+        }
+        if (node is SmoothTransitionNode smoothTransitionNode)
+        {
+            smoothTransitionNode.ConstructMySmoothTransitionNode(_levelUIProvider.CurtainUIHandler);
+            return;
+        }
+        if (node is BackgroundNode backgroundNode)
+        {
+            backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
+            return;
+        }
+        if (node is SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode)
+        {
+            switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent);
+            return;
+        }
+        if (node is MergerNode mergerNode)
+        {
+            mergerNode.ConstructMyMergerNode();
+            return;
+        }
+        if (node is SoundNode soundNode)
+        {
+            soundNode.ConstructMySoundNode(_sound);
+            return;
+        }
+        if (node is ChoiceNode choiceNode)
+        {
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
+            return;
+        }
+        if (node is CustomizationNode customizationNode)
+        {
+            customizationNode.ConstructMyCustomizationNode(
+                _levelUIProvider.CustomizationCharacterPanelUIHandler,
+                _levelUIProvider.CustomizationCurtainUIHandler,
+                CustomizableCharacter,
+                WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
+                _background, _sound,
+                _gameStatsProvider,
+                _wallet, _wardrobeCharacterViewer, seriaIndex);
+                return;
+        }
+        if (node is SwitchNode switchNode)
+        {
+            switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
+            return;
+        }
+        if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
+        {
+            addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
+            return;
+        }
+        if (node is HeaderNode handlerNode)
+        {
+            handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI, _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler);
+            return;
+        }
+        if (node is CharacterColorByBackgroundNode characterColorByBackgroundNode)
+        {
+            characterColorByBackgroundNode.Construct(_characterViewer);
+            return;
+        }
+        if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
+        {
+            switchToNextSeriaNode.Construct(_switchToNextSeriaEvent);
+            return;
+        }
+        if (node is ShowArtNode showImageNode)
+        {
+            showImageNode.Construct(_background);
+        }
     }
 }

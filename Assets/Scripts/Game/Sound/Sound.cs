@@ -72,9 +72,17 @@ public class Sound : MonoBehaviour
         MusicAudioData = null;
         AmbientAudioData = null;
     }
-    public void SetPlayTime(float time)
+    public void SetPlayTime(float time, AudioSourceType audioSourceType)
     {
-        _audioSourceMusic.time = time;
+        switch (audioSourceType)
+        {
+            case AudioSourceType.Music:
+                _audioSourceMusic.time = time;
+                break;
+            case AudioSourceType.Ambient:
+                _audioSourceAmbient.time = time;
+                break;
+        }
     }
 
     public void PlayAudioByIndex(int audioClipIndex, AudioSourceType audioSourceType)

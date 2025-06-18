@@ -9,6 +9,7 @@ public class CaseForStats
     [SerializeField] private string _name;
     public string Name => _name;
     public IReadOnlyList<CaseBaseStat> CaseStats => _caseStats;
+    public IReadOnlyList<ILocalizationString> StatsLocalizations => _caseStats;
 
     public CaseForStats(List<CaseBaseStat> caseStats, string name)
     {

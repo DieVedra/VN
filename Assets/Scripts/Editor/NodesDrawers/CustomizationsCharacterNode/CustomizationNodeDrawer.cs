@@ -61,33 +61,33 @@ public class CustomizationNodeDrawer : NodeEditor
         
         if (_listSettingsBodyProperty != null)
         {
-            DrawCustomizationFields(_customizationNode.LocalizationBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.SettingsBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
                 "Choice Bodies","ResetBodiesCustomizationSettings", "ReinitBodiesCustomizationSettings");
         }
 
         if (_listSettingsHairstylesProperty != null)
         {
-            DrawCustomizationFields(_customizationNode.LocalizationHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.SettingsHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
                 "Choice Hairstyles","ResetHairstylesCustomizationSettings", "ReinitHairstylesCustomizationSettings");
         }
 
         if (_listSettingsClothesProperty != null)
         {
-            DrawCustomizationFields(_customizationNode.LocalizationClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.SettingsClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
                 "Choice Clothes","ResetClothesCustomizationSettings", "ReinitClothesCustomizationSettings");
         }
 
         if (_listSettingsSwimsuitsProperty != null)
         {
-            DrawCustomizationFields(_customizationNode.LocalizationSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
+            DrawCustomizationFields(_customizationNode.SettingsSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
                 "Choice Swimsuits","ResetSwimsuitsCustomizationSettings", "ReinitSwimsuitsCustomizationSettings");
         }
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettingsLocalization> settingsLocalization, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
+    private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
     {
-        DrawCustomizationSettingsFields(settingsLocalization, listSerializedProperty, foldoutSerializedProperty, label);
+        DrawCustomizationSettingsFields(settings, listSerializedProperty, foldoutSerializedProperty, label);
         EditorGUILayout.Space(5f);
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Reset", GUILayout.Width(50f), GUILayout.Height(20f)))
@@ -97,7 +97,7 @@ public class CustomizationNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         _lineDrawer.DrawHorizontalLine(Color.black);
     }
-    private void DrawCustomizationSettingsFields(IReadOnlyList<ICustomizationSettingsLocalization> settingsLocalization, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
+    private void DrawCustomizationSettingsFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
     {
         foldoutSerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(foldoutSerializedProperty.boolValue,  label);
         if (foldoutSerializedProperty.boolValue)
@@ -108,12 +108,11 @@ public class CustomizationNodeDrawer : NodeEditor
             SerializedProperty keyAddSerializedProperty;
             SerializedProperty showParamsKeySerializedProperty;
             SerializedProperty showStatKeySerializedProperty;
-            SerializedProperty nameLabelSerializedProperty;
             LocalizationString nameLabel;
             for (int i = 0; i < listSerializedProperty.arraySize; i++)
             {
                 customizationSettingsSerializedProperty = listSerializedProperty.GetArrayElementAtIndex(i);
-                nameLabel = settingsLocalization[i].LocalizationName;
+                nameLabel = settings[i].LocalizationName;
                 keyAddSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyAdd");
                 showParamsKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowParams");
                 showStatKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowStats");
@@ -145,7 +144,7 @@ public class CustomizationNodeDrawer : NodeEditor
                     showStatKeySerializedProperty.boolValue = EditorGUILayout.Toggle(showStatKeySerializedProperty.boolValue, GUILayout.Width(50f));
                     EditorGUILayout.EndHorizontal();
 
-                    DrawStats(customizationSettingsSerializedProperty.FindPropertyRelative("_gameStats"));
+                    DrawStats(settings[i].GameStatsLocalizationStrings, customizationSettingsSerializedProperty.FindPropertyRelative("_gameStats"));
                 }
             }
             EditorGUILayout.EndScrollView();
@@ -153,7 +152,7 @@ public class CustomizationNodeDrawer : NodeEditor
         EditorGUILayout.EndFoldoutHeaderGroup();
     }
 
-    private void DrawStats(SerializedProperty gameStatsFormsSerializedProperty)
+    private void DrawStats(IReadOnlyList<ILocalizationString> gameStatsLocalizationStrings, SerializedProperty gameStatsFormsSerializedProperty)
     {
         SerializedProperty statFormSerializedProperty;
         EditorGUILayout.BeginVertical();
@@ -163,7 +162,7 @@ public class CustomizationNodeDrawer : NodeEditor
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
             EditorGUILayout.BeginHorizontal();
 
-            DrawIntField(statFormSerializedProperty.FindPropertyRelative("_value"), statFormSerializedProperty.FindPropertyRelative("_name").stringValue);
+            DrawIntField(statFormSerializedProperty.FindPropertyRelative("_value"), gameStatsLocalizationStrings[i].LocalizationName.DefaultText);
             DrawBoolField(statFormSerializedProperty.FindPropertyRelative("_showKey"), "ShowKey: ");
             EditorGUILayout.EndHorizontal();
 

@@ -577,6 +577,7 @@
               <e p="GameEntryPointDrawer.cs" t="Include" />
               <e p="GameStatsDrawer.cs" t="Include" />
               <e p="SpriteDataDrawer.cs" t="Include" />
+              <e p="StatProviderDrawer.cs" t="Include" />
             </e>
             <e p="LineDrawer.cs" t="Include" />
             <e p="Localization" t="Include">
@@ -733,7 +734,13 @@
               <e p="GameStats" t="Include">
                 <e p="BaseStat.cs" t="Include" />
                 <e p="GameStatsCustodian.cs" t="Include" />
+                <e p="GameStatsHandler.cs" t="Include" />
+                <e p="GameStatsViewer.cs" t="Include" />
+                <e p="IGameStatsProvider.cs" t="Include" />
                 <e p="SaveStat.cs" t="Include" />
+                <e p="SeriaGameStatsProviderBuild.cs" t="Include" />
+                <e p="SeriaGameStatsProviderEditor.cs" t="Include" />
+                <e p="SeriaStatProvider.cs" t="Include" />
                 <e p="Stat.cs" t="Include" />
               </e>
               <e p="LevelEntryPoint.cs" t="Include" />
@@ -774,8 +781,8 @@
             <e p="LocalizableString.cs" t="Include" />
             <e p="Localization" t="Include">
               <e p="AttributeFinder.cs" t="Include" />
-              <e p="ICustomizationSettingsLocalization.cs" t="Include" />
               <e p="ILocalizationChanger.cs" t="Include" />
+              <e p="ILocalizationString.cs" t="Include" />
               <e p="LevelLocalizationHandler.cs" t="Include" />
               <e p="LevelLocalizationProvider.cs" t="Include" />
               <e p="LocalizationString.cs" t="Include" />

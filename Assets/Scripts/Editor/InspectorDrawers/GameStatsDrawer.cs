@@ -1,62 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(GameStatsCustodian))]
+[CustomEditor(typeof(GameStatsViewer))]
 public class GameStatsDrawer : Editor
 {
-    private string _nameField;
-    private Color _colorField;
-    private LineDrawer _lineDrawer;
-    private GameStatsCustodian _gameStatsCustodian;
-    private SerializedProperty _listStatsProperty;
-    private SerializedProperty _serializedProperty;
-    private MethodInfo _addNewStatMethod;
-    private MethodInfo _removeStat;
+    private GameStatsViewer _gameStatsViewer;
     private GUIStyle _guiStyle;
-    private int _statIndex;
-    private string[] _names;
 
     private void OnEnable()
     {
-        _gameStatsCustodian = target as GameStatsCustodian;
-        _lineDrawer = new LineDrawer();
-        _listStatsProperty = serializedObject.FindProperty($"_stats");
-        _addNewStatMethod = _gameStatsCustodian.GetType().GetMethod("AddNewStat", BindingFlags.NonPublic | BindingFlags.Instance);
-        _removeStat = _gameStatsCustodian.GetType().GetMethod("RemoveStat", BindingFlags.NonPublic | BindingFlags.Instance);
-        SetStatNameIndex();
-        _colorField = Color.white;
-
-        TryInitStatNames();
+        _gameStatsViewer = target as GameStatsViewer;
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        if (_listStatsProperty != null)
+        if (_gameStatsViewer.StatsToView != null && _gameStatsViewer.StatsToView.Count > 0)
         {
-            for (int i = 0; i < _listStatsProperty.arraySize; i++)
+            for (int i = 0; i < _gameStatsViewer.StatsToView.Count; i++)
             {
-                _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
                 DrawFieldColor(
-                    _serializedProperty.FindPropertyRelative("_name").stringValue,
-                    _serializedProperty.FindPropertyRelative("_value").intValue,
-                    _serializedProperty.FindPropertyRelative("_showInEndGameResultKey"),
-                    _serializedProperty.FindPropertyRelative("_colorField").colorValue);
+                    _gameStatsViewer.StatsToView[i].LocalizationName.DefaultText,
+                    _gameStatsViewer.StatsToView[i].Value,
+                    _gameStatsViewer.StatsToView[i].ShowInEndGameResultKey,
+                    _gameStatsViewer.StatsToView[i].ColorField);
             }
         }
-        EditorGUILayout.Space(30f);
-        DrawAdd();
-        if (_listStatsProperty.arraySize > 0)
-        {
-            DrawRemove();
-        }
+
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawFieldColor(string fieldName, int value, SerializedProperty showInEndGameResultKeySerializedProperty, Color color)
+    private void DrawFieldColor(string fieldName, int value, bool showInEndGameResultKey, Color color)
     {
         EditorGUILayout.Space(20f);
         EditorGUILayout.BeginHorizontal();
@@ -66,11 +40,8 @@ public class GameStatsDrawer : Editor
         DrawField(fieldName, _guiStyle, 200f, 2);
         _guiStyle.normal.textColor = oldColor;
         DrawField(value.ToString(), _guiStyle, 30f, 2);
-        
-        DrawField("ShowInGameResult:", _guiStyle, 100f, -3);
-        showInEndGameResultKeySerializedProperty.boolValue =
-            EditorGUILayout.Toggle(showInEndGameResultKeySerializedProperty.boolValue);
 
+        DrawField($"ShowInGameResult: {showInEndGameResultKey}", _guiStyle, 200f, -1);
         EditorGUILayout.EndHorizontal();
     }
 
@@ -80,69 +51,8 @@ public class GameStatsDrawer : Editor
         style.fontSize = style.fontSize + addFontSize;
         style.fontStyle = fontStyle;
         EditorGUILayout.LabelField(fieldName, style, GUILayout.Width(width));
+        
+        
         style.fontSize = fontSize;
-    }
-
-    private void DrawAdd()
-    {
-        _guiStyle = new GUIStyle(GUI.skin.label);
-        _lineDrawer.DrawHorizontalLine(Color.red);
-        DrawField("Add Stat: ", _guiStyle, 80f, 1, FontStyle.Bold);
-        EditorGUILayout.Space(10f);
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Name: ", GUILayout.Width(40f));
-        _nameField = EditorGUILayout.TextField(_nameField, GUILayout.Width(150f));
-        EditorGUILayout.LabelField("Color: ", GUILayout.Width(40f));
-        _colorField = EditorGUILayout.ColorField(_colorField, GUILayout.Width(40f));
-        if (GUILayout.Button("Add", GUILayout.Width(40f)))
-        {
-            _addNewStatMethod.Invoke(_gameStatsCustodian, new object[]{new Stat(_nameField, 0, false, _colorField)});
-            TryInitStatNames();
-            _colorField = Color.white;
-            _nameField = String.Empty;
-            SetStatNameIndex();
-            serializedObject.Update();
-        }
-        EditorGUILayout.EndHorizontal();
-    }
-
-    private void DrawRemove()
-    {
-        EditorGUILayout.Space(20f);
-        _guiStyle = new GUIStyle(GUI.skin.label);
-        DrawField("Remove Stat: ", _guiStyle, 100f, 1, FontStyle.Bold);
-        EditorGUILayout.BeginHorizontal();
-        _statIndex = EditorGUILayout.Popup(_statIndex, _names, GUILayout.Width(150f));
-        if (GUILayout.Button("Remove", GUILayout.Width(60f)))
-        {
-            _removeStat.Invoke(_gameStatsCustodian, new object[]{_statIndex});
-            TryInitStatNames();
-            SetStatNameIndex();
-            serializedObject.Update();
-        }
-        EditorGUILayout.EndHorizontal();
-    }
-
-    private void SetStatNameIndex()
-    {
-        if (_listStatsProperty.arraySize > 0)
-        {
-            _statIndex = _listStatsProperty.arraySize - 1;
-        }
-        else
-        {
-            _statIndex = 0;
-        }
-    }
-    private void TryInitStatNames()
-    {
-        serializedObject.Update();
-        List<string> names = new List<string>(_listStatsProperty.arraySize);
-        for (int i = 0; i < _listStatsProperty.arraySize; i++)
-        {
-            _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
-            names.Add(_serializedProperty.FindPropertyRelative("_name").stringValue);
-        }
-        _names = names.ToArray();
     }
 }

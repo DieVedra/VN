@@ -1,29 +1,25 @@
-﻿using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
+﻿
+using System.Collections.Generic;
 
-public class GameStatsCustodian : MonoBehaviour
+public class GameStatsHandler
 {
-    [SerializeField] private List<Stat> _stats;
-    private ReactiveCommand _statsChangedReactiveCommand;
+    private readonly List<Stat> _stats;
 
-    public int Count => _stats.Count;
-    public ReactiveCommand StatsChangedReactiveCommand => _statsChangedReactiveCommand;
-    public IReadOnlyList<Stat> Stats => _stats;
-    public IReadOnlyList<ILocalizationString> StatsLocalizationStrings => _stats;
-    public void Init(List<Stat> stats)
+    public List<Stat> Stats => _stats;
+
+    public GameStatsHandler(List<Stat> stats)
     {
-        AddNextSeriaStats(stats);
-        _statsChangedReactiveCommand = new ReactiveCommand();
+        _stats = stats;
     }
-    public SaveStat[] GetSaveStatsToSave()
+
+    public SaveStat[] GetStatsToSave()
     {
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
             baseStats.Add(new SaveStat(_stats[i].Name, _stats[i].Value, _stats[i].ShowKey));
         }
-
+    
         return baseStats.ToArray();
     }
 
@@ -55,7 +51,7 @@ public class GameStatsCustodian : MonoBehaviour
         {
             for (int j = 0; j < saveStats.Length; j++)
             {
-                if (_stats[i].Name == saveStats[j].Name)
+                if (_stats[i].Name == saveStats[j].Name && (saveStats[j].Value != _stats[i].Value) == false)
                 {
                     _stats[i] = new Stat(_stats[i].Name, saveStats[j].Value, saveStats[j].ShowKey, _stats[i].ColorField);
                 }
@@ -115,7 +111,7 @@ public class GameStatsCustodian : MonoBehaviour
         if (stats != null && stats.Count > 0)
         {
             _stats.AddRange(stats);
-            _statsChangedReactiveCommand?.Execute();
+            // _statsChangedReactiveCommand?.Execute();
         }
     }
 

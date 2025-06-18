@@ -8,9 +8,10 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(SoundNode))]
 public class SoundNodeDrawer : NodeEditor
 {
-    private string _smoothTransitionFieldName = "SmoothAudioTransition: ";
-    private string _smoothVolumeIncreaseFieldName = "SmoothIncreaseVol: ";
-    private string _smoothVolumeDecreaseFieldName = "SmoothDecreaseVol: ";
+    private const float _minValue = 0;
+    private const string _smoothTransitionFieldName = "SmoothAudioTransition: ";
+    private const string _smoothVolumeIncreaseFieldName = "SmoothIncreaseVol: ";
+    private const string _smoothVolumeDecreaseFieldName = "SmoothDecreaseVol: ";
     private SoundNode _soundNode;
     private SerializedProperty _instantNodeTransitionSerializedProperty;
     private SerializedProperty _currentSoundIndexSerializedProperty;
@@ -105,11 +106,7 @@ public class SoundNodeDrawer : NodeEditor
             {
                 DrawPopupClips(_soundNode.Names, _currentSoundIndexSerializedProperty, "Audio Clips: ");
                 DrawVolumeSlider(ref  _setVolumeMethod, _volumeSoundSerializedProperty, "SetVolume", "Volume: ");
-
-                DrawPlayer(ref _sliderPlayerMusicValue, _soundNode.Sound.CurrentMusicClipTime, 
-                    () => { InvokeMethod(ref _playMusicAudioMethod, "PlayMusicAudio");},
-                    ()=>{InvokeMethod(ref _stopMusicAudioMethod, "StopMusicAudio"); },
-                    _soundNode.StartedPlayMusic);
+                TryDrawMusicPlayer();
             }
         }
 
@@ -124,10 +121,7 @@ public class SoundNodeDrawer : NodeEditor
             {
                 DrawPopupClips(_soundNode.AmbientNames, _currentAdditionalSoundIndexSerializedProperty, "Additional Audio Clips: ");
                 DrawVolumeSlider(ref _setAdditionalVolumeMethod, _volumeAdditionalSoundSerializedProperty, "SetAdditionalVolume", "Volume: ");
-                DrawPlayer(ref _sliderPlayerAmbientValue, _soundNode.Sound.CurrentAmbientClipTime,
-                    () => { InvokeMethod(ref _playAmbientAudioMethod, "PlayAmbientAudio");},
-                    ()=>{InvokeMethod(ref _stopAmbientAudioMethod, "StopAmbientAudio"); },
-                    _soundNode.StartedPlayAmbient);
+                TryDrawAmbientPlayer();
             }
         }
         DrawPlayStopButtonsFull();
@@ -142,18 +136,18 @@ public class SoundNodeDrawer : NodeEditor
 
     private void ChangeMode()
     {
-        DrawToggle(ref _smoothTransitionFieldName, _smoothMusicVolumeIncreaseSerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty, _smoothMusicTransitionKeySerializedProperty);
-        DrawToggle(ref _smoothVolumeIncreaseFieldName, _smoothMusicTransitionKeySerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty, _smoothMusicVolumeIncreaseSerializedProperty);
-        DrawToggle(ref _smoothVolumeDecreaseFieldName,_smoothMusicVolumeIncreaseSerializedProperty, _smoothMusicTransitionKeySerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty);
+        DrawToggle(_smoothTransitionFieldName, _smoothMusicVolumeIncreaseSerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty, _smoothMusicTransitionKeySerializedProperty);
+        DrawToggle(_smoothVolumeIncreaseFieldName, _smoothMusicTransitionKeySerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty, _smoothMusicVolumeIncreaseSerializedProperty);
+        DrawToggle(_smoothVolumeDecreaseFieldName,_smoothMusicVolumeIncreaseSerializedProperty, _smoothMusicTransitionKeySerializedProperty, _smoothMusicVolumeDecreaseSerializedProperty);
     }
 
     private void ChangeModeAdditionalAudioClips()
     {
-        DrawToggle(ref _smoothTransitionFieldName, _smoothVolumeIncreaseAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty, _smoothTransitionKeyAmbientSerializedProperty);
-        DrawToggle(ref _smoothVolumeIncreaseFieldName, _smoothTransitionKeyAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty, _smoothVolumeIncreaseAmbientSerializedProperty);
-        DrawToggle(ref _smoothVolumeDecreaseFieldName,_smoothVolumeIncreaseAmbientSerializedProperty, _smoothTransitionKeyAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty);
+        DrawToggle(_smoothTransitionFieldName, _smoothVolumeIncreaseAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty, _smoothTransitionKeyAmbientSerializedProperty);
+        DrawToggle(_smoothVolumeIncreaseFieldName, _smoothTransitionKeyAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty, _smoothVolumeIncreaseAmbientSerializedProperty);
+        DrawToggle(_smoothVolumeDecreaseFieldName,_smoothVolumeIncreaseAmbientSerializedProperty, _smoothTransitionKeyAmbientSerializedProperty, _smoothVolumeDecreaseAmbientSerializedProperty);
     }
-    private void DrawToggle(ref string fieldName, SerializedProperty serializedProperty1, SerializedProperty serializedProperty2, SerializedProperty serializedProperty3)
+    private void DrawToggle(string fieldName, SerializedProperty serializedProperty1, SerializedProperty serializedProperty2, SerializedProperty serializedProperty3)
     {
         if (serializedProperty1.boolValue == false && serializedProperty2.boolValue == false)
         {
@@ -164,27 +158,74 @@ public class SoundNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawPlayer(ref float sliderPlayerValue, float rightValue, Action playOperation, Action stopOperation, bool startedPlayKey)
+    private void TryDrawMusicPlayer()
     {
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.LabelField("Progress: ");
-        sliderPlayerValue = GUILayout.HorizontalSlider(sliderPlayerValue,
-            0f, rightValue, GUILayout.Width(170f));
-        
-        if (startedPlayKey)
+        if (_soundNode.Sound != null)
         {
-            if (EditorGUI.EndChangeCheck())
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.LabelField("Progress: ");
+            _sliderPlayerMusicValue = GUILayout.HorizontalSlider(_sliderPlayerMusicValue,
+                _minValue, _soundNode.Sound.CurrentMusicClipTime, GUILayout.Width(170f));
+            if (_soundNode.StartedPlayMusic)
             {
-                _soundNode.Sound.SetPlayTime(sliderPlayerValue);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    _soundNode.Sound.SetPlayTime(_sliderPlayerMusicValue, AudioSourceType.Music);
+                }
+                else
+                {
+                    _sliderPlayerMusicValue = _soundNode.Sound.PlayTimeMusic;
+                }
             }
-            else
-            {
-                sliderPlayerValue = _soundNode.Sound.PlayTimeMusic;
-            }
+            DrawPlayStopButtons(() => { InvokeMethod(ref _playMusicAudioMethod, "PlayMusicAudio");},
+                ()=>{InvokeMethod(ref _stopMusicAudioMethod, "StopMusicAudio"); });
         }
-
-        DrawPlayStopButtons(playOperation, stopOperation);
     }
+
+    private void TryDrawAmbientPlayer()
+    {
+        if (_soundNode.Sound != null)
+        {
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.LabelField("Progress: ");
+            _sliderPlayerAmbientValue = GUILayout.HorizontalSlider(_sliderPlayerAmbientValue,
+                _minValue, _soundNode.Sound.CurrentAmbientClipTime, GUILayout.Width(170f));
+            if (_soundNode.StartedPlayAmbient)
+            {
+                if (EditorGUI.EndChangeCheck())
+                {
+                    _soundNode.Sound.SetPlayTime(_sliderPlayerAmbientValue, AudioSourceType.Ambient);
+                }
+                else
+                {
+                    _sliderPlayerAmbientValue = _soundNode.Sound.PlayTimeAmbient;
+                }
+            }
+            DrawPlayStopButtons(() => { InvokeMethod(ref _playAmbientAudioMethod, "PlayAmbientAudio");},
+                ()=>{InvokeMethod(ref _stopAmbientAudioMethod, "StopAmbientAudio"); });
+        }
+    }
+    // private void DrawPlayer(ref float sliderPlayerValue, float rightValue, Action playOperation, Action stopOperation, bool startedPlayKey)
+    // {
+    //     EditorGUI.BeginChangeCheck();
+    //     EditorGUILayout.LabelField("Progress: ");
+    //     sliderPlayerValue = GUILayout.HorizontalSlider(sliderPlayerValue,
+    //         0f, rightValue, GUILayout.Width(170f));
+    //     
+    //     if (startedPlayKey)
+    //     {
+    //         if (EditorGUI.EndChangeCheck())
+    //         {
+    //             _soundNode.Sound.SetPlayTime(sliderPlayerValue);
+    //         }
+    //         else
+    //         {
+    //             sliderPlayerValue = _soundNode.Sound.PlayTimeMusic;
+    //         }
+    //     }
+    //
+    //     DrawPlayStopButtons(playOperation, stopOperation);
+    // }
 
     private void DrawPlayStopButtonsFull()
     {
