@@ -30,15 +30,15 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     {
         if (_isNodeForStats)
         {
-            // SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsHandler.Stats, _casesForStats);
-            // if (result.CaseFoundSuccessfuly == true)
-            // {
-            //     SetNextNode(DynamicOutputs.ElementAt(result.IndexCase).Connection.node as BaseNode);
-            // }
-            // else
-            // {
-            //     SetNextNode(OutputPortBaseNode.Connection.node as BaseNode);
-            // }
+            SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsProvider.GameStatsHandler.Stats, _casesForStats);
+            if (result.CaseFoundSuccessfuly == true)
+            {
+                SetNextNode(DynamicOutputs.ElementAt(result.IndexCase).Connection.node as BaseNode);
+            }
+            else
+            {
+                SetNextNode(OutputPortBaseNode.Connection.node as BaseNode);
+            }
         }
 
         if (_isNodeForBool)
@@ -112,8 +112,7 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     }
     private List<CaseBaseStat> CreateCaseBaseStat()
     {
-        // List<BaseStat> stats = _gameStatsHandler.GetGameBaseStatsForm();
-        List<BaseStat> stats = null;
+        List<BaseStat> stats = _gameStatsProvider.GameStatsHandler.GetGameBaseStatsForm();
         List<CaseBaseStat> caseStats = new List<CaseBaseStat>(stats.Count);
         for (int i = 0; i < stats.Count; i++)
         {

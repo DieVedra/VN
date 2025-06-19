@@ -58,14 +58,4 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
             .Select(g => g.First())
             .ToList();
     }
-    
-[Button()]
-    private void test()
-    {
-        var a = GetStats();
-        for (int i = 0; i < a.Count; i++)
-        {
-            Debug.Log($"{a}");
-        }
-    }
 }

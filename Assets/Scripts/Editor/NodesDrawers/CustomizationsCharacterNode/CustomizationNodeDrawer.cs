@@ -85,7 +85,7 @@ public class CustomizationNodeDrawer : NodeEditor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
+    private void DrawCustomizationFields(IReadOnlyList<CustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
     {
         DrawCustomizationSettingsFields(settings, listSerializedProperty, foldoutSerializedProperty, label);
         EditorGUILayout.Space(5f);
@@ -97,7 +97,7 @@ public class CustomizationNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         _lineDrawer.DrawHorizontalLine(Color.black);
     }
-    private void DrawCustomizationSettingsFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
+    private void DrawCustomizationSettingsFields(IReadOnlyList<CustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
     {
         foldoutSerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(foldoutSerializedProperty.boolValue,  label);
         if (foldoutSerializedProperty.boolValue)
@@ -173,6 +173,7 @@ public class CustomizationNodeDrawer : NodeEditor
     {
         EditorGUILayout.LabelField(nameField, GUILayout.Width(150f));
         serializedProperty.intValue = EditorGUILayout.IntField(serializedProperty.intValue, GUILayout.Width(30f));
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void DrawBoolField(SerializedProperty serializedProperty, string nameField)
