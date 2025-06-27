@@ -7,12 +7,13 @@ public class LevelLoadDataHandler
     public const int NumberFirstSeria = 1;
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
-    private readonly BackgroundContentCreator _backgroundContentCreator;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
+    public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
     public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
     public readonly GameSeriesProvider GameSeriesProvider;
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
+    private readonly BackgroundContentCreator _backgroundContentCreator;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
     public int CurrentSeriaLoadedNumber { get; private set; }
@@ -21,6 +22,7 @@ public class LevelLoadDataHandler
     public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator)
     {
         _backgroundContentCreator = backgroundContentCreator;
+        SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
         WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
         GameSeriesProvider = new GameSeriesProvider();
@@ -31,7 +33,7 @@ public class LevelLoadDataHandler
             CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
             CharacterProviderBuildMode.CustomizableCharacterDataProviderParticipiteInLoad,
             WardrobeSeriaDataProviderBuildMode,
-            GameSeriesProvider,
+            GameSeriesProvider, SeriaGameStatsProviderBuild,
             AudioClipProvider.AmbientAudioDataProviderParticipiteInLoad,
             AudioClipProvider.MusicAudioDataProviderParticipiteInLoad,
             BackgroundDataProvider.ArtsDataLoadProviderParticipiteInLoad,
@@ -53,7 +55,7 @@ public class LevelLoadDataHandler
         // await TryLoadDatas(_indexFirstName);
 
         await GameSeriesProvider.TryLoadData(_indexFirstName);
-
+        await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
         
@@ -88,7 +90,8 @@ public class LevelLoadDataHandler
             WardrobeSeriaDataProviderBuildMode.Init(), 
             CharacterProviderBuildMode.Init(),
             AudioClipProvider.Init(), 
-            BackgroundDataProvider.Init());
+            BackgroundDataProvider.Init(),
+            SeriaGameStatsProviderBuild.Init());
     }
 
     private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
@@ -107,5 +110,6 @@ public class LevelLoadDataHandler
         await GameSeriesProvider.TryLoadData(indexName);
         await AudioClipProvider.TryLoadDatas(indexName);
         await BackgroundDataProvider.TryLoadDatas(indexName);
+        await SeriaGameStatsProviderBuild.TryLoadData(indexName);
     }
 }

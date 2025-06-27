@@ -35,14 +35,6 @@ public class BackgroundContentCreator : IParticipiteInLoad
         ParticipiteInLoad = true;
     }
 
-    public void Dispose()
-    {
-        // for (int i = 0; i < _instantiatedBackgroundContent.Count; ++i)
-        // {
-        //     Addressables.ReleaseInstance(_instantiatedBackgroundContent[i].gameObject);
-        // }
-    }
-
     public void SetCurrentBackgroundData(BackgroundData backgroundData)
     {
         _backgroundData = backgroundData;

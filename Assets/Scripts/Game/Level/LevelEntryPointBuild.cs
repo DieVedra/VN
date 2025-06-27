@@ -17,7 +17,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
-    private SeriaGameStatsProviderBuild _seriaGameStatsProviderBuild;
 
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
@@ -31,7 +30,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
-        _seriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
@@ -92,7 +90,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             LevelUIProvider,
             CharacterViewer, WardrobeCharacterViewer,
             _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacter,
-            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _seriaGameStatsProviderBuild,
+            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -129,7 +127,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelLoadDataHandler.GameSeriesProvider.Dispose();
         _levelLoadDataHandler.AudioClipProvider.Dispose();
         _levelLoadDataHandler.BackgroundDataProvider.Dispose();
-        _backgroundContentCreator.Dispose();
         base.Dispose();
     }
     private void Save()
