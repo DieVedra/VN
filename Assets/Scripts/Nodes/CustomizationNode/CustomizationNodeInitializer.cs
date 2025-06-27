@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class CustomizationNodeInitializer
 {
@@ -18,14 +17,7 @@ public class CustomizationNodeInitializer
     
     public void ReInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
-        if (settings != null && settings.Count > 0)
-        {
-            BaseInit(ref settings, sprites, true, skipFirstWordsInLabel, skipEndWordsInLabel);
-        }
-        else
-        {
-            BaseInit(ref settings, sprites, false, skipFirstWordsInLabel, skipEndWordsInLabel);
-        }
+        BaseInit(ref settings, sprites, true, skipFirstWordsInLabel, skipEndWordsInLabel);
     }
 
     public SelectedCustomizationContentIndexes CreateCustomizationContent(
@@ -60,35 +52,23 @@ public class CustomizationNodeInitializer
             gameStats = _gameStatsHandler.GetGameStatsForm();
         }
         CustomizationSettings customizationSetting;
-        string name;
         for (int i = 0; i < sprites.Count; i++)
         {
             if (CheckListElementContents(settings, i))
             {
-                Debug.Log($"1");
-
                 for (int j = 0; j < sprites.Count; j++)
                 {
-                    Debug.Log($"90  {settings[i].Name}    {sprites[j].Name}");
-                    name = sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_');
-                    if (settings[i].Name == name)
+                    if (settings[i].Name == sprites[j].Name)
                     {
-                        Debug.Log($"1000");
-
                         customizationSetting = new CustomizationSettings(
                             keyReinit == false ? gameStats : _gameStatsHandler.ReinitStats(settings[i].GameStats),
-                            name,
+                            sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                             i, sprites[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats);
-                        newSettings.Insert(i, customizationSetting);
-                        Debug.Log($"newSettings0 {newSettings.Count}");
-
                         break;
                     }
                 }
-                Debug.Log($"newSettings1 {newSettings.Count}");
                 continue;
             }
-            Debug.Log($"2");
 
             customizationSetting = new CustomizationSettings(
                 gameStats,
@@ -97,7 +77,6 @@ public class CustomizationNodeInitializer
             newSettings.Insert(i, customizationSetting);
         }
 
-        Debug.Log($"newSettings2 {newSettings.Count}");
         settings = newSettings;
     }
     private List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)

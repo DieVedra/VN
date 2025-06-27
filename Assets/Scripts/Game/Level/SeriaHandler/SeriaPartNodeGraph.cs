@@ -101,7 +101,11 @@ public class SeriaPartNodeGraph : NodeGraph
 
 	private void InitNewNode(Node node)
 	{
-		_nodeGraphInitializer.InitOneNode(node as BaseNode, _currentSeriaIndex);
-		_nodeCount = nodes.Count;
+		if (_nodeCount != nodes.Count)
+		{
+			TryInitNodes();
+			_nodeGraphInitializer.InitOneNode(node as BaseNode, _currentSeriaIndex);
+			_nodeCount = nodes.Count;
+		}
 	}
 }

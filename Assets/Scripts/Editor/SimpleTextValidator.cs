@@ -14,10 +14,6 @@ public class SimpleTextValidator
 
     public bool TryValidate()
     {
-        if (ValidText == null)
-        {
-            return true;
-        }
         if (ValidText.Length <= _symbolMaxCount)
         {
             return true;

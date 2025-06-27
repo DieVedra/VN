@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -33,11 +32,10 @@ public class CustomizationNode : BaseNode
     private Wallet _wallet;
     private CustomizationNodeInitializer _customizationNodeInitializer;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
-    public IReadOnlyList<CustomizationSettings> SettingsBodies => _settingsBodies;
-    public IReadOnlyList<CustomizationSettings> SettingsHairstyles => _settingsHairstyles;
-    public IReadOnlyList<CustomizationSettings> SettingsClothes => _settingsClothes;
-    public IReadOnlyList<CustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
-
+    public IReadOnlyList<ICustomizationSettings> SettingsBodies => _settingsBodies;
+    public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
+    public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
+    public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
@@ -64,6 +62,11 @@ public class CustomizationNode : BaseNode
                 ReinitHairstylesCustomizationSettings();
                 ReinitClothesCustomizationSettings();
                 ReinitSwimsuitsCustomizationSettings();
+                
+                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
+                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
+                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
             }
         }
         InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
@@ -212,16 +215,4 @@ public class CustomizationNode : BaseNode
         }
         return strings.ToArray();
     }
-
-    // public List<ICustomizationSettings> GetSettingsBodies()
-    // {
-    //     return GetSettings();
-    // }
-    // public List<ICustomizationSettings> GetSettingsHairstyles => _settingsHairstyles;
-    // public List<ICustomizationSettings> SettingsClothes => _settingsClothes;
-    // public List<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
-    // private List<ICustomizationSettings> GetSettings()
-    // {
-    //     
-    // }
 }

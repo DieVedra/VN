@@ -1,7 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class GameStatsHandler
 {
@@ -35,16 +33,7 @@ public class GameStatsHandler
 
         return stats;
     }
-    public Dictionary<string, Stat> GetGameStatsFormDictionary()
-    {
-        Dictionary<string, Stat> stats = new Dictionary<string, Stat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
-        {
-            stats.Add(_stats[i].Name, new Stat(_stats[i].Name, 0, _stats[i].ShowKey, _stats[i].ColorField));
-        }
 
-        return stats;
-    }
     public List<BaseStat> GetGameBaseStatsForm()
     {
         List<BaseStat> stats = new List<BaseStat>(_stats.Count);
@@ -91,13 +80,28 @@ public class GameStatsHandler
     public List<Stat> ReinitStats(List<Stat> oldStats)
     {
         List<Stat> newStats = GetGameStatsForm();
-        Dictionary<string, Stat> dictionaryOldStats = GetDictionary(oldStats);
-        for (int i = 0; i < newStats.Count; i++)
+        if (oldStats.Count > newStats.Count)
         {
-            if (dictionaryOldStats.TryGetValue(newStats[i].Name, out Stat stat))
+            Reinit(newStats);
+        }
+        else if (oldStats.Count < newStats.Count)
+        {
+            Reinit(oldStats);
+        }
+
+        void Reinit(List<Stat> stats)
+        {
+            for (int i = 0; i < stats.Count; i++)
             {
-                newStats.Insert(i, new Stat(stat.Name, stat.Value, stat.ShowKey, stat.ColorField));
+                if (FindingMatchStat(newStats, stats[i]))
+                {              
+                    InsertStat(i);
+                }
             }
+        }
+        void InsertStat(int index)
+        {
+            newStats.Insert(index, new Stat(oldStats[index].Name, oldStats[index].Value, oldStats[index].ShowKey, oldStats[index].ColorField));
         }
         return newStats;
     }
@@ -111,17 +115,17 @@ public class GameStatsHandler
         }
     }
 
-    private Dictionary<string, Stat> GetDictionary(List<Stat> oldStats)
+    private bool FindingMatchStat(List<Stat> stats, Stat stat)
     {
-        var dictionaryOldStats = new Dictionary<string, Stat>();
-        foreach (var stat in oldStats)
+        bool result = false;
+        for (int i = 0; i < stats.Count; i++)
         {
-            if (!dictionaryOldStats.ContainsKey(stat.Name))
+            if (stat.Name == stats[i].Name)
             {
-                dictionaryOldStats.Add(stat.Name, stat);
+                result = true;
+                break;
             }
         }
-
-        return dictionaryOldStats;
+        return result;
     }
 }
