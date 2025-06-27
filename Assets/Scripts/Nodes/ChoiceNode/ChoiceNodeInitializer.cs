@@ -7,34 +7,13 @@ public class ChoiceNodeInitializer : MyNodeInitializer
     
     public void TryInitStats(ref List<BaseStat> oldBaseStatsChoice)
     {
-        if (oldBaseStatsChoice == null || oldBaseStatsChoice.Count != _gameStatsHandler.Stats.Count)
+        if (oldBaseStatsChoice == null || oldBaseStatsChoice.Count == 0)
         {
-            List<BaseStat> newBaseStats = _gameStatsHandler.GetGameBaseStatsForm();
-            if (oldBaseStatsChoice != null && oldBaseStatsChoice.Count > 0)
-            {
-                if (oldBaseStatsChoice.Count > newBaseStats.Count)
-                {
-                    for (int i = 0; i < newBaseStats.Count; i++)
-                    {
-                        ReInitStat(ref newBaseStats, i, oldBaseStatsChoice[i]);
-                    }
-                }
-                else if (oldBaseStatsChoice.Count < newBaseStats.Count)
-                {
-                    for (int i = 0; i < oldBaseStatsChoice.Count; i++)
-                    {
-                        ReInitStat(ref newBaseStats, i, oldBaseStatsChoice[i]);
-                    }
-                }
-            }
-            oldBaseStatsChoice = newBaseStats;
+            oldBaseStatsChoice = _gameStatsHandler.GetGameBaseStatsForm();
         }
-    }
-    private void ReInitStat(ref List<BaseStat> newStats, int index, BaseStat oldStat)
-    {
-        if (newStats[index].Name == oldStat.Name)
+        else
         {
-            newStats[index] = new BaseStat(oldStat.Name, oldStat.Value);
+            oldBaseStatsChoice = _gameStatsHandler.ReinitBaseStats(oldBaseStatsChoice);
         }
     }
 }

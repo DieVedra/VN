@@ -1,34 +1,32 @@
 ﻿
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SwitchNodeInitializer : MyNodeInitializer
 {
     public SwitchNodeInitializer(List<Stat> stats) : base(stats) { }
-    
-    private void TryReInitCases(List<CaseForStats> casesForStats)
+
+    public void TryReinitAllCases(List<CaseForStats> casesForStats)
     {
         if (casesForStats != null)
         {
-            List<CaseBaseStat> newStats = null;
             for (int i = 0; i < casesForStats.Count; i++)
             {
-                newStats = CreateCaseBaseStat();
-
-                if (casesForStats[i].CaseStats.Count > newStats.Count)
+                var newStats = CreateCaseBaseStat();
+                var oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.Name);
+                var result = new List<CaseBaseStat>();
+                for (int j = 0; j < newStats.Count; j++)
                 {
-                    for (int j = 0; j < newStats.Count; j++)
+                    if (oldStatsDictionary.TryGetValue(newStats[j].Name, out CaseBaseStat oldStat))
                     {
-                        ReInitStat(ref newStats, j, casesForStats[i].CaseStats[j]);
+                        result.Add(oldStat);
+                    }
+                    else
+                    {
+                        result.Add(newStats[j]);
                     }
                 }
-                else if (casesForStats[i].CaseStats.Count < newStats.Count)
-                {
-                    for (int j = 0; j < casesForStats[i].CaseStats.Count; j++)
-                    {
-                        ReInitStat(ref newStats, j, casesForStats[i].CaseStats[j]);
-                    }
-                }
-                casesForStats[i] = new CaseForStats(newStats, casesForStats[i].Name);
+                casesForStats[i] = new CaseForStats(result, casesForStats[i].Name);
             }
         }
     }
@@ -41,15 +39,5 @@ public class SwitchNodeInitializer : MyNodeInitializer
             caseStats.Add(new CaseBaseStat(stats[i].Name, stats[i].Value, 0, false));
         }
         return caseStats;
-    }
-    private void ReInitStat(ref List<CaseBaseStat> newStats, int index, CaseBaseStat oldStat)
-    {
-        if (oldStat.Name == newStats[index].Name)
-        {
-            newStats[index] = new CaseBaseStat(oldStat.Name,
-                oldStat.Value,
-                oldStat.IndexCurrentOperator,
-                oldStat.IncludeKey);
-        }
     }
 }

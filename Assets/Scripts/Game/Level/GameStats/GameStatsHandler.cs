@@ -96,7 +96,24 @@ public class GameStatsHandler
         }
         return result;
     }
-
+    public List<BaseStat> ReinitBaseStats(List<BaseStat> oldStats)
+    {
+        List<BaseStat> newStats = GetGameBaseStatsForm();
+        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
+        var result = new List<BaseStat>(newStats.Count);
+        for (int i = 0; i < newStats.Count; i++)
+        {
+            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out BaseStat oldStat))
+            {
+                result.Add(oldStat);
+            }
+            else
+            {
+                result.Add(newStats[i]);
+            }
+        }
+        return result;
+    }
     public void AddNextSeriaStats(List<Stat> stats)
     {
         if (stats != null && stats.Count > 0)

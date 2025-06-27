@@ -9,7 +9,7 @@ using XNode;
 public class SwitchNode : BaseNode, IPutOnSwimsuit
 {
     [Output] public Empty OutputTrueBool;
-    [SerializeField, HideInInspector] private List<CaseForStats> _casesForStats;
+    [SerializeField] private List<CaseForStats> _casesForStats;
     [SerializeField] private bool _isNodeForStats;
     [SerializeField] private bool _isNodeForBool;
     private const int _maxDynamicPortsCount = 10;
@@ -29,6 +29,10 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
         _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         _switchNodeLogic = new SwitchNodeLogic(_operators);
         _gameStatsHandler = new GameStatsHandler(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+        if (IsPlayMode() == false)
+        {
+            _switchNodeInitializer.TryReinitAllCases(_casesForStats);
+        }
     }
     public override UniTask Enter(bool isMerged = false)
     {
@@ -73,7 +77,9 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             {
                 _casesForStats = new List<CaseForStats>();
             }
-            _casesForStats.Add(new CaseForStats(_switchNodeInitializer.CreateCaseBaseStat(), name));
+            var baseStats = _switchNodeInitializer.CreateCaseBaseStat();
+            var caseForStats = new CaseForStats(baseStats, name);
+            _casesForStats.Add(caseForStats);
             AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: name);
         }
     }

@@ -117,11 +117,11 @@ public class NodeGraphInitializer
                 _wallet, _wardrobeCharacterViewer, seriaIndex);
                 return;
         }
-        // if (node is SwitchNode switchNode)
-        // {
-        //     switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
-        //     return;
-        // }
+        if (node is SwitchNode switchNode)
+        {
+            switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
+            return;
+        }
         if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
         {
             addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);

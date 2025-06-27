@@ -116,9 +116,12 @@ public class ChoiceNode : BaseNode
     }
     private void TryInitAllStats()
     {
-        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice1);
-        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice2);
-        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice3);
+        if (IsPlayMode() == false)
+        {
+            _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice1);
+            _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice2);
+            _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice3);
+        }
     }
     private ChoiceData CreateChoiceTexts()
     {
