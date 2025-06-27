@@ -54,18 +54,23 @@ public class CustomizationNode : BaseNode
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(_seriaIndex));
-        // if (IsPlayMode() == false)
-        // {
-        //     if (_wardrobeSeriaData != null)
-        //     {
-        //         ReInitBodiesCustomizationSettings();
-        //         ReinitHairstylesCustomizationSettings();
-        //         ReinitClothesCustomizationSettings();
-        //         ReinitSwimsuitsCustomizationSettings();
-        //     }
-        //
-        //     InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
-        // }
+        if (IsPlayMode() == false)
+        {
+            if (_wardrobeSeriaData != null)
+            {
+                // ResetBodiesCustomizationSettings();
+                // ResetHairstylesCustomizationSettings();
+                // ResetClothesCustomizationSettings();
+                // ResetSwimsuitsCustomizationSettings();
+                
+                ReInitBodiesCustomizationSettings();
+                ReinitHairstylesCustomizationSettings();
+                ReinitClothesCustomizationSettings();
+                ReinitSwimsuitsCustomizationSettings();
+            }
+        
+            InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
+        }
     }
 
     public override async UniTask Enter(bool isMerged = false)

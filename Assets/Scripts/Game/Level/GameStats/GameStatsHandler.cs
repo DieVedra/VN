@@ -80,16 +80,21 @@ public class GameStatsHandler
     public List<Stat> ReinitStats(List<Stat> oldStats)
     {
         List<Stat> newStats = GetGameStatsForm();
-        Dictionary<string, Stat> oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
+        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
+        var result = new List<Stat>(newStats.Count);
 
         for (int i = 0; i < newStats.Count; i++)
         {
-            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out Stat stat) == true)
+            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out Stat oldStat))
             {
-                newStats.Insert(i, stat);
+                result.Add(oldStat);
+            }
+            else
+            {
+                result.Add(newStats[i]);
             }
         }
-        return newStats;
+        return result;
     }
 
     public void AddNextSeriaStats(List<Stat> stats)

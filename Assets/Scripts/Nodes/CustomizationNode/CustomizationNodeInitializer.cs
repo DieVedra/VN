@@ -16,14 +16,10 @@ public class CustomizationNodeInitializer
         {
             return;
         }
-        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>();
+        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>(sprites.Count);
         for (int i = 0; i < sprites.Count; i++)
         {
-            // var customizationSetting = new CustomizationSettings(_gameStatsHandler.GetGameStatsForm(),
-            //     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-            //     i, sprites[i].Price);
-            //
-            newSettingsList.Insert(i, GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+            newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                 i, sprites[i].Price));
         }
         settings = newSettingsList;
@@ -40,23 +36,21 @@ public class CustomizationNodeInitializer
             InitCustomizationSettings(ref settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
         }
         Dictionary<string, CustomizationSettings> dictionaryOldSettings = settings.ToDictionaryDistinct(setting => setting.Name);
-        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>();
+        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>(sprites.Count);
         string newName;
         for (int i = 0; i < sprites.Count; i++)
         {
             newName = sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_');
-
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
                 var customizationSetting = new CustomizationSettings(
                     _gameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     i, sprites[i].Price, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
-                
-                newSettingsList.Insert(i, customizationSetting);
+                newSettingsList.Add(customizationSetting);
                 continue;
             }
-            newSettingsList.Insert(i, GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+            newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                 i, sprites[i].Price));
         }
         settings = newSettingsList;
@@ -75,52 +69,6 @@ public class CustomizationNodeInitializer
             GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData),
             customizableCharacter);
     }
-
-    // private void BaseInit(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, bool keyReinit, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
-    // {
-    //     if (sprites == null)
-    //     {
-    //         return;
-    //     }
-    //     if (settings == null)
-    //     {
-    //         settings = new List<CustomizationSettings>();
-    //     }
-    //     List<CustomizationSettings> newSettings = new List<CustomizationSettings>();
-    //     List<Stat> gameStats = null;
-    //     if (keyReinit == false)
-    //     {
-    //         gameStats = _gameStatsHandler.GetGameStatsForm();
-    //     }
-    //     // CustomizationSettings customizationSetting;
-    //     string name;
-    //     for (int i = 0; i < sprites.Count; i++)
-    //     {
-    //         if (CheckListElementContain(settings, i))
-    //         {
-    //             for (int j = 0; j < sprites.Count; j++)
-    //             {
-    //                 name = sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_');
-    //                 if (settings[i].Name == name)
-    //                 {
-    //                     var customizationSetting = new CustomizationSettings(
-    //                         keyReinit == false ? gameStats : _gameStatsHandler.ReinitStats(settings[i].GameStats),
-    //                         sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-    //                         i, sprites[i].Price, settings[i].KeyAdd, settings[i].KeyShowParams, settings[i].KeyShowStats);
-    //                     break;
-    //                 }
-    //             }
-    //             continue;
-    //         }
-    //
-    //         // customizationSetting = GetNewCustomizationSettings(gameStats,
-    //         //     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-    //         //     i, sprites[i].Price);
-    //         // newSettings.Insert(i, customizationSetting);
-    //     }
-    //
-    //     settings = newSettings;
-    // }
     private List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
     {
         List<CustomizationSettings> spriteIndexesClothes = new List<CustomizationSettings>();
@@ -138,19 +86,6 @@ public class CustomizationNodeInitializer
         }
         return spriteIndexesClothes;
     }
-
-    private bool CheckListElementContain(List<CustomizationSettings> settings, int index)
-    {
-        if (settings.Count > index && settings[index] != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price)
     {
         return new CustomizationSettings(_gameStatsHandler.GetGameStatsForm(), name, index, price);
