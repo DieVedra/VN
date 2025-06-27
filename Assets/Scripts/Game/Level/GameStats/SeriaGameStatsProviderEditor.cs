@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
@@ -8,7 +8,6 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
 {
     [SerializeField, Expandable] private List<SeriaStatProvider> _seriaStatsProviders;
     private GameStatsHandler _gameStatsHandler;
-    public event Action<List<Stat>> OnAddStats;
     public GameStatsHandler GameStatsHandler => _gameStatsHandler;
 
     public void Init()
@@ -57,15 +56,5 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
         return newStats.GroupBy(p => p.Name)
             .Select(g => g.First())
             .ToList();
-    }
-    
-[Button()]
-    private void test()
-    {
-        var a = GetStats();
-        for (int i = 0; i < a.Count; i++)
-        {
-            Debug.Log($"{a}");
-        }
     }
 }

@@ -26,11 +26,14 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
-        _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         _switchNodeLogic = new SwitchNodeLogic(_operators);
         _gameStatsHandler = new GameStatsHandler(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         if (IsPlayMode() == false)
         {
+            if (_switchNodeInitializer == null)
+            {
+                _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+            }
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }
     }

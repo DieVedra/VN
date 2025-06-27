@@ -35,7 +35,6 @@ public class ChoiceNode : BaseNode
     private const string _port3 = "Choice3Output";
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
-    private IGameStatsProvider _gameStatsProvider;
     private ChoiceNodeInitializer _choiceNodeInitializer;
     private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
@@ -53,7 +52,6 @@ public class ChoiceNode : BaseNode
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
         _choiceResultEvent = new ChoiceResultEvent<int>();
         _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
-        _gameStatsProvider = gameStatsProvider;
         _choiceResultEvent.Subscribe(SetNextNodeFromResultChoice);
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;

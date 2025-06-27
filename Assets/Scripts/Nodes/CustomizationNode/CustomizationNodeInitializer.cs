@@ -3,7 +3,7 @@ using System.Linq;
 
 public class CustomizationNodeInitializer : MyNodeInitializer
 {
-    public CustomizationNodeInitializer(List<Stat> stats) : base(stats) { }
+    public CustomizationNodeInitializer(GameStatsHandler gameStatsHandler) : base(gameStatsHandler) { }
 
     public void InitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
@@ -51,7 +51,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         settings = newSettingsList;
     }
 
-    public SelectedCustomizationContentIndexes CreateCustomizationContent(
+    public static SelectedCustomizationContentIndexes CreateCustomizationContent(
         IReadOnlyList<CustomizationSettings> settingsBodies,
         IReadOnlyList<CustomizationSettings> settingsHairstyles,
         IReadOnlyList<CustomizationSettings> settingsClothes,
@@ -64,7 +64,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData),
             customizableCharacter);
     }
-    private List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
+    private static List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
     {
         List<CustomizationSettings> spriteIndexesClothes = new List<CustomizationSettings>();
         for (int i = 0; i < customizationSettings.Count; i++)

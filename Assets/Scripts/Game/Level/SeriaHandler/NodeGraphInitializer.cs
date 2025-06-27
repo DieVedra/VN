@@ -48,7 +48,7 @@ public class NodeGraphInitializer
         _characters = characters;
     }
 
-    public void Init(List<BaseNode> nodes, List<Stat> stats, int seriaIndex)
+    public void Init(List<BaseNode> nodes, int seriaIndex)
     {
         foreach (var node in nodes)
         {

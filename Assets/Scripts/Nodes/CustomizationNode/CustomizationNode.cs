@@ -23,6 +23,7 @@ public class CustomizationNode : BaseNode
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private CustomizableCharacter _customizableCharacter;
     private WardrobeSeriaData _wardrobeSeriaData;
+    private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
@@ -53,9 +54,11 @@ public class CustomizationNode : BaseNode
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
-        _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(_seriaIndex));
+        _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex);
         if (IsPlayMode() == false)
         {
+            _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsHandler);
+
             if (_wardrobeSeriaData != null)
             {
                 ReInitBodiesCustomizationSettings();
@@ -125,7 +128,7 @@ public class CustomizationNode : BaseNode
                 
                 _wardrobeCharacterViewer, _selectedCustomizationContentIndexes,
                 new CalculatePriceHandler(_wallet.Monets),
-                new CalculateStatsHandler(_customizationNodeInitializer.GameStatsHandler.GetGameStatsForm()));
+                new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()));
         }
         else
         {
@@ -182,7 +185,7 @@ public class CustomizationNode : BaseNode
     }
     private SelectedCustomizationContentIndexes CreateCustomizationContent()
     {
-        return _customizationNodeInitializer.CreateCustomizationContent(_settingsBodies, _settingsHairstyles, _settingsClothes, _settingsSwimsuits, _customizableCharacter);
+        return CustomizationNodeInitializer.CreateCustomizationContent(_settingsBodies, _settingsHairstyles, _settingsClothes, _settingsSwimsuits, _customizableCharacter);
     }
     
     private int GetIndex(IReadOnlyList<ICustomizationSettings> spriteIndexes, int currentIndex)

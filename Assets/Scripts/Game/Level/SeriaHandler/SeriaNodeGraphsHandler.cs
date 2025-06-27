@@ -10,14 +10,12 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
     private NodeGraphInitializer _nodeGraphInitializer;
-    private List<Stat> _stats;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
-    public void Construct(NodeGraphInitializer nodeGraphInitializer, List<Stat> stats, int currentSeriaIndex,
+    public void Construct(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
     {
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
-        _stats = stats;
         _nodeGraphInitializer.SwitchToNextNodeEvent.Subscribe(MoveNext);
         _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Subscribe(SwitchToAnotherNodeGraph);
         if (_seriaPartNodeGraphs.Count > 0)
@@ -30,7 +28,6 @@ public class SeriaNodeGraphsHandler : ScriptableObject
             {
                 for (int i = 0; i < _seriaPartNodeGraphs.Count; i++)
                 {
-                    // _seriaPartNodeGraphs[i].Construct(_nodeGraphInitializer, stats, currentSeriaIndex);
                     InitGraph(currentSeriaIndex: currentSeriaIndex, currentNodeGraphIndex: i);
                 }
             }
@@ -55,7 +52,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     }
     private void InitGraph(int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, _stats, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
+        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
     }
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {

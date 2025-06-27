@@ -80,11 +80,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _seriaGameStatsProviderEditor, SwitchToNextSeriaEvent);
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
         }
         else
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _seriaGameStatsProviderEditor, SwitchToNextSeriaEvent, 
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }

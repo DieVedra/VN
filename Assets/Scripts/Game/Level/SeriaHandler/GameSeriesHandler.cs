@@ -6,7 +6,6 @@ public class GameSeriesHandler : MonoBehaviour
 {
     [SerializeField, Expandable] protected List<SeriaNodeGraphsHandler> SeriaNodeGraphsHandlers;
 
-    protected IGameStatsProvider GameStatsProvider;
     protected NodeGraphInitializer NodeGraphInitializer;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     
@@ -25,7 +24,7 @@ public class GameSeriesHandler : MonoBehaviour
     protected void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         AddWardrobeData(currentSeriaIndex);
-        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, GameStatsProvider.GetStatsFromCurrentSeria(currentSeriaIndex), currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     protected void SwitchSeria(bool putSwimsuits = false)
     {

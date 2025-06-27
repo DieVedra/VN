@@ -9,7 +9,7 @@ public class SeriaGameStatsProviderBuild : IGameStatsProvider
 
     public List<Stat> GetStatsFromCurrentSeria(int seriaIndex)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     public GameStatsHandler GameStatsHandler { get; }
