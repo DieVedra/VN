@@ -103,8 +103,15 @@ public class BaseNode : Node
         }
     }
 
-    protected void InitStringsToLocalization(params LocalizationString[] strings)
+    protected void TryInitStringsToLocalization(params LocalizationString[] strings)
     {
-        StringsToLocalization = strings;
+        if (IsPlayMode() == false)
+        {
+            StringsToLocalization = strings;
+            for (int i = 0; i < strings.Length; i++)
+            {
+                strings[i].TryRegenerateKey();
+            }
+        }
     }
 }

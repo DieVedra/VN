@@ -100,11 +100,11 @@ public class NodeGraphInitializer
             soundNode.ConstructMySoundNode(_sound);
             return;
         }
-        // if (node is ChoiceNode choiceNode)
-        // {
-        //     choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
-        //     return;
-        // }
+        if (node is ChoiceNode choiceNode)
+        {
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
+            return;
+        }
         if (node is CustomizationNode customizationNode)
         {
             customizationNode.ConstructMyCustomizationNode(

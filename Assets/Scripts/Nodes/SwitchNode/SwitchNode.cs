@@ -12,40 +12,44 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     [SerializeField, HideInInspector] private List<CaseForStats> _casesForStats;
     [SerializeField] private bool _isNodeForStats;
     [SerializeField] private bool _isNodeForBool;
-    private readonly int _maxDynamicPortsCount = 10;
+    private const int _maxDynamicPortsCount = 10;
+    private const string _namePort = "OutputTrueBool";
+    private const string _port = "Port ";
     private readonly string[] _operators = new [] {"=", ">", "<", ">=", "<="};
-    private int _seriaIndex;
     private IGameStatsProvider _gameStatsProvider;
+    private GameStatsHandler _gameStatsHandler;
     private SwitchNodeLogic _switchNodeLogic;
+    private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
     public IReadOnlyList<string> Operators => _operators;
     public IReadOnlyList<CaseForStats> CaseLocalizations => _casesForStats;
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
+        _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         _switchNodeLogic = new SwitchNodeLogic(_operators);
-        _seriaIndex = seriaIndex;
+        _gameStatsHandler = new GameStatsHandler(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
     }
     public override UniTask Enter(bool isMerged = false)
     {
         if (_isNodeForStats)
         {
-            // SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsHandler.Stats, _casesForStats);
-            // if (result.CaseFoundSuccessfuly == true)
-            // {
-            //     SetNextNode(DynamicOutputs.ElementAt(result.IndexCase).Connection.node as BaseNode);
-            // }
-            // else
-            // {
-            //     SetNextNode(OutputPortBaseNode.Connection.node as BaseNode);
-            // }
+            SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsHandler.Stats, _casesForStats);
+            if (result.CaseFoundSuccessfuly == true)
+            {
+                SetNextNode(DynamicOutputs.ElementAt(result.IndexCase).Connection.node as BaseNode);
+            }
+            else
+            {
+                SetNextNode(OutputPortBaseNode.Connection.node as BaseNode);
+            }
         }
 
         if (_isNodeForBool)
         {
             if (_putOnSwimsuit == true)
             {
-                SetNextNode(GetOutputPort("OutputTrueBool").Connection.node as BaseNode);
+                SetNextNode(GetOutputPort(_namePort).Connection.node as BaseNode);
             }
             else
             {
@@ -60,45 +64,16 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
 
         return default;
     }
-    
-    private void TryReInitCases()
-    {
-        if (_casesForStats != null)
-        {
-            List<CaseBaseStat> newStats = null;
-            for (int i = 0; i < _casesForStats.Count; i++)
-            {
-                newStats = CreateCaseBaseStat();
-
-                if (_casesForStats[i].CaseStats.Count > newStats.Count)
-                {
-                    for (int j = 0; j < newStats.Count; j++)
-                    {
-                        ReInitStat(ref newStats, j, _casesForStats[i].CaseStats[j]);
-                    }
-                }
-                else if (_casesForStats[i].CaseStats.Count < newStats.Count)
-                {
-                    for (int j = 0; j < _casesForStats[i].CaseStats.Count; j++)
-                    {
-                        ReInitStat(ref newStats, j, _casesForStats[i].CaseStats[j]);
-                    }
-                }
-
-                _casesForStats[i] = new CaseForStats(newStats, _casesForStats[i].Name);
-            }
-        }
-    }
     private void AddDynamicPort()
     {
         if (DynamicOutputs.Count() < _maxDynamicPortsCount)
         {
-            string name = $"Port {DynamicOutputs.Count()}";
+            string name = $"{_port}{DynamicOutputs.Count()}";
             if (_casesForStats == null)
             {
                 _casesForStats = new List<CaseForStats>();
             }
-            _casesForStats.Add(new CaseForStats(CreateCaseBaseStat(), name));
+            _casesForStats.Add(new CaseForStats(_switchNodeInitializer.CreateCaseBaseStat(), name));
             AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: name);
         }
     }
@@ -108,27 +83,6 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
         {
             RemoveDynamicPort(_casesForStats[_casesForStats.Count - 1].Name);
             _casesForStats.Remove(_casesForStats[_casesForStats.Count - 1]);
-        }
-    }
-    private List<CaseBaseStat> CreateCaseBaseStat()
-    {
-        // List<BaseStat> stats = _gameStatsHandler.GetGameBaseStatsForm();
-        List<BaseStat> stats = null;
-        List<CaseBaseStat> caseStats = new List<CaseBaseStat>(stats.Count);
-        for (int i = 0; i < stats.Count; i++)
-        {
-            caseStats.Add(new CaseBaseStat(stats[i].Name, stats[i].Value, 0, false));
-        }
-        return caseStats;
-    }
-    private void ReInitStat(ref List<CaseBaseStat> newStats, int index, CaseBaseStat oldStat)
-    {
-        if (oldStat.Name == newStats[index].Name)
-        {
-            newStats[index] = new CaseBaseStat(oldStat.Name,
-                oldStat.Value,
-                oldStat.IndexCurrentOperator,
-                oldStat.IncludeKey);
         }
     }
 

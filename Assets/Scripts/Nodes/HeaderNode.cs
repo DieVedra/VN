@@ -39,7 +39,7 @@ public class HeaderNode : BaseNode
         _buttonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
         _localizationText1.SetText(_text1);
         _localizationText2.SetText(_text2);
-        InitStringsToLocalization(_localizationText1, _localizationText2);
+        TryInitStringsToLocalization(_localizationText1, _localizationText2);
     }
 
     public override async UniTask Enter(bool isMerged = false)

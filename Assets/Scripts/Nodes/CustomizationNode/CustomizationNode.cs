@@ -58,18 +58,13 @@ public class CustomizationNode : BaseNode
         {
             if (_wardrobeSeriaData != null)
             {
-                // ResetBodiesCustomizationSettings();
-                // ResetHairstylesCustomizationSettings();
-                // ResetClothesCustomizationSettings();
-                // ResetSwimsuitsCustomizationSettings();
-                
                 ReInitBodiesCustomizationSettings();
                 ReinitHairstylesCustomizationSettings();
                 ReinitClothesCustomizationSettings();
                 ReinitSwimsuitsCustomizationSettings();
             }
         
-            InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
+            TryInitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
         }
     }
 

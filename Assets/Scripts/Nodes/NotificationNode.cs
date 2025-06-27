@@ -17,7 +17,7 @@ public class NotificationNode : BaseNode
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
         _localizationText.SetText(_text);
-        InitStringsToLocalization(_localizationText);
+        TryInitStringsToLocalization(_localizationText);
     }
     public override async UniTask Enter(bool isMerged = false)
     {

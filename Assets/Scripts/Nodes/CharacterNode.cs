@@ -6,7 +6,6 @@ using UnityEngine;
 [NodeTint("#515000")]
 public class CharacterNode : BaseNode, IPutOnSwimsuit
 {
-    [SerializeField, TextArea] private string _text;
     [SerializeField] private LocalizationString _localizationText;
     [SerializeField, HideInInspector] private int _indexCharacter;
     [SerializeField, HideInInspector] private int _indexEmotion;
@@ -35,16 +34,14 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
-        // Debug.Log($"_localizationText {_localizationText.DefaultText}");
 
-        // _localizationText.SetText(_text);
         if (_overrideName == true)
         {
-            InitStringsToLocalization(_localizationText, _overridedNameLocalization);
+            TryInitStringsToLocalization(_localizationText, _overridedNameLocalization);
         }
         else
         {
-            InitStringsToLocalization(_localizationText);
+            TryInitStringsToLocalization(_localizationText);
         }
     }
 

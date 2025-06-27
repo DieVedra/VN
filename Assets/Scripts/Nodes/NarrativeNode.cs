@@ -5,13 +5,13 @@ using UnityEngine;
 [NodeTint("#006C17")]
 public class NarrativeNode : BaseNode
 {
-	[SerializeField, TextArea] private string _text;
 	[SerializeField] private LocalizationString _localizationText;
 
 	private NarrativePanelUIHandler _narrativePanelUI;
 	public void ConstructMyNarrativeNode(NarrativePanelUIHandler narrativePanelUI)
 	{
 		_narrativePanelUI = narrativePanelUI;
+		TryInitStringsToLocalization(_localizationText);
 	}
 
 	public override async UniTask Enter(bool isMerged = false)
@@ -22,12 +22,12 @@ public class NarrativeNode : BaseNode
 		{
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
 		}
-		_narrativePanelUI.EmergenceNarrativePanelInPlayMode(_text);
+		_narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText);
 		await _narrativePanelUI.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
-		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _text);
+		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _localizationText.DefaultText);
 		TryActivateButtonSwitchToNextSlide();
-		_localizationText.SetText(_text);
-		InitStringsToLocalization(_localizationText);
+		_localizationText.SetText(_localizationText.DefaultText);
+		TryInitStringsToLocalization(_localizationText);
 	}
 
 	public override async UniTask Exit()

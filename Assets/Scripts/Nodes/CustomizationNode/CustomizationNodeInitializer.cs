@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CustomizationNodeInitializer
+public class CustomizationNodeInitializer : MyNodeInitializer
 {
-    private GameStatsHandler _gameStatsHandler;
-    public GameStatsHandler GameStatsHandler => _gameStatsHandler;
+    public CustomizationNodeInitializer(List<Stat> stats) : base(stats) { }
 
-    public CustomizationNodeInitializer(List<Stat> stats)
-    {
-        _gameStatsHandler = new GameStatsHandler(stats);
-    }
     public void InitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         if (sprites == null)

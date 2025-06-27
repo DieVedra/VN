@@ -7,9 +7,6 @@ using XNode;
 [NodeTint("#7B0800"), NodeWidth(350)]
 public class ChoiceNode : BaseNode
 {
-    // [SerializeField, TextArea] private string _choiceText1;
-    // [SerializeField, TextArea] private string _choiceText2;
-    // [SerializeField, TextArea] private string _choiceText3;
     [SerializeField] private LocalizationString _localizationChoiceText1;
     [SerializeField] private LocalizationString _localizationChoiceText2;
     [SerializeField] private LocalizationString _localizationChoiceText3;
@@ -36,10 +33,10 @@ public class ChoiceNode : BaseNode
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
-    private int _seriaIndex;
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
+    private ChoiceNodeInitializer _choiceNodeInitializer;
     private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
     private string[] _namesPortsPorts;
@@ -52,20 +49,16 @@ public class ChoiceNode : BaseNode
     public void ConstructMyChoiceNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
         SendCurrentNodeEvent<BaseNode> sendCurrentNodeEvent, int seriaIndex)
     {
-        _seriaIndex = seriaIndex;
         _namesPortsPorts = new[] {_port1, _port2, _port3};
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
         _choiceResultEvent = new ChoiceResultEvent<int>();
+        _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         _gameStatsProvider = gameStatsProvider;
         _choiceResultEvent.Subscribe(SetNextNodeFromResultChoice);
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
         TryInitAllStats();
-        // _localizationChoiceText1.SetText(_choiceText1);
-        // _localizationChoiceText2.SetText(_choiceText2);
-        // _localizationChoiceText3.SetText(_choiceText3);
-        
-        InitStringsToLocalization(_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3);
+        TryInitStringsToLocalization(_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3);
     }
 
     public override void Dispose()
@@ -83,7 +76,6 @@ public class ChoiceNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-
         await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, CreateChoiceTexts());
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
@@ -124,34 +116,9 @@ public class ChoiceNode : BaseNode
     }
     private void TryInitAllStats()
     {
-        TryInitStats(ref _baseStatsChoice1);
-        TryInitStats(ref _baseStatsChoice2);
-        TryInitStats(ref _baseStatsChoice3);
-    }
-    private void TryInitStats(ref List<BaseStat> oldBaseStatsChoice)
-    {
-        // if (oldBaseStatsChoice == null || oldBaseStatsChoice.Count != _gameStatsHandler.Stats.Count)
-        // {
-        //     List<BaseStat> newBaseStats = _gameStatsHandler.GetGameBaseStatsForm();
-        //     if (oldBaseStatsChoice != null && oldBaseStatsChoice.Count > 0)
-        //     {
-        //         if (oldBaseStatsChoice.Count > newBaseStats.Count)
-        //         {
-        //             for (int i = 0; i < newBaseStats.Count; i++)
-        //             {
-        //                 ReInitStat(ref newBaseStats, i, oldBaseStatsChoice[i]);
-        //             }
-        //         }
-        //         else if (oldBaseStatsChoice.Count < newBaseStats.Count)
-        //         {
-        //             for (int i = 0; i < oldBaseStatsChoice.Count; i++)
-        //             {
-        //                 ReInitStat(ref newBaseStats, i, oldBaseStatsChoice[i]);
-        //             }
-        //         }
-        //     }
-        //     oldBaseStatsChoice = newBaseStats;
-        // }
+        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice1);
+        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice2);
+        _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice3);
     }
     private ChoiceData CreateChoiceTexts()
     {
@@ -180,15 +147,8 @@ public class ChoiceNode : BaseNode
         {
             TryFindConnectedPorts(GetOutputPort($"{_namesPortsPorts[buttonPressIndex]}"));
         }
-        // _gameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
+        _choiceNodeInitializer.GameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
         SwitchToNextNodeEvent.Execute();
-    }
-    private void ReInitStat(ref List<BaseStat> newStats, int index, BaseStat oldStat)
-    {
-        if (newStats[index].Name == oldStat.Name)
-        {
-            newStats[index] = new BaseStat(oldStat.Name, oldStat.Value);
-        }
     }
     private void TryFindConnectedPorts(NodePort outputPort)
     {
