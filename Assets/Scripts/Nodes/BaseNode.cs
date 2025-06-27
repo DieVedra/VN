@@ -9,16 +9,17 @@ public class BaseNode : Node
 {
     [Input] public Empty Input;
     [Output] public Empty Output;
+    [SerializeField] protected LocalizationString[] StringsToLocalization;
 
+    private const string _nameOutputPort = "Output";
     protected ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
     protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
-    protected bool IsMerged;
-
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected CancellationTokenSource CancellationTokenSource;
+    protected bool IsMerged;
+
     public string namenode;
-    protected LocalizationString[] StringsToLocalization;
-    public NodePort OutputPortBaseNode => GetOutputPort("Output");
+    public NodePort OutputPortBaseNode => GetOutputPort(_nameOutputPort);
     public IReadOnlyList<LocalizationString> StringsLocalization => StringsToLocalization;
     private BaseNode _nextNode;
 

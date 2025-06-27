@@ -54,22 +54,18 @@ public class CustomizationNode : BaseNode
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(_seriaIndex));
-        if (IsPlayMode() == false)
-        {
-            if (_wardrobeSeriaData != null)
-            {
-                ReInitBodiesCustomizationSettings();
-                ReinitHairstylesCustomizationSettings();
-                ReinitClothesCustomizationSettings();
-                ReinitSwimsuitsCustomizationSettings();
-                
-                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
-                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsHairstyles, _wardrobeSeriaData.HairstylesDataSeria.MySprites);
-                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsClothes, _wardrobeSeriaData.ClothesDataSeria.MySprites, 1);
-                // _customizationNodeInitializer.InitCustomizationSettings(ref _settingsSwimsuits, _wardrobeSeriaData.SwimsuitsDataSeria.MySprites, 1);
-            }
-        }
-        InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
+        // if (IsPlayMode() == false)
+        // {
+        //     if (_wardrobeSeriaData != null)
+        //     {
+        //         ReInitBodiesCustomizationSettings();
+        //         ReinitHairstylesCustomizationSettings();
+        //         ReinitClothesCustomizationSettings();
+        //         ReinitSwimsuitsCustomizationSettings();
+        //     }
+        //
+        //     InitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
+        // }
     }
 
     public override async UniTask Enter(bool isMerged = false)

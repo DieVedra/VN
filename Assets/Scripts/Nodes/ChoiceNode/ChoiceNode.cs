@@ -2,16 +2,14 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
-using UniRx;
 using XNode;
-
 
 [NodeTint("#7B0800"), NodeWidth(350)]
 public class ChoiceNode : BaseNode
 {
-    [SerializeField, TextArea] private string _choiceText1;
-    [SerializeField, TextArea] private string _choiceText2;
-    [SerializeField, TextArea] private string _choiceText3;
+    // [SerializeField, TextArea] private string _choiceText1;
+    // [SerializeField, TextArea] private string _choiceText2;
+    // [SerializeField, TextArea] private string _choiceText3;
     [SerializeField] private LocalizationString _localizationChoiceText1;
     [SerializeField] private LocalizationString _localizationChoiceText2;
     [SerializeField] private LocalizationString _localizationChoiceText3;
@@ -34,7 +32,10 @@ public class ChoiceNode : BaseNode
     [SerializeField, HideInInspector, Output] private Empty Choice1Output;
     [SerializeField, HideInInspector, Output] private Empty Choice2Output;
     [SerializeField, HideInInspector, Output] private Empty Choice3Output;
-    
+
+    private const string _port1 = "Choice1Output";
+    private const string _port2 = "Choice2Output";
+    private const string _port3 = "Choice3Output";
     private int _seriaIndex;
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
@@ -52,7 +53,7 @@ public class ChoiceNode : BaseNode
         SendCurrentNodeEvent<BaseNode> sendCurrentNodeEvent, int seriaIndex)
     {
         _seriaIndex = seriaIndex;
-        _namesPortsPorts = new[] {$"Choice1Output", $"Choice2Output", $"Choice3Output"};
+        _namesPortsPorts = new[] {_port1, _port2, _port3};
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
         _choiceResultEvent = new ChoiceResultEvent<int>();
         _gameStatsProvider = gameStatsProvider;
@@ -60,9 +61,9 @@ public class ChoiceNode : BaseNode
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
         TryInitAllStats();
-        _localizationChoiceText1.SetText(_choiceText1);
-        _localizationChoiceText2.SetText(_choiceText2);
-        _localizationChoiceText3.SetText(_choiceText3);
+        // _localizationChoiceText1.SetText(_choiceText1);
+        // _localizationChoiceText2.SetText(_choiceText2);
+        // _localizationChoiceText3.SetText(_choiceText3);
         
         InitStringsToLocalization(_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3);
     }

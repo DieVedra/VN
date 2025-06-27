@@ -100,11 +100,11 @@ public class NodeGraphInitializer
             soundNode.ConstructMySoundNode(_sound);
             return;
         }
-        if (node is ChoiceNode choiceNode)
-        {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
-            return;
-        }
+        // if (node is ChoiceNode choiceNode)
+        // {
+        //     choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
+        //     return;
+        // }
         if (node is CustomizationNode customizationNode)
         {
             customizationNode.ConstructMyCustomizationNode(
@@ -117,11 +117,11 @@ public class NodeGraphInitializer
                 _wallet, _wardrobeCharacterViewer, seriaIndex);
                 return;
         }
-        if (node is SwitchNode switchNode)
-        {
-            switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
-            return;
-        }
+        // if (node is SwitchNode switchNode)
+        // {
+        //     switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
+        //     return;
+        // }
         if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
         {
             addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);

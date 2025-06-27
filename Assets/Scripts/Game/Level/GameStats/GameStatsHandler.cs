@@ -80,28 +80,14 @@ public class GameStatsHandler
     public List<Stat> ReinitStats(List<Stat> oldStats)
     {
         List<Stat> newStats = GetGameStatsForm();
-        if (oldStats.Count > newStats.Count)
-        {
-            Reinit(newStats);
-        }
-        else if (oldStats.Count < newStats.Count)
-        {
-            Reinit(oldStats);
-        }
+        Dictionary<string, Stat> oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
 
-        void Reinit(List<Stat> stats)
+        for (int i = 0; i < newStats.Count; i++)
         {
-            for (int i = 0; i < stats.Count; i++)
+            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out Stat stat) == true)
             {
-                if (FindingMatchStat(newStats, stats[i]))
-                {              
-                    InsertStat(i);
-                }
+                newStats.Insert(i, stat);
             }
-        }
-        void InsertStat(int index)
-        {
-            newStats.Insert(index, new Stat(oldStats[index].Name, oldStats[index].Value, oldStats[index].ShowKey, oldStats[index].ColorField));
         }
         return newStats;
     }
@@ -111,21 +97,6 @@ public class GameStatsHandler
         if (stats != null && stats.Count > 0)
         {
             _stats.AddRange(stats);
-            // _statsChangedReactiveCommand?.Execute();
         }
-    }
-
-    private bool FindingMatchStat(List<Stat> stats, Stat stat)
-    {
-        bool result = false;
-        for (int i = 0; i < stats.Count; i++)
-        {
-            if (stat.Name == stats[i].Name)
-            {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 }
