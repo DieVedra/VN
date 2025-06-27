@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine;
 
 public class MainMenuLocalizationFileProvider : JSonAssetLoader
 {
