@@ -76,7 +76,7 @@ public class EntryPoint: MonoBehaviour
 
     private void LoadSaveData()
     {
-        _saveService = new SaveService();
+        _saveService = new SaveService(new BinarySave());
         _saveServiceProvider.SaveService = _saveService;
 
         _saveData = _saveService.LoadData();

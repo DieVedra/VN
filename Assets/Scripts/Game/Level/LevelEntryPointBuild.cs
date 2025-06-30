@@ -32,7 +32,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
-        _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator);
+        _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator, SwitchToNextSeriaEvent);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
@@ -51,7 +51,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         });
 
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-        // _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
     private void Init()
@@ -85,11 +84,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.GetCharacters(),
+        NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
-            LevelUIProvider,
-            CharacterViewer, WardrobeCharacterViewer,
-            _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacter,
+            LevelUIProvider, CharacterViewer, WardrobeCharacterViewer,
             _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 

@@ -16,6 +16,7 @@ public class CustomizationNodeDrawer : NodeEditor
     private SerializedProperty _foldoutClothesIsOpenProperty;
     private SerializedProperty _foldoutBodiesIsOpenProperty;
     private SerializedProperty _foldoutSwimsuitsIsOpenProperty;
+    private SerializedProperty _customizationCharacterIndexProperty;
 
     private SerializedProperty _listSettingsBodyProperty;
     private SerializedProperty _listSettingsHairstylesProperty;
@@ -25,6 +26,8 @@ public class CustomizationNodeDrawer : NodeEditor
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
     private Vector2 pos;
+    private string[] _namesCharactersToPopup;
+
     public override void OnBodyGUI()
     {
         if (_customizationNode == null)
@@ -44,6 +47,7 @@ public class CustomizationNodeDrawer : NodeEditor
             _foldoutClothesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsClothes");
             _foldoutBodiesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsBodies");
             _foldoutSwimsuitsIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsSwimsuits");
+            _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
             
             _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
             _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
@@ -54,11 +58,12 @@ public class CustomizationNodeDrawer : NodeEditor
             _outputSerializedProperty = serializedObject.FindProperty("Output");
             _localizationStringTextDrawer = new LocalizationStringTextDrawer();
             _lineDrawer = new LineDrawer();
+            InitCharactersNames();
         }
 
         NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
         NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
-        
+        _popupDrawer.DrawPopup(_namesCharactersToPopup, _customizationCharacterIndexProperty);
         if (_listSettingsBodyProperty != null)
         {
             DrawCustomizationFields(_customizationNode.SettingsBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
@@ -185,5 +190,21 @@ public class CustomizationNodeDrawer : NodeEditor
     {
         MethodInfo methodInfo = _customizationNode.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
         methodInfo.Invoke(_customizationNode, null);
+    }
+    private void InitCharactersNames()
+    {
+        if (_customizationNode.CustomizableCharacters != null)
+        {
+            var namesCharactersToPopup = new List<string>();
+            for (int i = 0; i < _customizationNode.CustomizableCharacters.Count; i++)
+            {
+                if (_customizationNode.CustomizableCharacters[i] != null)
+                {
+                    namesCharactersToPopup.Add(_customizationNode.CustomizableCharacters[i].name);
+                }
+            }
+
+            _namesCharactersToPopup = namesCharactersToPopup.ToArray();
+        }
     }
 }

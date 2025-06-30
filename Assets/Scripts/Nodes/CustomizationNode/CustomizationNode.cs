@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class CustomizationNode : BaseNode
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsClothes;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsBodies;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsSwimsuits;
+    [SerializeField] private int _customizationCharacterIndex;
     
     [SerializeField] private List<CustomizationSettings> _settingsBodies;
     [SerializeField] private List<CustomizationSettings> _settingsHairstyles;
@@ -18,10 +20,8 @@ public class CustomizationNode : BaseNode
     [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;  
 
     private const int SmileEmotionIndex = 2;
-    private int _seriaIndex;
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
-    private CustomizableCharacter _customizableCharacter;
     private WardrobeSeriaData _wardrobeSeriaData;
     private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
@@ -33,32 +33,33 @@ public class CustomizationNode : BaseNode
     private Wallet _wallet;
     private CustomizationNodeInitializer _customizationNodeInitializer;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
+    private CustomizableCharacter _customizableCharacter => CustomizableCharacters[_customizationCharacterIndex];
     public IReadOnlyList<ICustomizationSettings> SettingsBodies => _settingsBodies;
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
     public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
     public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
+    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters;
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        CustomizableCharacter customizableCharacter, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound,
+        IReadOnlyList<CustomizableCharacter> customizableCharacters, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound,
         IGameStatsProvider gameStatsProvider, Wallet wallet, WardrobeCharacterViewer wardrobeCharacterViewer, int seriaIndex)
     {
-        _seriaIndex = seriaIndex;
         _sound = sound;
         _gameStatsProvider = gameStatsProvider;
         _wallet = wallet;
         _background = background;
-        _customizableCharacter = customizableCharacter;
+        CustomizableCharacters = customizableCharacters;
         _wardrobeSeriaData = wardrobeSeriaData;
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
-        _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex);
+        _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+        _gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex);
         if (IsPlayMode() == false)
         {
             _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsHandler);
-
             if (_wardrobeSeriaData != null)
             {
                 ReInitBodiesCustomizationSettings();
@@ -66,7 +67,6 @@ public class CustomizationNode : BaseNode
                 ReinitClothesCustomizationSettings();
                 ReinitSwimsuitsCustomizationSettings();
             }
-        
             TryInitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
         }
     }
@@ -208,7 +208,14 @@ public class CustomizationNode : BaseNode
             {
                 for (int j = 0; j < lists[i].Count; j++)
                 {
-                    strings.Add(lists[i][j].LocalizationName);
+                    if (lists[i][j].KeyAdd == true)
+                    {
+                        strings.Add(lists[i][j].LocalizationName);
+                        for (int k = 0; k < lists[i][j].GameStatsLocalizationStrings.Count; k++)
+                        {
+                            strings.Add(lists[i][j].GameStatsLocalizationStrings[k].LocalizationName);
+                        }
+                    }
                 }
             }
         }

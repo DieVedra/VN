@@ -14,6 +14,8 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
     public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => _customizableCharacterDataProvider;
 
+    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacterDataProvider.Datas;
+
     public CharacterProviderBuildMode()
     {
         _allCharacters = new List<Character>();
@@ -22,15 +24,17 @@ public class CharacterProviderBuildMode :  ICharacterProvider
         _customizableCharacterDataProvider = new DataProvider<CustomizableCharacter>();
     }
 
-    public async UniTask Init()
+    public async UniTask Construct()
     {
         await UniTask.WhenAll(_charactersDataProvider.CreateNames(_charactersDataName),
             _customizableCharacterDataProvider.CreateNames(_customizableCharacterName));
     }
+
     public IReadOnlyList<Character> GetCharacters()
     {
         return _allCharacters;
     }
+
     public void Dispose()
     {
         _charactersDataProvider.Dispose();

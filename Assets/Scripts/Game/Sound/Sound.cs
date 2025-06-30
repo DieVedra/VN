@@ -98,7 +98,6 @@ public class Sound : MonoBehaviour
                 PlayAudioByClip(AmbientAudioData[audioClipIndex], audioSourceType);
                 break;
         }
-        Debug.Log($"audioSourceType {audioSourceType}   audioClipIndex {audioClipIndex}");
     }
     public void SetVolume(float volume, AudioSourceType audioSourceType)
     {

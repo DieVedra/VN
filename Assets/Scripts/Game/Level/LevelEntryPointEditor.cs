@@ -53,10 +53,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
             TestHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
-            _characterProviderEditMode.CustomizableCharacter.Construct(StoryData.WardrobeSaveData);//?
+            _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
         }
         else
         {
+            _characterProviderEditMode.Construct();
             Wallet = new Wallet(TestMonets, TestHearts);
         }
 
@@ -73,9 +74,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
         InitBackground();
-
-        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.GetCharacters(), _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
-            CharacterViewer, WardrobeCharacterViewer, _characterProviderEditMode.CustomizableCharacter, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
+            CharacterViewer, WardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
 
         if (SaveData == null)
@@ -111,8 +111,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
-            StoryData.WardrobeSaveData = _characterProviderEditMode.CustomizableCharacter.GetWardrobeSaveData();
-
+            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacters);
 
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveService.Save(SaveData);

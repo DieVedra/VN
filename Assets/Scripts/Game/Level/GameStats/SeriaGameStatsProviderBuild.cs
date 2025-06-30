@@ -8,7 +8,6 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
 {
     private const string SeriaGameStatsProviderName = "StatProviderSeria";
     private GameStatsHandler _gameStatsHandler;
-
     public GameStatsHandler GameStatsHandler => _gameStatsHandler;
 
     public SeriaGameStatsProviderBuild()

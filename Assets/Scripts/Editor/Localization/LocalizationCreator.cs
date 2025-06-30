@@ -18,15 +18,17 @@ public class LocalizationCreator : ScriptableObject
     private string _path = "/Localization";
     private string _fileName = "/JsonFile.json";
 
-    [SerializeField] private string _text;
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
+    [SerializeField] private SeriaStatProvider _seriaStatProvider;
+    [SerializeField] private CharactersData _charactersData;
+    [SerializeField] private List<CustomizableCharacter> _customizableCharacters;
 
     [Button()]
     private void CreateSeriaFileLocalization()
     {
+        List<LocalizationString> seriaStrings = new List<LocalizationString>();
         if (_seriaForCreateFileLocalization != null)
         {
-            List<LocalizationString> seriaStrings = new List<LocalizationString>();
             foreach (var seria in _seriaForCreateFileLocalization.SeriaPartNodeGraphs)
             {
                 for (int i = 0; i < seria.nodes.Count; i++)
@@ -37,11 +39,32 @@ public class LocalizationCreator : ScriptableObject
                     }
                 }
             }
-            
-            
-            
-            CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}/SeriaFileLocalization.json");
         }
+
+        if (_seriaStatProvider != null)
+        {
+            foreach (var localizationString in _seriaStatProvider.StatsLocalizationStrings)
+            {
+                seriaStrings.Add(localizationString.LocalizationName);
+            }
+        }
+
+        if (_charactersData != null)
+        {
+            foreach (var simpleCharacter in _charactersData.SimpleCharacters)
+            {
+                seriaStrings.Add(simpleCharacter.Name);
+            }
+        }
+
+        if (_customizableCharacters.Count > 0)
+        {
+            foreach (var customizableCharacter in _customizableCharacters)
+            {
+                
+            }
+        }
+        CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}/SeriaFileLocalization.json");
     }
 
 
@@ -58,6 +81,7 @@ public class LocalizationCreator : ScriptableObject
         File.WriteAllText(newPath, file);
         AssetDatabase.Refresh();
     }
+
     [Button()]
     private void FindAttributes()
     {
@@ -100,6 +124,7 @@ public class LocalizationCreator : ScriptableObject
             }
         }
     }
+
     [Button()]
     private void Show()
     {
@@ -109,6 +134,7 @@ public class LocalizationCreator : ScriptableObject
             Debug.Log($"{VARIABLE.Key} {VARIABLE.Value}");
         }
     }
+
     private Dictionary<string,string> CreateDictionary(List<LocalizationString> seriaStrings)
     {
         var dict = new Dictionary<string, string>();
@@ -133,6 +159,9 @@ public class LocalizationCreator : ScriptableObject
         }
         return dict;
     }
+
+    [SerializeField, Space(30f)] private string _text;
+
     [Button()]
     private void CreateKeyByText()
     {

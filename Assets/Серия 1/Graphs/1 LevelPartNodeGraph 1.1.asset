@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: Notification
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -600, y: -1640}
+  position: {x: -344, y: -664}
   ports:
     keys:
     - Input
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: Choice
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -968, y: -2008}
+  position: {x: -1320, y: -1320}
   ports:
     keys:
     - Choice1Output
@@ -328,26 +328,167 @@ MonoBehaviour:
   _choice1Price: 0
   _choice2Price: 0
   _choice3Price: 0
-  _showStatsChoice1Key: 0
-  _showStatsChoice2Key: 0
+  _showStatsChoice1Key: 1
+  _showStatsChoice2Key: 1
   _showStatsChoice3Key: 0
   _showChoice3Key: 0
   _showOutput: 0
   _addTimer: 0
   _baseStatsChoice1:
   - _name:
-      <DefaultText>k__BackingField: testSeria1
-      <Key>k__BackingField: str_4E93D0CD
+      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+      <Key>k__BackingField: str_4F394F1E
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+      <Key>k__BackingField: str_5D13A7F1
+    _value: 1
+  - _name:
+      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+      <Key>k__BackingField: str_FEBA0FC4
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+      <Key>k__BackingField: str_AEF9B513
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_65738CDB
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_28D170F4
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_3976D156
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
+      <Key>k__BackingField: str_54BC83C2
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      <Key>k__BackingField: str_4A239BE1
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      <Key>k__BackingField: str_436CD854
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_2C3D4123
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_D8536408
     _value: 0
   _baseStatsChoice2:
   - _name:
-      <DefaultText>k__BackingField: testSeria1
-      <Key>k__BackingField: str_4E93D0CD
+      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+      <Key>k__BackingField: str_4F394F1E
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+      <Key>k__BackingField: str_5D13A7F1
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+      <Key>k__BackingField: str_FEBA0FC4
+    _value: 1
+  - _name:
+      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+      <Key>k__BackingField: str_AEF9B513
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_65738CDB
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_28D170F4
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_3976D156
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
+      <Key>k__BackingField: str_54BC83C2
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      <Key>k__BackingField: str_4A239BE1
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      <Key>k__BackingField: str_436CD854
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_2C3D4123
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_D8536408
     _value: 0
   _baseStatsChoice3:
   - _name:
-      <DefaultText>k__BackingField: testSeria1
-      <Key>k__BackingField: str_4E93D0CD
+      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+      <Key>k__BackingField: str_4F394F1E
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+      <Key>k__BackingField: str_5D13A7F1
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+      <Key>k__BackingField: str_FEBA0FC4
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+      <Key>k__BackingField: str_AEF9B513
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_65738CDB
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_28D170F4
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_3976D156
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
+      <Key>k__BackingField: str_54BC83C2
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      <Key>k__BackingField: str_4A239BE1
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      <Key>k__BackingField: str_436CD854
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_2C3D4123
+    _value: 0
+  - _name:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_D8536408
     _value: 0
 --- !u!114 &-6087125107038808374
 MonoBehaviour:
@@ -756,7 +897,7 @@ MonoBehaviour:
       \u0441\u0442\u0430\u0432\u0438\u0442\u044C \u043F\u0430\u043B\u0430\u0442\u043A\u0443?"
     <Key>k__BackingField: str_90D3CE25
   _indexCharacter: 1
-  _indexEmotion: 0
+  _indexEmotion: 2
   _indexLook: 0
   _previousIndexCharacter: 1
   _previousCharactersCount: 6
@@ -874,7 +1015,7 @@ MonoBehaviour:
   _currentMusicSoundIndex: 0
   _currentAmbientSoundIndex: 0
   _isInstantNodeTransition: 0
-  _volumeMusicSound: 1
+  _volumeMusicSound: 0.6598739
   _volumeAmbientSound: 1
   _smoothMusicTransitionKey: 0
   _isMusicSmoothVolumeIncrease: 1
@@ -1479,7 +1620,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1256, y: -1592}
+  position: {x: -1592, y: -1736}
   ports:
     keys:
     - Input
@@ -1722,7 +1863,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -760, y: -1368}
+  position: {x: -648, y: -1368}
   ports:
     keys:
     - Input
@@ -1762,7 +1903,7 @@ MonoBehaviour:
       \u043F\u0430\u043B\u0430\u0442\u043A\u0443, \u0437\u0430\u043D\u0443\u0434\u0430."
     <Key>k__BackingField: str_E39DE63B
   _indexCharacter: 0
-  _indexEmotion: 0
+  _indexEmotion: 1
   _indexLook: 0
   _previousIndexCharacter: 0
   _previousCharactersCount: 6
@@ -1835,14 +1976,6 @@ MonoBehaviour:
   - <DefaultText>k__BackingField: "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u043E\u0435
       \u0422\u043E\u043F \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
     <Key>k__BackingField: str_2F79F177
-  - <DefaultText>k__BackingField: "\u041F\u043B\u0430\u0442\u044C\u0435 \u041A\u0440\u0430\u0441\u043D\u043E\u0435"
-    <Key>k__BackingField: str_3C5087A8
-  - <DefaultText>k__BackingField: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u041B\u0435\u0433\u0433\u0438\u043D\u0441\u044B
-      \u0438 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u0430\u044F \u043C\u0430\u0439\u043A\u0430"
-    <Key>k__BackingField: str_D561FE98
-  - <DefaultText>k__BackingField: "\u041A\u043B\u0443\u0431\u043D\u043E\u0435 \u042E\u0431\u043A\u0430
-      \u0438 \u0442\u043E\u043F"
-    <Key>k__BackingField: str_72AB3F5B
   - <DefaultText>k__BackingField: "\u0421\u0435\u0440\u043E-\u0433\u043E\u043B\u0443\u0431\u044B\u0435"
     <Key>k__BackingField: str_B81816F6
   - <DefaultText>k__BackingField: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435"
@@ -1854,43 +1987,111 @@ MonoBehaviour:
   - <DefaultText>k__BackingField: "\u041F\u0435\u0441\u043E\u0447\u043D\u044B\u0439
       \u0431\u043B\u043E\u043D\u0434 \u043A\u0430\u0440\u0435"
     <Key>k__BackingField: str_58746968
-  - <DefaultText>k__BackingField: "\u0427\u0435\u0440\u043D\u043E-\u0444\u0438\u043E\u043B\u0435\u0442\u043E\u0432\u044B\u0439
-      \u0445\u0432\u043E\u0441\u0442"
-    <Key>k__BackingField: str_ABC20CEA
-  - <DefaultText>k__BackingField: "\u0420\u044B\u0436\u0438\u0435 \u0432\u043E\u043B\u043D\u0438\u0441\u0442\u044B\u0435"
-    <Key>k__BackingField: str_6EE79712
-  - <DefaultText>k__BackingField: "\u0420\u043E\u0437\u043E\u0432\u044B\u0435"
-    <Key>k__BackingField: str_A5A041B8
-  - <DefaultText>k__BackingField: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A
-      \u0427\u0435\u0440\u043D\u044B\u0439"
-    <Key>k__BackingField: str_D275EA9D
-  - <DefaultText>k__BackingField: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A
-      \u0421 \u0431\u043B\u0435\u0441\u0442\u043A\u0430\u043C\u0438"
-    <Key>k__BackingField: str_87C47C8F
-  - <DefaultText>k__BackingField: "\u041A\u0443\u043F\u0430\u043B\u044C\u043D\u0438\u043A
-      \u0427\u0435\u0440\u043D\u044B\u0439 \u043C\u0438\u043D\u0438"
-    <Key>k__BackingField: str_DA45C061
   namenode: 1.1.1
   _hairIndex: 0
   _showFoldoutSettingsHairstyles: 0
   _showFoldoutSettingsClothes: 0
   _showFoldoutSettingsBodies: 0
   _showFoldoutSettingsSwimsuits: 0
+  _customizationCharacterIndex: 0
   _settingsBodies:
   - _name:
       <DefaultText>k__BackingField: "\u0415\u0432\u0440\u043E\u043F\u0435\u043E\u0438\u0434"
       <Key>k__BackingField: str_86A599ED
     _index: 0
     _keyAdd: 1
-    _keyShowParams: 1
-    _keyShowStats: 1
+    _keyShowParams: 0
+    _keyShowStats: 0
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -1898,31 +2099,197 @@ MonoBehaviour:
       <Key>k__BackingField: str_273B8DED
     _index: 1
     _keyAdd: 1
-    _keyShowParams: 1
-    _keyShowStats: 1
+    _keyShowParams: 0
+    _keyShowStats: 0
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
-      _value: 5
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
+      _value: 0
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
       <DefaultText>k__BackingField: "\u041D\u0435\u0433\u0440\u043E\u0438\u0434"
       <Key>k__BackingField: str_67E2E758
     _index: 2
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
-    _keyShowStats: 1
+    _keyShowStats: 0
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   _settingsHairstyles:
@@ -1930,64 +2297,396 @@ MonoBehaviour:
       <DefaultText>k__BackingField: "\u0421\u0435\u0440\u043E-\u0433\u043E\u043B\u0443\u0431\u044B\u0435"
       <Key>k__BackingField: str_B81816F6
     _index: 0
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
       <DefaultText>k__BackingField: "\u041A\u043E\u0440\u0438\u0447\u043D\u0435\u0432\u044B\u0435"
       <Key>k__BackingField: str_4F4C3ADD
     _index: 1
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
       <DefaultText>k__BackingField: "\u0420\u0443\u0441\u044B\u0435"
       <Key>k__BackingField: str_040047CD
     _index: 2
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
       <DefaultText>k__BackingField: "\u0411\u043B\u043E\u043D\u0434 \u043A\u0430\u0440\u0435"
       <Key>k__BackingField: str_19CE9414
     _index: 3
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -1995,16 +2694,99 @@ MonoBehaviour:
         \u0431\u043B\u043E\u043D\u0434 \u043A\u0430\u0440\u0435"
       <Key>k__BackingField: str_58746968
     _index: 4
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2018,10 +2800,93 @@ MonoBehaviour:
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2034,10 +2899,93 @@ MonoBehaviour:
     _price: 30
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2050,10 +2998,93 @@ MonoBehaviour:
     _price: 5
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   _settingsClothes:
@@ -2063,16 +3094,99 @@ MonoBehaviour:
         \u0434\u0436\u0438\u043D\u0441\u043E\u0432\u044B\u0435 \u0448\u043E\u0440\u0442\u044B"
       <Key>k__BackingField: str_62C9C868
     _index: 0
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
+      _value: 1
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2080,16 +3194,99 @@ MonoBehaviour:
         \u042E\u0431\u043A\u0430 \u0438 \u0442\u043E\u043F"
       <Key>k__BackingField: str_A260B414
     _index: 1
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 1
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2097,16 +3294,99 @@ MonoBehaviour:
         \u0422\u043E\u043F \u0438 \u0434\u0436\u0438\u043D\u0441\u044B"
       <Key>k__BackingField: str_2F79F177
     _index: 2
-    _keyAdd: 0
+    _keyAdd: 1
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 1
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2119,10 +3399,93 @@ MonoBehaviour:
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2136,10 +3499,93 @@ MonoBehaviour:
     _price: 5
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2153,10 +3599,93 @@ MonoBehaviour:
     _price: 5
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   _settingsSwimsuits:
@@ -2171,10 +3700,93 @@ MonoBehaviour:
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2188,10 +3800,93 @@ MonoBehaviour:
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
   - _name:
@@ -2205,10 +3900,93 @@ MonoBehaviour:
     _price: 0
     _gameStats:
     - _name:
-        <DefaultText>k__BackingField: testSeria1
-        <Key>k__BackingField: str_4E93D0CD
+        <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+        <Key>k__BackingField: str_4F394F1E
       _value: 0
-      _colorField: {r: 1, g: 0.3254717, b: 0.3254717, a: 1}
+      _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+        <Key>k__BackingField: str_5D13A7F1
+      _value: 0
+      _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+        <Key>k__BackingField: str_FEBA0FC4
+      _value: 0
+      _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+        <Key>k__BackingField: str_AEF9B513
+      _value: 0
+      _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+        <Key>k__BackingField: str_65738CDB
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+        <Key>k__BackingField: str_28D170F4
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+          \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_3976D156
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0436\u0435\u043B\u0442\u0430\u044F "
+        <Key>k__BackingField: str_54BC83C2
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 0, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+        <Key>k__BackingField: str_4A239BE1
+      _value: 0
+      _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430
+          \u0441\u0438\u043D\u044F\u044F"
+        <Key>k__BackingField: str_436CD854
+      _value: 0
+      _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_2C3D4123
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _showKey: 0
+      _showInEndGameResultKey: 0
+    - _name:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+        <Key>k__BackingField: str_D8536408
+      _value: 0
+      _colorField: {r: 1, g: 1, b: 1, a: 1}
       _showKey: 0
       _showInEndGameResultKey: 0
 --- !u!114 &8011839864939221692
@@ -2584,7 +4362,7 @@ MonoBehaviour:
       \u043F\u0435\u0440\u0435\u043E\u0434\u0435\u0432\u0430\u0442\u044C\u0441\u044F"
     <Key>k__BackingField: str_50DBC8C7
   _indexCharacter: 1
-  _indexEmotion: 2
+  _indexEmotion: 3
   _indexLook: 0
   _previousIndexCharacter: 1
   _previousCharactersCount: 6

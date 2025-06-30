@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 
 public class LevelLoadDataHandler
@@ -14,14 +13,16 @@ public class LevelLoadDataHandler
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
     private readonly BackgroundContentCreator _backgroundContentCreator;
+    private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
     public int CurrentSeriaLoadedNumber { get; private set; }
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
 
-    public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator)
+    public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
     {
         _backgroundContentCreator = backgroundContentCreator;
+        _switchToNextSeriaEvent = switchToNextSeriaEvent;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
         WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
@@ -41,6 +42,7 @@ public class LevelLoadDataHandler
             BackgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.WardrobeBackgroundDataLoadProviderParticipiteInLoad,
             _backgroundContentCreator);
+        switchToNextSeriaEvent.Subscribe(OnSwitchToNextSeria);
     }
 
     public async UniTask LoadFirstSeriaContent()
@@ -52,7 +54,6 @@ public class LevelLoadDataHandler
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(NumberFirstSeria, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
-        // await TryLoadDatas(_indexFirstName);
 
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
@@ -66,13 +67,15 @@ public class LevelLoadDataHandler
 
         _loadAssetsPercentHandler.StopCalculatePercent();
         CurrentSeriaLoadedNumber = NumberFirstSeria;
+        
+        LoadNextSeriesContent().Forget();
     }
 
-    public async UniTaskVoid LoadNextSeriesContent()
+    private async UniTaskVoid LoadNextSeriesContent()
     {
-        int nextSeriaNumber = CurrentSeriaLoadedNumber;
-        for (int i = 0; i < _seriesCount; ++i)
+        if (CurrentSeriaLoadedNumber <= _seriesCount)
         {
+            int nextSeriaNumber = CurrentSeriaLoadedNumber;
             nextSeriaNumber++;
             // _loadAssetsPercentHandler.StartCalculatePercent();
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, CurrentSeriaLoadedNumber);
@@ -88,7 +91,7 @@ public class LevelLoadDataHandler
         _seriesCount = await GameSeriesProvider.Init();
         await UniTask.WhenAll(
             WardrobeSeriaDataProviderBuildMode.Init(), 
-            CharacterProviderBuildMode.Init(),
+            CharacterProviderBuildMode.Construct(),
             AudioClipProvider.Init(), 
             BackgroundDataProvider.Init(),
             SeriaGameStatsProviderBuild.Init());
@@ -111,5 +114,10 @@ public class LevelLoadDataHandler
         await AudioClipProvider.TryLoadDatas(indexName);
         await BackgroundDataProvider.TryLoadDatas(indexName);
         await SeriaGameStatsProviderBuild.TryLoadData(indexName);
+    }
+
+    private void OnSwitchToNextSeria(bool key)
+    {
+        LoadNextSeriesContent().Forget();
     }
 }

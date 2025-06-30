@@ -43,7 +43,10 @@ public class GameSeriesHandler : MonoBehaviour
         var wardrobeSeriaData = NodeGraphInitializer.WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex);
         if (wardrobeSeriaData != null && wardrobeSeriaData.MySeriaIndex == seriaIndex)
         {
-            NodeGraphInitializer.CustomizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+            foreach (var customizableCharacter in NodeGraphInitializer.CustomizableCharacters)
+            {
+                customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+            }
         }
     }
 }

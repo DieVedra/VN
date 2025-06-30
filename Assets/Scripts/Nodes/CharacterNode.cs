@@ -166,7 +166,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
     }
     private string GetName()
     {
-        return Characters[_indexCharacter].MyName;
+        return Characters[_indexCharacter].MyNameText;
     }
     protected override void TryActivateButtonSwitchToNextSlide()
     {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -6,9 +7,9 @@ public class SaveService
     private const string _fileName = "/Save";
     private readonly string _savePath;
     private ISaveMetod _saveMethod;
-    public SaveService()
+    public SaveService(ISaveMetod saveMethod)
     {
-        _saveMethod = new BinarySave();
+        _saveMethod = saveMethod;
         
         _savePath = Path.Combine(Application.dataPath + _fileName + _saveMethod.FileFormat);
 
@@ -25,6 +26,17 @@ public class SaveService
     public void Save(SaveData saveData)
     {
         _saveMethod.Save(_savePath, saveData);
+    }
+
+    public static WardrobeSaveData[] CreateWardrobeSaveDatas(IReadOnlyList<CustomizableCharacter> customizableCharacters)
+    {
+        List<WardrobeSaveData> datas = new List<WardrobeSaveData>();
+        foreach (var customizableCharacter in customizableCharacters)
+        {
+            datas.Add(customizableCharacter.GetWardrobeSaveData());
+        }
+
+        return datas.ToArray();
     }
     // public PlayerData GetPlayerConfigAfterLoading(int countConfigurations, int testMoney, bool saveOn)
     // {

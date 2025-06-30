@@ -14,10 +14,12 @@ public class StatProviderDrawer : Editor
     private SeriaStatProvider _seriaStatProvider;
     private SerializedProperty _listStatsProperty;
     private SerializedProperty _serializedProperty;
+    private SerializedProperty _seriaNumberSerializedProperty;
     private MethodInfo _addNewStatMethod;
     private MethodInfo _removeStat;
     private GUIStyle _guiStyle;
     private int _statIndex;
+    private int _addValue;
     private string[] _names;
 
     private void OnEnable()
@@ -25,6 +27,7 @@ public class StatProviderDrawer : Editor
         _seriaStatProvider = target as SeriaStatProvider;
         _lineDrawer = new LineDrawer();
         _listStatsProperty = serializedObject.FindProperty($"_stats");
+        _seriaNumberSerializedProperty = serializedObject.FindProperty($"_seriaNumber");
         _addNewStatMethod = _seriaStatProvider.GetType().GetMethod("AddNewStat", BindingFlags.NonPublic | BindingFlags.Instance);
         _removeStat = _seriaStatProvider.GetType().GetMethod("RemoveStat", BindingFlags.NonPublic | BindingFlags.Instance);
         SetStatNameIndex();
@@ -36,6 +39,9 @@ public class StatProviderDrawer : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+        _seriaNumberSerializedProperty.intValue = EditorGUILayout.IntField("To Seria Number:", _seriaNumberSerializedProperty.intValue);
+        _lineDrawer.DrawHorizontalLine(Color.red);
+
         if (_listStatsProperty != null)
         {
             for (int i = 0; i < _listStatsProperty.arraySize; i++)
@@ -55,7 +61,6 @@ public class StatProviderDrawer : Editor
             DrawRemove();
         }
         serializedObject.ApplyModifiedProperties();
-        base.OnInspectorGUI();
     }
 
     private void DrawFieldColor(string fieldName, int value, SerializedProperty showInEndGameResultKeySerializedProperty, Color color)
@@ -69,7 +74,7 @@ public class StatProviderDrawer : Editor
         _guiStyle.normal.textColor = oldColor;
         DrawField(value.ToString(), _guiStyle, 30f, 2);
         
-        DrawField("ShowInGameResult:", _guiStyle, 100f, -3);
+        DrawField("ShowInGameResult:", _guiStyle, 120f, -1);
         showInEndGameResultKeySerializedProperty.boolValue =
             EditorGUILayout.Toggle(showInEndGameResultKeySerializedProperty.boolValue);
 
@@ -98,7 +103,7 @@ public class StatProviderDrawer : Editor
         _colorField = EditorGUILayout.ColorField(_colorField, GUILayout.Width(40f));
         if (GUILayout.Button("Add", GUILayout.Width(40f)))
         {
-            _addNewStatMethod.Invoke(_seriaStatProvider, new object[]{new Stat(_nameField, 0, false, _colorField)});
+            _addNewStatMethod.Invoke(_seriaStatProvider, new object[]{new Stat(_nameField, _addValue, false, _colorField)});
             TryInitStatNames();
             _colorField = Color.white;
             _nameField = string.Empty;
@@ -106,6 +111,8 @@ public class StatProviderDrawer : Editor
             serializedObject.Update();
         }
         EditorGUILayout.EndHorizontal();
+        _addValue = EditorGUILayout.IntField("Value:", _addValue);
+
     }
 
     private void DrawRemove()
