@@ -7,8 +7,8 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     private const int _sortingOrderAddableValue = 5;
     private readonly Vector3 _wardrobePosition = new Vector3(-0.58f,3.12f,0f);
     private readonly Vector2 _viewerPosition = new Vector2(0f, -0.6f);
-
     private SpriteViewer _spriteViewer2;
+    public int CustomizableCharacterIndex { get; private set; }
 
     public override void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
     {
@@ -61,5 +61,10 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         CharacterAnimations characterAnimations = new CharacterAnimationsOnCustomization(transformSR, spriteRenderer,
             _timeEmergence, _timeDisappearance, _sortingOrderDefaultValue, _sortingOrderAddableValue);
         spriteViewer.Construct(characterAnimations, spriteRenderer);
+    }
+
+    public void SetCustomizableCharacterIndex(int index)
+    {
+        CustomizableCharacterIndex = index;
     }
 }

@@ -117,6 +117,8 @@ public class CustomizationNode : BaseNode
         {
             _wardrobeCharacterViewer.SetClothes(_customizableCharacter.GetClothesSprite());
         }
+
+        _wardrobeCharacterViewer.SetCustomizableCharacterIndex(_customizationCharacterIndex);
         _wardrobeCharacterViewer.SetHairstyle(_customizableCharacter.GetHairstyleSprite());
         _wardrobeCharacterViewer.SetLook(_customizableCharacter.GetLookMySprite());
         

@@ -12,7 +12,7 @@ public class StoryData
     public bool LowPassEffectIsOn;
     public bool StoryStarted;
     public int MyIndex;
-
+    public int CustomizableCharacterIndex;
     public SaveStat[] Stats;
     public BackgroundSaveData BackgroundSaveData;
     public WardrobeSaveData[] WardrobeSaveDatas;

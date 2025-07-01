@@ -15,13 +15,12 @@ public class LocalizationCreator : ScriptableObject
 {
     private const char _forging = '"';
     private const char _colon = ':';
-    private string _path = "/Localization";
-    private string _fileName = "/JsonFile.json";
+    private const string _path = "/Localization";
+    private const string _fileName = "/JsonFile.json";
+    private const string _seriaFileLocalizationFileName = "/FileLocalizationSeria.json";
 
+        
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
-    [SerializeField] private SeriaStatProvider _seriaStatProvider;
-    [SerializeField] private CharactersData _charactersData;
-    [SerializeField] private List<CustomizableCharacter> _customizableCharacters;
 
     [Button()]
     private void CreateSeriaFileLocalization()
@@ -40,33 +39,8 @@ public class LocalizationCreator : ScriptableObject
                 }
             }
         }
-
-        if (_seriaStatProvider != null)
-        {
-            foreach (var localizationString in _seriaStatProvider.StatsLocalizationStrings)
-            {
-                seriaStrings.Add(localizationString.LocalizationName);
-            }
-        }
-
-        if (_charactersData != null)
-        {
-            foreach (var simpleCharacter in _charactersData.SimpleCharacters)
-            {
-                seriaStrings.Add(simpleCharacter.Name);
-            }
-        }
-
-        if (_customizableCharacters.Count > 0)
-        {
-            foreach (var customizableCharacter in _customizableCharacters)
-            {
-                
-            }
-        }
-        CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}/SeriaFileLocalization.json");
+        CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}{_seriaFileLocalizationFileName}");
     }
-
 
     [Button()]
     private void Create()
@@ -161,13 +135,16 @@ public class LocalizationCreator : ScriptableObject
     }
 
     [SerializeField, Space(30f)] private string _text;
+    [SerializeField] private string _key;
 
     [Button()]
     private void CreateKeyByText()
     {
         if (string.IsNullOrEmpty(_text) == false)
         {
-            Debug.Log($"{_forging}{LocalizationString.GenerateStableHash(_text)}{_forging}{_colon} {_forging}{_text}{_forging}");
+            string key = LocalizationString.GenerateStableHash(_text);
+            _key = key;
+            Debug.Log($"{_forging}{key}{_forging}{_colon} {_forging}{_text}{_forging}");
         }
     }
 }

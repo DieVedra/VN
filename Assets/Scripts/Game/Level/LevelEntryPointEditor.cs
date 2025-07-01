@@ -108,7 +108,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.Stats = _seriaGameStatsProviderEditor.GetAllStatsToSave();
             StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
-            
+            StoryData.CustomizableCharacterIndex = WardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
             StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacters);

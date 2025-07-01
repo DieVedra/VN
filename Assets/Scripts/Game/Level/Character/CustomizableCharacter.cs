@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -11,13 +10,10 @@ public class CustomizableCharacter : Character
     [SerializeField, ReadOnly] private int _swimsuitsIndex;
     [SerializeField, ReadOnly] private int _hairstyleIndex;
     
-    
     [SerializeField, HorizontalLine(color:EColor.Yellow)] private List<BodySpriteData> _bodiesData;
     [SerializeField, HorizontalLine(color:EColor.Pink)] private List<MySprite> _clothesData;
     [SerializeField, HorizontalLine(color:EColor.Blue)] private List<MySprite> _swimsuitsData;
     [SerializeField, HorizontalLine(color:EColor.Green)] private List<MySprite> _hairstylesData;
-    
-    
     
     private WardrobeSaveData _wardrobeSaveData;
     public IReadOnlyList<MySprite> ClothesData => _clothesData;

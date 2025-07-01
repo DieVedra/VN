@@ -34,14 +34,9 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
-
-        if (_overrideName == true)
+        if (IsPlayMode() == false)
         {
-            TryInitStringsToLocalization(_localizationText, _overridedNameLocalization);
-        }
-        else
-        {
-            TryInitStringsToLocalization(_localizationText);
+            AddStringsToLocalization();
         }
     }
 
@@ -174,5 +169,21 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         {
             ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         }
+    }
+
+    private void AddStringsToLocalization()
+    {
+        List<LocalizationString> localizationText = new List<LocalizationString>();
+        if (_overrideName == true)
+        {
+            localizationText.Add(_overridedNameLocalization);
+        }
+
+        localizationText.Add(_localizationText);
+        for (int i = 0; i < Characters.Count; i++)
+        {
+            localizationText.Add(Characters[i].Name);
+        }
+        TryInitStringsToLocalization(localizationText.ToArray());
     }
 }
