@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class CalculateStatsHandler
 {
@@ -10,7 +11,6 @@ public class CalculateStatsHandler
     public CalculateStatsHandler(List<Stat> preliminaryStats)
     {
         _stats = preliminaryStats.Cast<BaseStat>().ToList();
-        
         PreliminaryStats = _stats;
     }
     public void PreliminaryStatsCalculation(params SwitchInfo[] switchInfo)

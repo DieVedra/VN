@@ -59,12 +59,10 @@ public class LevelLoadDataHandler
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
-        
         await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
-
-
+        
         _loadAssetsPercentHandler.StopCalculatePercent();
         CurrentSeriaLoadedNumber = NumberFirstSeria;
         
@@ -104,6 +102,7 @@ public class LevelLoadDataHandler
         GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
+        SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
 
     private async UniTask TryLoadDatas(int indexName)

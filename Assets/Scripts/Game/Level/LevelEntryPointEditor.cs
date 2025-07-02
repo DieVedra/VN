@@ -30,10 +30,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private async void Awake()
     {
-        if (PrefabsProvider.IsInitialized == false)
-        {
-            await PrefabsProvider.Init();
-        }
+        // if (PrefabsProvider.IsInitialized == false)
+        // {
+        //     await PrefabsProvider.Init();
+        // }
         Init();
         OnSceneTransition.Subscribe(_ =>
         {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
 {
-    [SerializeField] protected GameObject EventSystem;
     [SerializeField] protected CharacterViewer CharacterViewer;
     [SerializeField] protected WardrobeCharacterViewer WardrobeCharacterViewer;
 

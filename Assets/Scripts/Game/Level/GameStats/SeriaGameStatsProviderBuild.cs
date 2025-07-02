@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGameStatsProvider
 {

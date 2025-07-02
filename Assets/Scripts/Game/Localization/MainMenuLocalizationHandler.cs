@@ -83,7 +83,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
         _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(loader, _currentMyLanguageName.StoryLocalizationAssetName);
     }
 
-    public async UniTask LoadAllLanguages()
+    public async UniTask LoadAllLanguagesForMenu()
     {
         var loader = new MainMenuLocalizationFileProvider();
         for (int i = 0; i < _mainMenuLocalizationInfoHolder.LanguageNames.Count; i++)

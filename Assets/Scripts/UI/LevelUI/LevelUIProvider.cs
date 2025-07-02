@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LevelUIProvider
 {
-    public readonly GlobalUIHandler _globalUIHandler;
+    public readonly GlobalUIHandler GlobalUIHandler;
     public readonly NarrativePanelUIHandler NarrativePanelUIHandler;
     public readonly NotificationPanelUIHandler NotificationPanelUIHandler;
     public readonly CharacterPanelUIHandler CharacterPanelUIHandler;
@@ -21,7 +21,7 @@ public class LevelUIProvider
         GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
         GlobalUIHandler globalUIHandler = null)
     {
-        _globalUIHandler = globalUIHandler;
+        GlobalUIHandler = globalUIHandler;
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
         NotificationPanelUI notificationPanelUI = levelUIView.NotificationPanelUI;

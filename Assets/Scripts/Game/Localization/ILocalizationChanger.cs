@@ -7,5 +7,5 @@ public interface ILocalizationChanger
     public IReactiveProperty<int> CurrentLanguageKeyIndex { get; }
     public string GetName { get; }
     public int GetMyLanguageNamesCount { get; }
-    public UniTask LoadAllLanguages();
+    public UniTask LoadAllLanguagesForMenu();
 }

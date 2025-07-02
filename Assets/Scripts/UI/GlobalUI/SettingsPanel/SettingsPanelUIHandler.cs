@@ -1,9 +1,6 @@
-﻿
-using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class SettingsPanelUIHandler
 {
@@ -13,7 +10,7 @@ public class SettingsPanelUIHandler
     private SettingsPanelView _settingsPanelView;
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     public Transform Transform => _settingsPanelView.transform;
-    public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
+    public ReactiveCommand<bool> SwipeDetectorOff { get; }
     public bool AssetIsLoaded { get; private set; }
     public bool PanelOpen { get; private set; }
 
@@ -41,7 +38,7 @@ public class SettingsPanelUIHandler
                 _settingsPanelView.LocalizationField.RightButton,
                 _settingsPanelView.LocalizationField.TextChoice);
 
-            await localizationChanger.LoadAllLanguages();
+            await localizationChanger.LoadAllLanguagesForMenu();
             
             AssetIsLoaded = true;
         }
@@ -64,6 +61,7 @@ public class SettingsPanelUIHandler
         });
         _settingsPanelView.transform.parent.gameObject.SetActive(true);
         _settingsPanelView.gameObject.SetActive(true);
+        Debug.Log($"SettingsPanelUIHandler Show");
     }
 
     private void LanguageChanged()
@@ -75,9 +73,12 @@ public class SettingsPanelUIHandler
     private void Hide(BlackFrameUIHandler blackFrameUIHandler)
     {
         PanelOpen = false;
-        SwipeDetectorOff?.Execute(false);
         _settingsPanelView.gameObject.SetActive(false);
+
+
         blackFrameUIHandler.OpenTranslucent().Forget();
         _settingsPanelView.transform.parent.gameObject.SetActive(false);
+        SwipeDetectorOff?.Execute(false);
+        Debug.Log($"SettingsPanelUIHandler Hide");
     }
 }
