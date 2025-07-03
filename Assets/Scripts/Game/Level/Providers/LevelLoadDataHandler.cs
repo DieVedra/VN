@@ -3,9 +3,9 @@ using UniRx;
 
 public class LevelLoadDataHandler
 {
-    public const int NumberFirstSeria = 1;
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
+    private readonly MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
     public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
@@ -13,15 +13,22 @@ public class LevelLoadDataHandler
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
     private readonly BackgroundContentCreator _backgroundContentCreator;
+    
+    private readonly LevelLocalizationProvider _levelLocalizationProvider;
+    
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
     public int CurrentSeriaLoadedNumber { get; private set; }
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
 
-    public LevelLoadDataHandler(BackgroundContentCreator backgroundContentCreator, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
+    public LevelLoadDataHandler(MainMenuLocalizationHandler mainMenuLocalizationHandler, BackgroundContentCreator backgroundContentCreator, LevelLocalizationProvider levelLocalizationProvider,
+        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, int numberFirstSeria = 1)
     {
+        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
+        CurrentSeriaLoadedNumber = numberFirstSeria;
         _backgroundContentCreator = backgroundContentCreator;
+        _levelLocalizationProvider = levelLocalizationProvider;
         _switchToNextSeriaEvent = switchToNextSeriaEvent;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
@@ -29,7 +36,6 @@ public class LevelLoadDataHandler
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();
-        
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
             CharacterProviderBuildMode.CustomizableCharacterDataProviderParticipiteInLoad,
@@ -41,7 +47,7 @@ public class LevelLoadDataHandler
             BackgroundDataProvider.LocationDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.WardrobeBackgroundDataLoadProviderParticipiteInLoad,
-            _backgroundContentCreator);
+            _backgroundContentCreator, _levelLocalizationProvider);
         switchToNextSeriaEvent.Subscribe(OnSwitchToNextSeria);
     }
 
@@ -52,9 +58,10 @@ public class LevelLoadDataHandler
             _backgroundContentCreator.SetCurrentBackgroundData(_);
         });
         await InitLoaders();
-        CheckMatchNumbersSeriaWithNumberAssets(NumberFirstSeria, _indexFirstName);
+        CheckMatchNumbersSeriaWithNumberAssets(CurrentSeriaLoadedNumber, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
 
+        await SetCurrentLocalization();
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
@@ -62,9 +69,8 @@ public class LevelLoadDataHandler
         await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
-        
+
         _loadAssetsPercentHandler.StopCalculatePercent();
-        CurrentSeriaLoadedNumber = NumberFirstSeria;
         
         LoadNextSeriesContent().Forget();
     }
@@ -105,18 +111,27 @@ public class LevelLoadDataHandler
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
 
-    private async UniTask TryLoadDatas(int indexName)
+    private async UniTask TryLoadDatas(int seriaLoadedNumber)
     {
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(indexName);
-        await CharacterProviderBuildMode.TryLoadDatas(indexName);
-        await GameSeriesProvider.TryLoadData(indexName);
-        await AudioClipProvider.TryLoadDatas(indexName);
-        await BackgroundDataProvider.TryLoadDatas(indexName);
-        await SeriaGameStatsProviderBuild.TryLoadData(indexName);
+        await SetCurrentLocalization();
+        await WardrobeSeriaDataProviderBuildMode.TryLoadData(seriaLoadedNumber);
+        await CharacterProviderBuildMode.TryLoadDatas(seriaLoadedNumber);
+        await GameSeriesProvider.TryLoadData(seriaLoadedNumber);
+        await AudioClipProvider.TryLoadDatas(seriaLoadedNumber);
+        await BackgroundDataProvider.TryLoadDatas(seriaLoadedNumber);
+        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(seriaLoadedNumber);
+        // await _levelLocalizationHandler.TrySetCurrentLocalization(seriaLoadedNumber, seriaNodeGraphsHandler, SeriaGameStatsProviderBuild.GameStatsHandler);
     }
 
     private void OnSwitchToNextSeria(bool key)
     {
         LoadNextSeriesContent().Forget();
+    }
+
+    private async UniTask SetCurrentLocalization()
+    {
+        // await _levelLocalizationProvider.TryLoadLocalization(CurrentSeriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key,
+        //     GameSeriesProvider.LastLoaded, SeriaGameStatsProviderBuild.GameStatsHandler);
+        await _levelLocalizationProvider.TryLoadLocalization(CurrentSeriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key);
     }
 }

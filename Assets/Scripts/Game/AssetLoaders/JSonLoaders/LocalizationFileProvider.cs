@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 
-public class MainMenuLocalizationFileProvider : JSonAssetLoader
+public class LocalizationFileProvider : JSonAssetLoader
 {
     public async UniTask<Dictionary<string, string>> LoadLocalizationFile(string name)
     {

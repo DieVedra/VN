@@ -19,6 +19,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     public int PercentComplete => _scriptableObjectAssetLoader.GetPercentComplete();
     protected int NamesCount => _names.Count;
     public IReadOnlyList<T> Datas => _datas;
+    public T LastLoaded { get; private set; }
     public readonly ReactiveCommand<T> OnLoad;
 
     public DataProvider()
@@ -70,11 +71,27 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
             var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
             _datas.Add(data);
             OnLoad.Execute(data);
+            LastLoaded = data;
             return true;
         }
         else
         {
             return false;
+        }
+    }
+    public async UniTask<T> TryLoadDataAndGet(int nextSeriaNameAssetIndex)
+    {
+        if (ParticipiteInLoad == true)
+        {
+            T data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
+            _datas.Add(data);
+            OnLoad.Execute(data);
+            LastLoaded = data;
+            return data;
+        }
+        else
+        {
+            return default;
         }
     }
 }

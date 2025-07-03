@@ -17,7 +17,7 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
         {
             if (_gameStatsHandler == null)
             {
-                _gameStatsHandler = new GameStatsHandler(_.Stats.ToList());
+                _gameStatsHandler = new GameStatsHandler();
             }
             _gameStatsHandler.AddNextSeriaStats(_.Stats.ToList());
         });

@@ -53,7 +53,7 @@ public class AssetExistsHandler
         }
         return existNames;
     }
-    private async UniTask<bool> CheckAssetExists(string assetId)
+    public async UniTask<bool> CheckAssetExists(string assetId)
     {
         bool result = false;
         for (int i = 0; i < _attemptsCount; i++)

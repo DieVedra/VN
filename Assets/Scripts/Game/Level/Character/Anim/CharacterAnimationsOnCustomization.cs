@@ -1,22 +1,20 @@
-﻿
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class CharacterAnimationsOnCustomization : CharacterAnimations
 {
-    private readonly float _posY = -0.6f;
-    private readonly float _posXOffset = -0.6f;
-    private readonly float _rightPosX = 0.6f;
+    private const float _posY = -0.6f;
+    private const float _posXOffset = -0.6f;
+    private const float _rightPosX = 0.6f;
+    private const float _emergenceFadeEndValue = 1f;
+    private const float _disappearanceFadeEndValue = 0f;
+
     private readonly float _emergenceDuration;
     private readonly float _disappearanceDuration;
-    
     private readonly int _sortingOrderDefaultValue;
     private readonly int _sortingOrderAddableValue;
-    
-    private readonly float _emergenceFadeEndValue = 1f;
-    private readonly float _disappearanceFadeEndValue = 0f;
-    
+
     private readonly Vector3 _centralPosition;
     private readonly Vector3 _rightPosition;
     private readonly Vector3 _leftPosition;
@@ -30,7 +28,7 @@ public class CharacterAnimationsOnCustomization : CharacterAnimations
         _sortingOrderDefaultValue = sortingOrderDefaultValue;
         _sortingOrderAddableValue = sortingOrderAddableValue;
         var localPosition = characterTransform.localPosition;
-        _centralPosition = new Vector3(localPosition.x, localPosition.y + _posY, localPosition.z);
+        _centralPosition = localPosition;
         _leftPosition = new Vector3(localPosition.x + _posXOffset, localPosition.y + _posY, localPosition.z);
         _rightPosition = new Vector3(localPosition.x + _rightPosX, localPosition.y + _posY, localPosition.z);
     }

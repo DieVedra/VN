@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -8,7 +7,7 @@ using UnityEngine;
 public class MainMenuLocalizationHandler : ILocalizationChanger
 {
     private const string _defaultLanguageKey = "en";
-    // private const string _defaultLanguageKey = "ru";
+    // private const string DefaultLanguageKey = "ru";
     private MainMenuLocalizationInfoHolder _mainMenuLocalizationInfoHolder;
     private SaveData _saveData;
     private StoriesProvider _storiesProvider;
@@ -17,6 +16,8 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     private Dictionary<int, Dictionary<string, string>> _dictionariesMainMenuTranslates;
     private Dictionary<int, Dictionary<string, string>> _dictionaryStoryTranslates;
     // private List<LocalizationString> _localizationStrings;
+    private LocalizationFileProvider _loader;
+    
     public ReactiveCommand LanguageChanged { get; private set; }
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];
@@ -28,6 +29,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     {
         _currentLanguageKeyIndex = new ReactiveProperty<int>();
         LanguageChanged = new ReactiveCommand();
+        _loader = new LocalizationFileProvider();
     }
 
     public async UniTask Init(SaveData saveData, StoriesProvider storiesProvider)
@@ -37,7 +39,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
         _mainMenuLocalizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
         TryDefineLanguageKey();
         await LoadCurrentLanguage();
-        SetLanguage();
+        SetLanguageMainMenuAndStory();
 
         _currentLanguageKeyIndex.Skip(1).Subscribe(_ =>
         {
@@ -75,39 +77,35 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     private async UniTask LoadCurrentLanguage()
     {
-        var loader = new MainMenuLocalizationFileProvider();
         _dictionariesMainMenuTranslates = new Dictionary<int, Dictionary<string, string>>();
-        _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(loader, _currentMyLanguageName.MainMenuLocalizationAssetName);
+        _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(_currentMyLanguageName.GetMainMenuLocalizationAssetName);
         
         _dictionaryStoryTranslates = new Dictionary<int, Dictionary<string, string>>();
-        _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(loader, _currentMyLanguageName.StoryLocalizationAssetName);
+        _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(_currentMyLanguageName.GetStoryLocalizationAssetName);
     }
 
     public async UniTask LoadAllLanguagesForMenu()
     {
-        var loader = new MainMenuLocalizationFileProvider();
         for (int i = 0; i < _mainMenuLocalizationInfoHolder.LanguageNames.Count; i++)
         {
             if (i == _currentLanguageKeyIndex.Value)
             {
                 continue;
             }
-            _dictionariesMainMenuTranslates[i] = await LoadLanguageAsset(loader, _mainMenuLocalizationInfoHolder.LanguageNames[i].MainMenuLocalizationAssetName);
-            _dictionaryStoryTranslates[i] = await LoadLanguageAsset(loader, _mainMenuLocalizationInfoHolder.LanguageNames[i].StoryLocalizationAssetName);
+            _dictionariesMainMenuTranslates[i] = await LoadLanguageAsset(_mainMenuLocalizationInfoHolder.LanguageNames[i].GetMainMenuLocalizationAssetName);
+            _dictionaryStoryTranslates[i] = await LoadLanguageAsset(_mainMenuLocalizationInfoHolder.LanguageNames[i].GetStoryLocalizationAssetName);
         }
-    }
-
-    private async UniTask<Dictionary<string, string>> LoadLanguageAsset(MainMenuLocalizationFileProvider provider, string localizationAssetName)
-    {
-        return await provider.LoadLocalizationFile(localizationAssetName);
     }
     private void ChangeLanguage()
     {
-        SetLanguage();
+        SetLanguageMainMenuAndStory();
         LanguageChanged.Execute();
     }
-
-    private void SetLanguage()
+    private async UniTask<Dictionary<string, string>> LoadLanguageAsset(string localizationAssetName)
+    {
+        return await _loader.LoadLocalizationFile(localizationAssetName);
+    }
+    private void SetLanguageMainMenuAndStory()
     {
         var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
         var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];

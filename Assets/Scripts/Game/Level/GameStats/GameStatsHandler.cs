@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameStatsHandler
 {
@@ -12,6 +13,10 @@ public class GameStatsHandler
         _stats = stats;
     }
 
+    public GameStatsHandler()
+    {
+        _stats = new List<Stat>();
+    }
     public SaveStat[] GetStatsToSave()
     {
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
@@ -59,21 +64,29 @@ public class GameStatsHandler
         }
     }
 
-    public void UpdateStat(List<BaseStat> AddStats)
+    public void UpdateStat(List<BaseStat> addStats)
     {
+        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Name);
         for (int i = 0; i < _stats.Count; i++)
         {
-            _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + AddStats[i].Value, _stats[i].ShowKey,
-                _stats[i].ColorField);
+            if (addStatsDictionary.TryGetValue(_stats[i].Name, out BaseStat stat))
+            {
+                _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + stat.Value, _stats[i].ShowKey,
+                    _stats[i].ColorField);
+            }
         }
     }
 
-    public void UpdateStat(List<Stat> AddStats)
+    public void UpdateStat(List<Stat> addStats)
     {
+        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Name);
         for (int i = 0; i < _stats.Count; i++)
         {
-            _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + AddStats[i].Value, AddStats[i].ShowKey,
-                _stats[i].ColorField);
+            if (addStatsDictionary.TryGetValue(_stats[i].Name, out Stat stat))
+            {
+                _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + stat.Value, stat.ShowKey,
+                    _stats[i].ColorField);
+            }
         }
     }
 
@@ -120,5 +133,7 @@ public class GameStatsHandler
         {
             _stats.AddRange(stats);
         }
+        Debug.Log($"AddNextSeriaStats_stats {_stats.Count}");
+
     }
 }

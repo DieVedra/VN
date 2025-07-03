@@ -17,6 +17,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
+    private LevelLocalizationHandler _levelLocalizationHandler;
 
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     [Inject]
@@ -32,9 +33,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async void Awake()
     {
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider);
+        
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-        _levelLoadDataHandler = new LevelLoadDataHandler(_backgroundContentCreator, SwitchToNextSeriaEvent);
+        _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator, _levelLocalizationProvider, SwitchToNextSeriaEvent);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
@@ -88,11 +91,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerBuildMode.Construct(_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent);
+            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent);
         }
         else
         {
-            _gameSeriesHandlerBuildMode.Construct(_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
+            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }

@@ -49,8 +49,12 @@ public class GameControlPanelUIHandler
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
 
+        
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
             globalUIHandler.LoadIndicatorUIHandler);
+        
+        
+        
         _settingsPanelButtonUIHandler.Init(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
             globalSound.SoundStatus, _localizationChanger, false);
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,

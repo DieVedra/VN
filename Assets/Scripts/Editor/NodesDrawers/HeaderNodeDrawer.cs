@@ -6,6 +6,7 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(HeaderNode))]
 public class HeaderNodeDrawer : NodeEditor
 {
+    private const int _maxCountSymbols = 200;
     private HeaderNode _headerNode;
     private SerializedProperty _spriteSerializedProperty;
     private SerializedProperty _text1SerializedProperty;
@@ -18,6 +19,9 @@ public class HeaderNodeDrawer : NodeEditor
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
+    private LocalizationStringTextDrawer _localizationStringTextDrawer;
+    private LocalizationString _localizationText1;
+    private LocalizationString _localizationText2;
 
 
     private string[] _backgroundsNames;
@@ -31,12 +35,15 @@ public class HeaderNodeDrawer : NodeEditor
         EditorGUI.BeginChangeCheck();
 
         serializedObject.Update();
-        
+        if (_localizationStringTextDrawer == null)
+        {            
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
+        }
         if (_spriteSerializedProperty == null)
         {
             _spriteSerializedProperty = serializedObject.FindProperty("_sprite");
-            _text1SerializedProperty = serializedObject.FindProperty("_text1");
-            _text2SerializedProperty = serializedObject.FindProperty("_text2");
+            _text1SerializedProperty = serializedObject.FindProperty("_localizationText1");
+            _text2SerializedProperty = serializedObject.FindProperty("_localizationText2");
             _color1SerializedProperty = serializedObject.FindProperty("_colorField1");
             _color2SerializedProperty = serializedObject.FindProperty("_colorField2");
             _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
@@ -45,12 +52,14 @@ public class HeaderNodeDrawer : NodeEditor
             _inputSerializedProperty = serializedObject.FindProperty("Input");
             _outputSerializedProperty = serializedObject.FindProperty("Output");
             _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
+            _localizationText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text1SerializedProperty);
+            _localizationText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text2SerializedProperty);
         }
         InitNames();
         NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
         NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
-        DrawTextArea(_text1SerializedProperty, _color1SerializedProperty, _textSize1SerializedProperty,"Text Chapter Title:");
-        DrawTextArea(_text2SerializedProperty, _color2SerializedProperty, _textSize2SerializedProperty,"Text Title:");
+        DrawTextArea(_localizationText1, _color1SerializedProperty, _textSize1SerializedProperty,"Text Chapter Title:");
+        DrawTextArea(_localizationText2, _color2SerializedProperty, _textSize2SerializedProperty,"Text Title:");
         DrawPopup();
         DrawSlider();
         if (EditorGUI.EndChangeCheck())
@@ -59,12 +68,12 @@ public class HeaderNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawTextArea(SerializedProperty textSerializedProperty, SerializedProperty colorSerializedProperty,
+    private void DrawTextArea(LocalizationString localizationString, SerializedProperty colorSerializedProperty,
         SerializedProperty textSizeSerializedProperty, string label)
     {
-        EditorGUILayout.LabelField(label);
-        textSerializedProperty.stringValue = EditorGUILayout.TextArea(textSerializedProperty.stringValue, GUILayout.Height(50f), GUILayout.Width(150f));
-
+        // EditorGUILayout.LabelField(label);
+        // textSerializedProperty.stringValue = EditorGUILayout.TextArea(textSerializedProperty.stringValue, GUILayout.Height(50f), GUILayout.Width(150f));
+        _localizationStringTextDrawer.DrawTextField(localizationString, label);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.BeginVertical();
         EditorGUILayout.LabelField("Text Color: ",GUILayout.Width(80f));
