@@ -6,16 +6,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class JSonAssetLoader : LoadPercentProvider
 {
     private TextAsset _cashedObject;
-    
+    private AsyncOperationHandle<TextAsset> _handle;
     protected async UniTask<string> Load(string assetId)
     {
-        var handle = Addressables.LoadAssetAsync<TextAsset>(assetId);
-        SetHandle(handle);
-        await handle.Task;
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        _handle = Addressables.LoadAssetAsync<TextAsset>(assetId);
+        SetHandle(_handle);
+        await _handle.Task;
+        if (_handle.Status == AsyncOperationStatus.Succeeded)
         {
-            _cashedObject = handle.Result;
-            return handle.Result.text;
+            _cashedObject = _handle.Result;
+            return _handle.Result.text;
         }
         else
         {
@@ -23,6 +23,10 @@ public class JSonAssetLoader : LoadPercentProvider
         }
     }
 
+    public void AbortLoad()
+    {
+        Addressables.Release(_handle);
+    }
     protected void Unload()
     {
         if (_cashedObject == null)

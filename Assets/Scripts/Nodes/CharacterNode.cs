@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [NodeTint("#515000")]
-public class CharacterNode : BaseNode, IPutOnSwimsuit
+public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
 {
     [SerializeField] private LocalizationString _localizationText;
     [SerializeField, HideInInspector] private int _indexCharacter;
@@ -34,10 +34,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;
-        if (IsPlayMode() == false)
-        {
-            AddStringsToLocalization();
-        }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -137,11 +133,23 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
         _characterViewer.SpriteViewer.CharacterAnimations.MakeInvisibleSprite();
         _characterPanelUIHandler.DisappearanceCharacterTalkInPlayMode();
     }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        List<LocalizationString> localizationText = new List<LocalizationString>();
+        if (_overrideName == true)
+        {
+            localizationText.Add(_overridedNameLocalization);
+        }
+        localizationText.Add(_localizationText);
+        return localizationText;
+    }
+
     private MySprite GetLook()
     {
         return Characters[_indexCharacter].GetLookMySprite(_indexLook);
     }
-    
+
     private MySprite GetEmotionCharacter()
     {
         if (_indexEmotion == 0)
@@ -154,36 +162,23 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit
             return Characters[_indexCharacter].GetEmotionMySprite(--index);
         }
     }
+
     private MySprite GetEmotionFromCustomization(CustomizableCharacter customizableCharacter)
     {
         
         return customizableCharacter.GetEmotionMySprite(_indexEmotion);
     }
+
     private string GetName()
     {
         return Characters[_indexCharacter].MyNameText;
     }
+
     protected override void TryActivateButtonSwitchToNextSlide()
     {
         if (IsMerged == false)
         {
             ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         }
-    }
-
-    private void AddStringsToLocalization()
-    {
-        List<LocalizationString> localizationText = new List<LocalizationString>();
-        if (_overrideName == true)
-        {
-            localizationText.Add(_overridedNameLocalization);
-        }
-
-        localizationText.Add(_localizationText);
-        for (int i = 0; i < Characters.Count; i++)
-        {
-            localizationText.Add(Characters[i].Name);
-        }
-        TryInitStringsToLocalization(localizationText.ToArray());
     }
 }

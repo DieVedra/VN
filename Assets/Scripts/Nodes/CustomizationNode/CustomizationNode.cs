@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [NodeWidth(350),NodeTint("#6C0054")]
-public class CustomizationNode : BaseNode
+public class CustomizationNode : BaseNode, ILocalizable
 {
     [SerializeField, HideInInspector] private int _hairIndex;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsHairstyles;
@@ -67,7 +66,6 @@ public class CustomizationNode : BaseNode
                 ReinitClothesCustomizationSettings();
                 ReinitSwimsuitsCustomizationSettings();
             }
-            TryInitStringsToLocalization(CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits));
         }
     }
 
@@ -146,6 +144,11 @@ public class CustomizationNode : BaseNode
         SwitchToNextNodeEvent.Execute();
     }
 
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits);
+    }
+
     private void ResetBodiesCustomizationSettings()
     {
         _customizationNodeInitializer.InitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
@@ -185,11 +188,12 @@ public class CustomizationNode : BaseNode
     {
         _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
     }
+
     private SelectedCustomizationContentIndexes CreateCustomizationContent()
     {
         return CustomizationNodeInitializer.CreateCustomizationContent(_settingsBodies, _settingsHairstyles, _settingsClothes, _settingsSwimsuits, _customizableCharacter);
     }
-    
+
     private int GetIndex(IReadOnlyList<ICustomizationSettings> spriteIndexes, int currentIndex)
     {
         if (spriteIndexes.Count == 0)
@@ -201,26 +205,24 @@ public class CustomizationNode : BaseNode
             return spriteIndexes[0].Index;
         }
     }
-    private LocalizationString[] CreateLocalizationArray(params List<CustomizationSettings>[] lists)
+
+    private IReadOnlyList<LocalizationString> CreateLocalizationArray(params List<CustomizationSettings>[] lists)
     {
         List<LocalizationString> strings = new List<LocalizationString>();
         for (int i = 0; i < lists.Length; i++)
         {
             if (lists[i] != null)
             {
-                for (int j = 0; j < lists[i].Count; j++)
+                foreach (var variable in lists[i])
                 {
-                    if (lists[i][j].KeyAdd == true)
+                    strings.Add(variable.LocalizationName);
+                    foreach (var t in variable.GameStatsLocalizationStrings)
                     {
-                        strings.Add(lists[i][j].LocalizationName);
-                        for (int k = 0; k < lists[i][j].GameStatsLocalizationStrings.Count; k++)
-                        {
-                            strings.Add(lists[i][j].GameStatsLocalizationStrings[k].LocalizationName);
-                        }
+                        strings.Add(t.LocalizationName);
                     }
                 }
             }
         }
-        return strings.ToArray();
+        return strings;
     }
 }

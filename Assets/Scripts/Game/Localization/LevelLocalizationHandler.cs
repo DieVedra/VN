@@ -1,12 +1,13 @@
-﻿using UnityEngine;
-
+﻿
 public class LevelLocalizationHandler
 {
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
+    private readonly CharacterProviderBuildMode _characterProviderBuildMode;
 
-    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider)
+    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode)
     {
         _levelLocalizationProvider = levelLocalizationProvider;
+        _characterProviderBuildMode = characterProviderBuildMode;
     }
 
     public void TrySetCurrentLocalization(SeriaNodeGraphsHandler seriaNodeGraphsHandler, GameStatsHandler gameStatsHandler)
@@ -15,6 +16,7 @@ public class LevelLocalizationHandler
         {
             SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
             SetLocalizationToStats(gameStatsHandler);
+            SetLocalizationToCharacters();
         }
 
     }
@@ -25,43 +27,12 @@ public class LevelLocalizationHandler
         {
             for (int j = 0; j < seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes.Count; j++)
             {
-                if (seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes[j] is BaseNode baseNode)
+                if (seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes[j] is ILocalizable localizable)
                 {
-                    if (baseNode is HeaderNode headerNode)
+                    foreach (var localizationString in localizable.GetLocalizableContent())
                     {
-                        Debug.Log($"headerNode.StringsToLocalization1[0].GetHashCode();   {headerNode.StringsToLocalization1[0].GetHashCode()}");
-                        Debug.Log($"headerNode.hash;   {headerNode.hash}");
-
+                        SetText(localizationString);
                     }
-                    Debug.Log(11);
-                    if (baseNode.StringsToLocalization1 != null && baseNode.StringsToLocalization1.Length > 0)
-                    {                   
-                        Debug.Log($"{baseNode.namenode}");
-                        for (int k = 0; k < baseNode.StringsToLocalization1.Length; k++)
-                        {
-                            Debug.Log($"22 {k}");
-                            if (_levelLocalizationProvider.CurrentLocalization.TryGetValue(baseNode.StringsToLocalization1[k].Key, out string value))
-                            {
-                                Debug.Log($"22 {k}");
-
-                                baseNode.StringsToLocalization1[k].SetText(value);
-                            }
-                        }
-                    }
-                    // if (baseNode.StringsLocalization != null && baseNode.StringsLocalization.Count > 0)
-                    // {                   
-                    //     Debug.Log($"{baseNode.namenode}");
-                    //     for (int k = 0; k < baseNode.StringsLocalization.Count; k++)
-                    //     {
-                    //         Debug.Log($"22 {k}");
-                    //         if (_currentLocalization.TryGetValue(baseNode.StringsLocalization[k].Key, out string value))
-                    //         {
-                    //             Debug.Log($"22 {k}");
-                    //
-                    //             baseNode.StringsLocalization[k].SetText(value);
-                    //         }
-                    //     }
-                    // }
                 }
             }
         }
@@ -71,10 +42,23 @@ public class LevelLocalizationHandler
     {
         for (int i = 0; i < gameStatsHandler.Stats.Count; i++)
         {
-            if (_levelLocalizationProvider.CurrentLocalization.TryGetValue(gameStatsHandler.Stats[i].LocalizationName, out string text))
-            {
-                gameStatsHandler.Stats[i].LocalizationName.SetText(text);
-            }
+            SetText(gameStatsHandler.Stats[i].LocalizationName);
+        }
+    }
+
+    private void SetLocalizationToCharacters()
+    {
+        foreach (var character in _characterProviderBuildMode.GetCharacters())
+        {
+            SetText(character.Name);
+        }
+    }
+
+    private void SetText(LocalizationString localizationString)
+    {
+        if (_levelLocalizationProvider.CurrentLocalization.TryGetValue(localizationString.Key, out string text))
+        {
+            localizationString.SetText(text);
         }
     }
 }

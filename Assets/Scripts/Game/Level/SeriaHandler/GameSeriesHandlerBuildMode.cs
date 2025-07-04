@@ -1,5 +1,4 @@
 ﻿using UniRx;
-using UnityEngine;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler
 {
@@ -19,10 +18,25 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
 
+    protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+    {
+        _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
+        base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+    }
+    private void SwitchSeria(bool putSwimsuits = false)
+    {
+        if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
+        {
+            CurrentSeriaIndex++;
+            InitSeria(CurrentSeriaIndex);
+        }
+        else
+        {
+            //end game invoke result panel
+        }
+    }
     private void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
-        _levelLocalizationHandler.TrySetCurrentLocalization(seriaNodeGraphsHandler, _gameStatsHandler);
-        Debug.Log(555);
         SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
     }
 }

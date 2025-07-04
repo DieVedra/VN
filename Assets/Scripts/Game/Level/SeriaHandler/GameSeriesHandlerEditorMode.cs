@@ -22,4 +22,17 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
             InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
         }
     }
+
+    private void SwitchSeria(bool putSwimsuits = false)
+    {
+        if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
+        {
+            CurrentSeriaIndex++;
+            InitSeria(CurrentSeriaIndex);
+        }
+        else
+        {
+            //end game invoke result panel
+        }
+    }
 }

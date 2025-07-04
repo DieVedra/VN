@@ -33,11 +33,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async void Awake()
     {
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider);
-        
+
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator, _levelLocalizationProvider, SwitchToNextSeriaEvent);
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();

@@ -9,8 +9,6 @@ public class BaseNode : Node
 {
     [Input] public Empty Input;
     [Output] public Empty Output;
-    [SerializeField] protected LocalizationString[] StringsToLocalization;
-    public LocalizationString[] StringsToLocalization1;
 
     private const string _nameOutputPort = "Output";
     protected ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
@@ -21,7 +19,6 @@ public class BaseNode : Node
 
     public string namenode;
     public NodePort OutputPortBaseNode => GetOutputPort(_nameOutputPort);
-    public IReadOnlyList<LocalizationString> StringsLocalization => StringsToLocalization;
     private BaseNode _nextNode;
 
     public void ConstructBaseNode(ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, SwitchToNextNodeEvent switchToNextNodeEvent,
@@ -101,26 +98,6 @@ public class BaseNode : Node
         else
         {
             return false;
-        }
-    }
-
-    protected void TryInitStringsToLocalization(params LocalizationString[] strings)
-    {
-        if (IsPlayMode() == false)
-        {
-            StringsToLocalization = strings;
-            for (int i = 0; i < StringsToLocalization.Length; i++)
-            {
-                StringsToLocalization[i].TryRegenerateKey();
-            }
-        }
-    }
-    protected void TryInitStringsToLocalization1(params LocalizationString[] strings)
-    {
-        StringsToLocalization1 = strings;
-        for (int i = 0; i < StringsToLocalization1.Length; i++)
-        {
-            StringsToLocalization1[i].TryRegenerateKey();
         }
     }
 }

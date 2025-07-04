@@ -1,13 +1,11 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
 
 [NodeTint("#006946"), NodeWidth(200)]
-public class HeaderNode : BaseNode
+public class HeaderNode : BaseNode, ILocalizable
 {
     [SerializeField] private LocalizationString _localizationText1;
     [SerializeField] private Color _colorField1 = Color.white;
@@ -26,7 +24,6 @@ public class HeaderNode : BaseNode
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private Background _background;
     public IReadOnlyList<BackgroundContent> Backgrounds { get; private set; }
-    public int hash;
 
     public void Construct(IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI, CurtainUIHandler curtainUIHandler,
         ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler)
@@ -36,11 +33,6 @@ public class HeaderNode : BaseNode
         _headerSeriesPanelHandlerUI = headerSeriesPanelHandlerUI;
         _curtainUIHandler = curtainUIHandler;
         _buttonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
-        hash = _localizationText1.GetHashCode();
-        // TryInitStringsToLocalization(_localizationText1, _localizationText2);
-        TryInitStringsToLocalization1(_localizationText1, _localizationText2);
-        Debug.Log(666);
-
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -88,5 +80,13 @@ public class HeaderNode : BaseNode
     {
         CancellationTokenSource.Cancel();
         _curtainUIHandler.SkipAtCloses();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[]
+        {
+            _localizationText1, _localizationText2
+        };;
     }
 }

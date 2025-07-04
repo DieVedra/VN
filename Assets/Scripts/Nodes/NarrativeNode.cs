@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [NodeTint("#006C17")]
-public class NarrativeNode : BaseNode
+public class NarrativeNode : BaseNode, ILocalizable
 {
 	[SerializeField] private LocalizationString _localizationText;
 
@@ -11,7 +12,6 @@ public class NarrativeNode : BaseNode
 	public void ConstructMyNarrativeNode(NarrativePanelUIHandler narrativePanelUI)
 	{
 		_narrativePanelUI = narrativePanelUI;
-		TryInitStringsToLocalization(_localizationText);
 	}
 
 	public override async UniTask Enter(bool isMerged = false)
@@ -27,7 +27,6 @@ public class NarrativeNode : BaseNode
 		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _localizationText.DefaultText);
 		TryActivateButtonSwitchToNextSlide();
 		_localizationText.SetText(_localizationText.DefaultText);
-		TryInitStringsToLocalization(_localizationText);
 	}
 
 	public override async UniTask Exit()
@@ -40,22 +39,30 @@ public class NarrativeNode : BaseNode
 		await _narrativePanelUI.AnimationPanel.FadePanel(CancellationTokenSource.Token);
 		_narrativePanelUI.DisappearanceNarrativePanelInPlayMode();
 	}
-	
-	protected override void SetInfoToView()
+
+	public IReadOnlyList<LocalizationString> GetLocalizableContent()
 	{
-		_narrativePanelUI.NarrativeInEditMode(_localizationText);
+		return new[] {_localizationText};
 	}
+
 	public override void SkipEnterTransition()
 	{
 		CancellationTokenSource.Cancel();
 		SetInfoToView();
 		TryActivateButtonSwitchToNextSlide();
 	}
+
 	public override void SkipExitTransition()
 	{
 		CancellationTokenSource.Cancel();
 		// _narrativePanelUI.DisappearanceNarrativePanelInPlayMode();
 	}
+
+	protected override void SetInfoToView()
+	{
+		_narrativePanelUI.NarrativeInEditMode(_localizationText);
+	}
+
 	protected override void TryActivateButtonSwitchToNextSlide()
 	{
 		if (IsMerged == false)

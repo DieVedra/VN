@@ -34,12 +34,14 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         if (await _assetExistsHandler.CheckAssetExists(name))
         {
             _currentLocalization = await _localizationFileProvider.LoadLocalizationFile(name);
-            return true;
+            ParticipiteInLoad = true;
         }
         else
         {
-            return false;
+            ParticipiteInLoad = false;
         }
+
+        return ParticipiteInLoad;
     }
     private string CreateName(int seriaNumber, string languageKey)
     {

@@ -21,6 +21,8 @@ public class SeriaPartNodeGraph : NodeGraph
 		_currentSeriaIndex = currentSeriaIndex;
 		_nodeCount = nodes.Count;
 		TryInitNodes();
+		
+		
 		if (Application.isPlaying == false)
 		{
 			// OnChangeGraph = null;

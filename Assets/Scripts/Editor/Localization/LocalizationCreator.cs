@@ -32,9 +32,17 @@ public class LocalizationCreator : ScriptableObject
             {
                 for (int i = 0; i < seria.nodes.Count; i++)
                 {
-                    if (seria.nodes[i] is BaseNode baseNode)
+                    if (seria.nodes[i] is ILocalizable localizable)
                     {
-                        seriaStrings.AddRange(baseNode.StringsLocalization ?? Enumerable.Empty<LocalizationString>());
+                        seriaStrings.AddRange(localizable.GetLocalizableContent());
+                    }
+
+                    if (seria.nodes[i] is CharacterNode characterNode)
+                    {
+                        foreach (var character in characterNode.Characters)
+                        {
+                            seriaStrings.Add(character.Name);
+                        }
                     }
                 }
             }

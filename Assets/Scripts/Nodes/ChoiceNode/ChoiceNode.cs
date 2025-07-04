@@ -5,7 +5,7 @@ using System.Threading;
 using XNode;
 
 [NodeTint("#7B0800"), NodeWidth(350)]
-public class ChoiceNode : BaseNode
+public class ChoiceNode : BaseNode, ILocalizable
 {
     [SerializeField] private LocalizationString _localizationChoiceText1;
     [SerializeField] private LocalizationString _localizationChoiceText2;
@@ -56,7 +56,6 @@ public class ChoiceNode : BaseNode
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
         TryInitAllStats();
-        TryInitStringsToLocalization(_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3);
     }
 
     public override void Dispose()
@@ -106,12 +105,18 @@ public class ChoiceNode : BaseNode
         _choicePanelUIHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
     }
 
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3};
+    }
+
     public override void SkipExitTransition()
     {
         CancellationTokenSource.Cancel();
         _choicePanelUIHandler.HideChoiceVariants();
         _sendCurrentNodeEvent.Execute(GetNextNode());
     }
+
     private void TryInitAllStats()
     {
         if (IsPlayMode() == false)
@@ -121,6 +126,7 @@ public class ChoiceNode : BaseNode
             _choiceNodeInitializer.TryInitStats(ref _baseStatsChoice3);
         }
     }
+
     private ChoiceData CreateChoiceTexts()
     {
         if (_showChoice3Key == true)
@@ -136,7 +142,7 @@ public class ChoiceNode : BaseNode
                 _addTimer == true ? _timerValue : 0);
         }
     }
-    
+
     private void SetNextNodeFromResultChoice(int buttonPressIndex)
     {
         _choiceResultEvent.Dispose();
@@ -151,6 +157,7 @@ public class ChoiceNode : BaseNode
         _choiceNodeInitializer.GameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
         SwitchToNextNodeEvent.Execute();
     }
+
     private void TryFindConnectedPorts(NodePort outputPort)
     {
         bool notificationNodeFinded = false;

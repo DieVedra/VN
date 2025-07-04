@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [NodeTint("#000D7B")]
-public class NotificationNode : BaseNode
+public class NotificationNode : BaseNode, ILocalizable
 {
     [SerializeField, TextArea] private string _text;
     [SerializeField] private LocalizationString _localizationText;
@@ -17,11 +18,15 @@ public class NotificationNode : BaseNode
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
         _localizationText.SetText(_text);
-        TryInitStringsToLocalization(_localizationText);
     }
     public override async UniTask Enter(bool isMerged = false)
     {
         Show().Forget();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {_localizationText};
     }
 
     protected override void SetInfoToView()
