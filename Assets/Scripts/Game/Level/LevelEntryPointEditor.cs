@@ -32,7 +32,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         // if (PrefabsProvider.IsInitialized == false)
         // {
-        //     await PrefabsProvider.Init();
+        //     await PrefabsProvider.BaseInit();
         // }
         Init();
         OnSceneTransition.Subscribe(_ =>
@@ -80,12 +80,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent);
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
         else
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, 
-                StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
+                StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
 

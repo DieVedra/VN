@@ -1,24 +1,47 @@
 ﻿
-public class LevelLocalizationHandler
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using UniRx;
+using UnityEngine;
+
+public class LevelLocalizationHandler : ILevelLocalizationHandler
 {
+    public readonly SwitchLocalizationProcessor SwitchLocalizationProcessor;
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly CharacterProviderBuildMode _characterProviderBuildMode;
+    private IReadOnlyDictionary<string, string> _currentLocalization;
 
-    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode)
+    // public event Action OnStartLoadLocalization;
+    public event Action OnEndLoadLocalization;
+
+    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode,
+        ReactiveCommand tryLoadLocalizationOnSwitchLanguage)
     {
         _levelLocalizationProvider = levelLocalizationProvider;
         _characterProviderBuildMode = characterProviderBuildMode;
+        SwitchLocalizationProcessor = new SwitchLocalizationProcessor();
+        tryLoadLocalizationOnSwitchLanguage.Subscribe(_ =>
+        {
+            _levelLocalizationProvider.TryLoadLocalizationOnSwitchLanguageFromSettings();
+        });
     }
 
     public void TrySetCurrentLocalization(SeriaNodeGraphsHandler seriaNodeGraphsHandler, GameStatsHandler gameStatsHandler)
     {
         if (_levelLocalizationProvider.ParticipiteInLoad)
         {
-            SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
-            SetLocalizationToStats(gameStatsHandler);
-            SetLocalizationToCharacters();
+            _currentLocalization = _levelLocalizationProvider.GetCurrentLocalization();
+            
+            if (_currentLocalization != null)
+            {
+                SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
+                SetLocalizationToStats(gameStatsHandler);
+                SetLocalizationToCharacters();
+                _currentLocalization = null;
+            }
         }
-
     }
 
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
@@ -56,9 +79,21 @@ public class LevelLocalizationHandler
 
     private void SetText(LocalizationString localizationString)
     {
-        if (_levelLocalizationProvider.CurrentLocalization.TryGetValue(localizationString.Key, out string text))
+        if (_currentLocalization.TryGetValue(localizationString.Key, out string text))
         {
             localizationString.SetText(text);
         }
+    }
+
+    public bool IsLocalizationHasBeenChanged()
+    {
+        return _levelLocalizationProvider.IsLocalizationHasBeenChanged();
+    }
+
+    public async UniTask Test()
+    {
+        Debug.Log($"Test");
+        await UniTask.Delay(5000);
+        OnEndLoadLocalization?.Invoke();
     }
 }

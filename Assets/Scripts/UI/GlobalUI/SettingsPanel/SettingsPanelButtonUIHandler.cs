@@ -14,6 +14,8 @@ public class SettingsPanelButtonUIHandler
     private Transform _parent;
     private IReactiveProperty<bool> _soundStatus;
     private ILocalizationChanger _localizationChanger;
+    private ILevelLocalizationHandler _levelLocalizationHandler;
+    private bool _isInLevel;
     public bool IsInited { get; private set; }
     public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, 
         LoadIndicatorUIHandler loadIndicatorUIHandler)
@@ -24,7 +26,8 @@ public class SettingsPanelButtonUIHandler
         IsInited = false;
     }
 
-    public void Init(SettingsButtonView settingsButtonView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, bool activeKey = true)
+    public void BaseInit(SettingsButtonView settingsButtonView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, bool activeKey = true)
     {
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         if (IsInited == false)
@@ -41,12 +44,24 @@ public class SettingsPanelButtonUIHandler
             });
         }
     }
-
+    public void InitInLevel(ILevelLocalizationHandler levelLocalizationHandler)
+    {
+        _levelLocalizationHandler = levelLocalizationHandler;
+        _isInLevel = true;
+    }
+    public void InitInMenu()
+    {
+        _isInLevel = false;
+    }
     private async UniTask OpenPanel()
     {
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
             _settingsPanelUIHandler.Init(_parent, _soundStatus, _localizationChanger).Forget();
+            if (_isInLevel == true)
+            {
+                _settingsPanelUIHandler.InitInLevel(_levelLocalizationHandler);
+            }
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             
@@ -54,12 +69,12 @@ public class SettingsPanelButtonUIHandler
             await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
 
             _loadIndicatorUIHandler.StopIndicate();
-            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
         else
         {
             _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler);
+            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
     }
 }

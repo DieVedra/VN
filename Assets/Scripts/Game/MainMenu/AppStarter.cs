@@ -44,11 +44,12 @@ public class AppStarter
             loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
         }
 
-        ReactiveCommand<bool> swipeDetectorOff = new ReactiveCommand<bool>();;
+        ReactiveCommand<bool> swipeDetectorOff = null;
 
         SettingsPanelUIHandler settingsPanelUIHandler;
         if (globalUIHandler.SettingsPanelUIHandler == null)
         {
+            swipeDetectorOff = new ReactiveCommand<bool>();
             settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
         }
         else
@@ -129,8 +130,8 @@ public class AppStarter
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
         await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
         await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler, levelLoader, startIndexStory);
-        mainMenuUIProvider.SettingsButtonUIHandler.Init(mainMenuUIView.SettingsButtonView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, soundStatus, localizationChanger);
-        
+        mainMenuUIProvider.SettingsButtonUIHandler.BaseInit(mainMenuUIView.SettingsButtonView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, soundStatus, localizationChanger);
+        mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();
         
         mainMenuUIProvider.ShopButtonsUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, mainMenuUIView.MonetPanelView, mainMenuUIView.HeartsPanelView);
         mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler);

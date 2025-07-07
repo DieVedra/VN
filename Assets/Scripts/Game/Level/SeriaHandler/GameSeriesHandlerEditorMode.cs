@@ -1,14 +1,15 @@
 ﻿
+using UniRx;
 using UnityEngine;
 
 public class GameSeriesHandlerEditorMode : GameSeriesHandler
 {
-    public void Construct(NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
-        int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+    public void Construct(NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
+        int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
-        CurrentSeriaIndex = currentSeriaIndex;
+        CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
         if (Application.isPlaying == false)
         {
@@ -27,7 +28,7 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
     {
         if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
         {
-            CurrentSeriaIndex++;
+            CurrentSeriaIndexReactiveProperty.Value++;
             InitSeria(CurrentSeriaIndex);
         }
         else

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 
 public class GameSeriesHandler : MonoBehaviour
@@ -8,8 +9,9 @@ public class GameSeriesHandler : MonoBehaviour
 
     protected NodeGraphInitializer NodeGraphInitializer;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
+    protected ReactiveProperty<int> CurrentSeriaIndexReactiveProperty;
+    public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
     
-    public int CurrentSeriaIndex {get; protected set; }
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeGraphIndex;
     public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeIndex;
 

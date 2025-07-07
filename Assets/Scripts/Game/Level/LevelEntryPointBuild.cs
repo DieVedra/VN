@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -18,8 +17,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
+    private ReactiveCommand _tryLoadLocalizationOnSwitchLanguage;
+    protected ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
 
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
+    
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
         Wallet wallet, MainMenuLocalizationHandler mainMenuLocalizationHandler)
@@ -32,12 +34,28 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
-        _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler);
+        _tryLoadLocalizationOnSwitchLanguage = new ReactiveCommand();
+        _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
+        _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler, _currentSeriaIndexReactiveProperty);
 
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-        _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator, _levelLocalizationProvider, SwitchToNextSeriaEvent);
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode);
+
+        if (LoadSaveData == true)
+        {
+            SaveData = SaveServiceProvider.SaveData;
+            StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+            _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
+            _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
+                _levelLocalizationProvider, SwitchToNextSeriaEvent, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
+        }
+        else
+        {
+            _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
+                _levelLocalizationProvider, SwitchToNextSeriaEvent);
+        }
+        
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _tryLoadLocalizationOnSwitchLanguage);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
@@ -62,8 +80,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            SaveData = SaveServiceProvider.SaveData;
-            StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             TestMonets = SaveData.Monets;
             TestHearts = SaveData.Hearts;
             _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
@@ -91,12 +107,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent);
+            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent,
+                _currentSeriaIndexReactiveProperty);
         }
         else
         {
             _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
-                StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+                _currentSeriaIndexReactiveProperty, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
 
@@ -150,7 +167,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

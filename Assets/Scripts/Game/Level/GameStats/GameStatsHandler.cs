@@ -66,12 +66,12 @@ public class GameStatsHandler
 
     public void UpdateStat(List<BaseStat> addStats)
     {
-        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Name);
+        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);
         for (int i = 0; i < _stats.Count; i++)
         {
-            if (addStatsDictionary.TryGetValue(_stats[i].Name, out BaseStat stat))
+            if (addStatsDictionary.TryGetValue(_stats[i].Key, out BaseStat stat))
             {
-                _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + stat.Value, _stats[i].ShowKey,
+                _stats[i] = new Stat(_stats[i].Name, _stats[i].Key, _stats[i].Value + stat.Value, _stats[i].ShowKey,
                     _stats[i].ColorField);
             }
         }
@@ -79,12 +79,12 @@ public class GameStatsHandler
 
     public void UpdateStat(List<Stat> addStats)
     {
-        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Name);
+        var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);
         for (int i = 0; i < _stats.Count; i++)
         {
-            if (addStatsDictionary.TryGetValue(_stats[i].Name, out Stat stat))
+            if (addStatsDictionary.TryGetValue(_stats[i].Key, out Stat stat))
             {
-                _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + stat.Value, stat.ShowKey,
+                _stats[i] = new Stat(_stats[i].Name, _stats[i].Key,_stats[i].Value + stat.Value, stat.ShowKey,
                     _stats[i].ColorField);
             }
         }
@@ -93,12 +93,12 @@ public class GameStatsHandler
     public List<Stat> ReinitStats(List<Stat> oldStats)
     {
         List<Stat> newStats = GetGameStatsForm();
-        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
+        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Key);
         var result = new List<Stat>(newStats.Count);
 
         for (int i = 0; i < newStats.Count; i++)
         {
-            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out Stat oldStat))
+            if (oldStatsDictionary.TryGetValue(newStats[i].Key, out Stat oldStat))
             {
                 result.Add(oldStat);
             }
@@ -112,11 +112,11 @@ public class GameStatsHandler
     public List<BaseStat> ReinitBaseStats(List<BaseStat> oldStats)
     {
         List<BaseStat> newStats = GetGameBaseStatsForm();
-        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Name);
+        var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Key);
         var result = new List<BaseStat>(newStats.Count);
         for (int i = 0; i < newStats.Count; i++)
         {
-            if (oldStatsDictionary.TryGetValue(newStats[i].Name, out BaseStat oldStat))
+            if (oldStatsDictionary.TryGetValue(newStats[i].Key, out BaseStat oldStat))
             {
                 result.Add(oldStat);
             }
@@ -133,7 +133,5 @@ public class GameStatsHandler
         {
             _stats.AddRange(stats);
         }
-        Debug.Log($"AddNextSeriaStats_stats {_stats.Count}");
-
     }
 }

@@ -17,7 +17,7 @@ public class LevelUIProvider
     
     public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, ILevelLocalizationHandler localizationHandler = null,
         GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
         GlobalUIHandler globalUIHandler = null)
     {
@@ -43,7 +43,7 @@ public class LevelUIProvider
         if (Application.isPlaying)
         {
             GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler);
+                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, localizationHandler);
         }
         else
         {

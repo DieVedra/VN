@@ -4,15 +4,16 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
 {
     private LevelLocalizationHandler _levelLocalizationHandler;
     private GameStatsHandler _gameStatsHandler;
-    public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider, NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
-        int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+    public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
+        NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
+        int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         _gameStatsHandler = gameStatsHandler;
         _levelLocalizationHandler = levelLocalizationHandler;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
-        CurrentSeriaIndex = currentSeriaIndex;
-        NodeGraphInitializer = nodeGraphInitializer;
+        CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
+            NodeGraphInitializer = nodeGraphInitializer;
         AddSeria(gameSeriesProvider.LastLoaded);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
@@ -27,7 +28,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     {
         if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
         {
-            CurrentSeriaIndex++;
+            CurrentSeriaIndexReactiveProperty.Value++;
             InitSeria(CurrentSeriaIndex);
         }
         else

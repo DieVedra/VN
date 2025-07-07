@@ -14,6 +14,7 @@ public class GameControlPanelUIHandler
     private readonly GlobalSound _globalSound;
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parent;
+    private readonly ILevelLocalizationHandler _levelLocalizationHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
@@ -31,7 +32,8 @@ public class GameControlPanelUIHandler
     private bool _panelIsVisible;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         ReactiveCommand onSceneTransition, GlobalSound globalSound, Wallet wallet,
-        MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
+        MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        ILevelLocalizationHandler localizationHandler)
     {
         _gameControlPanelView = gameControlPanelView;
         _loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
@@ -43,6 +45,7 @@ public class GameControlPanelUIHandler
         _globalSound = globalSound;
         _localizationChanger = mainMenuLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        _levelLocalizationHandler = localizationHandler;
         _panelIsVisible = false;
         _anyWindowIsOpen = new ReactiveProperty<bool> {Value = false};
         _gameControlPanelView.CanvasGroup.alpha = 0f;
@@ -55,8 +58,11 @@ public class GameControlPanelUIHandler
         
         
         
-        _settingsPanelButtonUIHandler.Init(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
+        _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
             globalSound.SoundStatus, _localizationChanger, false);
+        _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
+
+        
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
         _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);

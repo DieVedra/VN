@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class LevelLoadDataHandler
 {
@@ -19,6 +20,8 @@ public class LevelLoadDataHandler
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
+    // public ReactiveCommand<bool> ContentIsLoading { get; private set; }
+    public ReactiveCommand<bool> ContentIsLoading { get; private set; }
     public int CurrentSeriaLoadedNumber { get; private set; }
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
 
@@ -61,7 +64,7 @@ public class LevelLoadDataHandler
         CheckMatchNumbersSeriaWithNumberAssets(CurrentSeriaLoadedNumber, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
 
-        await LoadCurrentLocalization();
+        await LoadCurrentLocalization(CurrentSeriaLoadedNumber);
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
@@ -79,14 +82,16 @@ public class LevelLoadDataHandler
     {
         if (CurrentSeriaLoadedNumber <= _seriesCount)
         {
+            // ContentIsLoading = true;
             int nextSeriaNumber = CurrentSeriaLoadedNumber;
             nextSeriaNumber++;
             // _loadAssetsPercentHandler.StartCalculatePercent();
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, CurrentSeriaLoadedNumber);
-            await TryLoadDatas(CurrentSeriaLoadedNumber);
+            await TryLoadDatas(nextSeriaNumber);
             await _backgroundContentCreator.TryCreateBackgroundContent();
             // _loadAssetsPercentHandler.StopCalculatePercent();
             CurrentSeriaLoadedNumber = nextSeriaNumber;
+            // ContentIsLoading = false;
         }
     }
 
@@ -113,13 +118,15 @@ public class LevelLoadDataHandler
 
     private async UniTask TryLoadDatas(int seriaLoadedNumber)
     {
-        await LoadCurrentLocalization();
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(seriaLoadedNumber);
-        await CharacterProviderBuildMode.TryLoadDatas(seriaLoadedNumber);
-        await GameSeriesProvider.TryLoadData(seriaLoadedNumber);
-        await AudioClipProvider.TryLoadDatas(seriaLoadedNumber);
-        await BackgroundDataProvider.TryLoadDatas(seriaLoadedNumber);
-        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(seriaLoadedNumber);
+        Debug.Log($"LoadNextSeriesContent {seriaLoadedNumber}");
+
+        await LoadCurrentLocalization(seriaLoadedNumber);
+        await WardrobeSeriaDataProviderBuildMode.TryLoadData(CurrentSeriaLoadedNumber);
+        await CharacterProviderBuildMode.TryLoadDatas(CurrentSeriaLoadedNumber);
+        await GameSeriesProvider.TryLoadData(CurrentSeriaLoadedNumber);
+        await AudioClipProvider.TryLoadDatas(CurrentSeriaLoadedNumber);
+        await BackgroundDataProvider.TryLoadDatas(CurrentSeriaLoadedNumber);
+        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(CurrentSeriaLoadedNumber);
     }
 
     private void OnSwitchToNextSeria(bool key)
@@ -127,10 +134,10 @@ public class LevelLoadDataHandler
         LoadNextSeriesContent().Forget();
     }
 
-    private async UniTask LoadCurrentLocalization()
+    private async UniTask LoadCurrentLocalization(int seriaLoadedNumber)
     {
-        // await _levelLocalizationProvider.TryLoadLocalization(CurrentSeriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key,
-        //     GameSeriesProvider.LastLoaded, SeriaGameStatsProviderBuild.GameStatsHandler);
-        await _levelLocalizationProvider.TryLoadLocalization(CurrentSeriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key);
+        Debug.Log($"5656 {seriaLoadedNumber} {_mainMenuLocalizationHandler.CurrentLanguageName.Key}");
+
+        await _levelLocalizationProvider.TryLoadLocalization(seriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key);
     }
 }

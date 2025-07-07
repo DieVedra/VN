@@ -18,4 +18,9 @@ public class Stat : BaseStat
         _colorField = colorField;
         _showKey = showKey;
     }
+    public Stat(string name, string key, int value, bool showKey, Color colorField) : base(name, key, value)
+    {
+        _colorField = colorField;
+        _showKey = showKey;
+    }
 }

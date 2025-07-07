@@ -1,22 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class LoadIndicatorUIHandler
 {
     private const float _minRotationValue = 0f;
     private const float _maxRotationValue = -360f;
-    private const string _loadText = "Загрузка";
+    private const float _duration = 3f;
+    private const string _dot = ".";
     private readonly Vector3 _endRotationValue;
     private readonly Vector3 _startRotationValue;
-    private readonly float _duration = 3f;
-    private readonly string _dot = ".";
-    private readonly LocalizationString _loadTextLocalization  = _loadText;
+    private readonly LocalizationString _loadTextLocalization  = "Загрузка";
+    private readonly LocalizationString _loadLocalizationTextLocalization  = "Загрузка языка";
     private LoadIndicatorView _loadIndicatorView;
     private LoadIndicatorAssetProvider _loadIndicatorAssetProvider;
     private CancellationTokenSource _cancellationTokenSource;
@@ -24,6 +22,7 @@ public class LoadIndicatorUIHandler
     private bool _assetLoaded;
     private bool _isIndicate;
     private bool _isPercentIndicate;
+    private bool _isLocalizationIndicate;
     private bool _isClearIndicate;
     public Transform Transform => _loadIndicatorView.transform;
     public LoadIndicatorUIHandler()
@@ -69,6 +68,12 @@ public class LoadIndicatorUIHandler
         TextPercentIndicate(lastValue);
     }
 
+    public void SetLocalizationIndicate()
+    {
+        _isLocalizationIndicate = true;
+        _isPercentIndicate = false;
+        _isClearIndicate = false;
+    }
     public void SetClearIndicateMode()
     {
         _loadIndicatorView.LoadText.gameObject.SetActive(false);
@@ -89,6 +94,7 @@ public class LoadIndicatorUIHandler
     {
         if (_isIndicate == false)
         {
+            Debug.Log(78);
             if (_parent.gameObject.activeSelf == false)
             {
                 _parent.gameObject.SetActive(true);
@@ -102,8 +108,11 @@ public class LoadIndicatorUIHandler
                 .WithCancellation(_cancellationTokenSource.Token);
             if (_isPercentIndicate == false && _isClearIndicate == false)
             {
+                Debug.Log(99);
+
                 TextIndicate().Forget();
             }
+            Debug.Log(200);
         }
     }
 
@@ -112,11 +121,20 @@ public class LoadIndicatorUIHandler
         _isIndicate = true;
         _loadIndicatorView.LoadText.text = String.Empty;
         _loadIndicatorView.LoadText.gameObject.SetActive(true);
-        string[] dots = new[] { $"{_loadTextLocalization}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}{_dot}"};
+        string[] dots = null;
+        if (_isLocalizationIndicate == false)
+        {
+            dots = new[] { $"{_loadTextLocalization}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}{_dot}"};
+        }
+        else
+        {
+            dots = new[] { $"{_loadLocalizationTextLocalization}{_dot}", $"{_loadLocalizationTextLocalization}{_dot}{_dot}", $"{_loadLocalizationTextLocalization}{_dot}{_dot}{_dot}"};
+        }
         int index = dots.Length - 1;
         while (_isIndicate == true)
         {
             _loadIndicatorView.LoadText.text = dots[index];
+            Debug.Log(dots[index]);
             await UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.HalfValue), cancellationToken: _cancellationTokenSource.Token);
             if (index == dots.Length -1)
             {

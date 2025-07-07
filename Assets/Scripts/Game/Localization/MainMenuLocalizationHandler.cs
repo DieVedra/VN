@@ -22,6 +22,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];
     public string GetName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Name;
+    public string GetKey => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Key;
     public int GetMyLanguageNamesCount => _mainMenuLocalizationInfoHolder.LanguageNames.Count;
     public IReactiveProperty<int> CurrentLanguageKeyIndex => _currentLanguageKeyIndex;
     
