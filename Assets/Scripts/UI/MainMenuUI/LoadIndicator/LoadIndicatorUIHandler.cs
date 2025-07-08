@@ -29,8 +29,7 @@ public class LoadIndicatorUIHandler
     {
         _loadIndicatorAssetProvider = new LoadIndicatorAssetProvider();
         _assetLoaded = false;
-        _isPercentIndicate = false;
-        _isClearIndicate = false;
+        SkipAllModes();
         _endRotationValue = new Vector3(_minRotationValue, _minRotationValue, _maxRotationValue);
         _startRotationValue = new Vector3(_minRotationValue, _minRotationValue, _minRotationValue);
     }
@@ -63,6 +62,7 @@ public class LoadIndicatorUIHandler
     public void SetPercentIndicateMode(int lastValue)
     {
         _loadIndicatorView.LoadText.alignment = TextAlignmentOptions.Center;
+        SkipAllModes();
         _isPercentIndicate = true;
         _loadIndicatorView.LoadText.gameObject.SetActive(true);
         TextPercentIndicate(lastValue);
@@ -70,20 +70,19 @@ public class LoadIndicatorUIHandler
 
     public void SetLocalizationIndicate()
     {
+        SkipAllModes();
         _isLocalizationIndicate = true;
-        _isPercentIndicate = false;
-        _isClearIndicate = false;
     }
     public void SetClearIndicateMode()
     {
         _loadIndicatorView.LoadText.gameObject.SetActive(false);
+        SkipAllModes();
         _isClearIndicate = true;
     }
     public void SetTextIndicateMode()
     {
         _loadIndicatorView.LoadText.gameObject.SetActive(false);
-        _isClearIndicate = false;
-        _isPercentIndicate = false;
+        SkipAllModes();
     }
     public void TextPercentIndicate(int value)
     {
@@ -94,7 +93,6 @@ public class LoadIndicatorUIHandler
     {
         if (_isIndicate == false)
         {
-            Debug.Log(78);
             if (_parent.gameObject.activeSelf == false)
             {
                 _parent.gameObject.SetActive(true);
@@ -108,11 +106,8 @@ public class LoadIndicatorUIHandler
                 .WithCancellation(_cancellationTokenSource.Token);
             if (_isPercentIndicate == false && _isClearIndicate == false)
             {
-                Debug.Log(99);
-
                 TextIndicate().Forget();
             }
-            Debug.Log(200);
         }
     }
 
@@ -134,7 +129,6 @@ public class LoadIndicatorUIHandler
         while (_isIndicate == true)
         {
             _loadIndicatorView.LoadText.text = dots[index];
-            Debug.Log(dots[index]);
             await UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.HalfValue), cancellationToken: _cancellationTokenSource.Token);
             if (index == dots.Length -1)
             {
@@ -145,5 +139,13 @@ public class LoadIndicatorUIHandler
                 index++;
             }
         }
+    }
+
+    private void SkipAllModes()
+    {
+        _isIndicate = false;
+        _isPercentIndicate = false;
+        _isLocalizationIndicate = false;
+        _isClearIndicate = false;
     }
 }

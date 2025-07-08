@@ -103,6 +103,7 @@ public class Background : MonoBehaviour
     {
         BackgroundContent[indexBackground].AddAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
         CurrentIndexAdditionalImage = indexAdditionalImage;
+        Debug.Log($"AddAdditionalSpriteToBackgroundContent");
     }
 
     public void ShowImage(int indexArt)

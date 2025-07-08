@@ -39,6 +39,10 @@ public class LocalizationCreator : ScriptableObject
 
                     if (seria.nodes[i] is CharacterNode characterNode)
                     {
+                        if (characterNode.Characters == null)
+                        {
+                            Debug.Log($"characterNode null {characterNode.graph.name}");
+                        }
                         foreach (var character in characterNode.Characters)
                         {
                             seriaStrings.Add(character.Name);

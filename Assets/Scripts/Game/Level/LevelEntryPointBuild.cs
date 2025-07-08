@@ -17,8 +17,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
-    private ReactiveCommand _tryLoadLocalizationOnSwitchLanguage;
-    protected ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
+    private ReactiveCommand<bool> _blockGameControlPanelUI;
+    private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
 
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
@@ -34,7 +34,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
-        _tryLoadLocalizationOnSwitchLanguage = new ReactiveCommand();
+        _blockGameControlPanelUI = new ReactiveCommand<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler, _currentSeriaIndexReactiveProperty);
 
@@ -55,7 +55,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelLocalizationProvider, SwitchToNextSeriaEvent);
         }
         
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _tryLoadLocalizationOnSwitchLanguage);
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
@@ -167,7 +167,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUI, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

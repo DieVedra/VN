@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class GameStatsHandler
 {
@@ -66,6 +64,7 @@ public class GameStatsHandler
 
     public void UpdateStat(List<BaseStat> addStats)
     {
+        TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);
         for (int i = 0; i < _stats.Count; i++)
         {
@@ -79,6 +78,7 @@ public class GameStatsHandler
 
     public void UpdateStat(List<Stat> addStats)
     {
+        TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);
         for (int i = 0; i < _stats.Count; i++)
         {
@@ -93,6 +93,7 @@ public class GameStatsHandler
     public List<Stat> ReinitStats(List<Stat> oldStats)
     {
         List<Stat> newStats = GetGameStatsForm();
+        TryRegenerateKeys(oldStats);
         var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Key);
         var result = new List<Stat>(newStats.Count);
 
@@ -112,6 +113,7 @@ public class GameStatsHandler
     public List<BaseStat> ReinitBaseStats(List<BaseStat> oldStats)
     {
         List<BaseStat> newStats = GetGameBaseStatsForm();
+        TryRegenerateKeys(oldStats);
         var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.Key);
         var result = new List<BaseStat>(newStats.Count);
         for (int i = 0; i < newStats.Count; i++)
@@ -133,5 +135,24 @@ public class GameStatsHandler
         {
             _stats.AddRange(stats);
         }
+    }
+
+    private void TryRegenerateKeys(List<Stat> oldStats)
+    {
+        foreach (var stat in oldStats)
+        {
+            RegenerateKey(stat);
+        }
+    }
+    private void TryRegenerateKeys(List<BaseStat> oldStats)
+    {
+        foreach (var stat in oldStats)
+        {
+            RegenerateKey(stat);
+        }
+    }
+    private void RegenerateKey(BaseStat baseStat)
+    {
+        baseStat.LocalizationName.TryRegenerateKey();
     }
 }

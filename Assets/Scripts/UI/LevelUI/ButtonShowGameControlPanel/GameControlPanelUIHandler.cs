@@ -15,6 +15,7 @@ public class GameControlPanelUIHandler
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parent;
     private readonly ILevelLocalizationHandler _levelLocalizationHandler;
+    private readonly ReactiveCommand<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
@@ -30,10 +31,11 @@ public class GameControlPanelUIHandler
     
     private ReactiveProperty<bool> _anyWindowIsOpen;
     private bool _panelIsVisible;
+    private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         ReactiveCommand onSceneTransition, GlobalSound globalSound, Wallet wallet,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        ILevelLocalizationHandler localizationHandler)
+        ILevelLocalizationHandler localizationHandler, ReactiveCommand<bool> blockGameControlPanelUI)
     {
         _gameControlPanelView = gameControlPanelView;
         _loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
@@ -46,7 +48,9 @@ public class GameControlPanelUIHandler
         _localizationChanger = mainMenuLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _levelLocalizationHandler = localizationHandler;
+        _blockGameControlPanelUI = blockGameControlPanelUI;
         _panelIsVisible = false;
+        _panelIsBlocked = false;
         _anyWindowIsOpen = new ReactiveProperty<bool> {Value = false};
         _gameControlPanelView.CanvasGroup.alpha = 0f;
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
@@ -67,14 +71,17 @@ public class GameControlPanelUIHandler
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
         _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
-        { 
-            ShowGameControlPanel().Forget();
+        {
+            if (_panelIsBlocked == false)
+            {
+                ShowGameControlPanel().Forget();
+            }
         });
         _gameControlPanelView.ButtonGoToMainMenu.onClick.AddListener(() =>
         {
-                
             PrepareTransitionToMainScene().Forget();
         });
+        blockGameControlPanelUI.Subscribe(BlockPanel);
     }
 
     public void Dispose()
@@ -166,5 +173,10 @@ public class GameControlPanelUIHandler
     private async UniTask DoFade(float endValue, float duration)
     {
         await _gameControlPanelView.CanvasGroup.DOFade(endValue, duration).WithCancellation(_cancellationTokenSource.Token);
+    }
+
+    private void BlockPanel(bool key)
+    {
+        _panelIsBlocked = key;
     }
 }

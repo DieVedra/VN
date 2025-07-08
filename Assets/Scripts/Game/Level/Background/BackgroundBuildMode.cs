@@ -55,7 +55,7 @@ public class BackgroundBuildMode : Background
         WardrobeBackground = _backgroundContentCreator.WardrobeBackground;
     }
 
-    private void InitLocations( BackgroundData backgroundData)
+    private void InitLocations(BackgroundData backgroundData)
     {
         for (int i = 0; i < _backgroundContentCreator.InstantiatedBackgroundContent.Count; ++i)
         {

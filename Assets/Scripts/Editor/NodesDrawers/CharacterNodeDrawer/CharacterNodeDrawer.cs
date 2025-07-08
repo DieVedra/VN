@@ -83,7 +83,7 @@ public class CharacterNodeDrawer : NodeEditor
             _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
             _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
         }
-        
+        serializedObject.Update();
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
         EditorGUI.BeginChangeCheck();

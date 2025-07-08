@@ -16,6 +16,7 @@ public class BackgroundContent : MonoBehaviour
     [SerializeField, ReadOnly] private List<AdditionalImageData> _indexesAdditionalImage;
 
     private const float _durationMovementSmoothBackgroundChangePosition = 2f;
+    private const float _defaultPosValue = 0f;
 
     private SpriteRendererCreator _spriteRendererCreator;
     private Transform _transformSprite;
@@ -25,7 +26,7 @@ public class BackgroundContent : MonoBehaviour
     private Vector3 _currentPos;
     private List<SpriteRenderer> _addContent;
 
-    private Vector3 _movementDuringDialogueAddend => new Vector3(_movementDuringDialogueValue, 0f,0f);
+    private Vector3 _movementDuringDialogueAddend => new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
     
     public Transform LeftBordTransform => _leftBordTransform;
     public Transform CentralBordTransform => _centralTransform;
@@ -51,6 +52,9 @@ public class BackgroundContent : MonoBehaviour
         _spriteRenderer.color = backgroundContentValues.Color;
         _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
         _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
+        SetPositionBorders(_leftBordTransform, new Vector3(backgroundContentValues.LeftPosition, _defaultPosValue,_defaultPosValue));
+        SetPositionBorders(_centralTransform, new Vector3(backgroundContentValues.CentralPosition,_defaultPosValue, _defaultPosValue));
+        SetPositionBorders(_rightBordTransform, new Vector3(backgroundContentValues.RightPosition,_defaultPosValue, _defaultPosValue));
         _spriteRendererCreator = spriteRendererCreator;
         _transformSprite = _spriteRenderer.transform;
         _setLighting = setLighting;
@@ -133,6 +137,7 @@ public class BackgroundContent : MonoBehaviour
         spriteRenderer.transform.localPosition = localPosition;
         spriteRenderer.sortingOrder = _addContent.Count + 1;
         _addContent.Add(spriteRenderer);
+        Debug.Log($"_addContent {_addContent.Count}");
     }
     public async UniTask MovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
@@ -190,6 +195,11 @@ public class BackgroundContent : MonoBehaviour
             duration *= 2f;
         }
         await SmoothMovement(cancellationToken, bordTransform.position, Ease.InOutSine, duration);
+    }
+
+    private void SetPositionBorders(Transform position, Vector3 value)
+    {
+        position.localPosition = value;
     }
     
 #if UNITY_EDITOR

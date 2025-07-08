@@ -17,7 +17,7 @@ public class LevelUIProvider
     
     public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, ILevelLocalizationHandler localizationHandler = null,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, ReactiveCommand<bool> blockGameControlPanelUI = null, ILevelLocalizationHandler localizationHandler = null,
         GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
         GlobalUIHandler globalUIHandler = null)
     {
@@ -34,16 +34,17 @@ public class LevelUIProvider
         NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
-        CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
-        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+        
         ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         if (Application.isPlaying)
         {
+            CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView, blockGameControlPanelUI);
+            CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView, blockGameControlPanelUI);
             GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, localizationHandler);
+                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, localizationHandler, blockGameControlPanelUI);
         }
         else
         {

@@ -113,7 +113,7 @@ public class SettingsPanelUIHandler
         }
         _loadIndicatorUIHandle.SetLocalizationIndicate();
         _loadIndicatorUIHandle.StartIndicate();
-        _levelLocalizationHandler.Test().Forget();
+        _levelLocalizationHandler.TrySwitchLanguageFromSettingsChange().Forget();
         _levelLocalizationHandler.OnEndLoadLocalization += HideOnSwitchLevelLocalizationPart2;
     }
 

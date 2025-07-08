@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 using UnityEngine.Rendering;
 
 public class LevelLocalizationProvider : IParticipiteInLoad
 {
+    private const int _deleteValue = 2;
     private const string _nameLevelLocalizationAsset = "FileLocalizationSeria";
     private readonly ILocalizationChanger _localizationChanger;
 
@@ -36,7 +36,14 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         {
             _localizationFileProvider.AbortLoad();
         }
-        
+        if (_currentLanguageKey == languageKey)
+        {
+            if (_seriaLocalizations.ContainsKey(seriaNumber))
+            {
+                ParticipiteInLoad = false;
+                return ParticipiteInLoad;
+            }
+        }
         _currentLanguageKey = languageKey;
         var name = CreateName(seriaNumber, languageKey);
         if (await _assetExistsHandler.CheckAssetExists(name))
@@ -50,13 +57,14 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         {
             ParticipiteInLoad = false;
         }
-
         return ParticipiteInLoad;
     }
 
     public IReadOnlyDictionary<string, string> GetCurrentLocalization()
     {
-        if (_seriaLocalizations.TryGetValue(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value), out var value))
+        if (_seriaLocalizations.TryGetValue(
+            CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
+            out var value))
         {
             return value;
         }
@@ -81,22 +89,18 @@ public class LevelLocalizationProvider : IParticipiteInLoad
             return false;
         }
     }
-    public void TryLoadLocalizationOnSwitchLanguageFromSettings()
+    public async UniTask TryLoadLocalizationOnSwitchLanguageFromSettings()
     {
-        Debug.Log(4545);
-        if (IsLocalizationHasBeenChanged())
-        {
-            _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>();
-
-            TryLoadLocalization(
-                CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
-                _localizationChanger.GetKey).Forget();
-        }
+        _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>(); 
+        await TryLoadLocalization(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
+            _localizationChanger.GetKey);
+        TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
+            _localizationChanger.GetKey).Forget();
     }
 
     private void TryDeleteUncessaryLocalization(int seriaNumber)
     {
-        var seriaNumberForRemove = seriaNumber - 2;
+        var seriaNumberForRemove = seriaNumber - _deleteValue;
         if (_seriaLocalizations.ContainsKey(seriaNumberForRemove))
         {
             _seriaLocalizations.Remove(seriaNumberForRemove);

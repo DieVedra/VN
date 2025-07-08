@@ -22,7 +22,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
         {
             if (Application.isPlaying == true)
             {
-                InitGraph(currentNodeIndex);
+                InitGraph(currentSeriaIndex: currentSeriaIndex, currentNodeGraphIndex: currentNodeGraphIndex, currentNodeIndex: currentNodeIndex);
             }
             else
             {

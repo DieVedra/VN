@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,12 @@ public class CurtainUIHandler
 {
     private const float _unfadeSkipValue = 0.2f;
     protected readonly BlackFrameView BlackFrameView;
+    protected readonly ReactiveCommand<bool> BlockGameControlPanelUI;
     protected readonly Image CurtainImage;
-    public CurtainUIHandler(BlackFrameView blackFrameView)
+    public CurtainUIHandler(BlackFrameView blackFrameView, ReactiveCommand<bool> blockGameControlPanelUI)
     {
         BlackFrameView = blackFrameView;
+        BlockGameControlPanelUI = blockGameControlPanelUI;
         CurtainImage = BlackFrameView.Image;
         if (Application.isPlaying == true)
         {
@@ -27,6 +30,7 @@ public class CurtainUIHandler
     }
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
+        BlockGameControlPanelUI.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.black;
         await UniTask.WhenAny(CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken),
@@ -36,6 +40,7 @@ public class CurtainUIHandler
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)
     {
+        BlockGameControlPanelUI.Execute(true);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.clear;
         await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);

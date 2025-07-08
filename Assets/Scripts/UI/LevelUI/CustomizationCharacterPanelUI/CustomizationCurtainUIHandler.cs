@@ -2,13 +2,16 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 
 public class CustomizationCurtainUIHandler : CurtainUIHandler
 {
-    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView) : base(blackFrameView){}
+    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, ReactiveCommand<bool> blockGameControlPanelUI)
+        : base(blackFrameView, blockGameControlPanelUI){}
     public override async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
+        BlockGameControlPanelUI.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.black;
         BlackFrameView.Image.raycastTarget = false;
@@ -18,6 +21,7 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
 
     public override async UniTask CurtainCloses(CancellationToken cancellationToken)
     {
+        BlockGameControlPanelUI.Execute(true);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.clear;
         BlackFrameView.Image.raycastTarget = true;

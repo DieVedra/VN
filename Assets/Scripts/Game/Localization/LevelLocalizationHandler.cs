@@ -1,31 +1,18 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using UniRx;
-using UnityEngine;
 
 public class LevelLocalizationHandler : ILevelLocalizationHandler
 {
-    public readonly SwitchLocalizationProcessor SwitchLocalizationProcessor;
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly CharacterProviderBuildMode _characterProviderBuildMode;
     private IReadOnlyDictionary<string, string> _currentLocalization;
-
-    // public event Action OnStartLoadLocalization;
     public event Action OnEndLoadLocalization;
 
-    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode,
-        ReactiveCommand tryLoadLocalizationOnSwitchLanguage)
+    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode)
     {
         _levelLocalizationProvider = levelLocalizationProvider;
         _characterProviderBuildMode = characterProviderBuildMode;
-        SwitchLocalizationProcessor = new SwitchLocalizationProcessor();
-        tryLoadLocalizationOnSwitchLanguage.Subscribe(_ =>
-        {
-            _levelLocalizationProvider.TryLoadLocalizationOnSwitchLanguageFromSettings();
-        });
     }
 
     public void TrySetCurrentLocalization(SeriaNodeGraphsHandler seriaNodeGraphsHandler, GameStatsHandler gameStatsHandler)
@@ -89,11 +76,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     {
         return _levelLocalizationProvider.IsLocalizationHasBeenChanged();
     }
-
-    public async UniTask Test()
+    public async UniTaskVoid TrySwitchLanguageFromSettingsChange()
     {
-        Debug.Log($"Test");
-        await UniTask.Delay(5000);
+        await _levelLocalizationProvider.TryLoadLocalizationOnSwitchLanguageFromSettings();
         OnEndLoadLocalization?.Invoke();
     }
 }

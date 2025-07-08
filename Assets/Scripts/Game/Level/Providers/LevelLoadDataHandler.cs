@@ -82,16 +82,14 @@ public class LevelLoadDataHandler
     {
         if (CurrentSeriaLoadedNumber <= _seriesCount)
         {
-            // ContentIsLoading = true;
             int nextSeriaNumber = CurrentSeriaLoadedNumber;
             nextSeriaNumber++;
             // _loadAssetsPercentHandler.StartCalculatePercent();
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, CurrentSeriaLoadedNumber);
-            await TryLoadDatas(nextSeriaNumber);
+            await TryLoadDatas(nextSeriaNumber, CurrentSeriaLoadedNumber);
             await _backgroundContentCreator.TryCreateBackgroundContent();
             // _loadAssetsPercentHandler.StopCalculatePercent();
             CurrentSeriaLoadedNumber = nextSeriaNumber;
-            // ContentIsLoading = false;
         }
     }
 
@@ -116,17 +114,15 @@ public class LevelLoadDataHandler
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
 
-    private async UniTask TryLoadDatas(int seriaLoadedNumber)
+    private async UniTask TryLoadDatas(int nextSeriaNumber, int nextSeriaIndex)
     {
-        Debug.Log($"LoadNextSeriesContent {seriaLoadedNumber}");
-
-        await LoadCurrentLocalization(seriaLoadedNumber);
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(CurrentSeriaLoadedNumber);
-        await CharacterProviderBuildMode.TryLoadDatas(CurrentSeriaLoadedNumber);
-        await GameSeriesProvider.TryLoadData(CurrentSeriaLoadedNumber);
-        await AudioClipProvider.TryLoadDatas(CurrentSeriaLoadedNumber);
-        await BackgroundDataProvider.TryLoadDatas(CurrentSeriaLoadedNumber);
-        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(CurrentSeriaLoadedNumber);
+        await LoadCurrentLocalization(nextSeriaNumber);
+        await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
+        await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
+        await GameSeriesProvider.TryLoadData(nextSeriaIndex);
+        await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
+        await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
+        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
     }
 
     private void OnSwitchToNextSeria(bool key)
@@ -136,8 +132,6 @@ public class LevelLoadDataHandler
 
     private async UniTask LoadCurrentLocalization(int seriaLoadedNumber)
     {
-        Debug.Log($"5656 {seriaLoadedNumber} {_mainMenuLocalizationHandler.CurrentLanguageName.Key}");
-
         await _levelLocalizationProvider.TryLoadLocalization(seriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key);
     }
 }
