@@ -1,5 +1,4 @@
-﻿
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class CharacterPanelUIHandler
@@ -35,7 +34,7 @@ public class CharacterPanelUIHandler
     public void CharacterTalkInEditMode(CharacterTalkData data)
     {
         SetPanelDirection(data);
-        _characterPanelUI.TalkTextComponent.text = data.TalkText;
+        SetLocalizationText(data);
         _characterPanelUI.CanvasGroup.alpha = 1f;
         _characterPanelUI.PanelTransform.localScale = _editModeStartScale;
         _characterPanelUI.PanelTransform.anchoredPosition = _defaultPosition;
@@ -56,16 +55,19 @@ public class CharacterPanelUIHandler
 
     public void DisappearanceCharacterTalkInPlayMode()
     {
-        
         _characterPanelUI.PanelTransform.anchoredPosition = _defaultPosition;
         _characterPanelUI.gameObject.SetActive(false);
         _characterPanelUI.CanvasGroup.alpha = 0f;
     }
-
+    public void SetLocalizationText(CharacterTalkData data)
+    {
+        _characterPanelUI.NameTextComponent.text = data.Name;
+        _characterPanelUI.TalkTextComponent.text = data.TalkText;
+        Debug.Log($"SetLocalizationText {data.Name} {data.TalkText}");
+    }
     private bool SetPanelDirection(CharacterTalkData data)
     {
         _characterPanelUI.gameObject.SetActive(true);
-        _characterPanelUI.NameTextComponent.text = data.Name;
         if (data.DirectionType == DirectionType.Right)
         {
             _characterPanelUI.ImageTransform.localScale = _rightScaleImage;

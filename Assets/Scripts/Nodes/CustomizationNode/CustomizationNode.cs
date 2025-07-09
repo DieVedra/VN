@@ -26,7 +26,6 @@ public class CustomizationNode : BaseNode, ILocalizable
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
-    
     private CustomizationEndEvent<CustomizationResult> _customizationEndEvent;
     private Sound _sound;
     private Wallet _wallet;
@@ -42,7 +41,8 @@ public class CustomizationNode : BaseNode, ILocalizable
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
         IReadOnlyList<CustomizableCharacter> customizableCharacters, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound,
-        IGameStatsProvider gameStatsProvider, Wallet wallet, WardrobeCharacterViewer wardrobeCharacterViewer, int seriaIndex)
+        IGameStatsProvider gameStatsProvider, Wallet wallet,
+        WardrobeCharacterViewer wardrobeCharacterViewer, int seriaIndex)
     {
         _sound = sound;
         _gameStatsProvider = gameStatsProvider;
@@ -125,10 +125,10 @@ public class CustomizationNode : BaseNode, ILocalizable
         if (IsPlayMode())
         {
             _customizationCharacterPanelUIHandler.ShowCustomizationContentInPlayMode(
-                
                 _wardrobeCharacterViewer, _selectedCustomizationContentIndexes,
                 new CalculatePriceHandler(_wallet.Monets),
-                new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()));
+                new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()),
+                SetLocalizationChangeEvent);
         }
         else
         {

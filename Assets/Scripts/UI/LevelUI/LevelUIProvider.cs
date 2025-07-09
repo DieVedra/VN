@@ -17,7 +17,7 @@ public class LevelUIProvider
     
     public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, ReactiveCommand<bool> blockGameControlPanelUI = null, ILevelLocalizationHandler localizationHandler = null,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null, ILevelLocalizationHandler localizationHandler = null,
         GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
         GlobalUIHandler globalUIHandler = null)
     {

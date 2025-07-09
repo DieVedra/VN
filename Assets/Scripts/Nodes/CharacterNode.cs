@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 [NodeTint("#515000")]
@@ -24,7 +25,8 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     private CharacterTalkData _characterTalkData;
     private CharacterPanelUIHandler _characterPanelUIHandler;
     private CharacterViewer _characterViewer;
-    
+    private CompositeDisposable _compositeDisposable;
+
     public IReadOnlyList<Character> Characters;
 
     public void ConstructMyCharacterNode(IReadOnlyList<Character> characters, CharacterPanelUIHandler characterPanelUIHandler,
@@ -39,6 +41,11 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
+        _compositeDisposable = new CompositeDisposable(); 
+        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        {
+            SetLocalizationText();
+        }).AddTo(_compositeDisposable);
         IsMerged = isMerged;
         _characterViewer.gameObject.SetActive(true);
         SetInfoToView();
@@ -47,7 +54,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-
         _characterPanelUIHandler.TextConsistentlyViewer.ClearText();
         await UniTask.WhenAll(
             _background.SetBackgroundMovementDuringDialogueInPlayMode(CancellationTokenSource.Token, _directionType),
@@ -71,6 +77,8 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _characterPanelUIHandler.AnimationPanelWithScale.FadePanelWithScale(CancellationTokenSource.Token, _directionType));
         _characterPanelUIHandler.DisappearanceCharacterTalkInPlayMode();
         _characterViewer.gameObject.SetActive(false);
+        _compositeDisposable.Dispose();
+        _compositeDisposable = null;
     }
 
     public void PutOnSwimsuit(bool putOnSwimsuitKey)
@@ -110,7 +118,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _characterViewer.SetEmotion(GetEmotionCharacter());
             _characterViewer.SetLook(GetLook());
         }
-        _characterTalkData = new CharacterTalkData(_directionType, _overrideName == true ? _overridedName : GetName(), _localizationText);
+        _characterTalkData = CreateCharacterTalkData();
         if (_toggleShowPanel == true)
         {
             _characterPanelUIHandler.CharacterTalkInEditMode(_characterTalkData);
@@ -145,6 +153,10 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
         return localizationText;
     }
 
+    private CharacterTalkData CreateCharacterTalkData()
+    {
+        return new CharacterTalkData(_directionType, _overrideName == true ? _overridedName : GetName(), _localizationText);
+    }
     private MySprite GetLook()
     {
         return Characters[_indexCharacter].GetLookMySprite(_indexLook);
@@ -180,5 +192,10 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
         {
             ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         }
+    }
+
+    private void SetLocalizationText()
+    {
+        _characterPanelUIHandler.SetLocalizationText(CreateCharacterTalkData());
     }
 }

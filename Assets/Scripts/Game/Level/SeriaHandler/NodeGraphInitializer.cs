@@ -17,6 +17,7 @@ public class NodeGraphInitializer
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly DisableNodesContentEvent _disableNodesContentEvent;
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
+    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ICharacterProvider _characterProvider;
     private readonly List<BackgroundContent> _backgrounds;
     private List<Stat> _stats;
@@ -29,7 +30,7 @@ public class NodeGraphInitializer
         IWardrobeSeriaDataProvider wardrobeSeriaDataProvider,
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
-        DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent)
+        DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, SetLocalizationChangeEvent setLocalizationChangeEvent = null)
     {
         WardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
         _characterProvider = characterProvider;
@@ -45,6 +46,7 @@ public class NodeGraphInitializer
         SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
         _disableNodesContentEvent = disableNodesContentEvent;
         _switchToNextSeriaEvent = switchToNextSeriaEvent;
+        _setLocalizationChangeEvent = setLocalizationChangeEvent;
         SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
     }
 
@@ -59,7 +61,7 @@ public class NodeGraphInitializer
 
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
-        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent);
+        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent, _setLocalizationChangeEvent);
         if (node is CharacterNode characterNode)
         {
             characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(), _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 

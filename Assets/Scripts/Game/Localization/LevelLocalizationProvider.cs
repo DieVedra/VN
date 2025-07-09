@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 public class LevelLocalizationProvider : IParticipiteInLoad
@@ -62,9 +63,9 @@ public class LevelLocalizationProvider : IParticipiteInLoad
 
     public IReadOnlyDictionary<string, string> GetCurrentLocalization()
     {
-        if (_seriaLocalizations.TryGetValue(
-            CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
-            out var value))
+        Debug.Log($"GetCurrentLocalization {_currentLanguageKey} {_currentSeriaIndexReactiveProperty.Value}");
+
+        if (_seriaLocalizations.TryGetValue(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value), out var value))
         {
             return value;
         }
@@ -94,8 +95,15 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>(); 
         await TryLoadLocalization(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey);
+        // await TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
+        //     _localizationChanger.GetKey)/*.Forget()*/;
         TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey).Forget();
+
+        foreach (var vv in _seriaLocalizations)
+        {
+            Debug.Log($"vv {vv.Key} {_currentLanguageKey}");
+        }
     }
 
     private void TryDeleteUncessaryLocalization(int seriaNumber)

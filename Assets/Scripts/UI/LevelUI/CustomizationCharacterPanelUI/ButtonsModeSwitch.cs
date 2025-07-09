@@ -16,14 +16,15 @@ public class ButtonsModeSwitch
     private readonly CalculateStatsHandler _calculateStatsHandler;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
-
+    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
+    private CompositeDisposable _compositeDisposable;
     private int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
 
 
     public ButtonsModeSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
         SwitchModeCustodian switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler, CalculateStatsHandler calculateStatsHandler,
-        CustomizationDataProvider customizationDataProvider, ReactiveProperty<bool> isNuClothesReactiveProperty)
+        CustomizationDataProvider customizationDataProvider, ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
         _selectedCustomizationContentIndexes = selectedCustomizationContentIndexes;
@@ -37,8 +38,18 @@ public class ButtonsModeSwitch
         _calculateStatsHandler = calculateStatsHandler;
         _customizationDataProvider = customizationDataProvider;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
+        _setLocalizationChangeEvent = setLocalizationChangeEvent;
+        _compositeDisposable = new CompositeDisposable();
+        _setLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        {
+            SetTitle();
+        }).AddTo(_compositeDisposable);
     }
 
+    public void Dispose()
+    {
+        _compositeDisposable.Dispose();
+    }
     public void SetMode(ArrowSwitchMode mode)
     {
         switch (mode)

@@ -17,11 +17,13 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         AddSeria(gameSeriesProvider.LastLoaded);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        levelLocalizationHandler.OnTrySwitchLocalization += TrySetCurrentLocalizationToCurrentSeria;
     }
 
     protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
+        TrySetCurrentLocalizationToCurrentSeria();
+        // _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
         base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     private void SwitchSeria(bool putSwimsuits = false)
@@ -39,5 +41,10 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     private void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
+    }
+
+    private void TrySetCurrentLocalizationToCurrentSeria()
+    {
+        _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value], _gameStatsHandler);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
+using UnityEngine;
 
 public class ArrowSwitch
 {
@@ -15,9 +16,11 @@ public class ArrowSwitch
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
+    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
     private readonly TaskRunner _taskRunner;
+    private CompositeDisposable _compositeDisposable;
     private bool _isSwitched;
 
     private Queue<TaskRunner> _tasksQueue;
@@ -28,7 +31,7 @@ public class ArrowSwitch
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         SwitchModeCustodian switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
         SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
-        ReactiveProperty<bool> isNuClothesReactiveProperty)
+        ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
         _selectedCustomizationContentIndexes = selectedCustomizationContentIndexes;
@@ -41,14 +44,21 @@ public class ArrowSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
+        _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _taskRunner = new TaskRunner();
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
+        _compositeDisposable = new CompositeDisposable();
+        _setLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        {
+            SetTitle();
+        }).AddTo(_compositeDisposable);
     }
 
     public void Dispose()
     {
         _isSwitched = false;
+        _compositeDisposable.Dispose();
     }
     public bool PressLeftArrow()
     {
@@ -100,11 +110,6 @@ public class ArrowSwitch
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
 
         SetTitle();
-        
-        
-        // _tasksQueue.Enqueue(() => UniTask.WhenAll(
-        //     CreateOperationToQueue(customizationSettings, customizationData, directionType, price)
-        // ));
 
         _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price));
         

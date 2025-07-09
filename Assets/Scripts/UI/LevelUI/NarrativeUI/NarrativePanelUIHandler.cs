@@ -33,9 +33,9 @@ public class NarrativePanelUIHandler
     {
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _unfadePosition;
-        _textComponent.text = text;
+        SetText(text);
         _narrativePanelUI.CanvasGroup.alpha = 1f;
-        _panelHeightHandler.UpdateHeight(text);
+        _panelHeightHandler.UpdateHeight(text);;
     }
 
     public void EmergenceNarrativePanelInPlayMode(string text)
@@ -43,7 +43,12 @@ public class NarrativePanelUIHandler
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
-        _panelHeightHandler.UpdateHeight(text);
+        _panelHeightHandler.UpdateHeight(text);;
+    }
+
+    public void SetText(string text)
+    {
+        _textComponent.text = text;
     }
 
     public void DisappearanceNarrativePanelInPlayMode()

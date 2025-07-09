@@ -15,7 +15,7 @@ public class GameControlPanelUIHandler
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parent;
     private readonly ILevelLocalizationHandler _levelLocalizationHandler;
-    private readonly ReactiveCommand<bool> _blockGameControlPanelUI;
+    private readonly BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
@@ -35,7 +35,7 @@ public class GameControlPanelUIHandler
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         ReactiveCommand onSceneTransition, GlobalSound globalSound, Wallet wallet,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        ILevelLocalizationHandler localizationHandler, ReactiveCommand<bool> blockGameControlPanelUI)
+        ILevelLocalizationHandler localizationHandler, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         _gameControlPanelView = gameControlPanelView;
         _loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;

@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 
 [NodeTint("#006946"), NodeWidth(200)]
@@ -17,12 +18,13 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private float _backgroundPositionValue;
     
     
-    [SerializeField, ShowAssetPreview(128,128)] private Sprite _sprite;
+    // [SerializeField, ShowAssetPreview(128,128)] private Sprite _sprite;
     private int _previousIndexBackground;
     private HeaderSeriesPanelHandlerUI _headerSeriesPanelHandlerUI;
     private CurtainUIHandler _curtainUIHandler;
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private Background _background;
+    private CompositeDisposable _compositeDisposable;
     public IReadOnlyList<BackgroundContent> Backgrounds { get; private set; }
 
     public void Construct(IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI, CurtainUIHandler curtainUIHandler,
@@ -39,6 +41,8 @@ public class HeaderNode : BaseNode, ILocalizable
     {
         _previousIndexBackground = _background.CurrentIndexBackgroundContent;
         CancellationTokenSource = new CancellationTokenSource();
+        _compositeDisposable = new CompositeDisposable();
+        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(_ => { SetHeaderTexts(); }).AddTo(_compositeDisposable);
         SetInfoToView();
         IsMerged = isMerged;
         if (isMerged == false)
@@ -59,13 +63,19 @@ public class HeaderNode : BaseNode, ILocalizable
         await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousIndexBackground);
         _headerSeriesPanelHandlerUI.OffHeader();
+        _compositeDisposable.Dispose();
     }
 
     protected override void SetInfoToView()
     {
         _background.SetBackgroundPositionFromSlider(_backgroundPositionValue, _indexBackground);
+        SetHeaderTexts();
+    }
+
+    private void SetHeaderTexts()
+    {
         _headerSeriesPanelHandlerUI.SetHeader(_localizationText1, _localizationText2,
-            _colorField1, _colorField2, 
+            _colorField1, _colorField2,
             _textSize1, _textSize2);
     }
 

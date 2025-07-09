@@ -11,10 +11,11 @@ public class BaseNode : Node
     [Output] public Empty Output;
 
     private const string _nameOutputPort = "Output";
-    protected ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
-    protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
-    protected DisableNodesContentEvent DisableNodesContentEvent;
     protected CancellationTokenSource CancellationTokenSource;
+    protected ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler { get; private set; }
+    protected SwitchToNextNodeEvent SwitchToNextNodeEvent { get; private set; }
+    protected SetLocalizationChangeEvent SetLocalizationChangeEvent { get; private set; }
+    protected DisableNodesContentEvent DisableNodesContentEvent { get; private set; }
     protected bool IsMerged;
 
     public string namenode;
@@ -22,11 +23,12 @@ public class BaseNode : Node
     private BaseNode _nextNode;
 
     public void ConstructBaseNode(ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, SwitchToNextNodeEvent switchToNextNodeEvent,
-        DisableNodesContentEvent disableNodesContentEvent)
+        DisableNodesContentEvent disableNodesContentEvent, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         ButtonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
         DisableNodesContentEvent = disableNodesContentEvent;
         SwitchToNextNodeEvent = switchToNextNodeEvent;
+        SetLocalizationChangeEvent = setLocalizationChangeEvent;
         _nextNode = null;
     }
 

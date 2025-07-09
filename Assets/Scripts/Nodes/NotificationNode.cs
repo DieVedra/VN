@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 [NodeTint("#000D7B")]
@@ -13,6 +14,7 @@ public class NotificationNode : BaseNode, ILocalizable
     [SerializeField] private float _delayDisplayTime = 0f;
     [SerializeField] private Color _color = Color.white;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
+    private CompositeDisposable _compositeDisposable;
 
     public void ConstructMyNotificationNode(NotificationPanelUIHandler notificationPanelUIHandler)
     {
@@ -31,13 +33,23 @@ public class NotificationNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        _notificationPanelUIHandler.ShowNotificationInEditMode(_localizationText);
+        SetText();
         _notificationPanelUIHandler.SetColorText(_color);
+    }
+
+    private void SetText()
+    {
+        _notificationPanelUIHandler.ShowNotificationInEditMode(_localizationText);
     }
 
     private async UniTaskVoid Show()
     {
         CancellationTokenSource = new CancellationTokenSource();
+        _compositeDisposable = new CompositeDisposable();
+        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        {
+            SetText();
+        }).AddTo(_compositeDisposable);
         if (_delayDisplayTime > 0f)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_delayDisplayTime), cancellationToken: CancellationTokenSource.Token);
@@ -49,5 +61,6 @@ public class NotificationNode : BaseNode, ILocalizable
         await UniTask.Delay(TimeSpan.FromSeconds(_showTime), cancellationToken: CancellationTokenSource.Token);
         await _notificationPanelUIHandler.AnimationPanel.FadePanel(CancellationTokenSource.Token);
         _notificationPanelUIHandler.DisappearanceNotificationPanelInPlayMode();
+        _compositeDisposable.Dispose();
     }
 }

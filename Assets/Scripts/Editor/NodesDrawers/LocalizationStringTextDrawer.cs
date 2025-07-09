@@ -34,7 +34,6 @@ public class LocalizationStringTextDrawer
         if (_simpleTextValidator.TryValidate())
         {
             localizationString.SetText(_simpleTextValidator.ValidText);
-            localizationString.TryRegenerateKey();
         }
         else
         {

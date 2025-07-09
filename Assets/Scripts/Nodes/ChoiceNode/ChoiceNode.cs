@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
+using UniRx;
 using XNode;
 
 [NodeTint("#7B0800"), NodeWidth(350)]
@@ -38,6 +39,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     private ChoiceNodeInitializer _choiceNodeInitializer;
     private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
+    private CompositeDisposable _compositeDisposable;
     private string[] _namesPortsPorts;
     private List<List<BaseStat>> _allStatsChoice;
     public IReadOnlyList<string> NamesPorts => _namesPortsPorts;
@@ -68,6 +70,11 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         CancellationTokenSource = new CancellationTokenSource();
         _timerCancellationTokenSource = new CancellationTokenSource();
+        _compositeDisposable = new CompositeDisposable();
+        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        {
+            _choicePanelUIHandler.SetTexts(CreateChoiceTexts());
+        }).AddTo(_compositeDisposable);
         IsMerged = isMerged;
         if (IsMerged == false)
         {
@@ -91,6 +98,7 @@ public class ChoiceNode : BaseNode, ILocalizable
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
         }
         await _choicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token, _showChoice3Key);
+        _compositeDisposable.Dispose();
     }
     protected override void SetInfoToView()
     {

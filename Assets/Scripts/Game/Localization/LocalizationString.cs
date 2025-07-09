@@ -51,6 +51,7 @@ public class LocalizationString
 
     public bool TryRegenerateKey()
     {
+        Debug.Log($"TryRegenerateKey()");
         bool res = false;
         if (string.IsNullOrEmpty(DefaultText) == false && string.IsNullOrWhiteSpace(DefaultText) == false)
         {

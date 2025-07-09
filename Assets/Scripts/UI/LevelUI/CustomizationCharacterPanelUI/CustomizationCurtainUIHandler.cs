@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CustomizationCurtainUIHandler : CurtainUIHandler
 {
-    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, ReactiveCommand<bool> blockGameControlPanelUI)
+    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
         : base(blackFrameView, blockGameControlPanelUI){}
     public override async UniTask CurtainOpens(CancellationToken cancellationToken)
     {

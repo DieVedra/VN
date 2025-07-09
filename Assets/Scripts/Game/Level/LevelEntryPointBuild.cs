@@ -17,9 +17,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
-    private ReactiveCommand<bool> _blockGameControlPanelUI;
+    private BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUIEvent;
     private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
-
+    private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
     [Inject]
@@ -34,10 +34,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
-        _blockGameControlPanelUI = new ReactiveCommand<bool>();
+        _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
+        _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler, _currentSeriaIndexReactiveProperty);
-
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
 
@@ -55,7 +55,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelLocalizationProvider, SwitchToNextSeriaEvent);
         }
         
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode);
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _setLocalizationChangeEvent);
 
         await _levelLoadDataHandler.LoadFirstSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
@@ -103,7 +103,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
             LevelUIProvider, CharacterViewer, WardrobeCharacterViewer,
             _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (SaveData == null)
         {
@@ -167,7 +167,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUI, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

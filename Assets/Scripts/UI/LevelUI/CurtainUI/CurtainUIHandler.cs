@@ -11,9 +11,9 @@ public class CurtainUIHandler
 {
     private const float _unfadeSkipValue = 0.2f;
     protected readonly BlackFrameView BlackFrameView;
-    protected readonly ReactiveCommand<bool> BlockGameControlPanelUI;
+    protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
     protected readonly Image CurtainImage;
-    public CurtainUIHandler(BlackFrameView blackFrameView, ReactiveCommand<bool> blockGameControlPanelUI)
+    public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         BlackFrameView = blackFrameView;
         BlockGameControlPanelUI = blockGameControlPanelUI;
