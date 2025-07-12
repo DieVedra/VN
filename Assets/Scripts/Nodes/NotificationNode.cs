@@ -45,11 +45,7 @@ public class NotificationNode : BaseNode, ILocalizable
     private async UniTaskVoid Show()
     {
         CancellationTokenSource = new CancellationTokenSource();
-        _compositeDisposable = new CompositeDisposable();
-        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
-        {
-            SetText();
-        }).AddTo(_compositeDisposable);
+        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetText);
         if (_delayDisplayTime > 0f)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_delayDisplayTime), cancellationToken: CancellationTokenSource.Token);

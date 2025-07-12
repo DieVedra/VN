@@ -22,17 +22,12 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     public void TrySetCurrentLocalization(SeriaNodeGraphsHandler seriaNodeGraphsHandler, GameStatsHandler gameStatsHandler)
     {
-        Debug.Log($"ParticipiteInLoad {_levelLocalizationProvider.ParticipiteInLoad}");
-
         _currentLocalization = _levelLocalizationProvider.GetCurrentLocalization();
         if (_currentLocalization != null)
         {
-            Debug.Log($"TrySetCurrentLocalization");
             SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
             SetLocalizationToStats(gameStatsHandler);
             SetLocalizationToCharacters();
-            Debug.Log($"TrySetCurrentLocalization                                   Execute");
-
             _setLocalizationChangeEvent.Execute();
             _currentLocalization = null;
         }
@@ -40,8 +35,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
-        Debug.Log($"SetLocalizationToSeriaTexts");
-
         for (int i = 0; i < seriaNodeGraphsHandler.SeriaPartNodeGraphs.Count; i++)
         {
             for (int j = 0; j < seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes.Count; j++)
@@ -50,15 +43,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
                 {
                     foreach (var localizationString in localizable.GetLocalizableContent())
                     {
-                        Debug.Log($"localizationString1 {localizationString.DefaultText} {localizationString.Key}");
                         SetText(localizationString);
-
-                        if (localizationString.Key == "str_1AA4873C")
-                        {
-                            Debug.Log($"   KEY");
-
-                        }
-                        Debug.Log($"localizationString2 {localizationString.DefaultText}");
                     }
                 }
             }
@@ -77,7 +62,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     {
         foreach (var character in _characterProviderBuildMode.GetCharacters())
         {
-            // Debug.Log($"character {character.name}  {character.Name}");
             SetText(character.Name);
         }
     }

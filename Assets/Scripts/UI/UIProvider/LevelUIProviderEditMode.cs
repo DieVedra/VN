@@ -1,9 +1,7 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class LevelUIProvider
+public class LevelUIProviderEditMode
 {
-    public readonly GlobalUIHandler GlobalUIHandler;
     public readonly NarrativePanelUIHandler NarrativePanelUIHandler;
     public readonly NotificationPanelUIHandler NotificationPanelUIHandler;
     public readonly CharacterPanelUIHandler CharacterPanelUIHandler;
@@ -13,22 +11,17 @@ public class LevelUIProvider
     public readonly ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
     public readonly CustomizationCharacterPanelUIHandler CustomizationCharacterPanelUIHandler;
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
-    public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
     
-    public LevelUIProvider(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, ReactiveCommand onSceneTransition,
+    public LevelUIProviderEditMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, OnSceneTransitionEvent onSceneTransition,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null, ILevelLocalizationHandler localizationHandler = null,
-        GlobalSound globalSound = null, MainMenuLocalizationHandler mainMenuLocalizationHandler = null,
-        GlobalUIHandler globalUIHandler = null)
+        CustomizationCharacterPanelUI customizationCharacterPanelUI)
     {
-        GlobalUIHandler = globalUIHandler;
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
         NotificationPanelUI notificationPanelUI = levelUIView.NotificationPanelUI;
         CharacterPanelUI characterPanelUI = levelUIView.CharacterPanelUI;
         ChoicePanelUI choicePanelUI = levelUIView.ChoicePanelUI;
         ButtonSwitchSlideUI buttonSwitchSlideUI = levelUIView.ButtonSwitchSlideUI;
-
         
         HeaderSeriesPanelUI headerSeriesPanelUI = levelUIView.HeaderSeriesPanelUI;
         NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
@@ -41,10 +34,8 @@ public class LevelUIProvider
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         if (Application.isPlaying)
         {
-            CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView, blockGameControlPanelUI);
-            CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView, blockGameControlPanelUI);
-            GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,onSceneTransition,
-                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, localizationHandler, blockGameControlPanelUI);
+            CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+            CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         }
         else
         {
@@ -59,10 +50,5 @@ public class LevelUIProvider
                 levelUIView.MonetPanel.gameObject.SetActive(false);
             });
         }
-    }
-
-    public void Dispose()
-    {
-        GameControlPanelUIHandler.Dispose();
     }
 }

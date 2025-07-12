@@ -15,9 +15,9 @@ public class ButtonTransitionToMainSceneUIHandler
     public readonly LocalizationString ButtonText = "Да";
 
     private readonly LoadScreenUIHandler _loadScreenUIHandler;
-    private readonly ReactiveCommand _onSceneTransition;
+    private readonly OnSceneTransitionEvent _onSceneTransition;
 
-    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, ReactiveCommand onSceneTransition)
+    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition)
     {
         _loadScreenUIHandler = loadScreenUIHandler;
         _onSceneTransition = onSceneTransition;

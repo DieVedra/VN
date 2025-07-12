@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PanelHeightHandler
 {
-    private readonly float _minSymbol = 70f;
-    private readonly float _maxSymbol = 175f;
-    private readonly float _minHeight = 700f;
-    private readonly float _maxHeight = 910f;
+    private const float _minSymbol = 70f;
+    private const float _maxSymbol = 175f;
+    private const float _minHeight = 700f;
+    private const float _maxHeight = 910f;
     private readonly RectTransform _rectTransform;
     private AnimationCurve _animationCurve;
 

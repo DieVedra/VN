@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -14,10 +13,10 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     private readonly List<T> _datas;
 
     private List<string> _names;
-    protected bool AssetsFinded { get; private set; }
+    public bool AssetsFinded { get; private set; }
     public bool ParticipiteInLoad { get; private set; }
     public int PercentComplete => _scriptableObjectAssetLoader.GetPercentComplete();
-    protected int NamesCount => _names.Count;
+    public int NamesCount => _names.Count;
     public IReadOnlyList<T> Datas => _datas;
     public T LastLoaded { get; private set; }
     public readonly ReactiveCommand<T> OnLoad;
@@ -53,15 +52,15 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
         if (_names.Count > 0)
             AssetsFinded = true;
     }
-    public void CheckMatchNumbersSeriaWithNumberAsset(int nextSeriaNumber, int nextSeriaNameAssetIndex)
+    public bool CheckMatchNumbersSeriaWithNumberAsset(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
         if (AssetsFinded == true)
         {
-            ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
+            return ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
         }
         else
         {
-            ParticipiteInLoad = false;
+            return ParticipiteInLoad = false;
         }
     }
     public async UniTask<bool> TryLoadData(int nextSeriaNameAssetIndex)

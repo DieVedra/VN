@@ -1,11 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class LevelLoadDataHandler
 {
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
+    private const int _delay = 1000;
     private readonly MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
@@ -20,7 +21,6 @@ public class LevelLoadDataHandler
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
-    // public ReactiveCommand<bool> ContentIsLoading { get; private set; }
     public ReactiveCommand<bool> ContentIsLoading { get; private set; }
     public int CurrentSeriaLoadedNumber { get; private set; }
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
@@ -54,6 +54,14 @@ public class LevelLoadDataHandler
         switchToNextSeriaEvent.Subscribe(OnSwitchToNextSeria);
     }
 
+    public void Dispose()
+    {
+        WardrobeSeriaDataProviderBuildMode.Dispose();
+        CharacterProviderBuildMode.Dispose();
+        GameSeriesProvider.Dispose();
+        AudioClipProvider.Dispose();
+        BackgroundDataProvider.Dispose();
+    }
     public async UniTask LoadFirstSeriaContent()
     {
         BackgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
@@ -74,11 +82,9 @@ public class LevelLoadDataHandler
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
 
         _loadAssetsPercentHandler.StopCalculatePercent();
-        
-        LoadNextSeriesContent().Forget();
     }
 
-    private async UniTaskVoid LoadNextSeriesContent()
+    public async UniTaskVoid LoadNextSeriesContent()
     {
         if (CurrentSeriaLoadedNumber <= _seriesCount)
         {

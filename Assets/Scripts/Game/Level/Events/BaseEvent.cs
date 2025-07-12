@@ -21,6 +21,15 @@ public class BaseEvent
             operation();
         });
     }
+    public CompositeDisposable SubscribeWithCompositeDisposable(Action operation)
+    {
+        var compositeDisposable = new CompositeDisposable();
+        BaseReactiveCommand.Subscribe(_ =>
+        {
+            operation();
+        }).AddTo(compositeDisposable);
+        return compositeDisposable;
+    }
     public virtual void Execute()
     {
         BaseReactiveCommand.Execute();

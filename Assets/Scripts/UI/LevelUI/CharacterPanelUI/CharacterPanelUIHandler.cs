@@ -63,7 +63,6 @@ public class CharacterPanelUIHandler
     {
         _characterPanelUI.NameTextComponent.text = data.Name;
         _characterPanelUI.TalkTextComponent.text = data.TalkText;
-        Debug.Log($"SetLocalizationText {data.Name} {data.TalkText}");
     }
     private bool SetPanelDirection(CharacterTalkData data)
     {

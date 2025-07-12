@@ -19,17 +19,15 @@ public class NarrativeNode : BaseNode, ILocalizable
 	public override async UniTask Enter(bool isMerged = false)
 	{
 		CancellationTokenSource = new CancellationTokenSource();
-		_compositeDisposable = new CompositeDisposable();
+		_compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+		{
+			_narrativePanelUI.SetText(_localizationText.DefaultText);
+		});
 		IsMerged = isMerged;
 		if (isMerged == false)
 		{
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
 		}
-		SetLocalizationChangeEvent.ReactiveCommand.Subscribe(_ =>
-		{
-			_narrativePanelUI.SetText(_localizationText.DefaultText);
-		}).AddTo(_compositeDisposable);
-		
 		_narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText);
 		await _narrativePanelUI.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
 		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _localizationText.DefaultText);

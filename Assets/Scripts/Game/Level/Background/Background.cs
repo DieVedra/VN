@@ -101,9 +101,10 @@ public class Background : MonoBehaviour
     }
     public void AddAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage, Vector2 localPosition, Color color)
     {
+        Debug.Log($"AddAdditionalSpriteToBackgroundContent  AdditionalImagesToBackground: {AdditionalImagesToBackground.Count}  ");
+        Debug.Log($"indexBackground: {indexBackground}  indexAdditionalImage: {indexAdditionalImage}");
         BackgroundContent[indexBackground].AddAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
         CurrentIndexAdditionalImage = indexAdditionalImage;
-        Debug.Log($"AddAdditionalSpriteToBackgroundContent");
     }
 
     public void ShowImage(int indexArt)

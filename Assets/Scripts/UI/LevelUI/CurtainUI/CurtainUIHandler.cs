@@ -13,7 +13,7 @@ public class CurtainUIHandler
     protected readonly BlackFrameView BlackFrameView;
     protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
     protected readonly Image CurtainImage;
-    public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
+    public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
     {
         BlackFrameView = blackFrameView;
         BlockGameControlPanelUI = blockGameControlPanelUI;
@@ -30,7 +30,7 @@ public class CurtainUIHandler
     }
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
-        BlockGameControlPanelUI.Execute(false);
+        BlockGameControlPanelUI?.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.black;
         await UniTask.WhenAny(CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken),
@@ -40,7 +40,7 @@ public class CurtainUIHandler
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)
     {
-        BlockGameControlPanelUI.Execute(true);
+        BlockGameControlPanelUI?.Execute(true);
         BlackFrameView.gameObject.SetActive(true);
         BlackFrameView.Image.color = Color.clear;
         await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);

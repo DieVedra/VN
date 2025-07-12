@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
 
 public class NodeGraphInitializer
 {
     public readonly SendCurrentNodeEvent<BaseNode> SendCurrentNodeEvent;
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
     public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
-
+    
     private readonly Background _background;
-    private readonly LevelUIProvider _levelUIProvider;
+    private readonly LevelUIProviderEditMode _levelUIProvider;
     private readonly CharacterViewer _characterViewer;
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
     private readonly Sound _sound;
@@ -26,11 +24,12 @@ public class NodeGraphInitializer
 
 
     public NodeGraphInitializer(ICharacterProvider characterProvider, List<BackgroundContent> backgrounds, Background background, 
-        LevelUIProvider levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
+        LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
         IWardrobeSeriaDataProvider wardrobeSeriaDataProvider,
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
-        DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, SetLocalizationChangeEvent setLocalizationChangeEvent = null)
+        DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
+        SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         WardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
         _characterProvider = characterProvider;

@@ -70,11 +70,10 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         CancellationTokenSource = new CancellationTokenSource();
         _timerCancellationTokenSource = new CancellationTokenSource();
-        _compositeDisposable = new CompositeDisposable();
-        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
+        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
             _choicePanelUIHandler.SetTexts(CreateChoiceTexts());
-        }).AddTo(_compositeDisposable);
+        });
         IsMerged = isMerged;
         if (IsMerged == false)
         {

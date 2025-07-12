@@ -19,6 +19,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private bool _initializeInEditMode;
 
     private GlobalUIHandler _globalUIHandler;
+    private LevelUIProviderEditMode _levelUIProviderEditMode;
     public bool InitializeInEditMode => _initializeInEditMode;
 
     [Inject]
@@ -30,15 +31,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private async void Awake()
     {
-        // if (PrefabsProvider.IsInitialized == false)
-        // {
-        //     await PrefabsProvider.BaseInit();
-        // }
+        PrefabsProvider = new PrefabsProvider();
+        await PrefabsProvider.Init();
         Init();
-        OnSceneTransition.Subscribe(_ =>
-        {
-            Dispose();
-        });
+        OnSceneTransitionEvent.Subscribe(Dispose);
     }
 
     public void Init()
@@ -63,7 +59,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         InitGlobalSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-        OnSceneTransition = new ReactiveCommand();
+        OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
         DisableNodesContentEvent = new DisableNodesContentEvent();
@@ -74,9 +70,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         
         InitBackground();
-        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, LevelUIProvider,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, WardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
 
         if (SaveData == null)
         {
@@ -121,7 +117,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
-        LevelUIProvider = new LevelUIProvider(LevelUIView, blackFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
+        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, Wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)

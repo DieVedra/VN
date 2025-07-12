@@ -18,7 +18,6 @@ public class SettingsPanelUIHandler
     public bool AssetIsLoaded { get; private set; }
     public bool PanelOpen { get; private set; }
     public bool IsInLevel { get; private set; }
-    public event Action OnPanelClosed;
 
     public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {

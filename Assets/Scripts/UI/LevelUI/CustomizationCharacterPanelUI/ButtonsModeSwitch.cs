@@ -39,11 +39,7 @@ public class ButtonsModeSwitch
         _customizationDataProvider = customizationDataProvider;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _compositeDisposable = new CompositeDisposable();
-        _setLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
-        {
-            SetTitle();
-        }).AddTo(_compositeDisposable);
+        _compositeDisposable = _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
     public void Dispose()

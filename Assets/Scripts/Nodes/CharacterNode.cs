@@ -41,11 +41,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        _compositeDisposable = new CompositeDisposable(); 
-        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
-        {
-            SetLocalizationText();
-        }).AddTo(_compositeDisposable);
+        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetLocalizationText);
         IsMerged = isMerged;
         _characterViewer.gameObject.SetActive(true);
         SetInfoToView();

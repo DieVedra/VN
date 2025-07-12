@@ -10,7 +10,7 @@ public class GameControlPanelUIHandler
 {
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
-    private readonly ReactiveCommand _onSceneTransition;
+    private readonly OnSceneTransitionEvent _onSceneTransition;
     private readonly GlobalSound _globalSound;
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parent;
@@ -33,7 +33,7 @@ public class GameControlPanelUIHandler
     private bool _panelIsVisible;
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
-        ReactiveCommand onSceneTransition, GlobalSound globalSound, Wallet wallet,
+        OnSceneTransitionEvent onSceneTransition, GlobalSound globalSound, Wallet wallet,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         ILevelLocalizationHandler localizationHandler, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {

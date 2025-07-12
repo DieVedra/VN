@@ -1,13 +1,14 @@
-﻿
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 
 public class NarrativePanelUIHandler
 {
+    private const float _offsetValue = 45f;
+    private const float _hideValue = 0f;
+    private const float _unhideValue = 1f;
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
-    private readonly float _offsetValue = 45f;
     private readonly NarrativePanelUI _narrativePanelUI;
     private readonly RectTransform _rectTransform;
     private readonly TextMeshProUGUI _textComponent;
@@ -34,7 +35,7 @@ public class NarrativePanelUIHandler
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _unfadePosition;
         SetText(text);
-        _narrativePanelUI.CanvasGroup.alpha = 1f;
+        _narrativePanelUI.CanvasGroup.alpha = _unhideValue;
         _panelHeightHandler.UpdateHeight(text);;
     }
 
@@ -54,7 +55,7 @@ public class NarrativePanelUIHandler
     public void DisappearanceNarrativePanelInPlayMode()
     {
         _narrativePanelUI.gameObject.SetActive(false);
-        _narrativePanelUI.CanvasGroup.alpha = 0f;
+        _narrativePanelUI.CanvasGroup.alpha = _hideValue;
         _rectTransform.anchoredPosition = _fadePosition;
     }
 }

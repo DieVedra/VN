@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class ListExtensions
 {
@@ -10,15 +11,18 @@ public static class ListExtensions
             throw new ArgumentNullException(nameof(source));
         if (keySelector == null)
             throw new ArgumentNullException(nameof(keySelector));
-
+        
         var dictionary = new Dictionary<TKey, T>();
         
         foreach (var item in source)
         {
             var key = keySelector(item);
-            if (!dictionary.ContainsKey(key))
+            if (key != null)
             {
-                dictionary.Add(key, item);
+                if (!dictionary.ContainsKey(key))
+                {
+                    dictionary.Add(key, item);
+                }
             }
         }
         
@@ -37,9 +41,12 @@ public static class ListExtensions
         foreach (var item in source)
         {
             var key = keySelector(item);
-            if (!dictionary.ContainsKey(key))
+            if (key != null)
             {
-                dictionary.Add(key, item);
+                if (!dictionary.ContainsKey(key))
+                {
+                    dictionary.Add(key, item);
+                }
             }
         }
         

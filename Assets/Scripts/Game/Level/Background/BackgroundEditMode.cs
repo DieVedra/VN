@@ -13,6 +13,7 @@ public class BackgroundEditMode : Background
     [SerializeField, HorizontalLine(color:EColor.Blue)] private SpriteRenderer _spriteRendererPrefab;
 
     [SerializeField] private BackgroundContent _backgroundContentPrefab;
+    private const int _wardrobeBackgroundContentIndex = 0;
     public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting)
     {
         DisableNodesContentEvent = disableNodesContentEvent;
@@ -34,12 +35,12 @@ public class BackgroundEditMode : Background
 
     private void CreateWardrobeBackground()
     {
-        Transform wardrobeBackgroundContentTransform = GetTransformOnExistingByName(_wardrobeBackgroundData.BackgroundContentValues[0].NameBackground);
+        Transform wardrobeBackgroundContentTransform = GetTransformOnExistingByName(_wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex].NameBackground);
         if (wardrobeBackgroundContentTransform == null)
         {
             WardrobeBackground = InstantiateBackgroundContent(
-                _wardrobeBackgroundData.GetSprite(_wardrobeBackgroundData.BackgroundContentValues[0].NameSprite),
-                _wardrobeBackgroundData.BackgroundContentValues[0]);
+                _wardrobeBackgroundData.GetSprite(_wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex].NameSprite),
+                _wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex]);
         }
         else
         {

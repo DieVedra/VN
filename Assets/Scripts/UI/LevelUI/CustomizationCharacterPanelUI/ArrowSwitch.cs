@@ -48,11 +48,7 @@ public class ArrowSwitch
         _taskRunner = new TaskRunner();
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
-        _compositeDisposable = new CompositeDisposable();
-        _setLocalizationChangeEvent.ReactiveCommand.Subscribe(x =>
-        {
-            SetTitle();
-        }).AddTo(_compositeDisposable);
+        _compositeDisposable = _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
     public void Dispose()

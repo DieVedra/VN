@@ -18,7 +18,6 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private float _backgroundPositionValue;
     
     
-    // [SerializeField, ShowAssetPreview(128,128)] private Sprite _sprite;
     private int _previousIndexBackground;
     private HeaderSeriesPanelHandlerUI _headerSeriesPanelHandlerUI;
     private CurtainUIHandler _curtainUIHandler;
@@ -27,8 +26,8 @@ public class HeaderNode : BaseNode, ILocalizable
     private CompositeDisposable _compositeDisposable;
     public IReadOnlyList<BackgroundContent> Backgrounds { get; private set; }
 
-    public void Construct(IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI, CurtainUIHandler curtainUIHandler,
-        ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler)
+    public void Construct(IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
+        CurtainUIHandler curtainUIHandler, ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler)
     {
         Backgrounds = backgrounds;
         _background = background;
@@ -41,8 +40,7 @@ public class HeaderNode : BaseNode, ILocalizable
     {
         _previousIndexBackground = _background.CurrentIndexBackgroundContent;
         CancellationTokenSource = new CancellationTokenSource();
-        _compositeDisposable = new CompositeDisposable();
-        SetLocalizationChangeEvent.ReactiveCommand.Subscribe(_ => { SetHeaderTexts(); }).AddTo(_compositeDisposable);
+        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetHeaderTexts);
         SetInfoToView();
         IsMerged = isMerged;
         if (isMerged == false)

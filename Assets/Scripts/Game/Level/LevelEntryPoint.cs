@@ -1,6 +1,4 @@
-﻿
-using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
 {
@@ -18,8 +16,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected SaveData SaveData;
     protected StoryData StoryData;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
-    protected ReactiveCommand OnSceneTransition;
-    protected LevelUIProvider LevelUIProvider;
+    protected OnSceneTransitionEvent OnSceneTransitionEvent;
     protected NodeGraphInitializer NodeGraphInitializer;
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
@@ -35,7 +32,5 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected virtual void Dispose()
     {
         CharacterViewer.Dispose();
-        LevelUIProvider.Dispose();
-        // EventSystem.gameObject.SetActive(false);
     }
 }

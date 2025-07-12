@@ -7,7 +7,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
 {
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
-    
+
+    private LevelUIProviderBuildMode _levelUIProviderBuildMode;
     private GlobalSound _globalSound;
     private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     private LevelLoadDataHandler _levelLoadDataHandler;
@@ -67,13 +68,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await TryCreateBlackFrameUIHandler();
 
         Init();
-        OnSceneTransition.Subscribe(_ =>
+        OnSceneTransitionEvent.Subscribe(() =>
         {
             Dispose();
             Save();
         });
 
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
+        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
     private void Init()
@@ -86,7 +88,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.StoryStarted = true;
         }
         InitGlobalSound();
-        OnSceneTransition = new ReactiveCommand();
+        OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
         DisableNodesContentEvent = new DisableNodesContentEvent();
@@ -101,7 +103,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
-            LevelUIProvider, CharacterViewer, WardrobeCharacterViewer,
+            _levelUIProviderBuildMode, CharacterViewer, WardrobeCharacterViewer,
             _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
@@ -135,11 +137,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     protected override void Dispose()
     {
         _gameSeriesHandlerBuildMode.Dispose();
-        _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode.Dispose();
-        _levelLoadDataHandler.CharacterProviderBuildMode.Dispose();
-        _levelLoadDataHandler.GameSeriesProvider.Dispose();
-        _levelLoadDataHandler.AudioClipProvider.Dispose();
-        _levelLoadDataHandler.BackgroundDataProvider.Dispose();
+        _levelLoadDataHandler.Dispose();
         base.Dispose();
     }
     private void Save()
@@ -166,7 +164,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
-        LevelUIProvider = new LevelUIProvider(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransition, DisableNodesContentEvent,
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
