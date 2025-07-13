@@ -130,7 +130,8 @@ public class NodeGraphInitializer
         }
         if (node is HeaderNode handlerNode)
         {
-            handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI, _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler);
+            handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
+                _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
             return;
         }
         if (node is CharacterColorByBackgroundNode characterColorByBackgroundNode)

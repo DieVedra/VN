@@ -49,13 +49,13 @@ public class SmoothAudio
             _audioSources[audioSourceType].clip = null;
         }
     }
-    public async UniTask SmoothPlayWardrobeAudio(AudioClip audioClip, CancellationToken cancellationToken)
+    public async UniTask SmoothPlayAudio(AudioClip audioClip, CancellationToken cancellationToken)
     {
         MinVolume(AudioSourceType.Music);
         SetClip(audioClip, AudioSourceType.Music);
+        _audioSources[AudioSourceType.Music].Play();
         await Fade(cancellationToken, _playEndValue, _duration, AudioSourceType.Music);
     }
-
     public async UniTask SmoothVolumeChange(CancellationToken cancellationToken, float volume, AudioSourceType audioSourceType)
     {
         switch (audioSourceType)

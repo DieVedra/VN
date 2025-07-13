@@ -34,6 +34,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
+    private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private ChoiceNodeInitializer _choiceNodeInitializer;
@@ -57,6 +58,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         _choiceResultEvent.Subscribe(SetNextNodeFromResultChoice);
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
+        _gameStatsProvider = gameStatsProvider;
         TryInitAllStats();
     }
 
@@ -161,7 +163,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             TryFindConnectedPorts(GetOutputPort($"{_namesPortsPorts[buttonPressIndex]}"));
         }
-        _choiceNodeInitializer.GameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
+        _gameStatsProvider.GameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
         SwitchToNextNodeEvent.Execute();
     }
 

@@ -29,8 +29,6 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
                 _serializedPropertyPosition = serializedObject.FindProperty("_localPosition");
                 _serializedPropertyIndexSprite = serializedObject.FindProperty("_indexSprite");
                 _serializedPropertyIndexBackground = serializedObject.FindProperty("_indexBackground");
-                InitPopup();
-
             }
             NodeEditorGUILayout.PropertyField(_serializedPropertyInputPort);
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
@@ -40,7 +38,7 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             _serializedPropertyPosition.vector2Value =
                 EditorGUILayout.Vector2Field("Position: ", _serializedPropertyPosition.vector2Value);
             
-
+            InitPopup();
             _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
             _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesCharactersToPopup);
         }

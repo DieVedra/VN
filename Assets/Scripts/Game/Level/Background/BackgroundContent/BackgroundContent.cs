@@ -137,7 +137,6 @@ public class BackgroundContent : MonoBehaviour
         spriteRenderer.transform.localPosition = localPosition;
         spriteRenderer.sortingOrder = _addContent.Count + 1;
         _addContent.Add(spriteRenderer);
-        Debug.Log($"_addContent {_addContent.Count}");
     }
     public async UniTask MovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {

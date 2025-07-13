@@ -16,6 +16,8 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private int _textSize2 = 80;
     [SerializeField] private int _indexBackground;
     [SerializeField] private float _backgroundPositionValue;
+    [SerializeField] private int _indexHeaderAudio;
+    [SerializeField] private bool _playHeaderAudio;
     
     
     private int _previousIndexBackground;
@@ -24,16 +26,19 @@ public class HeaderNode : BaseNode, ILocalizable
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private Background _background;
     private CompositeDisposable _compositeDisposable;
+    
+    public Sound Sound { get; private set; }
     public IReadOnlyList<BackgroundContent> Backgrounds { get; private set; }
 
     public void Construct(IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
-        CurtainUIHandler curtainUIHandler, ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler)
+        CurtainUIHandler curtainUIHandler, ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, Sound sound)
     {
         Backgrounds = backgrounds;
         _background = background;
         _headerSeriesPanelHandlerUI = headerSeriesPanelHandlerUI;
         _curtainUIHandler = curtainUIHandler;
         _buttonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
+        Sound = sound;
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -47,7 +52,17 @@ public class HeaderNode : BaseNode, ILocalizable
         {
             _buttonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+
+        if (_playHeaderAudio)
+        {
+            await UniTask.WhenAll(
+                _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token),
+                Sound.SmoothPlayHeaderAudio(_indexHeaderAudio, CancellationTokenSource.Token));
+        }
+        else
+        {
+            await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+        }
         _buttonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
     }
 
@@ -58,7 +73,15 @@ public class HeaderNode : BaseNode, ILocalizable
         {
             _buttonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
         }
-        await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+        if (_playHeaderAudio)
+        {
+            await UniTask.WhenAll(_curtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
+                Sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music));
+        }
+        else
+        {
+            await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+        }
         _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousIndexBackground);
         _headerSeriesPanelHandlerUI.OffHeader();
         _compositeDisposable.Dispose();

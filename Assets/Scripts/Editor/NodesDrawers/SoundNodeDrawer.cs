@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -52,7 +53,9 @@ public class SoundNodeDrawer : NodeEditor
     private float _sliderPlayerAmbientValue;
     private int _currentEnumIndex;
     private AudioEffect _audioEffect;
-    private string[] _namesEffects; 
+    private string[] _namesEffects;
+    private string[] _names;
+    private string[] _ambientNames;
     public override void OnBodyGUI()
     {
         if (_soundNode == null)
@@ -104,7 +107,8 @@ public class SoundNodeDrawer : NodeEditor
             if (_smoothMusicTransitionKeySerializedProperty.boolValue == true ||
                 _smoothMusicVolumeIncreaseSerializedProperty.boolValue == true)
             {
-                DrawPopupClips(_soundNode.Names, _currentSoundIndexSerializedProperty, "Audio Clips: ");
+                InitMusicNames();
+                DrawPopupClips(_names, _currentSoundIndexSerializedProperty, "Audio Clips: ");
                 DrawVolumeSlider(ref  _setVolumeMethod, _volumeSoundSerializedProperty, "SetVolume", "Volume: ");
                 TryDrawMusicPlayer();
             }
@@ -119,7 +123,8 @@ public class SoundNodeDrawer : NodeEditor
             if (_smoothTransitionKeyAmbientSerializedProperty.boolValue == true ||
                 _smoothVolumeIncreaseAmbientSerializedProperty.boolValue == true)
             {
-                DrawPopupClips(_soundNode.AmbientNames, _currentAdditionalSoundIndexSerializedProperty, "Additional Audio Clips: ");
+                InitAmbientNames();
+                DrawPopupClips(_ambientNames, _currentAdditionalSoundIndexSerializedProperty, "Additional Audio Clips: ");
                 DrawVolumeSlider(ref _setAdditionalVolumeMethod, _volumeAdditionalSoundSerializedProperty, "SetAdditionalVolume", "Volume: ");
                 TryDrawAmbientPlayer();
             }
@@ -205,27 +210,6 @@ public class SoundNodeDrawer : NodeEditor
                 ()=>{InvokeMethod(ref _stopAmbientAudioMethod, "StopAmbientAudio"); });
         }
     }
-    // private void DrawPlayer(ref float sliderPlayerValue, float rightValue, Action playOperation, Action stopOperation, bool startedPlayKey)
-    // {
-    //     EditorGUI.BeginChangeCheck();
-    //     EditorGUILayout.LabelField("Progress: ");
-    //     sliderPlayerValue = GUILayout.HorizontalSlider(sliderPlayerValue,
-    //         0f, rightValue, GUILayout.Width(170f));
-    //     
-    //     if (startedPlayKey)
-    //     {
-    //         if (EditorGUI.EndChangeCheck())
-    //         {
-    //             _soundNode.Sound.SetPlayTime(sliderPlayerValue);
-    //         }
-    //         else
-    //         {
-    //             sliderPlayerValue = _soundNode.Sound.PlayTimeMusic;
-    //         }
-    //     }
-    //
-    //     DrawPlayStopButtons(playOperation, stopOperation);
-    // }
 
     private void DrawPlayStopButtonsFull()
     {
@@ -360,6 +344,23 @@ public class SoundNodeDrawer : NodeEditor
     private void RemoveEffect(int index)
     {
         InvokeMethod(ref _removeEffectMethod, "RemoveEffect", new object[]{index});
+    }
+    private void InitMusicNames()
+    {
+        InitNames(ref _names);
+    }
+    private void InitAmbientNames()
+    {
+        InitNames(ref _ambientNames);
+    }
+    private void InitNames(ref string[] names)
+    {
+        List<string> names1 = new List<string>(_soundNode.Sound.Clips.Count);
+        foreach (var clip in _soundNode.Sound.Clips)
+        {
+            names1.Add(clip.name);
+        }
 
+        names = names1.ToArray();
     }
 }

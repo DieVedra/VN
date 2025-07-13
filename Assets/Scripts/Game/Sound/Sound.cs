@@ -117,6 +117,10 @@ public class Sound : MonoBehaviour
 
     public async UniTask SmoothPlayWardrobeAudio(CancellationToken cancellationToken)
     {
-        await SmoothAudio.SmoothPlayWardrobeAudio(GlobalAudioData.GetWardrobeAudioClip, cancellationToken);
+        await SmoothAudio.SmoothPlayAudio(GlobalAudioData.GetWardrobeAudioClip, cancellationToken);
+    }
+    public async UniTask SmoothPlayHeaderAudio(int audioClipIndex, CancellationToken cancellationToken)
+    {
+        await SmoothAudio.SmoothPlayAudio(MusicAudioData[audioClipIndex], cancellationToken);
     }
 }

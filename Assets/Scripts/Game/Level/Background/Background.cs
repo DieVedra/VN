@@ -11,8 +11,7 @@ public class Background : MonoBehaviour
     [SerializeField] protected List<BackgroundContent> BackgroundContent;
     [SerializeField] protected List<Sprite> AdditionalImagesToBackground;
     [SerializeField] protected List<Sprite> ArtsSprites;
-
-
+    
     [SerializeField, ReadOnly] private List<int> _artOpenedIndexes;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
@@ -28,7 +27,6 @@ public class Background : MonoBehaviour
     protected const int ArtShowerOrderInLayer = 10;
     protected const float ArtShowerValueScale = 0.88f;
 
-    // private int _currentIndex = 0;
     protected SpriteRenderer ArtShower;
     protected BackgroundContent WardrobeBackground;
     protected BackgroundSaveData BackgroundSaveData;
@@ -101,8 +99,6 @@ public class Background : MonoBehaviour
     }
     public void AddAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage, Vector2 localPosition, Color color)
     {
-        Debug.Log($"AddAdditionalSpriteToBackgroundContent  AdditionalImagesToBackground: {AdditionalImagesToBackground.Count}  ");
-        Debug.Log($"indexBackground: {indexBackground}  indexAdditionalImage: {indexAdditionalImage}");
         BackgroundContent[indexBackground].AddAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
         CurrentIndexAdditionalImage = indexAdditionalImage;
     }

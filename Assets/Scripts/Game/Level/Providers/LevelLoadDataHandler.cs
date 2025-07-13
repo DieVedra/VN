@@ -1,12 +1,10 @@
-﻿using System.Threading;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 
 public class LevelLoadDataHandler
 {
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
-    private const int _delay = 1000;
     private readonly MainMenuLocalizationHandler _mainMenuLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
@@ -71,7 +69,6 @@ public class LevelLoadDataHandler
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(CurrentSeriaLoadedNumber, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
-
         await LoadCurrentLocalization(CurrentSeriaLoadedNumber);
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
@@ -80,7 +77,6 @@ public class LevelLoadDataHandler
         await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
-
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 

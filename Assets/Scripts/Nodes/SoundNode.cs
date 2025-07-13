@@ -36,8 +36,6 @@ public class SoundNode : BaseNode
     private bool _startedPlayMusicPlayMusic;
     private bool _startedPlayAmbient;
     public Sound Sound => _sound;
-    public string[] Names { get; private set; }
-    public string[] AmbientNames { get; private set; }
 
     public bool StartedPlayMusic => _startedPlayMusicPlayMusic;
     public bool StartedPlayAmbient => _startedPlayAmbient;
@@ -48,8 +46,6 @@ public class SoundNode : BaseNode
         _startedPlayMusicPlayMusic = false;
         _startedPlayAmbient = false;
         _taskRunner = new TaskRunner();
-        Names = _sound.Clips.Select(x => x.name.MyCutString(0,1, separator: '_')).ToArray();
-        AmbientNames = _sound.AmbientClips.Select(x => x.name).ToArray();
     }
 
     public override async UniTask Enter(bool isMerged = false)
