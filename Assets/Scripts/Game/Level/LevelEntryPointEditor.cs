@@ -20,6 +20,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private GlobalUIHandler _globalUIHandler;
     private LevelUIProviderEditMode _levelUIProviderEditMode;
+    public bool IsInitializing { get; private set; }
     public bool InitializeInEditMode => _initializeInEditMode;
 
     [Inject]
@@ -39,6 +40,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     public void Init()
     {
+        IsInitializing = true;
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
         if (LoadSaveData == true)
@@ -83,6 +85,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
                 StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
+
+        IsInitializing = false;
     }
 
     private void OnApplicationQuit()

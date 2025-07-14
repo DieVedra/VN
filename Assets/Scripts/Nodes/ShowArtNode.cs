@@ -29,7 +29,7 @@ public class ShowArtNode : BaseNode
 
     protected override void SetInfoToView()
     {
-        _background.ShowImage(_spriteIndex);
+        _background.ShowArtImage(_spriteIndex);
     }
 
     public override void SkipEnterTransition()

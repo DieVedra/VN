@@ -46,25 +46,32 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
 
     private void InitPopup()
     {
-        List<string> namesCharactersToPopup = new List<string>();
-        List<string> namesBackgroundToPopup = new List<string>();
         if (_addSpriteNodeToBackground.Backgrounds != null)
         {
-            for (int i = 0; i < _addSpriteNodeToBackground.Backgrounds.Count; ++i)
+            List<string> namesBackgroundToPopup = new List<string>();
+            if (_addSpriteNodeToBackground.Backgrounds != null)
             {
-                namesBackgroundToPopup.Add(_addSpriteNodeToBackground.Backgrounds[i].name);
+                for (int i = 0; i < _addSpriteNodeToBackground.Backgrounds.Count; ++i)
+                {
+                    namesBackgroundToPopup.Add(_addSpriteNodeToBackground.Backgrounds[i].name);
+                }
             }
+
+            _namesBackgroundToPopup = namesBackgroundToPopup.ToArray();
         }
 
         if (_addSpriteNodeToBackground.AdditionalImagesToBackground != null)
         {
-            for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Count; ++i)
+            List<string> namesCharactersToPopup = new List<string>();
+            if (_addSpriteNodeToBackground.AdditionalImagesToBackground != null)
             {
-                namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
+                for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Count; ++i)
+                {
+                    namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
+                }
             }
-        }
 
-        _namesCharactersToPopup = namesCharactersToPopup.ToArray();
-        _namesBackgroundToPopup = namesBackgroundToPopup.ToArray();
+            _namesCharactersToPopup = namesCharactersToPopup.ToArray();
+        }
     }
 }

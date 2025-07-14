@@ -62,6 +62,7 @@ public class ChoicePanelUIHandler
     {
         ResetTexts();
         _choicePanelUI.gameObject.SetActive(false);
+        _choiceNodeTimer.TrySetTimerValue(0);
         SetZeroAlphaToCanvasGroups();
     }
 

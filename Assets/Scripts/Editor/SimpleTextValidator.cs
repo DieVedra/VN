@@ -14,14 +14,21 @@ public class SimpleTextValidator
 
     public bool TryValidate()
     {
-        if (ValidText.Length <= _symbolMaxCount)
+        if (ValidText != null)
         {
-            return true;
+            if (ValidText.Length <= _symbolMaxCount)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning($"Размер строки превышен   {ValidText.Length} {ValidText}");
+                return false;
+            }
         }
         else
         {
-            Debug.LogWarning($"Размер строки превышен   {ValidText.Length} {ValidText}");
-            return false;
+            return true;
         }
     }
 }

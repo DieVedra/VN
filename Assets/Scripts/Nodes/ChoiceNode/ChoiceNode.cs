@@ -60,6 +60,13 @@ public class ChoiceNode : BaseNode, ILocalizable
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
         _gameStatsProvider = gameStatsProvider;
         TryInitAllStats();
+        if (IsPlayMode() == false)
+        {
+            DisableNodesContentEvent.Subscribe(() =>
+            {
+                _choicePanelUIHandler.HideChoiceVariants();
+            });
+        }
     }
 
     public override void Dispose()
@@ -85,6 +92,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
         _choicePanelUIHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
+        
     }
 
     public override async UniTask Exit()

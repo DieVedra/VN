@@ -5,8 +5,8 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(SmoothTransitionNode))]
 public class SmoothTransitionNodeDrawer : NodeEditor
 {
-    private readonly string _labelStartCurtain = "Is Start CanvasGroup: ";
-    private readonly string _labelEndCurtain = "Is End CanvasGroup: ";
+    private readonly string _labelStartCurtain = "Is Start : ";
+    private readonly string _labelEndCurtain = "Is End : ";
     
     private SmoothTransitionNode _smoothTransitionNode;
     private SerializedProperty _isStartCurtainSerializedProperty;

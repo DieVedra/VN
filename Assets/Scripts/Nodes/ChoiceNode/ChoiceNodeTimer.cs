@@ -8,8 +8,14 @@ using UnityEngine;
 
 public class ChoiceNodeTimer
 {
-    private readonly string _separator = ":";
-    private readonly int _countSecondsInMinute = 60;
+    private const string _separator = ":";
+    private const int _countSecondsInMinute = 60;
+    private const float _minValue = 0f;
+    private const float _maxValue = 1f;
+    private const float _halfValue = 0.5f;
+    private const float _duration = 3f;
+    private const float _showEndValue = 0.85f;
+    private const float _scaleEndValue = 1.25f;
     private readonly TextMeshProUGUI _timerPanelText;
     private readonly CanvasGroup _timerPanelCanvasGroup;
     private readonly RectTransform _timerImageRectTransform;
@@ -30,7 +36,7 @@ public class ChoiceNodeTimer
         if (time > 0)
         {
             _timerPanelCanvasGroup.gameObject.SetActive(true);
-            _timerPanelCanvasGroup.alpha = 1f;
+            _timerPanelCanvasGroup.alpha = _maxValue;
             _timerCanBeOn = true;
             _currentTime = time;
             SetTime();
@@ -38,7 +44,7 @@ public class ChoiceNodeTimer
         else
         {
             _timerPanelCanvasGroup.gameObject.SetActive(false);
-            _timerPanelCanvasGroup.alpha = 0f;
+            _timerPanelCanvasGroup.alpha = _minValue;
             _timerCanBeOn = false;
         }
     }
@@ -46,11 +52,11 @@ public class ChoiceNodeTimer
     {
         if (_timerCanBeOn == true)
         {
-            _timerPanelCanvasGroup.alpha = 0f;
-            _timerPanelCanvasGroup.DOFade(1f, 0.5f).WithCancellation(cancellationToken);
-            await _timerImageRectTransform.DOScale(0.85f, 3f * 0.5f).WithCancellation(cancellationToken);
+            _timerPanelCanvasGroup.alpha = _minValue;
+            _timerPanelCanvasGroup.DOFade(_maxValue, _halfValue).WithCancellation(cancellationToken);
+            await _timerImageRectTransform.DOScale(_showEndValue, _duration * _halfValue).WithCancellation(cancellationToken);
             
-            _timerImageRectTransform.DOScale(1.25f, 3f).SetLoops(-1, LoopType.Yoyo).WithCancellation(cancellationToken);
+            _timerImageRectTransform.DOScale(_scaleEndValue, _duration).SetLoops(-1, LoopType.Yoyo).WithCancellation(cancellationToken);
         }
     }
 
@@ -58,7 +64,7 @@ public class ChoiceNodeTimer
     {
         if (_timerCanBeOn == true)
         {
-            _timerPanelCanvasGroup.DOFade(0f, 0.5f).WithCancellation(cancellationToken);
+            _timerPanelCanvasGroup.DOFade(_minValue, _halfValue).WithCancellation(cancellationToken);
             _timerPanelCanvasGroup.gameObject.SetActive(false);
         }
     }
@@ -69,7 +75,7 @@ public class ChoiceNodeTimer
             while (_currentTime > 0)
             {
                 SetTime();
-                await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: cancellationToken);
+                await UniTask.Delay(TimeSpan.FromSeconds(_maxValue), cancellationToken: cancellationToken);
                 _currentTime--;
 
             }

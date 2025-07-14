@@ -16,6 +16,7 @@ public class BackgroundContent : MonoBehaviour
     [SerializeField, ReadOnly] private List<AdditionalImageData> _indexesAdditionalImage;
 
     private const float _durationMovementSmoothBackgroundChangePosition = 2f;
+    private const float _multiplier = 2f;
     private const float _defaultPosValue = 0f;
 
     private SpriteRendererCreator _spriteRendererCreator;
@@ -82,7 +83,7 @@ public class BackgroundContent : MonoBehaviour
     public void SetBackgroundPositionFromSlider(float position)
     {
         var newPos = Mathf.Lerp( _leftBordTransform.localPosition.x, _rightBordTransform.localPosition.x,position);
-        var myTransform = transform;
+        var myTransform = _spriteRenderer.transform;
         var position1 = myTransform.localPosition;
         position1 = new Vector3(newPos, position1.y, position1.z);
         myTransform.localPosition = position1;
@@ -178,7 +179,6 @@ public class BackgroundContent : MonoBehaviour
     private void MovementBord(Transform bordTransform)
     {
         _spriteRenderer.transform.position = bordTransform.position;;
-        
         _currentPos = bordTransform.position;
     }
     private async UniTask SmoothMovementBord(CancellationToken cancellationToken, Transform bordTransform, BackgroundPosition newBackgroundPosition)
@@ -187,11 +187,11 @@ public class BackgroundContent : MonoBehaviour
         
         if (_currentBackgroundPosition == BackgroundPosition.Left && newBackgroundPosition == BackgroundPosition.Right)
         {
-            duration *= 2f;
+            duration *= _multiplier;
         }
         else if (_currentBackgroundPosition == BackgroundPosition.Right && newBackgroundPosition == BackgroundPosition.Left)
         {
-            duration *= 2f;
+            duration *= _multiplier;
         }
         await SmoothMovement(cancellationToken, bordTransform.position, Ease.InOutSine, duration);
     }

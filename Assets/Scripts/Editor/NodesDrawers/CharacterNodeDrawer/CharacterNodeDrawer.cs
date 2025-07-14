@@ -63,6 +63,10 @@ public class CharacterNodeDrawer : NodeEditor
         if (_characterNode == null)
         {
             _characterNode = target as CharacterNode;
+        }
+
+        if (_indexLookProperty == null)
+        {
             _lineDrawer = new LineDrawer();
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_symbolMaxCount));
             serializedObject.Update();
@@ -71,8 +75,6 @@ public class CharacterNodeDrawer : NodeEditor
             TryInitProperty(ref _overrideNameProperty, _overrideNameNameProperty);
             TryInitProperty(ref _overridedNameProperty, _overridedNameNameProperty);
             TryInitProperty(ref _toggleShowPanelProperty, _toggleShowPanelNameProperty);
-
-            
             TryInitProperty(ref _indexCharacterProperty, _indexCharacterNameProperty);
             TryInitProperty(ref _previousIndexCharacterProperty, _previousIndexCharacterNameProperty);
             TryInitProperty(ref _previousCharactersCountProperty, _previousCharactersCountNameProperty);
@@ -83,6 +85,7 @@ public class CharacterNodeDrawer : NodeEditor
             _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
             _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
         }
+
         serializedObject.Update();
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
         NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));

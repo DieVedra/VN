@@ -103,7 +103,7 @@ public class Background : MonoBehaviour
         CurrentIndexAdditionalImage = indexAdditionalImage;
     }
 
-    public void ShowImage(int indexArt)
+    public void ShowArtImage(int indexArt)
     {
         ArtShower.color = new Color(1f,1f,1f,1f);
         ArtShower.transform.localScale = new Vector2(_endValueScale,_endValueScale);

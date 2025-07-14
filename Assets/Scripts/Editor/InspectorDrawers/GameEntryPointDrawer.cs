@@ -21,7 +21,10 @@ public class GameEntryPointDrawer : Editor
         {
             if (GUILayout.Button("Initialize"))
             {
-                _gameEntryPoint.Init();
+                if (_gameEntryPoint.IsInitializing == false)
+                {
+                    _gameEntryPoint.Init();
+                }
             }
         }
     }

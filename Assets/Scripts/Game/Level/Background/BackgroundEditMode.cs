@@ -121,7 +121,7 @@ public class BackgroundEditMode : Background
         }
     }
 
-    public void AddArtsSprites()
+    private void AddArtsSprites()
     {
         ArtsSprites = new List<Sprite>();
         for (int i = 0; i < _artsDatas.Count; i++)

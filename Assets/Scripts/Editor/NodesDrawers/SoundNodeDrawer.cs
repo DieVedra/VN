@@ -347,16 +347,16 @@ public class SoundNodeDrawer : NodeEditor
     }
     private void InitMusicNames()
     {
-        InitNames(ref _names);
+        InitNames(ref _names, _soundNode.Sound.Clips);
     }
     private void InitAmbientNames()
     {
-        InitNames(ref _ambientNames);
+        InitNames(ref _ambientNames, _soundNode.Sound.AmbientClips);
     }
-    private void InitNames(ref string[] names)
+    private void InitNames(ref string[] names, IReadOnlyList<AudioClip> clips)
     {
-        List<string> names1 = new List<string>(_soundNode.Sound.Clips.Count);
-        foreach (var clip in _soundNode.Sound.Clips)
+        List<string> names1 = new List<string>(clips.Count);
+        foreach (var clip in clips)
         {
             names1.Add(clip.name);
         }
