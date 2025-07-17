@@ -6,9 +6,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
     [SerializeField] protected WardrobeCharacterViewer WardrobeCharacterViewer;
 
     [SerializeField] protected LevelUIView LevelUIView;
-    [SerializeField, Space(10f)] protected int TestMonets;
-    [SerializeField, Space(10f)] protected int TestHearts;
-    
+
     [SerializeField] protected bool LoadSaveData;
 
     protected const int DefaultSeriaIndex = 0;

@@ -102,12 +102,13 @@ public class ArrowSwitch
         CustomizationData customizationData = _customizationDataProvider.CreateCustomizationData(CurrentSwitchIndex);
         ICustomizationSettings customizationSettings = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex];
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
+        int additionalPrice = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
 
         SetTitle();
 
-        _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price));
+        _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
         
         TrySwitch().Forget();
     }
@@ -117,7 +118,8 @@ public class ArrowSwitch
         _titleTextComponent.text = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Name;
     }
 
-    private TaskRunner CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData, DirectionType directionType, int price)
+    private TaskRunner CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData,
+        DirectionType directionType, int price, int additionalPrice)
     {
         TaskRunner taskRunner = new TaskRunner();
         switch (directionType)
@@ -152,20 +154,20 @@ public class ArrowSwitch
             }
         }
 
-        if (CheckShowPrice(price))
+        if (CheckShowPrices(price, additionalPrice))
         {
-            if (_priceViewHandler.IsShowed == true)
+            if (_priceViewHandler.PanelIsShowed == true)
             {
-                taskRunner.AddOperationToList(() => _priceViewHandler.HideToShowAnim(price));
+                taskRunner.AddOperationToList(() => _priceViewHandler.HideToShowAnim(price, additionalPrice));
             }
             else
             {
-                taskRunner.AddOperationToList(() => _priceViewHandler.ShowAnim(price));
+                taskRunner.AddOperationToList(() => _priceViewHandler.ShowAnim(price, additionalPrice));
             }
         }
         else
         {
-            if (_priceViewHandler.IsShowed == true)
+            if (_priceViewHandler.PanelIsShowed == true)
             {
                 taskRunner.AddOperationToList(() => _priceViewHandler.HideAnim());
             }
@@ -230,9 +232,9 @@ public class ArrowSwitch
         }
     }
 
-    private bool CheckShowPrice(int price)
+    private bool CheckShowPrices(int price, int additionalPrice)
     {
-        if (price  > 0)
+        if (price  > 0 || additionalPrice > 0)
         {
             return true;
         }

@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using Zenject;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
@@ -17,6 +16,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [SerializeField] private SeriaGameStatsProviderEditor _seriaGameStatsProviderEditor;
     [SerializeField] private GameStatsViewer _gameStatsViewer;
+    [SerializeField, Space(10f)] private int _testMonets;
+    [SerializeField, Space(10f)] private int _testHearts;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
@@ -43,8 +44,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             SaveData = SaveServiceProvider.SaveData;
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-            TestMonets = SaveData.Monets;
-            TestHearts = SaveData.Hearts;
+            _testMonets = SaveData.Monets;
+            _testHearts = SaveData.Hearts;
             Wallet = new Wallet(SaveData);
             _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
             _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
@@ -52,7 +53,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         else
         {
             _characterProviderEditMode.Construct();
-            Wallet = new Wallet(TestMonets, TestHearts);
+            Wallet = new Wallet(_testMonets, _testHearts);
         }
 
         InitGlobalSound();

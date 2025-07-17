@@ -13,19 +13,25 @@ public class SwitchInfoCustodian
         CalculateStatsHandler calculateStatsHandler)
     {
         _customizationSettingsCustodian = customizationSettingsCustodian;
+        var skinPrices = GetPrice((int) ArrowSwitchMode.SkinColor);
         BodySwitchInfo = new SwitchInfo
         {
-            Price  = GetPrice((int)ArrowSwitchMode.SkinColor),
+            Price  = skinPrices.Item1,
+            AdditionalPrice = skinPrices.Item2,
             Stats = calculateStatsHandler.PreliminaryStats
         };
+        var hairstylesPrices = GetPrice((int)ArrowSwitchMode.Hairstyle);
         HairstyleSwitchInfo = new SwitchInfo
         {
-            Price  = GetPrice((int)ArrowSwitchMode.Hairstyle),
+            Price  = hairstylesPrices.Item1,
+            AdditionalPrice = hairstylesPrices.Item2,
             Stats = calculateStatsHandler.PreliminaryStats
         };
+        var clothesPrices = GetPrice((int) ArrowSwitchMode.Clothes);
         ClothesSwitchInfo = new SwitchInfo
         {
-            Price  = GetPrice((int)ArrowSwitchMode.Clothes),
+            Price  = clothesPrices.Item1,
+            AdditionalPrice = clothesPrices.Item2,
             Stats = calculateStatsHandler.PreliminaryStats
         };
         CurrentSwitchInfo = new SwitchInfo
@@ -33,16 +39,16 @@ public class SwitchInfoCustodian
             Stats = calculateStatsHandler.PreliminaryStats
         };
     
-        int GetPrice(int index)
+        (int,int) GetPrice(int index)
         {
             IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[index];
             if (indexes.Count > 0)
             {
-                return indexes[0].Price;
+                return (indexes[0].Price, indexes[0].PriceAdditional);
             }
             else
             {
-                return 0;
+                return (0,0);
             }
         }
     }

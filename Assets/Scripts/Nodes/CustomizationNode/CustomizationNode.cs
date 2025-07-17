@@ -126,7 +126,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         {
             _customizationCharacterPanelUIHandler.ShowCustomizationContentInPlayMode(
                 _wardrobeCharacterViewer, _selectedCustomizationContentIndexes,
-                new CalculatePriceHandler(_wallet.Monets),
+                new CalculatePriceHandler(_wallet.MonetsReactiveProperty, _wallet.HeartsReactiveProperty),
                 new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()),
                 SetLocalizationChangeEvent);
         }
@@ -140,7 +140,8 @@ public class CustomizationNode : BaseNode, ILocalizable
     {
         // PS engage
         _gameStatsProvider.GameStatsHandler.UpdateStat(customizationResult.Stats);
-        _wallet.RemoveCash(_wallet.Monets - customizationResult.PreliminaryBalance);
+        _wallet.RemoveCash(_wallet.Monets - customizationResult.PreliminaryMonet);
+        _wallet.RemoveHearts(_wallet.Monets - customizationResult.PreliminaryHearts);
         SwitchToNextNodeEvent.Execute();
     }
 

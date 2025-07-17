@@ -83,16 +83,21 @@ public class ButtonsModeSwitch
         }
         
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
-        
-        if (price  > 0)
-        {
-            _priceViewHandler.Show(price);
-        }
-        else
+        int priceAdditional = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
+        if (price == 0 && priceAdditional == 0)
         {
             _priceViewHandler.Hide();
         }
-        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true)
+        else
+        {
+            _priceViewHandler.Show(price, priceAdditional);
+        }
+
+        
+        
+        
+        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true &&
+            _priceViewHandler.CalculatePriceHandler.CheckAvailableHearts(priceAdditional) == true)
         {
             _buttonPlayHandler.On();
         }

@@ -82,8 +82,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            TestMonets = SaveData.Monets;
-            TestHearts = SaveData.Hearts;
             _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }

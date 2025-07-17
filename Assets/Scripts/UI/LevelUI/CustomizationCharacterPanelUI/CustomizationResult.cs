@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class CustomizationResult
 {
     public readonly List<BaseStat> Stats;
-    public readonly int PreliminaryBalance;
+    public readonly int PreliminaryMonet;
+    public readonly int PreliminaryHearts;
 
-    public CustomizationResult(List<BaseStat> stats, int preliminaryBalance)
+    public CustomizationResult(List<BaseStat> stats, int preliminaryMonet, int preliminaryHearts)
     {
         Stats = stats;
-        PreliminaryBalance = preliminaryBalance;
+        PreliminaryMonet = preliminaryMonet;
+        PreliminaryHearts = preliminaryHearts;
     }
 }

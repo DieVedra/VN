@@ -10,6 +10,7 @@ public class CustomizationSettings : ICustomizationSettings
     [SerializeField] private bool _keyShowParams;
     [SerializeField] private bool _keyShowStats;
     [SerializeField] private int _price;
+    [SerializeField] private int _priceAdditional;
 
     [SerializeField] private List<Stat> _gameStats;
     public string Name => _name;
@@ -19,6 +20,7 @@ public class CustomizationSettings : ICustomizationSettings
     public bool KeyShowParams => _keyShowParams;
     public bool KeyShowStats => _keyShowStats;
     public int Price => _price;
+    public int PriceAdditional => _priceAdditional;
     public List<Stat> GameStats => _gameStats;
     public IReadOnlyList<ILocalizationString> GameStatsLocalizationStrings => _gameStats;
     public CustomizationSettings(List<Stat> gameStats, string name, int index, int price,

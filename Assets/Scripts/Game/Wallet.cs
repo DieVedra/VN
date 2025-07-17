@@ -1,17 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class Wallet
 {
-    private readonly float _delayAddValue = 0.005f;
-    private ReactiveProperty<int> _monetsReactiveProperty;
-    private ReactiveProperty<int> _heartsReactiveProperty;
+    private const float _delayAddValue = 0.005f;
+    private readonly ReactiveProperty<int> _monetsReactiveProperty;
+    private readonly ReactiveProperty<int> _heartsReactiveProperty;
     private CancellationTokenSource _cancellationTokenSource;
-    
     
     private int _lastMonetAddValue = 0;
     private int _lastHeartsAddValue = 0;

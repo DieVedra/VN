@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ButtonsCustomizationHandler
 {
-    private readonly float _transparentMax = 1f;
-    private readonly float _transparentMin = 0.5f;
+    private const float _transparentMax = 1f;
+    private const float _transparentMin = 0.5f;
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     private readonly ArrowSwitch _arrowSwitch;
     private readonly ButtonsModeSwitch _buttonsModeSwitch;
@@ -74,7 +74,8 @@ public class ButtonsCustomizationHandler
         
         _customizationCharacterPanelUI.PlayButton.onClick.AddListener(() =>
         {
-            customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), GetMoneyToResult()));
+            var res = GetMoneyToResult();
+            customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), res.Item1, res.Item2));
             DeactivateButtonsCustomization();
         });
 
@@ -191,10 +192,10 @@ public class ButtonsCustomizationHandler
         }
     }
 
-    private int GetMoneyToResult()
+    private (int, int) GetMoneyToResult()
     {
         _priceViewHandler.CalculatePriceHandler.PreliminaryBalanceCalculation(_switchInfoCustodian.GetAllInfo());
-        return _priceViewHandler.CalculatePriceHandler.MoneyToShow;
+        return (_priceViewHandler.CalculatePriceHandler.MonetsToShow, _priceViewHandler.CalculatePriceHandler.HeartsToShow);
     }
 
     private List<BaseStat> GetStatsToResult()

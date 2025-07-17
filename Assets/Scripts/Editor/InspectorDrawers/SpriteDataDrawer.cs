@@ -17,6 +17,7 @@ public class SpriteDataDrawer : Editor
     private float _offsetYValue = 0.5f;
     private float _scaleValue = 0.5f;
     private int _price;
+    private int _priceAdditional;
     public void OnEnable()
     {
         TryInitTarget();
@@ -124,6 +125,11 @@ public class SpriteDataDrawer : Editor
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Price: ");
         _price = EditorGUILayout.IntField(_price);
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Price Additional: ");
+        _priceAdditional = EditorGUILayout.IntField(_priceAdditional);
         EditorGUILayout.EndHorizontal();
     }
 

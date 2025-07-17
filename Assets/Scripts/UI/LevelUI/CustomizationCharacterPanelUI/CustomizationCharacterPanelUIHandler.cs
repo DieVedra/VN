@@ -4,6 +4,7 @@ using UniRx;
 public class CustomizationCharacterPanelUIHandler
 {
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
+    private readonly LevelResourceHandler _levelResourceHandler;
     private readonly StatViewHandler _statViewHandler;
     private ButtonsCustomizationHandler _buttonsCustomizationHandler;
     private ArrowSwitch _arrowSwitch;
@@ -13,9 +14,10 @@ public class CustomizationCharacterPanelUIHandler
     public ButtonPlayHandler ButtonPlayHandler { get; private set; }
     public ButtonsCustomizationHandler ButtonsCustomizationHandler => _buttonsCustomizationHandler;
     
-    public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI)
+    public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, LevelResourceHandler levelResourceHandler)
     {
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
+        _levelResourceHandler = levelResourceHandler;
         ButtonPlayHandler = new ButtonPlayHandler(customizationCharacterPanelUI.PlayButtonCanvasGroup, customizationCharacterPanelUI.DurationButtonPlay);
         _statViewHandler = new StatViewHandler(customizationCharacterPanelUI.StatPanelCanvasGroup, customizationCharacterPanelUI.StatPanelText,
             customizationCharacterPanelUI.DurationAnimStatView);
@@ -30,13 +32,14 @@ public class CustomizationCharacterPanelUIHandler
         _buttonsCustomizationHandler = null;
         _arrowSwitch = null;
         _customizationCharacterPanelUI.gameObject.SetActive(false);
-        _customizationCharacterPanelUI.MoneyPanelCanvasGroup.gameObject.SetActive(false);
+        _customizationCharacterPanelUI.PriceUIView.gameObject.SetActive(false);
         _buttonsModeSwitch.Dispose();
+        _priceViewHandler.Dispose();
     }
     public void SetContentInEditMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
     {
         SetNumbersContent(selectedCustomizationContentIndexes);
-        _customizationCharacterPanelUI.MoneyPanelCanvasGroup.gameObject.SetActive(true);
+        _customizationCharacterPanelUI.PriceUIView.gameObject.SetActive(true);
     }
 
     public void ShowCustomizationContentInPlayMode(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, 
@@ -51,8 +54,7 @@ public class CustomizationCharacterPanelUIHandler
         ReactiveProperty<bool> isNuClothesReactiveProperty = new ReactiveProperty<bool>();
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
 
-        _priceViewHandler = new PriceViewHandler(_customizationCharacterPanelUI.MoneyPanelText, _customizationCharacterPanelUI.PricePanelText, 
-            _customizationCharacterPanelUI.MoneyPanelCanvasGroup, _customizationCharacterPanelUI.PricePanelCanvasGroup, calculatePriceHandler,
+        _priceViewHandler = new PriceViewHandler(_customizationCharacterPanelUI.PriceUIView, _levelResourceHandler, calculatePriceHandler,
              _customizationCharacterPanelUI.DurationAnimPriceView);
         
         _buttonsModeSwitch = new ButtonsModeSwitch(characterCustomizationView, selectedCustomizationContentIndexes, switchModeCustodian,
