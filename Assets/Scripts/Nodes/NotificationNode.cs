@@ -19,7 +19,7 @@ public class NotificationNode : BaseNode, ILocalizable
     public void ConstructMyNotificationNode(NotificationPanelUIHandler notificationPanelUIHandler)
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
-        _localizationText.SetText(_text);
+        // _localizationText.SetText(_text);
     }
     public override async UniTask Enter(bool isMerged = false)
     {

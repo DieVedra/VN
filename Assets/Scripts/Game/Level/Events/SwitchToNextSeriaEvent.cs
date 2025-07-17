@@ -1,5 +1,2 @@
 ﻿
-public class SwitchToNextSeriaEvent<T> : BaseEvent<T>
-{
-    
-}
+public class SwitchToNextSeriaEvent<T> : BaseEvent<T> { }

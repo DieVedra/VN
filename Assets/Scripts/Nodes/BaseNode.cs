@@ -36,7 +36,8 @@ public class BaseNode : Node
     {
         CancellationTokenSource?.Cancel();
     }
-    public void SetNextNode(BaseNode nextNode)
+
+    protected void SetNextNode(BaseNode nextNode)
     {
         _nextNode = nextNode;
     }

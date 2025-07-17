@@ -1,5 +1,4 @@
-﻿
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 
 public class GameSeriesHandlerEditorMode : GameSeriesHandler

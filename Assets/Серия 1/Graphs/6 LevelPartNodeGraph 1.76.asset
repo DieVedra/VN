@@ -679,6 +679,9 @@ MonoBehaviour:
       - fieldName: Port 2
         node: {fileID: 6318045254454045843}
         reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 6318045254454045843}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -699,7 +702,7 @@ MonoBehaviour:
   _localPosition: {x: 0, y: 0}
   _color: {r: 1, g: 0.57254905, b: 0.3647059, a: 1}
   _indexSprite: 2
-  _indexBackground: 2
+  _indexBackground: 0
 --- !u!114 &-4804358060065422663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1741,6 +1744,7 @@ MonoBehaviour:
   m_Name: 6 LevelPartNodeGraph 1.76
   m_EditorClassIdentifier: 
   nodes:
+  - {fileID: 6310846035085291603}
   - {fileID: -7269499112509529075}
   - {fileID: 1641175735232549251}
   - {fileID: 4603457395114132050}
@@ -1786,7 +1790,6 @@ MonoBehaviour:
   - {fileID: 5782408027033983984}
   - {fileID: -3007996785440353112}
   - {fileID: -6928164185564033080}
-  - {fileID: 6310846035085291603}
   - {fileID: 6318045254454045843}
   - {fileID: 6727506676808135236}
   - {fileID: 2101294760828987312}
@@ -2652,7 +2655,7 @@ MonoBehaviour:
   _localPosition: {x: 0, y: 0}
   _color: {r: 0.8666667, g: 0.654902, b: 0.5529412, a: 1}
   _indexSprite: 1
-  _indexBackground: 2
+  _indexBackground: 0
 --- !u!114 &2609049643700924149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3162,7 +3165,7 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _casesForStats:
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3243,7 +3246,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _name: Port 0
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3324,7 +3327,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _name: Port 1
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3589,7 +3592,10 @@ MonoBehaviour:
       _node: {fileID: 6318045254454045843}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -5202063302295036469}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -3632,7 +3638,7 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _casesForStats:
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3713,7 +3719,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _name: Port 0
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3794,7 +3800,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _name: Port 1
-  - _foldoutKey: 1
+  - _foldoutKey: 0
     _caseStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -3924,7 +3930,7 @@ MonoBehaviour:
   _localPosition: {x: 0, y: 0}
   _color: {r: 0.8666667, g: 0.654902, b: 0.5529412, a: 1}
   _indexSprite: 0
-  _indexBackground: 2
+  _indexBackground: 0
 --- !u!114 &8053902217654992302
 MonoBehaviour:
   m_ObjectHideFlags: 0

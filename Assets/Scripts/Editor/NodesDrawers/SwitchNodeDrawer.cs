@@ -92,11 +92,11 @@ public class SwitchNodeDrawer : NodeEditor
 
         if (_nodeForBoolSerializedProperty.boolValue == true)
         {
-            NodeEditorGUILayout.PortField(new GUIContent("Output False Bool Port "), _switchNode.GetOutputPort("Output"));
+            NodeEditorGUILayout.PortField(new GUIContent("Output False Bool Port "), _switchNode.OutputPortBaseNode);
         }
         else
         {
-            NodeEditorGUILayout.PortField(new GUIContent("Default Port "), _switchNode.GetOutputPort("Output"));
+            NodeEditorGUILayout.PortField(new GUIContent("Default Port "), _switchNode.OutputPortBaseNode);
         }
 
         serializedObject.ApplyModifiedProperties();

@@ -11,6 +11,7 @@ public class BlackFrameUIHandler
     private Transform _transform;
     private Image _image;
     private BlackFrameView _blackFrameView;
+    private CurtainUI _curtainUI;
     private CancellationTokenSource _cancellationTokenSource;
     private bool _assetLoaded;
     public Transform Transform => _transform;
@@ -25,6 +26,11 @@ public class BlackFrameUIHandler
             InitFrameView();
         }
     }
+    // public BlackFrameUIHandler(CurtainUI curtainUI)
+    // {
+    //     IsOpen = false;
+    //     _curtainUI = curtainUI;
+    // }
     public async UniTask Init(Transform parent)
     {
         if (_assetLoaded == false)

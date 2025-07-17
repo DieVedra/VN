@@ -1028,6 +1028,7 @@ MonoBehaviour:
   - {fileID: 4133872993187370784}
   - {fileID: 5712739522091788798}
   - {fileID: 8302261360956621105}
+  - {fileID: 602720759309281742}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,6 +1076,45 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0418 \u0441\u0432\u0435\u0440\u0448\u0438\u043B\u043E\u0441\u044C!"
     <Key>k__BackingField: str_861DC08C
+--- !u!114 &602720759309281742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
+  m_Name: Switch To Next Seria
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -4200, y: -2168}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 602720759309281742}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 602720759309281742}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _putOnSwimsuit: 0
 --- !u!114 &749743595329428619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,7 +1515,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -4840, y: -1896}
+  position: {x: -4728, y: -1800}
   ports:
     keys:
     - Input
@@ -3929,7 +3969,7 @@ MonoBehaviour:
   m_Name: Header
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -5128, y: -1992}
+  position: {x: -5192, y: -1992}
   ports:
     keys:
     - Input

@@ -29,6 +29,8 @@ public class CharacterNodeDrawer : NodeEditor
     private const string _overridedNameNameProperty = "_overridedNameLocalization";
     private const string _toggleShowPanelNameProperty = "_toggleShowPanel";
     private const string _toggleIsSwimsuitNameProperty = "_toggleIsSwimsuit";
+    private const string _inputNameProperty = "Input";
+    private const string _outputNameProperty = "Output";
     
     private const string _overrideNameLabel = "New name: ";
     private const int _symbolMaxCount = 159;
@@ -47,6 +49,8 @@ public class CharacterNodeDrawer : NodeEditor
     private SerializedProperty _overrideNameProperty;
     private SerializedProperty _overridedNameProperty;
     private SerializedProperty _toggleIsSwimsuitProperty;
+    private SerializedProperty _inputPortProperty;
+    private SerializedProperty _outputPortProperty;
 
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private LocalizationString _localizationStringText;
@@ -82,13 +86,15 @@ public class CharacterNodeDrawer : NodeEditor
             TryInitProperty(ref _localizationTextCharacterProperty, _textProperty);
             TryInitProperty(ref _foldoutIsOpenProperty, _foldoutIsOpenNameProperty);
             TryInitProperty(ref _toggleIsSwimsuitProperty, _toggleIsSwimsuitNameProperty);
+            TryInitProperty(ref _inputPortProperty, _inputNameProperty);
+            TryInitProperty(ref _outputPortProperty, _outputNameProperty);
             _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
             _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
         }
 
         serializedObject.Update();
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+        NodeEditorGUILayout.PropertyField(_inputPortProperty);
+        NodeEditorGUILayout.PropertyField(_outputPortProperty);
         EditorGUI.BeginChangeCheck();
         _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel);
         _lineDrawer.DrawHorizontalLine(Color.green);

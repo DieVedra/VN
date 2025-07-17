@@ -15,9 +15,13 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     private const int _maxDynamicPortsCount = 10;
     private const string _namePort = "OutputTrueBool";
     private const string _port = "Port ";
-    private readonly string[] _operators = new [] {"=", ">", "<", ">=", "<="};
+    private const string _equalSymbol = "=";
+    private const string _greatSymbol = ">";
+    private const string _lessSymbol = "<";
+    private const string _greatEqualSymbol = ">=";
+    private const string _lessEqualSymbol = "<=";
+    private readonly string[] _operators = {_equalSymbol, _greatSymbol, _lessSymbol, _greatEqualSymbol, _lessEqualSymbol};
     private IGameStatsProvider _gameStatsProvider;
-    private GameStatsHandler _gameStatsHandler;
     private SwitchNodeLogic _switchNodeLogic;
     private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
@@ -27,7 +31,6 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     {
         _gameStatsProvider = gameStatsProvider;
         _switchNodeLogic = new SwitchNodeLogic(_operators);
-        _gameStatsHandler = new GameStatsHandler(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
         if (IsPlayMode() == false)
         {
             if (_switchNodeInitializer == null)
@@ -41,7 +44,7 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     {
         if (_isNodeForStats)
         {
-            SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsHandler.Stats, _casesForStats);
+            SwitchNodeLogicResult result = _switchNodeLogic.GetPortIndexOnSwitchResult(_gameStatsProvider.GameStatsHandler.Stats, _casesForStats);
             if (result.CaseFoundSuccessfuly == true)
             {
                 SetNextNode(DynamicOutputs.ElementAt(result.IndexCase).Connection.node as BaseNode);

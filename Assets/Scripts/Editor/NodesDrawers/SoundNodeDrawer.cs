@@ -273,13 +273,7 @@ public class SoundNodeDrawer : NodeEditor
         if (names != null && names.Length > 0)
         {
             EditorGUILayout.LabelField(label);
-            // EditorGUI.BeginChangeCheck();
-
             serializedProperty.intValue = EditorGUILayout.Popup(serializedProperty.intValue,  names);
-            // if (EditorGUI.EndChangeCheck())
-            // {
-            //     InvokeMethod(ref methodInfo, nameMethod);
-            // }
             EditorGUILayout.Space(10f);
         }
     }
@@ -347,11 +341,17 @@ public class SoundNodeDrawer : NodeEditor
     }
     private void InitMusicNames()
     {
-        InitNames(ref _names, _soundNode.Sound.Clips);
+        if (_soundNode.Sound != null)
+        {        
+            InitNames(ref _names, _soundNode.Sound.Clips);
+        }
     }
     private void InitAmbientNames()
     {
-        InitNames(ref _ambientNames, _soundNode.Sound.AmbientClips);
+        if (_soundNode.Sound != null)
+        {
+            InitNames(ref _ambientNames, _soundNode.Sound.AmbientClips);
+        }
     }
     private void InitNames(ref string[] names, IReadOnlyList<AudioClip> clips)
     {

@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -18,17 +20,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
-    private GlobalUIHandler _globalUIHandler;
+    [SerializeField, HideInInspector] private TestModeEditor _testModeEditor;
+    
     private LevelUIProviderEditMode _levelUIProviderEditMode;
     public bool IsInitializing { get; private set; }
     public bool InitializeInEditMode => _initializeInEditMode;
-
-    [Inject]
-    private void Construct(PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler)
-    {
-        PrefabsProvider = prefabsProvider;
-        _globalUIHandler = globalUIHandler;
-    }
 
     private async void Awake()
     {
@@ -65,25 +61,40 @@ public class LevelEntryPointEditor : LevelEntryPoint
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
         DisableNodesContentEvent = new DisableNodesContentEvent();
-        InitLevelUIProvider();
 
         ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
-        
+
         InitBackground();
+        InitLevelUIProvider();
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, WardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
-
-        if (SaveData == null)
+        
+        DisableNodesContentEvent.Execute();
+        if (Application.isPlaying)
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
+            if (SaveData != null)
+            {
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
+                    StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+                _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
+            }
+            else if (_testModeEditor.IsTestMode == true)
+            {
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
+                    _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
+                _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
+            }
+            else
+            {
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
+            }
         }
         else
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
-                StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
 
         IsInitializing = false;

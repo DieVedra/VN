@@ -53,7 +53,10 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             {
                 for (int i = 0; i < _addSpriteNodeToBackground.Backgrounds.Count; ++i)
                 {
-                    namesBackgroundToPopup.Add(_addSpriteNodeToBackground.Backgrounds[i].name);
+                    if (_addSpriteNodeToBackground.Backgrounds[i] != null)
+                    {
+                        namesBackgroundToPopup.Add(_addSpriteNodeToBackground.Backgrounds[i].name);
+                    }
                 }
             }
 
@@ -67,7 +70,10 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             {
                 for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Count; ++i)
                 {
-                    namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
+                    if (_addSpriteNodeToBackground.AdditionalImagesToBackground[i] != null)
+                    {
+                        namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
+                    }
                 }
             }
 
