@@ -80,9 +80,11 @@ public class SpriteDataDrawer : Editor
     private void DrawPopup()
     {
         GUIContent arrayLabel = new GUIContent("Settings Preview: ");
-        _previosIndex = _index;
+        EditorGUI.BeginChangeCheck();
+
         _index = EditorGUILayout.Popup(arrayLabel, _index,  _namesToPopup);
-        if (_previosIndex != _index)
+
+        if (EditorGUI.EndChangeCheck())
         {
             GetValuesToProperty();
         }
@@ -131,6 +133,10 @@ public class SpriteDataDrawer : Editor
         EditorGUILayout.LabelField("Price Additional: ");
         _priceAdditional = EditorGUILayout.IntField(_priceAdditional);
         EditorGUILayout.EndHorizontal();
+        // if (GUILayout.Button("SetValues"))
+        // {
+        //     SetValuesToProperty();
+        // }
     }
 
     private void DrawProperty(ref float sliderValue, string nameField)
@@ -162,6 +168,7 @@ public class SpriteDataDrawer : Editor
         serializedProperty.FindPropertyRelative("_offsetYValue").floatValue = _offsetYValue;
         serializedProperty.FindPropertyRelative("_scaleValue").floatValue = _scaleValue;
         serializedProperty.FindPropertyRelative("_price").intValue = _price;
+        serializedProperty.FindPropertyRelative("_priceAdditional").intValue = _priceAdditional;
     }
     private void GetValuesToProperty()
     {
@@ -172,6 +179,7 @@ public class SpriteDataDrawer : Editor
             _offsetYValue = serializedProperty.FindPropertyRelative("_offsetYValue").floatValue;
             _scaleValue = serializedProperty.FindPropertyRelative("_scaleValue").floatValue;
             _price = serializedProperty.FindPropertyRelative("_price").intValue;
+            _priceAdditional = serializedProperty.FindPropertyRelative("_priceAdditional").intValue;
         }
     }
 

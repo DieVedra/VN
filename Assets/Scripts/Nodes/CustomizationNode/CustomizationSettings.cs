@@ -23,33 +23,36 @@ public class CustomizationSettings : ICustomizationSettings
     public int PriceAdditional => _priceAdditional;
     public List<Stat> GameStats => _gameStats;
     public IReadOnlyList<ILocalizationString> GameStatsLocalizationStrings => _gameStats;
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price,
+    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional, 
         bool keyAdd, bool keyShowParams, bool keyShowStats)
     {
         _gameStats = gameStats;
         _name = name;
         _index = index;
         _price = price;
+        _priceAdditional = priceAdditional;
         _keyAdd = keyAdd;
         _keyShowParams = keyShowParams;
         _keyShowStats = keyShowStats;
     }
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price)
+    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional)
     {
         _gameStats = gameStats;
         _name = name;
         _index = index;
         _price = price;
+        _priceAdditional = priceAdditional;
         _keyAdd = false;
         _keyShowParams  = false;
         _keyShowStats  = true;
     }
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, bool keyShowStats)
+    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional, bool keyShowStats)
     {
         _gameStats = gameStats;
         _name = name;
         _index = index;
         _price = price;
+        _priceAdditional = priceAdditional;
         _keyAdd = false;
         _keyShowParams  = false;
         _keyShowStats = keyShowStats;

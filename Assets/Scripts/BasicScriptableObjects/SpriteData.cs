@@ -31,7 +31,7 @@ public class SpriteData : ScriptableObject
             {
                 if (_mySprites.Count  > i && _mySprites[i] != null)
                 {
-                    mySprites.Add(new MySprite(_sprites[i], _mySprites[i].OffsetXValue, _mySprites[i].OffsetYValue, _mySprites[i].ScaleValue, _mySprites[i].Price));
+                    mySprites.Add(new MySprite(_sprites[i], _mySprites[i].OffsetXValue, _mySprites[i].OffsetYValue, _mySprites[i].ScaleValue, _mySprites[i].Price, _mySprites[i].PriceAdditional));
                 }
                 else
                 {

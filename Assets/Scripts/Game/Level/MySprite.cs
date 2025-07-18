@@ -18,12 +18,13 @@ public class MySprite
     public int PriceAdditional => _priceAdditional;
     public Sprite Sprite => _sprite;
     public Texture2D texture => _sprite.texture;
-    public MySprite(Sprite sprite, float offsetXValue = 0.5f, float offsetYValue = 0.5f, float scaleValue = 0.5f, int price = 0)
+    public MySprite(Sprite sprite, float offsetXValue = 0.5f, float offsetYValue = 0.5f, float scaleValue = 0.5f, int price = 0, int priceAdditional = 0)
     {
         _sprite = sprite;
         _offsetXValue = offsetXValue;
         _offsetYValue = offsetYValue;
         _scaleValue = scaleValue;
         _price = price;
+        _priceAdditional = priceAdditional;
     }
 }

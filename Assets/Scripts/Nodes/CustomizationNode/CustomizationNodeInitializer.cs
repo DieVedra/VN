@@ -15,7 +15,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         for (int i = 0; i < sprites.Count; i++)
         {
             newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                i, sprites[i].Price));
+                i, sprites[i].Price, sprites[i].PriceAdditional));
         }
         settings = newSettingsList;
     }
@@ -41,12 +41,12 @@ public class CustomizationNodeInitializer : MyNodeInitializer
                 var customizationSetting = new CustomizationSettings(
                     _gameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                    i, sprites[i].Price, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
+                    i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
                 newSettingsList.Add(customizationSetting);
                 continue;
             }
             newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                i, sprites[i].Price));
+                i, sprites[i].Price, sprites[i].PriceAdditional));
         }
         settings = newSettingsList;
     }
@@ -76,13 +76,14 @@ public class CustomizationNodeInitializer : MyNodeInitializer
                     mySprites[i].Name.MyCutString(2, separator: '_'),
                     customizationSettings[i].Index,
                     customizationSettings[i].Price,
+                    customizationSettings[i].PriceAdditional,
                     customizationSettings[i].KeyShowStats));
             }
         }
         return spriteIndexesClothes;
     }
-    private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price)
+    private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
     {
-        return new CustomizationSettings(_gameStatsHandler.GetGameStatsForm(), name, index, price);
+        return new CustomizationSettings(_gameStatsHandler.GetGameStatsForm(), name, index, price, priceAdditional);
     }
 }
