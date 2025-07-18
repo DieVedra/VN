@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using UnityEngine;
 
 public class LevelResourceHandler
 {
-    private readonly LevelResourceHandlerValues _levelResourceHandlerValues = new LevelResourceHandlerValues();
+    private readonly LevelResourceHandlerValues _levelResourceHandlerValues;
     private readonly ResourcePanelWithCanvasGroupView _monetResourcePanelWithCanvasGroupView;
     private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
     private bool _heartsIsShow;
@@ -13,10 +12,41 @@ public class LevelResourceHandler
     {
         _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
         _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
+        _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
         _heartsIsShow = false;
     }
 
-    public void OffAll()
+    public void TryShow(SwitchInfo[] switchInfos)
+    {
+        int allPrice = 0;
+        int allPriceAdditional = 0;
+        foreach (var switchInfo in switchInfos)
+        {
+            allPrice += switchInfo.Price;
+            allPriceAdditional += switchInfo.AdditionalPrice;
+        }
+        if (allPrice > 0 && allPriceAdditional > 0)
+        {
+            // SetMonetAndHeartsMode(allPrice, allPriceAdditional);
+            SetMonetsAndHeartsMode();
+        }
+        else if (allPrice > 0)
+        {
+            // SetMonetMode(allPrice);
+            SetMonetsMode();
+        }
+        else if(allPriceAdditional > 0)
+        {
+            // SetHeartsMode(additionalPrice);
+            SetHeartsMode();
+        }
+        else
+        {
+            OffAll();
+        }
+    }
+
+    private void OffAll()
     {
         _monetResourcePanelWithCanvasGroupView.gameObject.SetActive(false);
         _heartsResourcePanelWithCanvasGroupView.gameObject.SetActive(false);
@@ -35,7 +65,6 @@ public class LevelResourceHandler
     public async UniTask AnimShowPanelMonets(CancellationToken cancellationToken, float duration)
     {
         await DoAnimPanel(_monetResourcePanelWithCanvasGroupView, cancellationToken, duration, LevelResourceHandlerValues.MinValue, LevelResourceHandlerValues.MaxValue);
-        Debug.Log($"ShowMonetPanelAnim");
     }
 
     public async UniTask AnimHidePanelMonets(CancellationToken cancellationToken, float duration)
@@ -61,7 +90,6 @@ public class LevelResourceHandler
     public void ShowMonetPanel()
     {
         DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MaxValue, true);
-        Debug.Log($"ShowMonetPane");
     }
 
     public void ShowHeartsPanel()
@@ -83,12 +111,9 @@ public class LevelResourceHandler
     {
         var rectTransform = _heartsResourcePanelWithCanvasGroupView.RectTransform;
 
-        rectTransform.anchorMin = _levelResourceHandlerValues.MonetAnchorsMin; // (0, 0)
+        rectTransform.anchorMin = _levelResourceHandlerValues.MonetAnchorsMin;
         rectTransform.anchorMax = _levelResourceHandlerValues.MonetAnchorsMax;
 
-// Задаём отступы: left=50, right=30, top=20, bottom=10
-        // rectTransform.offsetMin = new Vector2(50, 10);  // left, bottom
-        // rectTransform.offsetMax = new Vector2(-30, -20); // -right, -top
         rectTransform.offsetMin = _levelResourceHandlerValues.MonetOffsetMin;
         rectTransform.offsetMax = _levelResourceHandlerValues.MonetOffsetMax;
     }

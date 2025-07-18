@@ -1,9 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
-using UnityEngine;
 
 public class ArrowSwitch
 {
@@ -15,6 +13,7 @@ public class ArrowSwitch
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
+    private readonly LevelResourceHandler _levelResourceHandler;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly StatViewHandler _statViewHandler;
@@ -30,7 +29,7 @@ public class ArrowSwitch
         StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         SwitchModeCustodian switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
-        SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
+        SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider, LevelResourceHandler levelResourceHandler, 
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -43,6 +42,7 @@ public class ArrowSwitch
         _customizationSettingsCustodian = customizationSettingsCustodian;
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
+        _levelResourceHandler = levelResourceHandler; //55
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _taskRunner = new TaskRunner();
@@ -105,11 +105,9 @@ public class ArrowSwitch
         int additionalPrice = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
-
+        _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
         SetTitle();
-
         _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
-        
         TrySwitch().Forget();
     }
 
@@ -173,7 +171,7 @@ public class ArrowSwitch
             }
         }
 
-        if (CheckAvailableMoney(price) == true)
+        if (CheckAvailableMoney(price, additionalPrice) == true)
         {
             if (_buttonPlayHandler.IsActive == false)
             {
@@ -244,9 +242,10 @@ public class ArrowSwitch
         }
     }
 
-    private bool CheckAvailableMoney(int price)
+    private bool CheckAvailableMoney(int price, int additionalPrice)
     {
-        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true)
+        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true &&
+            _priceViewHandler.CalculatePriceHandler.CheckAvailableHearts(additionalPrice) == true)
         {
             return true;
         }

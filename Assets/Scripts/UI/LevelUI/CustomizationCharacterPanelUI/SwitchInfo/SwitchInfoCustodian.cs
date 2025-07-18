@@ -18,21 +18,24 @@ public class SwitchInfoCustodian
         {
             Price  = skinPrices.Item1,
             AdditionalPrice = skinPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats
+            Stats = calculateStatsHandler.PreliminaryStats,
+            Mode = ArrowSwitchMode.SkinColor
         };
-        var hairstylesPrices = GetPrice((int)ArrowSwitchMode.Hairstyle);
+        var hairstylesPrices = GetPrice((int) ArrowSwitchMode.Hairstyle);
         HairstyleSwitchInfo = new SwitchInfo
         {
             Price  = hairstylesPrices.Item1,
             AdditionalPrice = hairstylesPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats
+            Stats = calculateStatsHandler.PreliminaryStats,
+            Mode = ArrowSwitchMode.Hairstyle
         };
         var clothesPrices = GetPrice((int) ArrowSwitchMode.Clothes);
         ClothesSwitchInfo = new SwitchInfo
         {
             Price  = clothesPrices.Item1,
             AdditionalPrice = clothesPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats
+            Stats = calculateStatsHandler.PreliminaryStats,
+            Mode = ArrowSwitchMode.Clothes
         };
         CurrentSwitchInfo = new SwitchInfo
         {
@@ -82,6 +85,10 @@ public class SwitchInfoCustodian
     public void SetPriceToCurrentSwitchInfo()
     {
         CurrentSwitchInfo.Price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
+    }
+    public void SetAdditionalPriceToCurrentSwitchInfo()
+    {
+        CurrentSwitchInfo.AdditionalPrice = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
     }
     private List<BaseStat> GetBaseStats(List<Stat> stats)
     {

@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class Wallet
 {
@@ -118,7 +119,7 @@ public class Wallet
             return false;
         }
     }
-    public bool RemoveCash(int value, bool immediately = true)
+    public (bool, int) RemoveCash(int value, bool immediately = true)
     {
         if (CashAvailable(value) == true)
         {
@@ -132,14 +133,14 @@ public class Wallet
             {
                 RemoveGradually(_monetsReactiveProperty, value).Forget();
             }
-            return true;
+            return (true, _monetsReactiveProperty.Value);
         }
         else
         {
-            return false;
+            return (false, _monetsReactiveProperty.Value);
         }
     }
-    public bool RemoveHearts(int value, bool immediately = true)
+    public (bool, int) RemoveHearts(int value, bool immediately = true)
     {
         if (HeartsAvailable(value) == true)
         {
@@ -147,17 +148,17 @@ public class Wallet
             _previousHeartsValue = _heartsReactiveProperty.Value;
             if (immediately == true)
             {
-                _monetsReactiveProperty.Value -= value;
+                _heartsReactiveProperty.Value -= value;
             }
             else
             {
-                RemoveGradually(_monetsReactiveProperty, value).Forget();
+                RemoveGradually(_heartsReactiveProperty, value).Forget();
             }
-            return true;
+            return (true, _heartsReactiveProperty.Value);
         }
         else
         {
-            return false;
+            return (false, _heartsReactiveProperty.Value);
         }
     }
 

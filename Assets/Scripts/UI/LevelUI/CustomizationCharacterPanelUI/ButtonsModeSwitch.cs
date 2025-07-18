@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UniRx;
-using UnityEngine;
 
 public class ButtonsModeSwitch
 {
@@ -15,6 +14,7 @@ public class ButtonsModeSwitch
     private readonly ButtonPlayHandler _buttonPlayHandler;
     private readonly CalculateStatsHandler _calculateStatsHandler;
     private readonly CustomizationDataProvider _customizationDataProvider;
+    private readonly LevelResourceHandler _levelResourceHandler;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private CompositeDisposable _compositeDisposable;
@@ -24,7 +24,8 @@ public class ButtonsModeSwitch
     public ButtonsModeSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
         SwitchModeCustodian switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler, CalculateStatsHandler calculateStatsHandler,
-        CustomizationDataProvider customizationDataProvider, ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
+        CustomizationDataProvider customizationDataProvider, LevelResourceHandler levelResourceHandler, 
+        ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
         _selectedCustomizationContentIndexes = selectedCustomizationContentIndexes;
@@ -37,6 +38,7 @@ public class ButtonsModeSwitch
         _buttonPlayHandler = buttonPlayHandler;
         _calculateStatsHandler = calculateStatsHandler;
         _customizationDataProvider = customizationDataProvider;
+        _levelResourceHandler = levelResourceHandler; //55
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
@@ -70,6 +72,7 @@ public class ButtonsModeSwitch
                 CalculatingPrice(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.HairstyleSwitchInfo);
                 break;
         }
+
         _switchModeCustodian.SetMode(mode);
         SetTitle();
         if (_statViewHandler.CheckViewStatToShow(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex]))
@@ -81,7 +84,7 @@ public class ButtonsModeSwitch
         {
             _statViewHandler.Hide();
         }
-        
+
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
         int priceAdditional = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         if (price == 0 && priceAdditional == 0)
@@ -93,8 +96,7 @@ public class ButtonsModeSwitch
             _priceViewHandler.Show(price, priceAdditional);
         }
 
-        
-        
+        _levelResourceHandler.TryShow(_switchInfoCustodian.GetAllInfo());
         
         if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true &&
             _priceViewHandler.CalculatePriceHandler.CheckAvailableHearts(priceAdditional) == true)
@@ -127,6 +129,7 @@ public class ButtonsModeSwitch
     private void CalculatingPrice(params SwitchInfo[] switchInfo)
     {
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
+        _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
         if (_switchModeCustodian.IsStarted == false)
         {
             _priceViewHandler.CalculatePriceHandler.PreliminaryBalanceCalculation(switchInfo);

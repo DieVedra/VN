@@ -54,17 +54,17 @@ public class CustomizationCharacterPanelUIHandler
         ReactiveProperty<bool> isNuClothesReactiveProperty = new ReactiveProperty<bool>();
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
 
-        _priceViewHandler = new PriceViewHandler(_customizationCharacterPanelUI.PriceUIView, _levelResourceHandler, calculatePriceHandler,
+        _priceViewHandler = new PriceViewHandler(_customizationCharacterPanelUI.PriceUIView, calculatePriceHandler,
              _customizationCharacterPanelUI.DurationAnimPriceView);
         
         _buttonsModeSwitch = new ButtonsModeSwitch(characterCustomizationView, selectedCustomizationContentIndexes, switchModeCustodian,
             _customizationCharacterPanelUI.TitleText, _statViewHandler, _priceViewHandler, customizationSettingsCustodian, switchInfoCustodian,
-            ButtonPlayHandler, calculateStatsHandler, customizationDataProvider, isNuClothesReactiveProperty, setLocalizationChangeEvent);
+            ButtonPlayHandler, calculateStatsHandler, customizationDataProvider, _levelResourceHandler, isNuClothesReactiveProperty, setLocalizationChangeEvent);
         
         
         _arrowSwitch = new ArrowSwitch(characterCustomizationView, selectedCustomizationContentIndexes, _statViewHandler, _priceViewHandler,
             _customizationCharacterPanelUI.TitleText, ButtonPlayHandler, switchModeCustodian, customizationSettingsCustodian, switchInfoCustodian,
-            customizationDataProvider, isNuClothesReactiveProperty, setLocalizationChangeEvent);
+            customizationDataProvider, _levelResourceHandler, isNuClothesReactiveProperty, setLocalizationChangeEvent);
         
         _buttonsCustomizationHandler = new ButtonsCustomizationHandler(_customizationCharacterPanelUI, _arrowSwitch, _buttonsModeSwitch,
             calculateStatsHandler, _priceViewHandler, switchInfoCustodian);

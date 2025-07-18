@@ -13,4 +13,13 @@ public class CustomizationResult
         PreliminaryMonet = preliminaryMonet;
         PreliminaryHearts = preliminaryHearts;
     }
+
+    public int GetRemovedValueMonets(int monets)
+    {
+        return monets -= PreliminaryMonet;
+    }
+    public int GetRemovedValueHearts(int hearts)
+    {
+        return hearts -= PreliminaryHearts;
+    }
 }

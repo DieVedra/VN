@@ -71,6 +71,8 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     public override async UniTask Enter(bool isMerged = false)
     {
+        Debug.Log($"111111  _wallet.Monets {_wallet.Monets} _wallet.Hearts {_wallet.Hearts}");
+
         CancellationTokenSource = new CancellationTokenSource();
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         _wardrobeCharacterViewer.gameObject.SetActive(true);
@@ -140,8 +142,8 @@ public class CustomizationNode : BaseNode, ILocalizable
     {
         // PS engage
         _gameStatsProvider.GameStatsHandler.UpdateStat(customizationResult.Stats);
-        _wallet.RemoveCash(_wallet.Monets - customizationResult.PreliminaryMonet);
-        _wallet.RemoveHearts(_wallet.Monets - customizationResult.PreliminaryHearts);
+        _wallet.RemoveCash(customizationResult.GetRemovedValueMonets(_wallet.Monets));
+        _wallet.RemoveHearts(customizationResult.GetRemovedValueHearts(_wallet.Hearts));
         SwitchToNextNodeEvent.Execute();
     }
 
