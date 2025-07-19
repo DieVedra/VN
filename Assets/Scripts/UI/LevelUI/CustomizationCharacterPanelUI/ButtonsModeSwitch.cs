@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UniRx;
+using UnityEngine;
 
 public class ButtonsModeSwitch
 {
@@ -13,18 +14,22 @@ public class ButtonsModeSwitch
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ButtonPlayHandler _buttonPlayHandler;
     private readonly CalculateStatsHandler _calculateStatsHandler;
+    private readonly CalculatePriceHandler _calculatePriceHandler;
     private readonly CustomizationDataProvider _customizationDataProvider;
-    private readonly LevelResourceHandler _levelResourceHandler;
+    private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
+    private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
-    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private CompositeDisposable _compositeDisposable;
     private int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
 
 
-    public ButtonsModeSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
+    public ButtonsModeSwitch(
+        ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
         SwitchModeCustodian switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
-        CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler, CalculateStatsHandler calculateStatsHandler,
-        CustomizationDataProvider customizationDataProvider, LevelResourceHandler levelResourceHandler, 
+        CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler,
+        CalculateStatsHandler calculateStatsHandler, CalculatePriceHandler calculatePriceHandler,
+        CustomizationDataProvider customizationDataProvider, CustomizationPanelResourceHandler customizationPanelResourceHandler,
+        CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -37,11 +42,12 @@ public class ButtonsModeSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _buttonPlayHandler = buttonPlayHandler;
         _calculateStatsHandler = calculateStatsHandler;
+        _calculatePriceHandler = calculatePriceHandler;
         _customizationDataProvider = customizationDataProvider;
-        _levelResourceHandler = levelResourceHandler; //55
+        _customizationPanelResourceHandler = customizationPanelResourceHandler; //55
+        _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
-        _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _compositeDisposable = _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
     public void Dispose()
@@ -85,6 +91,7 @@ public class ButtonsModeSwitch
             _statViewHandler.Hide();
         }
 
+        _customizationPanelResourceAndPricePanelBroker.CalculateAndSetMode(_switchInfoCustodian.GetAllInfo());
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
         int priceAdditional = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         if (price == 0 && priceAdditional == 0)
@@ -96,10 +103,10 @@ public class ButtonsModeSwitch
             _priceViewHandler.Show(price, priceAdditional);
         }
 
-        _levelResourceHandler.TryShow(_switchInfoCustodian.GetAllInfo());
+        _customizationPanelResourceHandler.TryShowOrHidePanelOnButtonsSwitch(_customizationPanelResourceAndPricePanelBroker.CurrentResourcesViewMode);
         
-        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true &&
-            _priceViewHandler.CalculatePriceHandler.CheckAvailableHearts(priceAdditional) == true)
+        if (_calculatePriceHandler.CheckAvailableMoney(price) == true &&
+            _calculatePriceHandler.CheckAvailableHearts(priceAdditional) == true)
         {
             _buttonPlayHandler.On();
         }
@@ -121,19 +128,22 @@ public class ButtonsModeSwitch
     private void CalculatingStats(params SwitchInfo[] switchInfo)
     {
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
-        if (_switchModeCustodian.IsStarted == false)
-        {
-            _calculateStatsHandler.PreliminaryStatsCalculation(switchInfo);
-        }
+        // if (_switchModeCustodian.IsStarted == false)
+        // {
+        // }
+
+        _calculateStatsHandler.PreliminaryStatsCalculation(switchInfo);
     }
     private void CalculatingPrice(params SwitchInfo[] switchInfo)
     {
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
-        if (_switchModeCustodian.IsStarted == false)
-        {
-            _priceViewHandler.CalculatePriceHandler.PreliminaryBalanceCalculation(switchInfo);
-        }
+        // if (_switchModeCustodian.IsStarted == false)
+        // {
+        //     Debug.Log(111);
+        // }
+
+        _calculatePriceHandler.PreliminaryBalanceCalculation(switchInfo);
     }
     private void CheckAndSetClothes()
     {

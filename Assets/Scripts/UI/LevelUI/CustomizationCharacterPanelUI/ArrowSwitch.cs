@@ -13,7 +13,8 @@ public class ArrowSwitch
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
-    private readonly LevelResourceHandler _levelResourceHandler;
+    private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
+    private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly StatViewHandler _statViewHandler;
@@ -29,7 +30,8 @@ public class ArrowSwitch
         StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         SwitchModeCustodian switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
-        SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider, LevelResourceHandler levelResourceHandler, 
+        SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
+        CustomizationPanelResourceHandler customizationPanelResourceHandler, CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -42,7 +44,8 @@ public class ArrowSwitch
         _customizationSettingsCustodian = customizationSettingsCustodian;
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
-        _levelResourceHandler = levelResourceHandler; //55
+        _customizationPanelResourceHandler = customizationPanelResourceHandler;
+        _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _taskRunner = new TaskRunner();
@@ -106,6 +109,7 @@ public class ArrowSwitch
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
+        _customizationPanelResourceAndPricePanelBroker.CalculateAndSetMode(_switchInfoCustodian.GetAllInfo());
         SetTitle();
         _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
         TrySwitch().Forget();
@@ -170,7 +174,11 @@ public class ArrowSwitch
                 taskRunner.AddOperationToList(() => _priceViewHandler.HideAnim());
             }
         }
+        
+        taskRunner.AddOperationToList(
+            () => _customizationPanelResourceHandler.TryShowOrHideOnArrowsSwitch(_customizationPanelResourceAndPricePanelBroker.CurrentResourcesViewMode));
 
+        
         if (CheckAvailableMoney(price, additionalPrice) == true)
         {
             if (_buttonPlayHandler.IsActive == false)

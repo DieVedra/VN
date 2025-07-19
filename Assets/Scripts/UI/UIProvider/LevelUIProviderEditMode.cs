@@ -30,8 +30,7 @@ public class LevelUIProviderEditMode
 
         ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
-        LevelResourceHandler levelResourceHandler = new LevelResourceHandler(levelUIView.MonetPanel, levelUIView.HeartsPanel);
-        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, levelResourceHandler);
+        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, levelUIView);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         if (Application.isPlaying)
         {

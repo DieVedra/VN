@@ -1,5 +1,5 @@
 ﻿
 public enum ResourcesViewMode
 {
-    MonetMode, HeartsMode, MonetsAndHeartsMode
+    MonetMode = 0, HeartsMode = 1, MonetsAndHeartsMode = 2, Hide = 3
 }
