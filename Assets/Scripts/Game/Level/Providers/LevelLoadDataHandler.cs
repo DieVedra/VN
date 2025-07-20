@@ -60,7 +60,7 @@ public class LevelLoadDataHandler
         AudioClipProvider.Dispose();
         BackgroundDataProvider.Dispose();
     }
-    public async UniTask LoadFirstSeriaContent()
+    public async UniTask LoadStartSeriaContent()
     {
         BackgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
         {

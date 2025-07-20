@@ -1,24 +1,24 @@
 ﻿using UniRx;
 
-public class CalculatePriceHandler
+public class CalculateBalanceHandler
 {
     private readonly ReactiveProperty<int> _monets;
     private readonly ReactiveProperty<int> _hearts;
-    
+    private readonly SwitchInfoCustodian _switchInfoCustodian;
+
     private readonly ReactiveProperty<int> _monetsToShow;
     private readonly ReactiveProperty<int> _heartsToShow;
-
-    private SwitchInfo[] _lastSwitchInfo;
     public ReactiveProperty<int> MonetsToShowReactiveProperty => _monetsToShow;
     public ReactiveProperty<int> HeartsToShowReactiveProperty => _heartsToShow;
     public int MonetsToShow => _monetsToShow.Value;
     public int HeartsToShow => _heartsToShow.Value;
     
-    public CalculatePriceHandler(ReactiveProperty<int> monets, ReactiveProperty<int> hearts)
+    public CalculateBalanceHandler(ReactiveProperty<int> monets, ReactiveProperty<int> hearts, SwitchInfoCustodian switchInfoCustodian)
     {
         _monets = monets;
         _hearts = hearts;
-        
+        _switchInfoCustodian = switchInfoCustodian;
+
         _monetsToShow = new ReactiveProperty<int>(monets.Value);
         _heartsToShow = new ReactiveProperty<int>(hearts.Value);
         
@@ -30,12 +30,6 @@ public class CalculatePriceHandler
         {
             PreliminaryBalanceCalculation();
         });
-    }
-    
-    public void PreliminaryBalanceCalculation(params SwitchInfo[] switchInfo)
-    {
-        _lastSwitchInfo = switchInfo;
-        PreliminaryBalanceCalculation();
     }
     public bool CheckAvailableMoney(int price)
     {
@@ -62,18 +56,17 @@ public class CalculatePriceHandler
         }
     }
 
-    private void PreliminaryBalanceCalculation()
+    public void PreliminaryBalanceCalculation()
     {
         int monetsToShow = _monets.Value;
         int heartsToShow = _hearts.Value;
-        if (_lastSwitchInfo != null)
+
+        for (int i = 0; i < _switchInfoCustodian.GetAllInfo.Count; i++)
         {
-            for (int i = 0; i < _lastSwitchInfo.Length; i++)
-            {
-                monetsToShow -= _lastSwitchInfo[i].Price;
-                heartsToShow -= _lastSwitchInfo[i].AdditionalPrice;
-            }
+            monetsToShow -= _switchInfoCustodian.GetAllInfo[i].Price;
+            heartsToShow -= _switchInfoCustodian.GetAllInfo[i].AdditionalPrice;
         }
+
         _monetsToShow.Value = monetsToShow;
         _heartsToShow.Value = heartsToShow;
     }

@@ -8,20 +8,20 @@ public class PriceViewHandler
     private readonly float _duration;
     private readonly PriceViewHandlerValues _values;
     private readonly PriceUIView _priceUIView;
-    private readonly CalculatePriceHandler _calculatePriceHandler;
+    private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly ReactiveProperty<ResourcesViewMode> _resourcesViewModeReactiveProperty;
 
     private CancellationTokenSource _cancellationTokenSource;
 
     private bool _panelIsShowed;
     public bool PanelIsShowed => _panelIsShowed;
-    public CalculatePriceHandler CalculatePriceHandler => _calculatePriceHandler;
+    public CalculateBalanceHandler CalculateBalanceHandler => _calculateBalanceHandler;
     public PriceViewHandler(PriceUIView priceUIView,
-        CalculatePriceHandler calculatePriceHandler,
+        CalculateBalanceHandler calculateBalanceHandler,
         ReactiveProperty<ResourcesViewMode> resourcesViewModeReactiveProperty, float duration)
     {
         _priceUIView = priceUIView;
-        _calculatePriceHandler = calculatePriceHandler;
+        _calculateBalanceHandler = calculateBalanceHandler;
         _resourcesViewModeReactiveProperty = resourcesViewModeReactiveProperty;
         _panelIsShowed = false;
         _duration = duration;

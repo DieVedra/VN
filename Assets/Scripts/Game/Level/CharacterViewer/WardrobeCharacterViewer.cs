@@ -5,9 +5,15 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
 {
     private const int _sortingOrderDefaultValue = 0;
     private const int _sortingOrderAddableValue = 5;
-    private readonly Vector3 _wardrobePosition = new Vector3(-0.58f,3.12f,0f);
-    private readonly Vector2 _viewerPosition = new Vector2(0f, -0.6f);
+    private const float _viewerPositionX = 0f;
+    private const float _viewerPositionY = -0.6f;
+    private const float _wardrobePositionX = -0.58f;
+    private const float _wardrobePositionY = 3.12f;
+    private const float _wardrobePositionZ = 0f;
+    private readonly Vector3 _wardrobePosition = new Vector3(_wardrobePositionX, _wardrobePositionY, _wardrobePositionZ);
+    private readonly Vector2 _viewerPosition = new Vector2(_viewerPositionX, _viewerPositionY);
     private SpriteViewer _spriteViewer2;
+    private ParticleSystem _particleSystem;
     public int CustomizableCharacterIndex { get; private set; }
 
     public override void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
@@ -50,6 +56,15 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         _spriteViewer2.SetCharacterView(newCustomizationData);
     }
 
+    public void InitParticleSystem(ParticleSystem particleSystem)
+    {
+        _particleSystem = particleSystem;
+    }
+
+    public void PlayPSEndCustomizationEffect()
+    {
+        _particleSystem.Play();
+    }
     protected override void TryInitViewer(SpriteViewer spriteViewer)
     {
         SpriteRenderer spriteRenderer = spriteViewer.GetComponent<SpriteRenderer>();

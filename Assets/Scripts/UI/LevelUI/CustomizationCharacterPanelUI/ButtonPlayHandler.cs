@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ButtonPlayHandler
 {
+    private const float _onValue = 1f;
+    private const float _offValue = 0.5f;
     private readonly float _duration;
     private readonly CanvasGroup _buttonCanvasGroup;
     private CancellationTokenSource _cancellationTokenSource;
@@ -27,9 +29,9 @@ public class ButtonPlayHandler
         if (IsActive == false)
         {       
             _cancellationTokenSource = new CancellationTokenSource();
-            _buttonCanvasGroup.alpha = 0.5f;
+            _buttonCanvasGroup.alpha = _offValue;
             _buttonCanvasGroup.blocksRaycasts = false;
-            await _buttonCanvasGroup.DOFade(1f, _duration).WithCancellation(_cancellationTokenSource.Token);
+            await _buttonCanvasGroup.DOFade(_onValue, _duration).WithCancellation(_cancellationTokenSource.Token);
             _buttonCanvasGroup.blocksRaycasts = true;
             IsActive = true;
         }
@@ -39,20 +41,20 @@ public class ButtonPlayHandler
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _buttonCanvasGroup.blocksRaycasts = false;
-        await _buttonCanvasGroup.DOFade(0.5f, _duration).WithCancellation(_cancellationTokenSource.Token);
+        await _buttonCanvasGroup.DOFade(_offValue, _duration).WithCancellation(_cancellationTokenSource.Token);
         IsActive = false;
     }
 
     public void On()
     {
-        _buttonCanvasGroup.alpha = 1f;
+        _buttonCanvasGroup.alpha = _onValue;
         _buttonCanvasGroup.blocksRaycasts = true;
         IsActive = true;
     }
 
     public void Off()
     {
-        _buttonCanvasGroup.alpha = 0.5f;
+        _buttonCanvasGroup.alpha = _offValue;
         _buttonCanvasGroup.blocksRaycasts = false;
         IsActive = false;
     }

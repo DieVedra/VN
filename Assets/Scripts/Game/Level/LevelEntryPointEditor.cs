@@ -10,7 +10,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
-
+    [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField] private BlackFrameView _blackFrameView;
     [SerializeField] private CharacterProviderEditMode _characterProviderEditMode;
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
@@ -70,7 +70,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground();
         InitLevelUIProvider();
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
-            CharacterViewer, WardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
+            CharacterViewer, _wardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
         
         DisableNodesContentEvent.Execute();
@@ -120,7 +120,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.Stats = _seriaGameStatsProviderEditor.GetAllStatsToSave();
             StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
-            StoryData.CustomizableCharacterIndex = WardrobeCharacterViewer.CustomizableCharacterIndex;
+            StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
             StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacters);
@@ -138,7 +138,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
-        WardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
+        _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
+        if (Application.isPlaying)
+        {
+            var wardrobePS = PrefabsProvider.WardrobePSProvider.CreateWardrobePS(_wardrobeCharacterViewer.transform);
+            _wardrobeCharacterViewer.InitParticleSystem(wardrobePS);
+        }
     }
 
     protected override void InitGlobalSound()

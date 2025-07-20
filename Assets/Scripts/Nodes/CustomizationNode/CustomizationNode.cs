@@ -85,10 +85,11 @@ public class CustomizationNode : BaseNode, ILocalizable
     public override async UniTask Exit()
     {
         CancellationTokenSource = new CancellationTokenSource();
+
+        await _customizationCharacterPanelUIHandler.HideCustomizationContentInPlayMode();
         await UniTask.WhenAll(
             _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music),
-            _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
-            _customizationCharacterPanelUIHandler.ButtonPlayHandler.OffAnim());
+            _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token));
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
 
         _customizationCharacterPanelUIHandler.Dispose();
@@ -125,8 +126,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         if (IsPlayMode())
         {
             _customizationCharacterPanelUIHandler.ShowCustomizationContentInPlayMode(
-                _wardrobeCharacterViewer, _selectedCustomizationContentIndexes,
-                new CalculatePriceHandler(_wallet.MonetsReactiveProperty, _wallet.HeartsReactiveProperty),
+                _wardrobeCharacterViewer, _selectedCustomizationContentIndexes, _wallet,
                 new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()),
                 SetLocalizationChangeEvent);
         }
@@ -139,6 +139,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     private void CustomizationEnd(CustomizationResult customizationResult)
     {
         // PS engage
+        _wardrobeCharacterViewer.PlayPSEndCustomizationEffect();
         _gameStatsProvider.GameStatsHandler.UpdateStat(customizationResult.Stats);
         _wallet.RemoveCash(customizationResult.GetRemovedValueMonets(_wallet.Monets));
         _wallet.RemoveHearts(customizationResult.GetRemovedValueHearts(_wallet.Hearts));

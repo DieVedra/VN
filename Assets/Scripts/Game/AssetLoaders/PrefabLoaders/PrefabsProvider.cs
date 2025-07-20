@@ -10,6 +10,7 @@ public class PrefabsProvider
     public WardrobeCharacterViewerAssetProvider WardrobeCharacterViewerAssetProvider  { get; private set; }
 
     public SpriteRendererAssetProvider SpriteRendererAssetProvider  { get; private set; }
+    public WardrobePSProvider WardrobePSProvider { get; private set; }
 
     public bool IsInitialized { get; private set; }
 
@@ -19,6 +20,7 @@ public class PrefabsProvider
         CustomizationCharacterPanelAssetProvider = new CustomizationCharacterPanelAssetProvider();
         WardrobeCharacterViewerAssetProvider = new WardrobeCharacterViewerAssetProvider();
         SpriteRendererAssetProvider = new SpriteRendererAssetProvider();
+        WardrobePSProvider = new WardrobePSProvider();
     }
 
 
@@ -28,7 +30,7 @@ public class PrefabsProvider
         await SpriteViewerAssetProvider.LoadSpriteViewerPrefab();
         await CustomizationCharacterPanelAssetProvider.LoadCustomizationCharacterPanel();
         await WardrobeCharacterViewerAssetProvider.LoadWardrobeCharacterViewerPrefab();
-        
+        await WardrobePSProvider.LoadWardrobePSPrefab();
         IsInitialized = true;
     }
 }

@@ -1,12 +1,11 @@
 ﻿using TMPro;
 using UniRx;
-using UnityEngine;
 
 public class ButtonsModeSwitch
 {
     private readonly ICharacterCustomizationView _characterCustomizationView;
     private readonly SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
-    private readonly SwitchModeCustodian _switchModeCustodian;
+    private readonly ReactiveProperty<ArrowSwitchMode> _switchModeCustodian;
     private readonly TextMeshProUGUI _titleTextComponent;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
@@ -14,7 +13,7 @@ public class ButtonsModeSwitch
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ButtonPlayHandler _buttonPlayHandler;
     private readonly CalculateStatsHandler _calculateStatsHandler;
-    private readonly CalculatePriceHandler _calculatePriceHandler;
+    private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
     private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
@@ -25,9 +24,9 @@ public class ButtonsModeSwitch
 
     public ButtonsModeSwitch(
         ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
-        SwitchModeCustodian switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
+        ReactiveProperty<ArrowSwitchMode> switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler,
-        CalculateStatsHandler calculateStatsHandler, CalculatePriceHandler calculatePriceHandler,
+        CalculateStatsHandler calculateStatsHandler, CalculateBalanceHandler calculateBalanceHandler,
         CustomizationDataProvider customizationDataProvider, CustomizationPanelResourceHandler customizationPanelResourceHandler,
         CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
@@ -42,9 +41,9 @@ public class ButtonsModeSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _buttonPlayHandler = buttonPlayHandler;
         _calculateStatsHandler = calculateStatsHandler;
-        _calculatePriceHandler = calculatePriceHandler;
+        _calculateBalanceHandler = calculateBalanceHandler;
         _customizationDataProvider = customizationDataProvider;
-        _customizationPanelResourceHandler = customizationPanelResourceHandler; //55
+        _customizationPanelResourceHandler = customizationPanelResourceHandler;
         _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
@@ -62,24 +61,20 @@ public class ButtonsModeSwitch
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.BodySwitchInfo);
                 SetCurrentCustomizationSettingses((int) mode);
                 CalculatingStats(_switchInfoCustodian.HairstyleSwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
-                CalculatingPrice(_switchInfoCustodian.HairstyleSwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
                 break;
             case ArrowSwitchMode.Hairstyle:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.HairstyleSwitchInfo);
                 SetCurrentCustomizationSettingses((int) mode);
                 CalculatingStats(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
-                CalculatingPrice(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
-
                 break;
             case ArrowSwitchMode.Clothes:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.ClothesSwitchInfo);
                 CheckAndSetClothes();
                 CalculatingStats(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.HairstyleSwitchInfo);
-                CalculatingPrice(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.HairstyleSwitchInfo);
                 break;
         }
-
-        _switchModeCustodian.SetMode(mode);
+        CalculatingPrice();
+        _switchModeCustodian.Value = mode;
         SetTitle();
         if (_statViewHandler.CheckViewStatToShow(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex]))
         {
@@ -91,7 +86,7 @@ public class ButtonsModeSwitch
             _statViewHandler.Hide();
         }
 
-        _customizationPanelResourceAndPricePanelBroker.CalculateAndSetMode(_switchInfoCustodian.GetAllInfo());
+        _customizationPanelResourceAndPricePanelBroker.CalculateModeAndSet();
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
         int priceAdditional = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         if (price == 0 && priceAdditional == 0)
@@ -105,8 +100,8 @@ public class ButtonsModeSwitch
 
         _customizationPanelResourceHandler.TryShowOrHidePanelOnButtonsSwitch(_customizationPanelResourceAndPricePanelBroker.CurrentResourcesViewMode);
         
-        if (_calculatePriceHandler.CheckAvailableMoney(price) == true &&
-            _calculatePriceHandler.CheckAvailableHearts(priceAdditional) == true)
+        if (_calculateBalanceHandler.CheckAvailableMoney(price) == true &&
+            _calculateBalanceHandler.CheckAvailableHearts(priceAdditional) == true)
         {
             _buttonPlayHandler.On();
         }
@@ -128,22 +123,13 @@ public class ButtonsModeSwitch
     private void CalculatingStats(params SwitchInfo[] switchInfo)
     {
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
-        // if (_switchModeCustodian.IsStarted == false)
-        // {
-        // }
-
         _calculateStatsHandler.PreliminaryStatsCalculation(switchInfo);
     }
-    private void CalculatingPrice(params SwitchInfo[] switchInfo)
+    private void CalculatingPrice()
     {
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
-        // if (_switchModeCustodian.IsStarted == false)
-        // {
-        //     Debug.Log(111);
-        // }
-
-        _calculatePriceHandler.PreliminaryBalanceCalculation(switchInfo);
+        _calculateBalanceHandler.PreliminaryBalanceCalculation();
     }
     private void CheckAndSetClothes()
     {

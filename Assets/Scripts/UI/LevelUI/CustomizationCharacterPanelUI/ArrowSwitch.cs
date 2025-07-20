@@ -9,17 +9,15 @@ public class ArrowSwitch
     private readonly SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private readonly TextMeshProUGUI _titleTextComponent;
     private readonly ButtonPlayHandler _buttonPlayHandler;
-    private readonly SwitchModeCustodian _switchModeCustodian;
+    private readonly ReactiveProperty<ArrowSwitchMode> _switchModeCustodian;
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
     private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
-    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
-    private readonly TaskRunner _taskRunner;
     private CompositeDisposable _compositeDisposable;
     private bool _isSwitched;
 
@@ -29,7 +27,7 @@ public class ArrowSwitch
     public ArrowSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
         StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
-        SwitchModeCustodian switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
+        ReactiveProperty<ArrowSwitchMode> switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
         SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
         CustomizationPanelResourceHandler customizationPanelResourceHandler, CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
@@ -47,11 +45,9 @@ public class ArrowSwitch
         _customizationPanelResourceHandler = customizationPanelResourceHandler;
         _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
-        _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _taskRunner = new TaskRunner();
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
-        _compositeDisposable = _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
     public void Dispose()
@@ -109,7 +105,8 @@ public class ArrowSwitch
         _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
-        _customizationPanelResourceAndPricePanelBroker.CalculateAndSetMode(_switchInfoCustodian.GetAllInfo());
+
+        _customizationPanelResourceAndPricePanelBroker.CalculateModeAndSet();
         SetTitle();
         _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
         TrySwitch().Forget();
@@ -197,7 +194,7 @@ public class ArrowSwitch
     }
     private void SetChangedCustomizationIndexes()
     {
-        switch (_switchModeCustodian.Mode)
+        switch (_switchModeCustodian.Value)
         {
             case ArrowSwitchMode.SkinColor:
                 _selectedCustomizationContentIndexes.CustomizableCharacter.SetBodyIndex(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Index);
@@ -252,8 +249,8 @@ public class ArrowSwitch
 
     private bool CheckAvailableMoney(int price, int additionalPrice)
     {
-        if (_priceViewHandler.CalculatePriceHandler.CheckAvailableMoney(price) == true &&
-            _priceViewHandler.CalculatePriceHandler.CheckAvailableHearts(additionalPrice) == true)
+        if (_priceViewHandler.CalculateBalanceHandler.CheckAvailableMoney(price) == true &&
+            _priceViewHandler.CalculateBalanceHandler.CheckAvailableHearts(additionalPrice) == true)
         {
             return true;
         }

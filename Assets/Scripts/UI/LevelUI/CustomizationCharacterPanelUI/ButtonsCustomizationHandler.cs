@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +13,10 @@ public class ButtonsCustomizationHandler
     private readonly PriceViewHandler _priceViewHandler;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
 
-    public ButtonsCustomizationHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, ArrowSwitch arrowSwitch, ButtonsModeSwitch buttonsModeSwitch,
-        CalculateStatsHandler calculateStatsHandler, PriceViewHandler priceViewHandler, SwitchInfoCustodian switchInfoCustodian)
+    public ButtonsCustomizationHandler(
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, ArrowSwitch arrowSwitch, ButtonsModeSwitch buttonsModeSwitch,
+        CalculateStatsHandler calculateStatsHandler, PriceViewHandler priceViewHandler,
+        SwitchInfoCustodian switchInfoCustodian)
     {
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
         _arrowSwitch = arrowSwitch;
@@ -74,9 +75,9 @@ public class ButtonsCustomizationHandler
         
         _customizationCharacterPanelUI.PlayButton.onClick.AddListener(() =>
         {
-            var res = GetMoneyToResult();
-            customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), res.Item1, res.Item2));
             DeactivateButtonsCustomization();
+            customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), 
+                _priceViewHandler.CalculateBalanceHandler.MonetsToShow, _priceViewHandler.CalculateBalanceHandler.HeartsToShow));
         });
 
         SetStartModeCustomization(selectedCustomizationContentIndexes.StartMode);
@@ -192,15 +193,9 @@ public class ButtonsCustomizationHandler
         }
     }
 
-    private (int, int) GetMoneyToResult()
-    {
-        _priceViewHandler.CalculatePriceHandler.PreliminaryBalanceCalculation(_switchInfoCustodian.GetAllInfo());
-        return (_priceViewHandler.CalculatePriceHandler.MonetsToShow, _priceViewHandler.CalculatePriceHandler.HeartsToShow);
-    }
-
     private List<BaseStat> GetStatsToResult()
     {
-        _calculateStatsHandler.PreliminaryStatsCalculation(_switchInfoCustodian.GetAllInfo());
+        _calculateStatsHandler.PreliminaryStatsCalculation(_switchInfoCustodian.GetAllInfo);
         return _calculateStatsHandler.PreliminaryStats;
     }
 }

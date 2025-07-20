@@ -3,17 +3,20 @@
 public class SwitchInfoCustodian
 {
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
+    private readonly SwitchInfo[] _allInfo;
     public SwitchInfo CurrentSwitchInfo { get; private set; }
     public SwitchInfo BodySwitchInfo { get; private set; }
     public SwitchInfo HairstyleSwitchInfo { get; private set; }
     public SwitchInfo ClothesSwitchInfo { get; private set; }
+
+    public IReadOnlyList<SwitchInfo> GetAllInfo => _allInfo;
     public int CurrentSwitchIndex => CurrentSwitchInfo.Index;
 
     public SwitchInfoCustodian(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, CustomizationSettingsCustodian customizationSettingsCustodian,
         CalculateStatsHandler calculateStatsHandler)
     {
         _customizationSettingsCustodian = customizationSettingsCustodian;
-        var skinPrices = GetPrice((int) ArrowSwitchMode.SkinColor);
+        var skinPrices = GetPrice(ArrowSwitchMode.SkinColor);
         BodySwitchInfo = new SwitchInfo
         {
             Price  = skinPrices.Item1,
@@ -21,7 +24,7 @@ public class SwitchInfoCustodian
             Stats = calculateStatsHandler.PreliminaryStats,
             Mode = ArrowSwitchMode.SkinColor
         };
-        var hairstylesPrices = GetPrice((int) ArrowSwitchMode.Hairstyle);
+        var hairstylesPrices = GetPrice(ArrowSwitchMode.Hairstyle);
         HairstyleSwitchInfo = new SwitchInfo
         {
             Price  = hairstylesPrices.Item1,
@@ -29,7 +32,7 @@ public class SwitchInfoCustodian
             Stats = calculateStatsHandler.PreliminaryStats,
             Mode = ArrowSwitchMode.Hairstyle
         };
-        var clothesPrices = GetPrice((int) ArrowSwitchMode.Clothes);
+        var clothesPrices = GetPrice(ArrowSwitchMode.Clothes);
         ClothesSwitchInfo = new SwitchInfo
         {
             Price  = clothesPrices.Item1,
@@ -41,10 +44,10 @@ public class SwitchInfoCustodian
         {
             Stats = calculateStatsHandler.PreliminaryStats
         };
-    
-        (int,int) GetPrice(int index)
+        _allInfo = new[] {BodySwitchInfo, HairstyleSwitchInfo, ClothesSwitchInfo};
+        (int,int) GetPrice(ArrowSwitchMode mode)
         {
-            IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[index];
+            IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)mode];
             if (indexes.Count > 0)
             {
                 return (indexes[0].Price, indexes[0].PriceAdditional);
@@ -55,12 +58,6 @@ public class SwitchInfoCustodian
             }
         }
     }
-
-    public SwitchInfo[] GetAllInfo()
-    {
-        return new[] {BodySwitchInfo, HairstyleSwitchInfo, ClothesSwitchInfo};
-    }
-
     public void SetToCurrentInfo(SwitchInfo info)
     {
         CurrentSwitchInfo = info;

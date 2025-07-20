@@ -8,6 +8,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
+    private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
     private GlobalSound _globalSound;
     private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
@@ -58,7 +59,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _setLocalizationChangeEvent);
 
-        await _levelLoadDataHandler.LoadFirstSeriaContent();
+        await _levelLoadDataHandler.LoadStartSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
         if (LevelUIView.TryGetComponent(out Canvas canvas))
@@ -101,7 +102,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
-            _levelUIProviderBuildMode, CharacterViewer, WardrobeCharacterViewer,
+            _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
@@ -190,9 +191,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)
     {
-        WardrobeCharacterViewer =
+        _wardrobeCharacterViewer =
             PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);
-        WardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreator);
+        _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreator);
+        var ps = PrefabsProvider.WardrobePSProvider.CreateWardrobePS(_wardrobeCharacterViewer.transform);
+        _wardrobeCharacterViewer.InitParticleSystem(ps);
         PrefabsProvider.SpriteViewerAssetProvider.UnloadAsset();
     }
 }

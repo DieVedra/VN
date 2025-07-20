@@ -6,27 +6,29 @@ using UniRx;
 public class CustomizationPanelResourceHandler
 {
     private readonly LevelResourceHandlerValues _levelResourceHandlerValues;
+    private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly ResourcePanelWithCanvasGroupView _monetResourcePanelWithCanvasGroupView;
     private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
     private readonly float _duration;
     private ResourcesViewMode _currentResourcesViewMode;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
-    public CustomizationPanelResourceHandler(ReactiveProperty<int> monetsToShow, ReactiveProperty<int> heartsToShow,
+    public CustomizationPanelResourceHandler(CalculateBalanceHandler calculateBalanceHandler, 
         ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView, ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView,
         float duration)
     {
+        _calculateBalanceHandler = calculateBalanceHandler;
         _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
         _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
         _duration = duration;
         _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
         _compositeDisposable = new CompositeDisposable();
-        monetsToShow.Subscribe(_ =>
+        calculateBalanceHandler.MonetsToShowReactiveProperty.Subscribe(_ =>
         {
             _monetResourcePanelWithCanvasGroupView.Text.text = _.ToString();
         }).AddTo(_compositeDisposable);
         
-        heartsToShow.Subscribe(_ =>
+        calculateBalanceHandler.HeartsToShowReactiveProperty.Subscribe(_ =>
         {
             _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();
         }).AddTo(_compositeDisposable);
@@ -66,8 +68,8 @@ public class CustomizationPanelResourceHandler
 
     public async UniTask TryShowOrHideOnArrowsSwitch(ResourcesViewMode resourcesViewMode)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
         await TryHidePanel();
+        _calculateBalanceHandler.PreliminaryBalanceCalculation();
         switch (resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
@@ -137,8 +139,9 @@ public class CustomizationPanelResourceHandler
             .WithCancellation(cancellationToken);
     }
 
-    private async UniTask TryHidePanel()
+    public async UniTask TryHidePanel()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
         switch (_currentResourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:

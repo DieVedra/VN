@@ -3,8 +3,6 @@
 public abstract class LevelEntryPoint : MonoBehaviour
 {
     [SerializeField] protected CharacterViewer CharacterViewer;
-    [SerializeField] protected WardrobeCharacterViewer WardrobeCharacterViewer;
-
     [SerializeField] protected LevelUIView LevelUIView;
 
     [SerializeField] protected bool LoadSaveData;
