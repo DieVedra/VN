@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class CustomizationNodeInitializer : MyNodeInitializer
 {
@@ -58,10 +59,15 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         IReadOnlyList<CustomizationSettings> settingsSwimsuits,
         CustomizableCharacter customizableCharacter)
     {
-        return new SelectedCustomizationContentIndexes(settingsBodies.Where(n => n.KeyAdd == true).ToList(), 
-            settingsHairstyles.Where(n => n.KeyAdd == true).ToList(),
-            GetRenamedFieldsToView(settingsClothes, customizableCharacter.ClothesData), 
-            GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData),
+        List<CustomizationSettings> spriteIndexesBodies = settingsBodies.Where(x=>x.KeyAdd == true).ToList();
+        List<CustomizationSettings> spriteIndexesHairstyles = settingsHairstyles.Where(x=>x.KeyAdd == true).ToList();
+        List<CustomizationSettings> spriteIndexesClothes = GetRenamedFieldsToView(settingsClothes, customizableCharacter.ClothesData);
+        List<CustomizationSettings> spriteIndexesSwimsuits = GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData);
+        return new SelectedCustomizationContentIndexes(
+            spriteIndexesBodies, 
+            spriteIndexesHairstyles,
+            spriteIndexesClothes, 
+            spriteIndexesSwimsuits,
             customizableCharacter);
     }
     private static List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)

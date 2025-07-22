@@ -8,13 +8,17 @@ public class ChoiceData
     public readonly int Choice1Price;
     public readonly int Choice2Price;
     public readonly int Choice3Price;
-
+    
+    public readonly int Choice1AdditionaryPrice;
+    public readonly int Choice2AdditionaryPrice;
+    public readonly int Choice3AdditionaryPrice;
+    
     public readonly int TimerValue;
     
     public readonly bool ShowChoice3;
 
-    public ChoiceData(string text1, float choice1Price,
-        string text2, float choice2Price, int timerValue)
+    public ChoiceData(string text1, float choice1Price, float choice1AdditionaryPrice,
+        string text2, float choice2Price, float choice2AdditionaryPrice, int timerValue)
     {
         Text1 = text1;
         Text2 = text2;
@@ -22,13 +26,15 @@ public class ChoiceData
         ShowChoice3 = false;
         Choice1Price = (int)choice1Price;
         Choice2Price = (int)choice2Price;
-        Choice3Price = 0;
+        Choice3AdditionaryPrice = Choice3Price = 0;
+        Choice1AdditionaryPrice = (int)choice1AdditionaryPrice;
+        Choice2AdditionaryPrice = (int)choice2AdditionaryPrice;
         TimerValue = timerValue;
     }
 
-    public ChoiceData(string text1, float choice1Price,
-        string text2, float choice2Price,
-        string text3, float choice3Price,
+    public ChoiceData(string text1, float choice1Price, float choice1AdditionaryPrice,
+        string text2, float choice2Price, float choice2AdditionaryPrice,
+        string text3, float choice3Price, float choice3AdditionaryPrice,
         int timerValue)
     {
         Text1 = text1;
@@ -38,6 +44,9 @@ public class ChoiceData
         Choice1Price = (int)choice1Price;
         Choice2Price = (int)choice2Price;
         Choice3Price = (int)choice3Price;
+        Choice1AdditionaryPrice = (int)choice1AdditionaryPrice;
+        Choice2AdditionaryPrice = (int)choice2AdditionaryPrice;
+        Choice3AdditionaryPrice = (int)choice3AdditionaryPrice;
         TimerValue = timerValue;
     }
 }

@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using TMPro;
 using UniRx;
 
 public class CustomizationCharacterPanelUIHandler
 {
     private const float _delay = 0.5f;
-    private const string _default = "0";
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     private readonly ResourcePanelWithCanvasGroupView _monetPanel;
     private readonly ResourcePanelWithCanvasGroupView _heartsPanel;
     private readonly StatViewHandler _statViewHandler;
+    private readonly ButtonPlayHandler _buttonPlayHandler;
     private CustomizationPanelResourceHandler _customizationPanelResourceHandler;
     private ButtonsCustomizationHandler _buttonsCustomizationHandler;
     private ArrowSwitch _arrowSwitch;
     private ButtonsModeSwitch _buttonsModeSwitch;
     private PriceViewHandler _priceViewHandler;
-    private ButtonPlayHandler _buttonPlayHandler;
     private CancellationTokenSource _cancellationTokenSource;
-    public ButtonsCustomizationHandler ButtonsCustomizationHandler => _buttonsCustomizationHandler;
     
     public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, LevelUIView levelUIView)
     {
@@ -33,7 +30,7 @@ public class CustomizationCharacterPanelUIHandler
 
     public void Dispose()
     {
-        _buttonsCustomizationHandler.DeactivateButtonsCustomization();
+        _buttonsCustomizationHandler.DeactivateButtonsCustomization(_customizationCharacterPanelUI);
         _arrowSwitch.Dispose();
         _buttonPlayHandler.Dispose();
         _statViewHandler.Dispose();
@@ -48,52 +45,54 @@ public class CustomizationCharacterPanelUIHandler
     }
     public void SetContentInEditMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
     {
-        SetNumbersContent(selectedCustomizationContentIndexes);
+        _buttonsCustomizationHandler.ActivateButtonsCustomization(_customizationCharacterPanelUI, selectedCustomizationContentIndexes);
         _customizationCharacterPanelUI.PriceUIView.gameObject.SetActive(true);
+        _customizationCharacterPanelUI.gameObject.SetActive(true);
     }
 
     public void ShowCustomizationContentInPlayMode(ICharacterCustomizationView characterCustomizationView,
         SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, Wallet wallet,
-        CalculateStatsHandler calculateStatsHandler, SetLocalizationChangeEvent setLocalizationChangeEvent)
+        CalculateStatsHandler calculateStatsHandler, SetLocalizationChangeEvent setLocalizationChangeEvent,
+        CustomizationEndEvent<CustomizationResult> customizationEndEvent)
     {
         _cancellationTokenSource = new CancellationTokenSource();
+        var resourcesViewMode = CalculateResourcesViewMode(selectedCustomizationContentIndexes);
         ReactiveProperty<ArrowSwitchMode> arrowSwitchModeReactiveProperty = new ReactiveProperty<ArrowSwitchMode>(selectedCustomizationContentIndexes.StartMode);
         CustomizationSettingsCustodian customizationSettingsCustodian = new CustomizationSettingsCustodian();
-        
         SwitchInfoCustodian switchInfoCustodian = new SwitchInfoCustodian(selectedCustomizationContentIndexes, customizationSettingsCustodian,
             calculateStatsHandler);
-        CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker 
-            = new CustomizationPanelResourceAndPricePanelBroker(switchInfoCustodian);
         ReactiveProperty<bool> isNuClothesReactiveProperty = new ReactiveProperty<bool>();
+        ReactiveCommand<bool> offArrows = new ReactiveCommand<bool>();
         CalculateBalanceHandler calculateBalanceHandler = new CalculateBalanceHandler(
             wallet.MonetsReactiveProperty, wallet.HeartsReactiveProperty, switchInfoCustodian);
         _customizationPanelResourceHandler =  new CustomizationPanelResourceHandler(
-            calculateBalanceHandler, _monetPanel, _heartsPanel, _customizationCharacterPanelUI.DurationAnimResourcePanelView);
+            calculateBalanceHandler, _monetPanel, _heartsPanel, resourcesViewMode, _customizationCharacterPanelUI.DurationAnimResourcePanelView);
 
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(
             selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
 
         _priceViewHandler = new PriceViewHandler(_customizationCharacterPanelUI.PriceUIView, calculateBalanceHandler,
-            customizationPanelResourceAndPricePanelBroker.ResourcesViewModeReactiveProperty,
-             _customizationCharacterPanelUI.DurationAnimPriceView);
+            resourcesViewMode, _customizationCharacterPanelUI.DurationAnimPriceView);
         
         _buttonsModeSwitch = new ButtonsModeSwitch(characterCustomizationView, selectedCustomizationContentIndexes, arrowSwitchModeReactiveProperty,
             _customizationCharacterPanelUI.TitleText, _statViewHandler, _priceViewHandler, customizationSettingsCustodian, switchInfoCustodian,
-            _buttonPlayHandler, calculateStatsHandler, calculateBalanceHandler, customizationDataProvider, _customizationPanelResourceHandler,
-            customizationPanelResourceAndPricePanelBroker, isNuClothesReactiveProperty, setLocalizationChangeEvent);
+            _buttonPlayHandler, calculateStatsHandler, calculateBalanceHandler, customizationDataProvider,
+            isNuClothesReactiveProperty, offArrows, setLocalizationChangeEvent);
         
         
         _arrowSwitch = new ArrowSwitch(characterCustomizationView, selectedCustomizationContentIndexes, _statViewHandler, _priceViewHandler,
             _customizationCharacterPanelUI.TitleText, _buttonPlayHandler, arrowSwitchModeReactiveProperty, customizationSettingsCustodian, switchInfoCustodian,
             customizationDataProvider,
-            _customizationPanelResourceHandler, customizationPanelResourceAndPricePanelBroker,
+            _customizationPanelResourceHandler, 
             isNuClothesReactiveProperty, setLocalizationChangeEvent);
         
         _buttonsCustomizationHandler = new ButtonsCustomizationHandler(_customizationCharacterPanelUI, _arrowSwitch, _buttonsModeSwitch,
-            calculateStatsHandler, _priceViewHandler, switchInfoCustodian);
+            calculateStatsHandler, _priceViewHandler, switchInfoCustodian, offArrows);
         
-        SetNumbersContent(selectedCustomizationContentIndexes);
+        _buttonsCustomizationHandler.ActivateButtonsCustomization(_customizationCharacterPanelUI, selectedCustomizationContentIndexes,
+            customizationEndEvent, _arrowSwitch);
         _buttonsModeSwitch.SetMode(arrowSwitchModeReactiveProperty.Value);
+        _customizationCharacterPanelUI.gameObject.SetActive(true);
     }
 
     public async UniTask HideCustomizationContentInPlayMode()
@@ -102,36 +101,57 @@ public class CustomizationCharacterPanelUIHandler
         await UniTask.WhenAll(_priceViewHandler.HideAnim(), _customizationPanelResourceHandler.TryHidePanel());
         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
     }
-    private void SetNumbersContent(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
-    {
-        _customizationCharacterPanelUI.gameObject.SetActive(true);
-        SetText(_customizationCharacterPanelUI.SkinColorButtonText,
-            selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)ArrowSwitchMode.SkinColor].Count.ToString());
-        SetText(_customizationCharacterPanelUI.ClothesButtonText,
-            GetCountClothesOrSwimsuits(selectedCustomizationContentIndexes));
-        SetText(_customizationCharacterPanelUI.HairstyleButtonText,
-            selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)ArrowSwitchMode.Hairstyle].Count.ToString());
-    }
 
-    private void SetText(TextMeshProUGUI textComponent, string text)
+    private ResourcesViewMode CalculateResourcesViewMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
     {
-        textComponent.text = text;
-    }
+        ResourcesViewMode resourcesViewMode1 = ResourcesViewMode.Hide;
+        ResourcesViewMode resourcesViewMode2 = ResourcesViewMode.Hide;
 
-    private string GetCountClothesOrSwimsuits(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
-    {
-        if (selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)ArrowSwitchMode.Clothes].Count > 0)
+        //compared сравнивамое
+        //sample образец
+        foreach (var settings in selectedCustomizationContentIndexes.IndexesSpriteIndexes)
         {
-            return selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int) ArrowSwitchMode.Clothes].Count
-                .ToString();
-        }else if (selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)ArrowSwitchMode.Swimsuits].Count > 0)
-        {
-            return selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int) ArrowSwitchMode.Swimsuits].Count
-                .ToString();
+            for (int i = 0; i < settings.Count; i++)
+            {
+                if (settings[i].Price > 0)
+                {
+                    resourcesViewMode1 = ResourcesViewMode.MonetMode;
+                }
+                if (settings[i].PriceAdditional > 0)
+                {
+                    resourcesViewMode2 = ResourcesViewMode.HeartsMode;
+                }
+            }
         }
-        else
+
+        if (resourcesViewMode1 == resourcesViewMode2)
         {
-            return _default;
+            return resourcesViewMode1;
         }
+        if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.HeartsMode)
+        {
+            resourcesViewMode1 = ResourcesViewMode.HeartsMode;
+        }
+        if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.MonetMode)
+        {
+            resourcesViewMode1 = ResourcesViewMode.MonetMode;
+        }
+        if (resourcesViewMode1 == ResourcesViewMode.HeartsMode && resourcesViewMode2 == ResourcesViewMode.Hide)
+        {
+            resourcesViewMode1 = ResourcesViewMode.HeartsMode;
+        }
+        if (resourcesViewMode1 == ResourcesViewMode.HeartsMode && resourcesViewMode2 == ResourcesViewMode.MonetMode)
+        {
+            resourcesViewMode1 = ResourcesViewMode.MonetsAndHeartsMode;
+        }
+        if (resourcesViewMode1 == ResourcesViewMode.MonetMode && resourcesViewMode2 == ResourcesViewMode.Hide)
+        {
+            resourcesViewMode1 = ResourcesViewMode.MonetMode;
+        }
+        if (resourcesViewMode1 == ResourcesViewMode.MonetMode && resourcesViewMode2 == ResourcesViewMode.HeartsMode)
+        {
+            resourcesViewMode1 = ResourcesViewMode.MonetsAndHeartsMode;
+        }
+        return resourcesViewMode1;
     }
 }

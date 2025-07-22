@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using UniRx;
 
 public class PriceViewHandler
 {
@@ -9,7 +8,7 @@ public class PriceViewHandler
     private readonly PriceViewHandlerValues _values;
     private readonly PriceUIView _priceUIView;
     private readonly CalculateBalanceHandler _calculateBalanceHandler;
-    private readonly ReactiveProperty<ResourcesViewMode> _resourcesViewModeReactiveProperty;
+    private readonly ResourcesViewMode _resourcesViewMode;
 
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -18,11 +17,11 @@ public class PriceViewHandler
     public CalculateBalanceHandler CalculateBalanceHandler => _calculateBalanceHandler;
     public PriceViewHandler(PriceUIView priceUIView,
         CalculateBalanceHandler calculateBalanceHandler,
-        ReactiveProperty<ResourcesViewMode> resourcesViewModeReactiveProperty, float duration)
+        ResourcesViewMode resourcesViewMode, float duration)
     {
         _priceUIView = priceUIView;
         _calculateBalanceHandler = calculateBalanceHandler;
-        _resourcesViewModeReactiveProperty = resourcesViewModeReactiveProperty;
+        _resourcesViewMode = resourcesViewMode;
         _panelIsShowed = false;
         _duration = duration;
         _values = new PriceViewHandlerValues();
@@ -75,7 +74,7 @@ public class PriceViewHandler
     private void PanelOn(int price, int additionalPrice)
     {
         _priceUIView.gameObject.SetActive(true);
-        switch (_resourcesViewModeReactiveProperty.Value)
+        switch (_resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
                 SetMonetMode(price);

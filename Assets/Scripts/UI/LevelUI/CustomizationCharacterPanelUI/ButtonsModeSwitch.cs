@@ -15,9 +15,8 @@ public class ButtonsModeSwitch
     private readonly CalculateStatsHandler _calculateStatsHandler;
     private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly CustomizationDataProvider _customizationDataProvider;
-    private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
-    private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
-    private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
+    private readonly ReactiveProperty<bool> _isSwimsuitsClothesReactiveProperty;
+    private readonly ReactiveCommand<bool> _offArrows;
     private CompositeDisposable _compositeDisposable;
     private int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
 
@@ -27,9 +26,8 @@ public class ButtonsModeSwitch
         ReactiveProperty<ArrowSwitchMode> switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
         CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler,
         CalculateStatsHandler calculateStatsHandler, CalculateBalanceHandler calculateBalanceHandler,
-        CustomizationDataProvider customizationDataProvider, CustomizationPanelResourceHandler customizationPanelResourceHandler,
-        CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
-        ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
+        CustomizationDataProvider customizationDataProvider, ReactiveProperty<bool> isSwimsuitsClothesReactiveProperty,
+        ReactiveCommand<bool> offArrows, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
         _selectedCustomizationContentIndexes = selectedCustomizationContentIndexes;
@@ -43,9 +41,8 @@ public class ButtonsModeSwitch
         _calculateStatsHandler = calculateStatsHandler;
         _calculateBalanceHandler = calculateBalanceHandler;
         _customizationDataProvider = customizationDataProvider;
-        _customizationPanelResourceHandler = customizationPanelResourceHandler;
-        _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
-        _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
+        _isSwimsuitsClothesReactiveProperty = isSwimsuitsClothesReactiveProperty;
+        _offArrows = offArrows;
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
@@ -59,12 +56,12 @@ public class ButtonsModeSwitch
         {
             case ArrowSwitchMode.SkinColor:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.BodySwitchInfo);
-                SetCurrentCustomizationSettingses((int) mode);
+                TryOffArrowsAndSetCurrentCustomizationSettingses((int) mode);
                 CalculatingStats(_switchInfoCustodian.HairstyleSwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
                 break;
             case ArrowSwitchMode.Hairstyle:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.HairstyleSwitchInfo);
-                SetCurrentCustomizationSettingses((int) mode);
+                TryOffArrowsAndSetCurrentCustomizationSettingses((int) mode);
                 CalculatingStats(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
                 break;
             case ArrowSwitchMode.Clothes:
@@ -86,7 +83,6 @@ public class ButtonsModeSwitch
             _statViewHandler.Hide();
         }
 
-        _customizationPanelResourceAndPricePanelBroker.CalculateModeAndSet();
         int price = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Price;
         int priceAdditional = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
         if (price == 0 && priceAdditional == 0)
@@ -97,9 +93,6 @@ public class ButtonsModeSwitch
         {
             _priceViewHandler.Show(price, priceAdditional);
         }
-
-        _customizationPanelResourceHandler.TryShowOrHidePanelOnButtonsSwitch(_customizationPanelResourceAndPricePanelBroker.CurrentResourcesViewMode);
-        
         if (_calculateBalanceHandler.CheckAvailableMoney(price) == true &&
             _calculateBalanceHandler.CheckAvailableHearts(priceAdditional) == true)
         {
@@ -116,9 +109,18 @@ public class ButtonsModeSwitch
     {
         _titleTextComponent.text = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Name;
     }
-    private void SetCurrentCustomizationSettingses(int modeValue)
+    private void TryOffArrowsAndSetCurrentCustomizationSettingses(int modeValue)
     {
-        _customizationSettingsCustodian.CurrentCustomizationSettings = _selectedCustomizationContentIndexes.IndexesSpriteIndexes[modeValue];
+        var settings = _selectedCustomizationContentIndexes.IndexesSpriteIndexes[modeValue];
+        if (settings.Count == 1)
+        {
+            _offArrows.Execute(true);
+        }
+        else
+        {
+            _offArrows.Execute(false);
+        }
+        _customizationSettingsCustodian.CurrentCustomizationSettings = settings;
     }
     private void CalculatingStats(params SwitchInfo[] switchInfo)
     {
@@ -136,13 +138,13 @@ public class ButtonsModeSwitch
         int clothesIndex = (int) ArrowSwitchMode.Clothes;
         if (_selectedCustomizationContentIndexes.IndexesSpriteIndexes[clothesIndex].Count == 0)
         {
-            SetCurrentCustomizationSettingses((int) ArrowSwitchMode.Swimsuits);
-            _isNuClothesReactiveProperty.Value = true;
+            TryOffArrowsAndSetCurrentCustomizationSettingses((int) ArrowSwitchMode.Swimsuits);
+            _isSwimsuitsClothesReactiveProperty.Value = true;
         }
         else
         {
-            SetCurrentCustomizationSettingses(clothesIndex);
-            _isNuClothesReactiveProperty.Value = false;
+            TryOffArrowsAndSetCurrentCustomizationSettingses(clothesIndex);
+            _isSwimsuitsClothesReactiveProperty.Value = false;
         }
     }
 }

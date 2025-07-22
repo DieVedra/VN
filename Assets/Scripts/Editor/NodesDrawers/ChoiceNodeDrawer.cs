@@ -31,6 +31,9 @@ public class ChoiceNodeDrawer : NodeEditor
     private SerializedProperty _choice1PriceProperty;
     private SerializedProperty _choice2PriceProperty;
     private SerializedProperty _choice3PriceProperty;
+    private SerializedProperty _choice1AdditionaryPriceProperty;
+    private SerializedProperty _choice2AdditionaryPriceProperty;
+    private SerializedProperty _choice3AdditionaryPriceProperty;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private MethodInfo _privateMethod;
     private string[] _timerPortIndexes;
@@ -84,6 +87,9 @@ public class ChoiceNodeDrawer : NodeEditor
             _choice1PriceProperty = serializedObject.FindProperty("_choice1Price");
             _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
             _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
+            _choice1AdditionaryPriceProperty = serializedObject.FindProperty("_choice1AdditionaryPrice");
+            _choice2AdditionaryPriceProperty = serializedObject.FindProperty("_choice2AdditionaryPrice");
+            _choice3AdditionaryPriceProperty = serializedObject.FindProperty("_choice3AdditionaryPrice");
             _lineDrawer = new LineDrawer();
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
             _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
@@ -121,9 +127,9 @@ public class ChoiceNodeDrawer : NodeEditor
         
         EditorGUI.BeginChangeCheck();
         DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
-            _showStatsChoice1KeyProperty, _choice1PriceProperty,"Choice 1", "_baseStatsChoice1", 0);
+            _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, "Choice 1", "_baseStatsChoice1", 0);
         DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
-            _showStatsChoice2KeyProperty, _choice2PriceProperty,"Choice 2", "_baseStatsChoice2", 1);
+            _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty,"Choice 2", "_baseStatsChoice2", 1);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Show choice3: ");
@@ -132,7 +138,7 @@ public class ChoiceNodeDrawer : NodeEditor
         if (_showChoice3Property.boolValue)
         {
             DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
-                _showStatsChoice3KeyProperty, _choice3PriceProperty, "Choice 3", "_baseStatsChoice3", 2);
+                _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, "Choice 3", "_baseStatsChoice3", 2);
         }
         if (EditorGUI.EndChangeCheck())
         {
@@ -146,12 +152,14 @@ public class ChoiceNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawChoiceField(LocalizationString textProperty, IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations, SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty,
+    private void DrawChoiceField(LocalizationString textProperty, IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations,
+        SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty, SerializedProperty choiceAdditionaryPriceProperty,
         string label, string nameBaseStatsChoice, int indexNamePort)
     {
         EditorGUILayout.Space(10f);
         _localizationStringTextDrawer.DrawTextField(textProperty, label,false);
         choicePriceProperty.floatValue = EditorGUILayout.FloatField("Choice price: ", choicePriceProperty.floatValue, GUILayout.Width(120f));
+        choiceAdditionaryPriceProperty.floatValue = EditorGUILayout.FloatField("Choice additionary price: ", choiceAdditionaryPriceProperty.floatValue, GUILayout.Width(120f));
 
         showStatsChoiceProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", showStatsChoiceProperty.boolValue);
         if (showStatsChoiceProperty.boolValue == true)

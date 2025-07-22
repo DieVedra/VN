@@ -14,7 +14,6 @@ public class ArrowSwitch
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
-    private readonly CustomizationPanelResourceAndPricePanelBroker _customizationPanelResourceAndPricePanelBroker;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
@@ -29,7 +28,7 @@ public class ArrowSwitch
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         ReactiveProperty<ArrowSwitchMode> switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
         SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
-        CustomizationPanelResourceHandler customizationPanelResourceHandler, CustomizationPanelResourceAndPricePanelBroker customizationPanelResourceAndPricePanelBroker,
+        CustomizationPanelResourceHandler customizationPanelResourceHandler,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -43,7 +42,6 @@ public class ArrowSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
         _customizationPanelResourceHandler = customizationPanelResourceHandler;
-        _customizationPanelResourceAndPricePanelBroker = customizationPanelResourceAndPricePanelBroker;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
@@ -106,7 +104,6 @@ public class ArrowSwitch
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
 
-        _customizationPanelResourceAndPricePanelBroker.CalculateModeAndSet();
         SetTitle();
         _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
         TrySwitch().Forget();
@@ -173,7 +170,7 @@ public class ArrowSwitch
         }
         
         taskRunner.AddOperationToList(
-            () => _customizationPanelResourceHandler.TryShowOrHideOnArrowsSwitch(_customizationPanelResourceAndPricePanelBroker.CurrentResourcesViewMode));
+            () => _customizationPanelResourceHandler.TryShowOrHideOnArrowsSwitch());
 
         
         if (CheckAvailableMoney(price, additionalPrice) == true)

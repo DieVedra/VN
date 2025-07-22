@@ -16,7 +16,9 @@ public class ChoicePanelUIHandler
     private const float _priceAvailableFadeValue = 1f;
     private const float _priceNotAvailableFadeValue = 0.5f;
     private const float _halfValue = 0.5f;
-    private readonly Vector2 _offset = new Vector2(0f, 45f);
+    private const float _offsetX = 0f;
+    private const float _offsetY = 45f;
+    private readonly Vector2 _offset = new Vector2(_offsetX, _offsetY);
     private Vector2 _choice1Position;
     private Vector2 _choice2Position;
     private Vector2 _choice3Position;

@@ -23,12 +23,16 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private RectTransform _priceRectTransformChoice1;
     [SerializeField] private RectTransform _priceRectTransformChoice2;
     [SerializeField] private RectTransform _priceRectTransformChoice3;
+    [SerializeField] private RectTransform _additionaryPriceRectTransformChoice1;
+    [SerializeField] private RectTransform _additionarypriceRectTransformChoice2;
+    [SerializeField] private RectTransform _additionarypriceRectTransformChoice3;
     [SerializeField] private RectTransform _timerImageRectTransform;
     
     [SerializeField] private CanvasGroup _canvasGroupChoice1;
     [SerializeField] private CanvasGroup _canvasGroupChoice2;
     [SerializeField] private CanvasGroup _canvasGroupChoice3;
     [SerializeField] private CanvasGroup _moneyPanelCanvasGroup;
+    [SerializeField] private CanvasGroup _heartsPanelCanvasGroup;
     [SerializeField] private CanvasGroup _timerPanelCanvasGroup;
     
     [SerializeField] private float _durationAnim = 0.2f;
@@ -53,11 +57,15 @@ public class ChoicePanelUI : MonoBehaviour
     public RectTransform PriceRectTransformChoice1 => _priceRectTransformChoice1;
     public RectTransform PriceRectTransformChoice2 => _priceRectTransformChoice2;
     public RectTransform PriceRectTransformChoice3 => _priceRectTransformChoice3;
+    public RectTransform AdditionaryPriceRectTransformChoice1 => _additionaryPriceRectTransformChoice1;
+    public RectTransform AdditionaryPriceRectTransformChoice2 => _additionarypriceRectTransformChoice2;
+    public RectTransform AdditionaryPriceRectTransformChoice3 => _additionarypriceRectTransformChoice3;
     public RectTransform TimerImageRectTransform => _timerImageRectTransform;
     public CanvasGroup CanvasGroupChoice1 => _canvasGroupChoice1;
     public CanvasGroup CanvasGroupChoice2 => _canvasGroupChoice2;
     public CanvasGroup CanvasGroupChoice3 => _canvasGroupChoice3;
     public CanvasGroup MoneyPanelCanvasGroup => _moneyPanelCanvasGroup;
+    public CanvasGroup HeartsPanelCanvasGroup => _heartsPanelCanvasGroup;
     public CanvasGroup TimerPanelCanvasGroup => _timerPanelCanvasGroup;
     public float DurationAnim => _durationAnim;
     public float DurationAnimPriceView => _durationAnimPriceView;

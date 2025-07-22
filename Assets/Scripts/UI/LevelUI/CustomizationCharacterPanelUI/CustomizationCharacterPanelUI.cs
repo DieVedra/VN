@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     [SerializeField] private Button _skinColorButton;
     [SerializeField] private Button _hairstyleButton;
     [SerializeField] private Button _clothesButton;
+    
+    [SerializeField] private RectTransform _skinButtonTransform;
+    [SerializeField] private RectTransform _hairstyleButtonTransform;
+    [SerializeField] private RectTransform _clothesButtonTransform;
     
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _skinColorButtonText;
@@ -39,9 +44,6 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     public Button ClothesButton =>_clothesButton;
     
     public TextMeshProUGUI TitleText => _titleText;
-    public TextMeshProUGUI SkinColorButtonText => _skinColorButtonText;
-    public TextMeshProUGUI HairstyleButtonText => _hairstyleButtonText;
-    public TextMeshProUGUI ClothesButtonText => _clothesButtonText;
     public TextMeshProUGUI StatPanelText => _statPanelText;
     
     public CanvasGroup RightArrowCanvasGroup => _rightArrowCanvasGroup;
@@ -56,4 +58,11 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     public float DurationAnimStatView => _durationAnimStatView;
     public float DurationButtonPlay => _durationButtonPlay;
     public int SublingIndex => _sublingIndex;
+    public Dictionary<ArrowSwitchMode, (Button, TextMeshProUGUI, RectTransform)> CustomizationButtons => new Dictionary<ArrowSwitchMode, (Button, TextMeshProUGUI, RectTransform)>()
+    {
+        {ArrowSwitchMode.SkinColor, (_skinColorButton, _skinColorButtonText, _skinButtonTransform)},
+        {ArrowSwitchMode.Hairstyle, (_hairstyleButton, _hairstyleButtonText, _hairstyleButtonTransform)},
+        {ArrowSwitchMode.Clothes, (_clothesButton, _clothesButtonText, _clothesButtonTransform)},
+        {ArrowSwitchMode.Swimsuits, (_clothesButton, _clothesButtonText, _clothesButtonTransform)}
+    };
 }

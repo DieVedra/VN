@@ -17,6 +17,9 @@ public class ChoiceNode : BaseNode, ILocalizable
     [SerializeField, HideInInspector] private float _choice1Price;
     [SerializeField, HideInInspector] private float _choice2Price;
     [SerializeField, HideInInspector] private float _choice3Price;
+    [SerializeField, HideInInspector] private float _choice1AdditionaryPrice;
+    [SerializeField, HideInInspector] private float _choice2AdditionaryPrice;
+    [SerializeField, HideInInspector] private float _choice3AdditionaryPrice;
     [SerializeField, HideInInspector] private bool _showStatsChoice1Key;
     [SerializeField, HideInInspector] private bool _showStatsChoice2Key;
     [SerializeField, HideInInspector] private bool _showStatsChoice3Key;
@@ -148,14 +151,14 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         if (_showChoice3Key == true)
         {
-            return new ChoiceData(_localizationChoiceText1, _choice1Price,
-                _localizationChoiceText2, _choice2Price,
-                _localizationChoiceText3, _choice3Price,  _addTimer == true ? _timerValue : 0);
+            return new ChoiceData(_localizationChoiceText1, _choice1Price, _choice1AdditionaryPrice,
+                _localizationChoiceText2, _choice2Price, _choice2AdditionaryPrice,
+                _localizationChoiceText3, _choice3Price, _choice3AdditionaryPrice, _addTimer == true ? _timerValue : 0);
         }
         else
         {
-            return new ChoiceData(_localizationChoiceText1, _choice1Price,
-                _localizationChoiceText2, _choice2Price,
+            return new ChoiceData(_localizationChoiceText1, _choice1Price, _choice1AdditionaryPrice,
+                _localizationChoiceText2, _choice2Price, _choice2AdditionaryPrice,
                 _addTimer == true ? _timerValue : 0);
         }
     }

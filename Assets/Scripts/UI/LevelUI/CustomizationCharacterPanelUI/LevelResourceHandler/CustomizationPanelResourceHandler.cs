@@ -9,17 +9,19 @@ public class CustomizationPanelResourceHandler
     private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly ResourcePanelWithCanvasGroupView _monetResourcePanelWithCanvasGroupView;
     private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
+    private readonly ResourcesViewMode _resourcesViewMode;
     private readonly float _duration;
-    private ResourcesViewMode _currentResourcesViewMode;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
     public CustomizationPanelResourceHandler(CalculateBalanceHandler calculateBalanceHandler, 
-        ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView, ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView,
+        ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView,
+        ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView, ResourcesViewMode resourcesViewMode,
         float duration)
     {
         _calculateBalanceHandler = calculateBalanceHandler;
         _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
         _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
+        _resourcesViewMode = resourcesViewMode;
         _duration = duration;
         _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
         _compositeDisposable = new CompositeDisposable();
@@ -32,6 +34,7 @@ public class CustomizationPanelResourceHandler
         {
             _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();
         }).AddTo(_compositeDisposable);
+        TryShowOrHidePanelOnButtonsSwitch();
     }
 
     public void Dispose()
@@ -39,9 +42,10 @@ public class CustomizationPanelResourceHandler
         _compositeDisposable?.Clear();
         _cancellationTokenSource?.Cancel();
     }
-    public void TryShowOrHidePanelOnButtonsSwitch(ResourcesViewMode resourcesViewMode)
+
+    private void TryShowOrHidePanelOnButtonsSwitch()
     {
-        switch (resourcesViewMode)
+        switch (_resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
                 SetMonetsMode();
@@ -63,14 +67,15 @@ public class CustomizationPanelResourceHandler
                 DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
                 break;
         }
-        _currentResourcesViewMode = resourcesViewMode;
     }
 
-    public async UniTask TryShowOrHideOnArrowsSwitch(ResourcesViewMode resourcesViewMode)
+    public async UniTask TryShowOrHideOnArrowsSwitch()
     {
         await TryHidePanel();
         _calculateBalanceHandler.PreliminaryBalanceCalculation();
-        switch (resourcesViewMode)
+        DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+        DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+        switch (_resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
                 SetMonetsMode();
@@ -89,7 +94,6 @@ public class CustomizationPanelResourceHandler
                 await UniTask.WhenAll(AnimShowPanelMonets(), AnimShowPanelHearts());
                 break;
         }
-        _currentResourcesViewMode = resourcesViewMode;
     }
 
     private void SetHeartsMode()
@@ -142,7 +146,7 @@ public class CustomizationPanelResourceHandler
     public async UniTask TryHidePanel()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        switch (_currentResourcesViewMode)
+        switch (_resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
                 await AnimHidePanelMonets();
