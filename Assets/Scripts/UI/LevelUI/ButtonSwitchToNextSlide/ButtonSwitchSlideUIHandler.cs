@@ -47,7 +47,7 @@ public class ButtonSwitchSlideUIHandler
         _buttonSwitchSlideUI.gameObject.SetActive(false);
     }
 
-    public void Unsubscribe()
+    private void Unsubscribe()
     {
         _buttonSwitchSlideUI.ButtonSwitchNextSlide.onClick.RemoveAllListeners();
     }

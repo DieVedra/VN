@@ -137,6 +137,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         _gameSeriesHandlerBuildMode.Dispose();
         _levelLoadDataHandler.Dispose();
+        _levelUIProviderBuildMode.Dispose();
         base.Dispose();
     }
     private void Save()

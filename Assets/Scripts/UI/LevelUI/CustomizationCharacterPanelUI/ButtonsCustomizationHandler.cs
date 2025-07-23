@@ -13,7 +13,8 @@ public class ButtonsCustomizationHandler
     private const float _minValue = 0f;
     private const float _distanceBetweenModeButtons  = 296f;
     private const string _defaultText = "0";
-    
+
+    private readonly CustomizationPreliminaryBalanceCalculator _customizationPreliminaryBalanceCalculator;
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     private readonly ArrowSwitch _arrowSwitch;
     private readonly ButtonsModeSwitch _buttonsModeSwitch;
@@ -22,11 +23,12 @@ public class ButtonsCustomizationHandler
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ReactiveCommand<bool> _offArrows;
 
-    public ButtonsCustomizationHandler(
+    public ButtonsCustomizationHandler(CustomizationPreliminaryBalanceCalculator customizationPreliminaryBalanceCalculator,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, ArrowSwitch arrowSwitch, ButtonsModeSwitch buttonsModeSwitch,
         CalculateStatsHandler calculateStatsHandler, PriceViewHandler priceViewHandler,
         SwitchInfoCustodian switchInfoCustodian, ReactiveCommand<bool> offArrows)
     {
+        _customizationPreliminaryBalanceCalculator = customizationPreliminaryBalanceCalculator;
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
         _arrowSwitch = arrowSwitch;
         _buttonsModeSwitch = buttonsModeSwitch;
@@ -95,7 +97,7 @@ public class ButtonsCustomizationHandler
             {
                 DeactivateButtonsCustomization(customizationCharacterPanelUI);
                 customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), 
-                    _priceViewHandler.CalculateBalanceHandler.MonetsToShow, _priceViewHandler.CalculateBalanceHandler.HeartsToShow));
+                    _customizationPreliminaryBalanceCalculator.MonetsToShow, _customizationPreliminaryBalanceCalculator.HeartsToShow));
             });
         }
 

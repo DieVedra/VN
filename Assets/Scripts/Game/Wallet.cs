@@ -98,7 +98,7 @@ public class Wallet
     }
     public bool CashAvailable(int value)
     {
-        if (value > 0 && _monetsReactiveProperty.Value >= value)
+        if (value >= 0 && _monetsReactiveProperty.Value >= value)
         {
             return true;
         }
@@ -109,7 +109,7 @@ public class Wallet
     }
     public bool HeartsAvailable(int value)
     {
-        if (value > 0 && _heartsReactiveProperty.Value >= value)
+        if (value >= 0 && _heartsReactiveProperty.Value >= value)
         {
             return true;
         }

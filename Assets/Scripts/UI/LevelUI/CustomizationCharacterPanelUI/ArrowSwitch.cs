@@ -13,7 +13,8 @@ public class ArrowSwitch
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
-    private readonly CustomizationPanelResourceHandler _customizationPanelResourceHandler;
+    private readonly PanelResourceHandler _panelResourceHandler;
+    private readonly CustomizationPreliminaryBalanceCalculator _customizationPreliminaryBalanceCalculator;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
@@ -28,7 +29,7 @@ public class ArrowSwitch
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         ReactiveProperty<ArrowSwitchMode> switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
         SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
-        CustomizationPanelResourceHandler customizationPanelResourceHandler,
+        PanelResourceHandler panelResourceHandler, CustomizationPreliminaryBalanceCalculator customizationPreliminaryBalanceCalculator,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -41,7 +42,8 @@ public class ArrowSwitch
         _customizationSettingsCustodian = customizationSettingsCustodian;
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
-        _customizationPanelResourceHandler = customizationPanelResourceHandler;
+        _panelResourceHandler = panelResourceHandler;
+        _customizationPreliminaryBalanceCalculator = customizationPreliminaryBalanceCalculator;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
@@ -169,9 +171,7 @@ public class ArrowSwitch
             }
         }
         
-        taskRunner.AddOperationToList(
-            () => _customizationPanelResourceHandler.TryShowOrHideOnArrowsSwitch());
-
+        taskRunner.AddOperationToList(TryShowOrHideOnSwitch);
         
         if (CheckAvailableMoney(price, additionalPrice) == true)
         {
@@ -215,6 +215,12 @@ public class ArrowSwitch
         }
     }
 
+    private async UniTask TryShowOrHideOnSwitch()
+    {
+        await _panelResourceHandler.TryHidePanel();
+        _customizationPreliminaryBalanceCalculator.CustomizationPreliminaryBalanceCalculation();
+        await _panelResourceHandler.Show();
+    }
     private async UniTask TrySwitch()
     {
         if (_isSwitched == false)
@@ -246,8 +252,8 @@ public class ArrowSwitch
 
     private bool CheckAvailableMoney(int price, int additionalPrice)
     {
-        if (_priceViewHandler.CalculateBalanceHandler.CheckAvailableMoney(price) == true &&
-            _priceViewHandler.CalculateBalanceHandler.CheckAvailableHearts(additionalPrice) == true)
+        if (_customizationPreliminaryBalanceCalculator.CheckAvailableMoney(price) == true &&
+            _customizationPreliminaryBalanceCalculator.CheckAvailableHearts(additionalPrice) == true)
         {
             return true;
         }

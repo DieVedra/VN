@@ -1,10 +1,9 @@
 ﻿using UniRx;
 
-public class CalculateBalanceHandler
+public class PreliminaryBalanceCalculator
 {
     private readonly ReactiveProperty<int> _monets;
     private readonly ReactiveProperty<int> _hearts;
-    private readonly SwitchInfoCustodian _switchInfoCustodian;
 
     private readonly ReactiveProperty<int> _monetsToShow;
     private readonly ReactiveProperty<int> _heartsToShow;
@@ -13,23 +12,12 @@ public class CalculateBalanceHandler
     public int MonetsToShow => _monetsToShow.Value;
     public int HeartsToShow => _heartsToShow.Value;
     
-    public CalculateBalanceHandler(ReactiveProperty<int> monets, ReactiveProperty<int> hearts, SwitchInfoCustodian switchInfoCustodian)
+    public PreliminaryBalanceCalculator(ReactiveProperty<int> monets, ReactiveProperty<int> hearts)
     {
         _monets = monets;
         _hearts = hearts;
-        _switchInfoCustodian = switchInfoCustodian;
-
         _monetsToShow = new ReactiveProperty<int>(monets.Value);
         _heartsToShow = new ReactiveProperty<int>(hearts.Value);
-        
-        monets.Skip(1).Subscribe(_ =>
-        {
-            PreliminaryBalanceCalculation();
-        });
-        hearts.Skip(1).Subscribe(_ =>
-        {
-            PreliminaryBalanceCalculation();
-        });
     }
     public bool CheckAvailableMoney(int price)
     {
@@ -55,16 +43,15 @@ public class CalculateBalanceHandler
             return false;
         }
     }
-
-    public void PreliminaryBalanceCalculation()
+    public void PreliminaryBalanceCalculation(params (int price, int additionalPrice)[] prices)
     {
         int monetsToShow = _monets.Value;
         int heartsToShow = _hearts.Value;
 
-        for (int i = 0; i < _switchInfoCustodian.GetAllInfo.Count; i++)
+        for (int i = 0; i < prices.Length; i++)
         {
-            monetsToShow -= _switchInfoCustodian.GetAllInfo[i].Price;
-            heartsToShow -= _switchInfoCustodian.GetAllInfo[i].AdditionalPrice;
+            monetsToShow -= prices[i].price;
+            heartsToShow -= prices[i].additionalPrice;
         }
 
         _monetsToShow.Value = monetsToShow;

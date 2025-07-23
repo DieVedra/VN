@@ -13,19 +13,19 @@ public class ButtonsModeSwitch
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ButtonPlayHandler _buttonPlayHandler;
     private readonly CalculateStatsHandler _calculateStatsHandler;
-    private readonly CalculateBalanceHandler _calculateBalanceHandler;
+    private readonly CustomizationPreliminaryBalanceCalculator _customizationPreliminaryBalanceCalculator;
     private readonly CustomizationDataProvider _customizationDataProvider;
     private readonly ReactiveProperty<bool> _isSwimsuitsClothesReactiveProperty;
     private readonly ReactiveCommand<bool> _offArrows;
     private CompositeDisposable _compositeDisposable;
     private int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
-
-
+    
     public ButtonsModeSwitch(
         ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
-        ReactiveProperty<ArrowSwitchMode> switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler, PriceViewHandler priceViewHandler,
-        CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian, ButtonPlayHandler buttonPlayHandler,
-        CalculateStatsHandler calculateStatsHandler, CalculateBalanceHandler calculateBalanceHandler,
+        ReactiveProperty<ArrowSwitchMode> switchModeCustodian, TextMeshProUGUI titleTextComponent, StatViewHandler statViewHandler,
+        PriceViewHandler priceViewHandler, CustomizationSettingsCustodian customizationSettingsCustodian, SwitchInfoCustodian switchInfoCustodian,
+        ButtonPlayHandler buttonPlayHandler,
+        CalculateStatsHandler calculateStatsHandler, CustomizationPreliminaryBalanceCalculator customizationPreliminaryBalanceCalculator,
         CustomizationDataProvider customizationDataProvider, ReactiveProperty<bool> isSwimsuitsClothesReactiveProperty,
         ReactiveCommand<bool> offArrows, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
@@ -39,7 +39,7 @@ public class ButtonsModeSwitch
         _switchInfoCustodian = switchInfoCustodian;
         _buttonPlayHandler = buttonPlayHandler;
         _calculateStatsHandler = calculateStatsHandler;
-        _calculateBalanceHandler = calculateBalanceHandler;
+        _customizationPreliminaryBalanceCalculator = customizationPreliminaryBalanceCalculator;
         _customizationDataProvider = customizationDataProvider;
         _isSwimsuitsClothesReactiveProperty = isSwimsuitsClothesReactiveProperty;
         _offArrows = offArrows;
@@ -48,7 +48,7 @@ public class ButtonsModeSwitch
 
     public void Dispose()
     {
-        _compositeDisposable.Dispose();
+        _compositeDisposable?.Dispose();
     }
     public void SetMode(ArrowSwitchMode mode)
     {
@@ -93,8 +93,8 @@ public class ButtonsModeSwitch
         {
             _priceViewHandler.Show(price, priceAdditional);
         }
-        if (_calculateBalanceHandler.CheckAvailableMoney(price) == true &&
-            _calculateBalanceHandler.CheckAvailableHearts(priceAdditional) == true)
+        if (_customizationPreliminaryBalanceCalculator.CheckAvailableMoney(price) == true &&
+            _customizationPreliminaryBalanceCalculator.CheckAvailableHearts(priceAdditional) == true)
         {
             _buttonPlayHandler.On();
         }
@@ -131,7 +131,7 @@ public class ButtonsModeSwitch
     {
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
-        _calculateBalanceHandler.PreliminaryBalanceCalculation();
+        _customizationPreliminaryBalanceCalculator.CustomizationPreliminaryBalanceCalculation();
     }
     private void CheckAndSetClothes()
     {

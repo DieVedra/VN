@@ -30,7 +30,6 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     [SerializeField] private CanvasGroup _statPanelCanvasGroup;
     [SerializeField] private CanvasGroup _playButtonCanvasGroup;
     [SerializeField] private float _durationAnimPriceView = 0.2f;
-    [SerializeField] private float _durationAnimResourcePanelView = 0.2f;
     [SerializeField] private float _durationAnimStatView = 0.2f;
     [SerializeField] private float _durationButtonPlay = 0.5f;
     [SerializeField] private int _sublingIndex = 6;
@@ -54,7 +53,6 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     public CanvasGroup StatPanelCanvasGroup => _statPanelCanvasGroup;
     public CanvasGroup PlayButtonCanvasGroup => _playButtonCanvasGroup;
     public float DurationAnimPriceView => _durationAnimPriceView;
-    public float DurationAnimResourcePanelView => _durationAnimResourcePanelView;
     public float DurationAnimStatView => _durationAnimStatView;
     public float DurationButtonPlay => _durationButtonPlay;
     public int SublingIndex => _sublingIndex;

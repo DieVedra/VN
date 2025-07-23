@@ -963,8 +963,10 @@
               <e p="ChoiceUI" t="Include">
                 <e p="ChoiceData.cs" t="Include" />
                 <e p="ChoiceHeightHandler.cs" t="Include" />
+                <e p="choiceNodeButtonsHandler.cs" t="Include" />
                 <e p="ChoicePanelUI.cs" t="Include" />
                 <e p="ChoicePanelUIHandler.cs" t="Include" />
+                <e p="ChoicePanelUIValues.cs" t="Include" />
               </e>
               <e p="CurtainUI" t="Include">
                 <e p="CurtainUI.cs" t="Include" />
@@ -975,7 +977,6 @@
                 <e p="ButtonPlayHandler.cs" t="Include" />
                 <e p="ButtonsCustomizationHandler.cs" t="Include" />
                 <e p="ButtonsModeSwitch.cs" t="Include" />
-                <e p="CalculateBalanceHandler.cs" t="Include" />
                 <e p="CustomizationCharacterPanelUI.cs" t="Include" />
                 <e p="CustomizationCharacterPanelUIHandler.cs" t="Include" />
                 <e p="CustomizationCurtainUIHandler.cs" t="Include" />
@@ -983,8 +984,12 @@
                 <e p="CustomizationResult.cs" t="Include" />
                 <e p="CustomizationSettingsCustodian.cs" t="Include" />
                 <e p="LevelResourceHandler" t="Include">
-                  <e p="CustomizationPanelResourceHandler.cs" t="Include" />
                   <e p="LevelResourceHandlerValues.cs" t="Include" />
+                  <e p="PanelResourceHandler.cs" t="Include" />
+                </e>
+                <e p="PreliminaryBalanceCalculator" t="Include">
+                  <e p="CustomizationPreliminaryBalanceCalculator.cs" t="Include" />
+                  <e p="PreliminaryBalanceCalculator.cs" t="Include" />
                 </e>
                 <e p="PriceHandler" t="Include">
                   <e p="PriceUIView.cs" t="Include" />
@@ -1015,6 +1020,7 @@
                 <e p="NotificationPanelUIHandler.cs" t="Include" />
               </e>
               <e p="PanelHeightHandler.cs" t="Include" />
+              <e p="ResourcesViewModeCalculator.cs" t="Include" />
               <e p="TextConsistentlyViewer.cs" t="Include" />
             </e>
             <e p="MainMenuUI" t="Include">

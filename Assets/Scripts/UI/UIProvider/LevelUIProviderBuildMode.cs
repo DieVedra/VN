@@ -8,7 +8,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
         OnSceneTransitionEvent onSceneTransition, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler, GlobalUIHandler globalUIHandler) 
-        : base(levelUIView, blackFrameUIHandler, wallet, onSceneTransition, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI)
+        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI)
     {
         if (Application.isPlaying)
         {
@@ -20,5 +20,6 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
     public void Dispose()
     {
         GameControlPanelUIHandler.Dispose();
+        ChoicePanelUIHandler.Dispose();
     }
 }

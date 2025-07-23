@@ -7,20 +7,15 @@ public class PriceViewHandler
     private readonly float _duration;
     private readonly PriceViewHandlerValues _values;
     private readonly PriceUIView _priceUIView;
-    private readonly CalculateBalanceHandler _calculateBalanceHandler;
     private readonly ResourcesViewMode _resourcesViewMode;
 
     private CancellationTokenSource _cancellationTokenSource;
 
     private bool _panelIsShowed;
     public bool PanelIsShowed => _panelIsShowed;
-    public CalculateBalanceHandler CalculateBalanceHandler => _calculateBalanceHandler;
-    public PriceViewHandler(PriceUIView priceUIView,
-        CalculateBalanceHandler calculateBalanceHandler,
-        ResourcesViewMode resourcesViewMode, float duration)
+    public PriceViewHandler(PriceUIView priceUIView, ResourcesViewMode resourcesViewMode, float duration)
     {
         _priceUIView = priceUIView;
-        _calculateBalanceHandler = calculateBalanceHandler;
         _resourcesViewMode = resourcesViewMode;
         _panelIsShowed = false;
         _duration = duration;

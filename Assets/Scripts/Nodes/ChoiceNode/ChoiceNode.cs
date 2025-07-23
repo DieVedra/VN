@@ -91,11 +91,10 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, CreateChoiceTexts());
+        await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, CreateChoiceTexts(), _choiceResultEvent, _showChoice3Key);
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
+        _choicePanelUIHandler.ChoiceNodeButtonsHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
-        _choicePanelUIHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
-        
     }
 
     public override async UniTask Exit()
@@ -122,7 +121,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         CancellationTokenSource.Cancel();
         SetInfoToView();
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
-        _choicePanelUIHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
+        _choicePanelUIHandler.ChoiceNodeButtonsHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

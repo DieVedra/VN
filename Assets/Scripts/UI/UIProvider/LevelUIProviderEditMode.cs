@@ -11,8 +11,9 @@ public class LevelUIProviderEditMode
     public readonly ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
     public readonly CustomizationCharacterPanelUIHandler CustomizationCharacterPanelUIHandler;
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
+    public readonly PanelResourceHandler PanelResourceHandler;
     
-    public LevelUIProviderEditMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, OnSceneTransitionEvent onSceneTransition,
+    public LevelUIProviderEditMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI)
     {
@@ -28,9 +29,10 @@ public class LevelUIProviderEditMode
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
-        ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet);
+        PanelResourceHandler = new PanelResourceHandler(levelUIView.MonetPanel, levelUIView.HeartsPanel);
+        ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet, PanelResourceHandler);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
-        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, levelUIView);
+        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         if (Application.isPlaying)
         {

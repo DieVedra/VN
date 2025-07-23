@@ -11,11 +11,14 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _textButtonChoice1;
     [SerializeField] private TextMeshProUGUI _textButtonChoice2;
     [SerializeField] private TextMeshProUGUI _textButtonChoice3;
-    [SerializeField] private TextMeshProUGUI _moneyPanelText;
     [SerializeField] private TextMeshProUGUI _timerPanelText;
     [SerializeField] private TextMeshProUGUI _priceButton1Text;
     [SerializeField] private TextMeshProUGUI _priceButton2Text;
     [SerializeField] private TextMeshProUGUI _priceButton3Text;
+    
+    [SerializeField] private TextMeshProUGUI _additionaryPriceButton1Text;
+    [SerializeField] private TextMeshProUGUI _additionaryPriceButton2Text;
+    [SerializeField] private TextMeshProUGUI _additionaryPriceButton3Text;
     
     [SerializeField] private RectTransform _rectTransformChoice1;
     [SerializeField] private RectTransform _rectTransformChoice2;
@@ -24,8 +27,8 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private RectTransform _priceRectTransformChoice2;
     [SerializeField] private RectTransform _priceRectTransformChoice3;
     [SerializeField] private RectTransform _additionaryPriceRectTransformChoice1;
-    [SerializeField] private RectTransform _additionarypriceRectTransformChoice2;
-    [SerializeField] private RectTransform _additionarypriceRectTransformChoice3;
+    [SerializeField] private RectTransform _additionaryPriceRectTransformChoice2;
+    [SerializeField] private RectTransform _additionaryPriceRectTransformChoice3;
     [SerializeField] private RectTransform _timerImageRectTransform;
     
     [SerializeField] private CanvasGroup _canvasGroupChoice1;
@@ -45,11 +48,15 @@ public class ChoicePanelUI : MonoBehaviour
     public TextMeshProUGUI TextButtonChoice1 => _textButtonChoice1;
     public TextMeshProUGUI TextButtonChoice2 => _textButtonChoice2;
     public TextMeshProUGUI TextButtonChoice3 => _textButtonChoice3;
-    public TextMeshProUGUI MoneyPanelText => _moneyPanelText;
     public TextMeshProUGUI TimerPanelText => _timerPanelText;
     public TextMeshProUGUI PriceButton1Text => _priceButton1Text;
     public TextMeshProUGUI PriceButton2Text => _priceButton2Text;
     public TextMeshProUGUI PriceButton3Text => _priceButton3Text;
+    
+    public TextMeshProUGUI AdditionaryPriceButton1Text => _additionaryPriceButton1Text;
+    public TextMeshProUGUI AdditionaryPriceButton2Text => _additionaryPriceButton2Text;
+    public TextMeshProUGUI AdditionaryPriceButton3Text => _additionaryPriceButton3Text;
+    
     public RectTransform RectTransformChoice1 => _rectTransformChoice1;
     public RectTransform RectTransformChoice2 => _rectTransformChoice2;
     public RectTransform RectTransformChoice3 => _rectTransformChoice3;
@@ -58,8 +65,8 @@ public class ChoicePanelUI : MonoBehaviour
     public RectTransform PriceRectTransformChoice2 => _priceRectTransformChoice2;
     public RectTransform PriceRectTransformChoice3 => _priceRectTransformChoice3;
     public RectTransform AdditionaryPriceRectTransformChoice1 => _additionaryPriceRectTransformChoice1;
-    public RectTransform AdditionaryPriceRectTransformChoice2 => _additionarypriceRectTransformChoice2;
-    public RectTransform AdditionaryPriceRectTransformChoice3 => _additionarypriceRectTransformChoice3;
+    public RectTransform AdditionaryPriceRectTransformChoice2 => _additionaryPriceRectTransformChoice2;
+    public RectTransform AdditionaryPriceRectTransformChoice3 => _additionaryPriceRectTransformChoice3;
     public RectTransform TimerImageRectTransform => _timerImageRectTransform;
     public CanvasGroup CanvasGroupChoice1 => _canvasGroupChoice1;
     public CanvasGroup CanvasGroupChoice2 => _canvasGroupChoice2;

@@ -16,6 +16,8 @@ public class ChoiceData
     public readonly int TimerValue;
     
     public readonly bool ShowChoice3;
+    public int GetAllPrice => Choice1Price + Choice2Price + Choice3Price;
+    public int GetAllAdditionaryPrice => Choice1AdditionaryPrice + Choice2AdditionaryPrice + Choice3AdditionaryPrice;
 
     public ChoiceData(string text1, float choice1Price, float choice1AdditionaryPrice,
         string text2, float choice2Price, float choice2AdditionaryPrice, int timerValue)

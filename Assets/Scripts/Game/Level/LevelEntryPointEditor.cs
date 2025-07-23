@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
@@ -35,6 +36,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
         OnSceneTransitionEvent.Subscribe(Dispose);
     }
 
+    public void AddMoney()
+    {
+        Wallet.AddCash(200);
+        Wallet.AddHearts(200);
+    }
     public void Init()
     {
         IsInitializing = true;
@@ -133,7 +139,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
-        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, Wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
+        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, Wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)

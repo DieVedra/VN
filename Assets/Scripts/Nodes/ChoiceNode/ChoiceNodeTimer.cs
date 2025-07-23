@@ -31,7 +31,7 @@ public class ChoiceNodeTimer
         _timerImageRectTransform = timerImageRectTransform;
     }
 
-    public void TrySetTimerValue(int time)
+    public void TrySetTimerValue(int time = 0)
     {
         if (time > 0)
         {

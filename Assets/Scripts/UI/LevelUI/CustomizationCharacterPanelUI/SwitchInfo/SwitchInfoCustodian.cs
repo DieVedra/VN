@@ -4,12 +4,14 @@ public class SwitchInfoCustodian
 {
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfo[] _allInfo;
+    private readonly (int price, int additionalPrice)[] _allPriceInfo;
     public SwitchInfo CurrentSwitchInfo { get; private set; }
     public SwitchInfo BodySwitchInfo { get; private set; }
     public SwitchInfo HairstyleSwitchInfo { get; private set; }
     public SwitchInfo ClothesSwitchInfo { get; private set; }
 
     public IReadOnlyList<SwitchInfo> GetAllInfo => _allInfo;
+    public (int price, int additionalPrice)[] GetAllPriceInfo => _allPriceInfo;
     public int CurrentSwitchIndex => CurrentSwitchInfo.Index;
 
     public SwitchInfoCustodian(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes, CustomizationSettingsCustodian customizationSettingsCustodian,
@@ -45,6 +47,12 @@ public class SwitchInfoCustodian
             Stats = calculateStatsHandler.PreliminaryStats
         };
         _allInfo = new[] {BodySwitchInfo, HairstyleSwitchInfo, ClothesSwitchInfo};
+        _allPriceInfo = new[]
+        {
+            (BodySwitchInfo.Price, BodySwitchInfo.AdditionalPrice),
+            (HairstyleSwitchInfo.Price, HairstyleSwitchInfo.AdditionalPrice),
+            (ClothesSwitchInfo.Price, ClothesSwitchInfo.AdditionalPrice)
+        };
         (int,int) GetPrice(ArrowSwitchMode mode)
         {
             IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)mode];

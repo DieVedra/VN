@@ -35,6 +35,10 @@ public class GameEntryPointDrawer : Editor
 
         serializedObject.Update();
         EditorGUILayout.Space(20f);
+        if (GUILayout.Button("test"))
+        {
+            _gameEntryPoint.AddMoney();
+        }
         if (GameInitializer.IsGamePlayMode == false)
         {
             EditorGUILayout.BeginHorizontal();
@@ -68,7 +72,7 @@ public class GameEntryPointDrawer : Editor
                     _gameEntryPoint.Init();
                 }
             }
-
+            
             serializedObject.ApplyModifiedProperties();
         }
     }
