@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
+[Serializable]
 public class Wallet
 {
     private const float _delayAddValue = 0.005f;

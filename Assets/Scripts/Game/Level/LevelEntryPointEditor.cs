@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
@@ -17,6 +17,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [SerializeField] private SeriaGameStatsProviderEditor _seriaGameStatsProviderEditor;
     [SerializeField] private GameStatsViewer _gameStatsViewer;
+    [SerializeField] private Wallet _wallet;
+
     [SerializeField, Space(10f)] private int _testMonets;
     [SerializeField, Space(10f)] private int _testHearts;
     [Space]
@@ -35,15 +37,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
         Init();
         OnSceneTransitionEvent.Subscribe(Dispose);
     }
-
-    public void AddMoney()
-    {
-        Wallet.AddCash(200);
-        Wallet.AddHearts(200);
-    }
+    
     public void Init()
     {
         IsInitializing = true;
+        DisableNodesContentEvent?.Execute();
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
         if (LoadSaveData == true)
@@ -52,14 +50,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _testMonets = SaveData.Monets;
             _testHearts = SaveData.Hearts;
-            Wallet = new Wallet(SaveData);
+            _wallet = new Wallet(SaveData);
             _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
             _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
         }
         else
         {
             _characterProviderEditMode.Construct();
-            Wallet = new Wallet(_testMonets, _testHearts);
+            _wallet = new Wallet(_testMonets, _testHearts);
         }
 
         InitGlobalSound();
@@ -67,8 +65,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
+        
         DisableNodesContentEvent = new DisableNodesContentEvent();
-
         ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
@@ -76,7 +74,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground();
         InitLevelUIProvider();
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
-            CharacterViewer, _wardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, Wallet, _seriaGameStatsProviderEditor,
+            CharacterViewer, _wardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
         
         DisableNodesContentEvent.Execute();
@@ -92,6 +90,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             {
                 _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
                     _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
+                
+                _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
                 _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
             }
             else
@@ -139,7 +139,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
-        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, Wallet, DisableNodesContentEvent,
+        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, _wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)

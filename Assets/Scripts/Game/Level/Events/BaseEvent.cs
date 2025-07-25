@@ -1,5 +1,6 @@
 ﻿using System;
 using UniRx;
+using UnityEngine;
 
 public class BaseEvent
 {
@@ -32,6 +33,7 @@ public class BaseEvent
     }
     public virtual void Execute()
     {
+        Debug.Log($"SwitchToNextNodeEvent Execute");
         BaseReactiveCommand.Execute();
     }
 }

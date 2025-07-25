@@ -25,7 +25,6 @@ public class SeriaPartNodeGraph : NodeGraph
 		
 		if (Application.isPlaying == false)
 		{
-			// OnChangeGraph = null;
 			OnChangeGraph += InitNewNode;
 		}
 		else

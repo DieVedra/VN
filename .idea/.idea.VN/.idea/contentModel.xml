@@ -894,7 +894,14 @@
             <e p="Empty.cs" t="Include" />
             <e p="EndNode.cs" t="Include" />
             <e p="HeaderNode.cs" t="Include" />
-            <e p="MergerNode.cs" t="Include" />
+            <e p="MergerNode" t="Include">
+              <e p="MergedNodesDeterminator.cs" t="Include" />
+              <e p="MergerNode.cs" t="Include" />
+              <e p="States" t="Include">
+                <e p="AutoSwitchToNextSlideState.cs" t="Include" />
+                <e p="SwitchToNextSlideOnClickState.cs" t="Include" />
+              </e>
+            </e>
             <e p="MyNodeInitializer.cs" t="Include" />
             <e p="NarrativeNode.cs" t="Include" />
             <e p="NodeInitializer" t="Include">

@@ -12,6 +12,7 @@ public class BackgroundNode : BaseNode
     private Background _background;
     private List<BackgroundContent> _backgrounds;
     public List<BackgroundContent> Backgrounds => _backgrounds;
+    public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(List<BackgroundContent> backgrounds, Background background)
     {
         _backgrounds = backgrounds;
@@ -35,6 +36,9 @@ public class BackgroundNode : BaseNode
             SetInfoToView();
         }
         
+        
+        // Debug.Log($"1");
+
         TrySwitchToNextNode();
     }
 
@@ -45,8 +49,9 @@ public class BackgroundNode : BaseNode
             CancellationTokenSource.Cancel();
             SetInfoToView();
         }
+        // Debug.Log($"2");
 
-        TrySwitchToNextNode();
+        // TrySwitchToNextNode();
 
     }
 

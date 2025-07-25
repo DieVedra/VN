@@ -140,8 +140,10 @@ public class Background : MonoBehaviour
     }
     public async UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, int index)
     {
+        Debug.Log($"1 SmoothBackgroundChangePosition");
         EnableBackgroundByIndex(index);
         await BackgroundContent[index].MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
+        Debug.Log($"2 SmoothBackgroundChangePosition");
     }
     public void SetBackgroundMovementDuringDialogueInEditMode(DirectionType directionType)
     {

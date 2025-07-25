@@ -56,7 +56,6 @@ public class NodeGraphInitializer
         {
             InitOneNode(node, seriaIndex);
         }
-        _disableNodesContentEvent.Execute();
     }
 
     public void InitOneNode(BaseNode node, int seriaIndex)

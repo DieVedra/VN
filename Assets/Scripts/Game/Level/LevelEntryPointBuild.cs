@@ -8,6 +8,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
+    private Wallet _wallet;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
     private GlobalSound _globalSound;
@@ -31,7 +32,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
         _globalUIHandler = globalUIHandler;
-        Wallet = wallet;
+        _wallet = wallet;
         _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
     }
     private async void Awake()
@@ -103,7 +104,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
-            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, Wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
+            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (SaveData == null)
@@ -164,7 +165,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, Wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
     }
     private async UniTask TryCreateBlackFrameUIHandler()

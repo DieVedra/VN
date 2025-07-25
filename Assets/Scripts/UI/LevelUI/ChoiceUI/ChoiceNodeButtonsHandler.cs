@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class ChoiceNodeButtonsHandler
 {
     private readonly float _duration;
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
+    private readonly ReactiveProperty<bool> _choiceActive;
     private readonly Wallet _wallet;
     private readonly Button _buttonChoice1;
     private readonly Button _buttonChoice2;
@@ -27,7 +29,7 @@ public class ChoiceNodeButtonsHandler
     public bool Choice2ButtonCanPress { get; private set; }
     public bool Choice3ButtonCanPress { get; private set; }
 
-    public ChoiceNodeButtonsHandler(ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI)
+    public ChoiceNodeButtonsHandler(ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI, ReactiveProperty<bool> choiceActive)
     {
         _choiceNodePriceHandler = choiceNodePriceHandler;
         _wallet = wallet;
@@ -41,32 +43,30 @@ public class ChoiceNodeButtonsHandler
         _canvasGroupChoice1 = choicePanelUI.CanvasGroupChoice1;
         _canvasGroupChoice2 = choicePanelUI.CanvasGroupChoice2;
         _canvasGroupChoice3 = choicePanelUI.CanvasGroupChoice3;
+        _choiceActive = choiceActive;
     }
 
     public async UniTask ShowButtons(ChoiceData data, CancellationToken cancellationToken)
     {
         _choice1Position = _rectTransformChoice1.anchoredPosition;
-        _choice1Position -= _offset;
          
          ShowChoiceVariant(cancellationToken, _buttonChoice1, _rectTransformChoice1,
-            _canvasGroupChoice1, _choice1Position, Choice1ButtonCanPress).Forget();
+            _canvasGroupChoice1, _choice1Position - _offset, Choice1ButtonCanPress).Forget();
 
         await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
 
         _choice2Position = _rectTransformChoice2.anchoredPosition;
-        _choice2Position -= _offset;
 
         ShowChoiceVariant(cancellationToken, _buttonChoice2, _rectTransformChoice2,
-            _canvasGroupChoice2, _choice2Position, Choice2ButtonCanPress).Forget();
+            _canvasGroupChoice2, _choice2Position - _offset, Choice2ButtonCanPress).Forget();
 
         if (data.ShowChoice3 == true)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
             _choice3Position = _rectTransformChoice3.anchoredPosition;
-            _choice3Position -= _offset;
 
             ShowChoiceVariant(cancellationToken, _buttonChoice3, _rectTransformChoice3,
-                _canvasGroupChoice3, _choice3Position, Choice3ButtonCanPress).Forget();
+                _canvasGroupChoice3, _choice3Position - _offset, Choice3ButtonCanPress).Forget();
             await UniTask.Delay(TimeSpan.FromSeconds(_duration), cancellationToken: cancellationToken);
         }
         else
@@ -88,7 +88,7 @@ public class ChoiceNodeButtonsHandler
         DisappearanceChoiceVariant(cancellationToken, _buttonChoice1, _rectTransformChoice1, _canvasGroupChoice1,_choice1Position).Forget();
         await UniTask.Delay(TimeSpan.FromSeconds(_duration), cancellationToken: cancellationToken);
     }
-    public void ActivateButtonsChoice(ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
+    public void TryActivateButtonsChoice(ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
         ActivateButtonChoice(_buttonChoice1, choiceResultEvent, ChoicePanelUIValues.Button1PressIndex, Choice1ButtonCanPress);
 
@@ -106,6 +106,7 @@ public class ChoiceNodeButtonsHandler
             buttonChoice.onClick.AddListener(()=>
             {
                 DeactivateButtonsChoice();
+                _choiceActive.Value = false;
                 _choiceNodePriceHandler.Debit(buttonPressIndex);
                 choiceResultEvent.Execute(buttonPressIndex);
             });

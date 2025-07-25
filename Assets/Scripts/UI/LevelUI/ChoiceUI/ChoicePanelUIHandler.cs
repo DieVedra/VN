@@ -14,7 +14,8 @@ public class ChoicePanelUIHandler
     private readonly ChoiceNodeTimer _choiceNodeTimer;
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
     private readonly ChoiceNodeButtonsHandler _choiceNodeButtonsHandler;
-    private CompositeDisposable _compositeDisposable;
+    private CompositeDisposable _compositeDisposableOnUpdateWallet;
+    private ReactiveProperty<bool> _choiceActive;
     public ChoiceNodeButtonsHandler ChoiceNodeButtonsHandler => _choiceNodeButtonsHandler;
     
     public ChoicePanelUIHandler(ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceHandler panelResourceHandler)
@@ -29,9 +30,10 @@ public class ChoicePanelUIHandler
             choicePanelUI.AdditionaryPriceRectTransformChoice1, choicePanelUI.AdditionaryPriceRectTransformChoice2, choicePanelUI.AdditionaryPriceRectTransformChoice3,
             wallet, choicePanelUI.PriceButton1Text, choicePanelUI.PriceButton2Text, choicePanelUI.PriceButton3Text,
             choicePanelUI.AdditionaryPriceButton1Text, choicePanelUI.AdditionaryPriceButton2Text, choicePanelUI.AdditionaryPriceButton3Text);
-        
-        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceNodePriceHandler, wallet, choicePanelUI);
-        
+
+        _choiceActive = new ReactiveProperty<bool>(false);
+        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
+
         _choiceHeightHandler = new ChoiceHeightHandler(
             choicePanelUI.RectTransformChoice1, choicePanelUI.RectTransformChoice2, 
             choicePanelUI.RectTransformChoice3,
@@ -40,7 +42,7 @@ public class ChoicePanelUIHandler
 
     public void Dispose()
     {
-        _compositeDisposable.Dispose();
+        _compositeDisposableOnUpdateWallet.Dispose();
         _panelResourceHandler.Dispose();
     }
     public void ShowChoiceVariants(ChoiceData data)
@@ -77,17 +79,10 @@ public class ChoicePanelUIHandler
         _panelResourceHandler.Init(_wallet.MonetsReactiveProperty, _wallet.HeartsReactiveProperty, CalculateResourceViewMode(data));
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
-        _compositeDisposable = new CompositeDisposable();
+        _compositeDisposableOnUpdateWallet = new CompositeDisposable();
         
-        _wallet.MonetsReactiveProperty.Skip(1).Subscribe(_ =>
-        {
-            ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
-        }).AddTo(_compositeDisposable);
+        OnUpdateWallet(data, choiceResultEvent, keyButtonChoice3);
         
-        _wallet.HeartsReactiveProperty.Skip(1).Subscribe(_ =>
-        {
-            ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
-        }).AddTo(_compositeDisposable);
         
         SetTexts(data);
         _choicePanelUI.gameObject.SetActive(true);
@@ -102,7 +97,7 @@ public class ChoicePanelUIHandler
 
     public async UniTask DisappearanceChoiceVariantsInPlayMode(CancellationToken cancellationToken, bool keyShowChoice3)
     {
-        _compositeDisposable.Dispose();
+        _compositeDisposableOnUpdateWallet.Dispose();
         _choiceNodeTimer.TryHideTimerPanelAnim(cancellationToken);
         _panelResourceHandler.TryHidePanel().Forget();
         await _choiceNodeButtonsHandler.HideButtons(cancellationToken, keyShowChoice3);
@@ -116,6 +111,7 @@ public class ChoicePanelUIHandler
             () =>
             {
                 _choiceNodeButtonsHandler.DeactivateButtonsChoice();
+                _choiceActive.Value = false;
                 _choiceNodePriceHandler.Debit(index);
             }, index, cancellationToken).Forget();
     }
@@ -189,6 +185,23 @@ public class ChoicePanelUIHandler
             SetCanvasGroupStartValue(_choicePanelUI.CanvasGroupChoice3,
                 _choiceNodeButtonsHandler.Choice3ButtonCanPress);
         }
-        _choiceNodeButtonsHandler.ActivateButtonsChoice(choiceResultEvent, keyButtonChoice3);
+
+        if (_choiceActive.Value == true)
+        {
+            _choiceNodeButtonsHandler.TryActivateButtonsChoice(choiceResultEvent, keyButtonChoice3);
+        }
+    }
+
+    private void OnUpdateWallet(ChoiceData data,
+        ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
+    {
+        _wallet.MonetsReactiveProperty.Skip(1).Subscribe(_ =>
+        {
+            ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
+        }).AddTo(_compositeDisposableOnUpdateWallet);
+        _wallet.HeartsReactiveProperty.Skip(1).Subscribe(_ =>
+        {
+            ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
+        }).AddTo(_compositeDisposableOnUpdateWallet);
     }
 }

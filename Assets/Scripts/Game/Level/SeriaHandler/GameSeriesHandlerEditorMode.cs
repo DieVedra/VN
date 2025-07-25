@@ -1,8 +1,12 @@
-﻿using UniRx;
+﻿using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 
 public class GameSeriesHandlerEditorMode : GameSeriesHandler
 {
+    [ShowNativeProperty] public int SeriaIndex => CurrentSeriaIndex;
+    [ShowNativeProperty] public int NodeGraphIndex => CurrentNodeGraphIndex;
+    [ShowNativeProperty] public int NodeIndex => CurrentNodeIndex;
     public void Construct(NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {

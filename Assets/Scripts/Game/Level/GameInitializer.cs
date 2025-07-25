@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 public static class GameInitializer
 {
+    private const float _timerTime = 0.04f;
     public static bool IsGamePlayMode { get; private set; }
     private static LevelEntryPointEditor _levelEntryPointEditor;
     private static CompositeDisposable _compositeDisposable;
@@ -15,6 +16,7 @@ public static class GameInitializer
     private static void InitializeOnLoad()
     {
         EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        // EditorApplication.isPlaying
         TryInitWithTimer(0.02f);
     }
     private static void OnPlayModeStateChanged(PlayModeStateChange playModeState)
@@ -36,7 +38,7 @@ public static class GameInitializer
                 break;
             case PlayModeStateChange.EnteredEditMode:
                 IsGamePlayMode = false;
-                TryInitWithTimer(0.04f);
+                TryInitWithTimer(_timerTime);
                 // Debug.Log($"GameEditMode {IsGamePlayMode}");
                 break;
         }

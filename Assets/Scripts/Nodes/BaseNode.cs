@@ -1,14 +1,15 @@
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
+using UnityEditor;
 using XNode;
-
 using UnityEngine;
 
 public class BaseNode : Node
 {
     [Input] public Empty Input;
     [Output] public Empty Output;
+    [SerializeField] public string namenode;
 
     private const string _nameOutputPort = "Output";
     protected CancellationTokenSource CancellationTokenSource;
@@ -18,7 +19,6 @@ public class BaseNode : Node
     protected DisableNodesContentEvent DisableNodesContentEvent { get; private set; }
     protected bool IsMerged;
 
-    public string namenode;
     public NodePort OutputPortBaseNode => GetOutputPort(_nameOutputPort);
     private BaseNode _nextNode;
 
@@ -65,15 +65,14 @@ public class BaseNode : Node
 
     protected override void Init()
     {
-        if (IsPlayMode() == false)
-        {
-            base.Init();
-            OnSelectNode += DisableAllNodeView;
-            OnSelectNode += SetInfoToView;
-            OnShowMergerNodeContent += SetInfoToView;
-        }
+        base.Init();
+#if UNITY_EDITOR
+        OnSelectNode += DisableAllNodeView;
+        OnSelectNode += SetInfoToView;
+        OnShowMergerNodeContent += SetInfoToView;
+#endif
+        
     }
-
     protected virtual void SetInfoToView() { }
 
     protected virtual void TryActivateButtonSwitchToNextSlide(){}

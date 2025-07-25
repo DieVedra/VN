@@ -138,7 +138,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     private void CustomizationEnd(CustomizationResult customizationResult)
     {
         _wardrobeCharacterViewer.PlayPSEndCustomizationEffect();
-        _gameStatsProvider.GameStatsHandler.UpdateStat(customizationResult.Stats);
+        _gameStatsProvider.GameStatsHandler.UpdateStats(customizationResult.Stats);
         _wallet.RemoveCash(customizationResult.GetRemovedValueMonets(_wallet.Monets));
         _wallet.RemoveHearts(customizationResult.GetRemovedValueHearts(_wallet.Hearts));
         

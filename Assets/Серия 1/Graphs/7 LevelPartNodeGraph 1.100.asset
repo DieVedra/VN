@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7166745833821153418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
+  m_Name: Merger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 23107.19, y: 860.2455}
+  ports:
+    keys:
+    - Input
+    - Output
+    - Port 0
+    - Port 1
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7166745833821153418}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -6882247559007104225}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7166745833821153418}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Port 0
+      _node: {fileID: -7166745833821153418}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3269424866575435329}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: Port 1
+      _node: {fileID: -7166745833821153418}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6254905798654497598}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  namenode: 
+  _autoSwitchToNextSlide: 0
 --- !u!114 &-7017862862797871136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +186,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 3269424866575435329}
+        node: {fileID: -7166745833821153418}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -131,6 +199,63 @@ MonoBehaviour:
       \u043F\u043E\u0434\u043E\u0448\u0435\u0434\u0448\u0438\u0439 \u043A \u043D\u0430\u043C
       \u0432\u043F\u043B\u043E\u0442\u043D\u0443\u044E. "
     <Key>k__BackingField: 
+--- !u!114 &-6254905798654497598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 23424.193, y: 1107.7944}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6254905798654497598}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 1
+        node: {fileID: -7166745833821153418}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6254905798654497598}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
+  _isInstantNodeTransition: 0
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 1
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 0
+  _isSmoothVolumeDecreaseAmbientSound: 1
+  _showMusicSoundsKey: 1
+  _showAmbientSoundsKey: 1
+  _showEffectsKey: 0
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &-6070801632198416244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +417,8 @@ MonoBehaviour:
   - {fileID: 8979355004778113385}
   - {fileID: -6070801632198416244}
   - {fileID: 6217286066564825096}
+  - {fileID: -7166745833821153418}
+  - {fileID: -6254905798654497598}
 --- !u!114 &582318343869053253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +648,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 23127.297, y: 626.7103}
+  position: {x: 23432, y: 856}
   ports:
     keys:
     - Input
@@ -532,8 +659,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Output
-        node: {fileID: -6882247559007104225}
+      - fieldName: Port 0
+        node: {fileID: -7166745833821153418}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -828,6 +955,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -927,6 +1055,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1026,6 +1155,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1126,6 +1256,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1225,6 +1356,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1324,6 +1456,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1423,6 +1556,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1523,6 +1657,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1623,6 +1758,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1722,6 +1858,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 0
     _price: 30
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1821,6 +1958,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 0
     _price: 5
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -1923,6 +2061,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2023,6 +2162,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2123,6 +2263,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2222,6 +2363,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2322,6 +2464,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2422,6 +2565,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 5
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2523,6 +2667,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2623,6 +2768,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
@@ -2723,6 +2869,7 @@ MonoBehaviour:
     _keyShowParams: 0
     _keyShowStats: 1
     _price: 0
+    _priceAdditional: 0
     _gameStats:
     - _name:
         <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"

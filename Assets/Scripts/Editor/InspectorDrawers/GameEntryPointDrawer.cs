@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -15,18 +14,29 @@ public class GameEntryPointDrawer : Editor
     private SerializedProperty _nodeIndexSerializedProperty;
     private SerializedProperty _testModeEditorSerializedProperty;
     private SerializedProperty _seriaGameStatsProviderEditorSerializedProperty;
+    private SerializedProperty _addMonetsSerializedProperty;
+    private SerializedProperty _addHeartsSerializedProperty;
+    private SerializedProperty _statsSerializedProperty;
+    private SerializedProperty _walletSerializedProperty;
     private SeriaGameStatsProviderEditor _seriaGameStatsProviderEditor;
-    private List<BaseStat> _stats;
+    private TestModeEditor _testModeEditor;
+    private Wallet _wallet;
     private void OnEnable()
     {
         _gameEntryPoint = target as LevelEntryPointEditor;
         _lineDrawer = new LineDrawer();
         _seriaGameStatsProviderEditorSerializedProperty = serializedObject.FindProperty("_seriaGameStatsProviderEditor");
         _testModeEditorSerializedProperty = serializedObject.FindProperty("_testModeEditor");
+        _walletSerializedProperty = serializedObject.FindProperty("_wallet");
         _isTestModeSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_isTestMode");
         _seriaIndexSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_seriaIndex");
         _graphIndexSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_graphIndex");
         _nodeIndexSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_nodeIndex");
+        _addMonetsSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_addMonets");
+        _addHeartsSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_addHearts");
+        _statsSerializedProperty = _testModeEditorSerializedProperty.FindPropertyRelative("_stats");
+        _wallet = GetFromProperty<Wallet>(_walletSerializedProperty);
+        _testModeEditor = GetFromProperty<TestModeEditor>(_testModeEditorSerializedProperty);
     }
 
     public override void OnInspectorGUI()
@@ -35,34 +45,32 @@ public class GameEntryPointDrawer : Editor
 
         serializedObject.Update();
         EditorGUILayout.Space(20f);
-        if (GUILayout.Button("test"))
-        {
-            _gameEntryPoint.AddMoney();
-        }
+
         if (GameInitializer.IsGamePlayMode == false)
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Test Mode: ");
             _isTestModeSerializedProperty.boolValue = EditorGUILayout.Toggle(_isTestModeSerializedProperty.boolValue);
             EditorGUILayout.EndHorizontal();
-            // if (_isTestModeSerializedProperty.boolValue)
-            // {
-            //     EditorGUILayout.Space(10f);
-            //     EditorGUILayout.LabelField("Start from: ");
-            //     _lineDrawer.DrawHorizontalLine(Color.green);
-            //     DrawTestField(_seriaIndexSerializedProperty, "Seria index: ");
-            //     DrawTestField(_graphIndexSerializedProperty, "Graph index: ");
-            //     DrawTestField(_nodeIndexSerializedProperty, "Node index: ");
-            //     _lineDrawer.DrawHorizontalLine(Color.green);
-            //     StatsDrawer();
-            //     _lineDrawer.DrawHorizontalLine(Color.red);
-            //     
-            //     if (GUILayout.Button("UpdateStatsForm"))
-            //     {
-            //         Debug.Log($"UpdateStatsForm1");
-            //         UpdateStatsForm();
-            //     }
-            // }
+            EditorGUILayout.Space(20f);
+            if (_isTestModeSerializedProperty.boolValue)
+            {
+                AddToWallet();
+                EditorGUILayout.Space(10f);
+                EditorGUILayout.LabelField("Start from: ");
+                _lineDrawer.DrawHorizontalLine(Color.green);
+                DrawTestField(_seriaIndexSerializedProperty, "Seria index: ");
+                DrawTestField(_graphIndexSerializedProperty, "Graph index: ");
+                DrawTestField(_nodeIndexSerializedProperty, "Node index: ");
+                _lineDrawer.DrawHorizontalLine(Color.green);
+                StatsDrawer();
+                _lineDrawer.DrawHorizontalLine(Color.red);
+                if (GUILayout.Button("UpdateStatsForm"))
+                {
+                    _testModeEditor.SetStats(_seriaGameStatsProviderEditor.GameStatsHandler?.GetGameBaseStatsForm());
+                }
+            }
+
             EditorGUILayout.Space(30f);
 
             if (GUILayout.Button("Initialize"))
@@ -72,7 +80,6 @@ public class GameEntryPointDrawer : Editor
                     _gameEntryPoint.Init();
                 }
             }
-            
             serializedObject.ApplyModifiedProperties();
         }
     }
@@ -89,22 +96,17 @@ public class GameEntryPointDrawer : Editor
     {
         if (_seriaGameStatsProviderEditor == null)
         {
-            _seriaGameStatsProviderEditor = GetSeriaGameStatsProviderEditorFromProperty(_seriaGameStatsProviderEditorSerializedProperty);
+            _seriaGameStatsProviderEditor = GetFromProperty<SeriaGameStatsProviderEditor>(_seriaGameStatsProviderEditorSerializedProperty);
         }
 
-        if (_stats != null)
+        if (_statsSerializedProperty != null)
         {
-            foreach (var stat in _stats)
+            for (int i = 0; i < _testModeEditor.Stats.Count; i++)
             {
-                StatDrawer(stat);
+                StatDrawer(_testModeEditor.Stats[i]);
             }
         }
-        else
-        {
-            UpdateStatsForm();
-        }
     }
-
     private void StatDrawer(BaseStat stat)
     {
         FieldInfo fieldInfo = stat.GetType().GetField("_value", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -119,7 +121,7 @@ public class GameEntryPointDrawer : Editor
             fieldInfo.SetValue(stat, value);
         }
     }
-    private SeriaGameStatsProviderEditor GetSeriaGameStatsProviderEditorFromProperty(SerializedProperty property)
+    private T GetFromProperty<T>(SerializedProperty property)
     {
         object targetObject = property.serializedObject.targetObject;
         Type parentType = targetObject.GetType();
@@ -131,21 +133,22 @@ public class GameEntryPointDrawer : Editor
         );
         if (fieldInfo != null)
         {
-            return (SeriaGameStatsProviderEditor)fieldInfo.GetValue(targetObject);
+            return (T)fieldInfo.GetValue(targetObject);
         }
-        return null;
+        return default;
     }
 
-    private void TryUpdateStatsForm()
+    private void AddToWallet()
     {
-        // if (_stats)
-        // {
-        //     
-        // }
-    }
-    private void UpdateStatsForm()
-    {
-        Debug.Log($"UpdateStatsForm");
-        _stats = _seriaGameStatsProviderEditor.GameStatsHandler?.GetGameBaseStatsForm();
+        if (Application.isPlaying)
+        {
+            _addMonetsSerializedProperty.intValue = EditorGUILayout.IntField("AddMonets ", _addMonetsSerializedProperty.intValue);
+            _addHeartsSerializedProperty.intValue = EditorGUILayout.IntField("AddHearts ", _addHeartsSerializedProperty.intValue);
+            if (GUILayout.Button("AddToWallet"))
+            {
+                _wallet.AddCash(_addMonetsSerializedProperty.intValue);
+                _wallet.AddHearts(_addHeartsSerializedProperty.intValue);
+            }
+        }
     }
 }

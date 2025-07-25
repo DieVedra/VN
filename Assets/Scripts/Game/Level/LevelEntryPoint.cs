@@ -8,7 +8,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     [SerializeField] protected bool LoadSaveData;
 
     protected const int DefaultSeriaIndex = 0;
-    protected Wallet Wallet;
     protected SaveData SaveData;
     protected StoryData StoryData;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;

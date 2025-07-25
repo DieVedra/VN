@@ -9,62 +9,42 @@ public class MergerNode : BaseNode
 {
     [SerializeField, HideInInspector] private bool _autoSwitchToNextSlide;
     
-    private readonly int _maxDynamicPortsCount = 4;
+    private const int _maxDynamicPortsCount = 4;
+    private const string _port = "Port ";
     private ChoiceNode _choiceNode;
     private SwitchNode _switchNode;
     private CustomizationNode _customizationNode;
     private TaskRunner _taskRunner;
-    private List<BaseNode> _mergedNodes;
     
     private List<string> _names;
+    private Dictionary<Type, BaseNode> _mergerObjects;
 
-    private bool _choiceNodeConnected;
-    private bool _switchNodeConnected;
-    private bool _smoothTransitionNodeConnected;
-    private bool _customizationNodeConnected;
+    private bool _choiceNodeConnected => _mergerObjects.ContainsKey(typeof(ChoiceNode));
+    private bool _customizationNodeConnected => _mergerObjects.ContainsKey(typeof(CustomizationNode));
+    private bool _switchNodeConnected => _mergerObjects.ContainsKey(typeof(SwitchNode));
+    private bool _smoothTransitionNodeConnected => _mergerObjects.ContainsKey(typeof(SmoothTransitionNode));
 
     public void ConstructMyMergerNode()
     {
         _taskRunner = new TaskRunner();
-        _choiceNodeConnected = false;
-        _switchNodeConnected = false;
-        _smoothTransitionNodeConnected = false;
-        _customizationNodeConnected = false;
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
-        _mergedNodes = new List<BaseNode>();
+        _mergerObjects = new Dictionary<Type, BaseNode>();
         foreach (NodePort port in DynamicOutputs)
         {
             if (port.IsConnected)
             {
-                if (_choiceNodeConnected == false && port.Connection.node is ChoiceNode choiceNode)
+                var keyValue = MergedNodesDeterminator.TryDetermineNode(port, SetNodeFirstItem);
+                if (_mergerObjects.ContainsKey(keyValue.Key) == false)
                 {
-                    _choiceNode = choiceNode;
-                    _choiceNodeConnected = true;
-                }
-                else if (_switchNodeConnected == false && port.Connection.node is SwitchNode switchNode)
-                {
-                    _switchNode = switchNode;
-                    _switchNodeConnected = true;
-                }
-                else if (_smoothTransitionNodeConnected == false && port.Connection.node is SmoothTransitionNode)
-                {
-                    _smoothTransitionNodeConnected = true;
-                }
-                else if (_customizationNodeConnected == false && port.Connection.node is CustomizationNode customizationNode)
-                {
-                    _customizationNode = customizationNode;
-                    _customizationNodeConnected = true;
-                }
-                _mergedNodes.Add(port.Connection.node as BaseNode);
-                if (port.Connection.node is BackgroundNode backgroundNode)
-                {
-                    _mergedNodes.Insert(0, backgroundNode);
+                    _mergerObjects.Add(keyValue.Key, keyValue.Value);
                 }
             }
         }
+
+
         if (_choiceNodeConnected == true)
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
@@ -75,7 +55,8 @@ public class MergerNode : BaseNode
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(()=>
             {
                 SkipEnterTransition();
-                if (_smoothTransitionNodeConnected == false)
+                
+                if (_smoothTransitionNodeConnected == false && GetKeySmoothTransitionBackgroundNode() == false)
                 {
                     TryActivateButtonSwitchToNextSlide();
                 }
@@ -103,15 +84,16 @@ public class MergerNode : BaseNode
 
         ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
         await _taskRunner.TryRunTasks(CreateTasksExitedList());
+        // _mergerObjects = null;
     }
 
     private List<Func<UniTask>> CreateTasksExitedList()
     {
         List<Func<UniTask>> tasksExited = new List<Func<UniTask>>(_maxDynamicPortsCount);
 
-        foreach (BaseNode mergedNode in _mergedNodes)
+        foreach (var mergerObject in _mergerObjects)
         {
-            tasksExited.Add(() => mergedNode.Exit());
+            tasksExited.Add(() => mergerObject.Value.Exit());
         }
         return tasksExited;
     }
@@ -119,26 +101,26 @@ public class MergerNode : BaseNode
     private List<Func<UniTask>> CreateTasksEnteredList()
     {
         List<Func<UniTask>> tasksEntered = new List<Func<UniTask>>(_maxDynamicPortsCount);
-        foreach (BaseNode mergedNode in _mergedNodes)
+        foreach (var mergerObject in _mergerObjects)
         {
-            tasksEntered.Add(() => mergedNode.Enter(true));
+            tasksEntered.Add(() => mergerObject.Value.Enter(true));
         }
 
         return tasksEntered;
     }
     public override void SkipEnterTransition()
     {
-        foreach (BaseNode baseNode in _mergedNodes)
+        foreach (var mergerObject in _mergerObjects)
         {
-            baseNode.SkipEnterTransition();
+            mergerObject.Value.SkipEnterTransition();
         }
     }
 
     public override void SkipExitTransition()
     {
-        foreach (BaseNode baseNode in _mergedNodes)
+        foreach (var mergerObject in _mergerObjects)
         {
-            baseNode.SkipExitTransition();
+            mergerObject.Value.SkipExitTransition();
         }
     }
 
@@ -171,15 +153,43 @@ public class MergerNode : BaseNode
     private void TrySetNextNodeFromFirstConnectedPort()
     {
         NodePort portOutputNextNode = null;
-        foreach (BaseNode node in _mergedNodes)
+        foreach (var mergerObject in _mergerObjects)
         {
-            portOutputNextNode = node.OutputPortBaseNode;
+            portOutputNextNode = mergerObject.Value.OutputPortBaseNode;
             if (portOutputNextNode != null && portOutputNextNode.IsConnected == true)
             {
                 SetNextNode(portOutputNextNode.Connection.node as BaseNode);
                 break;
             }
         }
+    }
+
+    private void SetNodeFirstItem(Type type)
+    {
+        var newDic = new Dictionary<Type, BaseNode>();
+        if (_mergerObjects.TryGetValue(type, out BaseNode baseNode))
+        {
+            newDic.Add(type, baseNode);
+            _mergerObjects.Remove(type);
+        }
+        foreach (var obj in _mergerObjects)
+        {
+            newDic.Add(obj.Key, obj.Value);
+        }
+    }
+
+    private bool GetKeySmoothTransitionBackgroundNode()
+    {
+        bool result = false;
+        if (_mergerObjects.TryGetValue(typeof(BackgroundNode), out BaseNode baseNode))
+        {
+            if (baseNode is BackgroundNode backgroundNode)
+            {
+                result = backgroundNode.IsSmoothCurtain;
+            }
+        }
+
+        return result;
     }
     private void AddDynamicPort()
     {
@@ -189,7 +199,7 @@ public class MergerNode : BaseNode
             {
                 _names = new List<string>();
             }
-            string name = $"Port {DynamicOutputs.Count()}";
+            string name = $"{_port}{DynamicOutputs.Count()}";
             _names.Add(name);
             AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: name);
         }
@@ -202,23 +212,4 @@ public class MergerNode : BaseNode
             RemoveDynamicPort(DynamicOutputs.Last().fieldName);
         }
     }
-
-    // private async UniTask TryRunTasks(List<Func<UniTask>> tasksEntered)
-    // {
-    //     switch (tasksEntered.Count)
-    //     {
-    //         case 1 :
-    //             await UniTask.WhenAll(tasksEntered[0].Invoke());
-    //             break;
-    //         case 2 :
-    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke());
-    //             break;
-    //         case 3 :
-    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke());
-    //             break;
-    //         case 4 :
-    //             await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke());
-    //             break;
-    //     }
-    // }
 }

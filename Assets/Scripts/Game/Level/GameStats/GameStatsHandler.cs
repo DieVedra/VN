@@ -62,7 +62,7 @@ public class GameStatsHandler
         }
     }
 
-    public void UpdateStat(List<BaseStat> addStats)
+    public void UpdateStats(List<BaseStat> addStats)
     {
         TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);
@@ -76,7 +76,7 @@ public class GameStatsHandler
         }
     }
 
-    public void UpdateStat(List<Stat> addStats)
+    public void UpdateStats(List<Stat> addStats)
     {
         TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.Key);

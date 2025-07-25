@@ -61,7 +61,6 @@ public class NarrativeNode : BaseNode, ILocalizable
 	public override void SkipExitTransition()
 	{
 		CancellationTokenSource.Cancel();
-		// _narrativePanelUI.DisappearanceNarrativePanelInPlayMode();
 	}
 
 	protected override void SetInfoToView()

@@ -115,7 +115,6 @@ namespace XNode {
 
         /// <summary> Used during node instantiation to fix null/misconfigured graph during OnEnable/Init. Set it before instantiating a node. Will automatically be unset during OnEnable </summary>
         public static NodeGraph graphHotfix;
-
         protected event Action OnSelectNode;
         protected event Action OnShowMergerNodeContent;
         public void OnMouseSelect()
@@ -146,6 +145,7 @@ namespace XNode {
         protected virtual void Init()
         {
             OnSelectNode = null;
+            OnShowMergerNodeContent = null;
         }
 
         /// <summary> Checks all connections for invalid references, and removes them. </summary>

@@ -37,6 +37,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
+    private const int _defaultTimerValue = 0;
     private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
@@ -82,18 +83,19 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         CancellationTokenSource = new CancellationTokenSource();
         _timerCancellationTokenSource = new CancellationTokenSource();
+        var data = CreateChoiceTexts();
         _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            _choicePanelUIHandler.SetTexts(CreateChoiceTexts());
+            _choicePanelUIHandler.SetTexts(data);
         });
         IsMerged = isMerged;
         if (IsMerged == false)
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, CreateChoiceTexts(), _choiceResultEvent, _showChoice3Key);
+        await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, data, _choiceResultEvent, _showChoice3Key);
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
-        _choicePanelUIHandler.ChoiceNodeButtonsHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
+        _choicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
     }
 
@@ -121,7 +123,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         CancellationTokenSource.Cancel();
         SetInfoToView();
         _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _timerCancellationTokenSource.Token);
-        _choicePanelUIHandler.ChoiceNodeButtonsHandler.ActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
+        _choicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(_choiceResultEvent, _showChoice3Key);
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -158,7 +160,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             return new ChoiceData(_localizationChoiceText1, _choice1Price, _choice1AdditionaryPrice,
                 _localizationChoiceText2, _choice2Price, _choice2AdditionaryPrice,
-                _addTimer == true ? _timerValue : 0);
+                _addTimer == true ? _timerValue : _defaultTimerValue);
         }
     }
 
@@ -173,7 +175,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             TryFindConnectedPorts(GetOutputPort($"{_namesPortsPorts[buttonPressIndex]}"));
         }
-        _gameStatsProvider.GameStatsHandler.UpdateStat(_allStatsChoice[buttonPressIndex]);
+        _gameStatsProvider.GameStatsHandler.UpdateStats(_allStatsChoice[buttonPressIndex]);
         SwitchToNextNodeEvent.Execute();
     }
 
