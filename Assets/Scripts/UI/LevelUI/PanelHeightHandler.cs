@@ -9,11 +9,13 @@ public class PanelHeightHandler
     private const float _minHeight = 700f;
     private const float _maxHeight = 910f;
     private readonly RectTransform _rectTransform;
+    private readonly RectTransform _textRectTransform;
     private AnimationCurve _animationCurve;
 
-    public PanelHeightHandler(RectTransform rectTransform)
+    public PanelHeightHandler(RectTransform rectTransform, RectTransform textRectTransform)
     {
         _rectTransform = rectTransform;
+        _textRectTransform = textRectTransform;
         _animationCurve = new AnimationCurve(new Keyframe(_minSymbol,_minHeight), new Keyframe(_maxSymbol,_maxHeight));
     }
 

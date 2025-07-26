@@ -28,7 +28,7 @@ public class NarrativePanelUIHandler
 
         _animationPanel = new AnimationPanel(_rectTransform, _narrativePanelUI.CanvasGroup,
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
-        _panelHeightHandler = new PanelHeightHandler(narrativePanelUI.RectTransform);
+        _panelHeightHandler = new PanelHeightHandler(narrativePanelUI.RectTransform, narrativePanelUI.TextComponent.GetComponent<RectTransform>());
     }
     public void NarrativeInEditMode(string text)
     {

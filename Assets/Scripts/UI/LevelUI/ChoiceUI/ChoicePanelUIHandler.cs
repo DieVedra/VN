@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
@@ -99,8 +100,12 @@ public class ChoicePanelUIHandler
     {
         _compositeDisposableOnUpdateWallet.Dispose();
         _choiceNodeTimer.TryHideTimerPanelAnim(cancellationToken);
-        _panelResourceHandler.TryHidePanel().Forget();
         await _choiceNodeButtonsHandler.HideButtons(cancellationToken, keyShowChoice3);
+        if (_choiceNodePriceHandler.PriceExists == true)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(ChoicePanelUIValues.PriceExistsDurationValue), cancellationToken: cancellationToken);
+        }
+        _panelResourceHandler.TryHidePanel().Forget();
         _choicePanelUI.gameObject.SetActive(false);
         _panelResourceHandler.Dispose();
     }

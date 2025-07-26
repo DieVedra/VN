@@ -22,6 +22,7 @@ public class ChoiceNodePriceHandler
     private readonly TextMeshProUGUI _additionaryPriceButton3Text;
 
     private List<(int, int)> _prices;
+    public bool PriceExists { get; private set; }
 
     public ChoiceNodePriceHandler(
         RectTransform priceRectTransformChoice1, RectTransform priceRectTransformChoice2, RectTransform priceRectTransformChoice3,
@@ -77,10 +78,12 @@ public class ChoiceNodePriceHandler
         {
             priceRectTransformChoice.gameObject.SetActive(true);
             priceText.text = price.ToString();
+            PriceExists = true;
         }
     }
     private void ResetPrices()
     {
+        PriceExists = false;
         _prices = new List<(int, int)>(_pricesCount);
         _priceRectTransformChoice1.gameObject.SetActive(false);
         _priceRectTransformChoice2.gameObject.SetActive(false);

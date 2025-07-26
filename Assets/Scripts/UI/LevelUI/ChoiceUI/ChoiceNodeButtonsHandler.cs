@@ -29,7 +29,8 @@ public class ChoiceNodeButtonsHandler
     public bool Choice2ButtonCanPress { get; private set; }
     public bool Choice3ButtonCanPress { get; private set; }
 
-    public ChoiceNodeButtonsHandler(ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI, ReactiveProperty<bool> choiceActive)
+    public ChoiceNodeButtonsHandler(ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
+        ReactiveProperty<bool> choiceActive)
     {
         _choiceNodePriceHandler = choiceNodePriceHandler;
         _wallet = wallet;
@@ -88,6 +89,7 @@ public class ChoiceNodeButtonsHandler
         DisappearanceChoiceVariant(cancellationToken, _buttonChoice1, _rectTransformChoice1, _canvasGroupChoice1,_choice1Position).Forget();
         await UniTask.Delay(TimeSpan.FromSeconds(_duration), cancellationToken: cancellationToken);
     }
+
     public void TryActivateButtonsChoice(ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
         ActivateButtonChoice(_buttonChoice1, choiceResultEvent, ChoicePanelUIValues.Button1PressIndex, Choice1ButtonCanPress);
@@ -99,6 +101,7 @@ public class ChoiceNodeButtonsHandler
             ActivateButtonChoice(_buttonChoice3, choiceResultEvent, ChoicePanelUIValues.Button3PressIndex, Choice3ButtonCanPress);
         }
     }
+
     private void ActivateButtonChoice(Button buttonChoice, ChoiceResultEvent<int> choiceResultEvent, int buttonPressIndex, bool buttonCanPress)
     {
         if (buttonCanPress)
@@ -112,6 +115,7 @@ public class ChoiceNodeButtonsHandler
             });
         }
     }
+
     public void DeactivateButtonsChoice()
     {
         _buttonChoice1.onClick.RemoveAllListeners();

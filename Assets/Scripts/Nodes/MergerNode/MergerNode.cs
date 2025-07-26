@@ -11,11 +11,8 @@ public class MergerNode : BaseNode
     
     private const int _maxDynamicPortsCount = 4;
     private const string _port = "Port ";
-    private ChoiceNode _choiceNode;
-    private SwitchNode _switchNode;
-    private CustomizationNode _customizationNode;
     private TaskRunner _taskRunner;
-    
+
     private List<string> _names;
     private Dictionary<Type, BaseNode> _mergerObjects;
 
@@ -23,6 +20,8 @@ public class MergerNode : BaseNode
     private bool _customizationNodeConnected => _mergerObjects.ContainsKey(typeof(CustomizationNode));
     private bool _switchNodeConnected => _mergerObjects.ContainsKey(typeof(SwitchNode));
     private bool _smoothTransitionNodeConnected => _mergerObjects.ContainsKey(typeof(SmoothTransitionNode));
+
+    
 
     public void ConstructMyMergerNode()
     {
@@ -71,20 +70,19 @@ public class MergerNode : BaseNode
     {
         if (_choiceNodeConnected == true)
         {
-            SetNextNode(_choiceNode.GetNextNode());
+            SetNextNode(GetNextNodeFrom<ChoiceNode>());
         }
         else if (_switchNodeConnected == true)
         {
-            SetNextNode(_switchNode.GetNextNode());
+            SetNextNode(GetNextNodeFrom<SwitchNode>());
         }
-        else if (_customizationNode == true)
+        else if (_customizationNodeConnected == true)
         {
-            SetNextNode(_customizationNode.GetNextNode());
+            SetNextNode(GetNextNodeFrom<CustomizationNode>());
         }
 
         ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
         await _taskRunner.TryRunTasks(CreateTasksExitedList());
-        // _mergerObjects = null;
     }
 
     private List<Func<UniTask>> CreateTasksExitedList()
@@ -190,6 +188,18 @@ public class MergerNode : BaseNode
         }
 
         return result;
+    }
+
+    private BaseNode GetNextNodeFrom<T>()
+    {
+        if (_mergerObjects.TryGetValue(typeof(T), out BaseNode baseNode))
+        {
+            return baseNode.GetNextNode();
+        }
+        else
+        {
+            return null;
+        }
     }
     private void AddDynamicPort()
     {
