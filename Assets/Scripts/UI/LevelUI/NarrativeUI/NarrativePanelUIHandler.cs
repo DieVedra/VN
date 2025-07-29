@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -14,7 +15,9 @@ public class NarrativePanelUIHandler
     private readonly TextMeshProUGUI _textComponent;
     private readonly AnimationPanel _animationPanel;
     private readonly TextConsistentlyViewer _textConsistentlyViewer;
-    private readonly PanelHeightHandler _panelHeightHandler;
+    private readonly PanelSizeHandler _panelSizeHandler;
+    private readonly TextBlockPositionHandler _textBlockPositionHandler;
+    private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
     public AnimationPanel AnimationPanel => _animationPanel;
     public NarrativePanelUIHandler(NarrativePanelUI narrativePanelUI)
@@ -28,23 +31,25 @@ public class NarrativePanelUIHandler
 
         _animationPanel = new AnimationPanel(_rectTransform, _narrativePanelUI.CanvasGroup,
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
-        _panelHeightHandler = new PanelHeightHandler(narrativePanelUI.RectTransform, narrativePanelUI.TextComponent.GetComponent<RectTransform>());
+        _panelSizeHandler = new PanelSizeHandler(narrativePanelUI.RectTransform, new NarrativePanelSizeCurveProvider());
+        _textBlockPositionHandler = new TextBlockPositionHandler(narrativePanelUI.TextComponent.GetComponent<RectTransform>(),
+            new NarrativeTextBlockPositionCurveProvider());
+        _lineBreaksCountCalculator = new LineBreaksCountCalculator();
     }
     public void NarrativeInEditMode(string text)
     {
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _unfadePosition;
-        SetText(text);
         _narrativePanelUI.CanvasGroup.alpha = _unhideValue;
-        _panelHeightHandler.UpdateHeight(text);;
+        UpdatePanel(text);
+        SetText(text);
     }
 
-    public void EmergenceNarrativePanelInPlayMode(string text)
+    public void EmergenceNarrativePanelInPlayMode()
     {
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
-        _panelHeightHandler.UpdateHeight(text);;
     }
 
     public void SetText(string text)
@@ -57,5 +62,17 @@ public class NarrativePanelUIHandler
         _narrativePanelUI.gameObject.SetActive(false);
         _narrativePanelUI.CanvasGroup.alpha = _hideValue;
         _rectTransform.anchoredPosition = _fadePosition;
+    }
+
+    private void UpdatePanel(string text)
+    {
+        var count = _lineBreaksCountCalculator.GetLineBreaksCount(_textComponent, text);
+        _panelSizeHandler.UpdateSize(text, count);
+        _textBlockPositionHandler.UpdatePosition(text, count);
+    }
+    public async UniTask UpdatePanelAsync(string text)
+    {
+        var res = await _lineBreaksCountCalculator.GetLineBreaksCountAsync(_textComponent, text);
+        _textBlockPositionHandler.UpdatePosition(text, res);
     }
 }

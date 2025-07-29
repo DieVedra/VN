@@ -28,7 +28,9 @@ public class NarrativeNode : BaseNode, ILocalizable
 		{
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
 		}
-		_narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText);
+
+		// await _narrativePanelUI.UpdatePanelAsync(_localizationText.DefaultText);
+		_narrativePanelUI.EmergenceNarrativePanelInPlayMode();
 		await _narrativePanelUI.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
 		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _localizationText.DefaultText);
 		TryActivateButtonSwitchToNextSlide();
