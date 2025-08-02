@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class CharacterPanelUIHandler
@@ -45,8 +44,8 @@ public class CharacterPanelUIHandler
     }
     public void CharacterTalkInEditMode(CharacterTalkData data)
     {
-        // UpdatePosition(data.TalkText);
         SetPanelDirection(data);
+        UpdatePosition(data.TalkText);
         SetLocalizationText(data);
         _characterPanelUI.CanvasGroup.alpha = _oneValue;
         _characterPanelUI.PanelTransform.localScale = _editModeStartScale;
@@ -64,6 +63,11 @@ public class CharacterPanelUIHandler
         {
             _characterPanelUI.PanelTransform.anchoredPosition = _leftPosition;
         }
+        UpdatePosition(data.TalkText);
+        SetLocalizationText(data);
+        _characterPanelUI.CanvasGroup.alpha = _zeroValue;
+        _characterPanelUI.PanelTransform.localScale = _editModeStartScale;
+        _characterPanelUI.PanelTransform.anchoredPosition = _defaultPosition;
     }
 
     public void DisappearanceCharacterTalkInPlayMode()
@@ -94,14 +98,9 @@ public class CharacterPanelUIHandler
         }
     }
 
-    public void UpdatePosition(string text)
+    private void UpdatePosition(string text)
     {
         _textBlockPositionHandler.UpdatePosition(text,
             _lineBreaksCountCalculator.GetLineBreaksCount(_talkTextComponent, text));
-    }
-    public async UniTask UpdatePositionAsync(string text)
-    {
-        var res = await _lineBreaksCountCalculator.GetLineBreaksCountAsync(_talkTextComponent, text);
-        _textBlockPositionHandler.UpdatePosition(text, res);
     }
 }

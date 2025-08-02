@@ -55,8 +55,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _background.SetBackgroundMovementDuringDialogueInPlayMode(CancellationTokenSource.Token, _directionType),
             _characterViewer.SpriteViewer.CharacterAnimations.EmergenceChar(CancellationTokenSource.Token, _directionType),
             _characterPanelUIHandler.AnimationPanelWithScale.UnfadePanelWithScale(_toggleShowPanel, CancellationTokenSource.Token));
-        
-        await _characterPanelUIHandler.UpdatePositionAsync(_localizationText.DefaultText);
         await _characterPanelUIHandler.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _characterTalkData.TalkText);
         TryActivateButtonSwitchToNextSlide();
     }
@@ -117,12 +115,8 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _characterViewer.SetLook(GetLook());
         }
         _characterTalkData = CreateCharacterTalkData();
-        if (IsPlayMode() == false)
-        {
-            _characterPanelUIHandler.UpdatePosition(_characterTalkData.TalkText);
-        }
 
-        if (_toggleShowPanel == true)
+        if (IsPlayMode() == false && _toggleShowPanel == true)
         {
             _characterPanelUIHandler.CharacterTalkInEditMode(_characterTalkData);
         }

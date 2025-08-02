@@ -45,9 +45,10 @@ public class NarrativePanelUIHandler
         SetText(text);
     }
 
-    public void EmergenceNarrativePanelInPlayMode()
+    public void EmergenceNarrativePanelInPlayMode(string text)
     {
         _narrativePanelUI.gameObject.SetActive(true);
+        UpdatePanel(text);
         _rectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
     }
@@ -69,10 +70,5 @@ public class NarrativePanelUIHandler
         var count = _lineBreaksCountCalculator.GetLineBreaksCount(_textComponent, text);
         _panelSizeHandler.UpdateSize(text, count);
         _textBlockPositionHandler.UpdatePosition(text, count);
-    }
-    public async UniTask UpdatePanelAsync(string text)
-    {
-        var res = await _lineBreaksCountCalculator.GetLineBreaksCountAsync(_textComponent, text);
-        _textBlockPositionHandler.UpdatePosition(text, res);
     }
 }

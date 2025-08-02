@@ -16,7 +16,6 @@ public class TextBlockPositionHandler
     {
         if (String.IsNullOrEmpty(text) == false)
         {
-            Debug.Log($"lineBreaks {lineBreaks}     {_textPositionAnimationCurve.Evaluate(lineBreaks)}");
             _textRectTransform.anchoredPosition = new Vector2(_textRectTransform.anchoredPosition.x, _textPositionAnimationCurve.Evaluate(lineBreaks));
         }
     }
