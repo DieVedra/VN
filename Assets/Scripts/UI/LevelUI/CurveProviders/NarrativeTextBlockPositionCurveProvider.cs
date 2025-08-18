@@ -9,7 +9,8 @@ public class NarrativeTextBlockPositionCurveProvider : CurveProvider
     private const float _posY4 = 23f;
     private const float _posY5 = 52f;
     private const float _posY6 = 93f;
-    
+    private const float _posY7 = 124f;
+
     public override AnimationCurve GetCurve()
     {
         return new AnimationCurve(
@@ -19,6 +20,7 @@ public class NarrativeTextBlockPositionCurveProvider : CurveProvider
         new Keyframe(_lineBreaks3, _posY3), 
         new Keyframe(_lineBreaks4, _posY4),
         new Keyframe(_lineBreaks5, _posY5),
-        new Keyframe(_lineBreaks6, _posY6));
+        new Keyframe(_lineBreaks6, _posY6),
+        new Keyframe(_lineBreaks7, _posY7));
     }
 }

@@ -30,7 +30,7 @@ public class TextConsistentlyViewer
         _stringBuilder.Clear();
         _stringBuilder.Append(text);
         List<string> consistentlyStrings = CreateConsistentlyStrings(CreateIndexes(), text);
-        _textComponent.havePropertiesChanged = true; 
+        _textComponent.havePropertiesChanged = true;
         for (int i = 0; i < consistentlyStrings.Count; i++)
         {
             ClearText();
@@ -44,6 +44,7 @@ public class TextConsistentlyViewer
     private List<string> CreateConsistentlyStrings(List<int> indexes, string text)
     {
         List<string> consistentlyStrings = new List<string>(indexes.Count);
+        _stringBuilder.Clear();
         for (int i = 0; i < indexes.Count; i++)
         {
             _stringBuilder.Append(text);

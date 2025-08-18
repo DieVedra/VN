@@ -32,7 +32,7 @@ public class CurtainUIHandler
     {
         BlockGameControlPanelUI?.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
-        BlackFrameView.Image.color = Color.black;
+        SkipAtCloses();
         await UniTask.WhenAny(CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken),
             UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.MaxValue - _unfadeSkipValue), cancellationToken: cancellationToken));
         BlackFrameView.gameObject.SetActive(false);
@@ -40,10 +40,22 @@ public class CurtainUIHandler
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)
     {
+        CurtainClosesImmediate();
+        await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
+    }
+
+    public void CurtainOpensImmediate()
+    {
+        BlockGameControlPanelUI?.Execute(false);
+        BlackFrameView.gameObject.SetActive(true);
+        SkipAtCloses();
+        BlackFrameView.gameObject.SetActive(false);
+    }
+    public void CurtainClosesImmediate()
+    {
         BlockGameControlPanelUI?.Execute(true);
         BlackFrameView.gameObject.SetActive(true);
-        BlackFrameView.Image.color = Color.clear;
-        await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
+        SkipAtOpens();
     }
     public void SkipAtOpens()
     {

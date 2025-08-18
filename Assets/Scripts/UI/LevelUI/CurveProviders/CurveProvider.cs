@@ -9,6 +9,7 @@ public abstract class CurveProvider
     protected const float _lineBreaks4 = 4f;
     protected const float _lineBreaks5 = 5f;
     protected const float _lineBreaks6 = 6f;
+    protected const float _lineBreaks7 = 7f;
 
     public abstract AnimationCurve GetCurve();
 }

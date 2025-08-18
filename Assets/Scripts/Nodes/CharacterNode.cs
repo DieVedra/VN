@@ -115,8 +115,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _characterViewer.SetLook(GetLook());
         }
         _characterTalkData = CreateCharacterTalkData();
-
-        if (IsPlayMode() == false && _toggleShowPanel == true)
+        if (_toggleShowPanel == true)
         {
             _characterPanelUIHandler.CharacterTalkInEditMode(_characterTalkData);
         }
@@ -129,13 +128,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
         _characterViewer.SpriteViewer.CharacterAnimations.MakeVisibleSprite();
         SetInfoToView();
         TryActivateButtonSwitchToNextSlide();
-    }
-    public override void SkipExitTransition()
-    {
-        CancellationTokenSource.Cancel();
-
-        _characterViewer.SpriteViewer.CharacterAnimations.MakeInvisibleSprite();
-        _characterPanelUIHandler.DisappearanceCharacterTalkInPlayMode();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

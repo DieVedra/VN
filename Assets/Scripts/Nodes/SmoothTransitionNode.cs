@@ -5,6 +5,8 @@ using UnityEngine;
 [NodeTint("#333333")]
 public class SmoothTransitionNode : BaseNode
 {
+    [SerializeField, HideInInspector] private bool _isStartImmediatlyCurtain;
+    [SerializeField, HideInInspector] private bool _isEndImmediatlyCurtain;
     [SerializeField, HideInInspector] private bool _isStartCurtain;
     [SerializeField, HideInInspector] private bool _isEndCurtain;
 
@@ -24,16 +26,7 @@ public class SmoothTransitionNode : BaseNode
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
 
-        if (_isStartCurtain)
-        {
-            await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
-        }
-        
-        if(_isEndCurtain)
-        {
-            await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
-        }
-
+        await Do();
         if (isMerged == false)
         {
             SwitchToNextNodeEvent.Execute();
@@ -50,6 +43,29 @@ public class SmoothTransitionNode : BaseNode
         if (_isEndCurtain)
         {
             _curtainUIHandler.SkipAtCloses();
+        }
+    }
+
+    private async UniTask Do()
+    {
+        if (_isStartCurtain)
+        {
+            await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+            return;
+        }
+        if (_isStartImmediatlyCurtain)
+        {
+            _curtainUIHandler.CurtainOpensImmediate();
+            return;
+        }
+        if(_isEndCurtain)
+        {
+            await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+            return;
+        }
+        if(_isEndImmediatlyCurtain)
+        {
+            _curtainUIHandler.CurtainClosesImmediate();
         }
     }
 }

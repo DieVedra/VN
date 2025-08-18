@@ -40,7 +40,7 @@ public class SeriaPartNodeGraph : NodeGraph
 		{
 			foreach (var baseNodes in _baseNodes)
 			{
-				baseNodes.Dispose();
+				baseNodes?.Dispose();
 			}
 		}
 	}

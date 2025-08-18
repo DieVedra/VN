@@ -9,6 +9,7 @@ public class NarrativePanelSizeCurveProvider : CurveProvider
     private const float _height4 = 809f;
     private const float _height5 = 890f;
     private const float _height6 = 963f;
+    private const float _height7 = 1043f;
 
     public override AnimationCurve GetCurve()
     {
@@ -19,6 +20,7 @@ public class NarrativePanelSizeCurveProvider : CurveProvider
             new Keyframe(_lineBreaks3,_height3),
             new Keyframe(_lineBreaks4,_height4),
             new Keyframe(_lineBreaks5,_height5),
-            new Keyframe(_lineBreaks6,_height6));
+            new Keyframe(_lineBreaks6,_height6),
+            new Keyframe(_lineBreaks7,_height7));
     }
 }
