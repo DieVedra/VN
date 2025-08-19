@@ -14,26 +14,24 @@ public class ButtonsCustomizationHandler
     private const float _distanceBetweenModeButtons  = 296f;
     private const string _defaultText = "0";
 
-    private readonly CustomizationPreliminaryBalanceCalculator _customizationPreliminaryBalanceCalculator;
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     private readonly ArrowSwitch _arrowSwitch;
     private readonly ButtonsModeSwitch _buttonsModeSwitch;
     private readonly CalculateStatsHandler _calculateStatsHandler;
-    private readonly PriceViewHandler _priceViewHandler;
+    private readonly PreliminaryBalanceCalculator _preliminaryBalanceCalculator;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ReactiveCommand<bool> _offArrows;
 
-    public ButtonsCustomizationHandler(CustomizationPreliminaryBalanceCalculator customizationPreliminaryBalanceCalculator,
+    public ButtonsCustomizationHandler(
         CustomizationCharacterPanelUI customizationCharacterPanelUI, ArrowSwitch arrowSwitch, ButtonsModeSwitch buttonsModeSwitch,
-        CalculateStatsHandler calculateStatsHandler, PriceViewHandler priceViewHandler,
+        CalculateStatsHandler calculateStatsHandler, PreliminaryBalanceCalculator preliminaryBalanceCalculator,
         SwitchInfoCustodian switchInfoCustodian, ReactiveCommand<bool> offArrows)
     {
-        _customizationPreliminaryBalanceCalculator = customizationPreliminaryBalanceCalculator;
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
         _arrowSwitch = arrowSwitch;
         _buttonsModeSwitch = buttonsModeSwitch;
         _calculateStatsHandler = calculateStatsHandler;
-        _priceViewHandler = priceViewHandler;
+        _preliminaryBalanceCalculator = preliminaryBalanceCalculator;
         _switchInfoCustodian = switchInfoCustodian;
         _offArrows = offArrows;
     }
@@ -97,7 +95,7 @@ public class ButtonsCustomizationHandler
             {
                 DeactivateButtonsCustomization(customizationCharacterPanelUI);
                 customizationEndEvent.Execute(new CustomizationResult(GetStatsToResult(), 
-                    _customizationPreliminaryBalanceCalculator.MonetsToShow, _customizationPreliminaryBalanceCalculator.HeartsToShow));
+                    _preliminaryBalanceCalculator.PricesCalculationToRemove(_switchInfoCustodian.GetAllPriceInfo)));
             });
         }
 

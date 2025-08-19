@@ -1,25 +1,15 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class CustomizationResult
 {
     public readonly List<BaseStat> Stats;
-    public readonly int PreliminaryMonet;
-    public readonly int PreliminaryHearts;
+    public readonly int MonetsToRemove;
+    public readonly int HeartsToRemove;
 
-    public CustomizationResult(List<BaseStat> stats, int preliminaryMonet, int preliminaryHearts)
+    public CustomizationResult(List<BaseStat> stats, (int price, int additionalPrice) prices)
     {
         Stats = stats;
-        PreliminaryMonet = preliminaryMonet;
-        PreliminaryHearts = preliminaryHearts;
-    }
-
-    public int GetRemovedValueMonets(int monets)
-    {
-        return monets -= PreliminaryMonet;
-    }
-    public int GetRemovedValueHearts(int hearts)
-    {
-        return hearts -= PreliminaryHearts;
+        MonetsToRemove = prices.price;
+        HeartsToRemove = prices.additionalPrice;
     }
 }

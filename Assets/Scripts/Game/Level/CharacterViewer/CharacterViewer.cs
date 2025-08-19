@@ -21,7 +21,7 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
 
     public override void Dispose()
     {
-        SpriteViewer1.Dispose();
+        SpriteViewer1?.Dispose();
     }
     public void SetDirection(DirectionType directionType)
     {

@@ -13,8 +13,7 @@ public class ArrowSwitch
     private readonly CustomizationSettingsCustodian _customizationSettingsCustodian;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly CustomizationDataProvider _customizationDataProvider;
-    private readonly PanelResourceHandler _panelResourceHandler;
-    private readonly CustomizationPreliminaryBalanceCalculator _customizationPreliminaryBalanceCalculator;
+    private readonly PreliminaryBalanceCalculator _preliminaryBalanceCalculator;
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
@@ -29,7 +28,7 @@ public class ArrowSwitch
         TextMeshProUGUI titleTextComponent, ButtonPlayHandler buttonPlayHandler,
         ReactiveProperty<ArrowSwitchMode> switchModeCustodian, CustomizationSettingsCustodian customizationSettingsCustodian,
         SwitchInfoCustodian switchInfoCustodian, CustomizationDataProvider customizationDataProvider,
-        PanelResourceHandler panelResourceHandler, CustomizationPreliminaryBalanceCalculator customizationPreliminaryBalanceCalculator,
+        PreliminaryBalanceCalculator preliminaryBalanceCalculator,
         ReactiveProperty<bool> isNuClothesReactiveProperty, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _characterCustomizationView = characterCustomizationView;
@@ -42,8 +41,7 @@ public class ArrowSwitch
         _customizationSettingsCustodian = customizationSettingsCustodian;
         _switchInfoCustodian = switchInfoCustodian;
         _customizationDataProvider = customizationDataProvider;
-        _panelResourceHandler = panelResourceHandler;
-        _customizationPreliminaryBalanceCalculator = customizationPreliminaryBalanceCalculator;
+        _preliminaryBalanceCalculator = preliminaryBalanceCalculator;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
@@ -170,10 +168,8 @@ public class ArrowSwitch
                 taskRunner.AddOperationToList(() => _priceViewHandler.HideAnim());
             }
         }
-        
-        taskRunner.AddOperationToList(TryShowOrHideOnSwitch);
-        
-        if (CheckAvailableMoney(price, additionalPrice) == true)
+
+        if (_preliminaryBalanceCalculator.CheckAvailableMoneyAndHearts(_switchInfoCustodian.GetAllPriceInfo))
         {
             if (_buttonPlayHandler.IsActive == false)
             {
@@ -214,13 +210,6 @@ public class ArrowSwitch
                 break;
         }
     }
-
-    private async UniTask TryShowOrHideOnSwitch()
-    {
-        await _panelResourceHandler.TryHidePanel();
-        _customizationPreliminaryBalanceCalculator.CustomizationPreliminaryBalanceCalculation();
-        await _panelResourceHandler.Show();
-    }
     private async UniTask TrySwitch()
     {
         if (_isSwitched == false)
@@ -248,15 +237,5 @@ public class ArrowSwitch
         {
             return false;
         }
-    }
-
-    private bool CheckAvailableMoney(int price, int additionalPrice)
-    {
-        if (_customizationPreliminaryBalanceCalculator.CheckAvailableMoney(price) == true &&
-            _customizationPreliminaryBalanceCalculator.CheckAvailableHearts(additionalPrice) == true)
-        {
-            return true;
-        }
-        else return false;
     }
 }

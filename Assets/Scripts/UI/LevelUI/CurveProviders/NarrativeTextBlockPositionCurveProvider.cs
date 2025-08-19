@@ -2,14 +2,14 @@
 
 public class NarrativeTextBlockPositionCurveProvider : CurveProvider
 {
-    private const float _posY0 = -105f;
-    private const float _posY1 = -88f;
-    private const float _posY2 = -55f;
-    private const float _posY3 = -11f;
-    private const float _posY4 = 23f;
-    private const float _posY5 = 52f;
-    private const float _posY6 = 93f;
-    private const float _posY7 = 124f;
+    private const float _posY0 = -187f;
+    private const float _posY1 = -170f;
+    private const float _posY2 = -137f;
+    private const float _posY3 = -93f;
+    private const float _posY4 = -59f;
+    private const float _posY5 = -30f;
+    private const float _posY6 = 11f;
+    private const float _posY7 = 45f;
 
     public override AnimationCurve GetCurve()
     {

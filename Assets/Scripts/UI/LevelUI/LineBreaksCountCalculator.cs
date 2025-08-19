@@ -9,7 +9,12 @@ public class LineBreaksCountCalculator
         Color textColor = textComponent.color;
         textComponent.color = Color.clear;
         textComponent.text = text;
+        if (textComponent.gameObject.activeSelf == false)
+        {
+            textComponent.gameObject.SetActive(true);
+        }
         textComponent.ForceMeshUpdate();
+        
         int lineCount = textComponent.textInfo.lineCount;
         int lineBreaks = 0;
         if (lineCount > 0)

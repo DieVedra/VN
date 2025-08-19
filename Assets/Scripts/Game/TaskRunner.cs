@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 
 public class TaskRunner
 {
-    public const int TaskCountMax = 10;
+    private const int TaskCountMax = 10;
     private List<Func<UniTask>> _operation;
     
     public void AddOperationToList(Func<UniTask> operation)

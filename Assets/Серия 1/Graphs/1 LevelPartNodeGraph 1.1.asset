@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -5496, y: -1704}
+  position: {x: -5496, y: -1912}
   ports:
     keys:
     - Input
@@ -133,6 +133,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 0
   _isEndCurtain: 1
 --- !u!114 &-6516700827330400648
@@ -523,6 +525,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 0
   _isEndCurtain: 1
 --- !u!114 &-4925142805470070532
@@ -1031,7 +1035,6 @@ MonoBehaviour:
   - {fileID: 4133872993187370784}
   - {fileID: 5712739522091788798}
   - {fileID: 8302261360956621105}
-  - {fileID: 602720759309281742}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,45 +1082,6 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0418 \u0441\u0432\u0435\u0440\u0448\u0438\u043B\u043E\u0441\u044C!"
     <Key>k__BackingField: str_861DC08C
---- !u!114 &602720759309281742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
-  m_Name: Switch To Next Seria
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -4200, y: -2168}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 602720759309281742}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 602720759309281742}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _putOnSwimsuit: 0
 --- !u!114 &749743595329428619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,6 +1126,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
 --- !u!114 &1449984686727735866
@@ -3977,6 +3943,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
 --- !u!114 &8033070752538020735

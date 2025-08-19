@@ -43,7 +43,7 @@ public class ChoicePanelUIHandler
 
     public void Dispose()
     {
-        _compositeDisposableOnUpdateWallet.Dispose();
+        _compositeDisposableOnUpdateWallet?.Dispose();
         _panelResourceHandler.Dispose();
     }
     public void ShowChoiceVariants(ChoiceData data)

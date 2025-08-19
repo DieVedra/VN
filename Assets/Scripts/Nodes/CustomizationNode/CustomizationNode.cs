@@ -139,10 +139,10 @@ public class CustomizationNode : BaseNode, ILocalizable
     {
         _wardrobeCharacterViewer.PlayPSEndCustomizationEffect();
         _gameStatsProvider.GameStatsHandler.UpdateStats(customizationResult.Stats);
-        _wallet.RemoveCash(customizationResult.GetRemovedValueMonets(_wallet.Monets));
-        _wallet.RemoveHearts(customizationResult.GetRemovedValueHearts(_wallet.Hearts));
+        _wallet.RemoveCash(customizationResult.MonetsToRemove);
+        _wallet.RemoveHearts(customizationResult.HeartsToRemove);
         
-        Debug.Log($"_wallet.Monets {_wallet.Monets}  _wallet.Hearts {_wallet.Hearts}");
+        // Debug.Log($"customizationResult.MonetsToRemove {customizationResult.MonetsToRemove}   customizationResult.HeartsToRemove {customizationResult.HeartsToRemove}                 _wallet.Monets {_wallet.Monets}  _wallet.Hearts {_wallet.Hearts}");
         SwitchToNextNodeEvent.Execute();
     }
 
