@@ -12,9 +12,10 @@ public class LevelUIProviderEditMode
     public readonly CustomizationCharacterPanelUIHandler CustomizationCharacterPanelUIHandler;
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
     public readonly PanelResourceHandler PanelResourceHandler;
-    
-    public LevelUIProviderEditMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
-        DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
+
+    public LevelUIProviderEditMode(
+        LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, 
+        Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI)
     {
         levelUIView.gameObject.SetActive(true);

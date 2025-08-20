@@ -26,11 +26,6 @@ public class BlackFrameUIHandler
             InitFrameView();
         }
     }
-    // public BlackFrameUIHandler(CurtainUI curtainUI)
-    // {
-    //     IsOpen = false;
-    //     _curtainUI = curtainUI;
-    // }
     public async UniTask Init(Transform parent)
     {
         if (_assetLoaded == false)

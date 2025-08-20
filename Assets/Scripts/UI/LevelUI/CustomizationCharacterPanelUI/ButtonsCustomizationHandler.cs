@@ -60,6 +60,8 @@ public class ButtonsCustomizationHandler
                 {
                     customizationCharacterPanelUI.LeftArrow.gameObject.SetActive(true);
                     customizationCharacterPanelUI.RightArrow.gameObject.SetActive(true);
+                    SetButtonTransparencyAndBlockRaycasts(customizationCharacterPanelUI.RightArrowCanvasGroup, false);
+
                 }
             });
             

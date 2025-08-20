@@ -12,9 +12,9 @@ public class MergerNode : BaseNode
     private const int _maxDynamicPortsCount = 4;
     private const string _port = "Port ";
     private TaskRunner _taskRunner;
-
+    private MergedNodesDeterminator _mergedNodesDeterminator;
     private List<string> _names;
-    private Dictionary<Type, BaseNode> _mergerObjects;
+    private Dictionary<Type, Node> _mergerObjects;
 
     private bool _choiceNodeConnected => _mergerObjects.ContainsKey(typeof(ChoiceNode));
     private bool _customizationNodeConnected => _mergerObjects.ContainsKey(typeof(CustomizationNode));
@@ -30,12 +30,13 @@ public class MergerNode : BaseNode
 
     public override async UniTask Enter(bool isMerged = false)
     {
-        _mergerObjects = new Dictionary<Type, BaseNode>();
+        _mergerObjects = new Dictionary<Type, Node>();
+        _mergedNodesDeterminator = new MergedNodesDeterminator(ref _mergerObjects);
         foreach (NodePort port in DynamicOutputs)
         {
             if (port.IsConnected)
             {
-                var keyValue = MergedNodesDeterminator.TryDetermineNode(port, SetNodeFirstItem);
+                var keyValue = _mergedNodesDeterminator.TryDetermineNode(port);
                 if (_mergerObjects.ContainsKey(keyValue.Key) == false)
                 {
                     _mergerObjects.Add(keyValue.Key, keyValue.Value);
@@ -91,7 +92,7 @@ public class MergerNode : BaseNode
 
         foreach (var mergerObject in _mergerObjects)
         {
-            tasksExited.Add(() => mergerObject.Value.Exit());
+            tasksExited.Add(() => GetBaseNode(mergerObject.Value).Exit());
         }
         return tasksExited;
     }
@@ -101,7 +102,7 @@ public class MergerNode : BaseNode
         List<Func<UniTask>> tasksEntered = new List<Func<UniTask>>(_maxDynamicPortsCount);
         foreach (var mergerObject in _mergerObjects)
         {
-            tasksEntered.Add(() => mergerObject.Value.Enter(true));
+            tasksEntered.Add(() => GetBaseNode(mergerObject.Value).Enter(true));
         }
 
         return tasksEntered;
@@ -110,7 +111,7 @@ public class MergerNode : BaseNode
     {
         foreach (var mergerObject in _mergerObjects)
         {
-            mergerObject.Value.SkipEnterTransition();
+            GetBaseNode(mergerObject.Value).SkipEnterTransition();
         }
     }
 
@@ -118,7 +119,7 @@ public class MergerNode : BaseNode
     {
         foreach (var mergerObject in _mergerObjects)
         {
-            mergerObject.Value.SkipExitTransition();
+            GetBaseNode(mergerObject.Value).SkipExitTransition();
         }
     }
 
@@ -153,7 +154,7 @@ public class MergerNode : BaseNode
         NodePort portOutputNextNode = null;
         foreach (var mergerObject in _mergerObjects)
         {
-            portOutputNextNode = mergerObject.Value.OutputPortBaseNode;
+            portOutputNextNode = GetBaseNode(mergerObject.Value).OutputPortBaseNode;
             if (portOutputNextNode != null && portOutputNextNode.IsConnected == true)
             {
                 SetNextNode(portOutputNextNode.Connection.node as BaseNode);
@@ -161,25 +162,10 @@ public class MergerNode : BaseNode
             }
         }
     }
-
-    private void SetNodeFirstItem(Type type)
-    {
-        var newDic = new Dictionary<Type, BaseNode>();
-        if (_mergerObjects.TryGetValue(type, out BaseNode baseNode))
-        {
-            newDic.Add(type, baseNode);
-            _mergerObjects.Remove(type);
-        }
-        foreach (var obj in _mergerObjects)
-        {
-            newDic.Add(obj.Key, obj.Value);
-        }
-    }
-
     private bool GetKeySmoothTransitionBackgroundNode()
     {
         bool result = false;
-        if (_mergerObjects.TryGetValue(typeof(BackgroundNode), out BaseNode baseNode))
+        if (_mergerObjects.TryGetValue(typeof(BackgroundNode), out Node baseNode))
         {
             if (baseNode is BackgroundNode backgroundNode)
             {
@@ -192,9 +178,9 @@ public class MergerNode : BaseNode
 
     private BaseNode GetNextNodeFrom<T>()
     {
-        if (_mergerObjects.TryGetValue(typeof(T), out BaseNode baseNode))
+        if (_mergerObjects.TryGetValue(typeof(T), out Node baseNode))
         {
-            return baseNode.GetNextNode();
+            return GetBaseNode(baseNode).GetNextNode();
         }
         else
         {
@@ -221,5 +207,10 @@ public class MergerNode : BaseNode
         {
             RemoveDynamicPort(DynamicOutputs.Last().fieldName);
         }
+    }
+
+    private BaseNode GetBaseNode(Node node)
+    {
+        return node as BaseNode;
     }
 }

@@ -103,9 +103,12 @@ public class ChoicePanelUIHandler
         await _choiceNodeButtonsHandler.HideButtons(cancellationToken, keyShowChoice3);
         if (_choiceNodePriceHandler.PriceExists == true)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(ChoicePanelUIValues.PriceExistsDurationValue), cancellationToken: cancellationToken);
+            _panelResourceHandler.TryHidePanel(delay:ChoicePanelUIValues.PriceExistsDurationValue).Forget();
         }
-        _panelResourceHandler.TryHidePanel().Forget();
+        else
+        {
+            _panelResourceHandler.TryHidePanel().Forget();
+        }
         _choicePanelUI.gameObject.SetActive(false);
         _panelResourceHandler.Dispose();
     }

@@ -3,17 +3,23 @@
 public class LevelUIProviderBuildMode : LevelUIProviderEditMode
 {
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
+    public readonly GameEndPanelHandler GameEndPanelHandler;
+
     
     public LevelUIProviderBuildMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
-        OnSceneTransitionEvent onSceneTransition, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
+        DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
-        ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler, GlobalUIHandler globalUIHandler) 
+        ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler,
+        GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler) 
         : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI)
     {
         if (Application.isPlaying)
         {
-            GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler, onSceneTransition,
-                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, localizationHandler, blockGameControlPanelUI);
+            GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,
+                globalSound, wallet, mainMenuLocalizationHandler, blackFrameUIHandler, buttonTransitionToMainSceneUIHandler,
+                localizationHandler, blockGameControlPanelUI);
+            GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
+                buttonTransitionToMainSceneUIHandler, levelUIView.transform);
         }
     }
 

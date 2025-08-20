@@ -67,7 +67,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   namenode: 
-  _autoSwitchToNextSlide: 0
+  _autoSwitchToNextSlide: 1
 --- !u!114 &-7017862862797871136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 21864, y: 888}
+  position: {x: 21640, y: 1336}
   ports:
     keys:
     - Input
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 22184, y: 1320}
+  position: {x: 22312, y: 1784}
   ports:
     keys:
     - Input
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 21816, y: 1272}
+  position: {x: 21560, y: 1848}
   ports:
     keys:
     - Input
@@ -679,6 +679,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 0
   _isEndCurtain: 1
 --- !u!114 &3557674215843501537
@@ -757,7 +759,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 22264, y: 200}
+  position: {x: 21912, y: 1032}
   ports:
     keys:
     - Input
@@ -787,7 +789,7 @@ MonoBehaviour:
   namenode: 
   _currentMusicSoundIndex: 1
   _currentAmbientSoundIndex: 0
-  _isInstantNodeTransition: 0
+  _isInstantNodeTransition: 1
   _volumeMusicSound: 0.63124996
   _volumeAmbientSound: 1
   _smoothMusicTransitionKey: 1
@@ -845,6 +847,8 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
 --- !u!114 &5033091300071262195
@@ -3031,7 +3035,7 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 20014.121, y: 606.6233}
+  position: {x: 20104, y: 456}
   ports:
     keys:
     - Input

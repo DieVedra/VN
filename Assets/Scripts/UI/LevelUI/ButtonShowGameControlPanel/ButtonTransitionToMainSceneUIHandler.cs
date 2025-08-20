@@ -1,6 +1,5 @@
-﻿
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,16 +15,21 @@ public class ButtonTransitionToMainSceneUIHandler
 
     private readonly LoadScreenUIHandler _loadScreenUIHandler;
     private readonly OnSceneTransitionEvent _onSceneTransition;
+    private readonly SmoothAudio _smoothAudio;
 
-    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition)
+    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition, SmoothAudio smoothAudio)
     {
         _loadScreenUIHandler = loadScreenUIHandler;
         _onSceneTransition = onSceneTransition;
+        _smoothAudio = smoothAudio;
     }
 
     public async UniTask Press()
     {
-        await _loadScreenUIHandler.BlackFrameUIHandler.Close();
+        var token = new CancellationTokenSource();
+        await UniTask.WhenAll(_loadScreenUIHandler.BlackFrameUIHandler.Close(),
+            _smoothAudio.SmoothStopAudio(token.Token, AudioSourceType.Music),
+            _smoothAudio.SmoothStopAudio(token.Token, AudioSourceType.Ambient));
         Camera.main.gameObject.SetActive(false);
         await _loadScreenUIHandler.ShowToMainMenuMove();
         await SceneManager.LoadSceneAsync(_mainSceneIndex, LoadSceneMode.Single);

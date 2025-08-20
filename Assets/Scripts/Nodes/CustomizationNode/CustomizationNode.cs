@@ -131,7 +131,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         }
         else
         {
-            _customizationCharacterPanelUIHandler.SetContentInEditMode(_selectedCustomizationContentIndexes);
+            _customizationCharacterPanelUIHandler.SetContentInEditMode();
         }
     }
 

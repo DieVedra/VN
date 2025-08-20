@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -117,8 +118,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
                 _currentSeriaIndexReactiveProperty, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
-    }
 
+        _gameSeriesHandlerBuildMode.OnEndGame.Subscribe(_ =>
+        {
+            _levelUIProviderBuildMode.GameEndPanelHandler.ShowPanel().Forget();
+        });
+    }
     private void OnApplicationQuit()
     {
         Dispose();
@@ -165,8 +170,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, OnSceneTransitionEvent, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound, _mainMenuLocalizationHandler, _globalUIHandler);
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
+            _mainMenuLocalizationHandler, _globalUIHandler,
+            new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio));
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

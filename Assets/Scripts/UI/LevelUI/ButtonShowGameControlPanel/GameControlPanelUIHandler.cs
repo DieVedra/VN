@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -10,7 +9,6 @@ public class GameControlPanelUIHandler
 {
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
-    private readonly OnSceneTransitionEvent _onSceneTransition;
     private readonly GlobalSound _globalSound;
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parent;
@@ -21,7 +19,6 @@ public class GameControlPanelUIHandler
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private CancellationTokenSource _cancellationTokenSource;
     private ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
-    private LoadScreenUIHandler _loadScreenUIHandler;
     
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
@@ -33,20 +30,20 @@ public class GameControlPanelUIHandler
     private bool _panelIsVisible;
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
-        OnSceneTransitionEvent onSceneTransition, GlobalSound globalSound, Wallet wallet,
+        GlobalSound globalSound, Wallet wallet,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         ILevelLocalizationHandler localizationHandler, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         _gameControlPanelView = gameControlPanelView;
-        _loadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
         _settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
         _parent = globalUIHandler.GlobalUITransforn;
         _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
-        _onSceneTransition = onSceneTransition;
         _globalSound = globalSound;
         _localizationChanger = mainMenuLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
         _levelLocalizationHandler = localizationHandler;
         _blockGameControlPanelUI = blockGameControlPanelUI;
         _panelIsVisible = false;
@@ -55,18 +52,11 @@ public class GameControlPanelUIHandler
         _gameControlPanelView.CanvasGroup.alpha = 0f;
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
-
-        
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
             globalUIHandler.LoadIndicatorUIHandler);
-        
-        
-        
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
             globalSound.SoundStatus, _localizationChanger, false);
         _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
-
-        
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
         _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);
@@ -141,7 +131,6 @@ public class GameControlPanelUIHandler
         if (_confirmedPanelUIHandler == null)
         {
             _confirmedPanelUIHandler = new ConfirmedPanelUIHandler(_loadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler, _darkeningBackgroundFrameUIHandler.Transform);
-            _buttonTransitionToMainSceneUIHandler = new ButtonTransitionToMainSceneUIHandler(_loadScreenUIHandler, _onSceneTransition);
             await _confirmedPanelUIHandler.Show(
                 _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
                 _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,

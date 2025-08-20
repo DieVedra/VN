@@ -40,9 +40,8 @@ public class CustomizationCharacterPanelUIHandler
         _panelResourceHandler?.Dispose();
         _cancellationTokenSource?.Cancel();
     }
-    public void SetContentInEditMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)
+    public void SetContentInEditMode()
     {
-        _buttonsCustomizationHandler.ActivateButtonsCustomization(_customizationCharacterPanelUI, selectedCustomizationContentIndexes);
         _customizationCharacterPanelUI.PriceUIView.gameObject.SetActive(true);
         _customizationCharacterPanelUI.gameObject.SetActive(true);
     }

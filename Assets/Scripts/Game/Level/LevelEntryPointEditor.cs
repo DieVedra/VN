@@ -104,6 +104,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
 
+        _gameSeriesHandlerEditorMode.OnEndGame.Subscribe(_ =>
+        {
+            Debug.Log($"EndGame");
+        });
+        
         IsInitializing = false;
     }
 
@@ -139,8 +144,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
-        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, _wallet, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI);
+        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler,
+            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
@@ -171,4 +176,5 @@ public class LevelEntryPointEditor : LevelEntryPoint
         }
         _backgroundEditMode.Construct(DisableNodesContentEvent, CharacterViewer);
     }
+    
 }

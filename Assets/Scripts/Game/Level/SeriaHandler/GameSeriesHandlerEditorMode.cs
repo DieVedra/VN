@@ -7,14 +7,14 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
     [SerializeField, ReadOnly] private ReactiveProperty<int> _seriaIndexToShowOnInspector;
     [SerializeField, ReadOnly] private ReactiveProperty<int> _nodeGraphIndexToShowOnInspector;
     [SerializeField, ReadOnly] private ReactiveProperty<int> _nodeIndexToShowOnInspector;
-    public void Construct(NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
+    public void Construct(
+        NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
-        SubscribeReactivePropertiesToShowOnInspector();
 
         if (Application.isPlaying == false)
         {
@@ -27,19 +27,9 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         {
             InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
         }
-    }
 
-    private void SwitchSeria(bool putSwimsuits = false)
-    {
-        if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
-        {
-            CurrentSeriaIndexReactiveProperty.Value++;
-            InitSeria(CurrentSeriaIndex);
-        }
-        else
-        {
-            //end game invoke result panel
-        }
+        Construct();
+        SubscribeReactivePropertiesToShowOnInspector();
     }
 
     private void SubscribeReactivePropertiesToShowOnInspector()
