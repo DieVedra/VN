@@ -17,20 +17,26 @@ public class LevelLoadDataHandler
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     
     private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
+    private readonly OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
+    private readonly OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
     public ReactiveCommand<bool> ContentIsLoading { get; private set; }
     public int CurrentSeriaLoadedNumber { get; private set; }
-    public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercent;
+    public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
+    public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
     public LevelLoadDataHandler(MainMenuLocalizationHandler mainMenuLocalizationHandler, BackgroundContentCreator backgroundContentCreator, LevelLocalizationProvider levelLocalizationProvider,
-        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, int numberFirstSeria = 1)
+        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, OnAwaitLoadContentEvent<bool> onAwaitLoadContentEvent, 
+        OnContentIsLoadProperty<bool> onContentIsLoadProperty, int numberFirstSeria = 1)
     {
         _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
         CurrentSeriaLoadedNumber = numberFirstSeria;
         _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _switchToNextSeriaEvent = switchToNextSeriaEvent;
+        _onAwaitLoadContentEvent = onAwaitLoadContentEvent;
+        _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
         WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
@@ -84,14 +90,18 @@ public class LevelLoadDataHandler
     {
         if (CurrentSeriaLoadedNumber <= _seriesCount)
         {
+            _onContentIsLoadProperty.SetValue(true);
             int nextSeriaNumber = CurrentSeriaLoadedNumber;
             nextSeriaNumber++;
             // _loadAssetsPercentHandler.StartCalculatePercent();
+            await UniTask.SwitchToThreadPool();
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, CurrentSeriaLoadedNumber);
             await TryLoadDatas(nextSeriaNumber, CurrentSeriaLoadedNumber);
             await _backgroundContentCreator.TryCreateBackgroundContent();
             // _loadAssetsPercentHandler.StopCalculatePercent();
             CurrentSeriaLoadedNumber = nextSeriaNumber;
+            await UniTask.SwitchToMainThread();
+            _onContentIsLoadProperty.SetValue(false);
         }
     }
 

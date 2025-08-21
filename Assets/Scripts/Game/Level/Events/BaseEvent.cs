@@ -4,12 +4,10 @@ using UniRx;
 public class BaseEvent
 {
     protected ReactiveCommand BaseReactiveCommand;
-
     public BaseEvent()
     {
         BaseReactiveCommand = new ReactiveCommand();
     }
-
     public void Dispose()
     {
         BaseReactiveCommand.Dispose();
@@ -39,7 +37,6 @@ public class BaseEvent
 public class BaseEvent<T>
 {
     protected ReactiveCommand<T> BaseReactiveCommand;
-
     public BaseEvent()
     {
         BaseReactiveCommand = new ReactiveCommand<T>();

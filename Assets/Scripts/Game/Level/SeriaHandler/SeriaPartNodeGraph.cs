@@ -7,7 +7,6 @@ using XNode;
 public class SeriaPartNodeGraph : NodeGraph
 {
 	private BaseNode _currentNode;
-	private int _nodeCount = 0;
 	private int _currentNodeIndex;
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
@@ -19,7 +18,6 @@ public class SeriaPartNodeGraph : NodeGraph
 		_nodeGraphInitializer = nodeGraphInitializer;
 		_currentNodeIndex = currentNodeIndex;
 		_currentSeriaIndex = currentSeriaIndex;
-		_nodeCount = nodes.Count;
 		TryInitNodes();
 		
 		
@@ -101,6 +99,5 @@ public class SeriaPartNodeGraph : NodeGraph
 	private void InitNewNode(Node node)
 	{
 		_nodeGraphInitializer.InitOneNode(node as BaseNode, _currentSeriaIndex);
-		_nodeCount = nodes.Count;
 	}
 }

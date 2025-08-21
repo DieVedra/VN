@@ -28,10 +28,27 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
             InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
         }
 
-        Construct();
         SubscribeReactivePropertiesToShowOnInspector();
     }
-
+    private void SwitchSeria(bool putSwimsuits = false)
+    {
+        if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
+        {
+            CurrentSeriaIndexReactiveProperty.Value++;
+            InitSeria(CurrentSeriaIndex);
+        }
+        else
+        {
+            NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
+            NodeGraphInitializer.SendCurrentNodeEvent.Dispose();
+            NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
+            NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Dispose();
+            NodeGraphInitializer.DisableNodesContentEvent.Dispose();
+            NodeGraphInitializer.SwitchToNextSeriaEvent.Dispose();
+                
+            Debug.Log($"EndGame");
+        }
+    }
     private void SubscribeReactivePropertiesToShowOnInspector()
     {
         _seriaIndexToShowOnInspector = new ReactiveProperty<int>(CurrentSeriaIndexReactiveProperty.Value);

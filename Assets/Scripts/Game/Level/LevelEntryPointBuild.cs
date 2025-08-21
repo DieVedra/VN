@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -24,6 +23,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUIEvent;
     private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
+    private OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
+    private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
+    private OnEndGameEvent _onEndGameEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
     [Inject]
@@ -38,25 +40,33 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
+        _onAwaitLoadContentEvent = new OnAwaitLoadContentEvent<bool>();
         _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
         _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler, _currentSeriaIndexReactiveProperty);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-
+        OnSceneTransitionEvent = new OnSceneTransitionEvent();
+        SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
+        SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
+        DisableNodesContentEvent = new DisableNodesContentEvent();
+        _onEndGameEvent = new OnEndGameEvent();
+        _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
+        
         if (LoadSaveData == true)
         {
             SaveData = SaveServiceProvider.SaveData;
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
+                _levelLocalizationProvider, SwitchToNextSeriaEvent, _onAwaitLoadContentEvent,
+                _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
         }
         else
         {
             _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent);
+                _levelLocalizationProvider, SwitchToNextSeriaEvent, _onAwaitLoadContentEvent, _onContentIsLoadProperty);
         }
         
         _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _setLocalizationChangeEvent);
@@ -89,11 +99,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.StoryStarted = true;
         }
         InitGlobalSound();
-        OnSceneTransitionEvent = new OnSceneTransitionEvent();
-        SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
-        SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
-        DisableNodesContentEvent = new DisableNodesContentEvent();
-        SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         InitLevelUIProvider();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorBuildMode);
@@ -110,19 +115,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent,
-                _currentSeriaIndexReactiveProperty);
+            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
+                NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty,
+                _onContentIsLoadProperty, _onAwaitLoadContentEvent, _onEndGameEvent);
         }
         else
         {
-            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider, NodeGraphInitializer, SwitchToNextSeriaEvent, 
-                _currentSeriaIndexReactiveProperty, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider,
+                NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty, _onContentIsLoadProperty,
+                _onAwaitLoadContentEvent, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
-
-        _gameSeriesHandlerBuildMode.OnEndGame.Subscribe(_ =>
-        {
-            _levelUIProviderBuildMode.GameEndPanelHandler.ShowPanel().Forget();
-        });
     }
     private void OnApplicationQuit()
     {
@@ -173,7 +175,23 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _mainMenuLocalizationHandler, _globalUIHandler,
-            new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio));
+            new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
+            _levelLoadDataHandler.LoadAssetsPercentHandler);
+        _onEndGameEvent.Subscribe(()=>
+        {
+            _levelUIProviderBuildMode.GameEndPanelHandler.ShowPanel().Forget();
+        });
+        _onAwaitLoadContentEvent.Subscribe(_ =>
+        {
+            if (_ == true)
+            {
+                _levelUIProviderBuildMode.AwaitLoadContentPanelHandler.Show();
+            }
+            else
+            {
+                _levelUIProviderBuildMode.AwaitLoadContentPanelHandler.Hide();
+            }
+        });
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

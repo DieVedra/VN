@@ -103,12 +103,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
-
-        _gameSeriesHandlerEditorMode.OnEndGame.Subscribe(_ =>
-        {
-            Debug.Log($"EndGame");
-        });
-        
         IsInitializing = false;
     }
 

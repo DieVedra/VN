@@ -20,36 +20,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1339a6f3-d5ef-4347-8c7a-45f5e254c391" name="Default Changelist" comment="11">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/GameEndPanelAssetProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/GameEndPanelAssetProvider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BasePropertyEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BasePropertyEvent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnAwaitLoadContentEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnAwaitLoadContentEvent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnContentIsLoadProperty.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnContentIsLoadProperty.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnEndGameEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnEndGameEvent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/AwaitLoadContentPanelHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/AwaitLoadContentPanelHandler.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/NewWildBeachEditorScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/NewWildBeachEditorScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BaseEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BaseEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/SwitchToNextNodeEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/SwitchToNextNodeEvent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerEditorMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerEditorMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/CustomizationNode/CustomizationNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/CustomizationNode/CustomizationNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergedNodesDeterminator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergedNodesDeterminator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergerNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergerNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/ButtonTransitionToMainSceneUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/ButtonTransitionToMainSceneUIHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ChoiceUI/ChoicePanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ChoiceUI/ChoicePanelUIHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/ButtonsCustomizationHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/ButtonsCustomizationHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/CustomizationCharacterPanelUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/CustomizationCharacterPanelUIHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/LevelResourceHandler/PanelResourceHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/LevelResourceHandler/PanelResourceHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/NodeGraphInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/NodeGraphInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaPartNodeGraph.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaPartNodeGraph.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/SwitchToNextSeriaNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/SwitchToNextSeriaNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/GlobalUI/GlobalUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/GlobalUI/GlobalUIHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderBuildMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderBuildMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderEditMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Graphs/1 LevelPartNodeGraph 1.1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 1/Graphs/1 LevelPartNodeGraph 1.1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 1/Graphs/7 LevelPartNodeGraph 1.100.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 1/Graphs/7 LevelPartNodeGraph 1.100.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 2/Graphs/8 LevelPartNodeGraph 2.1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 2/Graphs/8 LevelPartNodeGraph 2.1.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,20 +152,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CurveProviders/PanelSizeCurveProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CurveProviders/CharacterTextBlockPositionCurveProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CharacterPanelUI/CharacterPanelUIHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/NarrativeNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/TextBlockPositionHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PanelSizeHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/test.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CurveProviders/NarrativePanelSizeCurveProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CurveProviders/CurveProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/SmoothTransitionNodeDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CurtainUI/CurtainUIHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/SmoothTransitionNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/TextConsistentlyViewer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/CharacterNode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/NotificationNode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/NarrativeUI/NarrativePanelUIHandler.cs" />
@@ -184,28 +167,42 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/PreliminaryBalanceCalculator/PreliminaryBalanceCalculator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/ArrowSwitch.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ChoiceUI/ChoicePanelUIHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/NodeGraphInitializer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergerNode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/MergerNode/MergedNodesDeterminator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaPartNodeGraph.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/CustomizationCharacterPanelUIHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/CustomizationNode/CustomizationNode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/ButtonsCustomizationHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanelView.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/AssetLoaders/PrefabLoaders/GameEndPanelAssetProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerEditorMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/BlackFrame/BlackFrameUIHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/GameControlPanelUIHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderBuildMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/ButtonShowGameControlPanel/ButtonTransitionToMainSceneUIHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/CustomizationCharacterPanelUI/LevelResourceHandler/PanelResourceHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelView.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/GameEndPanel/GameEndPanelHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/AwaitLoadContentPanel.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BaseEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/BasePropertyEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/GlobalUI/GlobalUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/SwitchToNextSeriaNode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/SwitchToNextNodeEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/NodeGraphInitializer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerEditorMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/SeriaPartNodeGraph.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnEndGame.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnEndGameEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnContentIsLoadProperty.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Events/OnAwaitLoadContentEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/SeriaHandler/GameSeriesHandlerBuildMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/UIProvider/LevelUIProviderBuildMode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/LevelEntryPointBuild.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/AwaitLoadContentPanelHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/MainMenuUI/LoadIndicator/LoadIndicatorUIHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LoadAssetsPercentHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Providers/LevelLoadDataHandler.cs" />
       </list>
     </option>
   </component>
@@ -514,6 +511,7 @@
       <workItem from="1755532939497" duration="11702000" />
       <workItem from="1755612529215" duration="11517000" />
       <workItem from="1755689756562" duration="20547000" />
+      <workItem from="1755783594354" duration="13135000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1745677347359</created>

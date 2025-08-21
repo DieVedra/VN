@@ -16,12 +16,8 @@ public class SwitchToNextSeriaNode: BaseNode, IPutOnSwimsuit
     public override UniTask Enter(bool isMerged = false)
     {
         _switchToNextSeriaEvent.Execute(_putOnSwimsuit);
-        // return base.Enter(isMerged);
         return default;
     }
 
-    public void PutOnSwimsuit(bool putOnSwimsuitKey)
-    {
-        
-    }
+    public void PutOnSwimsuit(bool putOnSwimsuitKey) { }
 }

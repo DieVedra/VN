@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 public class LoadIndicatorUIHandler
@@ -11,6 +12,9 @@ public class LoadIndicatorUIHandler
     private const float _maxRotationValue = -360f;
     private const float _duration = 3f;
     private const string _dot = ".";
+    private const string _percent = "%";
+    private const string _spaceColor = "<color=#00000000>";
+    private const string _endSpaceColor = "</color>";
     private readonly Vector3 _endRotationValue;
     private readonly Vector3 _startRotationValue;
     private readonly LocalizationString _loadTextLocalization  = "Загрузка";
@@ -18,6 +22,7 @@ public class LoadIndicatorUIHandler
     private LoadIndicatorView _loadIndicatorView;
     private LoadIndicatorAssetProvider _loadIndicatorAssetProvider;
     private CancellationTokenSource _cancellationTokenSource;
+    private CompositeDisposable _compositeDisposable;
     private Transform _parent;
     private bool _assetLoaded;
     private bool _isIndicate;
@@ -43,6 +48,7 @@ public class LoadIndicatorUIHandler
     public void StopIndicate()
     {
         _cancellationTokenSource?.Cancel();
+        _compositeDisposable?.Clear();
         _isIndicate = false;
         _loadIndicatorView.gameObject.SetActive(false);
     }
@@ -58,16 +64,14 @@ public class LoadIndicatorUIHandler
 
         _loadIndicatorView.RectTransformIcon.rotation = Quaternion.Euler(_startRotationValue);
     }
-
-    public void SetPercentIndicateMode(int lastValue)
+    public void SetPercentIndicateMode(ReactiveProperty<int> currentLoadPercent)
     {
         _loadIndicatorView.LoadText.alignment = TextAlignmentOptions.Center;
         SkipAllModes();
         _isPercentIndicate = true;
         _loadIndicatorView.LoadText.gameObject.SetActive(true);
-        TextPercentIndicate(lastValue);
+        currentLoadPercent.Subscribe(TextPercentIndicate).AddTo(_compositeDisposable);
     }
-
     public void SetLocalizationIndicate()
     {
         SkipAllModes();
@@ -86,7 +90,7 @@ public class LoadIndicatorUIHandler
     }
     public void TextPercentIndicate(int value)
     {
-        _loadIndicatorView.LoadText.text = $"{value}%";
+        _loadIndicatorView.LoadText.text = $"{value}{_percent}";
     }
 
     public void StartIndicate()
@@ -119,11 +123,17 @@ public class LoadIndicatorUIHandler
         string[] dots = null;
         if (_isLocalizationIndicate == false)
         {
-            dots = new[] { $"{_loadTextLocalization}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}", $"{_loadTextLocalization}{_dot}{_dot}{_dot}"};
+            dots = new[] {
+                $"{_loadTextLocalization}{_dot}{_spaceColor}{_dot}{_dot}{_endSpaceColor}",
+                $"{_loadTextLocalization}{_dot}{_dot}{_spaceColor}{_dot}{_endSpaceColor}",
+                $"{_loadTextLocalization}{_dot}{_dot}{_dot}"};
         }
         else
         {
-            dots = new[] { $"{_loadLocalizationTextLocalization}{_dot}", $"{_loadLocalizationTextLocalization}{_dot}{_dot}", $"{_loadLocalizationTextLocalization}{_dot}{_dot}{_dot}"};
+            dots = new[] { 
+                $"{_loadLocalizationTextLocalization}{_dot}{_spaceColor}{_dot}{_dot}{_endSpaceColor}",
+                $"{_loadLocalizationTextLocalization}{_dot}{_dot}{_spaceColor}{_dot}{_endSpaceColor}",
+                $"{_loadLocalizationTextLocalization}{_dot}{_dot}{_dot}"};
         }
         int index = dots.Length - 1;
         while (_isIndicate == true)

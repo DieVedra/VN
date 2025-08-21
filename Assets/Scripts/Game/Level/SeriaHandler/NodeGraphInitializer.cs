@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class NodeGraphInitializer
 {
     public readonly SendCurrentNodeEvent<BaseNode> SendCurrentNodeEvent;
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
     public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
+    public readonly DisableNodesContentEvent DisableNodesContentEvent;
+    public readonly SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
+    public readonly SetLocalizationChangeEvent SetLocalizationChangeEvent;
+    
+    
     
     private readonly Background _background;
     private readonly LevelUIProviderEditMode _levelUIProvider;
@@ -14,9 +18,6 @@ public class NodeGraphInitializer
     private readonly Sound _sound;
     private readonly Wallet _wallet;
     private readonly IGameStatsProvider _gameStatsProvider;
-    private readonly DisableNodesContentEvent _disableNodesContentEvent;
-    private readonly SwitchToNextSeriaEvent<bool> _switchToNextSeriaEvent;
-    private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ICharacterProvider _characterProvider;
     private readonly List<BackgroundContent> _backgrounds;
     private List<Stat> _stats;
@@ -44,9 +45,9 @@ public class NodeGraphInitializer
         _gameStatsProvider = gameStatsProvider;
         SwitchToNextNodeEvent = switchToNextNodeEvent;
         SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
-        _disableNodesContentEvent = disableNodesContentEvent;
-        _switchToNextSeriaEvent = switchToNextSeriaEvent;
-        _setLocalizationChangeEvent = setLocalizationChangeEvent;
+        DisableNodesContentEvent = disableNodesContentEvent;
+        SwitchToNextSeriaEvent = switchToNextSeriaEvent;
+        SetLocalizationChangeEvent = setLocalizationChangeEvent;
         SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
     }
 
@@ -60,7 +61,7 @@ public class NodeGraphInitializer
 
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
-        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, _disableNodesContentEvent, _setLocalizationChangeEvent);
+        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
         if (node is CharacterNode characterNode)
         {
             characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(), _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 
@@ -141,7 +142,7 @@ public class NodeGraphInitializer
         }
         if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
         {
-            switchToNextSeriaNode.Construct(_switchToNextSeriaEvent);
+            switchToNextSeriaNode.Construct(SwitchToNextSeriaEvent);
             return;
         }
         if (node is ShowArtNode showImageNode)

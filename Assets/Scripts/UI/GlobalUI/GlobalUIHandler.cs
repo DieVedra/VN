@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GlobalUIHandler
@@ -13,7 +12,6 @@ public class GlobalUIHandler
     private Transform _canvasTransform;
     private bool _isCreatedOneInstance;
 
-    
     public Transform GlobalUITransforn => _canvasTransform;
     public LoadScreenUIHandler LoadScreenUIHandler => _loadScreenUIHandler;
     public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
@@ -59,5 +57,4 @@ public class GlobalUIHandler
          _settingsPanelUIHandler.Dispose();
          _shopMoneyPanelUIHandler.Dispose();
     }
-    
 }

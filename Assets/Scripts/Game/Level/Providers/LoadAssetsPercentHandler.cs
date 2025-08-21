@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using UniRx;
 
 public class LoadAssetsPercentHandler
 {
@@ -11,38 +10,33 @@ public class LoadAssetsPercentHandler
     private readonly IParticipiteInLoad[] _allPercentProviders;
     private List<IParticipiteInLoad> _percentProvidersParticipiteInLoad;
     private CancellationTokenSource _cancellationTokenSource;
+    private ReactiveProperty<int> _currentLoadPercentReactiveProperty;
     private bool _isCalculating;
-    public int CurrentLoadPercent { get; private set; }
-
-
+    
+    public ReactiveProperty<int> CurrentLoadPercentReactiveProperty => _currentLoadPercentReactiveProperty;
+    
     public LoadAssetsPercentHandler(params IParticipiteInLoad[] allPercentProviders)
     {
         _allPercentProviders = allPercentProviders;
+        _currentLoadPercentReactiveProperty = new ReactiveProperty<int>();
     }
 
     public void StartCalculatePercent()
     {
         _percentProvidersParticipiteInLoad = new List<IParticipiteInLoad>();
-        Debug.Log("InitCalculatePercent");
 
         for (int i = 0; i < _allPercentProviders.Length; ++i)
         {
             if (_allPercentProviders[i].ParticipiteInLoad == true)
             {
                 _percentProvidersParticipiteInLoad.Add(_allPercentProviders[i]);
-                
-                Debug.Log($"{_allPercentProviders[i].PercentComplete}  {_allPercentProviders[i].GetType()}");
             }
         }
-        Debug.Log("++++++++++++++++++");
-
         if (_percentProvidersParticipiteInLoad.Count > 0)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            CurrentLoadPercent = 0;
+            _currentLoadPercentReactiveProperty.Value = 0;
             _isCalculating = true;
-            Debug.Log($"Start CalculatePercent {CurrentLoadPercent}");
-
             CalculatePercent().Forget();
         }
     }
@@ -53,12 +47,10 @@ public class LoadAssetsPercentHandler
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_timeDelay), cancellationToken: _cancellationTokenSource.Token);
             CalculateLoadPercent();
-            // Debug.Log($"CurrentLoadPercent: {CurrentLoadPercent}");
         }
     }
     public void StopCalculatePercent()
     {
-        Debug.Log($"Stop CalculatePercent {CurrentLoadPercent}");
         _isCalculating = false;
         _cancellationTokenSource.Cancel();
     }
@@ -68,16 +60,14 @@ public class LoadAssetsPercentHandler
         for (int i = 0; i < _percentProvidersParticipiteInLoad.Count; ++i)
         {
             sum += _percentProvidersParticipiteInLoad[i].PercentComplete;
-
         }
-
         if (sum > 0)
         {
-            CurrentLoadPercent = sum / _percentProvidersParticipiteInLoad.Count;
+            _currentLoadPercentReactiveProperty.Value = sum / _percentProvidersParticipiteInLoad.Count;
         }
         else
         {
-            CurrentLoadPercent = 0;
+            _currentLoadPercentReactiveProperty.Value = 0;
         }
     }
 }
