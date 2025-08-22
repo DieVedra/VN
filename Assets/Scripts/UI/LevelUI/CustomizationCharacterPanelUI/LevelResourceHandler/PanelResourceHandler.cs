@@ -9,40 +9,38 @@ public class PanelResourceHandler
     private const float _duration = 0.2f;
     private const float _delayDefault = 0f;
     private readonly LevelResourceHandlerValues _levelResourceHandlerValues;
+    private readonly Wallet _wallet;
     private readonly ResourcePanelWithCanvasGroupView _monetResourcePanelWithCanvasGroupView;
     private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
     private ResourcesViewMode _resourcesViewMode;
-    private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
-    public PanelResourceHandler(
+    public PanelResourceHandler(Wallet wallet,
         ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView, ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView)
     {
+        _wallet = wallet;
         _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
         _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
         _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
-    }
-
-    public void Init(ReactiveProperty<int> monetsToShowReactiveProperty, ReactiveProperty<int> heartsToShowReactiveProperty,
-        ResourcesViewMode resourcesViewMode)
-    {
-        _resourcesViewMode = resourcesViewMode;
-        _compositeDisposable = new CompositeDisposable();
-        _monetResourcePanelWithCanvasGroupView.Text.text = monetsToShowReactiveProperty.Value.ToString();
-        _heartsResourcePanelWithCanvasGroupView.Text.text = heartsToShowReactiveProperty.Value.ToString();
-        monetsToShowReactiveProperty.Subscribe(_ =>
+        _wallet.MonetsCountChanged.Subscribe(_ =>
         {
             _monetResourcePanelWithCanvasGroupView.Text.text = _.ToString();
-        }).AddTo(_compositeDisposable);
-        
-        heartsToShowReactiveProperty.Subscribe(_ =>
+        });
+
+        _wallet.HeartsCountChanged.Subscribe(_ =>
         {
-            _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();
-        }).AddTo(_compositeDisposable);
+            _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();;
+        });
+    }
+
+    public void Init(ResourcesViewMode resourcesViewMode)
+    {
+        _resourcesViewMode = resourcesViewMode;
+        _monetResourcePanelWithCanvasGroupView.Text.text = _wallet.GetMonetsCount.ToString();
+        _heartsResourcePanelWithCanvasGroupView.Text.text = _wallet.GetHeartsCount.ToString();
         TryShowOrHidePanelOnButtonsSwitch();
     }
     public void Dispose()
     {
-        _compositeDisposable?.Clear();
         _cancellationTokenSource?.Cancel();
     }
 

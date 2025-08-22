@@ -37,7 +37,6 @@ public class CustomizationCharacterPanelUIHandler
         _customizationCharacterPanelUI?.PriceUIView.gameObject.SetActive(false);
         _buttonsModeSwitch?.Dispose();
         _priceViewHandler?.Dispose();
-        _panelResourceHandler?.Dispose();
         _cancellationTokenSource?.Cancel();
     }
     public void SetContentInEditMode()
@@ -59,9 +58,9 @@ public class CustomizationCharacterPanelUIHandler
             calculateStatsHandler);
         ReactiveProperty<bool> isNuClothesReactiveProperty = new ReactiveProperty<bool>();
         ReactiveCommand<bool> offArrows = new ReactiveCommand<bool>();
-        PreliminaryBalanceCalculator preliminaryBalanceCalculator = new PreliminaryBalanceCalculator(wallet.MonetsReactiveProperty, wallet.HeartsReactiveProperty);
+        PreliminaryBalanceCalculator preliminaryBalanceCalculator = new PreliminaryBalanceCalculator(wallet);
         
-        _panelResourceHandler.Init(wallet.MonetsReactiveProperty, wallet.HeartsReactiveProperty, resourcesViewMode);
+        _panelResourceHandler.Init(resourcesViewMode);
 
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(
             selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
@@ -93,10 +92,10 @@ public class CustomizationCharacterPanelUIHandler
     public async UniTask HideCustomizationContentInPlayMode()
     {
         await _buttonPlayHandler.OffAnim();
-        _panelResourceHandler.Dispose();
         await _priceViewHandler.HideAnim();
         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
         await _panelResourceHandler.TryHidePanel();
+        _panelResourceHandler.Dispose();
     }
 
     private ResourcesViewMode CalculateResourcesViewMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)

@@ -1,5 +1,4 @@
-﻿
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;

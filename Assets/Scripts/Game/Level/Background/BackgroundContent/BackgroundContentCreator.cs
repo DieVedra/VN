@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class BackgroundContentCreator : IParticipiteInLoad
 {
@@ -26,6 +24,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
     public int PercentComplete { get; private set; }
 
     public event Action<BackgroundData> OnCreateContent;
+
     public BackgroundContentCreator(Transform parent, SpriteRendererAssetProvider spriteRendererAssetProvider)
     {
         _parent = parent;
@@ -33,6 +32,11 @@ public class BackgroundContentCreator : IParticipiteInLoad
         _backgroundContentAssetProvider = new BackgroundContentAssetProvider();
         PercentComplete = _minPercent;
         ParticipiteInLoad = true;
+    }
+
+    public void SetDefault()
+    {
+        PercentComplete = _minPercent;
     }
 
     public void SetCurrentBackgroundData(BackgroundData backgroundData)
@@ -70,8 +74,9 @@ public class BackgroundContentCreator : IParticipiteInLoad
             WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
             _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
         }
-
+        Debug.Log(98989898989898);
         PercentComplete = _maxPercent;
+        Debug.Log(98989898989898);
         _contentCount = _minCount;
         OnCreateContent?.Invoke(_backgroundData);
         _backgroundData = null;

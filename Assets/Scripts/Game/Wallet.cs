@@ -7,31 +7,37 @@ using UniRx;
 public class Wallet
 {
     private const float _delayAddValue = 0.005f;
-    private readonly ReactiveProperty<int> _monetsReactiveProperty;
-    private readonly ReactiveProperty<int> _heartsReactiveProperty;
+    private const int _graduallyValue = 1;
+    
+    private readonly ReactiveCommand<int> _monetsCountChanged;
+    private readonly ReactiveCommand<int> _heartsCountChanged;
+    
     private CancellationTokenSource _cancellationTokenSource;
     
     private int _lastMonetAddValue = 0;
     private int _lastHeartsAddValue = 0;
     private int _lastMonetRemoveValue = 0;
     private int _lastHeartsRemoveValue = 0;
-
+    
+    private int _monets;
+    private int _hearts;
+    
     private int _previousMonetValue;
     private int _previousHeartsValue;
     
     private bool _addResourceGraduallyIsProgress;
     private bool _removeResourceGraduallyIsProgress;
-    public int Monets => _monetsReactiveProperty.Value;
-    public int Hearts => _heartsReactiveProperty.Value;
-    public ReactiveProperty<int> MonetsReactiveProperty => _monetsReactiveProperty;
-    public ReactiveProperty<int> HeartsReactiveProperty => _heartsReactiveProperty;
+    public int GetMonetsCount => _monets;
+    public int GetHeartsCount => _hearts;
+    public ReactiveCommand<int> MonetsCountChanged => _monetsCountChanged;
+    public ReactiveCommand<int> HeartsCountChanged => _heartsCountChanged;
     
     public Wallet(int monets, int hearts)
     {
-        _monetsReactiveProperty = new ReactiveProperty<int>();
-        _heartsReactiveProperty = new ReactiveProperty<int>();
-        _monetsReactiveProperty.Value = monets;
-        _heartsReactiveProperty.Value = hearts;
+        _monetsCountChanged = new ReactiveCommand<int>();
+        _heartsCountChanged = new ReactiveCommand<int>();
+        _monets = monets;
+        _hearts = hearts;
         _previousMonetValue = monets;
         _previousHeartsValue = hearts;
         _addResourceGraduallyIsProgress = false;
@@ -40,45 +46,41 @@ public class Wallet
 
     public Wallet(SaveData saveData)
     {
-        _monetsReactiveProperty = new ReactiveProperty<int>();
-        _heartsReactiveProperty = new ReactiveProperty<int>();
-        _monetsReactiveProperty.Value = saveData.Monets;
-        _heartsReactiveProperty.Value = saveData.Hearts;
+        _monetsCountChanged = new ReactiveCommand<int>();
+        _heartsCountChanged = new ReactiveCommand<int>();
+        _monets = saveData.Monets;
+        _hearts = saveData.Hearts;
         _previousMonetValue = saveData.Monets;
         _previousHeartsValue = saveData.Hearts;
         _addResourceGraduallyIsProgress = false;
         _removeResourceGraduallyIsProgress = false;
         
-        _monetsReactiveProperty.Subscribe(_ =>
+        _monetsCountChanged.Subscribe(_ =>
         {
-            saveData.Monets = Monets;
+            saveData.Monets = GetMonetsCount;
         });
-        _heartsReactiveProperty.Subscribe(_ =>
+        _heartsCountChanged.Subscribe(_ =>
         {
-            saveData.Hearts = Hearts;
+            saveData.Hearts = GetHeartsCount;
         });
     }
 
     public void Dispose()
     {
         TryAbortGraduallyResourceManipulation();
-        _monetsReactiveProperty.Dispose();
-        _heartsReactiveProperty.Dispose();
     }
     public void AddCash(int value, bool immediately = true)
     {
         if (value > 0)
         {
             _lastMonetAddValue = value;
-            _previousMonetValue = _monetsReactiveProperty.Value;
-            if (immediately == true)
+            _previousMonetValue = _monets;
+            _monets += value;
+            if (immediately == false)
             {
-                _monetsReactiveProperty.Value += value;
+                AddGradually(_monetsCountChanged, _previousMonetValue, value).Forget();
             }
-            else
-            {
-                AddGradually(_monetsReactiveProperty, value).Forget();
-            }
+            _monetsCountChanged.Execute(_monets);
         }
     }
     public void AddHearts(int value, bool immediately = true)
@@ -86,20 +88,18 @@ public class Wallet
         if (value > 0)
         {
             _lastHeartsAddValue = value;
-            _previousHeartsValue = _heartsReactiveProperty.Value;
-            if (immediately == true)
+            _previousHeartsValue = _hearts;
+            _hearts += value;
+            if (immediately == false)
             {
-                _heartsReactiveProperty.Value += value;
+                AddGradually(_heartsCountChanged, _previousHeartsValue, value).Forget();
             }
-            else
-            {
-                AddGradually(_heartsReactiveProperty, value).Forget();
-            }
+            _heartsCountChanged.Execute(_hearts);
         }
     }
     public bool CashAvailable(int value)
     {
-        if (value >= 0 && _monetsReactiveProperty.Value >= value)
+        if (value >= 0 && _monets >= value)
         {
             return true;
         }
@@ -110,7 +110,7 @@ public class Wallet
     }
     public bool HeartsAvailable(int value)
     {
-        if (value >= 0 && _heartsReactiveProperty.Value >= value)
+        if (value >= 0 && _hearts >= value)
         {
             return true;
         }
@@ -124,20 +124,18 @@ public class Wallet
         if (CashAvailable(value) == true)
         {
             _lastMonetRemoveValue = value;
-            _previousMonetValue = _monetsReactiveProperty.Value;
-            if (immediately == true)
+            _previousMonetValue = _monets;
+            _monets -= value;
+            if (immediately == false)
             {
-                _monetsReactiveProperty.Value -= value;
+                RemoveGradually(_monetsCountChanged, _previousMonetValue, value).Forget();
             }
-            else
-            {
-                RemoveGradually(_monetsReactiveProperty, value).Forget();
-            }
-            return (true, _monetsReactiveProperty.Value);
+            _monetsCountChanged.Execute(_monets);
+            return (true, _monets);
         }
         else
         {
-            return (false, _monetsReactiveProperty.Value);
+            return (false, _monets);
         }
     }
     public (bool, int) RemoveHearts(int value, bool immediately = true)
@@ -145,44 +143,44 @@ public class Wallet
         if (HeartsAvailable(value) == true)
         {
             _lastHeartsRemoveValue = value;
-            _previousHeartsValue = _heartsReactiveProperty.Value;
-            if (immediately == true)
+            _previousHeartsValue = _hearts;
+            _hearts -= value;
+            if (immediately == false)
             {
-                _heartsReactiveProperty.Value -= value;
+                RemoveGradually(_heartsCountChanged, _previousHeartsValue, value).Forget();
             }
-            else
-            {
-                RemoveGradually(_heartsReactiveProperty, value).Forget();
-            }
-            return (true, _heartsReactiveProperty.Value);
+            _heartsCountChanged.Execute(_hearts);
+            return (true, _hearts);
         }
         else
         {
-            return (false, _heartsReactiveProperty.Value);
+            return (false, _hearts);
         }
     }
 
-    private async UniTask AddGradually(ReactiveProperty<int> reactiveProperty, int value)
+    private async UniTask AddGradually(ReactiveCommand<int> command, int previousMonetValue, int value)
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _addResourceGraduallyIsProgress = true;
+        int graduallyValue = previousMonetValue;
         for (int i = 0; i < value; i++)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_delayAddValue), cancellationToken: _cancellationTokenSource.Token);
-            reactiveProperty.Value++;
+            
+            command.Execute(graduallyValue += _graduallyValue);
         }
         _addResourceGraduallyIsProgress = false;
     }
-    private async UniTask RemoveGradually(ReactiveProperty<int> reactiveProperty, int value)
+    private async UniTask RemoveGradually(ReactiveCommand<int> command, int previousMonetValue, int value)
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _removeResourceGraduallyIsProgress = true;
+        int graduallyValue = previousMonetValue;
         for (int i = 0; i < value; i++)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_delayAddValue), cancellationToken: _cancellationTokenSource.Token);
-            reactiveProperty.Value--;
+            command.Execute(graduallyValue -= _graduallyValue);
         }
-
         _removeResourceGraduallyIsProgress = false;
     }
 
@@ -192,15 +190,15 @@ public class Wallet
 
         if (_addResourceGraduallyIsProgress == true)
         {
-            _monetsReactiveProperty.Value = _previousMonetValue + _lastMonetAddValue;
-            _heartsReactiveProperty.Value = _previousHeartsValue + _lastHeartsAddValue;
+            _monets = _previousMonetValue + _lastMonetAddValue;
+            _hearts = _previousHeartsValue + _lastHeartsAddValue;
             _addResourceGraduallyIsProgress = false;
         }
 
         if (_removeResourceGraduallyIsProgress == true)
         {
-            _monetsReactiveProperty.Value = _previousMonetValue - _lastMonetRemoveValue;
-            _heartsReactiveProperty.Value = _previousHeartsValue - _lastHeartsRemoveValue;
+            _monets = _previousMonetValue - _lastMonetRemoveValue;
+            _hearts = _previousHeartsValue - _lastHeartsRemoveValue;
             _removeResourceGraduallyIsProgress = false;
         }
     }

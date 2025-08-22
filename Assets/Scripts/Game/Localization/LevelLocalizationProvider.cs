@@ -17,7 +17,6 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     private readonly LocalizationFileProvider _localizationFileProvider;
     private string _currentLanguageKey;
 
-    // private Dictionary<string, string> _currentLocalization;
     private Dictionary<int, Dictionary<string, string>> _seriaLocalizations;
     public bool ParticipiteInLoad { get; private set; }
     public bool AssetInLoading => _localizationFileProvider.IsLoading;
@@ -73,6 +72,10 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         {
             return null;
         }
+    }
+    public void SetDefault()
+    {
+        _localizationFileProvider.SetDefault();
     }
     private string CreateName(int seriaNumber, string languageKey)
     {

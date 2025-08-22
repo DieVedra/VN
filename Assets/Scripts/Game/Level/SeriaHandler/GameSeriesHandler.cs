@@ -26,6 +26,10 @@ public class GameSeriesHandler : MonoBehaviour
     protected virtual void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         AddWardrobeData(currentSeriaIndex);
+        if (currentSeriaIndex > 0)
+        {
+            SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Dispose();
+        }
         SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     private void AddWardrobeData(int seriaIndex)

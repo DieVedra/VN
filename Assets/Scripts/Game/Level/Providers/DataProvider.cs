@@ -9,9 +9,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     private readonly ScriptableObjectAssetLoader _scriptableObjectAssetLoader;
     private readonly AssetExistsHandler _assetExistsHandler;
     private readonly MatchNumbersHandler _matchNumbersHandler;
-    
     private readonly List<T> _datas;
-
     private List<string> _names;
     public bool AssetsFinded { get; private set; }
     public bool ParticipiteInLoad { get; private set; }
@@ -19,6 +17,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     public int NamesCount => _names.Count;
     public IReadOnlyList<T> Datas => _datas;
     public T LastLoaded { get; private set; }
+
     public readonly ReactiveCommand<T> OnLoad;
 
     public DataProvider()
@@ -30,6 +29,12 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
         _matchNumbersHandler = new MatchNumbersHandler();
         AssetsFinded = false;
     }
+
+    public void SetDefault()
+    {
+        _scriptableObjectAssetLoader.SetDefault();
+    }
+
     public void Dispose()
     {
         OnLoad.Dispose();

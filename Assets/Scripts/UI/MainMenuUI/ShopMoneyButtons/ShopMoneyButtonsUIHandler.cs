@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
@@ -50,13 +49,13 @@ public class ShopMoneyButtonsUIHandler
             _monetPanel.transform.SetSiblingIndex(_sublingIndexMonet);
             _heartsPanel.transform.SetSiblingIndex(_sublingIndexHearts);
 
-            _wallet.MonetsReactiveProperty.Subscribe(_ =>
+            _wallet.MonetsCountChanged.Subscribe(_ =>
             {
-                _monetPanel.Text.text = _wallet.Monets.ToString();
+                _monetPanel.Text.text = _.ToString();
             });
-            _wallet.HeartsReactiveProperty.Subscribe(_ =>
+            _wallet.HeartsCountChanged.Subscribe(_ =>
             {
-                _heartsPanel.Text.text = _wallet.Hearts.ToString();
+                _heartsPanel.Text.text = _.ToString();
             });
             
             IsInited = true;
@@ -67,8 +66,8 @@ public class ShopMoneyButtonsUIHandler
 
     private void SubscribeButtonsAndSetResourcesIndicate()
     {
-        _monetPanel.Text.text = _wallet.Monets.ToString();
-        _heartsPanel.Text.text = _wallet.Hearts.ToString();
+        _monetPanel.Text.text = _wallet.GetMonetsCount.ToString();
+        _heartsPanel.Text.text = _wallet.GetHeartsCount.ToString();
         _monetPanel.gameObject.SetActive(true);
         _heartsPanel.gameObject.SetActive(true);
         _shopMoneyPanelUIHandler.OnHide -= SubscribeButtonsAndSetResourcesIndicate;

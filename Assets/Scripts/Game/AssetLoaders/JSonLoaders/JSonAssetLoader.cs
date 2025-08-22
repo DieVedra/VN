@@ -15,10 +15,12 @@ public class JSonAssetLoader : LoadPercentProvider
         if (_handle.Status == AsyncOperationStatus.Succeeded)
         {
             _cashedObject = _handle.Result;
+            SetLoadComplete();
             return _handle.Result.text;
         }
         else
         {
+            SetLoadComplete();
             return default;
         }
     }

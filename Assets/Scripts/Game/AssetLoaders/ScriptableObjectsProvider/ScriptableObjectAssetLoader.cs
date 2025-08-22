@@ -13,10 +13,12 @@ public class ScriptableObjectAssetLoader : LoadPercentProvider
         T loadObject = await handle.Task;
         if (handle.Status == AsyncOperationStatus.Succeeded && loadObject is ScriptableObject scriptableObject)
         {
+            SetLoadComplete();
             return loadObject;
         }
         else
         {
+            SetLoadComplete();
             return default;
         }
     }

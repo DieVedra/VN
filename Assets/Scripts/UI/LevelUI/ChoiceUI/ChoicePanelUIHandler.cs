@@ -77,7 +77,7 @@ public class ChoicePanelUIHandler
     public async UniTask ShowChoiceVariantsInPlayMode(CancellationToken cancellationToken, ChoiceData data,
         ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
-        _panelResourceHandler.Init(_wallet.MonetsReactiveProperty, _wallet.HeartsReactiveProperty, CalculateResourceViewMode(data));
+        _panelResourceHandler.Init(CalculateResourceViewMode(data));
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         _compositeDisposableOnUpdateWallet = new CompositeDisposable();
@@ -203,11 +203,11 @@ public class ChoicePanelUIHandler
     private void OnUpdateWallet(ChoiceData data,
         ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
-        _wallet.MonetsReactiveProperty.Skip(1).Subscribe(_ =>
+        _wallet.MonetsCountChanged.Subscribe(_ =>
         {
             ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
         }).AddTo(_compositeDisposableOnUpdateWallet);
-        _wallet.HeartsReactiveProperty.Skip(1).Subscribe(_ =>
+        _wallet.HeartsCountChanged.Subscribe(_ =>
         {
             ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);
         }).AddTo(_compositeDisposableOnUpdateWallet);

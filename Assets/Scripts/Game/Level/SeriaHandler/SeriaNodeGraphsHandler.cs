@@ -1,22 +1,26 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SeriaNodeGraphsHandler", menuName = "NodeGraphs/SeriaNodeGraphsHandler", order = 51)]
 public class SeriaNodeGraphsHandler : ScriptableObject
 {
     [SerializeField, Expandable] private List<SeriaPartNodeGraph> _seriaPartNodeGraphs;
+    private CompositeDisposable _compositeDisposable;
     public int CurrentNodeGraphIndex { get; private set; }
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
     private NodeGraphInitializer _nodeGraphInitializer;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
+    private int currentSeriaIndex11;
     public void Construct(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
     {
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
-        _nodeGraphInitializer.SwitchToNextNodeEvent.Subscribe(MoveNext);
+        currentSeriaIndex11 = currentSeriaIndex;
+        _compositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(MoveNext);
         _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Subscribe(SwitchToAnotherNodeGraph);
         if (_seriaPartNodeGraphs.Count > 0)
         {
@@ -36,6 +40,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
 
     public void Dispose()
     {
+        _compositeDisposable?.Clear();
         if (_seriaPartNodeGraphs.Count > 0)
         {
             foreach (var graph in _seriaPartNodeGraphs)

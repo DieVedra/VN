@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -82,15 +81,15 @@ public class ShopMoneyPanelUIHandler
             _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(parent);
             _shopMoneyPanelView.transform.SetAsLastSibling();
 
-            _shopMoneyPanelView.TextMoney.text = _wallet.Monets.ToString();
+            _shopMoneyPanelView.TextMoney.text = _wallet.GetMonetsCount.ToString();
             
-            _wallet.MonetsReactiveProperty.Subscribe(_ =>
+            _wallet.MonetsCountChanged.Subscribe(_ =>
             {
-                _shopMoneyPanelView.TextMoney.text = _wallet.Monets.ToString();
+                _shopMoneyPanelView.TextMoney.text = _.ToString();
             });
-            _wallet.HeartsReactiveProperty.Subscribe(_ =>
+            _wallet.HeartsCountChanged.Subscribe(_ =>
             {
-                _shopMoneyPanelView.TextHearts.text = _wallet.Hearts.ToString();
+                _shopMoneyPanelView.TextHearts.text = _.ToString();
             });
             
             PanelIsLoaded = true;

@@ -15,6 +15,7 @@ public class SwitchToNextSeriaNode: BaseNode, IPutOnSwimsuit
 
     public override UniTask Enter(bool isMerged = false)
     {
+        Debug.Log($" ENTER  SwitchToNextSeriaNode");
         _switchToNextSeriaEvent.Execute(_putOnSwimsuit);
         return default;
     }

@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class AwaitLoadContentPanelHandler
 {
@@ -23,8 +24,10 @@ public class AwaitLoadContentPanelHandler
 
     public void Hide()
     {
+        _loadAssetsPercentHandler.StopCalculatePercentOnComplete();
+        Debug.Log(6656565656565);
+
         _loadIndicatorUIHandler.StopIndicate();
-        _loadAssetsPercentHandler.StopCalculatePercent();
         _blackFrameUIHandler.OpenTranslucent().Forget();
     }
 }

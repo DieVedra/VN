@@ -552,10 +552,7 @@ MonoBehaviour:
       _node: {fileID: -4925142805470070532}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 1653188457232635458}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -929,6 +926,48 @@ MonoBehaviour:
       \u0438 \u043D\u0430\u0447\u0430\u043B\u043E\u043C \u0447\u0435\u0433\u043E-\u0442\u043E
       \u043D\u043E\u0432\u043E\u0433\u043E."
     <Key>k__BackingField: str_1B66C84E
+--- !u!114 &-631521910467944311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
+  m_Name: Switch To Next Seria
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2937.9976, y: -2960.1738}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -631521910467944311}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 1653188457232635458}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -631521910467944311}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _putOnSwimsuit: 0
 --- !u!114 &-150166117408975002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,6 +1074,7 @@ MonoBehaviour:
   - {fileID: 4133872993187370784}
   - {fileID: 5712739522091788798}
   - {fileID: 8302261360956621105}
+  - {fileID: -631521910467944311}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,7 +1319,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -4925142805470070532}
+        node: {fileID: -631521910467944311}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

@@ -1,39 +1,20 @@
-﻿using UniRx;
-
+﻿
 public class PreliminaryBalanceCalculator
 {
-    private readonly ReactiveProperty<int> _monets;
-    private readonly ReactiveProperty<int> _hearts;
-    public PreliminaryBalanceCalculator(ReactiveProperty<int> monets, ReactiveProperty<int> hearts)
+    private readonly Wallet _wallet;
+    public PreliminaryBalanceCalculator(Wallet wallet)
     {
-        _monets = monets;
-        _hearts = hearts;
+        _wallet = wallet;
     }
 
     private bool CheckAvailableMoney(int price)
     {
-        int moneyToShow = _monets.Value;
-        if (moneyToShow - price >= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return _wallet.CashAvailable(price);
     }
 
     private bool CheckAvailableHearts(int additionalPrice)
     {
-        int moneyToShow = _hearts.Value;
-        if (moneyToShow - additionalPrice >= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return _wallet.HeartsAvailable(additionalPrice);
     }
 
     public (int price, int additionalPrice) PricesCalculationToRemove(params (int price, int additionalPrice)[] prices)

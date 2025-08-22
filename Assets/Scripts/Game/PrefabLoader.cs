@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -25,6 +24,7 @@ public class PrefabLoader : LoadPercentProvider
         {
             handle.Task.RunSynchronously();
         }
+        SetLoadComplete();
         return handle.Result;
     }
     protected async UniTask<T> InstantiatePrefab<T>(string assetId, Transform parent = null, bool isSynchronously = false)
@@ -42,11 +42,12 @@ public class PrefabLoader : LoadPercentProvider
 
         if (handle.Result.TryGetComponent(out T result))
         {
+            SetLoadComplete();
             return result;
-
         }
         else
         {
+            SetLoadComplete();
             return default;
         }
     }

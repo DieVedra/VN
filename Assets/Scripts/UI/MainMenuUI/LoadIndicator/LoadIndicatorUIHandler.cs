@@ -70,6 +70,7 @@ public class LoadIndicatorUIHandler
         SkipAllModes();
         _isPercentIndicate = true;
         _loadIndicatorView.LoadText.gameObject.SetActive(true);
+        _compositeDisposable = new CompositeDisposable();
         currentLoadPercent.Subscribe(TextPercentIndicate).AddTo(_compositeDisposable);
     }
     public void SetLocalizationIndicate()

@@ -25,6 +25,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
+    private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
@@ -40,6 +41,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private async void Awake()
     {
+        _currentSeriaLoadedNumberProperty = new CurrentSeriaLoadedNumberProperty<int>();
         _onAwaitLoadContentEvent = new OnAwaitLoadContentEvent<bool>();
         _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
@@ -60,13 +62,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent, _onAwaitLoadContentEvent,
+                _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
         }
         else
         {
             _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent, _onAwaitLoadContentEvent, _onContentIsLoadProperty);
+                _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         
         _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _setLocalizationChangeEvent);
@@ -88,7 +90,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
         });
 
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+
+        await UniTask.RunOnThreadPool(() =>
+        {
+            _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+        });
+
     }
 
     private void Init()
@@ -117,13 +124,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty,
-                _onContentIsLoadProperty, _onAwaitLoadContentEvent, _onEndGameEvent);
+                _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
             _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty, _onContentIsLoadProperty,
-                _onAwaitLoadContentEvent, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+                _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
     private void OnApplicationQuit()

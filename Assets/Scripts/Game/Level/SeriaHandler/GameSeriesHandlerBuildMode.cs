@@ -1,4 +1,5 @@
 ﻿using UniRx;
+using UnityEngine;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler
 {
@@ -7,12 +8,14 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     private OnEndGameEvent _onEndGameEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
+    private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private CompositeDisposable _compositeDisposable;
 
     public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
         NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         ReactiveProperty<int> currentSeriaIndexReactiveProperty, OnContentIsLoadProperty<bool> onContentIsLoadProperty,
-        OnAwaitLoadContentEvent<bool> onAwaitLoadContentEvent, OnEndGameEvent onEndGameEvent,
+        OnAwaitLoadContentEvent<bool> onAwaitLoadContentEvent, CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, 
+        OnEndGameEvent onEndGameEvent,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         _gameStatsHandler = gameStatsHandler;
@@ -21,6 +24,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         _onEndGameEvent = onEndGameEvent;
         _onContentIsLoadProperty = onContentIsLoadProperty;
         _onAwaitLoadContentEvent = onAwaitLoadContentEvent;
+        _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
             NodeGraphInitializer = nodeGraphInitializer;
@@ -32,7 +36,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
 
     protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        TrySetCurrentLocalizationToCurrentSeria();
+        // TrySetCurrentLocalizationToCurrentSeria();
         _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
         base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
@@ -47,13 +51,18 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     }
     private void SwitchSeria(bool putSwimsuits = false)
     {
-        if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
+        // _currentSeriaLoadedNumberProperty.GetValue
+        // if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
+        if (CurrentSeriaIndex < _currentSeriaLoadedNumberProperty.GetValue - 1)
         {
-            CurrentSeriaIndexReactiveProperty.Value++;
-            InitSeria(CurrentSeriaIndex);;
+            Debug.Log($"SwitchSeria true  _currentSeriaLoadedNumberProperty.GetValue: {_currentSeriaLoadedNumberProperty.GetValue}   CurrentSeriaIndex {CurrentSeriaIndex}");
+
+            InitOnSwitchSeria();
         }
         else
         {
+            Debug.Log($"SwitchSeria False");
+
             if (_onContentIsLoadProperty.GetValue == true)
             {
                 _compositeDisposable = _onContentIsLoadProperty.SubscribeWithCompositeDisposable(SeriaInitOnLoadFinal);
@@ -69,8 +78,6 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
                 NodeGraphInitializer.SwitchToNextSeriaEvent.Dispose();
                 _onEndGameEvent.Execute();
             }
-
-            // Debug.Log($"EndGame");
         }
     }
 
@@ -80,8 +87,13 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         {
             _compositeDisposable.Clear();
             _onAwaitLoadContentEvent.Execute(false);
-            CurrentSeriaIndexReactiveProperty.Value++;
-            InitSeria(CurrentSeriaIndex);
+            InitOnSwitchSeria();
         }
+    }
+
+    private void InitOnSwitchSeria()
+    {
+        CurrentSeriaIndexReactiveProperty.Value++;
+        InitSeria(CurrentSeriaIndexReactiveProperty.Value);
     }
 }
