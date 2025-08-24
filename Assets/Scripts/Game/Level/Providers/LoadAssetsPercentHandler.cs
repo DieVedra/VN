@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class LoadAssetsPercentHandler
 {
     private const float _timeDelay = 0.1f;
-    private const int _maxPercent = 100;
     private readonly IParticipiteInLoad[] _allPercentProviders;
     private List<IParticipiteInLoad> _percentProvidersParticipiteInLoad;
     private CancellationTokenSource _cancellationTokenSource;
     private ReactiveProperty<int> _currentLoadPercentReactiveProperty;
+    private int _sum = 0;
     private bool _isCalculating;
     
     public ReactiveProperty<int> CurrentLoadPercentReactiveProperty => _currentLoadPercentReactiveProperty;
@@ -58,43 +57,26 @@ public class LoadAssetsPercentHandler
             CalculateLoadPercent();
         }
     }
-    public void StopCalculatePercentOnComplete()
-    {
-        StopCalculatePercent();
-        _currentLoadPercentReactiveProperty.Value = _maxPercent;
-    }
     public void StopCalculatePercent()
     {
         _isCalculating = false;
         _cancellationTokenSource.Cancel();
-        for (int i = 0; i < _percentProvidersParticipiteInLoad.Count; ++i)
-        {
-            Debug.Log($"StopCalculatePercent {_currentLoadPercentReactiveProperty.Value}     {i}  {_percentProvidersParticipiteInLoad[i].PercentComplete}");
-
-        }
-        
-        
+        CalculateLoadPercent();
     }
     private void CalculateLoadPercent()
     {
-        int sum = 0;
-        Debug.Log($"+++++++++");
-
+        _sum = 0;
         for (int i = 0; i < _percentProvidersParticipiteInLoad.Count; ++i)
         {
-            sum += _percentProvidersParticipiteInLoad[i].PercentComplete;
-            Debug.Log($"{_percentProvidersParticipiteInLoad[i].GetType()}     {_percentProvidersParticipiteInLoad[i].PercentComplete}");
+            _sum += _percentProvidersParticipiteInLoad[i].PercentComplete;
         }
-        Debug.Log($"---------");
-        if (sum > 0)
+        if (_sum > 0)
         {
-            _currentLoadPercentReactiveProperty.Value = sum / _percentProvidersParticipiteInLoad.Count;
+            _currentLoadPercentReactiveProperty.Value = _sum / _percentProvidersParticipiteInLoad.Count;
         }
         else
         {
             _currentLoadPercentReactiveProperty.Value = 0;
         }
-        Debug.Log($"CalculateLoadPercent  {_currentLoadPercentReactiveProperty.Value}");
-
     }
 }

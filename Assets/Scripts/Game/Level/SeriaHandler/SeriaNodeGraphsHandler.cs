@@ -13,13 +13,11 @@ public class SeriaNodeGraphsHandler : ScriptableObject
 
     private NodeGraphInitializer _nodeGraphInitializer;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
-    private int currentSeriaIndex11;
     public void Construct(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
     {
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
-        currentSeriaIndex11 = currentSeriaIndex;
         _compositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(MoveNext);
         _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Subscribe(SwitchToAnotherNodeGraph);
         if (_seriaPartNodeGraphs.Count > 0)

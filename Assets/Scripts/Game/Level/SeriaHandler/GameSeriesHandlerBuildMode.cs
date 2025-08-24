@@ -1,20 +1,21 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using System;
+using UniRx;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler
 {
+    private const float _delay = 1f;
     private LevelLocalizationHandler _levelLocalizationHandler;
     private GameStatsHandler _gameStatsHandler;
     private OnEndGameEvent _onEndGameEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
-    private OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
+    private OnAwaitLoadContentEvent<AwaitLoadContentPanel> _onAwaitLoadContentEvent;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private CompositeDisposable _compositeDisposable;
 
     public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
         NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         ReactiveProperty<int> currentSeriaIndexReactiveProperty, OnContentIsLoadProperty<bool> onContentIsLoadProperty,
-        OnAwaitLoadContentEvent<bool> onAwaitLoadContentEvent, CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, 
+        OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent, CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, 
         OnEndGameEvent onEndGameEvent,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
@@ -51,22 +52,16 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     }
     private void SwitchSeria(bool putSwimsuits = false)
     {
-        // _currentSeriaLoadedNumberProperty.GetValue
-        // if (CurrentSeriaIndex < SeriaNodeGraphsHandlers.Count - 1)
         if (CurrentSeriaIndex < _currentSeriaLoadedNumberProperty.GetValue - 1)
         {
-            Debug.Log($"SwitchSeria true  _currentSeriaLoadedNumberProperty.GetValue: {_currentSeriaLoadedNumberProperty.GetValue}   CurrentSeriaIndex {CurrentSeriaIndex}");
-
             InitOnSwitchSeria();
         }
         else
         {
-            Debug.Log($"SwitchSeria False");
-
             if (_onContentIsLoadProperty.GetValue == true)
             {
                 _compositeDisposable = _onContentIsLoadProperty.SubscribeWithCompositeDisposable(SeriaInitOnLoadFinal);
-                _onAwaitLoadContentEvent.Execute(true);
+                _onAwaitLoadContentEvent.Execute(AwaitLoadContentPanel.Show);
             }
             else
             {
@@ -85,9 +80,12 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     {
         if (_onContentIsLoadProperty.GetValue == false)
         {
-            _compositeDisposable.Clear();
-            _onAwaitLoadContentEvent.Execute(false);
-            InitOnSwitchSeria();
+            Observable.Timer(TimeSpan.FromSeconds(_delay)).Subscribe(_ =>
+            {
+                _onAwaitLoadContentEvent.Execute(AwaitLoadContentPanel.Hide);
+                InitOnSwitchSeria();
+                _compositeDisposable.Clear();
+            }).AddTo(_compositeDisposable);
         }
     }
 

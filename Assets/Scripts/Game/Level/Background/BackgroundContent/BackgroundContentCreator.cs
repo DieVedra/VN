@@ -74,9 +74,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
             WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
             _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
         }
-        Debug.Log(98989898989898);
         PercentComplete = _maxPercent;
-        Debug.Log(98989898989898);
         _contentCount = _minCount;
         OnCreateContent?.Invoke(_backgroundData);
         _backgroundData = null;

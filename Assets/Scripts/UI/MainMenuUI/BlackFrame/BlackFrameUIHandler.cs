@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -68,23 +68,30 @@ public class BlackFrameUIHandler
     }
     public async UniTask Open()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
         _image.color = Color.black;
-        await DoAnimation(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue);
+        await DoAnimation(_cancellationTokenSource,AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue);
         Off();
         IsOpen = true;
     }
 
     public async UniTask Close()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
         _image.color = Color.clear;
         On();
-        await DoAnimation(AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue);
+        await DoAnimation(_cancellationTokenSource, AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue);
         IsOpen = false;
     }
-    public async UniTask OpenTranslucent()
+    public async UniTask OpenTranslucent(float delay = 0f)
     {
         _transform.gameObject.SetActive(true);
-        await DoAnimation(AnimationValuesProvider.MinValue, AnimationValuesProvider.HalfValue);
+        _cancellationTokenSource = new CancellationTokenSource();
+        if (delay > 0)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: _cancellationTokenSource.Token);
+        }
+        await DoAnimation(_cancellationTokenSource, AnimationValuesProvider.MinValue, AnimationValuesProvider.HalfValue);
         _transform.gameObject.SetActive(false);
     }
 
@@ -105,11 +112,10 @@ public class BlackFrameUIHandler
         _cancellationTokenSource = new CancellationTokenSource();
         _image.color = new Color(AnimationValuesProvider.MinValue,AnimationValuesProvider.MinValue,AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue);
         _transform.gameObject.SetActive(true);
-        await _image.DOFade(AnimationValuesProvider.HalfValue, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
+        await DoAnimation(_cancellationTokenSource, AnimationValuesProvider.HalfValue, AnimationValuesProvider.HalfValue);
     }
-    private async UniTask DoAnimation(float end, float duration)
+    private async UniTask DoAnimation(CancellationTokenSource cancellationTokenSource, float end, float duration)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
-        await _image.DOFade(end, duration).WithCancellation(_cancellationTokenSource.Token);
+        await _image.DOFade(end, duration).WithCancellation(cancellationTokenSource.Token);
     }
 }

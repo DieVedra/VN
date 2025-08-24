@@ -9,7 +9,8 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler,
-        GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler, LoadAssetsPercentHandler loadAssetsPercentHandler) 
+        GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
+        LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent)
         : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI)
     {
         if (Application.isPlaying)
@@ -19,7 +20,8 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
                 localizationHandler, blockGameControlPanelUI);
             GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
                 buttonTransitionToMainSceneUIHandler, levelUIView.transform);
-            AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadIndicatorUIHandler, loadAssetsPercentHandler);
+            AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadIndicatorUIHandler,
+                loadAssetsPercentHandler, onAwaitLoadContentEvent);
         }
     }
     public void Dispose()

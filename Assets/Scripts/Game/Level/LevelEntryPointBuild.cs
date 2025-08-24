@@ -23,7 +23,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUIEvent;
     private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private OnAwaitLoadContentEvent<bool> _onAwaitLoadContentEvent;
+    private OnAwaitLoadContentEvent<AwaitLoadContentPanel> _onAwaitLoadContentEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
@@ -42,7 +42,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async void Awake()
     {
         _currentSeriaLoadedNumberProperty = new CurrentSeriaLoadedNumberProperty<int>();
-        _onAwaitLoadContentEvent = new OnAwaitLoadContentEvent<bool>();
+        _onAwaitLoadContentEvent = new OnAwaitLoadContentEvent<AwaitLoadContentPanel>();
         _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
@@ -183,21 +183,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _mainMenuLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
-            _levelLoadDataHandler.LoadAssetsPercentHandler);
+            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent);
         _onEndGameEvent.Subscribe(()=>
         {
             _levelUIProviderBuildMode.GameEndPanelHandler.ShowPanel().Forget();
-        });
-        _onAwaitLoadContentEvent.Subscribe(_ =>
-        {
-            if (_ == true)
-            {
-                _levelUIProviderBuildMode.AwaitLoadContentPanelHandler.Show();
-            }
-            else
-            {
-                _levelUIProviderBuildMode.AwaitLoadContentPanelHandler.Hide();
-            }
         });
     }
     private async UniTask TryCreateBlackFrameUIHandler()

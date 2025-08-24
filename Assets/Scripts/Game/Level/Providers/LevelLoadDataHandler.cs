@@ -97,8 +97,43 @@ public class LevelLoadDataHandler
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
-            await TryLoadDatas1(nextSeriaNumber, nextSeriaIndex);
+            
+            await LoadCurrentLocalization(nextSeriaNumber);
+            await UniTask.NextFrame();
+            Debug.Log($"1");
+            await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
+            await UniTask.NextFrame();
+            Debug.Log($"2");
+            await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
+            await UniTask.NextFrame();
+            Debug.Log($"3");
+            await GameSeriesProvider.TryLoadData(nextSeriaIndex);
+            await UniTask.NextFrame();
+            Debug.Log($"4");
+
+            await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
+            await UniTask.NextFrame();
+            Debug.Log($"5");
+            await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
+            await UniTask.NextFrame();
+            Debug.Log($"Delay start");
+            await UniTask.Delay(TimeSpan.FromSeconds(20f));
+            Debug.Log($"Delay end");
+            Debug.Log($"6");
+            await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
+            await UniTask.NextFrame();
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+
+            Debug.Log($"_backgroundContentCreator 1  {_backgroundContentCreator.PercentComplete}  ");
+
+            // await TryLoadDatas1(nextSeriaNumber, nextSeriaIndex);
             await _backgroundContentCreator.TryCreateBackgroundContent();
+            
+            Debug.Log($"_backgroundContentCreator 2  {_backgroundContentCreator.PercentComplete}  ");
+
+            
+            Debug.Log($"TryLoadDatas  {_loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value}  ");
+            Debug.Log($"7");
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber);
             _onContentIsLoadProperty.SetValue(false);
         }

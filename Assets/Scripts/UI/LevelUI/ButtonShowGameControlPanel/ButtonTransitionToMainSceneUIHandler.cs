@@ -17,7 +17,8 @@ public class ButtonTransitionToMainSceneUIHandler
     private readonly OnSceneTransitionEvent _onSceneTransition;
     private readonly SmoothAudio _smoothAudio;
 
-    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition, SmoothAudio smoothAudio)
+    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition,
+        SmoothAudio smoothAudio)
     {
         _loadScreenUIHandler = loadScreenUIHandler;
         _onSceneTransition = onSceneTransition;
