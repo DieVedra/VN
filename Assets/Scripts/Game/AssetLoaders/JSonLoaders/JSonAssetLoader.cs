@@ -27,7 +27,10 @@ public class JSonAssetLoader : LoadPercentProvider
 
     public void AbortLoad()
     {
-        Addressables.Release(_handle);
+        if (_handle.IsValid())
+        {
+            Addressables.Release(_handle);
+        }
     }
     protected void Unload()
     {

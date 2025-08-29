@@ -57,7 +57,9 @@ public class EntryPoint: MonoBehaviour
         _saveServiceProvider.TrySetStoryDatas(_storiesProvider);
         _onSceneTransition.Subscribe(_ =>
         {
-            _saveServiceProvider.TrySetStartStory(_mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName);
+            var storyName = _mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
+            _saveServiceProvider.TrySetStartStory(storyName);
+            _saveServiceProvider.CurrentStoryIndex = _storiesProvider.GetIndexByName(storyName);
             Dispose();
         });
     }
@@ -70,32 +72,10 @@ public class EntryPoint: MonoBehaviour
         _storiesProvider?.Dispose();
         _mainMenuUIProvider?.Dispose();
     }
+
     private void OnApplicationQuit()
     {
         Dispose();
         _globalUIHandler.Dispose();
     }
-
-    // private void LoadSaveData()
-    // {
-    //     // _saveService = new SaveService(new BinarySave());
-    //     // _saveService = new SaveService(new JSonSave());
-    //     // _saveServiceProvider.SaveService = _saveService;
-    //
-    //     var result = _saveService.LoadData();
-    //     var aa = _storiesProvider.GetStoryDatas();
-    //     if (result.Item1 == false)
-    //     {
-    //         Debug.Log($"_saveData == null");
-    //
-    //         _saveData = new SaveData();
-    //         _saveData.SoundStatus = true;
-    //         _saveData.Monets = 50;
-    //         _saveData.Hearts = 5;
-    //         _saveData.NameStartStory = aa[0].StoryName;
-    //         _saveData.StoryDatas = aa;
-    //         // _saveData.LanguageLocalizationKey = _mainMenuLocalizationHandler.GetKey;
-    //     }
-    //     _saveServiceProvider._saveData = _saveData;
-    // }
 }

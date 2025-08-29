@@ -21,6 +21,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     public bool ParticipiteInLoad { get; private set; }
     public bool AssetInLoading => _localizationFileProvider.IsLoading;
     public int PercentComplete => _localizationFileProvider.GetPercentComplete();
+    public LocalizationFileProvider LocalizationFileProvider => _localizationFileProvider;
 
     public LevelLocalizationProvider(ILocalizationChanger localizationChanger, ReactiveProperty<int> currentSeriaIndexReactiveProperty)
     {

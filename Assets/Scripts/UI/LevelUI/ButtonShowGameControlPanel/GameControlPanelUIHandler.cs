@@ -137,6 +137,7 @@ public class GameControlPanelUIHandler
                 ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
                 {
                     _buttonTransitionToMainSceneUIHandler.Press().Forget();
+                    ReInitCancellationSource();
                 }, true);
         }
     }

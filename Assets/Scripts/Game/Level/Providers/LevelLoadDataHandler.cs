@@ -59,11 +59,15 @@ public class LevelLoadDataHandler
 
     public void Dispose()
     {
+        _loadAssetsPercentHandler.StopCalculatePercent();
+        _levelLocalizationProvider.LocalizationFileProvider.AbortLoad();
         WardrobeSeriaDataProviderBuildMode.Dispose();
         CharacterProviderBuildMode.Dispose();
         GameSeriesProvider.Dispose();
         AudioClipProvider.Dispose();
         BackgroundDataProvider.Dispose();
+        SeriaGameStatsProviderBuild.Dispose();
+        _backgroundContentCreator.Dispose();
     }
     public async UniTask LoadStartSeriaContent()
     {
@@ -178,36 +182,6 @@ public class LevelLoadDataHandler
         // Debug.Log($"6");
         await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
         // Debug.Log($"7");
-    }
-    private async UniTask TryLoadDatas1(int nextSeriaNumber, int nextSeriaIndex)
-    {
-        await LoadCurrentLocalization(nextSeriaNumber);
-        await UniTask.NextFrame();
-        Debug.Log($"1");
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
-        await UniTask.NextFrame();
-        Debug.Log($"2");
-        await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-        await UniTask.NextFrame();
-        Debug.Log($"3");
-        await GameSeriesProvider.TryLoadData(nextSeriaIndex);
-        await UniTask.NextFrame();
-        Debug.Log($"4");
-
-        await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
-        await UniTask.NextFrame();
-        Debug.Log($"5");
-        await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
-        await UniTask.NextFrame();
-        Debug.Log($"Delay start");
-        await UniTask.Delay(TimeSpan.FromSeconds(20f));
-        Debug.Log($"Delay end");
-        Debug.Log($"6");
-        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
-        await UniTask.NextFrame();
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
-        Debug.Log($"TryLoadDatas  {_loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value}");
-        Debug.Log($"7");
     }
     private void OnSwitchToNextSeria(bool key)
     {

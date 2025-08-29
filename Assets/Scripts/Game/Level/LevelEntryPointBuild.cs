@@ -31,13 +31,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
     
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
-        Wallet wallet, MainMenuLocalizationHandler mainMenuLocalizationHandler)
+        Wallet wallet, MainMenuLocalizationHandler mainMenuLocalizationHandler, SaveServiceProvider saveServiceProvider)
     {
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
         _globalUIHandler = globalUIHandler;
         _wallet = wallet;
         _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
+        SaveServiceProvider = saveServiceProvider;
     }
     private async void Awake()
     {
@@ -167,9 +168,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacters);
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
-
+            StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
-            SaveServiceProvider.SaveService.Save(SaveData);
+            SaveServiceProvider.SaveLevelProgress();
         }
     }
 

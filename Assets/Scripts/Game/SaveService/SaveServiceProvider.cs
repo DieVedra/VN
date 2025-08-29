@@ -18,6 +18,10 @@ public class SaveServiceProvider
         SetSaveDataDefault();
     }
 
+    public void SaveLevelProgress()
+    {
+        SaveService.Save(_saveData);
+    }
     public void SaveProgress(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
         MainMenuLocalizationHandler mainMenuLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
     {

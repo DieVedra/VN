@@ -9,6 +9,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 {
     private const string _defaultLanguageKey = "en";
     // private const string DefaultLanguageKey = "ru";
+    private readonly LocalizationFileProvider _loader;
     private MainMenuLocalizationInfoHolder _mainMenuLocalizationInfoHolder;
     private SaveData _saveData;
     private StoriesProvider _storiesProvider;
@@ -16,9 +17,10 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     private ReactiveProperty<int> _currentLanguageKeyIndex;
     private Dictionary<int, Dictionary<string, string>> _dictionariesMainMenuTranslates;
     private Dictionary<int, Dictionary<string, string>> _dictionaryStoryTranslates;
+
+
     // private List<LocalizationString> _localizationStrings;
-    private LocalizationFileProvider _loader;
-    
+
     public ReactiveCommand LanguageChanged { get; private set; }
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];
@@ -29,13 +31,21 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     
     public MainMenuLocalizationHandler()
     {
-        _currentLanguageKeyIndex = new ReactiveProperty<int>();
-        LanguageChanged = new ReactiveCommand();
+        // _currentLanguageKeyIndex = new ReactiveProperty<int>();
+        // LanguageChanged = new ReactiveCommand();
         _loader = new LocalizationFileProvider();
+        Debug.Log($"Constructor MainMenuLocalizationHandler");
+
     }
 
     public async UniTask Init(SaveData saveData, StoriesProvider storiesProvider)
     {
+        Debug.Log($"MainMenuLocalizationHandler  Init");
+        _currentLanguageKeyIndex?.Dispose();
+        _currentLanguageKeyIndex = new ReactiveProperty<int>();
+        LanguageChanged?.Dispose();
+        LanguageChanged = new ReactiveCommand();
+
         _saveData = saveData;
         _storiesProvider = storiesProvider;
         _mainMenuLocalizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
@@ -65,16 +75,22 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
                 systemLanguageKey = _defaultLanguageKey;
             }
         }
+        Debug.Log($"TryDefineLanguageKey1111   {_mainMenuLocalizationInfoHolder.LanguageNames.Count}");
 
         for (int i = 0; i < _mainMenuLocalizationInfoHolder.LanguageNames.Count; i++)
         {
             _currentLanguageKeyIndex.Value = i;
+
             if (_mainMenuLocalizationInfoHolder.LanguageNames[i].Key == systemLanguageKey)
             {
                 _currentMyLanguageName = _mainMenuLocalizationInfoHolder.LanguageNames[i];
                 break;
             }
+
+            Debug.Log($"TryDefineLanguageKey() {_currentLanguageKeyIndex.Value}");
         }
+        Debug.Log($"systemLanguageKey: {systemLanguageKey}  _currentLanguageKeyIndex.Value: {_currentLanguageKeyIndex.Value} _currentMyLanguageName: {_currentMyLanguageName.Name}");
+
     }
 
     private async UniTask LoadCurrentLanguage()
@@ -84,6 +100,19 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
         
         _dictionaryStoryTranslates = new Dictionary<int, Dictionary<string, string>>();
         _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(_currentMyLanguageName.GetStoryLocalizationAssetName);
+        
+        Debug.Log($"LoadCurrentLanguage   _currentLanguageKeyIndex.Value {_currentLanguageKeyIndex.Value}");
+        foreach (var VARIABLE in _dictionariesMainMenuTranslates)
+        {
+            Debug.Log($"key {VARIABLE.Key}  ");
+
+        }
+        Debug.Log($"-------------");
+        foreach (var VARIABLE in _dictionaryStoryTranslates)
+        {
+            Debug.Log($"key {VARIABLE.Key}  ");
+
+        }
     }
 
     public async UniTask LoadAllLanguagesForMenu()
@@ -144,8 +173,25 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
                 story.Description.SetText(text);
             }
         }
+
+        if (dictionaryMainMenuTranslate == null)
+        {
+            Debug.Log($"44 dictionaryMainMenuTranslate == null");
+
+        }
+
+
+        foreach (var VARIABLE in dictionaryMainMenuTranslate)
+        {
+            Debug.Log($"test1  {VARIABLE.Value}  {VARIABLE.Key}");
+
+        }
+        
+        
         foreach (var localizationString in LocalizationString.LocalizationStrings)
         {
+            Debug.Log($"test2  {localizationString.Key}  {localizationString.DefaultText}");
+
             if (dictionaryMainMenuTranslate.TryGetValue(localizationString.Key, out string text))
             {
                 localizationString.SetText(text);

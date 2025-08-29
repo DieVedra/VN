@@ -6,7 +6,8 @@ using UnityEngine;
 public class StoriesProvider : ScriptableObject
 {
     [SerializeField] private List<Story> _stories;
-    
+
+    private const int _defaultIndex = 0;
     public IReadOnlyList<Story> Stories => _stories;
 
     public void Init(SaveData saveData)
@@ -37,7 +38,7 @@ public class StoriesProvider : ScriptableObject
 
     public int GetIndexByName(string storyName)
     {
-        int result = 0;
+        int result = _defaultIndex;
         for (int i = 0; i < _stories.Count; i++)
         {
             if (_stories[i].StoryName == storyName)

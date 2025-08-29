@@ -45,6 +45,8 @@ public class AppStarter
         }
 
         ReactiveCommand<bool> swipeDetectorOff = null;
+        var storiesProvider = await CreateStoriesProvider();
+        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
 
         SettingsPanelUIHandler settingsPanelUIHandler;
         if (globalUIHandler.SettingsPanelUIHandler == null)
@@ -74,8 +76,8 @@ public class AppStarter
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
 
-        var storiesProvider = await CreateStoriesProvider();
-        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
+        // var storiesProvider = await CreateStoriesProvider();
+        // await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
 
         if (loadScreenUIHandler.IsStarted == false)
         {

@@ -38,17 +38,8 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     public void Dispose()
     {
         OnLoad.Dispose();
-        if (_datas != null && _datas.Count > 0)
-        {
-            for (int i = 0; i < _datas.Count; i++)
-            {
-                if (_datas[i] != null)
-                {
-                    Addressables.Release(_datas[i]);
-                    _datas[i] = null;
-                }
-            }
-        }
+        _scriptableObjectAssetLoader.TryAbortLoad();
+        ParticipiteInLoad = false;
     }
 
     public async UniTask CreateNames(string nameAsset)

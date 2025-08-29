@@ -34,6 +34,12 @@ public class BackgroundContentCreator : IParticipiteInLoad
         ParticipiteInLoad = true;
     }
 
+    public void Dispose()
+    {
+        _backgroundContentAssetProvider.Abort();
+        _spriteRendererAssetProvider.Abort();
+        ParticipiteInLoad = false;
+    }
     public void SetDefault()
     {
         PercentComplete = _minPercent;
@@ -45,39 +51,45 @@ public class BackgroundContentCreator : IParticipiteInLoad
     }
     public async UniTask TryCreateBackgroundContent()
     {
-        if (_backgroundData == null)
+        if (ParticipiteInLoad == true)
         {
-            return;
-        }
-        if (WardrobeBackground == null)
-        {
-            _contentCount++;
-        }
-        _contentCount += _backgroundData.BackgroundContentValues.Count;
-        InitPercentCalculate();
-        
-        for (int j = 0; j < _contentCount; ++j)
-        {
-            _instantiatedBackgroundContent.Add(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
-            _percentsNumbers[j] = _maxPercent;
-            UpdatePercentComplete();
-        }
+            if (_backgroundData == null)
+            {
+                return;
+            }
 
-        if (ArtShower == null)
-        {
-            ArtShower = await _spriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
-            _percentsNumbers[_percentsNumbers.Count - 1] = _maxPercent;
-            UpdatePercentComplete();
+            if (WardrobeBackground == null)
+            {
+                _contentCount++;
+            }
+
+            _contentCount += _backgroundData.BackgroundContentValues.Count;
+            InitPercentCalculate();
+            for (int j = 0; j < _contentCount; ++j)
+            {
+                _instantiatedBackgroundContent.Add(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
+                _percentsNumbers[j] = _maxPercent;
+                UpdatePercentComplete();
+            }
+
+            if (ArtShower == null)
+            {
+                ArtShower = await _spriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
+                _percentsNumbers[_percentsNumbers.Count - 1] = _maxPercent;
+                UpdatePercentComplete();
+            }
+
+            if (WardrobeBackground == null)
+            {
+                WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
+                _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
+            }
+
+            PercentComplete = _maxPercent;
+            _contentCount = _minCount;
+            OnCreateContent?.Invoke(_backgroundData);
+            _backgroundData = null;
         }
-        if (WardrobeBackground == null)
-        {
-            WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
-            _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
-        }
-        PercentComplete = _maxPercent;
-        _contentCount = _minCount;
-        OnCreateContent?.Invoke(_backgroundData);
-        _backgroundData = null;
     }
 
     private void InitPercentCalculate()
