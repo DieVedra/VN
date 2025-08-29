@@ -183,11 +183,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _mainMenuLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
-            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent);
-        _onEndGameEvent.Subscribe(()=>
-        {
-            _levelUIProviderBuildMode.GameEndPanelHandler.ShowPanel().Forget();
-        });
+            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent);
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

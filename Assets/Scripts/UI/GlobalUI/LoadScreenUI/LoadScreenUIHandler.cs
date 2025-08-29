@@ -1,12 +1,12 @@
-﻿
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class LoadScreenUIHandler
 {
+    private const float _awaitLoadContentFontSize = 70f;
+    private const float _defaultFontSize = 50f;
     private readonly LocalizationString _disclaimerText = "Все персонажи и описываемые события вымышлены. Все совпадения случайны.";
     private readonly LoadScreenAssetProvider _loadScreenAssetProvider;
     private readonly LoadWordsHandler _loadWordsHandler;
@@ -56,7 +56,9 @@ public class LoadScreenUIHandler
     public async UniTask ShowToMainMenuMove()
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
+        _loadScreenUIView.LoadScreenImage.gameObject.SetActive(true);
         _loadScreenUIView.LogoImage.sprite = _logoSpriteDefault;
+        _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         SetDisclaimerText();
         _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         await Show();
@@ -64,7 +66,9 @@ public class LoadScreenUIHandler
     public async UniTask ShowToLevelMove(Sprite loadScreenSprite, Sprite logoImage)
     {
         _loadScreenUIView.LoadScreenImage.sprite = loadScreenSprite;
+        _loadScreenUIView.LoadScreenImage.gameObject.SetActive(true);
         _loadScreenUIView.LogoImage.sprite = logoImage;
+        _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         _loadScreenUIView.DisclaimerText.text = string.Empty;
         _loadScreenUIView.gameObject.SetActive(false);
         _loadScreenUIView.transform.parent.gameObject.SetActive(true);
@@ -72,6 +76,20 @@ public class LoadScreenUIHandler
         await Show();
         _loadWordsHandler.StartSubstitutingWords(_loadScreenUIView.DisclaimerText).Forget();
 
+    }
+
+    public async UniTask ShowToAwaitLoadContent(LoadAssetsPercentHandler loadAssetsPercentHandler, string awaitText)
+    {
+        _loadScreenUIView.LoadScreenImage.sprite = null;
+        _loadScreenUIView.LoadScreenImage.gameObject.SetActive(false);
+        _loadScreenUIView.LogoImage.sprite = null;
+        _loadScreenUIView.LogoImage.gameObject.SetActive(false);
+        _loadScreenUIView.DisclaimerText.text = awaitText;
+        _loadScreenUIView.DisclaimerText.fontSize = _awaitLoadContentFontSize;
+        _loadScreenUIView.gameObject.SetActive(true);
+        loadAssetsPercentHandler.StartCalculatePercent();
+        _indicatorUIHandler.SetPercentIndicateMode(loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty);
+        _indicatorUIHandler.StartIndicate();
     }
     public void ShowOnStart()
     {
@@ -84,6 +102,13 @@ public class LoadScreenUIHandler
         IsStarted = true;
     }
 
+    public void HideToAwaitLoadContent(LoadAssetsPercentHandler loadAssetsPercentHandler)
+    {
+        loadAssetsPercentHandler.StopCalculatePercent();
+        _loadScreenUIView.gameObject.SetActive(false);
+        _indicatorUIHandler.StopIndicate();
+        _loadScreenUIView.DisclaimerText.fontSize = _defaultFontSize;
+    }
     public async UniTask HideOnLevelMove()
     {
         await _blackFrameUIHandler.Close();

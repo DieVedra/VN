@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 public class LevelUIProviderBuildMode : LevelUIProviderEditMode
 {
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
@@ -10,7 +11,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler,
         GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
-        LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent)
+        LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent, OnEndGameEvent onEndGameEvent)
         : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI)
     {
         if (Application.isPlaying)
@@ -20,8 +21,12 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode
                 localizationHandler, blockGameControlPanelUI);
             GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
                 buttonTransitionToMainSceneUIHandler, levelUIView.transform);
-            AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadIndicatorUIHandler,
+            AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadScreenUIHandler,
                 loadAssetsPercentHandler, onAwaitLoadContentEvent);
+            onEndGameEvent.Subscribe(()=>
+            {
+                GameEndPanelHandler.ShowPanel().Forget();
+            });
         }
     }
     public void Dispose()

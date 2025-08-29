@@ -3,15 +3,16 @@
 public class AwaitLoadContentPanelHandler
 {
     private const float _delay = 1f;
+    private readonly LocalizationString _awaitLoadText = "Пожалуйста, дождитесь окончания загрузки контента...";
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
-    private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
+    private readonly LoadScreenUIHandler _loadScreenUIHandler;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
 
-    public AwaitLoadContentPanelHandler(BlackFrameUIHandler blackFrameUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler,
+    public AwaitLoadContentPanelHandler(BlackFrameUIHandler blackFrameUIHandler, LoadScreenUIHandler loadScreenUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
-        _loadIndicatorUIHandler = loadIndicatorUIHandler;
+        _loadScreenUIHandler = loadScreenUIHandler;
         _loadAssetsPercentHandler = loadAssetsPercentHandler;
         onAwaitLoadContentEvent.Subscribe(_ =>
         {
@@ -32,15 +33,13 @@ public class AwaitLoadContentPanelHandler
         {
             _blackFrameUIHandler.CloseTranslucent().Forget();
         }
-        _loadAssetsPercentHandler.StartCalculatePercent();
-        _loadIndicatorUIHandler.SetPercentIndicateMode(_loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty);
-        _loadIndicatorUIHandler.StartIndicate();
+
+        _loadScreenUIHandler.ShowToAwaitLoadContent(_loadAssetsPercentHandler, _awaitLoadText.DefaultText).Forget();
     }
 
     private void Hide()
     {
-        _loadAssetsPercentHandler.StopCalculatePercent();
-        _loadIndicatorUIHandler.StopIndicate();
+        _loadScreenUIHandler.HideToAwaitLoadContent(_loadAssetsPercentHandler);
         if (_blackFrameUIHandler.IsOpen == true)
         {
             _blackFrameUIHandler.OpenTranslucent(_delay).Forget();
