@@ -2,7 +2,7 @@
 [System.Serializable]
 public class StoryData
 {
-    public string NameAsset;
+    public string StoryName;
     public int CurrentSeriaIndex;
     public int CurrentNodeGraphIndex;
     public int CurrentNodeIndex;
@@ -16,13 +16,4 @@ public class StoryData
     public SaveStat[] Stats;
     public BackgroundSaveData BackgroundSaveData;
     public WardrobeSaveData[] WardrobeSaveDatas;
-    public StoryData(string nameAsset)
-    {
-        NameAsset = nameAsset;
-        CurrentSeriaIndex = 0;
-        CurrentNodeGraphIndex = 0;
-        CurrentNodeIndex = 0;
-        CurrentProgressPercent = 0;
-        IsLiked = false;
-    }
 }

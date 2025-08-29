@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class AwaitLoadContentPanelHandler
 {
@@ -34,6 +35,7 @@ public class AwaitLoadContentPanelHandler
             _blackFrameUIHandler.CloseTranslucent().Forget();
         }
 
+        Debug.Log($"_awaitLoadText {_awaitLoadText.Key}    {_awaitLoadText.DefaultText}");
         _loadScreenUIHandler.ShowToAwaitLoadContent(_loadAssetsPercentHandler, _awaitLoadText.DefaultText).Forget();
     }
 

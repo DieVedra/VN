@@ -22,6 +22,9 @@ public class LocalizationCreator : ScriptableObject
         
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
 
+    [SerializeField, Space(30f)] private string _text;
+    [SerializeField] private string _key;
+
     [Button()]
     private void CreateSeriaFileLocalization()
     {
@@ -62,7 +65,6 @@ public class LocalizationCreator : ScriptableObject
 
     private void CreateFile(Dictionary<string, string> dictionary, string newPath)
     {
-        // string path = $"{Application.dataPath}{_path}";
         string file = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
         File.WriteAllText(newPath, file);
         AssetDatabase.Refresh();
@@ -121,6 +123,7 @@ public class LocalizationCreator : ScriptableObject
         }
     }
 
+
     private Dictionary<string,string> CreateDictionary(List<LocalizationString> seriaStrings)
     {
         var dict = new Dictionary<string, string>();
@@ -145,9 +148,6 @@ public class LocalizationCreator : ScriptableObject
         }
         return dict;
     }
-
-    [SerializeField, Space(30f)] private string _text;
-    [SerializeField] private string _key;
 
     [Button()]
     private void CreateKeyByText()

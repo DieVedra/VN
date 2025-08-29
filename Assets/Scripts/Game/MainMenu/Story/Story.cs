@@ -16,7 +16,7 @@ public class Story
     [SerializeField] private ReactiveProperty<bool> _isLiked;
     [SerializeField, NaughtyAttributes.ReadOnly] private int _myIndex;
     [SerializeField, NaughtyAttributes.ReadOnly] private bool _storyStarted;
-    private StoryData _storyData;
+    // private StoryData _storyData;
     private CompositeDisposable _compositeDisposable;
     public Sprite SpriteLogo => _spriteLogo;
     public Sprite SpriteStorySkin => _spriteStorySkin;
@@ -34,28 +34,23 @@ public class Story
 
     public void Init(StoryData storyData)
     {
-        _storyData = storyData;
-        _currentSeriaIndex = storyData.CurrentSeriaIndex;
-        _progressPercent = storyData.CurrentProgressPercent;
-        _isLiked.Value = storyData.IsLiked;
-        _storyStarted = storyData.StoryStarted;
         if (storyData != null)
         {
-            _compositeDisposable = new CompositeDisposable();
-            _isLiked.Subscribe(_ =>
-            {
-                storyData.IsLiked = _isLiked.Value;
-            }).AddTo(_compositeDisposable);
+            _currentSeriaIndex = storyData.CurrentSeriaIndex;
+            _progressPercent = storyData.CurrentProgressPercent;
+            _isLiked.Value = storyData.IsLiked;
+            _storyStarted = storyData.StoryStarted;
         }
-    }
 
-    public StoryData GetStoryData()
-    {
-        if (_storyData == null)
+        _compositeDisposable = new CompositeDisposable();
+        _isLiked.Subscribe(_ =>
         {
-            _storyData = new StoryData(_nameSceneAsset);
-        }
-        return _storyData;
+            storyData.IsLiked = _isLiked.Value;
+        }).AddTo(_compositeDisposable);
+    }
+    public string GetStoryName()
+    {
+        return _storyName;
     }
     public void Dispose()
     {
@@ -80,13 +75,13 @@ public class Story
         _currentSeriaIndex = 0;
         _isLiked.Value = false;
         _storyStarted = false;
-        if (_storyData != null)
-        {
-            _storyData.Stats = null;
-            _storyData.IsLiked = false;
-            _storyData.CurrentNodeIndex = 0;
-            _storyData.CurrentProgressPercent = 0;
-            _storyData.CurrentSeriaIndex = 0;
-        }
+        // if (_storyData != null)
+        // {
+        //     _storyData.Stats = null;
+        //     _storyData.IsLiked = false;
+        //     _storyData.CurrentNodeIndex = 0;
+        //     _storyData.CurrentProgressPercent = 0;
+        //     _storyData.CurrentSeriaIndex = 0;
+        // }
     }
 }

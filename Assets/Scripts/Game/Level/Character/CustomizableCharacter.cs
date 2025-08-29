@@ -27,7 +27,8 @@ public class CustomizableCharacter : Character
     public void Construct(WardrobeSaveData wardrobeSaveData)
     {
         _wardrobeSaveData = wardrobeSaveData;
-        SetIndexes(wardrobeSaveData.BodyIndex, wardrobeSaveData.HairstyleIndex, wardrobeSaveData.ClothesIndex, wardrobeSaveData.SwimsuitsIndex);
+        SetIndexes(wardrobeSaveData.CurrentBodyIndex, wardrobeSaveData.CurrentHairstyleIndex,
+            wardrobeSaveData.CurrentClothesIndex, wardrobeSaveData.CurrentSwimsuitsIndex);
     }
 
     [Button()]
@@ -121,7 +122,7 @@ public class CustomizableCharacter : Character
         _bodyIndex = bodyIndex;
         if (_wardrobeSaveData != null)
         {
-            _wardrobeSaveData.BodyIndex = bodyIndex;
+            _wardrobeSaveData.CurrentBodyIndex = bodyIndex;
         }
     }
 
@@ -130,7 +131,7 @@ public class CustomizableCharacter : Character
         _hairstyleIndex = hairstyleIndex;
         if (_wardrobeSaveData != null)
         {
-            _wardrobeSaveData.HairstyleIndex = hairstyleIndex;
+            _wardrobeSaveData.CurrentHairstyleIndex = hairstyleIndex;
         }
     }
 
@@ -139,7 +140,7 @@ public class CustomizableCharacter : Character
         _clothesIndex = clothesIndex;
         if (_wardrobeSaveData != null)
         {
-            _wardrobeSaveData.ClothesIndex = clothesIndex;
+            _wardrobeSaveData.CurrentClothesIndex = clothesIndex;
         }
     }
 
@@ -148,7 +149,7 @@ public class CustomizableCharacter : Character
         _swimsuitsIndex = swimsuitsIndex;
         if (_wardrobeSaveData != null)
         {
-            _wardrobeSaveData.SwimsuitsIndex = swimsuitsIndex;
+            _wardrobeSaveData.CurrentSwimsuitsIndex = swimsuitsIndex;
         }
     }
 

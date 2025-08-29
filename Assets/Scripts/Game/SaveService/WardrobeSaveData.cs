@@ -4,10 +4,10 @@ using System.Collections.Generic;
 [Serializable]
 public class WardrobeSaveData
 {
-    public int BodyIndex;
-    public int ClothesIndex;
-    public int SwimsuitsIndex;
-    public int HairstyleIndex;
+    public int CurrentBodyIndex;
+    public int CurrentClothesIndex;
+    public int CurrentSwimsuitsIndex;
+    public int CurrentHairstyleIndex;
     
     
     public List<int> OpenedClothesIndexes;

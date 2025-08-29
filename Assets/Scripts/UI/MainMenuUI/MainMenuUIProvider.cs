@@ -3,7 +3,6 @@
 public class MainMenuUIProvider
 {
     public readonly LoadScreenUIHandler LoadScreenUIHandler;
-    public readonly GlobalUIHandler _globalUIHandler;
 
     public readonly BlackFrameUIHandler DarkeningBackgroundFrameUIHandler;
     public readonly BlackFrameUIHandler BlackFrameUIHandler;
@@ -36,7 +35,6 @@ public class MainMenuUIProvider
         ShopButtonsUIHandler = shopButtonsUIHandler;
         ConfirmedPanelUIHandler = confirmedPanelUIHandler;
         BottomPanelUIHandler = bottomPanelUIHandler;
-        _globalUIHandler = globalUIHandler;
         LoadScreenUIHandler = globalUIHandler.LoadScreenUIHandler;
         MyScrollHandler = myScrollHandler;
     }

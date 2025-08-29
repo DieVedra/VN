@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -11,8 +12,6 @@ public class EntryPoint: MonoBehaviour
     private AppStarter _appStarter;
     private Wallet _wallet;
     private ReactiveCommand _onSceneTransition;
-    private SaveData _saveData;
-    private SaveService _saveService;
     private SaveServiceProvider _saveServiceProvider;
     private GlobalSound _globalSound;
     private PrefabsProvider _prefabsProvider;
@@ -27,10 +26,10 @@ public class EntryPoint: MonoBehaviour
         _globalSound = globalSound;
         _prefabsProvider = prefabsProvider;
         _onSceneTransition = new ReactiveCommand();
-        LoadSaveData();
+        _saveServiceProvider.LoadSaveData();
         if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
         {
-            _wallet = new Wallet(_saveData);
+            _wallet = new Wallet(_saveServiceProvider.SaveData);
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
         else
@@ -52,17 +51,21 @@ public class EntryPoint: MonoBehaviour
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
         _levelLoader = result.Item3;
-        
-        _storiesProvider.Init(_saveData);
+        _saveServiceProvider.TrySetLanguageLocalizationKey(_mainMenuLocalizationHandler.GetKey);
+
+        _storiesProvider.Init(_saveServiceProvider.SaveData);
+        _saveServiceProvider.TrySetStoryDatas(_storiesProvider);
         _onSceneTransition.Subscribe(_ =>
         {
+            _saveServiceProvider.TrySetStartStory(_mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName);
             Dispose();
         });
     }
 
     private void Dispose()
     {
-        SaveProgress();
+        _saveServiceProvider.SaveProgress(_wallet, _globalSound, _storiesProvider,
+            _mainMenuLocalizationHandler, _mainMenuUIProvider);
         _wallet.Dispose();
         _storiesProvider?.Dispose();
         _mainMenuUIProvider?.Dispose();
@@ -73,22 +76,26 @@ public class EntryPoint: MonoBehaviour
         _globalUIHandler.Dispose();
     }
 
-    private void LoadSaveData()
-    {
-        _saveService = new SaveService(new BinarySave());
-        _saveServiceProvider.SaveService = _saveService;
-
-        _saveData = _saveService.LoadData();
-        if (_saveData == null)
-        {
-            _saveData = new SaveData {StoryDatas = _storiesProvider.GetStoryDatas()};
-        }
-
-        _saveServiceProvider.SaveData = _saveData;
-    }
-
-    private void SaveProgress()
-    {
-        _saveService.Save(_saveData);
-    }
+    // private void LoadSaveData()
+    // {
+    //     // _saveService = new SaveService(new BinarySave());
+    //     // _saveService = new SaveService(new JSonSave());
+    //     // _saveServiceProvider.SaveService = _saveService;
+    //
+    //     var result = _saveService.LoadData();
+    //     var aa = _storiesProvider.GetStoryDatas();
+    //     if (result.Item1 == false)
+    //     {
+    //         Debug.Log($"_saveData == null");
+    //
+    //         _saveData = new SaveData();
+    //         _saveData.SoundStatus = true;
+    //         _saveData.Monets = 50;
+    //         _saveData.Hearts = 5;
+    //         _saveData.NameStartStory = aa[0].StoryName;
+    //         _saveData.StoryDatas = aa;
+    //         // _saveData.LanguageLocalizationKey = _mainMenuLocalizationHandler.GetKey;
+    //     }
+    //     _saveServiceProvider._saveData = _saveData;
+    // }
 }

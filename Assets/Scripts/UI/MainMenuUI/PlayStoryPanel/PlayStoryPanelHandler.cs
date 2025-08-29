@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -21,6 +22,21 @@ public class PlayStoryPanelHandler
     private Vector2 _hideScale;
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
+
+    public string GetCurrentStoryName
+    {
+        get
+        {
+            if (_currentStory == null)
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return _currentStory.StoryName;
+            }
+        }
+    }
 
     public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, ReactiveCommand languageChanged)
     {

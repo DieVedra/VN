@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -108,8 +109,28 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     }
     private void SetLanguageMainMenuAndStory()
     {
-        var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
-        var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];
+        Dictionary<string, string> dictionaryMainMenuTranslate = null;
+        Dictionary<string, string> dictionaryStoryTranslates = null;
+        if (_dictionariesMainMenuTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var value1))
+        {
+            dictionaryMainMenuTranslate = value1;
+        }
+        else
+        {
+            Debug.LogError($"DictionariesMainMenuTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
+        }
+        
+        if (_dictionaryStoryTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var value2))
+        {
+            dictionaryStoryTranslates = value2;
+        }
+        else
+        {
+            Debug.LogError($"DictionaryStoryTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
+        }
+        
+        // var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
+        // var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];
         
         if (_saveData != null)
         {

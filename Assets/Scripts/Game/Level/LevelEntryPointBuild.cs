@@ -161,9 +161,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
+            StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
             StoryData.Stats = _gameStatsHandler.GetStatsToSave();
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
-            
+            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacters);
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
 

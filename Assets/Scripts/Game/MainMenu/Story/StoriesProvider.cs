@@ -11,34 +11,56 @@ public class StoriesProvider : ScriptableObject
 
     public void Init(SaveData saveData)
     {
-        for (int i = 0; i < _stories.Count; i++)
+        if (saveData.StoryDatas != null)
         {
-            for (int j = 0; j < saveData.StoryDatas.Length; j++)
+            for (int i = 0; i < _stories.Count; i++)
             {
-                if (_stories[i].NameSceneAsset == saveData.StoryDatas[j].NameAsset)
+                for (int j = 0; j < saveData.StoryDatas.Length; j++)
                 {
-                    _stories[i].Init(saveData.StoryDatas[j]);
-                    break;
+                    if (_stories[i].StoryName == saveData.StoryDatas[j].StoryName)
+                    {
+                        _stories[i].Init(saveData.StoryDatas[j]);
+                        break;
+                    }
                 }
             }
         }
     }
 
-    public StoryData[] GetStoryDatas()
-    {
-        List<StoryData> storyDatas = new List<StoryData>(_stories.Count);
-        for (int i = 0; i < _stories.Count; i++)
-        {
-            storyDatas.Add(_stories[i].GetStoryData());
-        }
-
-        return storyDatas.ToArray();
-    }
     public void Dispose()
     {
         for (int i = 0; i < _stories.Count; i++)
         {
             _stories[i].Dispose();
         }
+    }
+
+    public int GetIndexByName(string storyName)
+    {
+        int result = 0;
+        for (int i = 0; i < _stories.Count; i++)
+        {
+            if (_stories[i].StoryName == storyName)
+            {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+    public StoryData[] GetStoryDatas()
+    {
+        List<StoryData> storyDatas = new List<StoryData>(_stories.Count);
+        for (int i = 0; i < _stories.Count; i++)
+        {
+            StoryData storyData = new StoryData();
+            storyData.IsLiked = _stories[i].IsLiked;
+            storyData.MyIndex = _stories[i].MyIndex;
+            storyData.StoryName = _stories[i].StoryName;
+            storyData.StoryStarted = _stories[i].StoryStarted;
+            storyDatas.Add(storyData);
+        }
+
+        return storyDatas.ToArray();
     }
 }
