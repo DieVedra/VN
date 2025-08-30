@@ -57,11 +57,11 @@ public class LocalizationCreator : ScriptableObject
         CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}{_seriaFileLocalizationFileName}");
     }
 
-    [Button()]
-    private void Create()
-    {
-        CreateFile(CreateDictionary(LocalizationString.LocalizationStrings), $"{Application.dataPath}{_path}{_fileName}");
-    }
+    // [Button()]
+    // private void Create()
+    // {
+    //     CreateFile(CreateDictionary(LocalizationString.LocalizationStrings), $"{Application.dataPath}{_path}{_fileName}");
+    // }
 
     private void CreateFile(Dictionary<string, string> dictionary, string newPath)
     {
@@ -113,15 +113,15 @@ public class LocalizationCreator : ScriptableObject
         }
     }
 
-    [Button()]
-    private void Show()
-    {
-        
-        foreach (var VARIABLE in CreateDictionary(LocalizationString.LocalizationStrings))
-        {
-            Debug.Log($"{VARIABLE.Key} {VARIABLE.Value}");
-        }
-    }
+    // [Button()]
+    // private void Show()
+    // {
+    //     
+    //     foreach (var VARIABLE in CreateDictionary(LocalizationString.LocalizationStrings))
+    //     {
+    //         Debug.Log($"{VARIABLE.Key} {VARIABLE.Value}");
+    //     }
+    // }
 
 
     private Dictionary<string,string> CreateDictionary(List<LocalizationString> seriaStrings)

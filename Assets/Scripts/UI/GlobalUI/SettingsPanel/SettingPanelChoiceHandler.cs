@@ -1,6 +1,4 @@
-﻿
-using TMPro;
-using UnityEngine;
+﻿using TMPro;
 using UnityEngine.UI;
 
 public class SettingPanelChoiceHandler

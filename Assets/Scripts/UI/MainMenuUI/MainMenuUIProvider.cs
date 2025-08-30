@@ -1,6 +1,8 @@
 ﻿
 
-public class MainMenuUIProvider
+using System.Collections.Generic;
+
+public class MainMenuUIProvider : ILocalizable
 {
     public readonly LoadScreenUIHandler LoadScreenUIHandler;
 
@@ -19,6 +21,8 @@ public class MainMenuUIProvider
     
     public readonly BottomPanelUIHandler BottomPanelUIHandler;
     public readonly MyScrollHandler MyScrollHandler;
+
+    private List<LocalizationString> _localizableContent;
     public MainMenuUIProvider(BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         PlayStoryPanelHandler playStoryPanelHandler, SettingsPanelButtonUIHandler settingsButtonUIHandler,
         SettingsPanelUIHandler settingsPanelUIHandler, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,
@@ -47,5 +51,22 @@ public class MainMenuUIProvider
         BottomPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();
         MyScrollHandler.Dispose();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        if (_localizableContent == null)
+        {
+            _localizableContent = new List<LocalizationString>();
+            _localizableContent.AddRange(LoadScreenUIHandler.GetLocalizableContent());
+            _localizableContent.AddRange(LoadIndicatorUIHandler.GetLocalizableContent());
+            _localizableContent.AddRange(PlayStoryPanelHandler.GetLocalizableContent());
+            _localizableContent.AddRange(SettingsPanelUIHandler.GetLocalizableContent());
+            _localizableContent.AddRange(ShopMoneyPanelUIHandler.GetLocalizableContent());
+            _localizableContent.AddRange(BottomPanelUIHandler.GetLocalizableContent());
+            _localizableContent.AddRange(MyScrollHandler.GetLocalizableContent());
+        }
+
+        return _localizableContent;
     }
 }

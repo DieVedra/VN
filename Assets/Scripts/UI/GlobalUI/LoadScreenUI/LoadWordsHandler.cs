@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 
-public class LoadWordsHandler
+public class LoadWordsHandler :ILocalizable
 {
     private const float _textSize = 70;
     private const float _delay = 1.8f;
@@ -67,5 +67,13 @@ public class LoadWordsHandler
             _text.fontSize = _textSizeBuffer;
             _text = null;
         }
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[]
+        {
+            _loadWordText1, _loadWordText2, _loadWordText3, _loadWordText4, _loadWordText5
+        };
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
-public class ShopMoneyPanelUIHandler
+public class ShopMoneyPanelUIHandler : ILocalizable
 {
     private const int _monetIndex = 0;
     private readonly LocalizationString _monetButtonText = "Монеты";
@@ -37,7 +37,10 @@ public class ShopMoneyPanelUIHandler
             Addressables.ReleaseInstance(_shopMoneyPanelView.gameObject);
         }
     }
-
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[] {_monetButtonText, _heartsButtonText};
+    }
     public async UniTask Show(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent, int index = 0)
     {
         SwipeDetectorOff?.Execute(true);

@@ -1,5 +1,4 @@
-﻿
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -37,7 +36,7 @@ public class AppStarter
         LoadScreenUIHandler loadScreenUIHandler;
         if (globalUIHandler.LoadScreenUIHandler == null)
         {
-            loadScreenUIHandler = new LoadScreenUIHandler();
+            loadScreenUIHandler = new LoadScreenUIHandler(new LoadWordsHandler());
         }
         else
         {
@@ -46,13 +45,13 @@ public class AppStarter
 
         ReactiveCommand<bool> swipeDetectorOff = null;
         var storiesProvider = await CreateStoriesProvider();
-        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
+        ReactiveCommand languageChanged = new ReactiveCommand();
 
         SettingsPanelUIHandler settingsPanelUIHandler;
         if (globalUIHandler.SettingsPanelUIHandler == null)
         {
             swipeDetectorOff = new ReactiveCommand<bool>();
-            settingsPanelUIHandler = new SettingsPanelUIHandler(mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
+            settingsPanelUIHandler = new SettingsPanelUIHandler(languageChanged, swipeDetectorOff);
         }
         else
         {
@@ -71,14 +70,16 @@ public class AppStarter
             shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
             swipeDetectorOff = globalUIHandler.ShopMoneyPanelUIHandler.SwipeDetectorOff;
         }
+
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler, loadIndicatorUIHandler, blackFrameUIHandler);
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, mainMenuLocalizationHandler.LanguageChanged, swipeDetectorOff);
+            await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, languageChanged,
+                swipeDetectorOff);
 
-        // var storiesProvider = await CreateStoriesProvider();
-        // await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, storiesProvider);
-
+        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, languageChanged,
+            result.Item1.GetLocalizableContent(),
+            storiesProvider.GetLocalizableContent()); //!!!
         if (loadScreenUIHandler.IsStarted == false)
         {
             loadScreenUIHandler.ShowOnStart();
@@ -88,6 +89,7 @@ public class AppStarter
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
 
         var levelLoader = LevelLoaderCreate(result.Item1, onSceneTransition, saveServiceProvider, result.Item3, storiesProvider);
+
 
         var startIndexStory = storiesProvider.GetIndexByName(saveServiceProvider.SaveData.NameStartStory);
         await InitMainMenuUI(globalSound.SoundStatus, mainMenuLocalizationHandler, levelLoader, result.Item1, result.Item2, result.Item3,
@@ -127,7 +129,8 @@ public class AppStarter
         return (mainMenuUIProvider, mainMenuUIView, mainMenuUIViewTransform);
     }
 
-    private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, MainMenuUIProvider mainMenuUIProvider,
+    private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, 
+        MainMenuUIProvider mainMenuUIProvider,
         MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider, int startIndexStory)
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);

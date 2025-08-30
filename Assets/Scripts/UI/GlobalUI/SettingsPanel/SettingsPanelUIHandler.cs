@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-public class SettingsPanelUIHandler
+public class SettingsPanelUIHandler : ILocalizable
 {
     private LocalizationString _textLabel = "Настройки";
     private LocalizationString _localizationLabel = "Язык:";
@@ -49,7 +49,10 @@ public class SettingsPanelUIHandler
             AssetIsLoaded = true;
         }
     }
-
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[] {_textLabel, _localizationLabel, _soundLabel};
+    }
     public void InitInLevel(ILevelLocalizationHandler levelLocalizationHandler)
     {
         IsInLevel = true;

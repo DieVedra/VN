@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class LoadScreenUIHandler
+public class LoadScreenUIHandler : ILocalizable
 {
     private const float _awaitLoadContentFontSize = 70f;
     private const float _defaultFontSize = 50f;
@@ -20,7 +22,7 @@ public class LoadScreenUIHandler
     public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
     public bool IsStarted { get; private set; }
 
-    public LoadScreenUIHandler()
+    public LoadScreenUIHandler(LoadWordsHandler loadWordsHandler)
     {
         _loadScreenAssetProvider = new LoadScreenAssetProvider();
         _loadWordsHandler = new LoadWordsHandler();
@@ -34,6 +36,14 @@ public class LoadScreenUIHandler
         _loadWordsHandler.StopSubstitutingWords();
     }
 
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        List<LocalizationString> content = new List<LocalizationString>();
+        content.AddRange(_loadWordsHandler.GetLocalizableContent().ToList());
+        content.Add(_disclaimerText);
+        return content;
+    }
+
     public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
     {
         _loadScreenUIView = await _loadScreenAssetProvider.LoadAsset(parent);
@@ -45,6 +55,7 @@ public class LoadScreenUIHandler
         _loadScreenUIView.LoadScreenImage.raycastTarget = true;
         _loadScreenUIView.LoadScreenMaskImage.raycastTarget = true;
     }
+
     private async UniTask Show()
     {
         _loadScreenUIView.gameObject.SetActive(true);
@@ -63,6 +74,7 @@ public class LoadScreenUIHandler
         _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         await Show();
     }
+
     public async UniTask ShowToLevelMove(Sprite loadScreenSprite, Sprite logoImage)
     {
         _loadScreenUIView.LoadScreenImage.sprite = loadScreenSprite;
@@ -78,7 +90,7 @@ public class LoadScreenUIHandler
 
     }
 
-    public async UniTask ShowToAwaitLoadContent(LoadAssetsPercentHandler loadAssetsPercentHandler, string awaitText)
+    public void ShowToAwaitLoadContent(LoadAssetsPercentHandler loadAssetsPercentHandler, string awaitText)
     {
         _loadScreenUIView.LoadScreenImage.sprite = null;
         _loadScreenUIView.LoadScreenImage.gameObject.SetActive(false);
@@ -91,6 +103,7 @@ public class LoadScreenUIHandler
         _indicatorUIHandler.SetPercentIndicateMode(loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty);
         _indicatorUIHandler.StartIndicate();
     }
+
     public void ShowOnStart()
     {
         SetDisclaimerText();
@@ -109,6 +122,7 @@ public class LoadScreenUIHandler
         _indicatorUIHandler.StopIndicate();
         _loadScreenUIView.DisclaimerText.fontSize = _defaultFontSize;
     }
+
     public async UniTask HideOnLevelMove()
     {
         await _blackFrameUIHandler.Close();
@@ -117,7 +131,7 @@ public class LoadScreenUIHandler
         _loadWordsHandler.StopSubstitutingWords();
         _blackFrameUIHandler.Open().Forget();
     }
-    
+
     public async UniTaskVoid HideOnMainMenuMove()
     {
         _cancellationTokenSource = new CancellationTokenSource();

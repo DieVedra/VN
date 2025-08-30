@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -10,17 +8,17 @@ public class LocalizationString
 {
     [field: SerializeField, TextArea] public string DefaultText { get; private set; }
     [field: SerializeField] public string Key { get; private set; }
-    public static List<LocalizationString> LocalizationStrings = new List<LocalizationString>();
+    // public static List<LocalizationString> LocalizationStrings = new List<LocalizationString>();
 
     public LocalizationString(string defaultText = null, string customKey = null)
     {
         DefaultText = defaultText;
         Key = customKey ?? GenerateStableHash(defaultText);
-        if (LocalizationStrings == null)
-        {
-            LocalizationStrings = new List<LocalizationString>();
-        }
-        LocalizationStrings.Add(this);
+        // if (LocalizationStrings == null)
+        // {
+        //     LocalizationStrings = new List<LocalizationString>();
+        // }
+        // LocalizationStrings.Add(this);
     }
     public static string GenerateStableHash(string input)
     {

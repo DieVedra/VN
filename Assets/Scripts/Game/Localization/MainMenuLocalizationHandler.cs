@@ -12,16 +12,14 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     private readonly LocalizationFileProvider _loader;
     private MainMenuLocalizationInfoHolder _mainMenuLocalizationInfoHolder;
     private SaveData _saveData;
-    private StoriesProvider _storiesProvider;
     private MyLanguageName _currentMyLanguageName;
     private ReactiveProperty<int> _currentLanguageKeyIndex;
+    private ReactiveCommand _languageChanged;
     private Dictionary<int, Dictionary<string, string>> _dictionariesMainMenuTranslates;
     private Dictionary<int, Dictionary<string, string>> _dictionaryStoryTranslates;
 
-
-    // private List<LocalizationString> _localizationStrings;
-
-    public ReactiveCommand LanguageChanged { get; private set; }
+    private IReadOnlyList<LocalizationString> _localizableContentMainMenuUI;
+    private IReadOnlyList<LocalizationString> _localizableContentStories;
 
     public MyLanguageName CurrentLanguageName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value];
     public string GetName => _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Name;
@@ -31,23 +29,21 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     
     public MainMenuLocalizationHandler()
     {
-        // _currentLanguageKeyIndex = new ReactiveProperty<int>();
-        // LanguageChanged = new ReactiveCommand();
         _loader = new LocalizationFileProvider();
-        Debug.Log($"Constructor MainMenuLocalizationHandler");
-
     }
 
-    public async UniTask Init(SaveData saveData, StoriesProvider storiesProvider)
+    public async UniTask Init(SaveData saveData, ReactiveCommand languageChanged,
+        IReadOnlyList<LocalizationString> localizableContentMainMenuUI, IReadOnlyList<LocalizationString> localizableContentStories)
     {
         Debug.Log($"MainMenuLocalizationHandler  Init");
         _currentLanguageKeyIndex?.Dispose();
         _currentLanguageKeyIndex = new ReactiveProperty<int>();
-        LanguageChanged?.Dispose();
-        LanguageChanged = new ReactiveCommand();
-
+        _languageChanged?.Dispose();
+        _languageChanged = languageChanged;
+        _localizableContentMainMenuUI = localizableContentMainMenuUI;
+        _localizableContentStories = localizableContentStories;
+        
         _saveData = saveData;
-        _storiesProvider = storiesProvider;
         _mainMenuLocalizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
         TryDefineLanguageKey();
         await LoadCurrentLanguage();
@@ -95,12 +91,18 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
 
     private async UniTask LoadCurrentLanguage()
     {
-        _dictionariesMainMenuTranslates = new Dictionary<int, Dictionary<string, string>>();
-        _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(_currentMyLanguageName.GetMainMenuLocalizationAssetName);
-        
-        _dictionaryStoryTranslates = new Dictionary<int, Dictionary<string, string>>();
-        _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value] = await LoadLanguageAsset(_currentMyLanguageName.GetStoryLocalizationAssetName);
-        
+        _dictionariesMainMenuTranslates = new Dictionary<int, Dictionary<string, string>>
+        {
+            [_currentLanguageKeyIndex.Value] =
+                await LoadLanguageAsset(_currentMyLanguageName.GetMainMenuLocalizationAssetName)
+        };
+
+        _dictionaryStoryTranslates = new Dictionary<int, Dictionary<string, string>>
+        {
+            [_currentLanguageKeyIndex.Value] =
+                await LoadLanguageAsset(_currentMyLanguageName.GetStoryLocalizationAssetName)
+        };
+
         Debug.Log($"LoadCurrentLanguage   _currentLanguageKeyIndex.Value {_currentLanguageKeyIndex.Value}");
         foreach (var VARIABLE in _dictionariesMainMenuTranslates)
         {
@@ -130,7 +132,7 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     private void ChangeLanguage()
     {
         SetLanguageMainMenuAndStory();
-        LanguageChanged.Execute();
+        _languageChanged.Execute();
     }
     private async UniTask<Dictionary<string, string>> LoadLanguageAsset(string localizationAssetName)
     {
@@ -138,64 +140,78 @@ public class MainMenuLocalizationHandler : ILocalizationChanger
     }
     private void SetLanguageMainMenuAndStory()
     {
-        Dictionary<string, string> dictionaryMainMenuTranslate = null;
-        Dictionary<string, string> dictionaryStoryTranslates = null;
-        if (_dictionariesMainMenuTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var value1))
-        {
-            dictionaryMainMenuTranslate = value1;
-        }
-        else
-        {
-            Debug.LogError($"DictionariesMainMenuTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
-        }
-        
-        if (_dictionaryStoryTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var value2))
-        {
-            dictionaryStoryTranslates = value2;
-        }
-        else
-        {
-            Debug.LogError($"DictionaryStoryTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
-        }
-        
-        // var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
-        // var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];
-        
         if (_saveData != null)
         {
             _saveData.LanguageLocalizationKey = _mainMenuLocalizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Key;
         }
 
-        foreach (var story in _storiesProvider.Stories)
+        if (_dictionariesMainMenuTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var dictionaryMainMenuTranslate))
         {
-            if (dictionaryStoryTranslates.TryGetValue(story.Description.Key, out string text))
+            foreach (var localizationString in _localizableContentMainMenuUI)
             {
-                story.Description.SetText(text);
+                if (dictionaryMainMenuTranslate.TryGetValue(localizationString.Key, out string text))
+                {
+                    localizationString.SetText(text);
+                    Debug.Log($" dictionaryMainMenuTranslate test2  {localizationString.Key}  {localizationString.DefaultText}");
+                }
             }
         }
-
-        if (dictionaryMainMenuTranslate == null)
+        else
         {
-            Debug.Log($"44 dictionaryMainMenuTranslate == null");
-
+            Debug.LogError($"DictionariesMainMenuTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
         }
 
-
-        foreach (var VARIABLE in dictionaryMainMenuTranslate)
+        if (_dictionaryStoryTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var dictionaryStoryTranslates))
         {
-            Debug.Log($"test1  {VARIABLE.Value}  {VARIABLE.Key}");
-
-        }
-        
-        
-        foreach (var localizationString in LocalizationString.LocalizationStrings)
-        {
-            Debug.Log($"test2  {localizationString.Key}  {localizationString.DefaultText}");
-
-            if (dictionaryMainMenuTranslate.TryGetValue(localizationString.Key, out string text))
+            foreach (var localizationString in _localizableContentStories)
             {
-                localizationString.SetText(text);
+                if (dictionaryStoryTranslates.TryGetValue(localizationString.Key, out string text))
+                {
+                    localizationString.SetText(text);
+                    Debug.Log($"dictionaryStoryTranslates test3  {localizationString.Key}  {localizationString.DefaultText}");
+                }
             }
         }
+        else
+        {
+            Debug.LogError($"DictionaryStoryTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
+        }
+
+        // var dictionaryMainMenuTranslate = _dictionariesMainMenuTranslates[_currentLanguageKeyIndex.Value];
+
+        // var dictionaryStoryTranslates = _dictionaryStoryTranslates[_currentLanguageKeyIndex.Value];
+
+
+        // foreach (var story in _storiesProvider.Stories)
+        // {
+        //     if (dictionaryStoryTranslates.TryGetValue(story.Description.Key, out string text))
+        //     {
+        //         story.Description.SetText(text);
+        //     }
+        // }
+
+        // if (dictionaryMainMenuTranslate == null)
+        // {
+        //     Debug.Log($"44 dictionaryMainMenuTranslate == null");
+        //
+        // }
+        //
+        //
+        // foreach (var VARIABLE in dictionaryMainMenuTranslate)
+        // {
+        //     Debug.Log($"test1  {VARIABLE.Value}  {VARIABLE.Key}");
+        //
+        // }
+        
+        
+        // foreach (var localizationString in _localizableContent)
+        // {
+        //     Debug.Log($"test2  {localizationString.Key}  {localizationString.DefaultText}");
+        //
+        //     if (dictionaryMainMenuTranslate.TryGetValue(localizationString.Key, out string text))
+        //     {
+        //         localizationString.SetText(text);
+        //     }
+        // }
     }
 }

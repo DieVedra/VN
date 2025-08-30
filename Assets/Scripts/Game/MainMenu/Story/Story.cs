@@ -1,10 +1,11 @@
 ﻿
+using System.Collections.Generic;
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
 [System.Serializable]
-public class Story
+public class Story  : ILocalizable
 {
     [SerializeField] private string _storyName;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteLogo;
@@ -83,5 +84,10 @@ public class Story
         //     _storyData.CurrentProgressPercent = 0;
         //     _storyData.CurrentSeriaIndex = 0;
         // }
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {_description};
     }
 }

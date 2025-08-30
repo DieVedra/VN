@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -7,7 +8,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class PlayStoryPanelHandler
+public class PlayStoryPanelHandler : ILocalizable
 {
     private readonly LocalizationString _seriaText = "Серия";
     private readonly LocalizationString _playButtonText = "Играть";
@@ -22,6 +23,8 @@ public class PlayStoryPanelHandler
     private Vector2 _hideScale;
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
+
+    public ReactiveCommand OnEndExit { get; private set; }
 
     public string GetCurrentStoryName
     {
@@ -43,7 +46,7 @@ public class PlayStoryPanelHandler
         _blackFrameUIHandler = blackFrameUIHandler;
         _languageChanged = languageChanged;
     }
-    public ReactiveCommand OnEndExit { get; private set; }
+
     public async UniTask Init(LevelLoader levelLoader, Transform parent)
     {
         _levelLoader = levelLoader;
@@ -63,6 +66,11 @@ public class PlayStoryPanelHandler
     {
         Addressables.ReleaseInstance(_playStoryPanel.gameObject);
     }
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[] {_seriaText, _playButtonText};
+    }
+
     public async UniTaskVoid Show(Story story)
     {
         

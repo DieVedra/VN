@@ -61,7 +61,17 @@ public class StoriesProvider : ScriptableObject
             storyData.StoryStarted = _stories[i].StoryStarted;
             storyDatas.Add(storyData);
         }
-
         return storyDatas.ToArray();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        List<LocalizationString> content = new List<LocalizationString>();
+
+        foreach (var story in _stories)
+        {
+            content.AddRange(story.GetLocalizableContent());
+        }
+        return content;
     }
 }

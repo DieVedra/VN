@@ -1,9 +1,10 @@
 ﻿
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-public class BottomPanelUIHandler
+public class BottomPanelUIHandler : ILocalizable
 {
     private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
@@ -30,6 +31,18 @@ public class BottomPanelUIHandler
     {
         _advertisingButtonUIHandler.Dispose();
     }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[]
+        {
+            _exitButtonUIHandler.ButtonText, _exitButtonUIHandler.ExitText, _exitButtonUIHandler.LabelTextToConfirmedPanel,
+            _exitButtonUIHandler.TranscriptionTextToConfirmedPanel, _advertisingButtonUIHandler.ButtonText,
+            _advertisingButtonUIHandler.AdvertisingButtonText, _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+            _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel
+        };
+    }
+
     public void Init(BottomPanelView bottomPanelView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _bottomPanelView = bottomPanelView;
@@ -46,6 +59,7 @@ public class BottomPanelUIHandler
         _bottomPanelView.ShowAdvertisingButtonText.text = _advertisingButtonUIHandler.AdvertisingButtonText;
         _bottomPanelView.GameExitButtonText.text = _exitButtonUIHandler.ExitText;
     }
+
     private void SubscribeButtons()
     {
         _bottomPanelView.GameExitButton.onClick.AddListener(() =>

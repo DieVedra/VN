@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -6,7 +7,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 
-public class LoadIndicatorUIHandler
+public class LoadIndicatorUIHandler : ILocalizable
 {
     private const float _minRotationValue = 0f;
     private const float _maxRotationValue = -360f;
@@ -44,7 +45,10 @@ public class LoadIndicatorUIHandler
         StopIndicate();
         _assetLoaded = false;
     }
-
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[] {_loadTextLocalization, _loadLocalizationTextLocalization};
+    }
     public void StopIndicate()
     {
         _cancellationTokenSource?.Cancel();

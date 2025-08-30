@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 
-public class MyScrollHandler
+public class MyScrollHandler : ILocalizable
 {
     private const float _scaleHide = 0.8f;
     private const float _scaleUnhide = 1f;
@@ -128,6 +128,11 @@ public class MyScrollHandler
         }
     }
 
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new LocalizationString[] {_buttonOpenText, _buttonContinueText };
+    }
+
     public void Dispose()
     {
         if (_contentCount == 1)
@@ -161,6 +166,7 @@ public class MyScrollHandler
         _content.anchoredPosition = new Vector2(_contentChildsPosX[_startIndex], _content.anchoredPosition.y);
         _currentIndex.Value = _startIndex;
     }
+
     private async UniTask CreateContent(PlayStoryPanelHandler playStoryPanelHandler, LevelLoader levelLoader)
     {
         TryClearContent(_content);
@@ -208,6 +214,7 @@ public class MyScrollHandler
             _contentCount, _moveStepIndicator, _moveStep);
         _swipeProgressIndicatorsParent.transform.gameObject.SetActive(true);
     }
+
     private float CalculateAddValueToPositionXContentToFirstContentElement(float moveStep, int contentCount)
     {
         if (contentCount <= 1)
@@ -245,6 +252,7 @@ public class MyScrollHandler
             _contentChildsPosX.Add(firsPosX -= _moveStep);
         }
     }
+
     private void TryClearContent(Transform swipeProgressIndicatorParent)
     {
         if (swipeProgressIndicatorParent.childCount > 0)
