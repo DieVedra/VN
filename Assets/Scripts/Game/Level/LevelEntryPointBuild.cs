@@ -72,7 +72,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode, _setLocalizationChangeEvent);
+        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode,
+            _setLocalizationChangeEvent);
 
         await _levelLoadDataHandler.LoadStartSeriaContent();
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();

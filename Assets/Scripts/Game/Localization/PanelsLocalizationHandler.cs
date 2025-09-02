@@ -39,7 +39,11 @@ public class PanelsLocalizationHandler : ILocalizationChanger
     {
         _saveData = saveData;
         _localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
-        TryDefineLanguageKey();
+        if (gameIsStarted == false)
+        {
+            TryDefineLanguageKey();
+        }
+
         await LoadCurrentLanguage();
         SetLanguagePanelsAndMenuStory();
         if (gameIsStarted == false)
@@ -80,7 +84,7 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)
         {
             _currentLanguageKeyIndex.Value = i;
-
+            Debug.Log($"TryDefineLanguageKey()  {_currentLanguageKeyIndex.Value}");
             if (_localizationInfoHolder.LanguageNames[i].Key == systemLanguageKey)
             {
                 _currentMyLanguageName = _localizationInfoHolder.LanguageNames[i];

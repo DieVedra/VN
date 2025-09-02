@@ -1,5 +1,6 @@
 ﻿using System;
 using UniRx;
+using UnityEngine;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler
 {
@@ -11,6 +12,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
     private OnAwaitLoadContentEvent<AwaitLoadContentPanel> _onAwaitLoadContentEvent;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private CompositeDisposable _compositeDisposable;
+    private CompositeDisposable _trySetCurrentLocalizationCompositeDisposable;
 
     public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
         NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
@@ -32,7 +34,15 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         AddSeria(gameSeriesProvider.LastLoaded);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
-        levelLocalizationHandler.OnTrySwitchLocalization += TrySetCurrentLocalizationToCurrentSeria;
+        // levelLocalizationHandler.OnTrySwitchLocalization. += TrySetCurrentLocalizationToCurrentSeria;
+        _trySetCurrentLocalizationCompositeDisposable = new CompositeDisposable();
+        Debug.Log($"Test HashCode Subscr {levelLocalizationHandler.GetHashCode()}");
+
+        levelLocalizationHandler.OnTrySwitchLocalization.Subscribe(_=>
+        {
+            Debug.Log($"!!!!!!!!!!!!");
+            TrySetCurrentLocalizationToCurrentSeria();
+        }).AddTo(_trySetCurrentLocalizationCompositeDisposable);
     }
 
     protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
@@ -44,7 +54,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
 
     public override void Dispose()
     {
-        _levelLocalizationHandler.OnTrySwitchLocalization -= TrySetCurrentLocalizationToCurrentSeria;
+        _trySetCurrentLocalizationCompositeDisposable.Clear();
         base.Dispose();
     }
 
@@ -55,6 +65,8 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
 
     private void TrySetCurrentLocalizationToCurrentSeria()
     {
+        Debug.Log($"TrySetCurrentLocalizationToCurrentSeria() !!!!");
+
         _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value], _gameStatsHandler);
     }
     private void SwitchSeria(bool putSwimsuits = false)

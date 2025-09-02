@@ -17,7 +17,6 @@ public class PlayStoryPanelHandler : ILocalizable
     private PlayStoryPanel _playStoryPanel;
     private RectTransform _rectTransformPanel;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
-    private readonly ReactiveCommand _languageChanged;
     private Story _currentStory;
 
     private Vector2 _hideScale;
@@ -41,10 +40,9 @@ public class PlayStoryPanelHandler : ILocalizable
         }
     }
 
-    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, ReactiveCommand languageChanged)
+    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
-        _languageChanged = languageChanged;
     }
 
     public async UniTask Init(LevelLoader levelLoader, Transform parent)

@@ -16,7 +16,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
 
     private Dictionary<int, Dictionary<string, string>> _seriaLocalizations;
     public bool ParticipiteInLoad { get; private set; }
-    public bool AssetInLoading => _localizationFileProvider.IsLoading;
+    
     public int PercentComplete => _localizationFileProvider.GetPercentComplete();
     public LocalizationFileProvider LocalizationFileProvider => _localizationFileProvider;
 
@@ -30,7 +30,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     }
     public async UniTask TryLoadLocalization(int seriaNumber, string languageKey)
     {
-        if (AssetInLoading == true)
+        if (_localizationFileProvider.IsLoading == true)
         {
             _localizationFileProvider.AbortLoad();
         }
@@ -52,6 +52,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         }
         else
         {
+            Debug.LogWarning($"Asset not find: '{name}'");
             ParticipiteInLoad = false;
         }
     }
@@ -92,8 +93,11 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     public async UniTask TryLoadLocalizationOnSwitchLanguageFromSettings()
     {
         _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>(); 
+        Debug.Log($"TryLoadLocalizationOnSwitchLanguageFromSettings  1");
         await TryLoadLocalization(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey);
+        Debug.Log($"TryLoadLocalizationOnSwitchLanguageFromSettings  2");
+
         TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey).Forget();
     }

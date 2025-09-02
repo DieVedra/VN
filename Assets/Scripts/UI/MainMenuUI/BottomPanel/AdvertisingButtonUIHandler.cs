@@ -19,7 +19,8 @@ public class AdvertisingButtonUIHandler
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
     public bool AssetIsLoad { get; private set; }
-    public AdvertisingButtonUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Wallet wallet, Transform parent)
+    public AdvertisingButtonUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        Wallet wallet, Transform parent)
     {
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;

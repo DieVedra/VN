@@ -13,6 +13,7 @@ public class SettingsPanelUIHandler : ILocalizable
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandle;
     private ILevelLocalizationHandler _levelLocalizationHandler;
+    private CompositeDisposable _hideOnSwitchLevelLocalizationCompositeDisposable;
     public Transform Transform => _settingsPanelView.transform;
     public ReactiveCommand<bool> SwipeDetectorOffReactiveCommand { get; }
     public ReactiveCommand LanguageChangedReactiveCommand { get; }
@@ -60,6 +61,7 @@ public class SettingsPanelUIHandler : ILocalizable
     }
     public void Dispose()
     {
+        _hideOnSwitchLevelLocalizationCompositeDisposable?.Clear();
         _settingsPanelView?.SoundField.Toggle.onValueChanged.RemoveAllListeners();
     }
     public void Show(BlackFrameUIHandler blackFrameUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler)
@@ -115,14 +117,19 @@ public class SettingsPanelUIHandler : ILocalizable
         }
         _loadIndicatorUIHandle.SetLocalizationIndicate();
         _loadIndicatorUIHandle.StartIndicate();
+        // _levelLocalizationHandler.OnEndSwitchLocalization += HideOnSwitchLevelLocalizationPart2;
+        _hideOnSwitchLevelLocalizationCompositeDisposable = new CompositeDisposable();
+        _levelLocalizationHandler.OnEndSwitchLocalization.Subscribe(_ =>
+        {
+            HideOnSwitchLevelLocalizationPart2();
+        }).AddTo(_hideOnSwitchLevelLocalizationCompositeDisposable);
         _levelLocalizationHandler.TrySwitchLanguageFromSettingsChange().Forget();
-        _levelLocalizationHandler.OnEndSwitchLocalization += HideOnSwitchLevelLocalizationPart2;
     }
 
     private void HideOnSwitchLevelLocalizationPart2()
     {
+        _hideOnSwitchLevelLocalizationCompositeDisposable.Clear();
         _loadIndicatorUIHandle.StopIndicate();
         HideDefault();
-        _levelLocalizationHandler.OnEndSwitchLocalization -= HideOnSwitchLevelLocalizationPart2;
     }
 }

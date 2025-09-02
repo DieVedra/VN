@@ -8,6 +8,7 @@ public class BottomPanelUIHandler : ILocalizable
     private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private readonly Transform _parent;
+    private readonly ReactiveCommand _languageChanged;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
@@ -21,16 +22,12 @@ public class BottomPanelUIHandler : ILocalizable
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
         _parent = parent;
-        _compositeDisposable = new CompositeDisposable();
-        languageChanged.Subscribe(_=>
-        {
-            ChangedLanguage();
-        }).AddTo(_compositeDisposable);
+        _languageChanged = languageChanged;
     }
 
     public void Dispose()
     {
-        _compositeDisposable.Clear();
+        _compositeDisposable?.Clear();
         _advertisingButtonUIHandler.Dispose();
     }
 
@@ -47,6 +44,11 @@ public class BottomPanelUIHandler : ILocalizable
 
     public void Init(BottomPanelView bottomPanelView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
+        _compositeDisposable = new CompositeDisposable();
+        _languageChanged.Subscribe(_=>
+        {
+            ChangedLanguage();
+        }).AddTo(_compositeDisposable);
         _bottomPanelView = bottomPanelView;
         ChangedLanguage();
 

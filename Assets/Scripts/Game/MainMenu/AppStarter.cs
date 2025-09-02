@@ -112,7 +112,7 @@ public class AppStarter
         MainMenuUIView mainMenuUIView = await menuCanvasAssetProvider.CreateAsset();
         mainMenuUIView.GetComponent<Canvas>().worldCamera = Camera.main;
         var mainMenuUIViewTransform = mainMenuUIView.transform;
-        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, languageChanged);
+        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
             globalUIHandler.LoadIndicatorUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet, globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
