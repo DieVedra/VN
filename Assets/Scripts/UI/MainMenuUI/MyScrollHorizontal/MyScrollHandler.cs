@@ -26,6 +26,7 @@ public class MyScrollHandler : ILocalizable
 
     private readonly ReactiveProperty<int> _currentIndex;
     private readonly ReactiveProperty<bool> _isRightMove;
+    private readonly ReactiveCommand _languageChanged;
     private readonly ReactiveCommand<bool> _swipeDetectorOff;
     private readonly AnimationCurve _scaleCurveHide;
     private readonly AnimationCurve _scaleCurveUnhide;
@@ -42,8 +43,9 @@ public class MyScrollHandler : ILocalizable
     private ChangeEffectHandler _changeEffectHandler;
     private RectTransform _swipeIndicatorFill;
     private MyScrollMover _myScrollMover;
-    private CompositeDisposable _compositeDisposable;
+    private CompositeDisposable _compositeDisposablePlayStoryPanelHandler;
     private IReadOnlyList<Story> _stories;
+    private CompositeDisposable _compositeDisposableLanguageChanged;
 
     public MyScrollHandler(MyScrollUIView myScrollUIView, ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
@@ -60,16 +62,19 @@ public class MyScrollHandler : ILocalizable
         _moveStepIndicator = myScrollUIView.MoveStepIndicator;
         _currentIndex = new ReactiveProperty<int>();
         _isRightMove = new ReactiveProperty<bool>();
-        languageChanged.Subscribe(_ =>
-        {
-            LanguageChanged();
-        });
+        _languageChanged = languageChanged;
         _swipeDetectorOff = swipeDetectorOff;
     }
 
     public async UniTask Construct(IReadOnlyList<Story> stories, PlayStoryPanelHandler playStoryPanelHandler,
         LevelLoader levelLoader, int startIndex = 0)
     {
+        _compositeDisposableLanguageChanged?.Clear();
+        _compositeDisposableLanguageChanged = new CompositeDisposable();
+        _languageChanged.Subscribe(_ =>
+        {
+            LanguageChanged();
+        }).AddTo(_compositeDisposableLanguageChanged);
         if (stories != null)
         {
             _contentCount = stories.Count;
@@ -151,6 +156,7 @@ public class MyScrollHandler : ILocalizable
         _swipeDetector.Disable();
         _changeEffectHandler.Dispose();
         _currentIndex.Dispose();
+        _compositeDisposableLanguageChanged.Clear();
         for (int i = 0; i < _contentChilds.Count; i++)
         {
             Addressables.ReleaseInstance(_contentChilds[i].gameObject);
@@ -308,12 +314,12 @@ public class MyScrollHandler : ILocalizable
             {
                 _swipeDetector.Disable();
                 playStoryPanelHandler.Show(story).Forget();
-                _compositeDisposable = new CompositeDisposable();
+                _compositeDisposablePlayStoryPanelHandler = new CompositeDisposable();
                 playStoryPanelHandler.OnEndExit.Subscribe(_=>
                 {
                     _swipeDetector.Enable();
-                    _compositeDisposable.Clear();
-                }).AddTo(_compositeDisposable);
+                    _compositeDisposablePlayStoryPanelHandler.Clear();
+                }).AddTo(_compositeDisposablePlayStoryPanelHandler);
             }
         });
     }

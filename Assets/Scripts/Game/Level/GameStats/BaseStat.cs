@@ -7,8 +7,8 @@ public class BaseStat : ILocalizationString
     [SerializeField] private LocalizationString _name;
     [SerializeField] private int _value;
     
-    public string Name => _name.DefaultText;
-    public string Key => _name.Key;
+    public string NameText => _name.DefaultText;
+    public string NameKey => _name.Key;
     public int Value => _value;
     public LocalizationString LocalizationName => _name;
 

@@ -9,11 +9,8 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     private const int _deleteValue = 2;
     private const string _nameLevelLocalizationAsset = "FileLocalizationSeria";
     private readonly ILocalizationChanger _localizationChanger;
-
     private readonly ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
-
     private readonly AssetExistsHandler _assetExistsHandler;
-
     private readonly LocalizationFileProvider _localizationFileProvider;
     private string _currentLanguageKey;
 
@@ -31,7 +28,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         _assetExistsHandler = new AssetExistsHandler();
         _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>();
     }
-    public async UniTask<bool> TryLoadLocalization(int seriaNumber, string languageKey)
+    public async UniTask TryLoadLocalization(int seriaNumber, string languageKey)
     {
         if (AssetInLoading == true)
         {
@@ -42,7 +39,6 @@ public class LevelLocalizationProvider : IParticipiteInLoad
             if (_seriaLocalizations.ContainsKey(seriaNumber))
             {
                 ParticipiteInLoad = false;
-                return ParticipiteInLoad;
             }
         }
         _currentLanguageKey = languageKey;
@@ -58,7 +54,6 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         {
             ParticipiteInLoad = false;
         }
-        return ParticipiteInLoad;
     }
 
     public IReadOnlyDictionary<string, string> GetCurrentLocalization()
@@ -99,15 +94,8 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         _seriaLocalizations = new SerializedDictionary<int, Dictionary<string, string>>(); 
         await TryLoadLocalization(CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey);
-        // await TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
-        //     _localizationChanger.GetKey)/*.Forget()*/;
         TryLoadLocalization(CurrentSeriaNumberProvider.GetSecondSeriaNumber(_currentSeriaIndexReactiveProperty.Value),
             _localizationChanger.GetKey).Forget();
-
-        foreach (var vv in _seriaLocalizations)
-        {
-            Debug.Log($"vv {vv.Key} {_currentLanguageKey}");
-        }
     }
 
     private void TryDeleteUncessaryLocalization(int seriaNumber)

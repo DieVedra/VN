@@ -40,7 +40,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
                 var customizationSetting = new CustomizationSettings(
-                    _gameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
+                    GameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
                 newSettingsList.Add(customizationSetting);
@@ -90,6 +90,6 @@ public class CustomizationNodeInitializer : MyNodeInitializer
     }
     private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
     {
-        return new CustomizationSettings(_gameStatsHandler.GetGameStatsForm(), name, index, price, priceAdditional);
+        return new CustomizationSettings(GameStatsHandler.GetGameStatsForm(), name, index, price, priceAdditional);
     }
 }

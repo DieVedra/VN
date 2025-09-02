@@ -69,12 +69,15 @@ public class SettingsPanelButtonUIHandler
             await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
 
             _loadIndicatorUIHandler.StopIndicate();
-            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
+            // _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
         else
         {
             _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-            _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
+            // _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
+        await _localizationChanger.LoadAllLanguagesForPanels();
+        _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
+
     }
 }

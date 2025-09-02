@@ -21,7 +21,7 @@ public class GameStatsCustodian : MonoBehaviour
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            baseStats.Add(new SaveStat(_stats[i].Name, _stats[i].Value, _stats[i].ShowKey));
+            baseStats.Add(new SaveStat(_stats[i].NameText, _stats[i].Value, _stats[i].ShowKey));
         }
 
         return baseStats.ToArray();
@@ -32,7 +32,7 @@ public class GameStatsCustodian : MonoBehaviour
         List<Stat> stats = new List<Stat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            stats.Add(new Stat(_stats[i].Name, 0, _stats[i].ShowKey, _stats[i].ColorField));
+            stats.Add(new Stat(_stats[i].NameText, 0, _stats[i].ShowKey, _stats[i].ColorField));
         }
 
         return stats;
@@ -43,7 +43,7 @@ public class GameStatsCustodian : MonoBehaviour
         List<BaseStat> stats = new List<BaseStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            stats.Add(new BaseStat(_stats[i].Name, 0));
+            stats.Add(new BaseStat(_stats[i].NameText, 0));
         }
 
         return stats;
@@ -55,9 +55,9 @@ public class GameStatsCustodian : MonoBehaviour
         {
             for (int j = 0; j < saveStats.Length; j++)
             {
-                if (_stats[i].Name == saveStats[j].Name)
+                if (_stats[i].NameKey == saveStats[j].NameKey)
                 {
-                    _stats[i] = new Stat(_stats[i].Name, saveStats[j].Value, saveStats[j].ShowKey, _stats[i].ColorField);
+                    _stats[i] = new Stat(_stats[i].NameText, saveStats[j].Value, saveStats[j].ShowKey, _stats[i].ColorField);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class GameStatsCustodian : MonoBehaviour
     {
         for (int i = 0; i < _stats.Count; i++)
         {
-            _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + AddStats[i].Value, _stats[i].ShowKey,
+            _stats[i] = new Stat(_stats[i].NameText, _stats[i].Value + AddStats[i].Value, _stats[i].ShowKey,
                 _stats[i].ColorField);
         }
     }
@@ -76,7 +76,7 @@ public class GameStatsCustodian : MonoBehaviour
     {
         for (int i = 0; i < _stats.Count; i++)
         {
-            _stats[i] = new Stat(_stats[i].Name, _stats[i].Value + AddStats[i].Value, AddStats[i].ShowKey,
+            _stats[i] = new Stat(_stats[i].NameText, _stats[i].Value + AddStats[i].Value, AddStats[i].ShowKey,
                 _stats[i].ColorField);
         }
     }
@@ -105,7 +105,7 @@ public class GameStatsCustodian : MonoBehaviour
         }
         void InsertStat(int index)
         {
-            newStats.Insert(index, new Stat(oldStats[index].Name, oldStats[index].Value, oldStats[index].ShowKey, oldStats[index].ColorField));
+            newStats.Insert(index, new Stat(oldStats[index].NameText, oldStats[index].Value, oldStats[index].ShowKey, oldStats[index].ColorField));
         }
         return newStats;
     }
@@ -124,7 +124,7 @@ public class GameStatsCustodian : MonoBehaviour
         bool result = false;
         for (int i = 0; i < stats.Count; i++)
         {
-            if (stat.Name == stats[i].Name)
+            if (stat.NameKey == stats[i].NameKey)
             {
                 result = true;
                 break;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LevelUIProviderEditMode
+public class LevelUIProviderEditMode 
 {
     public readonly NarrativePanelUIHandler NarrativePanelUIHandler;
     public readonly NotificationPanelUIHandler NotificationPanelUIHandler;

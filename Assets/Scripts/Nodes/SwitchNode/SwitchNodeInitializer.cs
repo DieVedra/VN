@@ -11,11 +11,11 @@ public class SwitchNodeInitializer : MyNodeInitializer
             for (int i = 0; i < casesForStats.Count; i++)
             {
                 var newStats = CreateCaseBaseStat();
-                var oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.Name);
+                var oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.NameText);
                 var result = new List<CaseBaseStat>();
                 for (int j = 0; j < newStats.Count; j++)
                 {
-                    if (oldStatsDictionary.TryGetValue(newStats[j].Name, out CaseBaseStat oldStat))
+                    if (oldStatsDictionary.TryGetValue(newStats[j].NameText, out CaseBaseStat oldStat))
                     {
                         result.Add(oldStat);
                     }
@@ -30,11 +30,11 @@ public class SwitchNodeInitializer : MyNodeInitializer
     }
     public List<CaseBaseStat> CreateCaseBaseStat()
     {
-        List<BaseStat> stats = _gameStatsHandler.GetGameBaseStatsForm();
+        List<BaseStat> stats = GameStatsHandler.GetGameBaseStatsForm();
         List<CaseBaseStat> caseStats = new List<CaseBaseStat>(stats.Count);
         for (int i = 0; i < stats.Count; i++)
         {
-            caseStats.Add(new CaseBaseStat(stats[i].Name, stats[i].Value, 0, false));
+            caseStats.Add(new CaseBaseStat(stats[i].NameText, stats[i].Value, 0, false));
         }
         return caseStats;
     }

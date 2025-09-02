@@ -119,7 +119,7 @@ public class LocalizationCreator : ScriptableObject
     //     
     //     foreach (var VARIABLE in CreateDictionary(LocalizationString.LocalizationStrings))
     //     {
-    //         Debug.Log($"{VARIABLE.Key} {VARIABLE.Value}");
+    //         Debug.Log($"{VARIABLE.NameKey} {VARIABLE.Value}");
     //     }
     // }
 

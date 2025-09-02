@@ -125,7 +125,7 @@ public class CharacterNodeDrawer : NodeEditor
                 _previousIndexCharacterProperty.intValue = _indexCharacterProperty.intValue;
             }
 
-            DrawToggle(_overrideNameProperty, "Override Name ");
+            DrawToggle(_overrideNameProperty, "Override NameText ");
             if (_overrideNameProperty.boolValue == true)
             {
                 _localizationStringTextDrawer.DrawTextField(_localizationStringOverridedName, _overrideNameLabel, false);

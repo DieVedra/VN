@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
-public class GameControlPanelUIHandler
+public class GameControlPanelUIHandler : ILocalizable
 {
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
@@ -31,7 +32,7 @@ public class GameControlPanelUIHandler
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         GlobalSound globalSound, Wallet wallet,
-        MainMenuLocalizationHandler mainMenuLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         ILevelLocalizationHandler localizationHandler, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
@@ -41,7 +42,7 @@ public class GameControlPanelUIHandler
         _parent = globalUIHandler.GlobalUITransforn;
         _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         _globalSound = globalSound;
-        _localizationChanger = mainMenuLocalizationHandler;
+        _localizationChanger = panelsLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
         _levelLocalizationHandler = localizationHandler;
@@ -78,6 +79,16 @@ public class GameControlPanelUIHandler
     {
         _cancellationTokenSource?.Cancel();
     }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return ListExtensions.MergeIReadOnlyLists(
+            _loadIndicatorUIHandler.GetLocalizableContent(), 
+            _buttonTransitionToMainSceneUIHandler.GetLocalizableContent(), 
+            _settingsPanelUIHandler.GetLocalizableContent(), 
+            _shopMoneyPanelUIHandler.GetLocalizableContent());
+    }
+
     private async UniTaskVoid ShowGameControlPanel()
     {
         if (_panelIsVisible == false)
@@ -105,6 +116,7 @@ public class GameControlPanelUIHandler
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(true);
         await DoFade(AnimationValuesProvider.MaxValue, GetCurrentDuration());
     }
+
     private async UniTaskVoid SetPanelInvisible()
     {
         _panelIsVisible = false;
@@ -113,6 +125,7 @@ public class GameControlPanelUIHandler
 
         OffButtonsOnPanel();
     }
+
     private void OffButtonsOnPanel()
     {
         _gameControlPanelView.SettingsButtonView.Button.gameObject.SetActive(false);
@@ -131,15 +144,16 @@ public class GameControlPanelUIHandler
         if (_confirmedPanelUIHandler == null)
         {
             _confirmedPanelUIHandler = new ConfirmedPanelUIHandler(_loadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler, _darkeningBackgroundFrameUIHandler.Transform);
-            await _confirmedPanelUIHandler.Show(
-                _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
-                _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
-                ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
-                {
-                    _buttonTransitionToMainSceneUIHandler.Press().Forget();
-                    ReInitCancellationSource();
-                }, true);
         }
+
+        await _confirmedPanelUIHandler.Show(
+            _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
+            _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
+            ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
+            {
+                _buttonTransitionToMainSceneUIHandler.Press().Forget();
+                ReInitCancellationSource();
+            }, true);
     }
 
     private void ReInitCancellationSource()

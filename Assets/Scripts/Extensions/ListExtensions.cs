@@ -52,4 +52,18 @@ public static class ListExtensions
         
         return dictionary;
     }
+
+    public static List<T> MergeLists<T>(params List<T>[] merged)
+    {
+        return MergeIReadOnlyLists<T>(merged);
+    }
+    public static List<T> MergeIReadOnlyLists<T>(params IReadOnlyList<T>[] merged)
+    {
+        List<T> result = new List<T>();
+        for (int i = 0; i < merged.Length; i++)
+        {
+            result.AddRange(merged[i]);
+        }
+        return result;
+    }
 }

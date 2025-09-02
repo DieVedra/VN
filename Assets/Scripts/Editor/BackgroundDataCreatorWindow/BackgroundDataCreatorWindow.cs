@@ -256,8 +256,8 @@ public class BackgroundDataCreatorWindow : EditorWindow
                                 serializedPropertyNameBackground = serializedPropertyBackgroundContentValues.FindPropertyRelative(BackgroundContentValues.NameBackgroundFieldName);
                                 GUILayout.Space(10f);
                                 _lineDrawer.DrawHorizontalLine(Color.red, 2);
-                                GUILayout.Label($"Name: {_backgroundContentValues[i].NameSprite}");
-                                serializedPropertyNameBackground.stringValue = EditorGUILayout.TextField("Name Background:",
+                                GUILayout.Label($"NameText: {_backgroundContentValues[i].NameSprite}");
+                                serializedPropertyNameBackground.stringValue = EditorGUILayout.TextField("NameText Background:",
                                     serializedPropertyNameBackground.stringValue);
                                 GUILayout.BeginHorizontal();
                                 serializedPropertyScale.vector2Value = EditorGUILayout.Vector2Field("Scale:",

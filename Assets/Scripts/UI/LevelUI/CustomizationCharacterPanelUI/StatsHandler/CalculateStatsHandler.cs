@@ -18,7 +18,7 @@ public class CalculateStatsHandler
         {
             for (int j = 0; j < switchInfo[i].Stats.Count; j++)
             {
-                PreliminaryStats[j] = new BaseStat(PreliminaryStats[j].Name, PreliminaryStats[j].Value + switchInfo[i].Stats[j].Value);
+                PreliminaryStats[j] = new BaseStat(PreliminaryStats[j].NameText, PreliminaryStats[j].Value + switchInfo[i].Stats[j].Value);
             }
         }
     }

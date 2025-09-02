@@ -4,7 +4,7 @@ using UnityEngine;
 public class AwaitLoadContentPanelHandler
 {
     private const float _delay = 1f;
-    private readonly LocalizationString _awaitLoadText = "Пожалуйста, дождитесь окончания загрузки контента...";
+    public readonly LocalizationString AwaitLoadText = "Пожалуйста, дождитесь окончания загрузки контента...";
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
     private readonly LoadScreenUIHandler _loadScreenUIHandler;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
@@ -34,7 +34,7 @@ public class AwaitLoadContentPanelHandler
         {
             _blackFrameUIHandler.CloseTranslucent().Forget();
         }
-        _loadScreenUIHandler.ShowToAwaitLoadContent(_loadAssetsPercentHandler, _awaitLoadText.DefaultText);
+        _loadScreenUIHandler.ShowToAwaitLoadContent(_loadAssetsPercentHandler, AwaitLoadText.DefaultText);
     }
 
     private void Hide()

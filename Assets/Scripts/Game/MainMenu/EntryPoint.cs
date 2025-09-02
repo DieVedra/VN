@@ -16,11 +16,11 @@ public class EntryPoint: MonoBehaviour
     private GlobalSound _globalSound;
     private PrefabsProvider _prefabsProvider;
     private GlobalUIHandler _globalUIHandler;
-    private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
+    private PanelsLocalizationHandler _panelsLocalizationHandler;
 
     [Inject]
     private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
-        GlobalSound globalSound, GlobalUIHandler globalUIHandler, MainMenuLocalizationHandler mainMenuLocalizationHandler)
+        GlobalSound globalSound, GlobalUIHandler globalUIHandler, PanelsLocalizationHandler panelsLocalizationHandler)
     {
         _saveServiceProvider = saveServiceProvider;
         _globalSound = globalSound;
@@ -39,19 +39,19 @@ public class EntryPoint: MonoBehaviour
 
         _globalUIHandler = globalUIHandler;
         _appStarter = new AppStarter();
-        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
+        _panelsLocalizationHandler = panelsLocalizationHandler;
     }
 
     private async void Awake()
     {
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
-                _saveServiceProvider, _globalSound, _mainMenuLocalizationHandler);
+                _saveServiceProvider, _globalSound, _panelsLocalizationHandler);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
         _levelLoader = result.Item3;
-        _saveServiceProvider.TrySetLanguageLocalizationKey(_mainMenuLocalizationHandler.GetKey);
+        _saveServiceProvider.TrySetLanguageLocalizationKey(_panelsLocalizationHandler.GetKey);
 
         _storiesProvider.Init(_saveServiceProvider.SaveData);
         _saveServiceProvider.TrySetStoryDatas(_storiesProvider);
@@ -67,7 +67,7 @@ public class EntryPoint: MonoBehaviour
     private void Dispose()
     {
         _saveServiceProvider.SaveProgress(_wallet, _globalSound, _storiesProvider,
-            _mainMenuLocalizationHandler, _mainMenuUIProvider);
+            _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Dispose();
         _storiesProvider?.Dispose();
         _mainMenuUIProvider?.Dispose();

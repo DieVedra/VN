@@ -52,7 +52,7 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
         {
             newStats.AddRange(_seriaStatsProviders[i].Stats);
         }
-        return newStats.GroupBy(p => p.Name)
+        return newStats.GroupBy(p => p.NameText)
             .Select(g => g.First())
             .ToList();
     }

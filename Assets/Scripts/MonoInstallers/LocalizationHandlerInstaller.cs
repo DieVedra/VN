@@ -5,6 +5,6 @@ public class LocalizationHandlerInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<MainMenuLocalizationHandler>().FromNew().AsSingle();
+        Container.BindInterfacesAndSelfTo<PanelsLocalizationHandler>().FromNew().AsSingle();
     }
 }

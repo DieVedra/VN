@@ -15,7 +15,7 @@ public class GameSeriesHandler : MonoBehaviour
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeGraphIndex;
     public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeIndex;
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         foreach (var handler in SeriaNodeGraphsHandlers)
         {

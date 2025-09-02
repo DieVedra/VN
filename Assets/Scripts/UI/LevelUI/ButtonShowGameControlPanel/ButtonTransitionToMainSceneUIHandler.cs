@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonTransitionToMainSceneUIHandler
+public class ButtonTransitionToMainSceneUIHandler : ILocalizable
 {
     private const int _mainSceneIndex = 0;
     public const int FontSizeValue = 80;
@@ -35,5 +36,10 @@ public class ButtonTransitionToMainSceneUIHandler
         await _loadScreenUIHandler.ShowToMainMenuMove();
         await SceneManager.LoadSceneAsync(_mainSceneIndex, LoadSceneMode.Single);
         _onSceneTransition.Execute();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {LabelText, TranscriptionText, ButtonText};
     }
 }

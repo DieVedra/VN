@@ -46,7 +46,7 @@ public class GraphDrawer : NodeGraphEditor
         GUILayout.EndHorizontal();
         
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Center Node By Name", GUILayout.Width(150f)))
+        if (GUILayout.Button("Center Node By NameText", GUILayout.Width(150f)))
         {
             if (_nodeListProperty != null)
             {

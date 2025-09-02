@@ -41,6 +41,13 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
         base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
+
+    public override void Dispose()
+    {
+        _levelLocalizationHandler.OnTrySwitchLocalization -= TrySetCurrentLocalizationToCurrentSeria;
+        base.Dispose();
+    }
+
     private void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);

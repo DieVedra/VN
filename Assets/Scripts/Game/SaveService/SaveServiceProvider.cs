@@ -23,13 +23,13 @@ public class SaveServiceProvider
         SaveService.Save(_saveData);
     }
     public void SaveProgress(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
-        MainMenuLocalizationHandler mainMenuLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
+        PanelsLocalizationHandler panelsLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
     {
         _saveData.Monets = wallet.GetMonetsCount;
         _saveData.Hearts = wallet.GetHeartsCount;
         _saveData.SoundStatus = globalSound.SoundStatus.Value;
         _saveData.StoryDatas = storiesProvider.GetStoryDatas();
-        _saveData.LanguageLocalizationKey = mainMenuLocalizationHandler.GetKey;
+        _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
         if (mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName != String.Empty)
         {
             _saveData.NameStartStory = mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;

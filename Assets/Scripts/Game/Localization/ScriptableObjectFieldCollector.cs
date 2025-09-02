@@ -34,7 +34,7 @@ Debug.Log($"fields {fields.Length}");
     // public static List<T> FindAllScriptableObjectsWithAttribute<T>() where T : ScriptableObject
     // {
     //     var results = new List<T>();
-    //     string[] guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
+    //     string[] guids = AssetDatabase.FindAssets($"t:{typeof(T).NameText}");
     //
     //     foreach (string guid in guids)
     //     {

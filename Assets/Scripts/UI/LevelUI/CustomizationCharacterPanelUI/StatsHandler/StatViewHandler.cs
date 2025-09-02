@@ -67,11 +67,11 @@ public class StatViewHandler
         string label;
         if (stat.Value > 0)
         {
-            label = $"+{stat.Value} {stat.Name}";
+            label = $"+{stat.Value} {stat.NameText}";
         }
         else
         {
-            label = $"-{stat.Value} {stat.Name}";
+            label = $"-{stat.Value} {stat.NameText}";
         }
         return label;
     }

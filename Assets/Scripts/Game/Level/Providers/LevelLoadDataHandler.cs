@@ -7,7 +7,7 @@ public class LevelLoadDataHandler
 {
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
-    private readonly MainMenuLocalizationHandler _mainMenuLocalizationHandler;
+    private readonly PanelsLocalizationHandler _panelsLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
     public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
@@ -25,12 +25,12 @@ public class LevelLoadDataHandler
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
-    public LevelLoadDataHandler(MainMenuLocalizationHandler mainMenuLocalizationHandler, BackgroundContentCreator backgroundContentCreator,
+    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, BackgroundContentCreator backgroundContentCreator,
         LevelLocalizationProvider levelLocalizationProvider, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, int numberFirstSeria = 1)
     {
-        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
+        _panelsLocalizationHandler = panelsLocalizationHandler;
         _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
@@ -103,6 +103,9 @@ public class LevelLoadDataHandler
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
             
             await LoadCurrentLocalization(nextSeriaNumber);
+            // Debug.Log($"Delay start");
+            // await UniTask.Delay(TimeSpan.FromSeconds(20f));
+            // Debug.Log($"Delay end");
             await UniTask.NextFrame();
             Debug.Log($"1");
             await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
@@ -120,9 +123,6 @@ public class LevelLoadDataHandler
             Debug.Log($"5");
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
             await UniTask.NextFrame();
-            Debug.Log($"Delay start");
-            await UniTask.Delay(TimeSpan.FromSeconds(20f));
-            Debug.Log($"Delay end");
             Debug.Log($"6");
             await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
             await UniTask.NextFrame();
@@ -182,7 +182,7 @@ public class LevelLoadDataHandler
         // Debug.Log($"6");
         await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
         // Debug.Log($"7");
-    }
+    } //  --------
     private void OnSwitchToNextSeria(bool key)
     {
         if (_onContentIsLoadProperty.GetValue == false)
@@ -193,6 +193,6 @@ public class LevelLoadDataHandler
 
     private async UniTask LoadCurrentLocalization(int seriaLoadedNumber)
     {
-        await _levelLocalizationProvider.TryLoadLocalization(seriaLoadedNumber, _mainMenuLocalizationHandler.CurrentLanguageName.Key);
+        await _levelLocalizationProvider.TryLoadLocalization(seriaLoadedNumber, _panelsLocalizationHandler.CurrentLanguageName.Key);
     }
 }

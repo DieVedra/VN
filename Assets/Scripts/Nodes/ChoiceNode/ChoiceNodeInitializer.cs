@@ -9,11 +9,11 @@ public class ChoiceNodeInitializer : MyNodeInitializer
     {
         if (oldBaseStatsChoice == null || oldBaseStatsChoice.Count == 0)
         {
-            oldBaseStatsChoice = _gameStatsHandler.GetGameBaseStatsForm();
+            oldBaseStatsChoice = GameStatsHandler.GetGameBaseStatsForm();
         }
         else
         {
-            oldBaseStatsChoice = _gameStatsHandler.ReinitBaseStats(oldBaseStatsChoice);
+            oldBaseStatsChoice = GameStatsHandler.ReinitBaseStats(oldBaseStatsChoice);
         }
     }
 }

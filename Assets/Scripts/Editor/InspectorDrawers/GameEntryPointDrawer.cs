@@ -113,7 +113,7 @@ public class GameEntryPointDrawer : Editor
         int value = (int)fieldInfo.GetValue(stat);
         EditorGUI.BeginChangeCheck();
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(stat.Name);
+        EditorGUILayout.LabelField(stat.NameText);
         value = EditorGUILayout.IntField(value);
         EditorGUILayout.EndHorizontal();
         if (EditorGUI.EndChangeCheck())

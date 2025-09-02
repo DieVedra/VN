@@ -55,7 +55,6 @@ public class ChoiceNodeTimer
             _timerPanelCanvasGroup.alpha = _minValue;
             _timerPanelCanvasGroup.DOFade(_maxValue, _halfValue).WithCancellation(cancellationToken);
             await _timerImageRectTransform.DOScale(_showEndValue, _duration * _halfValue).WithCancellation(cancellationToken);
-            
             _timerImageRectTransform.DOScale(_scaleEndValue, _duration).SetLoops(-1, LoopType.Yoyo).WithCancellation(cancellationToken);
         }
     }

@@ -12,7 +12,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
     private GlobalSound _globalSound;
-    private MainMenuLocalizationHandler _mainMenuLocalizationHandler;
+    private PanelsLocalizationHandler _panelsLocalizationHandler;
     private LevelLoadDataHandler _levelLoadDataHandler;
     private BackgroundContentCreator _backgroundContentCreator;
     private GlobalUIHandler _globalUIHandler;
@@ -31,13 +31,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
     
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
-        Wallet wallet, MainMenuLocalizationHandler mainMenuLocalizationHandler, SaveServiceProvider saveServiceProvider)
+        Wallet wallet, PanelsLocalizationHandler panelsLocalizationHandler, SaveServiceProvider saveServiceProvider)
     {
         _globalSound = globalSound;
         PrefabsProvider = prefabsProvider;
         _globalUIHandler = globalUIHandler;
         _wallet = wallet;
-        _mainMenuLocalizationHandler = mainMenuLocalizationHandler;
+        _panelsLocalizationHandler = panelsLocalizationHandler;
         SaveServiceProvider = saveServiceProvider;
     }
     private async void Awake()
@@ -47,7 +47,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
-        _levelLocalizationProvider = new LevelLocalizationProvider(_mainMenuLocalizationHandler, _currentSeriaIndexReactiveProperty);
+        _levelLocalizationProvider = new LevelLocalizationProvider(_panelsLocalizationHandler, _currentSeriaIndexReactiveProperty);
         _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
@@ -62,13 +62,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
             SaveData = SaveServiceProvider.SaveData;
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
-            _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
         }
         else
         {
-            _levelLoadDataHandler = new LevelLoadDataHandler(_mainMenuLocalizationHandler, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         
@@ -88,10 +88,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             Dispose();
             Save();
-        });
-
+        }); 
+        _panelsLocalizationHandler.AddLocalizableContentFromLevel(_levelUIProviderBuildMode.GetLocalizableContent());
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-
         await UniTask.RunOnThreadPool(() =>
         {
             _levelLoadDataHandler.LoadNextSeriesContent().Forget();
@@ -183,7 +182,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.gameObject.SetActive(false);
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
-            _mainMenuLocalizationHandler, _globalUIHandler,
+            _panelsLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent);
     }

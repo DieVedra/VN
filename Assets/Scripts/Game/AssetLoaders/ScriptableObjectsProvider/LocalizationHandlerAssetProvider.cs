@@ -1,13 +1,11 @@
-﻿
-
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 public class LocalizationHandlerAssetProvider : ScriptableObjectAssetLoader
 {
-    private const string _nameMainMenuLocalizationAsset = "MainMenuLocalizationInfoHolder";
+    private const string _nameMainMenuLocalizationAsset = "LocalizationInfoHolder";
 
-    public async UniTask<MainMenuLocalizationInfoHolder> LoadLocalizationHandlerAsset()
+    public async UniTask<LocalizationInfoHolder> LoadLocalizationHandlerAsset()
     {
-        return await Load<MainMenuLocalizationInfoHolder>(_nameMainMenuLocalizationAsset);
+        return await Load<LocalizationInfoHolder>(_nameMainMenuLocalizationAsset);
     }
 }

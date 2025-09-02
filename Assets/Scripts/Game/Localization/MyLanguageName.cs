@@ -9,6 +9,6 @@ public class MyLanguageName
 
     [field: SerializeField] public string Key { get; private set; }
 
-    public string GetMainMenuLocalizationAssetName => $"{Key}{_mainMenuLocalizationAssetName}";
-    public string GetStoryLocalizationAssetName => $"{Key}{_storyLocalizationAssetName}";
+    public string GetPanelsLocalizationAssetName => $"{Key}{_mainMenuLocalizationAssetName}";
+    public string GetMenuStoryLocalizationAssetName => $"{Key}{_storyLocalizationAssetName}";
 }

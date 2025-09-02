@@ -8,5 +8,5 @@ public interface ILocalizationChanger
     public string GetName { get; }
     public string GetKey { get; }
     public int GetMyLanguageNamesCount { get; }
-    public UniTask LoadAllLanguagesForMenu();
+    public UniTask LoadAllLanguagesForPanels();
 }

@@ -7,7 +7,7 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, GlobalUIHandler globalUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, MainMenuLocalizationHandler mainMenuLocalizationHandler)
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler)
     {
         await Addressables.InitializeAsync();
 
@@ -45,18 +45,17 @@ public class AppStarter
 
         ReactiveCommand<bool> swipeDetectorOff = null;
         var storiesProvider = await CreateStoriesProvider();
-        ReactiveCommand languageChanged = new ReactiveCommand();
 
         SettingsPanelUIHandler settingsPanelUIHandler;
         if (globalUIHandler.SettingsPanelUIHandler == null)
         {
             swipeDetectorOff = new ReactiveCommand<bool>();
-            settingsPanelUIHandler = new SettingsPanelUIHandler(languageChanged, swipeDetectorOff);
+            settingsPanelUIHandler = new SettingsPanelUIHandler(panelsLocalizationHandler.LanguageChanged, swipeDetectorOff);
         }
         else
         {
             settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
-            swipeDetectorOff = globalUIHandler.SettingsPanelUIHandler.SwipeDetectorOff;
+            swipeDetectorOff = globalUIHandler.SettingsPanelUIHandler.SwipeDetectorOffReactiveCommand;
         }
 
         ShopMoneyPanelUIHandler shopMoneyPanelUIHandler;
@@ -74,12 +73,13 @@ public class AppStarter
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler, loadIndicatorUIHandler, blackFrameUIHandler);
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, languageChanged,
+            await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, panelsLocalizationHandler.LanguageChanged,
                 swipeDetectorOff);
+        panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(ListExtensions.MergeIReadOnlyLists(
+                result.Item1.GetLocalizableContent(),
+                storiesProvider.GetLocalizableContent()));
+        await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, loadScreenUIHandler.IsStarted);
 
-        await mainMenuLocalizationHandler.Init(saveServiceProvider.SaveData, languageChanged,
-            result.Item1.GetLocalizableContent(),
-            storiesProvider.GetLocalizableContent()); //!!!
         if (loadScreenUIHandler.IsStarted == false)
         {
             loadScreenUIHandler.ShowOnStart();
@@ -92,7 +92,7 @@ public class AppStarter
 
 
         var startIndexStory = storiesProvider.GetIndexByName(saveServiceProvider.SaveData.NameStartStory);
-        await InitMainMenuUI(globalSound.SoundStatus, mainMenuLocalizationHandler, levelLoader, result.Item1, result.Item2, result.Item3,
+        await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, result.Item1, result.Item2, result.Item3,
             storiesProvider, startIndexStory);
 
 

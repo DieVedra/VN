@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -13,6 +12,7 @@ public class BottomPanelUIHandler : ILocalizable
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private BottomPanelView _bottomPanelView;
+    private CompositeDisposable _compositeDisposable;
     
     public BottomPanelUIHandler(ConfirmedPanelUIHandler confirmedPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler,
         Transform parent, ReactiveCommand languageChanged)
@@ -21,14 +21,16 @@ public class BottomPanelUIHandler : ILocalizable
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
         _parent = parent;
+        _compositeDisposable = new CompositeDisposable();
         languageChanged.Subscribe(_=>
         {
             ChangedLanguage();
-        });
+        }).AddTo(_compositeDisposable);
     }
 
     public void Dispose()
     {
+        _compositeDisposable.Clear();
         _advertisingButtonUIHandler.Dispose();
     }
 

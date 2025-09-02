@@ -14,14 +14,16 @@ public class SettingsPanelUIHandler : ILocalizable
     private LoadIndicatorUIHandler _loadIndicatorUIHandle;
     private ILevelLocalizationHandler _levelLocalizationHandler;
     public Transform Transform => _settingsPanelView.transform;
-    public ReactiveCommand<bool> SwipeDetectorOff { get; }
+    public ReactiveCommand<bool> SwipeDetectorOffReactiveCommand { get; }
+    public ReactiveCommand LanguageChangedReactiveCommand { get; }
     public bool AssetIsLoaded { get; private set; }
     public bool PanelOpen { get; private set; }
     public bool IsInLevel { get; private set; }
 
-    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
+    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOffReactiveCommand)
     {
-        SwipeDetectorOff = swipeDetectorOff;
+        SwipeDetectorOffReactiveCommand = swipeDetectorOffReactiveCommand;
+        LanguageChangedReactiveCommand = languageChanged;
         languageChanged.Subscribe(_ =>
         {
             LanguageChanged();
@@ -43,11 +45,9 @@ public class SettingsPanelUIHandler : ILocalizable
                 _settingsPanelView.LocalizationField.LeftButton,
                 _settingsPanelView.LocalizationField.RightButton,
                 _settingsPanelView.LocalizationField.TextChoice);
-
-            await localizationChanger.LoadAllLanguagesForMenu();
             
             AssetIsLoaded = true;
-        }
+        } 
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -67,7 +67,7 @@ public class SettingsPanelUIHandler : ILocalizable
         _blackFrameUIHandler = blackFrameUIHandler;
         _loadIndicatorUIHandle = loadIndicatorUIHandler;
         PanelOpen = true;
-        SwipeDetectorOff?.Execute(true);
+        SwipeDetectorOffReactiveCommand?.Execute(true);
         _settingsPanelView.transform.SetAsLastSibling();
         LanguageChanged();
         _settingsPanelView.ExitButton.onClick.AddListener(()=>
@@ -103,7 +103,7 @@ public class SettingsPanelUIHandler : ILocalizable
     {
         _blackFrameUIHandler.OpenTranslucent().Forget();
         _settingsPanelView.transform.parent.gameObject.SetActive(false);
-        SwipeDetectorOff?.Execute(false);
+        SwipeDetectorOffReactiveCommand?.Execute(false);
     }
 
     private void HideOnSwitchLevelLocalizationPart1()
