@@ -6,42 +6,53 @@ using UnityEngine;
 
 public class LevelLocalizationHandler : ILevelLocalizationHandler
 {
+    private readonly ICurrentSeriaNodeGraphsProvider _currentSeriaNodeGraphsProvider;
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly CharacterProviderBuildMode _characterProviderBuildMode;
+    private readonly GameStatsHandler _gameStatsHandler;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private ReactiveCommand _onTrySwitchLocalization;
-    private ReactiveCommand _onEndSwitchLocalization;
+    // private ReactiveCommand _onTrySwitchLocalization;
+    private readonly ReactiveCommand _onEndSwitchLocalization;
+    private CompositeDisposable _compositeDisposable;
     private IReadOnlyDictionary<string, string> _currentLocalization;
     // public event Action OnTrySwitchLocalization;
     // public event Action OnEndSwitchLocalization;
-    public ReactiveCommand OnTrySwitchLocalization => _onTrySwitchLocalization;
+    // public ReactiveCommand OnTrySwitchLocalization => _onTrySwitchLocalization;
     public ReactiveCommand OnEndSwitchLocalization => _onEndSwitchLocalization;
 
-    public LevelLocalizationHandler(LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode,
-        SetLocalizationChangeEvent setLocalizationChangeEvent)
+    public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
+        LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode,
+        GameStatsHandler gameStatsHandler, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
+        _currentSeriaNodeGraphsProvider = currentSeriaNodeGraphsProvider;
         _levelLocalizationProvider = levelLocalizationProvider;
         _characterProviderBuildMode = characterProviderBuildMode;
+        _gameStatsHandler = gameStatsHandler;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _onTrySwitchLocalization = new ReactiveCommand();
-        _onEndSwitchLocalization = new ReactiveCommand();
-        Debug.Log($"Test HashCode Constr {_onTrySwitchLocalization.GetHashCode()}   ");
+        // _onTrySwitchLocalization = new ReactiveCommand();
+        _compositeDisposable = new CompositeDisposable();
+        _onEndSwitchLocalization = new ReactiveCommand().AddTo(_compositeDisposable);
+        // Debug.Log($"Test HashCode Constr {_onTrySwitchLocalization.GetHashCode()}   ");
 
     }
 
-    public void TrySetCurrentLocalization(SeriaNodeGraphsHandler seriaNodeGraphsHandler, GameStatsHandler gameStatsHandler)
+    public void Dispose()
+    {
+        _compositeDisposable?.Clear();
+    }
+    public void TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         _currentLocalization = _levelLocalizationProvider.GetCurrentLocalization();
-        Debug.Log($"TrySetCurrentLocalization  0");
+        Debug.Log($"TrySetLocalizationToCurrentLevelContent  0");
         if (_currentLocalization != null)
         {
-            Debug.Log($"TrySetCurrentLocalization  1");
+            Debug.Log($"TrySetLocalizationToCurrentLevelContent  1");
             SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
-            Debug.Log($"TrySetCurrentLocalization  2");
-            SetLocalizationToStats(gameStatsHandler);
-            Debug.Log($"TrySetCurrentLocalization  3");
+            Debug.Log($"TrySetLocalizationToCurrentLevelContent  2");
+            SetLocalizationToStats(_gameStatsHandler);
+            Debug.Log($"TrySetLocalizationToCurrentLevelContent  3");
             SetLocalizationToCharacters();
-            Debug.Log($"TrySetCurrentLocalization  4");
+            Debug.Log($"TrySetLocalizationToCurrentLevelContent  4");
             _setLocalizationChangeEvent.Execute();
             _currentLocalization = null;
         }
@@ -101,9 +112,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
         Debug.Log($"TrySwitchLanguageFromSettingsChange() 1");
         await _levelLocalizationProvider.TryLoadLocalizationOnSwitchLanguageFromSettings();
         Debug.Log($"TrySwitchLanguageFromSettingsChange() 2");
-        Debug.Log($"Test HashCode {_onTrySwitchLocalization.GetHashCode()}");
-
-        _onTrySwitchLocalization.Execute();
+        // Debug.Log($"Test HashCode {_onTrySwitchLocalization.GetHashCode()}");
+        TrySetLocalizationToCurrentLevelContent(_currentSeriaNodeGraphsProvider.GetCurrentSeriaNodeGraphsHandler());
+        // _onTrySwitchLocalization.Execute();
         _onEndSwitchLocalization.Execute();
     }
 }

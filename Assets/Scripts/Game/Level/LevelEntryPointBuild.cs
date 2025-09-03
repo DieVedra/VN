@@ -27,6 +27,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
+    // private ReactiveCommand<SeriaNodeGraphsHandler> _seriaNodeGraphsHandlerProviderReactiveCommand;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
     [Inject]
@@ -56,7 +57,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         DisableNodesContentEvent = new DisableNodesContentEvent();
         _onEndGameEvent = new OnEndGameEvent();
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
-        
         if (LoadSaveData == true)
         {
             SaveData = SaveServiceProvider.SaveData;
@@ -71,11 +71,11 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
-        
-        _levelLocalizationHandler = new LevelLocalizationHandler(_levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode,
-            _setLocalizationChangeEvent);
+
 
         await _levelLoadDataHandler.LoadStartSeriaContent();
+        _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode,
+            _gameStatsHandler, _setLocalizationChangeEvent);
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
         if (LevelUIView.TryGetComponent(out Canvas canvas))
@@ -91,6 +91,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             Save();
         }); 
         _panelsLocalizationHandler.AddLocalizableContentFromLevel(_levelUIProviderBuildMode.GetLocalizableContent());
+        _panelsLocalizationHandler.SubscribeChangeLanguage();
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         await UniTask.RunOnThreadPool(() =>
         {
@@ -123,14 +124,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         if (SaveData == null)
         {
-            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty,
+            _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
+                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
                 _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
-            _gameSeriesHandlerBuildMode.Construct(_gameStatsHandler, _levelLocalizationHandler,_levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, SwitchToNextSeriaEvent, _currentSeriaIndexReactiveProperty, _onContentIsLoadProperty,
+            _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
+                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
@@ -151,6 +152,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     protected override void Dispose()
     {
+        _levelLocalizationHandler.Dispose();
+        _setLocalizationChangeEvent.Dispose();
+        _panelsLocalizationHandler.UnsubscribeChangeLanguage();
         _gameSeriesHandlerBuildMode.Dispose();
         _levelLoadDataHandler.Dispose();
         _levelUIProviderBuildMode.Dispose();

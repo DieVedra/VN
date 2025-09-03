@@ -1,27 +1,23 @@
 ﻿using System;
 using UniRx;
-using UnityEngine;
 
-public class GameSeriesHandlerBuildMode : GameSeriesHandler
+public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGraphsProvider
 {
     private const float _delay = 1f;
     private LevelLocalizationHandler _levelLocalizationHandler;
-    private GameStatsHandler _gameStatsHandler;
     private OnEndGameEvent _onEndGameEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private OnAwaitLoadContentEvent<AwaitLoadContentPanel> _onAwaitLoadContentEvent;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private CompositeDisposable _compositeDisposable;
-    private CompositeDisposable _trySetCurrentLocalizationCompositeDisposable;
+    public SeriaNodeGraphsHandler GetCurrentSeriaNodeGraphsHandler() => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value];
 
-    public void Construct(GameStatsHandler gameStatsHandler, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
-        NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
-        ReactiveProperty<int> currentSeriaIndexReactiveProperty, OnContentIsLoadProperty<bool> onContentIsLoadProperty,
-        OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent, CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, 
-        OnEndGameEvent onEndGameEvent,
+    public void Construct(LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
+        NodeGraphInitializer nodeGraphInitializer, ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
+        OnContentIsLoadProperty<bool> onContentIsLoadProperty, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
+        CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, OnEndGameEvent onEndGameEvent,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _gameStatsHandler = gameStatsHandler;
         _levelLocalizationHandler = levelLocalizationHandler;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         _onEndGameEvent = onEndGameEvent;
@@ -34,28 +30,12 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         AddSeria(gameSeriesProvider.LastLoaded);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
-        // levelLocalizationHandler.OnTrySwitchLocalization. += TrySetCurrentLocalizationToCurrentSeria;
-        _trySetCurrentLocalizationCompositeDisposable = new CompositeDisposable();
-        Debug.Log($"Test HashCode Subscr {levelLocalizationHandler.GetHashCode()}");
-
-        levelLocalizationHandler.OnTrySwitchLocalization.Subscribe(_=>
-        {
-            Debug.Log($"!!!!!!!!!!!!");
-            TrySetCurrentLocalizationToCurrentSeria();
-        }).AddTo(_trySetCurrentLocalizationCompositeDisposable);
     }
 
     protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        // TrySetCurrentLocalizationToCurrentSeria();
-        _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[currentSeriaIndex], _gameStatsHandler);
+        _levelLocalizationHandler.TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandlers[currentSeriaIndex]);
         base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
-    }
-
-    public override void Dispose()
-    {
-        _trySetCurrentLocalizationCompositeDisposable.Clear();
-        base.Dispose();
     }
 
     private void AddSeria(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
@@ -63,12 +43,6 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler
         SeriaNodeGraphsHandlers.Add(seriaNodeGraphsHandler);
     }
 
-    private void TrySetCurrentLocalizationToCurrentSeria()
-    {
-        Debug.Log($"TrySetCurrentLocalizationToCurrentSeria() !!!!");
-
-        _levelLocalizationHandler.TrySetCurrentLocalization(SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value], _gameStatsHandler);
-    }
     private void SwitchSeria(bool putSwimsuits = false)
     {
         if (CurrentSeriaIndex < _currentSeriaLoadedNumberProperty.GetValue - 1)

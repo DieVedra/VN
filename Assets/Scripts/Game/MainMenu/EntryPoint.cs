@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
@@ -66,6 +66,7 @@ public class EntryPoint: MonoBehaviour
 
     private void Dispose()
     {
+        _panelsLocalizationHandler.UnsubscribeChangeLanguage();
         _saveServiceProvider.SaveProgress(_wallet, _globalSound, _storiesProvider,
             _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Dispose();

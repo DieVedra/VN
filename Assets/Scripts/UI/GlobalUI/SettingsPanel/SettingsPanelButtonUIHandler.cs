@@ -55,13 +55,17 @@ public class SettingsPanelButtonUIHandler
     }
     private async UniTask OpenPanel()
     {
+        if (_isInLevel == true)
+        {
+            _settingsPanelUIHandler.InitInLevel(_levelLocalizationHandler);
+        }
+        else
+        {
+            _settingsPanelUIHandler.SetInMenuKey();
+        }
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
             _settingsPanelUIHandler.Init(_parent, _soundStatus, _localizationChanger).Forget();
-            if (_isInLevel == true)
-            {
-                _settingsPanelUIHandler.InitInLevel(_levelLocalizationHandler);
-            }
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             

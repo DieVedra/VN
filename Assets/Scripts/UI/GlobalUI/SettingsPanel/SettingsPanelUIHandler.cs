@@ -33,7 +33,6 @@ public class SettingsPanelUIHandler : ILocalizable
     public async UniTask Init(Transform parent, IReactiveProperty<bool> soundStatus,
         ILocalizationChanger localizationChanger)
     {
-        IsInLevel = false;
         if (AssetIsLoaded == false)
         {
             _settingsPanelView = await new SettingsPanelAssetProvider().CreateSettingsPanel(parent);
@@ -58,6 +57,10 @@ public class SettingsPanelUIHandler : ILocalizable
     {
         IsInLevel = true;
         _levelLocalizationHandler = levelLocalizationHandler;
+    }
+    public void SetInMenuKey()
+    {
+        IsInLevel = false;
     }
     public void Dispose()
     {
@@ -93,10 +96,12 @@ public class SettingsPanelUIHandler : ILocalizable
         _settingsPanelView.gameObject.SetActive(false);
         if (IsInLevel == false)
         {
+            Debug.Log(1111111);
             HideDefault();
         }
         else
         {
+            Debug.Log(222222);
             HideOnSwitchLevelLocalizationPart1();
         }
     }
@@ -121,6 +126,7 @@ public class SettingsPanelUIHandler : ILocalizable
         _hideOnSwitchLevelLocalizationCompositeDisposable = new CompositeDisposable();
         _levelLocalizationHandler.OnEndSwitchLocalization.Subscribe(_ =>
         {
+            _hideOnSwitchLevelLocalizationCompositeDisposable.Clear();
             HideOnSwitchLevelLocalizationPart2();
         }).AddTo(_hideOnSwitchLevelLocalizationCompositeDisposable);
         _levelLocalizationHandler.TrySwitchLanguageFromSettingsChange().Forget();
@@ -128,7 +134,6 @@ public class SettingsPanelUIHandler : ILocalizable
 
     private void HideOnSwitchLevelLocalizationPart2()
     {
-        _hideOnSwitchLevelLocalizationCompositeDisposable.Clear();
         _loadIndicatorUIHandle.StopIndicate();
         HideDefault();
     }

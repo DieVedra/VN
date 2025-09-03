@@ -4,13 +4,15 @@ using UniRx;
 public class BaseEvent
 {
     protected ReactiveCommand BaseReactiveCommand;
+    private readonly CompositeDisposable CompositeDisposable;
     public BaseEvent()
     {
-        BaseReactiveCommand = new ReactiveCommand();
+        CompositeDisposable = new CompositeDisposable();
+        BaseReactiveCommand = new ReactiveCommand().AddTo(CompositeDisposable);
     }
     public void Dispose()
     {
-        BaseReactiveCommand.Dispose();
+        CompositeDisposable.Clear();
     }
     public void Subscribe(Action operation)
     {

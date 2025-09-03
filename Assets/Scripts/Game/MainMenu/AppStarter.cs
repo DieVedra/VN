@@ -75,16 +75,19 @@ public class AppStarter
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, panelsLocalizationHandler.LanguageChanged,
                 swipeDetectorOff);
+        
         panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(ListExtensions.MergeIReadOnlyLists(
                 result.Item1.GetLocalizableContent(),
                 storiesProvider.GetLocalizableContent()));
-        await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, loadScreenUIHandler.IsStarted);
-
         if (loadScreenUIHandler.IsStarted == false)
         {
+            await panelsLocalizationHandler.Init(saveServiceProvider.SaveData);
             loadScreenUIHandler.ShowOnStart();
         }
 
+        panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
+        panelsLocalizationHandler.SubscribeChangeLanguage();
+        
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
 
