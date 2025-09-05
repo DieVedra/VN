@@ -21,6 +21,7 @@ public class ButtonsCustomizationHandler
     private readonly PreliminaryBalanceCalculator _preliminaryBalanceCalculator;
     private readonly SwitchInfoCustodian _switchInfoCustodian;
     private readonly ReactiveCommand<bool> _offArrows;
+    private CompositeDisposable _compositeDisposable;
 
     public ButtonsCustomizationHandler(
         CustomizationCharacterPanelUI customizationCharacterPanelUI, ArrowSwitch arrowSwitch, ButtonsModeSwitch buttonsModeSwitch,
@@ -36,6 +37,10 @@ public class ButtonsCustomizationHandler
         _offArrows = offArrows;
     }
 
+    public void Dispose()
+    {
+        _compositeDisposable?.Clear();
+    }
     public void ActivateButtonsCustomization(CustomizationCharacterPanelUI customizationCharacterPanelUI, 
         SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
         CustomizationEndEvent<CustomizationResult> customizationEndEvent = null, ArrowSwitch arrowSwitch = null)
@@ -63,7 +68,7 @@ public class ButtonsCustomizationHandler
                     SetButtonTransparencyAndBlockRaycasts(customizationCharacterPanelUI.RightArrowCanvasGroup, false);
 
                 }
-            });
+            }).AddTo(_compositeDisposable);
             
             customizationCharacterPanelUI.LeftArrow.onClick.AddListener(() =>
             {

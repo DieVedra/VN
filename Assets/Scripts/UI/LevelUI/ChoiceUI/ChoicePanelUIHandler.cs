@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -43,7 +43,7 @@ public class ChoicePanelUIHandler
 
     public void Dispose()
     {
-        _compositeDisposableOnUpdateWallet?.Dispose();
+        _compositeDisposableOnUpdateWallet?.Clear();
         _panelResourceHandler.Dispose();
     }
     public void ShowChoiceVariants(ChoiceData data)
@@ -80,8 +80,6 @@ public class ChoicePanelUIHandler
         _panelResourceHandler.Init(CalculateResourceViewMode(data));
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
-        _compositeDisposableOnUpdateWallet = new CompositeDisposable();
-        
         OnUpdateWallet(data, choiceResultEvent, keyButtonChoice3);
         
         
@@ -98,7 +96,7 @@ public class ChoicePanelUIHandler
 
     public async UniTask DisappearanceChoiceVariantsInPlayMode(CancellationToken cancellationToken, bool keyShowChoice3)
     {
-        _compositeDisposableOnUpdateWallet.Dispose();
+        _compositeDisposableOnUpdateWallet.Clear();
         _choiceNodeTimer.TryHideTimerPanelAnim(cancellationToken);
         await _choiceNodeButtonsHandler.HideButtons(cancellationToken, keyShowChoice3);
         if (_choiceNodePriceHandler.PriceExists == true)
@@ -203,6 +201,7 @@ public class ChoicePanelUIHandler
     private void OnUpdateWallet(ChoiceData data,
         ChoiceResultEvent<int> choiceResultEvent, bool keyButtonChoice3)
     {
+        _compositeDisposableOnUpdateWallet = new CompositeDisposable();
         _wallet.MonetsCountChanged.Subscribe(_ =>
         {
             ShowChoiceVariantsAfterWalletUpdate(data, choiceResultEvent, keyButtonChoice3);

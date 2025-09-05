@@ -48,7 +48,7 @@ public class ButtonsModeSwitch
 
     public void Dispose()
     {
-        _compositeDisposable?.Dispose();
+        _compositeDisposable?.Clear();
     }
     public void SetMode(ArrowSwitchMode mode)
     {

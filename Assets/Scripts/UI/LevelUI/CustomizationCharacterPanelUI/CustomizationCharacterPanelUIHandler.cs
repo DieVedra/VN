@@ -96,6 +96,7 @@ public class CustomizationCharacterPanelUIHandler
         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
         await _panelResourceHandler.TryHidePanel();
         _panelResourceHandler.Dispose();
+        _buttonsCustomizationHandler.Dispose();
     }
 
     private ResourcesViewMode CalculateResourcesViewMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)

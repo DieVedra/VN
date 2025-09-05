@@ -74,7 +74,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
 
         await _levelLoadDataHandler.LoadStartSeriaContent();
-        _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider, _levelLoadDataHandler.CharacterProviderBuildMode,
+        _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
+            _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _setLocalizationChangeEvent);
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
@@ -90,8 +91,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             Dispose();
             Save();
         }); 
-        _panelsLocalizationHandler.AddLocalizableContentFromLevel(_levelUIProviderBuildMode.GetLocalizableContent());
-        _panelsLocalizationHandler.SubscribeChangeLanguage();
+        
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         await UniTask.RunOnThreadPool(() =>
         {
@@ -109,6 +109,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
         InitGlobalSound();
         InitLevelUIProvider();
+        InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
@@ -190,6 +191,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _panelsLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent);
+    }
+
+    private void InitLocalization()
+    {
+        _panelsLocalizationHandler.SetLocalizableContentFromLevel(_levelUIProviderBuildMode.GetLocalizableContent());
+        _panelsLocalizationHandler.SubscribeChangeLanguage();
+        _panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
     }
     private async UniTask TryCreateBlackFrameUIHandler()
     {

@@ -16,7 +16,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private readonly Wallet _wallet;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
-
+    private CompositeDisposable _compositeDisposable;
     public event Action OnHide;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
@@ -57,7 +57,20 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         {
             _shopMoneyPanelView.transform.SetAsLastSibling();
         }
-
+        _shopMoneyPanelView.TextMoney.text = _wallet.GetMonetsCount.ToString();
+        _shopMoneyPanelView.TextHearts.text = _wallet.GetHeartsCount.ToString();
+        
+        _compositeDisposable = new CompositeDisposable();
+        _wallet.MonetsCountChanged.Subscribe(_ =>
+        {
+            _shopMoneyPanelView.TextMoney.text = _.ToString();
+        }).AddTo(_compositeDisposable);
+        
+        _wallet.HeartsCountChanged.Subscribe(_ =>
+        {
+            _shopMoneyPanelView.TextHearts.text = _.ToString();
+        }).AddTo(_compositeDisposable);
+        
         _shopMoneyPanelView.transform.parent.gameObject.SetActive(true);
         _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
         _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
@@ -74,29 +87,15 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
         await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
+        _compositeDisposable?.Clear();
         _shopMoneyPanelView.transform.parent.gameObject.SetActive(false);
     }
 
     private async UniTask LoadPanel(Transform parent)
     {
-        if (PanelIsLoaded == false)
-        {
-            _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(parent);
-            _shopMoneyPanelView.transform.SetAsLastSibling();
-
-            _shopMoneyPanelView.TextMoney.text = _wallet.GetMonetsCount.ToString();
-            
-            _wallet.MonetsCountChanged.Subscribe(_ =>
-            {
-                _shopMoneyPanelView.TextMoney.text = _.ToString();
-            });
-            _wallet.HeartsCountChanged.Subscribe(_ =>
-            {
-                _shopMoneyPanelView.TextHearts.text = _.ToString();
-            });
-            
-            PanelIsLoaded = true;
-        }
+        _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(parent);
+        _shopMoneyPanelView.transform.SetAsLastSibling();
+        PanelIsLoaded = true;
     }
 
     private void InitPanel(int index)

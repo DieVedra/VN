@@ -9,4 +9,5 @@ public interface ILocalizationChanger
     public string GetKey { get; }
     public int GetMyLanguageNamesCount { get; }
     public UniTask LoadAllLanguagesForPanels();
+    public void SetLanguagePanelsAndMenuStory();
 }

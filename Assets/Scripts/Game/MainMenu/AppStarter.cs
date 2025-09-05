@@ -36,7 +36,7 @@ public class AppStarter
         LoadScreenUIHandler loadScreenUIHandler;
         if (globalUIHandler.LoadScreenUIHandler == null)
         {
-            loadScreenUIHandler = new LoadScreenUIHandler(new LoadWordsHandler());
+            loadScreenUIHandler = new LoadScreenUIHandler();
         }
         else
         {
@@ -82,12 +82,14 @@ public class AppStarter
         if (loadScreenUIHandler.IsStarted == false)
         {
             await panelsLocalizationHandler.Init(saveServiceProvider.SaveData);
+        }
+        panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
+        panelsLocalizationHandler.SubscribeChangeLanguage();
+        if (loadScreenUIHandler.IsStarted == false)
+        {
             loadScreenUIHandler.ShowOnStart();
         }
 
-        panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
-        panelsLocalizationHandler.SubscribeChangeLanguage();
-        
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
 

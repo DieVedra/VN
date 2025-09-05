@@ -42,7 +42,6 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         _localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
         TryDefineLanguageKey();
         await LoadCurrentLanguage();
-        SetLanguagePanelsAndMenuStory();
     }
 
     public void SubscribeChangeLanguage()
@@ -62,19 +61,16 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         _localizableContent = localizableContent.ToList();
         _inMainMenu = true;
     }
-    public void AddLocalizableContentFromLevel(IReadOnlyList<LocalizationString> localizableContent)
+    public void SetLocalizableContentFromLevel(IReadOnlyList<LocalizationString> localizableContent)
     {
-        _localizableContent.AddRange(localizableContent);
+        _localizableContent = localizableContent.ToList();
         _inMainMenu = false;
     }
 
     public async UniTask LoadAllLanguagesForPanels()
     {
-        Debug.Log($"LoadAllLanguagesForPanels");
-
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)
         {
-            Debug.Log($"_localizationInfoHolder.LanguageNames[{i}]  {_localizationInfoHolder.LanguageNames[i].GetPanelsLocalizationAssetName}");
             if (i == _currentLanguageKeyIndex.Value)
             {
                 continue;
@@ -86,8 +82,6 @@ public class PanelsLocalizationHandler : ILocalizationChanger
 
     public void SetLanguagePanelsAndMenuStory()
     {
-        Debug.Log($"SetLanguagePanelsAndMenuStory    {_dictionariesPanelsTranslates.Count}   {_currentLanguageKeyIndex.Value}");
-
         if (_saveData != null)
         {
             _saveData.LanguageLocalizationKey = _localizationInfoHolder.LanguageNames[_currentLanguageKeyIndex.Value].Key;
@@ -102,8 +96,7 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         {
             Debug.LogError($"DictionariesMainMenuTranslates.TryGetValue: False   key: {_currentLanguageKeyIndex.Value}");
         }
-        Debug.Log($"_inMainMenu {_inMainMenu}");
-
+        
         if (_inMainMenu == true)
         {
             if (_dictionaryMenuStoryTranslates.TryGetValue(_currentLanguageKeyIndex.Value, out var dictionaryStoryTranslates))
@@ -144,7 +137,6 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)
         {
             _currentLanguageKeyIndex.Value = i;
-            Debug.Log($"TryDefineLanguageKey()  {_currentLanguageKeyIndex.Value}");
             if (_localizationInfoHolder.LanguageNames[i].Key == systemLanguageKey)
             {
                 _currentMyLanguageName = _localizationInfoHolder.LanguageNames[i];

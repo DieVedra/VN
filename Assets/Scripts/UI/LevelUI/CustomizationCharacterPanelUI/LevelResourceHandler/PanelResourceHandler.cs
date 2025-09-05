@@ -14,6 +14,7 @@ public class PanelResourceHandler
     private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
     private ResourcesViewMode _resourcesViewMode;
     private CancellationTokenSource _cancellationTokenSource;
+    private CompositeDisposable _compositeDisposable;
     public PanelResourceHandler(Wallet wallet,
         ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView, ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView)
     {
@@ -21,15 +22,16 @@ public class PanelResourceHandler
         _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
         _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
         _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
+        _compositeDisposable = new CompositeDisposable();
         _wallet.MonetsCountChanged.Subscribe(_ =>
         {
             _monetResourcePanelWithCanvasGroupView.Text.text = _.ToString();
-        });
+        }).AddTo(_compositeDisposable);
 
         _wallet.HeartsCountChanged.Subscribe(_ =>
         {
             _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();;
-        });
+        }).AddTo(_compositeDisposable);
     }
 
     public void Init(ResourcesViewMode resourcesViewMode)
@@ -37,11 +39,12 @@ public class PanelResourceHandler
         _resourcesViewMode = resourcesViewMode;
         _monetResourcePanelWithCanvasGroupView.Text.text = _wallet.GetMonetsCount.ToString();
         _heartsResourcePanelWithCanvasGroupView.Text.text = _wallet.GetHeartsCount.ToString();
-        TryShowOrHidePanelOnButtonsSwitch();
+        TryShowAndHidePanelOnButtonsSwitch();
     }
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
+        _compositeDisposable?.Clear();
     }
 
     public async UniTask TryHidePanel(float delay = _delayDefault, float duration = _duration)
@@ -95,7 +98,7 @@ public class PanelResourceHandler
         }
     }
 
-    private void TryShowOrHidePanelOnButtonsSwitch()
+    private void TryShowAndHidePanelOnButtonsSwitch()
     {
         switch (_resourcesViewMode)
         {

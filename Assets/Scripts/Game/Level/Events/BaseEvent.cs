@@ -39,9 +39,12 @@ public class BaseEvent
 public class BaseEvent<T>
 {
     protected ReactiveCommand<T> BaseReactiveCommand;
+    private readonly CompositeDisposable CompositeDisposable;
+
     public BaseEvent()
     {
-        BaseReactiveCommand = new ReactiveCommand<T>();
+        CompositeDisposable = new CompositeDisposable();
+        BaseReactiveCommand = new ReactiveCommand<T>().AddTo(CompositeDisposable);
     }
     public void Dispose()
     {
@@ -54,6 +57,22 @@ public class BaseEvent<T>
             operation.Invoke(_);
         });
     }
+    public CompositeDisposable SubscribeWithCompositeDisposable(Action operation)
+    {
+        var compositeDisposable = new CompositeDisposable();
+        BaseReactiveCommand.Subscribe(_ =>
+        {
+            operation();
+        }).AddTo(compositeDisposable);
+        return compositeDisposable;
+    }
+    public CompositeDisposable SubscribeWithCompositeDisposable(Action<T> operation)
+    {
+        var compositeDisposable = new CompositeDisposable();
+        BaseReactiveCommand.Subscribe(operation.Invoke).AddTo(compositeDisposable);
+        return compositeDisposable;
+    }
+    
     public virtual void Execute(T somebody)
     {
         BaseReactiveCommand.Execute(somebody);

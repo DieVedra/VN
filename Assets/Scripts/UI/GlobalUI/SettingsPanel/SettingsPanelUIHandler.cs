@@ -96,12 +96,10 @@ public class SettingsPanelUIHandler : ILocalizable
         _settingsPanelView.gameObject.SetActive(false);
         if (IsInLevel == false)
         {
-            Debug.Log(1111111);
             HideDefault();
         }
         else
         {
-            Debug.Log(222222);
             HideOnSwitchLevelLocalizationPart1();
         }
     }
@@ -122,7 +120,6 @@ public class SettingsPanelUIHandler : ILocalizable
         }
         _loadIndicatorUIHandle.SetLocalizationIndicate();
         _loadIndicatorUIHandle.StartIndicate();
-        // _levelLocalizationHandler.OnEndSwitchLocalization += HideOnSwitchLevelLocalizationPart2;
         _hideOnSwitchLevelLocalizationCompositeDisposable = new CompositeDisposable();
         _levelLocalizationHandler.OnEndSwitchLocalization.Subscribe(_ =>
         {

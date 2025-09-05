@@ -40,6 +40,9 @@ public class ButtonTransitionToMainSceneUIHandler : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {LabelText, TranscriptionText, ButtonText};
+        List<LocalizationString> localizationStrings = new List<LocalizationString>();
+        localizationStrings.AddRange(_loadScreenUIHandler.GetLocalizableContent());
+        localizationStrings.AddRange(new[] {LabelText, TranscriptionText, ButtonText});
+        return localizationStrings;
     }
 }

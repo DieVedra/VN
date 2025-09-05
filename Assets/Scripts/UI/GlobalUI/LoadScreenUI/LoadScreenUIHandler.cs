@@ -22,7 +22,7 @@ public class LoadScreenUIHandler : ILocalizable
     public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
     public bool IsStarted { get; private set; }
 
-    public LoadScreenUIHandler(LoadWordsHandler loadWordsHandler)
+    public LoadScreenUIHandler()
     {
         _loadScreenAssetProvider = new LoadScreenAssetProvider();
         _loadWordsHandler = new LoadWordsHandler();

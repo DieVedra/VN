@@ -51,7 +51,7 @@ public class ArrowSwitch
     public void Dispose()
     {
         _isSwitched = false;
-        _compositeDisposable.Dispose();
+        _compositeDisposable?.Clear();
     }
     public bool PressLeftArrow()
     {

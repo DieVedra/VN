@@ -128,12 +128,8 @@ public class LevelLoadDataHandler
             await UniTask.NextFrame();
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
 
-            Debug.Log($"_backgroundContentCreator 1  {_backgroundContentCreator.PercentComplete}  ");
-
-            // await TryLoadDatas1(nextSeriaNumber, nextSeriaIndex);
             await _backgroundContentCreator.TryCreateBackgroundContent();
             
-            Debug.Log($"_backgroundContentCreator 2  {_backgroundContentCreator.PercentComplete}  ");
 
             
             Debug.Log($"TryLoadDatas  {_loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value}  ");

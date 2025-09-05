@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 [NodeWidth(350),NodeTint("#6C0054")]
@@ -31,6 +32,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     private Wallet _wallet;
     private CustomizationNodeInitializer _customizationNodeInitializer;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
+    private CompositeDisposable _compositeDisposable;
     private CustomizableCharacter _customizableCharacter => CustomizableCharacters[_customizationCharacterIndex];
     public IReadOnlyList<ICustomizationSettings> SettingsBodies => _settingsBodies;
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
@@ -74,8 +76,8 @@ public class CustomizationNode : BaseNode, ILocalizable
         CancellationTokenSource = new CancellationTokenSource();
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         _wardrobeCharacterViewer.gameObject.SetActive(true);
-        SetInfoToView(); 
-        _customizationEndEvent.Subscribe(CustomizationEnd);
+        SetInfoToView();
+        _compositeDisposable = _customizationEndEvent.SubscribeWithCompositeDisposable(CustomizationEnd);
         await UniTask.WhenAll(
             _sound.SmoothPlayWardrobeAudio(CancellationTokenSource.Token),
             _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token));
@@ -86,6 +88,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         CancellationTokenSource = new CancellationTokenSource();
 
         await _customizationCharacterPanelUIHandler.HideCustomizationContentInPlayMode();
+        _compositeDisposable.Clear();
         await UniTask.WhenAll(
             _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music),
             _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token));

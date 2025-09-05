@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class LevelLocalizationHandler : ILevelLocalizationHandler
 {
@@ -11,13 +9,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     private readonly CharacterProviderBuildMode _characterProviderBuildMode;
     private readonly GameStatsHandler _gameStatsHandler;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    // private ReactiveCommand _onTrySwitchLocalization;
     private readonly ReactiveCommand _onEndSwitchLocalization;
     private CompositeDisposable _compositeDisposable;
     private IReadOnlyDictionary<string, string> _currentLocalization;
-    // public event Action OnTrySwitchLocalization;
-    // public event Action OnEndSwitchLocalization;
-    // public ReactiveCommand OnTrySwitchLocalization => _onTrySwitchLocalization;
     public ReactiveCommand OnEndSwitchLocalization => _onEndSwitchLocalization;
 
     public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
@@ -29,11 +23,8 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
         _characterProviderBuildMode = characterProviderBuildMode;
         _gameStatsHandler = gameStatsHandler;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        // _onTrySwitchLocalization = new ReactiveCommand();
         _compositeDisposable = new CompositeDisposable();
         _onEndSwitchLocalization = new ReactiveCommand().AddTo(_compositeDisposable);
-        // Debug.Log($"Test HashCode Constr {_onTrySwitchLocalization.GetHashCode()}   ");
-
     }
 
     public void Dispose()
@@ -43,16 +34,11 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     public void TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         _currentLocalization = _levelLocalizationProvider.GetCurrentLocalization();
-        Debug.Log($"TrySetLocalizationToCurrentLevelContent  0");
         if (_currentLocalization != null)
         {
-            Debug.Log($"TrySetLocalizationToCurrentLevelContent  1");
             SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
-            Debug.Log($"TrySetLocalizationToCurrentLevelContent  2");
             SetLocalizationToStats(_gameStatsHandler);
-            Debug.Log($"TrySetLocalizationToCurrentLevelContent  3");
             SetLocalizationToCharacters();
-            Debug.Log($"TrySetLocalizationToCurrentLevelContent  4");
             _setLocalizationChangeEvent.Execute();
             _currentLocalization = null;
         }
@@ -109,12 +95,8 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     public async UniTaskVoid TrySwitchLanguageFromSettingsChange()
     {
-        Debug.Log($"TrySwitchLanguageFromSettingsChange() 1");
         await _levelLocalizationProvider.TryLoadLocalizationOnSwitchLanguageFromSettings();
-        Debug.Log($"TrySwitchLanguageFromSettingsChange() 2");
-        // Debug.Log($"Test HashCode {_onTrySwitchLocalization.GetHashCode()}");
         TrySetLocalizationToCurrentLevelContent(_currentSeriaNodeGraphsProvider.GetCurrentSeriaNodeGraphsHandler());
-        // _onTrySwitchLocalization.Execute();
         _onEndSwitchLocalization.Execute();
     }
 }
