@@ -10,7 +10,7 @@ public class AssetLoader<T>
     protected async UniTask<T> Load(string assetId)
     {
         var handle = Addressables.LoadAssetAsync<T>(assetId);
-        _cashedObject = await handle.Task;
+        _cashedObject = await handle.ToUniTask();
         if (_cashedObject is { } f)
         {
             return f;

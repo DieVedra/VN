@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class LevelLoadDataHandler
     private readonly OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
+    private bool key;
     private int _currentSeriaLoadedNumber => _currentSeriaLoadedNumberProperty.GetValue;
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
@@ -103,37 +105,13 @@ public class LevelLoadDataHandler
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
             
             await LoadCurrentLocalization(nextSeriaNumber);
-            // Debug.Log($"Delay start");
-            // await UniTask.Delay(TimeSpan.FromSeconds(20f));
-            // Debug.Log($"Delay end");
-            await UniTask.NextFrame();
-            Debug.Log($"1");
             await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
-            await UniTask.NextFrame();
-            Debug.Log($"2");
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-            await UniTask.NextFrame();
-            Debug.Log($"3");
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
-            await UniTask.NextFrame();
-            Debug.Log($"4");
-
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
-            await UniTask.NextFrame();
-            Debug.Log($"5");
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
-            await UniTask.NextFrame();
-            Debug.Log($"6");
             await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
-            await UniTask.NextFrame();
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
             await _backgroundContentCreator.TryCreateBackgroundContent();
-            
-
-            
-            Debug.Log($"TryLoadDatas  {_loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value}  ");
-            Debug.Log($"7");
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber);
             _onContentIsLoadProperty.SetValue(false);
         }
@@ -160,25 +138,52 @@ public class LevelLoadDataHandler
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
 
-    private async UniTask TryLoadDatas(int nextSeriaNumber, int nextSeriaIndex)
+    private void LoadRecursian(Queue<Func<ReactiveCommand>> loads, CompositeDisposable compositeDisposable, Action operation)
     {
-        await LoadCurrentLocalization(nextSeriaNumber);
-        // Debug.Log($"1");
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
-        // Debug.Log($"2");
-        await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-        // Debug.Log($"3");
-        await GameSeriesProvider.TryLoadData(nextSeriaIndex);
-        await UniTask.Delay(TimeSpan.FromSeconds(20f));
-
-        // Debug.Log($"4");
-        await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
-        // Debug.Log($"5");
-        await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
-        // Debug.Log($"6");
-        await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
-        // Debug.Log($"7");
-    } //  --------
+        if (loads.Count > 0)
+        {
+            ReactiveCommand rc = loads.Dequeue().Invoke();
+            
+            
+            if (rc == null)
+            {
+                if (loads.Count == 0)
+                {
+                    compositeDisposable.Clear();
+                    operation.Invoke();
+                }
+                else
+                {
+                    LoadRecursian(loads, compositeDisposable, operation);
+                }
+            }
+            else
+            {
+                rc.Subscribe(x =>
+                {
+                    if (loads.Count == 0)
+                    {
+                        compositeDisposable.Clear();
+                        operation.Invoke();
+                    }
+                    else
+                    {
+                        LoadRecursian(loads, compositeDisposable, operation);
+                    }
+                }).AddTo(compositeDisposable);
+            }
+        }
+    }
+    private void InvokeNext((bool, IObservable<ScriptableObject> ) obs)
+    {
+        if (obs.Item1 == true)
+        {
+            obs.Item2.Subscribe(_ =>
+            {
+                
+            });
+        }
+    }
     private void OnSwitchToNextSeria(bool key)
     {
         if (_onContentIsLoadProperty.GetValue == false)

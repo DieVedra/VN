@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -59,11 +58,20 @@ public class AudioClipProvider
     {
         if (await _musicAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            MusicAudioData.AddRange(_musicAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips);
+            for (int i = 0; i < _musicAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips.Count; i++)
+            {
+                await UniTask.Yield();
+                MusicAudioData.Add(_musicAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips[i]);
+            }
+            
         }
         if (await _ambientAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            AmbientAudioData.AddRange(_ambientAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips);
+            for (int i = 0; i < _ambientAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips.Count; i++)
+            {
+                await UniTask.Yield();
+                AmbientAudioData.Add(_ambientAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips[i]);
+            }
         }
     }
 }

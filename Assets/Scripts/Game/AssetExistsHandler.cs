@@ -59,7 +59,7 @@ public class AssetExistsHandler
         for (int i = 0; i < _attemptsCount; i++)
         {
             var locationsHandle = Addressables.LoadResourceLocationsAsync(assetId);
-            await locationsHandle.Task;
+            await locationsHandle.ToUniTask();
             if (locationsHandle.Status != AsyncOperationStatus.Succeeded || locationsHandle.Result.Count == 0)
             {
                 result = false;

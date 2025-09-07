@@ -56,7 +56,35 @@ public class LevelLocalizationProvider : IParticipiteInLoad
             ParticipiteInLoad = false;
         }
     }
-
+    // public void TryLoadLocalizationUniRx(int seriaNumber, string languageKey)
+    // {
+    //     if (_localizationFileProvider.IsLoading == true)
+    //     {
+    //         _localizationFileProvider.AbortLoad();
+    //     }
+    //     if (_currentLanguageKey == languageKey)
+    //     {
+    //         if (_seriaLocalizations.ContainsKey(seriaNumber))
+    //         {
+    //             ParticipiteInLoad = false;
+    //         }
+    //     }
+    //     _currentLanguageKey = languageKey;
+    //     var name = CreateName(seriaNumber, languageKey);
+    //     
+    //     if (await _assetExistsHandler.CheckAssetExists(name))
+    //     {
+    //         var currentLocalization = await _localizationFileProvider.LoadLocalizationFile(name);
+    //         _seriaLocalizations.Add(seriaNumber, currentLocalization);
+    //         TryDeleteUncessaryLocalization(seriaNumber);
+    //         ParticipiteInLoad = true;
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning($"Asset not find: '{name}'");
+    //         ParticipiteInLoad = false;
+    //     }
+    // }
     public IReadOnlyDictionary<string, string> GetCurrentLocalization()
     {
         Debug.Log($"GetCurrentLocalization {_currentLanguageKey} {_currentSeriaIndexReactiveProperty.Value}");

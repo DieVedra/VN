@@ -605,7 +605,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 5402539130343257317}
+        node: {fileID: -3476028365894102019}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -703,7 +703,10 @@ MonoBehaviour:
       _node: {fileID: -3476028365894102019}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Output
+        node: {fileID: -3669383093808804875}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -1259,7 +1262,6 @@ MonoBehaviour:
   - {fileID: 3828009965179200426}
   - {fileID: -3205502445992875532}
   - {fileID: 4047821831834058667}
-  - {fileID: 5402539130343257317}
 --- !u!114 &90485713825956143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2177,48 +2179,6 @@ MonoBehaviour:
       <DefaultText>k__BackingField: testSeria2
       <Key>k__BackingField: str_BC95505D
     _value: 0
---- !u!114 &5402539130343257317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
-  m_Name: Switch To Next Seria
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -4016.6204, y: -2775.22}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 5402539130343257317}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: -3669383093808804875}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 5402539130343257317}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _putOnSwimsuit: 0
 --- !u!114 &5442562703217893657
 MonoBehaviour:
   m_ObjectHideFlags: 0

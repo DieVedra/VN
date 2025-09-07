@@ -27,7 +27,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
-    // private ReactiveCommand<SeriaNodeGraphsHandler> _seriaNodeGraphsHandlerProviderReactiveCommand;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     
     [Inject]
@@ -93,10 +92,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }); 
         
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-        await UniTask.RunOnThreadPool(() =>
-        {
-            _levelLoadDataHandler.LoadNextSeriesContent().Forget();
-        });
+        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
 
     }
 

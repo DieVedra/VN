@@ -10,7 +10,7 @@ public class LocalAssetLoader
     protected async UniTask<T> Load<T>(string assetId, Transform parent = null)
     {
         var handle = Addressables.InstantiateAsync(assetId, parent);
-        _cashedObject = await handle.Task;
+        _cashedObject = await handle.ToUniTask();
         if (_cashedObject.TryGetComponent(out T component) == false)
         {
             throw new NullReferenceException($"Object of type {typeof(T)} is null on attempt load from addresables");

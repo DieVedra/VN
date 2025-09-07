@@ -11,7 +11,7 @@ public class JSonAssetLoader : LoadPercentProvider
     {
         _handle = Addressables.LoadAssetAsync<TextAsset>(assetId);
         SetHandle(_handle);
-        await _handle.Task;
+        await _handle.ToUniTask();
         if (_handle.Status == AsyncOperationStatus.Succeeded)
         {
             _cashedObject = _handle.Result;

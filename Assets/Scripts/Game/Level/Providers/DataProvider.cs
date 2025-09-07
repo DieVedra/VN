@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject 
 {
@@ -59,21 +58,6 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
             return ParticipiteInLoad = false;
         }
     }
-    // public void TryLoadDataOnUniRx(int nextSeriaNameAssetIndex)
-    // {
-    //     if (ParticipiteInLoad == true)
-    //     {
-    //         var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
-    //         _datas.Add(data);
-    //         OnLoad.Execute(data);
-    //         LastLoaded = data;
-    //         return true;
-    //     }
-    //     else
-    //     {
-    //         return false;
-    //     }
-    // }
     public async UniTask<bool> TryLoadData(int nextSeriaNameAssetIndex)
     {
         if (ParticipiteInLoad == true)

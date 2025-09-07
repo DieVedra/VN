@@ -5,30 +5,27 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 public class test : MonoBehaviour
 {
-    public TextMeshProUGUI Text;
-    public int count;
-    public string t;
-
-    private string space = "\u00A0\u00A0";
-    private int value;
-    private TextConsistentlyViewer _textConsistentlyViewer;
-    private CancellationTokenSource _cancellationToken;
+    
     [Button()]
-    private void stop()
+    private void test1()
     {
-        _cancellationToken?.Cancel();
+        Observable.Create<object>(_ =>
+        {
+            
+            
+            
+            return null;
+        });
     }
     
     [Button()]
-    private void add2()
+    private void test2()
     {
-        _textConsistentlyViewer = new TextConsistentlyViewer(Text);
-        _cancellationToken = new CancellationTokenSource();
-        _textConsistentlyViewer.ClearText();
-        _textConsistentlyViewer.SetTextConsistently(_cancellationToken.Token, t).Forget();
+        
     }
 }

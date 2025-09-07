@@ -91,7 +91,6 @@ public class BackgroundContentCreator : IParticipiteInLoad
             _backgroundData = null;
         }
     }
-
     private void InitPercentCalculate()
     {
         _percentCalculatedCount = _minCount;
