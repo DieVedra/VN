@@ -58,19 +58,19 @@ public class AudioClipProvider
     {
         if (await _musicAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            for (int i = 0; i < _musicAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips.Count; i++)
+            for (int i = 0; i < _musicAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips.Count; i++)
             {
                 await UniTask.Yield();
-                MusicAudioData.Add(_musicAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips[i]);
+                MusicAudioData.Add(_musicAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips[i]);
             }
             
         }
         if (await _ambientAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            for (int i = 0; i < _ambientAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips.Count; i++)
+            for (int i = 0; i < _ambientAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips.Count; i++)
             {
                 await UniTask.Yield();
-                AmbientAudioData.Add(_ambientAudioDataProvider.Datas[nextSeriaNameAssetIndex].Clips[i]);
+                AmbientAudioData.Add(_ambientAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips[i]);
             }
         }
     }

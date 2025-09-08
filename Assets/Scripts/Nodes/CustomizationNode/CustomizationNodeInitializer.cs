@@ -15,6 +15,10 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>(sprites.Count);
         for (int i = 0; i < sprites.Count; i++)
         {
+            if (sprites[i].SpriteToWardrobeKey == false)
+            {
+                continue;
+            }
             newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                 i, sprites[i].Price, sprites[i].PriceAdditional));
         }
@@ -36,6 +40,10 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         string newName;
         for (int i = 0; i < sprites.Count; i++)
         {
+            if (sprites[i].SpriteToWardrobeKey == false)
+            {
+                continue;
+            }
             newName = sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_');
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
@@ -70,7 +78,9 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             spriteIndexesSwimsuits,
             customizableCharacter);
     }
-    private static List<CustomizationSettings> GetRenamedFieldsToView(IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
+
+    private static List<CustomizationSettings> GetRenamedFieldsToView(
+        IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
     {
         List<CustomizationSettings> spriteIndexesClothes = new List<CustomizationSettings>();
         for (int i = 0; i < customizationSettings.Count; i++)
@@ -86,8 +96,10 @@ public class CustomizationNodeInitializer : MyNodeInitializer
                     customizationSettings[i].KeyShowStats));
             }
         }
+
         return spriteIndexesClothes;
     }
+
     private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
     {
         return new CustomizationSettings(GameStatsHandler.GetGameStatsForm(), name, index, price, priceAdditional);

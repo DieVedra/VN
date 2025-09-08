@@ -14,10 +14,11 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     public bool ParticipiteInLoad { get; private set; }
     public int PercentComplete => _scriptableObjectAssetLoader.GetPercentComplete();
     public int NamesCount => _names.Count;
-    public IReadOnlyList<T> Datas => _datas;
+    public IReadOnlyList<T> GetDatas => _datas;
     public T LastLoaded { get; private set; }
 
     public readonly ReactiveCommand<T> OnLoad;
+    protected CompositeDisposable BaseCompositeDisposable;
 
     public DataProvider()
     {
@@ -36,7 +37,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
 
     public void Dispose()
     {
-        OnLoad.Dispose();
+        BaseCompositeDisposable?.Clear();
         _scriptableObjectAssetLoader.TryAbortLoad();
         ParticipiteInLoad = false;
     }

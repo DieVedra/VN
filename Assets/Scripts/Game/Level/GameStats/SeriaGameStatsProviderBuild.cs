@@ -13,6 +13,7 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
 
     public SeriaGameStatsProviderBuild()
     {
+        BaseCompositeDisposable = new CompositeDisposable();
         OnLoad.Subscribe(_ =>
         {
             if (_gameStatsHandler == null)
@@ -20,20 +21,20 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
                 _gameStatsHandler = new GameStatsHandler();
             }
             _gameStatsHandler.AddNextSeriaStats(_.Stats.ToList());
-        });
+        }).AddTo(BaseCompositeDisposable);
     }
 
     public List<Stat> GetStatsFromCurrentSeria(int seriaIndex)
     {
         int seriaNumber = ++seriaIndex;
         List<Stat> stats = new List<Stat>();
-        for (int i = 0; i < Datas.Count; i++)
+        for (int i = 0; i < GetDatas.Count; i++)
         {
-            if (Datas[i].SeriaNumber > 0)
+            if (GetDatas[i].SeriaNumber > 0)
             {
-                if (Datas[i].SeriaNumber <= seriaNumber)
+                if (GetDatas[i].SeriaNumber <= seriaNumber)
                 {
-                    stats.AddRange(Datas[i].Stats);
+                    stats.AddRange(GetDatas[i].Stats);
                 }
                 else
                 {

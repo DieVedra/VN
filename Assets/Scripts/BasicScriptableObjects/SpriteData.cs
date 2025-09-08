@@ -31,7 +31,9 @@ public class SpriteData : ScriptableObject
             {
                 if (_mySprites.Count  > i && _mySprites[i] != null)
                 {
-                    mySprites.Add(new MySprite(_sprites[i], _mySprites[i].OffsetXValue, _mySprites[i].OffsetYValue, _mySprites[i].ScaleValue, _mySprites[i].Price, _mySprites[i].PriceAdditional));
+                    mySprites.Add(new MySprite(_sprites[i],
+                        _mySprites[i].OffsetXValue, _mySprites[i].OffsetYValue, _mySprites[i].ScaleValue,
+                        _mySprites[i].Price, _mySprites[i].PriceAdditional, _mySprites[i].SpriteToWardrobeKey));
                 }
                 else
                 {
@@ -41,6 +43,12 @@ public class SpriteData : ScriptableObject
 
             _mySprites = mySprites;
         }
+    }
+
+    public void Add(List<Sprite> sprites, List<MySprite> mySprites)
+    {
+        _sprites.AddRange(sprites);
+        _mySprites.AddRange(mySprites);
     }
     private void Awake()
     {

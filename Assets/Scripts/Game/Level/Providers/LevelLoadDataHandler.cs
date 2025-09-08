@@ -22,7 +22,6 @@ public class LevelLoadDataHandler
     private readonly OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
-    private bool key;
     private int _currentSeriaLoadedNumber => _currentSeriaLoadedNumberProperty.GetValue;
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
@@ -86,8 +85,8 @@ public class LevelLoadDataHandler
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
+        await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
@@ -105,12 +104,12 @@ public class LevelLoadDataHandler
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
             
             await LoadCurrentLocalization(nextSeriaNumber);
-            await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
+            await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
-            await SeriaGameStatsProviderBuild.TryLoadDataAndGet(nextSeriaIndex);
+            await SeriaGameStatsProviderBuild.TryLoadData(nextSeriaIndex);
             await _backgroundContentCreator.TryCreateBackgroundContent();
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber);
             _onContentIsLoadProperty.SetValue(false);

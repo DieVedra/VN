@@ -1,5 +1,4 @@
-﻿
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(SpriteData))]
@@ -18,6 +17,7 @@ public class SpriteDataDrawer : Editor
     private float _scaleValue = 0.5f;
     private int _price;
     private int _priceAdditional;
+    private bool _spriteToWardrobeKey;
     public void OnEnable()
     {
         TryInitTarget();
@@ -133,6 +133,12 @@ public class SpriteDataDrawer : Editor
         EditorGUILayout.LabelField("Price Additional: ");
         _priceAdditional = EditorGUILayout.IntField(_priceAdditional);
         EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("SpriteToWardrobe: ");
+        _spriteToWardrobeKey = EditorGUILayout.Toggle(_spriteToWardrobeKey);
+        EditorGUILayout.EndHorizontal();
+
         // if (GUILayout.Button("SetValues"))
         // {
         //     SetValuesToProperty();
@@ -169,6 +175,7 @@ public class SpriteDataDrawer : Editor
         serializedProperty.FindPropertyRelative("_scaleValue").floatValue = _scaleValue;
         serializedProperty.FindPropertyRelative("_price").intValue = _price;
         serializedProperty.FindPropertyRelative("_priceAdditional").intValue = _priceAdditional;
+        serializedProperty.FindPropertyRelative("_spriteToWardrobeKey").boolValue = _spriteToWardrobeKey;
     }
     private void GetValuesToProperty()
     {
@@ -180,6 +187,7 @@ public class SpriteDataDrawer : Editor
             _scaleValue = serializedProperty.FindPropertyRelative("_scaleValue").floatValue;
             _price = serializedProperty.FindPropertyRelative("_price").intValue;
             _priceAdditional = serializedProperty.FindPropertyRelative("_priceAdditional").intValue;
+            _spriteToWardrobeKey = serializedProperty.FindPropertyRelative("_spriteToWardrobeKey").boolValue;
         }
     }
 

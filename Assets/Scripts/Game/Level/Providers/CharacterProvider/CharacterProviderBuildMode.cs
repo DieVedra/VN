@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 
 public class CharacterProviderBuildMode :  ICharacterProvider
@@ -9,11 +10,13 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     private readonly DataProvider<CharactersData> _charactersDataProvider;
     private readonly DataProvider<CustomizableCharacter> _customizableCharacterDataProvider;
     private readonly List<Character> _allCharacters;
-    public CustomizableCharacter CustomizableCharacter { get; private set; }
+
+    private Dictionary<string, Character> _dictionaryAllCharacters;
+    // public CustomizableCharacter CustomizableCharacter { get; private set; }
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
     public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => _customizableCharacterDataProvider;
 
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacterDataProvider.Datas;
+    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacterDataProvider.GetDatas;
 
     public CharacterProviderBuildMode()
     {
@@ -49,12 +52,34 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     {
         if (await _customizableCharacterDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            CustomizableCharacter = _customizableCharacterDataProvider.Datas[nextSeriaNameAssetIndex];
-            _allCharacters.Add(CustomizableCharacter);
+            var customizableCharacter = _customizableCharacterDataProvider.GetDatas[nextSeriaNameAssetIndex];
+            _allCharacters.Add(customizableCharacter);
         }
         if (await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            _allCharacters.AddRange(_charactersDataProvider.Datas[nextSeriaNameAssetIndex].SimpleCharacters);
+            List<SimpleCharacter> newSimpleCharacters = _charactersDataProvider.GetDatas[nextSeriaNameAssetIndex].SimpleCharacters;
+            if (_allCharacters.Count > 0)
+            {
+                Dictionary<string, Character> dictionaryAllCharacters = _allCharacters.ToDictionary(x => x.Name.Key, x=> x);
+                for (int i = 0; i < newSimpleCharacters.Count; i++)
+                {
+                    if (dictionaryAllCharacters.TryGetValue(newSimpleCharacters[i].Name.Key, out Character character))
+                    {
+                        if (character is SimpleCharacter simpleCharacter)
+                        {
+                            simpleCharacter.TryMerge(newSimpleCharacters[i]);
+                        }
+                    }
+                    else
+                    {
+                        _allCharacters.Add(newSimpleCharacters[i]);
+                    }
+                }
+            }
+            else
+            {
+                _allCharacters.AddRange(newSimpleCharacters);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WardrobeSeriaData : ScriptableObject
 {
     [SerializeField] private int _mySeriaIndex;
+    [SerializeField] private string _characterNameKey;
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("Bodies"), Expandable] private List<BodySpriteData> _bodiesDataSeria;
     [SerializeField, HorizontalLine(color:EColor.Pink), BoxGroup("Clothes"), Expandable] private SpriteData _clothesDataSeria;
     [SerializeField, HorizontalLine(color:EColor.Blue), BoxGroup("Swimsuits"), Expandable] private SpriteData _swimsuitsDataSeria;
@@ -16,6 +17,7 @@ public class WardrobeSeriaData : ScriptableObject
     public SpriteData SwimsuitsDataSeria => _swimsuitsDataSeria;
     public SpriteData HairstylesDataSeria => _hairstylesDataSeria;
     public int MySeriaIndex => _mySeriaIndex;
+    public string CharacterNameKey => _characterNameKey;
     
     public IReadOnlyList<MySprite> GetBodiesSprites()
     {

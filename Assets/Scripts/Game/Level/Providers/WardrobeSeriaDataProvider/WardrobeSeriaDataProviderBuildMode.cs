@@ -6,9 +6,9 @@ public class WardrobeSeriaDataProviderBuildMode : DataProvider<WardrobeSeriaData
     private const string _wardrobeDataSeriaNameAsset = "WardrobeDataSeria";
     public WardrobeSeriaData GetWardrobeSeriaData(int index)
     {
-        if (Datas.Count > index)
+        if (GetDatas.Count > index)
         {
-            return Datas[index];
+            return GetDatas[index];
         }
         else
         {

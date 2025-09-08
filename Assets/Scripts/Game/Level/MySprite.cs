@@ -8,6 +8,7 @@ public class MySprite
     [SerializeField] private float _scaleValue = 0.5f;
     [SerializeField] private int _price;
     [SerializeField] private int _priceAdditional;
+    [SerializeField] private bool _spriteToWardrobeKey;
     [SerializeField] private Sprite _sprite;
     public string Name => _sprite.name;
     public float OffsetXValue => _offsetXValue;
@@ -15,9 +16,11 @@ public class MySprite
     public float ScaleValue => _scaleValue;
     public int Price => _price;
     public int PriceAdditional => _priceAdditional;
+    public bool SpriteToWardrobeKey => _spriteToWardrobeKey;
     public Sprite Sprite => _sprite;
     public Texture2D texture => _sprite.texture;
-    public MySprite(Sprite sprite, float offsetXValue = 0.5f, float offsetYValue = 0.5f, float scaleValue = 0.5f, int price = 0, int priceAdditional = 0)
+    public MySprite(Sprite sprite, float offsetXValue = 0.5f, float offsetYValue = 0.5f, float scaleValue = 0.5f,
+        int price = 0, int priceAdditional = 0, bool spriteToWardrobeKey = false)
     {
         _sprite = sprite;
         _offsetXValue = offsetXValue;
@@ -25,5 +28,6 @@ public class MySprite
         _scaleValue = scaleValue;
         _price = price;
         _priceAdditional = priceAdditional;
+        _spriteToWardrobeKey = spriteToWardrobeKey;
     }
 }

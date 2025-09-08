@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -7,9 +6,12 @@ public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
 {
     [SerializeField, BoxGroup("Simple Characters Data: "), Expandable] private List<CharactersData> _charactersDatas;
     [SerializeField, BoxGroup("CustomizableCharacter: "), Expandable] private List<CustomizableCharacter> _customizableCharacters;
+    [SerializeField, BoxGroup("AdditionalCharactersSpriteDatas: "), Expandable] private List<AdditionalCharactersSpriteDatas> _additionalCharactersSpriteDatas;
+    
 
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("All Characters: "), ReadOnly] private List<Character> _allCharacters;
     public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacters;
+    public IReadOnlyList<AdditionalCharactersSpriteDatas> AdditionalCharactersSpriteDatas => _additionalCharactersSpriteDatas;
 
     public void Construct(WardrobeSaveData[] wardrobeSaveDatas = null)
     {

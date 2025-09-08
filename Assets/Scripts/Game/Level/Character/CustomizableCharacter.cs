@@ -39,7 +39,6 @@ public class CustomizableCharacter : Character
         _swimsuitsData = new List<MySprite>();
         _hairstylesData = new List<MySprite>();
     }
-
     public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
     {
         if (Application.isPlaying == false)
