@@ -5,8 +5,8 @@ using UnityEngine;
 public class SimpleCharacter : Character
 {
     [SerializeField] private int _mySeriaIndex;
-    [SerializeField, HorizontalLine(color:EColor.Red), BoxGroup("Emotions"), Expandable] private SpriteData _emotionsData;
-    [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("Look"), Expandable] private SpriteData _looksData;
+    [SerializeField, ReadOnly] private SpriteData _emotionsData;
+    [SerializeField, ReadOnly] private SpriteData _looksData;
     
     public SpriteData EmotionsData => _emotionsData;
     public SpriteData LooksData => _looksData;
@@ -28,15 +28,18 @@ public class SimpleCharacter : Character
         }
     }
 
-    public void TryMerge(SimpleCharacter simpleCharacter)
+    public override void TryMerge(Character character)
     {
-        if (simpleCharacter.EmotionsData.Sprites.Count > 0)
+        if (character is SimpleCharacter simpleCharacter)
         {
-            _emotionsData.Add(simpleCharacter.EmotionsData.Sprites, simpleCharacter.EmotionsData.MySprites);
-        }
-        if (simpleCharacter.LooksData.Sprites.Count > 0)
-        {
-            _looksData.Add(simpleCharacter.LooksData.Sprites, simpleCharacter.LooksData.MySprites);
+            if (simpleCharacter.EmotionsData.Sprites.Count > 0)
+            {
+                _emotionsData.Add(simpleCharacter.EmotionsData.Sprites, simpleCharacter.EmotionsData.MySprites);
+            }
+            if (simpleCharacter.LooksData.Sprites.Count > 0)
+            {
+                _looksData.Add(simpleCharacter.LooksData.Sprites, simpleCharacter.LooksData.MySprites);
+            }
         }
     }
 }

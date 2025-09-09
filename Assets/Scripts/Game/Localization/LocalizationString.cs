@@ -6,26 +6,21 @@ using UnityEngine;
 [Serializable]
 public class LocalizationString
 {
+    private const string _prefix = "str_";
     [field: SerializeField, TextArea] public string DefaultText { get; private set; }
     [field: SerializeField] public string Key { get; private set; }
-    // public static List<LocalizationString> LocalizationStrings = new List<LocalizationString>();
 
     public LocalizationString(string defaultText = null, string customKey = null)
     {
         DefaultText = defaultText;
         Key = customKey ?? GenerateStableHash(defaultText);
-        // if (LocalizationStrings == null)
-        // {
-        //     LocalizationStrings = new List<LocalizationString>();
-        // }
-        // LocalizationStrings.Add(this);
     }
     public static string GenerateStableHash(string input)
     {
         using (var sha256 = SHA256.Create())
         {
             byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
-            return "str_" + BitConverter.ToString(hashBytes).Replace("-", "").Substring(0, 8);
+            return _prefix + BitConverter.ToString(hashBytes).Replace("-", "").Substring(0, 8);
         }
     }
 

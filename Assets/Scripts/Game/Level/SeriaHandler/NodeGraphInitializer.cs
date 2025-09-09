@@ -20,7 +20,7 @@ public class NodeGraphInitializer
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly ICharacterProvider _characterProvider;
     private readonly List<BackgroundContent> _backgrounds;
-    private List<Stat> _stats;
+    // private List<Stat> _stats;
     public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _characterProvider.CustomizableCharacters;
     public IWardrobeSeriaDataProvider WardrobeSeriaDataProvider { get; }
 
@@ -64,7 +64,7 @@ public class NodeGraphInitializer
         node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
         if (node is CharacterNode characterNode)
         {
-            characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(), _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 
+            characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(seriaIndex), _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 
             return;
         }
         if (node is NarrativeNode narrativeNode)

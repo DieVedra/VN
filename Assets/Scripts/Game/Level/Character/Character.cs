@@ -9,4 +9,6 @@ public abstract class Character : ScriptableObject
 
     public abstract MySprite GetLookMySprite(int index);
     public abstract MySprite GetEmotionMySprite(int index);
+    public abstract void TryMerge(Character character);
+
 }

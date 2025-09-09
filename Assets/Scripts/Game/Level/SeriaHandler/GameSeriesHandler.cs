@@ -39,7 +39,10 @@ public class GameSeriesHandler : MonoBehaviour
         {
             foreach (var customizableCharacter in NodeGraphInitializer.CustomizableCharacters)
             {
-                customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+                if (customizableCharacter.Name.Key == wardrobeSeriaData.CharacterNameKey)
+                {
+                    customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+                }
             }
         }
     }

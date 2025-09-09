@@ -7,7 +7,7 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     private const string _charactersDataName = "CharactersDataSeria";
     private const string _customizableCharacterName = "CustomizableCharacter";
 
-    private readonly DataProvider<CharactersData> _charactersDataProvider;
+    private readonly DataProvider<CharacterData> _charactersDataProvider;
     private readonly DataProvider<CustomizableCharacter> _customizableCharacterDataProvider;
     private readonly List<Character> _allCharacters;
 
@@ -22,7 +22,7 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     {
         _allCharacters = new List<Character>();
         
-        _charactersDataProvider = new DataProvider<CharactersData>();
+        _charactersDataProvider = new DataProvider<CharacterData>();
         _customizableCharacterDataProvider = new DataProvider<CustomizableCharacter>();
     }
 
@@ -32,9 +32,9 @@ public class CharacterProviderBuildMode :  ICharacterProvider
             _customizableCharacterDataProvider.CreateNames(_customizableCharacterName));
     }
 
-    public IReadOnlyList<Character> GetCharacters()
+    public IReadOnlyList<Character> GetCharacters(int seriaIndex = 0)
     {
-        return _allCharacters;
+        return _allCharacters.ToList();
     }
 
     public void Dispose()
@@ -57,29 +57,30 @@ public class CharacterProviderBuildMode :  ICharacterProvider
         }
         if (await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
-            List<SimpleCharacter> newSimpleCharacters = _charactersDataProvider.GetDatas[nextSeriaNameAssetIndex].SimpleCharacters;
-            if (_allCharacters.Count > 0)
-            {
-                Dictionary<string, Character> dictionaryAllCharacters = _allCharacters.ToDictionary(x => x.Name.Key, x=> x);
-                for (int i = 0; i < newSimpleCharacters.Count; i++)
-                {
-                    if (dictionaryAllCharacters.TryGetValue(newSimpleCharacters[i].Name.Key, out Character character))
-                    {
-                        if (character is SimpleCharacter simpleCharacter)
-                        {
-                            simpleCharacter.TryMerge(newSimpleCharacters[i]);
-                        }
-                    }
-                    else
-                    {
-                        _allCharacters.Add(newSimpleCharacters[i]);
-                    }
-                }
-            }
-            else
-            {
-                _allCharacters.AddRange(newSimpleCharacters);
-            }
+            // List<SimpleCharacter> newSimpleCharacters = _charactersDataProvider.GetDatas[nextSeriaNameAssetIndex].SimpleCharacters;
+            // if (_allCharacters.Count > 0)
+            // {
+            //     Dictionary<string, Character> dictionaryAllCharacters = _allCharacters.ToDictionary(
+            //         x => x.Name.Key, x=> x);
+            //     for (int i = 0; i < newSimpleCharacters.Count; i++)
+            //     {
+            //         if (dictionaryAllCharacters.TryGetValue(newSimpleCharacters[i].Name.Key, out Character character))
+            //         {
+            //             if (character is SimpleCharacter simpleCharacter)
+            //             {
+            //                 simpleCharacter.TryMerge(newSimpleCharacters[i]);
+            //             }
+            //         }
+            //         else
+            //         {
+            //             _allCharacters.Add(newSimpleCharacters[i]);
+            //         }
+            //     }
+            // }
+            // else
+            // {
+            //     _allCharacters.AddRange(newSimpleCharacters);
+            // }
         }
     }
 }

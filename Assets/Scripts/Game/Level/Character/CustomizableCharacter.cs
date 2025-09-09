@@ -16,6 +16,7 @@ public class CustomizableCharacter : Character
     [SerializeField, HorizontalLine(color:EColor.Green)] private List<MySprite> _hairstylesData;
     
     private WardrobeSaveData _wardrobeSaveData;
+    public IReadOnlyList<BodySpriteData> BodiesData => _bodiesData;
     public IReadOnlyList<MySprite> ClothesData => _clothesData;
     public IReadOnlyList<MySprite> SwimsuitsData => _swimsuitsData;
     public IReadOnlyList<MySprite> HairstylesData => _hairstylesData;
@@ -26,6 +27,10 @@ public class CustomizableCharacter : Character
 
     public void Construct(WardrobeSaveData wardrobeSaveData)
     {
+        if (Application.isPlaying == false)
+        {
+            Reset();
+        }
         _wardrobeSaveData = wardrobeSaveData;
         SetIndexes(wardrobeSaveData.CurrentBodyIndex, wardrobeSaveData.CurrentHairstyleIndex,
             wardrobeSaveData.CurrentClothesIndex, wardrobeSaveData.CurrentSwimsuitsIndex);
@@ -41,30 +46,40 @@ public class CustomizableCharacter : Character
     }
     public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
     {
-        if (Application.isPlaying == false)
-        {
-            Reset();
-        }
-        if (wardrobeSeriaData.BodiesDataSeria.Count > 0)
-        {
-            _bodiesData.AddRange(wardrobeSeriaData.BodiesDataSeria);
-        }
+        AddDataSeria(wardrobeSeriaData.BodiesDataSeria, wardrobeSeriaData.ClothesDataSeria.MySprites,
+            wardrobeSeriaData.HairstylesDataSeria.MySprites, wardrobeSeriaData.SwimsuitsDataSeria.MySprites);
+    }
 
-        if (wardrobeSeriaData.ClothesDataSeria.MySprites.Count > 0)
+    public override void TryMerge(Character character)
+    {
+        if (character is CustomizableCharacter customizableCharacter)
         {
-            _clothesData.AddRange(wardrobeSeriaData.ClothesDataSeria.MySprites);
-        }
-
-        if (wardrobeSeriaData.HairstylesDataSeria.MySprites.Count > 0)
-        {
-            _hairstylesData.AddRange(wardrobeSeriaData.HairstylesDataSeria.MySprites);
-        }
-
-        if (wardrobeSeriaData.SwimsuitsDataSeria.MySprites.Count > 0)
-        {
-            _swimsuitsData.AddRange(wardrobeSeriaData.SwimsuitsDataSeria.MySprites);
+            AddDataSeria(customizableCharacter.BodiesData, customizableCharacter.ClothesData,
+                customizableCharacter.SwimsuitsData, customizableCharacter.HairstylesData);
         }
     }
+
+    private void AddDataSeria(IReadOnlyList<BodySpriteData> bodiesDataSeria, IReadOnlyList<MySprite> clothesDataSeria,
+        IReadOnlyList<MySprite> swimsuitsDataSeria, IReadOnlyList<MySprite> hairstylesDataSeria)
+    {
+        if (bodiesDataSeria != null && bodiesDataSeria.Count > 0)
+        {
+            _bodiesData.AddRange(bodiesDataSeria);
+        }
+        if (clothesDataSeria != null && clothesDataSeria.Count > 0)
+        {
+            _clothesData.AddRange(clothesDataSeria);
+        }
+        if (hairstylesDataSeria != null && hairstylesDataSeria.Count > 0)
+        {
+            _hairstylesData.AddRange(hairstylesDataSeria);
+        }
+        if (swimsuitsDataSeria != null && swimsuitsDataSeria.Count > 0)
+        {
+            _swimsuitsData.AddRange(swimsuitsDataSeria);
+        }
+    }
+
     public WardrobeSaveData GetWardrobeSaveData()
     {
         return _wardrobeSaveData;
