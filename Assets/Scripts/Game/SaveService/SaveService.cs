@@ -40,7 +40,7 @@ public class SaveService
         List<WardrobeSaveData> datas = new List<WardrobeSaveData>();
         foreach (var customizableCharacter in customizableCharacters)
         {
-            datas.Add(customizableCharacter.GetWardrobeSaveData());
+            // datas.Add(customizableCharacter.WardrobeSaveData);
         }
 
         return datas.ToArray();

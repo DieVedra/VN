@@ -220,7 +220,7 @@ public class CharacterNodeDrawer : NodeEditor
         {
             if (_characterNode.Characters[i] != null)
             {
-                _namesCharactersToPopup.Add(_characterNode.Characters[i].name);
+                _namesCharactersToPopup.Add(_characterNode.Characters[i].MyNameText);
             }
         }
     }

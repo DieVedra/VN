@@ -1,13 +1,17 @@
-﻿using NaughtyAttributes;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "SimpleCharacter", menuName = "Character/SimpleCharacter", order = 51)]
+﻿
 public class SimpleCharacter : Character
 {
-    [SerializeField] private int _mySeriaIndex;
-    [SerializeField, ReadOnly] private SpriteData _emotionsData;
-    [SerializeField, ReadOnly] private SpriteData _looksData;
-    
+    private readonly int _mySeriaIndex;
+    private readonly SpriteData _emotionsData;
+    private readonly SpriteData _looksData;
+
+    public SimpleCharacter(SpriteData emotionsData, SpriteData looksData, int mySeriaIndex)
+    {
+        _emotionsData = emotionsData;
+        _looksData = looksData;
+        _mySeriaIndex = mySeriaIndex;
+    }
+
     public SpriteData EmotionsData => _emotionsData;
     public SpriteData LooksData => _looksData;
     public int MySeriaIndex => _mySeriaIndex;
@@ -25,21 +29,6 @@ public class SimpleCharacter : Character
         else
         {
             return _emotionsData.MySprites[index];
-        }
-    }
-
-    public override void TryMerge(Character character)
-    {
-        if (character is SimpleCharacter simpleCharacter)
-        {
-            if (simpleCharacter.EmotionsData.Sprites.Count > 0)
-            {
-                _emotionsData.Add(simpleCharacter.EmotionsData.Sprites, simpleCharacter.EmotionsData.MySprites);
-            }
-            if (simpleCharacter.LooksData.Sprites.Count > 0)
-            {
-                _looksData.Add(simpleCharacter.LooksData.Sprites, simpleCharacter.LooksData.MySprites);
-            }
         }
     }
 }

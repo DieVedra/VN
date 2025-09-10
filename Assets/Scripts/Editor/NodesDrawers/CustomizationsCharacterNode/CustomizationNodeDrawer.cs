@@ -200,7 +200,7 @@ public class CustomizationNodeDrawer : NodeEditor
             {
                 if (_customizationNode.CustomizableCharacters[i] != null)
                 {
-                    namesCharactersToPopup.Add(_customizationNode.CustomizableCharacters[i].name);
+                    namesCharactersToPopup.Add(_customizationNode.CustomizableCharacters[i].MyNameText);
                 }
             }
 

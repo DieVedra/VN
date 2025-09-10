@@ -41,7 +41,7 @@ public class GameSeriesHandler : MonoBehaviour
             {
                 if (customizableCharacter.Name.Key == wardrobeSeriaData.CharacterNameKey)
                 {
-                    customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+                    // customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
                 }
             }
         }

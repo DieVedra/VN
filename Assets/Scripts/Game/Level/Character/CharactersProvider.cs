@@ -4,7 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharactersProviderSeria", menuName = "Character/CharactersProviderSeria", order = 51)]
 public class CharactersProvider : ScriptableObject
 {
+    [SerializeField] private int _seriaIndex;
     [SerializeField] private List<CharacterInfo> _charactersInfo;
-    
     public IReadOnlyList<CharacterInfo> CharactersInfo => _charactersInfo;
+    public int SeriaIndex => _seriaIndex;
 }

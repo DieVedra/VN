@@ -8,28 +8,31 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     private const string _customizableCharacterName = "CustomizableCharacter";
 
     private readonly DataProvider<CharacterData> _charactersDataProvider;
-    private readonly DataProvider<CustomizableCharacter> _customizableCharacterDataProvider;
+    // private readonly DataProvider<CustomizableCharacter> _customizableCharacterDataProvider;
     private readonly List<Character> _allCharacters;
 
     private Dictionary<string, Character> _dictionaryAllCharacters;
     // public CustomizableCharacter CustomizableCharacter { get; private set; }
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
-    public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => _customizableCharacterDataProvider;
+    // public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => _customizableCharacterDataProvider;
+    public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => null;
 
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacterDataProvider.GetDatas;
+    // public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _customizableCharacterDataProvider.GetDatas;
+    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => null;
 
     public CharacterProviderBuildMode()
     {
         _allCharacters = new List<Character>();
         
         _charactersDataProvider = new DataProvider<CharacterData>();
-        _customizableCharacterDataProvider = new DataProvider<CustomizableCharacter>();
+        // _customizableCharacterDataProvider = new DataProvider<CustomizableCharacter>();
     }
 
     public async UniTask Construct()
     {
-        await UniTask.WhenAll(_charactersDataProvider.CreateNames(_charactersDataName),
-            _customizableCharacterDataProvider.CreateNames(_customizableCharacterName));
+        await _charactersDataProvider.CreateNames(_charactersDataName);
+        // await UniTask.WhenAll(_charactersDataProvider.CreateNames(_charactersDataName),
+        //     _customizableCharacterDataProvider.CreateNames(_customizableCharacterName));
     }
 
     public IReadOnlyList<Character> GetCharacters(int seriaIndex = 0)
@@ -40,21 +43,21 @@ public class CharacterProviderBuildMode :  ICharacterProvider
     public void Dispose()
     {
         _charactersDataProvider.Dispose();
-        _customizableCharacterDataProvider.Dispose();
+        // _customizableCharacterDataProvider.Dispose();
     }
 
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
         _charactersDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        _customizableCharacterDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        // _customizableCharacterDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
     public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
     {
-        if (await _customizableCharacterDataProvider.TryLoadData(nextSeriaNameAssetIndex))
-        {
-            var customizableCharacter = _customizableCharacterDataProvider.GetDatas[nextSeriaNameAssetIndex];
-            _allCharacters.Add(customizableCharacter);
-        }
+        // if (await _customizableCharacterDataProvider.TryLoadData(nextSeriaNameAssetIndex))
+        // {
+        //     var customizableCharacter = _customizableCharacterDataProvider.GetDatas[nextSeriaNameAssetIndex];
+        //     _allCharacters.Add(customizableCharacter);
+        // }
         if (await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex))
         {
             // List<SimpleCharacter> newSimpleCharacters = _charactersDataProvider.GetDatas[nextSeriaNameAssetIndex].SimpleCharacters;
