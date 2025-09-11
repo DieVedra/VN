@@ -25,25 +25,26 @@ public class GameSeriesHandler : MonoBehaviour
 
     protected virtual void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        AddWardrobeData(currentSeriaIndex);
+        // AddWardrobeData(currentSeriaIndex);
+        
         if (currentSeriaIndex > 0)
         {
             SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Dispose();
         }
         SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
-    private void AddWardrobeData(int seriaIndex)
-    {
-        var wardrobeSeriaData = NodeGraphInitializer.WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex);
-        if (wardrobeSeriaData != null && wardrobeSeriaData.MySeriaIndex == seriaIndex)
-        {
-            foreach (var customizableCharacter in NodeGraphInitializer.CustomizableCharacters)
-            {
-                if (customizableCharacter.Name.Key == wardrobeSeriaData.CharacterNameKey)
-                {
-                    // customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
-                }
-            }
-        }
-    }
+    // private void AddWardrobeData(int seriaIndex)
+    // {
+    //     var wardrobeSeriaData = NodeGraphInitializer.WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex);
+    //     if (wardrobeSeriaData != null && wardrobeSeriaData.MySeriaIndex == seriaIndex)
+    //     {
+    //         foreach (var customizableCharacter in NodeGraphInitializer.CustomizableCharacters)
+    //         {
+    //             if (customizableCharacter.Name.Key == wardrobeSeriaData.CharacterNameKey)
+    //             {
+    //                 // customizableCharacter.AddWardrobeDataSeria(wardrobeSeriaData);
+    //             }
+    //         }
+    //     }
+    // }
 }

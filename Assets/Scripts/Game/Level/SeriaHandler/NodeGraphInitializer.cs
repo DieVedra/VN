@@ -8,9 +8,7 @@ public class NodeGraphInitializer
     public readonly DisableNodesContentEvent DisableNodesContentEvent;
     public readonly SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     public readonly SetLocalizationChangeEvent SetLocalizationChangeEvent;
-    
-    
-    
+
     private readonly Background _background;
     private readonly LevelUIProviderEditMode _levelUIProvider;
     private readonly CharacterViewer _characterViewer;
@@ -20,20 +18,16 @@ public class NodeGraphInitializer
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly ICharacterProvider _characterProvider;
     private readonly List<BackgroundContent> _backgrounds;
-    // private List<Stat> _stats;
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => _characterProvider.CustomizableCharacters;
-    public IWardrobeSeriaDataProvider WardrobeSeriaDataProvider { get; }
-
+    private IReadOnlyList<Character> _characters;
+    private List<CustomizableCharacter> _customizableCharacters;
 
     public NodeGraphInitializer(ICharacterProvider characterProvider, List<BackgroundContent> backgrounds, Background background, 
-        LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer, 
-        IWardrobeSeriaDataProvider wardrobeSeriaDataProvider,
+        LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer,
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
-        WardrobeSeriaDataProvider = wardrobeSeriaDataProvider;
         _characterProvider = characterProvider;
         _backgrounds = backgrounds;
         _background = background;
@@ -53,18 +47,27 @@ public class NodeGraphInitializer
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
     {
-        foreach (var node in nodes)
+        _characters = null;
+        _customizableCharacters = null;
+        int count = nodes.Count;
+        for (int i = 0; i < count; i++)
         {
-            InitOneNode(node, seriaIndex);
+            InitOneNode(nodes[i], seriaIndex);
         }
     }
 
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
         node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
+        
         if (node is CharacterNode characterNode)
         {
-            characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(seriaIndex), _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer); 
+            if (_characters == null)
+            {
+                _characters = _characterProvider.GetCharacters(seriaIndex);
+            }
+            characterNode.ConstructMyCharacterNode(_characters,
+                _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
             return;
         }
         if (node is NarrativeNode narrativeNode)
@@ -109,11 +112,26 @@ public class NodeGraphInitializer
         }
         if (node is CustomizationNode customizationNode)
         {
+            if (_characters == null)
+            {
+                _characters = _characterProvider.GetCharacters(seriaIndex);
+            }
+
+            if (_customizableCharacters == null)
+            {
+                _customizableCharacters = new List<CustomizableCharacter>();
+                for (int i = 0; i < _characters.Count; i++)
+                {
+                    if (_characters[i] is CustomizableCharacter customizableCharacter)
+                    {
+                        _customizableCharacters.Add(customizableCharacter);
+                    }
+                }
+            }
             customizationNode.ConstructMyCustomizationNode(
                 _levelUIProvider.CustomizationCharacterPanelUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler,
-                _characterProvider.CustomizableCharacters,
-                WardrobeSeriaDataProvider.GetWardrobeSeriaData(seriaIndex),
+                _customizableCharacters,
                 _background, _sound,
                 _gameStatsProvider,
                 _wallet, _wardrobeCharacterViewer, seriaIndex);

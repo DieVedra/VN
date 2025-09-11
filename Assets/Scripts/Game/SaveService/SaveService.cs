@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class SaveService
@@ -35,14 +36,8 @@ public class SaveService
         _saveMethod.Save(_savePath, saveData);
     }
 
-    public static WardrobeSaveData[] CreateWardrobeSaveDatas(IReadOnlyList<CustomizableCharacter> customizableCharacters)
+    public static WardrobeSaveData[] CreateWardrobeSaveDatas(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
     {
-        List<WardrobeSaveData> datas = new List<WardrobeSaveData>();
-        foreach (var customizableCharacter in customizableCharacters)
-        {
-            // datas.Add(customizableCharacter.WardrobeSaveData);
-        }
-
-        return datas.ToArray();
+        return customizableCharacterIndexesCustodians.Select(x => x.Value.GetWardrobeSaveData()).ToArray();
     }
 }

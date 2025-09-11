@@ -1,34 +1,45 @@
-﻿
+﻿using System.Collections.Generic;
+
 public class SimpleCharacter : Character
 {
     private readonly int _mySeriaIndex;
-    private readonly SpriteData _emotionsData;
-    private readonly SpriteData _looksData;
+    private readonly List<MySprite> _emotions;
+    private readonly List<MySprite> _looks;
 
-    public SimpleCharacter(SpriteData emotionsData, SpriteData looksData, int mySeriaIndex)
+    public SimpleCharacter(List<CharacterData> characterData, int mySeriaIndex)
     {
-        _emotionsData = emotionsData;
-        _looksData = looksData;
+        _emotions = new List<MySprite>();
+        _looks = new List<MySprite>();
+        for (int i = 0; i < characterData.Count; i++)
+        {
+            if (characterData[i].EmotionsData != null)
+            {
+                _emotions.AddRange(characterData[i].EmotionsData.GetMySprites);
+            }
+            if (characterData[i].LooksData != null)
+            {
+                _looks.AddRange(characterData[i].LooksData.GetMySprites);
+            }
+        }
         _mySeriaIndex = mySeriaIndex;
     }
-
-    public SpriteData EmotionsData => _emotionsData;
-    public SpriteData LooksData => _looksData;
+    public IReadOnlyList<MySprite> Emotions => _emotions;
+    public IReadOnlyList<MySprite> Looks => _looks;
     public int MySeriaIndex => _mySeriaIndex;
     public override MySprite GetLookMySprite(int index)
     {
-        return _looksData.MySprites[index];
+        return _looks[index];
     }
 
     public override MySprite GetEmotionMySprite(int index)
     {
-        if (index > _emotionsData.MySprites.Count -1 || index < 0)
+        if (index > _emotions.Count -1 || index < 0)
         {
-            return _emotionsData.MySprites[0];
+            return _emotions[0];
         }
         else
         {
-            return _emotionsData.MySprites[index];
+            return _emotions[index];
         }
     }
 }

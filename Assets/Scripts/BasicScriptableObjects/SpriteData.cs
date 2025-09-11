@@ -5,11 +5,12 @@ using UnityEngine;
 public class SpriteData : ScriptableObject
 {
     [SerializeField] private List<Sprite> _sprites;
-    [SerializeField] private List<MySprite> _mySprites;
+    [SerializeField] protected List<MySprite> _mySprites;
+    
+    public IReadOnlyList<MySprite> GetMySprites => _mySprites;
     public List<Sprite> Sprites => _sprites;
-    public List<MySprite> MySprites => _mySprites;
 
-    public string[] GetNames()
+    public string[] GetNamesSprites()
     {
         List<string> names = new List<string>(_sprites.Count);
         for (int i = 0; i < _sprites.Count; i++)
@@ -43,12 +44,6 @@ public class SpriteData : ScriptableObject
 
             _mySprites = mySprites;
         }
-    }
-
-    public void Add(List<Sprite> sprites, List<MySprite> mySprites)
-    {
-        _sprites.AddRange(sprites);
-        _mySprites.AddRange(mySprites);
     }
     private void Awake()
     {

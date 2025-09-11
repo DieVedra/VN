@@ -22,7 +22,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     private const int SmileEmotionIndex = 2;
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
-    private WardrobeSeriaData _wardrobeSeriaData;
+    // private WardrobeSeriaData _wardrobeSeriaData;
     private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
@@ -42,7 +42,7 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        IReadOnlyList<CustomizableCharacter> customizableCharacters, WardrobeSeriaData wardrobeSeriaData, Background background, Sound sound,
+        IReadOnlyList<CustomizableCharacter> customizableCharacters, /*WardrobeSeriaData wardrobeSeriaData,*/ Background background, Sound sound,
         IGameStatsProvider gameStatsProvider, Wallet wallet,
         WardrobeCharacterViewer wardrobeCharacterViewer, int seriaIndex)
     {
@@ -51,7 +51,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         _wallet = wallet;
         _background = background;
         CustomizableCharacters = customizableCharacters;
-        _wardrobeSeriaData = wardrobeSeriaData;
+        // _wardrobeSeriaData = wardrobeSeriaData;
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
@@ -61,7 +61,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         if (IsPlayMode() == false)
         {
             _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsHandler);
-            if (_wardrobeSeriaData != null)
+            if (_customizableCharacter != null)
             {
                 ReInitBodiesCustomizationSettings();
                 ReinitHairstylesCustomizationSettings();
@@ -154,7 +154,7 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     private void ResetBodiesCustomizationSettings()
     {
-        _customizationNodeInitializer.InitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+        _customizationNodeInitializer.InitCustomizationSettings(ref _settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
     }
 
     private void ResetHairstylesCustomizationSettings()
@@ -174,7 +174,7 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     private void ReInitBodiesCustomizationSettings()
     {
-        _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _wardrobeSeriaData.GetBodiesSprites(), 1,1);
+        _customizationNodeInitializer.ReInitCustomizationSettings(ref _settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
     }
 
     private void ReinitHairstylesCustomizationSettings()

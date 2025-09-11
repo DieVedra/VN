@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class WardrobeSaveData
 {
+    public string NameKey;
     public int CurrentBodyIndex;
     public int CurrentClothesIndex;
     public int CurrentSwimsuitsIndex;

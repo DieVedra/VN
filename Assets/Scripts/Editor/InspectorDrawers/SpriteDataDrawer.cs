@@ -46,7 +46,7 @@ public class SpriteDataDrawer : Editor
 
             if (EditorGUI.EndChangeCheck())
             {
-                _namesToPopup = _spriteData.GetNames();
+                _namesToPopup = _spriteData.GetNamesSprites();
                 if (_namesToPopup.Length != 0 && _index > _namesToPopup.Length - 1)
                 {
                     _index = _namesToPopup.Length - 1;
@@ -57,11 +57,11 @@ public class SpriteDataDrawer : Editor
             {
                 if (_previousSpriteCount != _spriteData.Sprites.Count)
                 {
-                    _namesToPopup = _spriteData.GetNames();
+                    _namesToPopup = _spriteData.GetNamesSprites();
                     _spriteData.InitMySprites();
                     GetValuesToProperty();
                 }
-                _previousSpriteCount = _spriteData.MySprites.Count;
+                _previousSpriteCount = _spriteData.GetMySprites.Count;
             }
 
             if (_spriteData.Sprites.Count == 0)
@@ -138,11 +138,6 @@ public class SpriteDataDrawer : Editor
         EditorGUILayout.LabelField("SpriteToWardrobe: ");
         _spriteToWardrobeKey = EditorGUILayout.Toggle(_spriteToWardrobeKey);
         EditorGUILayout.EndHorizontal();
-
-        // if (GUILayout.Button("SetValues"))
-        // {
-        //     SetValuesToProperty();
-        // }
     }
 
     private void DrawProperty(ref float sliderValue, string nameField)
@@ -156,7 +151,7 @@ public class SpriteDataDrawer : Editor
     {
         if (_namesToPopup == null)
         {
-            _namesToPopup = _spriteData.GetNames();
+            _namesToPopup = _spriteData.GetNamesSprites();
         }
     }
     private void TryInitTarget()

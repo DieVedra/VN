@@ -1,12 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CustomizationCharacterData", menuName = "Character/CustomizationCharacterData", order = 51)]
 public class CustomizationCharacterData : BaseCharacterData
 {
-    [SerializeField] private int _mySeriaIndex;
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("Bodies"), Expandable] private List<BodySpriteData> _bodiesDataSeria;
     [SerializeField, HorizontalLine(color:EColor.Pink), BoxGroup("Clothes"), Expandable] private SpriteData _clothesDataSeria;
     [SerializeField, HorizontalLine(color:EColor.Blue), BoxGroup("Swimsuits"), Expandable] private SpriteData _swimsuitsDataSeria;
@@ -15,7 +13,6 @@ public class CustomizationCharacterData : BaseCharacterData
     public SpriteData ClothesDataSeria => _clothesDataSeria;
     public SpriteData SwimsuitsDataSeria => _swimsuitsDataSeria;
     public SpriteData HairstylesDataSeria => _hairstylesDataSeria;
-    public int MySeriaIndex => _mySeriaIndex;
     public IReadOnlyList<MySprite> GetBodiesSprites()
     {
         List<MySprite> bodiesSprites = new List<MySprite>(_bodiesDataSeria.Count);
@@ -23,7 +20,7 @@ public class CustomizationCharacterData : BaseCharacterData
         {
             bodiesSprites.Add(_bodiesDataSeria[i].Body);
         }
-
+    
         return bodiesSprites;
     }
 }

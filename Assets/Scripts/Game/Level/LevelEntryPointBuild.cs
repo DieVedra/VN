@@ -116,7 +116,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
-            _levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode, _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
+            /*_levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode,*/ _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (SaveData == null)
@@ -166,7 +166,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
             StoryData.Stats = _gameStatsHandler.GetStatsToSave();
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
-            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacters);
+            // StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacters);
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;

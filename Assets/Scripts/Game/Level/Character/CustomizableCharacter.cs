@@ -3,10 +3,10 @@ using UniRx;
 
 public class CustomizableCharacter : Character
 {
-    private List<BodySpriteData> _bodiesData;
-    private List<MySprite> _clothesData;
-    private List<MySprite> _swimsuitsData;
-    private List<MySprite> _hairstylesData;
+    private readonly List<BodySpriteData> _bodiesData;
+    private readonly List<MySprite> _clothesData;
+    private readonly List<MySprite> _swimsuitsData;
+    private readonly List<MySprite> _hairstylesData;
     
     private readonly ReactiveProperty<int> _bodyIndexRP;
     private readonly ReactiveProperty<int> _clothesIndexRP;
@@ -14,7 +14,7 @@ public class CustomizableCharacter : Character
     private readonly ReactiveProperty<int> _hairstyleIndexRP;
 
     public CustomizableCharacter(CustomizableCharacterIndexesCustodian customizableCharacterIndexesCustodian,
-        CustomizationCharacterData customizationCharacterData)
+        List<CustomizationCharacterData> customizationCharacterData)
     {
         _bodyIndexRP = customizableCharacterIndexesCustodian.BodyIndexRP;
         _clothesIndexRP = customizableCharacterIndexesCustodian.ClothesIndexRP;
@@ -24,8 +24,14 @@ public class CustomizableCharacter : Character
         _clothesData = new List<MySprite>();
         _swimsuitsData = new List<MySprite>();
         _hairstylesData = new List<MySprite>();
-        AddDataSeria(customizationCharacterData.BodiesDataSeria, customizationCharacterData.ClothesDataSeria.MySprites,
-            customizationCharacterData.HairstylesDataSeria.MySprites, customizationCharacterData.SwimsuitsDataSeria.MySprites);
+
+
+        for (int i = 0; i < customizationCharacterData.Count; i++)
+        {
+            AddDataSeria(customizationCharacterData[i].BodiesDataSeria, customizationCharacterData[i].ClothesDataSeria.GetMySprites,
+                customizationCharacterData[i].HairstylesDataSeria.GetMySprites,
+                customizationCharacterData[i].SwimsuitsDataSeria.GetMySprites);
+        }
     }
 
     // public WardrobeSaveData WardrobeSaveData { get; private set; }
@@ -40,8 +46,8 @@ public class CustomizableCharacter : Character
     
     // public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
     // {
-    //     AddDataSeria(wardrobeSeriaData.BodiesDataSeria, wardrobeSeriaData.ClothesDataSeria.MySprites,
-    //         wardrobeSeriaData.HairstylesDataSeria.MySprites, wardrobeSeriaData.SwimsuitsDataSeria.MySprites);
+    //     AddDataSeria(wardrobeSeriaData.BodiesDataSeria, wardrobeSeriaData.ClothesDataSeria.GetMySprites,
+    //         wardrobeSeriaData.HairstylesDataSeria.GetMySprites, wardrobeSeriaData.SwimsuitsDataSeria.GetMySprites);
     // }
 
     // public override void TryMerge(Character character)
@@ -52,7 +58,16 @@ public class CustomizableCharacter : Character
     //             customizableCharacter.SwimsuitsData, customizableCharacter.HairstylesData);
     //     }
     // }
-
+    public IReadOnlyList<MySprite> GetBodiesSprites()
+    {
+        List<MySprite> bodiesSprites = new List<MySprite>(_bodiesData.Count);
+        for (int i = 0; i < _bodiesData.Count; ++i)
+        {
+            bodiesSprites.Add(_bodiesData[i].Body);
+        }
+    
+        return bodiesSprites;
+    }
     private void AddDataSeria(IReadOnlyList<BodySpriteData> bodiesDataSeria, IReadOnlyList<MySprite> clothesDataSeria,
         IReadOnlyList<MySprite> swimsuitsDataSeria, IReadOnlyList<MySprite> hairstylesDataSeria)
     {
@@ -96,7 +111,7 @@ public class CustomizableCharacter : Character
         }
         else
         {
-            return _bodiesData[_bodyIndexRP.Value].EmotionsData.MySprites[--index];
+            return _bodiesData[_bodyIndexRP.Value].EmotionsData.GetMySprites[--index];
         }
     }
 

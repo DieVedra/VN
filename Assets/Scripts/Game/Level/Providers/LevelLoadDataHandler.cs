@@ -11,7 +11,7 @@ public class LevelLoadDataHandler
     private readonly PanelsLocalizationHandler _panelsLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
-    public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
+    // public readonly WardrobeSeriaDataProviderBuildMode WardrobeSeriaDataProviderBuildMode;
     public readonly GameSeriesProvider GameSeriesProvider;
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
@@ -39,14 +39,14 @@ public class LevelLoadDataHandler
         _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
-        WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
+        // WardrobeSeriaDataProviderBuildMode = new WardrobeSeriaDataProviderBuildMode();
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
             CharacterProviderBuildMode.CustomizableCharacterDataProviderParticipiteInLoad,
-            WardrobeSeriaDataProviderBuildMode,
+            // WardrobeSeriaDataProviderBuildMode,
             GameSeriesProvider, SeriaGameStatsProviderBuild,
             AudioClipProvider.AmbientAudioDataProviderParticipiteInLoad,
             AudioClipProvider.MusicAudioDataProviderParticipiteInLoad,
@@ -62,7 +62,7 @@ public class LevelLoadDataHandler
     {
         _loadAssetsPercentHandler.StopCalculatePercent();
         _levelLocalizationProvider.LocalizationFileProvider.AbortLoad();
-        WardrobeSeriaDataProviderBuildMode.Dispose();
+        // WardrobeSeriaDataProviderBuildMode.Dispose();
         CharacterProviderBuildMode.Dispose();
         GameSeriesProvider.Dispose();
         AudioClipProvider.Dispose();
@@ -86,7 +86,7 @@ public class LevelLoadDataHandler
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
-        await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
+        // await WardrobeSeriaDataProviderBuildMode.TryLoadData(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
@@ -105,7 +105,7 @@ public class LevelLoadDataHandler
             
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-            await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
+            // await WardrobeSeriaDataProviderBuildMode.TryLoadData(nextSeriaIndex);
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
@@ -120,7 +120,7 @@ public class LevelLoadDataHandler
     {
         _seriesCount = await GameSeriesProvider.Init();
         await UniTask.WhenAll(
-            WardrobeSeriaDataProviderBuildMode.Init(), 
+            // WardrobeSeriaDataProviderBuildMode.Init(), 
             CharacterProviderBuildMode.Construct(),
             AudioClipProvider.Init(), 
             BackgroundDataProvider.Init(),
@@ -129,59 +129,12 @@ public class LevelLoadDataHandler
 
     private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
-        WardrobeSeriaDataProviderBuildMode.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        // WardrobeSeriaDataProviderBuildMode.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-    }
-
-    private void LoadRecursian(Queue<Func<ReactiveCommand>> loads, CompositeDisposable compositeDisposable, Action operation)
-    {
-        if (loads.Count > 0)
-        {
-            ReactiveCommand rc = loads.Dequeue().Invoke();
-            
-            
-            if (rc == null)
-            {
-                if (loads.Count == 0)
-                {
-                    compositeDisposable.Clear();
-                    operation.Invoke();
-                }
-                else
-                {
-                    LoadRecursian(loads, compositeDisposable, operation);
-                }
-            }
-            else
-            {
-                rc.Subscribe(x =>
-                {
-                    if (loads.Count == 0)
-                    {
-                        compositeDisposable.Clear();
-                        operation.Invoke();
-                    }
-                    else
-                    {
-                        LoadRecursian(loads, compositeDisposable, operation);
-                    }
-                }).AddTo(compositeDisposable);
-            }
-        }
-    }
-    private void InvokeNext((bool, IObservable<ScriptableObject> ) obs)
-    {
-        if (obs.Item1 == true)
-        {
-            obs.Item2.Subscribe(_ =>
-            {
-                
-            });
-        }
     }
     private void OnSwitchToNextSeria(bool key)
     {

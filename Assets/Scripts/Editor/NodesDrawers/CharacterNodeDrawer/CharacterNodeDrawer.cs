@@ -140,25 +140,25 @@ public class CharacterNodeDrawer : NodeEditor
                 if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
                 {
                     TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup,
-                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex());
+                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex().GetMySprites);
                         
                     _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
                         _currentEmotionLabel,
-                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex(), _indexEmotionProperty);
+                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex().GetMySprites, _indexEmotionProperty);
                         
                     DrawToggle(_toggleIsSwimsuitProperty, "Is Swimsuit Look");
                 }
                 else if(_characterNode.Characters[_indexCharacterProperty.intValue] is SimpleCharacter simpleCharacter)
                 {
-                    TryInitNames(ref _namesLookCharactersToPopup, simpleCharacter.LooksData);
+                    TryInitNames(ref _namesLookCharactersToPopup, simpleCharacter.Looks);
                     _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
-                        simpleCharacter.LooksData, _indexLookProperty);
+                        simpleCharacter.Looks, _indexLookProperty);
 
-                    if (simpleCharacter.EmotionsData != null)
+                    if (simpleCharacter.Emotions != null)
                     {
-                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, simpleCharacter.EmotionsData);
+                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, simpleCharacter.Emotions);
                         _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
-                            simpleCharacter.EmotionsData, _indexEmotionProperty);
+                            simpleCharacter.Emotions, _indexEmotionProperty);
                     }
                 }
                 DrawToggle(_toggleShowPanelProperty, "Show text panel");
@@ -167,11 +167,20 @@ public class CharacterNodeDrawer : NodeEditor
         }
     }
 
-    private void TryInitNames(ref string[] names, SpriteData spriteData)
+    private void TryInitNames(ref string[] names, IReadOnlyList<MySprite> spriteData)
     {
-        names = spriteData.GetNames();
+        var count = spriteData.Count;
+        List<string> names1 = new List<string>(count);
+        for (int i = 0; i < count; i++)
+        {
+            if (spriteData[i] != null)
+            {
+                names1.Add(spriteData[i].Name);
+            }
+        }
+        names = names1.ToArray();
     }
-    private void TryInitEmotionsNames(ref string[] names, SpriteData spriteData)
+    private void TryInitEmotionsNames(ref string[] names, IReadOnlyList<MySprite> spriteData)
     {
         TryInitNames(ref names, spriteData);
         string[] names2 = {"Стандарт"};

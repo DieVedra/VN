@@ -3,5 +3,4 @@
 public interface ICharacterProvider
 {
     public IReadOnlyList<Character> GetCharacters(int seriaIndex);
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; }
 }

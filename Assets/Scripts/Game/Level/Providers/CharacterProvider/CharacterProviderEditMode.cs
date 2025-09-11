@@ -8,181 +8,116 @@ public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
     [SerializeField, Expandable] private List<CharactersDataProvider> _charactersDataProviders;
     [SerializeField, Expandable] private List<CharactersProvider> _charactersProvider;
     
-    
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("All Characters: "), ReadOnly] private List<string> _allCharactersNames;
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
+    private Dictionary<string, WardrobeSaveData> _wardrobeSaveData;
+
+    public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
     public IReadOnlyList<Character> GetCharacters(int seriaIndex)
     {
-        List<Character> characters = new List<Character>();
-        
-        
-        
-        throw new System.NotImplementedException();
+        return CreateCharactersToSeria(CombineCharactersInfoBySeria(seriaIndex), seriaIndex);
     }
 
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; private set; }
-    public void Construct(WardrobeSaveData wardrobeSaveData)
-    {
-        // WardrobeSaveData = wardrobeSaveData;
-        // SetIndexes(wardrobeSaveData.CurrentBodyIndex, wardrobeSaveData.CurrentHairstyleIndex,
-        //     wardrobeSaveData.CurrentClothesIndex, wardrobeSaveData.CurrentSwimsuitsIndex);
-    }
     public void Construct(WardrobeSaveData[] wardrobeSaveDatas = null)
     {
         _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
-        
-        
-        
-        
-        
-        
-        List<CustomizableCharacter> customizableCharacters = new List<CustomizableCharacter>();
-        // _allCharactersNames = new List<string>();
-        // _characters = new Dictionary<string, Character>();
-        //
-        // foreach (var charDat in _charactersDatas)
-        // {
-        //     foreach (var character in charDat.Characters)
-        //     {
-        //         
-        //         
-        //         
-        //         _allCharactersNames.Add(character.Name.DefaultText);
-        //
-        //         for (int i = 0; i < UPPER; i++)
-        //         {
-        //             
-        //         }
-        //         
-        //         _characters.Add(character);
-        //         if (character is CustomizableCharacter customizableCharacter)
-        //         {
-        //             customizableCharacters.Add(customizableCharacter);
-        //         }
-        //     }
-        // }
-
-        // CustomizableCharacters = customizableCharacters;
-        if (wardrobeSaveDatas != null)
-        {
-            for (int i = 0; i < CustomizableCharacters.Count; i++)
-            {
-                // CustomizableCharacters[i].Construct(wardrobeSaveDatas[i]);
-            }
-        }
-    }
-
-    // public IReadOnlyList<CustomizableCharacter> GetCustomizableCharacters(int seriaIndex)
-    // {
-    //     Dictionary<string, CustomizableCharacter> customizableCharacterCharacters = new Dictionary<string, CustomizableCharacter>();
-    //     foreach (var charDat in _charactersDatas)
-    //     {
-    //         if (charDat.SeriaIndex <= seriaIndex)
-    //         {
-    //             foreach (var character in charDat.Characters)
-    //             {
-    //                 if (customizableCharacterCharacters.TryGetValue(character.Name.Key, out CustomizableCharacter value))
-    //                 {
-    //                     value.TryMerge(character);
-    //                 }
-    //                 else
-    //                 {
-    //                     if (character is CustomizableCharacter customizableCharacter)
-    //                     {
-    //                         customizableCharacterCharacters.Add(character.Name.Key, customizableCharacter);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return customizableCharacterCharacters.Select(x => x.Value).ToList();
-    // }
-    // public IReadOnlyList<Character> GetCharacters(int seriaIndex)
-    // {
-    //     Dictionary<string, Character> characters = new Dictionary<string, Character>();
-    //     SimpleCharacter simpleCharacter = ScriptableObject.CreateInstance<SimpleCharacter>();
-    //     
-    //     foreach (var charDat in _charactersDatas)
-    //     {
-    //         if (charDat.SeriaIndex <= seriaIndex)
-    //         {
-    //             foreach (var character in charDat.Characters)
-    //             {
-    //                 if (characters.TryGetValue(character.Name.Key, out Character value))
-    //                 {
-    //                     value.TryMerge(character);
-    //                 }
-    //                 else
-    //                 {
-    //                     characters.Add(character.Name.Key, character);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return characters.Select(x => x.Value).ToList();
-    // }
-    private void CreateCharacters1()
-    {
+        Dictionary<string, string> names = new Dictionary<string, string>();
         for (int i = 0; i < _charactersProvider.Count; i++)
         {
             for (int j = 0; j < _charactersProvider[i].CharactersInfo.Count; j++)
             {
-                if (_charactersProvider[i].CharactersInfo[j].IsCustomizationCharacter == true)
+                if (names.ContainsKey(_charactersProvider[i].CharactersInfo[j].NameKey) == false)
                 {
-                    if (_customizableCharacterIndexesCustodians.ContainsKey(_charactersProvider[i].CharactersInfo[j].NameKey) == false)
+                    names.Add(_charactersProvider[i].CharactersInfo[j].NameKey, _charactersProvider[i].CharactersInfo[j].Name);
+                }
+            }
+        }
+        _allCharactersNames = names.Select(x=>x.Value).ToList();
+        
+        if (wardrobeSaveDatas != null)
+        {
+            _wardrobeSaveData = wardrobeSaveDatas.ToDictionary(x => x.NameKey, x=> x);
+        }
+    }
+    
+
+    private List<CharacterInfo> CombineCharactersInfoBySeria(int seriaIndex)
+    {
+        Dictionary<string, CharacterInfo> dictionary = new Dictionary<string, CharacterInfo>();
+        for (int i = 0; i < _charactersProvider.Count; i++)
+        {
+            if (_charactersProvider[i].SeriaIndex <= seriaIndex)
+            {
+                foreach (var info in _charactersProvider[i].CharactersInfo)
+                {
+                    if (dictionary.ContainsKey(info.NameKey) == false)
                     {
-                        _customizableCharacterIndexesCustodians.Add(_charactersProvider[i].CharactersInfo[j].NameKey, new CustomizableCharacterIndexesCustodian());
+                        dictionary.Add(info.NameKey, info);
                     }
                 }
-                else
-                {
-                    
-                }
-                
-            }
-            
-        }
-    }
-    private void CreateCharacter(CharacterInfo characterInfo)
-    {
-        if (characterInfo.IsCustomizationCharacter == true)
-        {
-            CustomizableCharacterIndexesCustodian custodian;
-            if (_customizableCharacterIndexesCustodians.TryGetValue(characterInfo.NameKey, out CustomizableCharacterIndexesCustodian value))
-            {
-                custodian = value;
             }
             else
-            {
-                custodian = new CustomizableCharacterIndexesCustodian();
-                _customizableCharacterIndexesCustodians.Add(characterInfo.NameKey, custodian);
-            }
-
-            var characterData = GetCharacterContent(characterInfo.NameKey);
-            
-            CustomizableCharacter customizableCharacter = new CustomizableCharacter(custodian, characterData as CustomizationCharacterData);
-        }
-    }
-
-    private BaseCharacterData GetCharacterContent(string nameKey)
-    {
-        BaseCharacterData result = null;
-        foreach (var dataProvider in _charactersDataProviders)
-        {
-            foreach (var charactersData in dataProvider.CharactersDatas)
-            {
-                if (charactersData.CharacterNameKey == nameKey)
-                {
-                    result = charactersData;
-                    break;
-                }
-            }
-
-            if (result != null)
             {
                 break;
             }
         }
-        return result;
+        return dictionary.Select(x=>x.Value).ToList();
+    }
+
+    private List<Character> CreateCharactersToSeria(List<CharacterInfo> combinedCharactersInfo, int seriaIndex)
+    {
+        List<Character> characters = new List<Character>();
+        for (int i = 0; i < combinedCharactersInfo.Count; i++)
+        {
+            if (combinedCharactersInfo[i].IsCustomizationCharacter == true)
+            {
+                CustomizableCharacterIndexesCustodian customizableCharacterIndexesCustodian;
+                if (_wardrobeSaveData.TryGetValue(combinedCharactersInfo[i].NameKey, out WardrobeSaveData wardrobeSaveData))
+                {
+                    customizableCharacterIndexesCustodian = new CustomizableCharacterIndexesCustodian(wardrobeSaveData, combinedCharactersInfo[i].NameKey);
+                }
+                else
+                {
+                    customizableCharacterIndexesCustodian = new CustomizableCharacterIndexesCustodian(combinedCharactersInfo[i].NameKey);
+                }
+
+                _customizableCharacterIndexesCustodians.Add(combinedCharactersInfo[i].NameKey, customizableCharacterIndexesCustodian);
+                List<CustomizationCharacterData> customizationCharacterData = CombineCharactersDataToSeria<CustomizationCharacterData>(combinedCharactersInfo[i].NameKey, seriaIndex);
+                characters.Add(new CustomizableCharacter(customizableCharacterIndexesCustodian, customizationCharacterData));
+            }
+            else
+            {
+                List<CharacterData> characterData = CombineCharactersDataToSeria<CharacterData>(combinedCharactersInfo[i].NameKey, seriaIndex);
+                characters.Add(new SimpleCharacter(characterData, seriaIndex));
+            }
+        }
+        return characters;
+    }
+
+    private List<T> CombineCharactersDataToSeria<T>(string nameKey, int seriaIndex) where T : BaseCharacterData
+    {
+        List<T> selectedCharacterDatas = new List<T>();
+        for (int i = 0; i < _charactersDataProviders.Count; i++)
+        {
+            if (_charactersDataProviders[i].SeriaIndex <= seriaIndex)
+            {
+                for (int j = 0; i < _charactersDataProviders[i].CharactersDatas.Count; j++)
+                {
+                    var characterData = (T) _charactersDataProviders[i].CharactersDatas[j];
+                    if (characterData.MySeriaIndex <= seriaIndex && characterData.CharacterNameKey == nameKey)
+                    {
+                        if (characterData.GetType() == typeof(T))
+                        {
+                            selectedCharacterDatas.Add(characterData);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return selectedCharacterDatas;
     }
 }

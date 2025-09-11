@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 
 public class PopupDrawer
 {
@@ -9,9 +10,9 @@ public class PopupDrawer
             serializedProperty.intValue = EditorGUILayout.Popup(serializedProperty.intValue,  names);
         }
     }
-    public void DrawSpritePopup(string[] names, string label, SpriteData spriteData, SerializedProperty indexSpriteProperty)
+    public void DrawSpritePopup(string[] names, string label, IReadOnlyList<MySprite> spriteData, SerializedProperty indexSpriteProperty)
     {
-        if (spriteData.MySprites != null && spriteData.MySprites.Count > 0)
+        if (spriteData != null && spriteData.Count > 0)
         {
             EditorGUILayout.LabelField(label);
             DrawPopup(names, indexSpriteProperty);

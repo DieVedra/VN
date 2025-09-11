@@ -74,7 +74,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground();
         InitLevelUIProvider();
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode, _backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
-            CharacterViewer, _wardrobeCharacterViewer, _wardrobeSeriaDataProviderEditMode, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor,
+            CharacterViewer, _wardrobeCharacterViewer, /*_wardrobeSeriaDataProviderEditMode,*/ levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
         
         DisableNodesContentEvent.Execute();
@@ -128,8 +128,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
-            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacters);
-
+            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveService.Save(SaveData);
         }
