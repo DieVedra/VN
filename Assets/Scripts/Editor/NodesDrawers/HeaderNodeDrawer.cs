@@ -16,8 +16,6 @@ public class HeaderNodeDrawer : NodeEditor
     private SerializedProperty _textSize1SerializedProperty;
     private SerializedProperty _textSize2SerializedProperty;
     private SerializedProperty _indexBackgroundSerializedProperty;
-    private SerializedProperty _inputSerializedProperty;
-    private SerializedProperty _outputSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
     private SerializedProperty _indexHeaderAudioSerializedProperty;
     private SerializedProperty _playHeaderAudioSerializedProperty;
@@ -54,8 +52,6 @@ public class HeaderNodeDrawer : NodeEditor
                 _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
                 _textSize2SerializedProperty = serializedObject.FindProperty("_textSize2");
                 _indexBackgroundSerializedProperty = serializedObject.FindProperty("_indexBackground");
-                _inputSerializedProperty = serializedObject.FindProperty("Input");
-                _outputSerializedProperty = serializedObject.FindProperty("Output");
                 _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
                 _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");
                 _indexHeaderAudioSerializedProperty = serializedObject.FindProperty("_indexHeaderAudio");
@@ -63,8 +59,8 @@ public class HeaderNodeDrawer : NodeEditor
                 _localizationText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text2SerializedProperty);
             }
 
-            NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
-            NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
             DrawTextArea(_localizationText1, _color1SerializedProperty, _textSize1SerializedProperty,"Text Chapter Title:");
             DrawTextArea(_localizationText2, _color2SerializedProperty, _textSize2SerializedProperty,"Text Title:");
             DrawPopup();

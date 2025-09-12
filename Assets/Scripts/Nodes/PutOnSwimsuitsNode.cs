@@ -2,13 +2,13 @@
 using XNode;
 
 public class PutOnSwimsuitsNode : BaseNode
-{ 
+{
         public void Init(bool key)
         {
-                List<NodePort> _connections = GetOutputPort("Output").GetConnections();
-                if (_connections != null)
+                List<NodePort> connections = GetOutputPort("Output").GetConnections();
+                if (connections != null)
                 {
-                        foreach (NodePort port in _connections)
+                        foreach (NodePort port in connections)
                         {
                                 if (port.node is IPutOnSwimsuit putOnSwimsuit)
                                 {

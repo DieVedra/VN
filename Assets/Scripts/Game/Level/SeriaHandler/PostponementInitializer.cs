@@ -50,6 +50,10 @@ public class PostponementInitializer
         characterNode.ConstructMyCharacterNode(charactersForThisSeria,
             LevelUIProvider.CharacterPanelUIHandler, Background, CharacterViewer);
     }
+    private void InitChangeLookCustomCharacterNode(IReadOnlyList<CustomizableCharacter> customizableCharactersForThisSeria, ChangeLookCustomCharacterNode changeLookCustomCharacterNode)
+    {
+        changeLookCustomCharacterNode.InitMyChangeLookCustomCharacterNode(customizableCharactersForThisSeria);
+    }
     private void InitCustomizationNode(IReadOnlyList<CustomizableCharacter> customizableCharactersForThisSeria,
         CustomizationNode customizationNode, int seriaIndex)
     {

@@ -11,8 +11,6 @@ public class SeriaPartNodeGraph : NodeGraph
 	private int _currentNodeIndex;
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
-	private IReadOnlyList<Character> _characters;
-	private List<CustomizableCharacter> _customizableCharacters;
 	private NodeGraphInitializer _nodeGraphInitializer;
 	private Func<IReadOnlyList<Character>> _getCharacters;
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -8,7 +7,7 @@ using UnityEngine;
 [NodeWidth(350),NodeTint("#6C0054")]
 public class CustomizationNode : BaseNode, ILocalizable
 {
-    [SerializeField, HideInInspector] private int _hairIndex;
+    // [SerializeField, HideInInspector] private int _hairIndex;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsHairstyles;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsClothes;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsBodies;
@@ -38,7 +37,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
     public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
     public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
-    [field: SerializeField] public List<CustomizableCharacter> CustomizableCharacters { get; private set; }
+    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; private set; }
 
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
@@ -51,7 +50,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         _gameStatsProvider = gameStatsProvider;
         _wallet = wallet;
         _background = background;
-        CustomizableCharacters = customizableCharacters.ToList();
+        CustomizableCharacters = customizableCharacters;
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;

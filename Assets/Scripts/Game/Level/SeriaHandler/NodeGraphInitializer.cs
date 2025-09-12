@@ -47,7 +47,11 @@ public class NodeGraphInitializer : PostponementInitializer
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
         node.ConstructBaseNode(LevelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
-        
+        if (node is ChangeLookCustomCharacterNode changeLookCustomCharacterNode)
+        {
+            
+            return;
+        }
         if (node is CharacterNode characterNode)
         {
             if (CharacterNodeForPostponementInit == null)

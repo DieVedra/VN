@@ -41,10 +41,10 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
-  _indexCharacter: 0
-  _indexEmotion: 2
+  _indexCharacter: 4
+  _indexEmotion: 0
   _indexLook: 0
-  _previousIndexCharacter: 0
+  _previousIndexCharacter: 4
   _previousCharactersCount: 6
   _directionType: 0
   _foldoutIsOpen: 1
@@ -55,6 +55,52 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
+--- !u!114 &-3784406973114413698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb397a2bd3e40719ec310635e5be1cb, type: 3}
+  m_Name: Change Look Custom Character
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -616, y: 152}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -3784406973114413698}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -3784406973114413698}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _customizationCharacterIndex: 0
+  _hairstyleIndex: 0
+  _clothesIndex: 0
+  _swimsuitIndex: 0
+  _putSwimsuit: 0
+  _putClothes: 0
+  _putHairstyle: 0
+  _skipToWardrobeVariant: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,3 +115,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: -6331244269872563569}
+  - {fileID: -3784406973114413698}
