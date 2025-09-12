@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-public class NodeGraphInitializer
+public class NodeGraphInitializer : PostponementInitializer
 {
     public readonly SendCurrentNodeEvent<BaseNode> SendCurrentNodeEvent;
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
@@ -9,33 +10,19 @@ public class NodeGraphInitializer
     public readonly SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     public readonly SetLocalizationChangeEvent SetLocalizationChangeEvent;
 
-    private readonly Background _background;
-    private readonly LevelUIProviderEditMode _levelUIProvider;
-    private readonly CharacterViewer _characterViewer;
-    private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
-    private readonly Sound _sound;
-    private readonly Wallet _wallet;
+    
     private readonly IGameStatsProvider _gameStatsProvider;
-    private readonly ICharacterProvider _characterProvider;
     private readonly List<BackgroundContent> _backgrounds;
-    private IReadOnlyList<Character> _characters;
-    private List<CustomizableCharacter> _customizableCharacters;
 
-    public NodeGraphInitializer(ICharacterProvider characterProvider, List<BackgroundContent> backgrounds, Background background, 
+    public NodeGraphInitializer(List<BackgroundContent> backgrounds, Background background, 
         LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer,
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         SetLocalizationChangeEvent setLocalizationChangeEvent)
+        :base(background, levelUIProvider, sound, gameStatsProvider, characterViewer, wallet, wardrobeCharacterViewer)
     {
-        _characterProvider = characterProvider;
         _backgrounds = backgrounds;
-        _background = background;
-        _levelUIProvider = levelUIProvider;
-        _characterViewer = characterViewer;
-        _wardrobeCharacterViewer = wardrobeCharacterViewer;
-        _sound = sound;
-        _wallet = wallet;
         _gameStatsProvider = gameStatsProvider;
         SwitchToNextNodeEvent = switchToNextNodeEvent;
         SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
@@ -45,49 +32,49 @@ public class NodeGraphInitializer
         SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
     }
 
-    public void Init(List<BaseNode> nodes, int seriaIndex)
+    public void Init(List<BaseNode> nodes, Func<IReadOnlyList<Character>> charactersForThisSeria, int seriaIndex)
     {
-        _characters = null;
-        _customizableCharacters = null;
+        CharacterNodeForPostponementInit = null;
+        CustomizationNodeForPostponementInit = null;
         int count = nodes.Count;
         for (int i = 0; i < count; i++)
         {
             InitOneNode(nodes[i], seriaIndex);
         }
+        TryPostponementInit(charactersForThisSeria, seriaIndex);
     }
 
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
-        node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
+        node.ConstructBaseNode(LevelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
         
         if (node is CharacterNode characterNode)
         {
-            if (_characters == null)
+            if (CharacterNodeForPostponementInit == null)
             {
-                _characters = _characterProvider.GetCharacters(seriaIndex);
+                CharacterNodeForPostponementInit = new List<CharacterNode>();
             }
-            characterNode.ConstructMyCharacterNode(_characters,
-                _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
+            CharacterNodeForPostponementInit.Add(characterNode);
             return;
         }
         if (node is NarrativeNode narrativeNode)
         {
-            narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
+            narrativeNode.ConstructMyNarrativeNode(LevelUIProvider.NarrativePanelUIHandler);
             return;
         }
         if (node is NotificationNode notificationNode)
         {
-            notificationNode.ConstructMyNotificationNode(_levelUIProvider.NotificationPanelUIHandler);
+            notificationNode.ConstructMyNotificationNode(LevelUIProvider.NotificationPanelUIHandler);
             return;
         }
         if (node is SmoothTransitionNode smoothTransitionNode)
         {
-            smoothTransitionNode.ConstructMySmoothTransitionNode(_levelUIProvider.CurtainUIHandler);
+            smoothTransitionNode.ConstructMySmoothTransitionNode(LevelUIProvider.CurtainUIHandler);
             return;
         }
         if (node is BackgroundNode backgroundNode)
         {
-            backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
+            backgroundNode.ConstructBackgroundNode(_backgrounds, Background);
             return;
         }
         if (node is SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode)
@@ -102,40 +89,22 @@ public class NodeGraphInitializer
         }
         if (node is SoundNode soundNode)
         {
-            soundNode.ConstructMySoundNode(_sound);
+            soundNode.ConstructMySoundNode(Sound);
             return;
         }
         if (node is ChoiceNode choiceNode)
         {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, LevelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
             return;
         }
         if (node is CustomizationNode customizationNode)
         {
-            if (_characters == null)
+            if (CustomizationNodeForPostponementInit == null)
             {
-                _characters = _characterProvider.GetCharacters(seriaIndex);
+                CustomizationNodeForPostponementInit = new List<CustomizationNode>();
             }
-
-            if (_customizableCharacters == null)
-            {
-                _customizableCharacters = new List<CustomizableCharacter>();
-                for (int i = 0; i < _characters.Count; i++)
-                {
-                    if (_characters[i] is CustomizableCharacter customizableCharacter)
-                    {
-                        _customizableCharacters.Add(customizableCharacter);
-                    }
-                }
-            }
-            customizationNode.ConstructMyCustomizationNode(
-                _levelUIProvider.CustomizationCharacterPanelUIHandler,
-                _levelUIProvider.CustomizationCurtainUIHandler,
-                _customizableCharacters,
-                _background, _sound,
-                _gameStatsProvider,
-                _wallet, _wardrobeCharacterViewer, seriaIndex);
-                return;
+            CustomizationNodeForPostponementInit.Add(customizationNode);
+            return;
         }
         if (node is SwitchNode switchNode)
         {
@@ -144,18 +113,18 @@ public class NodeGraphInitializer
         }
         if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
         {
-            addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
+            addSpriteNodeToBackground.ConstructMyAddSpriteNode(Background);
             return;
         }
         if (node is HeaderNode handlerNode)
         {
-            handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
-                _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
+            handlerNode.Construct(_backgrounds, Background, LevelUIProvider.HeaderSeriesPanelHandlerUI,
+                LevelUIProvider.CurtainUIHandler, LevelUIProvider.ButtonSwitchSlideUIHandler, Sound);
             return;
         }
         if (node is CharacterColorByBackgroundNode characterColorByBackgroundNode)
         {
-            characterColorByBackgroundNode.Construct(_characterViewer);
+            characterColorByBackgroundNode.Construct(CharacterViewer);
             return;
         }
         if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
@@ -165,7 +134,7 @@ public class NodeGraphInitializer
         }
         if (node is ShowArtNode showImageNode)
         {
-            showImageNode.Construct(_background);
+            showImageNode.Construct(Background);
         }
     }
 }

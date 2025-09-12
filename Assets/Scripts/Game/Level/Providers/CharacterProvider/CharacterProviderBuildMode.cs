@@ -1,25 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
-public class CharacterProviderBuildMode :  ICharacterProvider
+public class CharacterProviderBuildMode :  ICharacterProvider, ILocalizable
 {
     private const string _charactersDataProviderName = "CharactersDataProviderSeria";
     private const string _charactersProviderName = "CharactersProviderSeria";
 
+    private readonly CharactersCreator _charactersCreator;
     private readonly DataProvider<CharactersProvider> _charactersProvider;
     private readonly DataProvider<CharactersDataProvider> _charactersDataProvider;
 
-    private Dictionary<string, Character> _dictionaryAllCharacters;
+    private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
+
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
     public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => null;
 
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters => null;
+    public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
+
 
     public CharacterProviderBuildMode()
     {
         _charactersProvider = new DataProvider<CharactersProvider>();
         _charactersDataProvider = new DataProvider<CharactersDataProvider>();
+        _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
+        _charactersCreator = new CharactersCreator(
+            _charactersDataProvider.GetDatas, _charactersProvider.GetDatas,
+            _customizableCharacterIndexesCustodians);
     }
 
     public async UniTask Construct()
@@ -30,8 +37,12 @@ public class CharacterProviderBuildMode :  ICharacterProvider
 
     public IReadOnlyList<Character> GetCharacters(int seriaIndex = 0)
     {
-        
-        return null;
+        var a = _charactersCreator.CreateCharactersToSeria(seriaIndex);
+        for (int i = 0; i < a.Count; i++)
+        {
+            Debug.Log($"{a[i].MyNameText}");
+        }
+        return a;
     }
 
     public void Dispose()
@@ -40,11 +51,28 @@ public class CharacterProviderBuildMode :  ICharacterProvider
         _charactersProvider.Dispose();
     }
 
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        List<LocalizationString> strings = new List<LocalizationString>();
+        int count;
+        IReadOnlyList<CharactersProvider> datas = _charactersProvider.GetDatas;
+        for (int i = 0; i < datas.Count; i++)
+        {
+            count = datas[i].CharactersInfo.Count;
+            for (int j = 0; j < count; j++)
+            {
+                strings.Add(datas[i].CharactersInfo[j].LocalizationString);
+            }
+        }
+        return strings;
+    }
+
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
         _charactersDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         _charactersProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
+
     public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
     {
         await _charactersProvider.TryLoadData(nextSeriaNameAssetIndex);

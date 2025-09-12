@@ -6,7 +6,7 @@ public class SimpleCharacter : Character
     private readonly List<MySprite> _emotions;
     private readonly List<MySprite> _looks;
 
-    public SimpleCharacter(List<CharacterData> characterData, int mySeriaIndex)
+    public SimpleCharacter(List<CharacterData> characterData, LocalizationString name, int mySeriaIndex) : base(name)
     {
         _emotions = new List<MySprite>();
         _looks = new List<MySprite>();

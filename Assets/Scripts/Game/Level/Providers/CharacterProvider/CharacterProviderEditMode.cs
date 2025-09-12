@@ -3,24 +3,26 @@ using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
+public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider, ILocalizable
 {
     [SerializeField, Expandable] private List<CharactersDataProvider> _charactersDataProviders;
     [SerializeField, Expandable] private List<CharactersProvider> _charactersProvider;
     
     [SerializeField, HorizontalLine(color:EColor.Yellow), BoxGroup("All Characters: "), ReadOnly] private List<string> _allCharactersNames;
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
-    private Dictionary<string, WardrobeSaveData> _wardrobeSaveData;
-
+    private CharactersCreator _charactersCreator;
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
     public IReadOnlyList<Character> GetCharacters(int seriaIndex)
     {
-        return CreateCharactersToSeria(CombineCharactersInfoBySeria(seriaIndex), seriaIndex);
+        return _charactersCreator.CreateCharactersToSeria(seriaIndex);
     }
 
     public void Construct(WardrobeSaveData[] wardrobeSaveDatas = null)
     {
         _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
+        _charactersCreator = new CharactersCreator(_charactersDataProviders, _charactersProvider,
+            _customizableCharacterIndexesCustodians);
+        
         Dictionary<string, string> names = new Dictionary<string, string>();
         for (int i = 0; i < _charactersProvider.Count; i++)
         {
@@ -36,88 +38,27 @@ public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider
         
         if (wardrobeSaveDatas != null)
         {
-            _wardrobeSaveData = wardrobeSaveDatas.ToDictionary(x => x.NameKey, x=> x);
+            for (int i = 0; i < wardrobeSaveDatas.Length; i++)
+            {
+                _customizableCharacterIndexesCustodians.Add(
+                    wardrobeSaveDatas[i].NameKey, 
+                    new CustomizableCharacterIndexesCustodian(wardrobeSaveDatas[i], wardrobeSaveDatas[i].NameKey));
+            }
         }
     }
-    
 
-    private List<CharacterInfo> CombineCharactersInfoBySeria(int seriaIndex)
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        Dictionary<string, CharacterInfo> dictionary = new Dictionary<string, CharacterInfo>();
+        List<LocalizationString> strings = new List<LocalizationString>();
+        int count;
         for (int i = 0; i < _charactersProvider.Count; i++)
         {
-            if (_charactersProvider[i].SeriaIndex <= seriaIndex)
+            count = _charactersProvider[i].CharactersInfo.Count;
+            for (int j = 0; j < count; j++)
             {
-                foreach (var info in _charactersProvider[i].CharactersInfo)
-                {
-                    if (dictionary.ContainsKey(info.NameKey) == false)
-                    {
-                        dictionary.Add(info.NameKey, info);
-                    }
-                }
-            }
-            else
-            {
-                break;
+                strings.Add(_charactersProvider[i].CharactersInfo[j].LocalizationString);
             }
         }
-        return dictionary.Select(x=>x.Value).ToList();
-    }
-
-    private List<Character> CreateCharactersToSeria(List<CharacterInfo> combinedCharactersInfo, int seriaIndex)
-    {
-        List<Character> characters = new List<Character>();
-        for (int i = 0; i < combinedCharactersInfo.Count; i++)
-        {
-            if (combinedCharactersInfo[i].IsCustomizationCharacter == true)
-            {
-                CustomizableCharacterIndexesCustodian customizableCharacterIndexesCustodian;
-                if (_wardrobeSaveData.TryGetValue(combinedCharactersInfo[i].NameKey, out WardrobeSaveData wardrobeSaveData))
-                {
-                    customizableCharacterIndexesCustodian = new CustomizableCharacterIndexesCustodian(wardrobeSaveData, combinedCharactersInfo[i].NameKey);
-                }
-                else
-                {
-                    customizableCharacterIndexesCustodian = new CustomizableCharacterIndexesCustodian(combinedCharactersInfo[i].NameKey);
-                }
-
-                _customizableCharacterIndexesCustodians.Add(combinedCharactersInfo[i].NameKey, customizableCharacterIndexesCustodian);
-                List<CustomizationCharacterData> customizationCharacterData = CombineCharactersDataToSeria<CustomizationCharacterData>(combinedCharactersInfo[i].NameKey, seriaIndex);
-                characters.Add(new CustomizableCharacter(customizableCharacterIndexesCustodian, customizationCharacterData));
-            }
-            else
-            {
-                List<CharacterData> characterData = CombineCharactersDataToSeria<CharacterData>(combinedCharactersInfo[i].NameKey, seriaIndex);
-                characters.Add(new SimpleCharacter(characterData, seriaIndex));
-            }
-        }
-        return characters;
-    }
-
-    private List<T> CombineCharactersDataToSeria<T>(string nameKey, int seriaIndex) where T : BaseCharacterData
-    {
-        List<T> selectedCharacterDatas = new List<T>();
-        for (int i = 0; i < _charactersDataProviders.Count; i++)
-        {
-            if (_charactersDataProviders[i].SeriaIndex <= seriaIndex)
-            {
-                for (int j = 0; i < _charactersDataProviders[i].CharactersDatas.Count; j++)
-                {
-                    var characterData = (T) _charactersDataProviders[i].CharactersDatas[j];
-                    if (characterData.MySeriaIndex <= seriaIndex && characterData.CharacterNameKey == nameKey)
-                    {
-                        if (characterData.GetType() == typeof(T))
-                        {
-                            selectedCharacterDatas.Add(characterData);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return selectedCharacterDatas;
+        return strings;
     }
 }

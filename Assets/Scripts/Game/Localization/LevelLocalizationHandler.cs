@@ -6,7 +6,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 {
     private readonly ICurrentSeriaNodeGraphsProvider _currentSeriaNodeGraphsProvider;
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
-    private readonly CharacterProviderBuildMode _characterProviderBuildMode;
+    private readonly ILocalizable _characterProviderLocalizable;
     private readonly GameStatsHandler _gameStatsHandler;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ReactiveCommand _onEndSwitchLocalization;
@@ -15,12 +15,12 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     public ReactiveCommand OnEndSwitchLocalization => _onEndSwitchLocalization;
 
     public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
-        LevelLocalizationProvider levelLocalizationProvider, CharacterProviderBuildMode characterProviderBuildMode,
+        LevelLocalizationProvider levelLocalizationProvider, ILocalizable characterProviderLocalizable,
         GameStatsHandler gameStatsHandler, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _currentSeriaNodeGraphsProvider = currentSeriaNodeGraphsProvider;
         _levelLocalizationProvider = levelLocalizationProvider;
-        _characterProviderBuildMode = characterProviderBuildMode;
+        _characterProviderLocalizable = characterProviderLocalizable;
         _gameStatsHandler = gameStatsHandler;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
@@ -71,9 +71,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     private void SetLocalizationToCharacters()
     {
-        foreach (var character in _characterProviderBuildMode.GetCharacters())
+        foreach (var name in _characterProviderLocalizable.GetLocalizableContent())
         {
-            SetText(character.Name);
+            SetText(name);
         }
     }
 

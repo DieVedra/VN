@@ -1,7 +1,13 @@
 
 public abstract class Character
 {
-    private LocalizationString _name;
+    private readonly LocalizationString _name;
+
+    protected Character(LocalizationString name)
+    {
+        _name = name;
+    }
+
     public string MyNameText => _name.DefaultText;
 
     public LocalizationString Name => _name;

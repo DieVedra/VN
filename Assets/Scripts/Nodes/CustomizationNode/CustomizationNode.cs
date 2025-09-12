@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -22,7 +23,6 @@ public class CustomizationNode : BaseNode, ILocalizable
     private const int SmileEmotionIndex = 2;
     private Background _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
-    // private WardrobeSeriaData _wardrobeSeriaData;
     private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
@@ -38,11 +38,12 @@ public class CustomizationNode : BaseNode, ILocalizable
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
     public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
     public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
-    public IReadOnlyList<CustomizableCharacter> CustomizableCharacters;
+    [field: SerializeField] public List<CustomizableCharacter> CustomizableCharacters { get; private set; }
+
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        IReadOnlyList<CustomizableCharacter> customizableCharacters, /*WardrobeSeriaData wardrobeSeriaData,*/ Background background, Sound sound,
+        IReadOnlyList<CustomizableCharacter> customizableCharacters, Background background, Sound sound,
         IGameStatsProvider gameStatsProvider, Wallet wallet,
         WardrobeCharacterViewer wardrobeCharacterViewer, int seriaIndex)
     {
@@ -50,8 +51,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         _gameStatsProvider = gameStatsProvider;
         _wallet = wallet;
         _background = background;
-        CustomizableCharacters = customizableCharacters;
-        // _wardrobeSeriaData = wardrobeSeriaData;
+        CustomizableCharacters = customizableCharacters.ToList();
         _customizationCharacterPanelUIHandler = customizationCharacterPanelUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _wardrobeCharacterViewer = wardrobeCharacterViewer;

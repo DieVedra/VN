@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -27,12 +28,12 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     private CharacterViewer _characterViewer;
     private CompositeDisposable _compositeDisposable;
 
-    public IReadOnlyList<Character> Characters;
+    [field: SerializeField] public List<Character> Characters { get; private set; }
 
     public void ConstructMyCharacterNode(IReadOnlyList<Character> characters, CharacterPanelUIHandler characterPanelUIHandler,
         Background background, CharacterViewer characterViewer)
     {
-        Characters = characters;
+        Characters = characters.ToList();
         _characterPanelUIHandler = characterPanelUIHandler;
         _background = background;
         _characterViewer = characterViewer;

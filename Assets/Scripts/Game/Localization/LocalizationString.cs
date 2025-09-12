@@ -41,7 +41,10 @@ public class LocalizationString
     {
         DefaultText = text;
     }
-
+    public void SetKey(string text)
+    {
+        Key = text;
+    }
     public bool TryRegenerateKey()
     {
         bool res = false;

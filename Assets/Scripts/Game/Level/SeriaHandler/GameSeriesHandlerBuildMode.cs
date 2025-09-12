@@ -13,7 +13,8 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
     public SeriaNodeGraphsHandler GetCurrentSeriaNodeGraphsHandler() => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value];
 
     public void Construct(LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
-        NodeGraphInitializer nodeGraphInitializer, ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
+        NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider, 
+        ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, OnEndGameEvent onEndGameEvent,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
@@ -26,7 +27,8 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
-            NodeGraphInitializer = nodeGraphInitializer;
+        NodeGraphInitializer = nodeGraphInitializer;
+        CharacterProvider = characterProvider;
         AddSeria(gameSeriesProvider.LastLoaded);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);

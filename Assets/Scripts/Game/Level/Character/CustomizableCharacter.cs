@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
 public class CustomizableCharacter : Character
 {
@@ -14,7 +15,7 @@ public class CustomizableCharacter : Character
     private readonly ReactiveProperty<int> _hairstyleIndexRP;
 
     public CustomizableCharacter(CustomizableCharacterIndexesCustodian customizableCharacterIndexesCustodian,
-        List<CustomizationCharacterData> customizationCharacterData)
+        List<CustomizationCharacterData> customizationCharacterData, LocalizationString name) : base(name)
     {
         _bodyIndexRP = customizableCharacterIndexesCustodian.BodyIndexRP;
         _clothesIndexRP = customizableCharacterIndexesCustodian.ClothesIndexRP;
@@ -25,16 +26,11 @@ public class CustomizableCharacter : Character
         _swimsuitsData = new List<MySprite>();
         _hairstylesData = new List<MySprite>();
 
-
         for (int i = 0; i < customizationCharacterData.Count; i++)
         {
-            AddDataSeria(customizationCharacterData[i].BodiesDataSeria, customizationCharacterData[i].ClothesDataSeria.GetMySprites,
-                customizationCharacterData[i].HairstylesDataSeria.GetMySprites,
-                customizationCharacterData[i].SwimsuitsDataSeria.GetMySprites);
+            AddDataSeria(customizationCharacterData[i]);
         }
     }
-
-    // public WardrobeSaveData WardrobeSaveData { get; private set; }
     public IReadOnlyList<BodySpriteData> BodiesData => _bodiesData;
     public IReadOnlyList<MySprite> ClothesData => _clothesData;
     public IReadOnlyList<MySprite> SwimsuitsData => _swimsuitsData;
@@ -43,21 +39,6 @@ public class CustomizableCharacter : Character
     public int ClothesIndex => _clothesIndexRP.Value;
     public int SwimsuitsIndex => _swimsuitsIndexRP.Value;
     public int HairstyleIndex => _hairstyleIndexRP.Value;
-    
-    // public void AddWardrobeDataSeria(WardrobeSeriaData wardrobeSeriaData)
-    // {
-    //     AddDataSeria(wardrobeSeriaData.BodiesDataSeria, wardrobeSeriaData.ClothesDataSeria.GetMySprites,
-    //         wardrobeSeriaData.HairstylesDataSeria.GetMySprites, wardrobeSeriaData.SwimsuitsDataSeria.GetMySprites);
-    // }
-
-    // public override void TryMerge(Character character)
-    // {
-    //     if (character is CustomizableCharacter customizableCharacter)
-    //     {
-    //         AddDataSeria(customizableCharacter.BodiesData, customizableCharacter.ClothesData,
-    //             customizableCharacter.SwimsuitsData, customizableCharacter.HairstylesData);
-    //     }
-    // }
     public IReadOnlyList<MySprite> GetBodiesSprites()
     {
         List<MySprite> bodiesSprites = new List<MySprite>(_bodiesData.Count);
@@ -68,24 +49,23 @@ public class CustomizableCharacter : Character
     
         return bodiesSprites;
     }
-    private void AddDataSeria(IReadOnlyList<BodySpriteData> bodiesDataSeria, IReadOnlyList<MySprite> clothesDataSeria,
-        IReadOnlyList<MySprite> swimsuitsDataSeria, IReadOnlyList<MySprite> hairstylesDataSeria)
+    private void AddDataSeria(CustomizationCharacterData customizationCharacterData)
     {
-        if (bodiesDataSeria != null && bodiesDataSeria.Count > 0)
+        if (customizationCharacterData.BodiesDataSeria != null && customizationCharacterData.BodiesDataSeria.Count > 0)
         {
-            _bodiesData.AddRange(bodiesDataSeria);
+            _bodiesData.AddRange(customizationCharacterData.BodiesDataSeria);
         }
-        if (clothesDataSeria != null && clothesDataSeria.Count > 0)
+        if (customizationCharacterData.ClothesDataSeria != null && customizationCharacterData.ClothesDataSeria.GetMySprites.Count > 0)
         {
-            _clothesData.AddRange(clothesDataSeria);
+            _clothesData.AddRange(customizationCharacterData.ClothesDataSeria.GetMySprites);
         }
-        if (hairstylesDataSeria != null && hairstylesDataSeria.Count > 0)
+        if (customizationCharacterData.HairstylesDataSeria != null && customizationCharacterData.HairstylesDataSeria.GetMySprites.Count > 0)
         {
-            _hairstylesData.AddRange(hairstylesDataSeria);
+            _hairstylesData.AddRange(customizationCharacterData.HairstylesDataSeria.GetMySprites);
         }
-        if (swimsuitsDataSeria != null && swimsuitsDataSeria.Count > 0)
+        if (customizationCharacterData.SwimsuitsDataSeria != null && customizationCharacterData.SwimsuitsDataSeria.GetMySprites.Count > 0)
         {
-            _swimsuitsData.AddRange(swimsuitsDataSeria);
+            _swimsuitsData.AddRange(customizationCharacterData.SwimsuitsDataSeria.GetMySprites);
         }
     }
 

@@ -113,7 +113,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode,
+        NodeGraphInitializer = new NodeGraphInitializer(
             _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             /*_levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode,*/ _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
@@ -122,13 +122,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
         if (SaveData == null)
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
+                NodeGraphInitializer, _levelLoadDataHandler.CharacterProviderBuildMode, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
                 _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
+                NodeGraphInitializer, _levelLoadDataHandler.CharacterProviderBuildMode, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }
@@ -166,7 +166,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
             StoryData.Stats = _gameStatsHandler.GetStatsToSave();
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
-            // StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacters);
+            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians);
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;

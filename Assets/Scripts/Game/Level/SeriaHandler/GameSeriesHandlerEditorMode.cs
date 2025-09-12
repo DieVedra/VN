@@ -8,14 +8,15 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
     [SerializeField, ReadOnly] private ReactiveProperty<int> _nodeGraphIndexToShowOnInspector;
     [SerializeField, ReadOnly] private ReactiveProperty<int> _nodeIndexToShowOnInspector;
     public void Construct(
-        NodeGraphInitializer nodeGraphInitializer, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
+        NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider,
+        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
-
+        CharacterProvider = characterProvider;
         if (Application.isPlaying == false)
         {
             for (int i = 0; i < SeriaNodeGraphsHandlers.Count; ++i)
