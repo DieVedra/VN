@@ -26,6 +26,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField, HideInInspector] private TestModeEditor _testModeEditor;
     
     private LevelUIProviderEditMode _levelUIProviderEditMode;
+    private ICharacterProvider _characterProvider => _characterProviderEditMode.CharacterProvider;
     public bool IsInitializing { get; private set; }
     public bool InitializeInEditMode => _initializeInEditMode;
 
@@ -72,7 +73,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         InitBackground();
         InitLevelUIProvider();
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _backgroundEditMode, _levelUIProviderEditMode,
+        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider,_backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
         
@@ -81,13 +82,13 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             if (SaveData != null)
             {
-                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProviderEditMode, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
                     StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
                 _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
             }
             else if (_testModeEditor.IsTestMode == true)
             {
-                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProviderEditMode, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
                     _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
                 
                 _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
@@ -95,12 +96,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
             }
             else
             {
-                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProviderEditMode, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
             }
         }
         else
         {
-            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProviderEditMode, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
         IsInitializing = false;
     }

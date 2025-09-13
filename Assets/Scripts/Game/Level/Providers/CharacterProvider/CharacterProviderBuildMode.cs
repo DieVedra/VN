@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
-public class CharacterProviderBuildMode :  ICharacterProvider, ILocalizable
+public class CharacterProviderBuildMode : ILocalizable
 {
     private const string _charactersDataProviderName = "CharactersDataProviderSeria";
     private const string _charactersProviderName = "CharactersProviderSeria";
@@ -15,6 +14,7 @@ public class CharacterProviderBuildMode :  ICharacterProvider, ILocalizable
 
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
     public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => null;
+    public ICharacterProvider CharacterProvider => _charactersCreator;
 
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
 
@@ -34,17 +34,6 @@ public class CharacterProviderBuildMode :  ICharacterProvider, ILocalizable
         await UniTask.WhenAll(_charactersProvider.CreateNames(_charactersProviderName),
             _charactersDataProvider.CreateNames(_charactersDataProviderName));
     }
-
-    public IReadOnlyList<Character> GetCharacters(int seriaIndex = 0)
-    {
-        var a = _charactersCreator.CreateCharactersToSeria(seriaIndex);
-        for (int i = 0; i < a.Count; i++)
-        {
-            Debug.Log($"{a[i].MyNameText}");
-        }
-        return a;
-    }
-
     public void Dispose()
     {
         _charactersDataProvider.Dispose();

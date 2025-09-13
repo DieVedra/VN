@@ -28,7 +28,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
-    
+    private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
+
     [Inject]
     private void Construct(GlobalSound globalSound, PrefabsProvider prefabsProvider, GlobalUIHandler globalUIHandler,
         Wallet wallet, PanelsLocalizationHandler panelsLocalizationHandler, SaveServiceProvider saveServiceProvider)
@@ -114,21 +115,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
         InitBackground();
         
         NodeGraphInitializer = new NodeGraphInitializer(
-            _backgroundBuildMode.GetBackgroundContent, _backgroundBuildMode,
+            _backgroundBuildMode.GetBackgroundContent, _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
-            /*_levelLoadDataHandler.WardrobeSeriaDataProviderBuildMode,*/ _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
+            _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (SaveData == null)
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _levelLoadDataHandler.CharacterProviderBuildMode, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
+                NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
                 _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _levelLoadDataHandler.CharacterProviderBuildMode, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
+                NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
         }
     }

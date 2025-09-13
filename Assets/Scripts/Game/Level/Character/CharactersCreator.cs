@@ -1,21 +1,79 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CharactersCreator
+public class CharactersCreator : ICharacterProvider
 {
-    private IReadOnlyList<CharactersDataProvider> _charactersDataProviders;
-    private IReadOnlyList<CharactersProvider> _charactersProvider;
-    private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
+    private readonly IReadOnlyList<CharactersDataProvider> _charactersDataProviders;
+    private readonly IReadOnlyList<CharactersProvider> _charactersProvider;
+    private readonly Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
 
+    private readonly Dictionary<int, IReadOnlyList<Character>> _createdCharacters;
+    private readonly Dictionary<int, IReadOnlyList<CustomizableCharacter>> _createdCustomizableCharacters;
     public CharactersCreator(IReadOnlyList<CharactersDataProvider> charactersDataProviders, IReadOnlyList<CharactersProvider> charactersProvider,
         Dictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
     {
         _charactersDataProviders = charactersDataProviders;
         _charactersProvider = charactersProvider;
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
+        _createdCharacters = new Dictionary<int, IReadOnlyList<Character>>();
+        _createdCustomizableCharacters = new Dictionary<int, IReadOnlyList<CustomizableCharacter>>();
+    }
+    public IReadOnlyList<Character> GetCharacters(int seriaIndex)
+    {
+        IReadOnlyList<Character> result;
+        if (_createdCharacters.TryGetValue(seriaIndex, out IReadOnlyList<Character> value))
+        {
+            result = value;
+        }
+        else
+        {
+            result = CreateCharactersToSeria(seriaIndex);
+            _createdCharacters.Add(seriaIndex, result);
+        }
+        return result;
+    }
+    public IReadOnlyList<CustomizableCharacter> GetCustomizationCharacters(int seriaIndex)
+    {
+        IReadOnlyList<CustomizableCharacter> result = null;
+        if (_createdCustomizableCharacters.TryGetValue(seriaIndex, out IReadOnlyList<CustomizableCharacter> extractedCustomizableCharacters))
+        {
+            result = extractedCustomizableCharacters;
+        }
+        else if(_createdCharacters.TryGetValue(seriaIndex, out IReadOnlyList<Character> extractedCharacters) == true)
+        {
+            result = SortAndGetCustomizationCharacters(extractedCharacters, seriaIndex);
+        }
+        else
+        {
+            IReadOnlyList<Character> characters = GetCharacters(seriaIndex);
+            result = SortAndGetCustomizationCharacters(characters, seriaIndex);
+        }
+        return result;
     }
 
-    public List<Character> CreateCharactersToSeria(int seriaIndex)
+    private IReadOnlyList<CustomizableCharacter> SortAndGetCustomizationCharacters(IReadOnlyList<Character> extractedCharacters, int seriaIndex)
+    {
+        List<CustomizableCharacter> customizableCharacters = null;
+        for (int i = 0; i < extractedCharacters.Count; i++)
+        {
+            if (extractedCharacters[i] is CustomizableCharacter customizableCharacter)
+            {
+                if (customizableCharacters == null)
+                {
+                    customizableCharacters = new List<CustomizableCharacter>();
+                }
+                customizableCharacters.Add(customizableCharacter);
+            }
+        }
+
+        if (customizableCharacters != null)
+        {
+            _createdCustomizableCharacters.Add(seriaIndex, customizableCharacters);
+        }
+        return customizableCharacters;
+    }
+
+    private List<Character> CreateCharactersToSeria(int seriaIndex)
     {
         List<Character> characters = new List<Character>();
         List<CharacterInfo> combinedCharactersInfo = CombineCharactersInfoBySeria(seriaIndex);

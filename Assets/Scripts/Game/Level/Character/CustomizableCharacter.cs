@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
+[Serializable]
 public class CustomizableCharacter : Character
 {
     private readonly List<BodySpriteData> _bodiesData;

@@ -3,7 +3,7 @@ using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider, ILocalizable
+public class CharacterProviderEditMode : MonoBehaviour, ILocalizable
 {
     [SerializeField, Expandable] private List<CharactersDataProvider> _charactersDataProviders;
     [SerializeField, Expandable] private List<CharactersProvider> _charactersProvider;
@@ -12,17 +12,12 @@ public class CharacterProviderEditMode : MonoBehaviour, ICharacterProvider, ILoc
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private CharactersCreator _charactersCreator;
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
-    public IReadOnlyList<Character> GetCharacters(int seriaIndex)
-    {
-        return _charactersCreator.CreateCharactersToSeria(seriaIndex);
-    }
-
+    public ICharacterProvider CharacterProvider => _charactersCreator;
     public void Construct(WardrobeSaveData[] wardrobeSaveDatas = null)
     {
         _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
         _charactersCreator = new CharactersCreator(_charactersDataProviders, _charactersProvider,
             _customizableCharacterIndexesCustodians);
-        
         Dictionary<string, string> names = new Dictionary<string, string>();
         for (int i = 0; i < _charactersProvider.Count; i++)
         {

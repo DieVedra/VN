@@ -14,7 +14,6 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     private int _currentSeriaIndex;
     private NodeGraphInitializer _nodeGraphInitializer;
     private ICharacterProvider _characterProvider;
-    private IReadOnlyList<Character> _seriaCharacters;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
     public void Construct(NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider, int currentSeriaIndex,
         int currentNodeGraphIndex, int currentNodeIndex)
@@ -60,7 +59,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     }
     private void InitGraph(int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, TryGetCharacters, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
+        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
     }
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {
@@ -69,14 +68,5 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     private void MoveNext()
     {
         _seriaPartNodeGraphs[CurrentNodeGraphIndex].MoveNext().Forget();
-    }
-
-    private IReadOnlyList<Character> TryGetCharacters()
-    {
-        if (_seriaCharacters == null)
-        {
-            _seriaCharacters = _characterProvider.GetCharacters(_currentSeriaIndex);
-        }
-        return _seriaCharacters;
     }
 }

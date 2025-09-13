@@ -7,7 +7,7 @@ public class CharacterInfo
     [field: SerializeField] public string NameKey { get; private set; }
     [field: SerializeField] public bool IsCustomizationCharacter  { get; private set; }
 
-    [SerializeField] private LocalizationString _localizationString;
+    private LocalizationString _localizationString;
 
     public LocalizationString LocalizationString
     {

@@ -7,7 +7,6 @@ using UnityEngine;
 [NodeWidth(350),NodeTint("#6C0054")]
 public class CustomizationNode : BaseNode, ILocalizable
 {
-    // [SerializeField, HideInInspector] private int _hairIndex;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsHairstyles;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsClothes;
     [SerializeField, HideInInspector] private bool _showFoldoutSettingsBodies;
