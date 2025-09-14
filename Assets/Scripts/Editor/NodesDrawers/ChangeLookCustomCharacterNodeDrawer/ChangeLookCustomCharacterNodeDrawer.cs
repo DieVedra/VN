@@ -23,7 +23,7 @@ public class ChangeLookCustomCharacterNodeDrawer : NodeEditor
     private string[] _namesClothesToPopup;
     private string[] _namesHairstyleToPopup;
     private string[] _namesSwimsuitsToPopup;
-    [SerializeField] private int _clothesNameIndex =0;
+    private int _clothesNameIndex =0;
     private int _hairstyleNameIndex=0;
     private int _swimsuitNameIndex=0;
     private CustomizableCharacterNonWardrobeIndexes _currentCustomizableCharacterNonWardrobeIndexes;
@@ -116,7 +116,7 @@ public class ChangeLookCustomCharacterNodeDrawer : NodeEditor
                         }
                     }
 
-                    if ((_putHairstyleProperty.boolValue == false || _putClothesProperty.boolValue == false || _putSwimsuitProperty.boolValue == false))
+                    if ((_putHairstyleProperty.boolValue == false && _putClothesProperty.boolValue == false && _putSwimsuitProperty.boolValue == false))
                     {
                         EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.LabelField("SkipToWardrobeVariant: ", GUILayout.Width(200f));
@@ -139,7 +139,16 @@ public class ChangeLookCustomCharacterNodeDrawer : NodeEditor
                     if (_customizableCharacterNonWardrobeIndexesDictionary.TryGetValue(GetNameKey, out _currentCustomizableCharacterNonWardrobeIndexes))
                     {
                         InitCharacterContentsNames(GetNameKey);
+                        SetNameIndexOnInit(ref _clothesNameIndex, _namesClothesToPopup,
+                            _currentCustomizableCharacterNonWardrobeIndexes.ClothesIndexes, _clothesIndexProperty);
+                        
+                        SetNameIndexOnInit(ref _hairstyleNameIndex, _namesHairstyleToPopup,
+                            _currentCustomizableCharacterNonWardrobeIndexes.HairstyleIndexes, _hairstyleIndexProperty);
+                        
+                        SetNameIndexOnInit(ref _swimsuitNameIndex, _namesSwimsuitsToPopup,
+                            _currentCustomizableCharacterNonWardrobeIndexes.SwimsuitsIndexes, _swimsuitIndexProperty);
                     }
+                    
                 }
 
                 NodeEditorGUILayout.PropertyField(_outputProperty);
@@ -225,21 +234,32 @@ public class ChangeLookCustomCharacterNodeDrawer : NodeEditor
         } 
     }
 
-
-    private void DrawToggle(ref int index, string[] namesToPopup, SerializedProperty indexProperty, SerializedProperty toggleProperty, string toggleName, int nonWardrobeIndex)
+    private void SetNameIndexOnInit(ref int nameIndex, string[] names, (string, int)[] indexes, SerializedProperty property)
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(toggleName, GUILayout.Width(200f));
-        toggleProperty.boolValue = EditorGUILayout.Toggle(toggleProperty.boolValue, GUILayout.Width(30f));
-        EditorGUILayout.EndHorizontal();
-        if (toggleProperty.boolValue == true)
+        if (names != null)
         {
-            serializedObject.Update();
-            index = EditorGUILayout.Popup(index, namesToPopup);
-            indexProperty.intValue = nonWardrobeIndex;
-            Debug.Log($"nonWardrobeIndex {nonWardrobeIndex}  indexProperty.intValue {indexProperty.intValue}");
-            Debug.Log($" indexProperty.intValue {indexProperty.intValue}");
-        }
+            bool res = false;
+            for (int i = 0; i < indexes.Length; i++)
+            {
+                if (indexes[i].Item2 == property.intValue)
+                {
+                    res = true;
+                    for (int j = 0; j < names.Length; j++)
+                    {
+                        if (names[j] == indexes[i].Item1)
+                        {
+                            nameIndex = j;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
 
+            if (res == false)
+            {
+                property.intValue = indexes[0].Item2;
+            }
+        }
     }
 }

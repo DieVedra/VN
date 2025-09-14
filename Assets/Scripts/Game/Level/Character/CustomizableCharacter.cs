@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
 
 [Serializable]
 public class CustomizableCharacter : Character
 {
+    public readonly CustomizableCharacterIndexesCustodian CustomizableCharacterIndexesCustodian;
     private readonly List<BodySpriteData> _bodiesData;
     private readonly List<MySprite> _clothesData;
     private readonly List<MySprite> _swimsuitsData;
     private readonly List<MySprite> _hairstylesData;
-    
-    private readonly ReactiveProperty<int> _bodyIndexRP;
-    private readonly ReactiveProperty<int> _clothesIndexRP;
-    private readonly ReactiveProperty<int> _swimsuitsIndexRP;
-    private readonly ReactiveProperty<int> _hairstyleIndexRP;
-
     public CustomizableCharacter(CustomizableCharacterIndexesCustodian customizableCharacterIndexesCustodian,
         List<CustomizationCharacterData> customizationCharacterData, LocalizationString name) : base(name)
     {
-        _bodyIndexRP = customizableCharacterIndexesCustodian.BodyIndexRP;
-        _clothesIndexRP = customizableCharacterIndexesCustodian.ClothesIndexRP;
-        _swimsuitsIndexRP = customizableCharacterIndexesCustodian.SwimsuitsIndexRP;
-        _hairstyleIndexRP = customizableCharacterIndexesCustodian.HairstyleIndexRP;
+        CustomizableCharacterIndexesCustodian = customizableCharacterIndexesCustodian;
+        
         _bodiesData = new List<BodySpriteData>();
         _clothesData = new List<MySprite>();
         _swimsuitsData = new List<MySprite>();
@@ -37,10 +28,10 @@ public class CustomizableCharacter : Character
     public IReadOnlyList<MySprite> ClothesData => _clothesData;
     public IReadOnlyList<MySprite> SwimsuitsData => _swimsuitsData;
     public IReadOnlyList<MySprite> HairstylesData => _hairstylesData;
-    public int BodyIndex => _bodyIndexRP.Value;
-    public int ClothesIndex => _clothesIndexRP.Value;
-    public int SwimsuitsIndex => _swimsuitsIndexRP.Value;
-    public int HairstyleIndex => _hairstyleIndexRP.Value;
+    public int BodyIndex => CustomizableCharacterIndexesCustodian.BodyIndexRP.Value;
+    public int ClothesIndex => CustomizableCharacterIndexesCustodian.ClothesIndexRP.Value;
+    public int SwimsuitsIndex => CustomizableCharacterIndexesCustodian.SwimsuitsIndexRP.Value;
+    public int HairstyleIndex => CustomizableCharacterIndexesCustodian.HairstyleIndexRP.Value;
     public IReadOnlyList<MySprite> GetBodiesSprites()
     {
         List<MySprite> bodiesSprites = new List<MySprite>(_bodiesData.Count);
@@ -76,7 +67,7 @@ public class CustomizableCharacter : Character
         SpriteData spriteData = null;
         for (int i = 0; i < _bodiesData.Count; ++i)
         {
-            if (_bodyIndexRP.Value == i)
+            if (CustomizableCharacterIndexesCustodian.BodyIndexRP.Value == i)
             {
                 spriteData = _bodiesData[i].EmotionsData;
                 break;
@@ -93,48 +84,47 @@ public class CustomizableCharacter : Character
         }
         else
         {
-            return _bodiesData[_bodyIndexRP.Value].EmotionsData.GetMySprites[--index];
+            return _bodiesData[CustomizableCharacterIndexesCustodian.BodyIndexRP.Value].EmotionsData.GetMySprites[--index];
         }
     }
 
     public override MySprite GetLookMySprite(int index = 0)
     {
-        return _bodiesData[_bodyIndexRP.Value].Body;
+        return _bodiesData[CustomizableCharacterIndexesCustodian.BodyIndexRP.Value].Body;
     }
 
     public MySprite GetClothesSprite()
     {
-        return _clothesData[_clothesIndexRP.Value];
+        return _clothesData[CustomizableCharacterIndexesCustodian.ClothesIndexRP.Value];
     }
 
     public MySprite GetSwimsuitSprite()
     {
-        return _swimsuitsData[_swimsuitsIndexRP.Value];
+        return _swimsuitsData[CustomizableCharacterIndexesCustodian.SwimsuitsIndexRP.Value];
     }
 
     public MySprite GetHairstyleSprite()
     {
-        return _hairstylesData[_hairstyleIndexRP.Value];
+        return _hairstylesData[CustomizableCharacterIndexesCustodian.HairstyleIndexRP.Value];
     }
-
     public void SetBodyIndex(int bodyIndex)
     {
-        _bodyIndexRP.Value = bodyIndex;
+        CustomizableCharacterIndexesCustodian.BodyIndexRP.Value = bodyIndex;
     }
 
     public void SetHairstyleIndex(int hairstyleIndex)
     {
-        _hairstyleIndexRP.Value = hairstyleIndex;
+        CustomizableCharacterIndexesCustodian.HairstyleIndexRP.Value = hairstyleIndex;
     }
 
     public void SetClothesIndex(int clothesIndex)
     {
-        _clothesIndexRP.Value = clothesIndex;
+        CustomizableCharacterIndexesCustodian.ClothesIndexRP.Value = clothesIndex;
     }
 
     public void SetSwimsuitsIndex(int swimsuitsIndex)
     {
-        _swimsuitsIndexRP.Value = swimsuitsIndex;
+        CustomizableCharacterIndexesCustodian.SwimsuitsIndexRP.Value = swimsuitsIndex;
     }
 
     public void SetIndexes(int bodyIndex = 0, int hairstyleIndex = 0, int clothesIndex = 0, int swimsuitsIndex = 0)

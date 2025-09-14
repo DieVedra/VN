@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 [NodeWidth(350),NodeTint("#D21B8C")]
@@ -16,31 +16,93 @@ public class ChangeLookCustomCharacterNode : BaseNode
     [SerializeField] private bool _putHairstyle;
     [SerializeField] private bool _skipToWardrobeVariant;
 
-    private Dictionary<int, CustomizableCharacter> _customizableCharactersDictionary;
+    private ReactiveProperty<bool> _buferCurrentClothesIsActiveRP;
+    private ReactiveProperty<int> _buferCurrentClothesIndexRP;
+    private ReactiveProperty<int> _clothesIndexRP;
+    
+    private ReactiveProperty<bool> _buferCurrentSwimsuitsIsActiveRP;
+    private ReactiveProperty<int> _buferCurrentSwimsuitsIndexRP;
+    private ReactiveProperty<int> _swimsuitsIndexRP;
+    
+    private ReactiveProperty<bool> _buferCurrentHairstyleIsActiveRP;
+    private ReactiveProperty<int> _buferCurrentHairstyleIndexRP;
+    private ReactiveProperty<int> _hairstyleIndexRP;
     public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; private set; }
     public void InitMyChangeLookCustomCharacterNode(IReadOnlyList<CustomizableCharacter> customizableCharacters)
     {
         CustomizableCharacters = customizableCharacters;
-        InitDictionar(ref _customizableCharactersDictionary, customizableCharacters);
-    }
-
-    private void InitDictionar(ref Dictionary<int, CustomizableCharacter> customizableCharactersDictionary, IReadOnlyList<CustomizableCharacter> customizableCharacters)
-    {
-        customizableCharactersDictionary = new Dictionary<int, CustomizableCharacter>();
-        for (int i = 0; i < customizableCharacters.Count; i++)
+        if (IsPlayMode())
         {
-            customizableCharactersDictionary.Add(i, customizableCharacters[i]);
+            var currentCustomizableCharacterIndexesCustodian =
+                CustomizableCharacters[_customizationCharacterIndex].CustomizableCharacterIndexesCustodian;
+            
+            _buferCurrentClothesIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentClothesIsActiveRP;
+            _buferCurrentClothesIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentClothesIndexRP;
+            _clothesIndexRP = currentCustomizableCharacterIndexesCustodian.ClothesIndexRP;
+                
+            _buferCurrentSwimsuitsIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentSwimsuitsIsActiveRP;
+            _buferCurrentSwimsuitsIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentSwimsuitsIndexRP;
+            _swimsuitsIndexRP = currentCustomizableCharacterIndexesCustodian.SwimsuitsIndexRP;
+
+            _buferCurrentHairstyleIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentHairstyleIsActiveRP;
+            _buferCurrentHairstyleIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentHairstyleIndexRP;
+            _hairstyleIndexRP = currentCustomizableCharacterIndexesCustodian.HairstyleIndexRP;
         }
     }
     public override UniTask Enter(bool isMerged = false)
     {
+        if (_skipToWardrobeVariant == false)
+        {
+            TryPutLook(_buferCurrentSwimsuitsIsActiveRP,
+                _buferCurrentSwimsuitsIndexRP,
+                _swimsuitsIndexRP,
+                _putSwimsuit, _swimsuitIndex);
+            
+            TryPutLook(_buferCurrentClothesIsActiveRP,
+                _buferCurrentClothesIndexRP,
+                _clothesIndexRP,
+                _putClothes, _clothesIndex);
+            
+            TryPutLook(_buferCurrentHairstyleIsActiveRP,
+                _buferCurrentHairstyleIndexRP,
+                _hairstyleIndexRP,
+                _putHairstyle, _hairstyleIndex);
+        }
+        else
+        {
+            TryUnPutLook(ref _putSwimsuit, _buferCurrentSwimsuitsIsActiveRP,
+                _buferCurrentSwimsuitsIndexRP,
+                _swimsuitsIndexRP);
+            
+            TryUnPutLook(ref _putClothes, _buferCurrentClothesIsActiveRP,
+                _buferCurrentClothesIndexRP,
+                _clothesIndexRP);
+            
+            TryUnPutLook(ref _putHairstyle, _buferCurrentHairstyleIsActiveRP,
+                _buferCurrentHairstyleIndexRP,
+                _hairstyleIndexRP);
+        }
         return default;
     }
 
-    // public override async UniTask Exit()
-    // {
-    //     
-    // }
-
-    // public void 
+    private void TryPutLook(ReactiveProperty<bool> buferCurrentIsActiveRP, ReactiveProperty<int> buferCurrentIndexRP, ReactiveProperty<int> indexRP,
+        bool putKey, int lookIndex)
+    {
+        if (putKey == true && buferCurrentIsActiveRP.Value == false)
+        {
+            buferCurrentIsActiveRP.Value = putKey;
+            buferCurrentIndexRP.Value = indexRP.Value;
+            indexRP.Value = lookIndex;
+        }
+    }
+    private void TryUnPutLook(ref bool putKey, ReactiveProperty<bool> buferCurrentIsActiveRP, 
+        ReactiveProperty<int> buferCurrentIndexRP, ReactiveProperty<int> indexRP)
+    {
+        if (buferCurrentIsActiveRP.Value == true)
+        {
+            putKey = false;
+            buferCurrentIsActiveRP.Value = false;
+            indexRP.Value = buferCurrentIndexRP.Value;
+        }
+    }
 }
