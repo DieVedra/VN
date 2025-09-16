@@ -7,8 +7,12 @@ public class AddSpriteNodeToBackground : BaseNode
 {
     [SerializeField] private Vector2 _localPosition;
     [SerializeField] private Color _color = Color.white;
-    [SerializeField, HideInInspector] private int _indexSprite;
-    [SerializeField, HideInInspector] private int _indexBackground;
+    [SerializeField] private bool _addToBackground;
+    [SerializeField] private int _indexSprite;
+    [SerializeField] private int _indexBackground;
+    [SerializeField] private bool _removeFromBackground;
+    [SerializeField] private int _indexRemoveSprite;
+    [SerializeField] private int _indexBackgroundToRemove;
 
     private Background _background;
     public IReadOnlyList<BackgroundContent> Backgrounds => _background.GetBackgroundContent;
@@ -32,6 +36,14 @@ public class AddSpriteNodeToBackground : BaseNode
 
     protected override void SetInfoToView()
     {
-        _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
+        if (_addToBackground)
+        {
+            _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
+        }
+
+        if (_removeFromBackground)
+        {
+            _background.TryRemoveAdditionalSpriteToBackgroundContent(_indexBackgroundToRemove, _indexRemoveSprite);
+        }
     }
 }

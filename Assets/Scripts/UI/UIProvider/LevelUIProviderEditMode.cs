@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 
 public class LevelUIProviderEditMode 
 {
@@ -12,6 +13,7 @@ public class LevelUIProviderEditMode
     public readonly CustomizationCharacterPanelUIHandler CustomizationCharacterPanelUIHandler;
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
     public readonly PanelResourceHandler PanelResourceHandler;
+    private CompositeDisposable _compositeDisposable;
 
     public LevelUIProviderEditMode(
         LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, 
@@ -42,7 +44,7 @@ public class LevelUIProviderEditMode
         }
         else
         {
-            disableNodesContentEvent.Subscribe(() =>
+            _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(() =>
             {
                 narrativePanelUI.gameObject.SetActive(false);
                 notificationPanelUI.gameObject.SetActive(false);
@@ -54,5 +56,10 @@ public class LevelUIProviderEditMode
                 levelUIView.HeartsPanel.gameObject.SetActive(false);
             });
         }
+    }
+
+    public virtual void Dispose()
+    {
+        _compositeDisposable?.Clear();
     }
 }

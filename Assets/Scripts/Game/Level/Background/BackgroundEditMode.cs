@@ -63,6 +63,7 @@ public class BackgroundEditMode : Background
             {
                 if (BackgroundContent[i] != null)
                 {
+                    BackgroundContent[i].Dispose();
                     DestroyGameObject(BackgroundContent[i].gameObject);
                 }
             }
@@ -71,23 +72,11 @@ public class BackgroundEditMode : Background
     }
     private void CreateBackgroundContent(BackgroundData backgroundData)
     {
-        if (Application.isPlaying)
+        for (int j = 0; j < backgroundData.BackgroundContentValues.Count; ++j)
         {
-            for (int j = 0; j < backgroundData.BackgroundContentValues.Count; ++j)
-            {
-                BackgroundContent.Add(
-                    InstantiateBackgroundContent(backgroundData.GetSprite(backgroundData.BackgroundContentValues[j].NameSprite),
+            BackgroundContent.Add(
+                InstantiateBackgroundContent(backgroundData.GetSprite(backgroundData.BackgroundContentValues[j].NameSprite),
                     backgroundData.BackgroundContentValues[j]));
-            }
-        }
-        else
-        {
-            List<Sprite> sprites = FindAndGetSprites(backgroundData.BackgroundContentValues);
-            for (int j = 0; j < backgroundData.BackgroundContentValues.Count; ++j)
-            {
-                BackgroundContent.Add(
-                    InstantiateBackgroundContent(sprites[j], backgroundData.BackgroundContentValues[j]));
-            }
         }
     }
 
@@ -112,7 +101,7 @@ public class BackgroundEditMode : Background
         }
     }
 
-    public void AddAdditionalSprites()
+    private void AddAdditionalSprites()
     {
         AdditionalImagesToBackground = new List<Sprite>();
         for (int i = 0; i < _additionalImagesDatas.Count; ++i)
@@ -131,16 +120,9 @@ public class BackgroundEditMode : Background
     }
     private void AddBackgroundDataContent(ref List<Sprite> sprites, BackgroundData backgroundData)
     {
-        if (Application.isPlaying)
+        for (int i = 0; i < backgroundData.BackgroundContentValues.Count; ++i)
         {
-            for (int i = 0; i < backgroundData.BackgroundContentValues.Count; ++i)
-            {
-                sprites.Add(backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite));
-            }
-        }
-        else
-        {
-            sprites = FindAndGetSprites(backgroundData.BackgroundContentValues);
+            sprites.Add(backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite));
         }
     }
 
@@ -154,20 +136,6 @@ public class BackgroundEditMode : Background
         {
             DestroyImmediate(transferredGameObject);
         }
-    }
-
-    private List<Sprite> FindAndGetSprites(IReadOnlyList<BackgroundContentValues> values)
-    {
-        List<Sprite> sprites = new List<Sprite>(values.Count);
-        for (int i = 0; i < values.Count; i++)
-        {
-            string[] result = AssetDatabase.FindAssets(values[i].NameSprite);
-
-            string path = AssetDatabase.GUIDToAssetPath(result[0]);
-            
-            sprites.Add(AssetDatabase.LoadAssetAtPath<Sprite>(path));
-        }
-        return sprites;
     }
 
     private Transform GetTransformOnExistingByName(string name)

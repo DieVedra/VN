@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 
 public abstract class BaseCharacterViewer : MonoBehaviour
 {
@@ -6,9 +7,14 @@ public abstract class BaseCharacterViewer : MonoBehaviour
     [SerializeField] protected float _timeDisappearance = 0.2f;
     protected ViewerCreator ViewerCreator;
     protected SpriteViewer SpriteViewer1;
+    protected CompositeDisposable CompositeDisposable;
     protected abstract void TryInitViewer(SpriteViewer spriteViewer);
-    public abstract void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator);
-    public abstract void Dispose();
+    public abstract void Construct(ViewerCreator viewerCreator);
+
+    public virtual void Dispose()
+    {
+        CompositeDisposable?.Clear();
+    }
 
     public void ResetCharacterView()
     {

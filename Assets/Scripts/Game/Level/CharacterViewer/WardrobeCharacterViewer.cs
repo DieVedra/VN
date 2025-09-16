@@ -16,10 +16,9 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     private ParticleSystem _particleSystem;
     public int CustomizableCharacterIndex { get; private set; }
 
-    public override void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
+    public override void Construct(ViewerCreator viewerCreator)
     {
         ViewerCreator = viewerCreator;
-        disableNodesContentEvent.Subscribe(ResetCharacterView);
         TryDestroy();
         SpriteViewer1 = CreateViewer();
         TryInitViewer(SpriteViewer1);
@@ -27,8 +26,14 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         TryInitViewer(_spriteViewer2);
         transform.position = _wardrobePosition;
     }
+    public void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
+    {
+        CompositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(ResetCharacterView);
+        Construct(viewerCreator);
+    }
     public override void Dispose()
     {
+        base.Dispose();
         SpriteViewer1.Dispose();
         _spriteViewer2.Dispose();
     }

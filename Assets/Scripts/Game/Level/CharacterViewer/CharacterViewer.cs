@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 public class CharacterViewer : BaseCharacterViewer, ISetLighting
@@ -6,10 +7,9 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
     private readonly Vector2 _rightPosition = new Vector2(0.89f, -0.6f);
     private CharacterDirectionView _characterDirectionView;
     public SpriteViewer SpriteViewer => SpriteViewer1;
-    public override void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
+    public override void Construct(ViewerCreator viewerCreator)
     {
         ViewerCreator = viewerCreator;
-        disableNodesContentEvent.Subscribe(ResetCharacterView);
         TryDestroy();
         SpriteViewer1 = CreateViewer();
         
@@ -19,8 +19,14 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
         transform.position = Vector3.zero;
     }
 
+    public void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
+    {
+        CompositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(ResetCharacterView);
+        Construct(viewerCreator);
+    }
     public override void Dispose()
     {
+        base.Dispose();
         SpriteViewer1?.Dispose();
     }
     public void SetDirection(DirectionType directionType)

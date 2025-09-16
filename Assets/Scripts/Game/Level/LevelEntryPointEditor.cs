@@ -113,6 +113,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     protected override void Dispose()
     {
         _gameSeriesHandlerEditorMode.Dispose();
+        _levelUIProviderEditMode.Dispose();
+        _wardrobeCharacterViewer.Dispose();
         base.Dispose();
         Save();
     }

@@ -54,6 +54,7 @@ public class ButtonsCustomizationHandler
 
         if (arrowSwitch != null)
         {
+            _compositeDisposable = new CompositeDisposable();
             _offArrows.Subscribe(_ =>
             {
                 if (_ == true)

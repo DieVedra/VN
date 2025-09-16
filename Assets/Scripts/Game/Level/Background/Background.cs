@@ -3,16 +3,15 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using NaughtyAttributes;
 using UnityEngine;
 
 public class Background : MonoBehaviour
 {
-    [SerializeField] protected List<BackgroundContent> BackgroundContent;
-    [SerializeField] protected List<Sprite> AdditionalImagesToBackground;
-    [SerializeField] protected List<Sprite> ArtsSprites;
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
     
-    [SerializeField, ReadOnly] private List<int> _artOpenedIndexes;
+    [SerializeField, NaughtyAttributes.ReadOnly] private List<int> _artOpenedIndexes;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
 
@@ -34,8 +33,6 @@ public class Background : MonoBehaviour
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected ISetLighting SetLighting;
     protected SpriteRendererCreator BackgroundContentAdditionalSpriteRendererCreator;
-    public int CurrentArtIndex { get; private set; }
-    public int CurrentIndexAdditionalImage { get; private set; }
     public int CurrentIndexBackgroundContent { get; private set; }
     public BackgroundPosition CurrentBackgroundPosition { get; private set; }
     public List<BackgroundContent> GetBackgroundContent => BackgroundContent;
@@ -100,9 +97,11 @@ public class Background : MonoBehaviour
     public void AddAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage, Vector2 localPosition, Color color)
     {
         BackgroundContent[indexBackground].AddAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
-        CurrentIndexAdditionalImage = indexAdditionalImage;
     }
-
+    public void TryRemoveAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage)
+    {
+        BackgroundContent[indexBackground].RemoveAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage].name, indexAdditionalImage);
+    }
     public void ShowArtImage(int indexArt)
     {
         ArtShower.color = new Color(1f,1f,1f,1f);
@@ -114,7 +113,7 @@ public class Background : MonoBehaviour
     {
         ArtShower.color = new Color(1f,1f,1f,0f);
         ArtShower.sprite = ArtsSprites[indexArt];
-        CurrentArtIndex = indexArt;
+        // CurrentArtIndex = indexArt;
         _artOpenedIndexes.Add(indexArt);
         ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
         ArtShower.gameObject.SetActive(true);

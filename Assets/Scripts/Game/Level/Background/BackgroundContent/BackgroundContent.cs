@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NaughtyAttributes;
+using UniRx;
 using UnityEngine;
 
 public class BackgroundContent : MonoBehaviour
@@ -23,24 +25,28 @@ public class BackgroundContent : MonoBehaviour
     private Transform _transformSprite;
     private ISetLighting _setLighting;
     private BackgroundPosition _currentBackgroundPosition;
-    
-    private Vector3 _currentPos;
-    private List<SpriteRenderer> _addContent;
 
-    private Vector3 _movementDuringDialogueAddend => new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
-    
+    private Vector3 _movementDuringDialogueAddend;
+    private Vector3 _currentPos;
+    private Dictionary<string, SpriteRenderer> _addContent;
+
+
     public Transform LeftBordTransform => _leftBordTransform;
     public Transform CentralBordTransform => _centralTransform;
     public Transform RightBordTransform => _rightBordTransform;
     public IReadOnlyList<AdditionalImageData> GetIndexesAdditionalImage => _indexesAdditionalImage;
 
 #if UNITY_EDITOR
-
+    private CompositeDisposable _compositeDisposable;
     public void Construct(DisableNodesContentEvent disableNodesContentEvent,
         ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, Sprite sprite, BackgroundContentValues backgroundContentValues)
     {
         Construct(setLighting, spriteRendererCreator, sprite, backgroundContentValues);
-        disableNodesContentEvent.Subscribe(DestroyAddContent);
+        _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(DestroyAllAddContent);
+    }
+    public void Dispose()
+    {
+        _compositeDisposable?.Clear();
     }
 #endif
     public void Construct(ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator,
@@ -48,7 +54,7 @@ public class BackgroundContent : MonoBehaviour
     {
         gameObject.name = backgroundContentValues.NameBackground;
         _spriteRenderer.sprite = sprite;
-        
+        _movementDuringDialogueAddend = new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
         _colorLighting = backgroundContentValues.ColorLighting;
         _spriteRenderer.color = backgroundContentValues.Color;
         _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
@@ -123,7 +129,7 @@ public class BackgroundContent : MonoBehaviour
     {
         if (_addContent == null)
         {
-            _addContent = new List<SpriteRenderer>();
+            _addContent = new Dictionary<string, SpriteRenderer>();
         }
 
         AdditionalImageData additionalImageData = new AdditionalImageData
@@ -137,7 +143,29 @@ public class BackgroundContent : MonoBehaviour
         spriteRenderer.color = color;
         spriteRenderer.transform.localPosition = localPosition;
         spriteRenderer.sortingOrder = _addContent.Count + 1;
-        _addContent.Add(spriteRenderer);
+        _addContent.Add(sprite.name, spriteRenderer);
+    }
+    public void RemoveAdditionalSprite(string nameSprite, int indexAdditionalImage)
+    {
+        if (_indexesAdditionalImage != null && _indexesAdditionalImage.Count > 0)
+        {
+            for (int i = 0; i < _indexesAdditionalImage.Count; i++)
+            {
+                if (_indexesAdditionalImage[i].IndexAdditionalImage == indexAdditionalImage)
+                {
+                    _indexesAdditionalImage.Remove(_indexesAdditionalImage[i]);
+                }
+                
+            }
+        }
+        if (_addContent != null && _addContent.Count > 0)
+        {
+            if (_addContent.TryGetValue(nameSprite, out SpriteRenderer renderer))
+            {
+                Destroy(renderer.gameObject);
+                _addContent.Remove(nameSprite);
+            }
+        }
     }
     public async UniTask MovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
@@ -202,17 +230,17 @@ public class BackgroundContent : MonoBehaviour
     }
     
 #if UNITY_EDITOR
-    private void DestroyAddContent()
+    private void DestroyAllAddContent()
     {
         if (Application.isPlaying == false)
         {
             if (_addContent != null)
             {
-                for (int i = 0; i < _addContent.Count; i++)
+                foreach (var renderer in _addContent.Values)
                 {
-                    DestroyImmediate(_addContent[i].gameObject);
-                }
+                    DestroyImmediate(renderer.gameObject);
 
+                }
                 _addContent = null;
             }
         }

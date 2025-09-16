@@ -108,7 +108,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         InitLevelUIProvider();
         InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
-        CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorBuildMode);
+        CharacterViewer.Construct(viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
 
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
