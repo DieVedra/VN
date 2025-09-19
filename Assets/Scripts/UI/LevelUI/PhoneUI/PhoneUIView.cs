@@ -1,0 +1,33 @@
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PhoneUIView : MonoBehaviour
+{
+    [SerializeField, BoxGroup("Оформление")] private Image _handImage;
+    [SerializeField, BoxGroup("Оформление")] private Image _frameImage;
+    
+    [SerializeField, BoxGroup("Top panel")] private List<Image> _signalIndicatorImage;
+    [SerializeField, BoxGroup("Top panel")] private TextMeshProUGUI _timeText;
+    [SerializeField, BoxGroup("Top panel")] private TextMeshProUGUI _butteryText;
+    [SerializeField, BoxGroup("Top panel")] private Image _butteryImage;
+    [SerializeField, BoxGroup("Top panel")] private Image _butteryIndicatorImage;
+
+    
+    [SerializeField, BoxGroup("Backgrounds")] private BlockScreenView _blockScreenViewBackground;
+    [SerializeField, BoxGroup("Backgrounds")] private GameObject _contactsBackground;
+    [SerializeField, BoxGroup("Backgrounds")] private GameObject _messagerBackground;
+
+    
+    
+    // [SerializeField] private TextMeshProUGUI _text;
+    public IReadOnlyList<Image> SignalIndicatorImage => _signalIndicatorImage;
+    public TextMeshProUGUI TimeText => _timeText;
+    public TextMeshProUGUI ButteryText => _butteryText;
+    public Image ButteryImage => _butteryImage;
+    public Image ButteryIndicatorImage => _butteryIndicatorImage;
+    
+    public BlockScreenView BlockScreenViewBackground => _blockScreenViewBackground;
+}
