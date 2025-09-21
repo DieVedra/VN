@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +13,7 @@ public class TopPanelHandler
     private Image _butteryImage;
     private Image _butteryIndicatorImage;
     private PhoneTime _phoneTime;
+    private CompositeDisposable _compositeDisposable;
 
     public TopPanelHandler(IReadOnlyList<Image> signalIndicatorImage, TextMeshProUGUI timeText, TextMeshProUGUI butteryText,
         Image butteryImage, Image butteryIndicatorImage)
@@ -22,11 +23,11 @@ public class TopPanelHandler
         _butteryText = butteryText;
         _butteryImage = butteryImage;
         _butteryIndicatorImage = butteryIndicatorImage;
-        _phoneTime = new PhoneTime();
     }
 
-    public void Init(Color color, int startHour, int startMinute, int data, int butteryPercent = 85)
+    public void Init(Color color, PhoneTime phoneTime, int butteryPercent = 85)
     {
+        _compositeDisposable = new CompositeDisposable();
         for (int i = 0; i < _signalIndicatorImage.Count; i++)
         {
             _signalIndicatorImage[i].color = color;
@@ -34,6 +35,16 @@ public class TopPanelHandler
 
         _butteryImage.fillAmount = butteryPercent;
         _butteryText.text = $"{_butteryText}{_percentSymbol}";
-        _phoneTime.Start(_timeText, startHour, startMinute, data).Forget();
+        Observable.EveryUpdate().Subscribe(_ =>
+        {
+            _timeText.text = _phoneTime.GetCurrentTime();
+        }).AddTo(_compositeDisposable);
+
+        _phoneTime = phoneTime;
+    }
+
+    public void Dispose()
+    {
+        _compositeDisposable?.Clear();
     }
 }

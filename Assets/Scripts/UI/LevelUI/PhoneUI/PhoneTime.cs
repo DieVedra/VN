@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -15,9 +14,10 @@ public class PhoneTime
     private int _currentHour;
     private int _currentMinute;
     private int _currentData;
-    
     private CancellationTokenSource _cancellationTokenSource;
-    private bool _isStarted;
+    public bool IsStarted { get; private set; }
+
+
     public string GetCurrentTime()
     {
         return $"{_currentHour.ToString()}{_separ1}{_currentMinute.ToString()}";
@@ -26,11 +26,11 @@ public class PhoneTime
     {
         return $"";
     }
-    public async UniTask Start(TextMeshProUGUI timeText, int startHour, int startMinute, int data)
+    public async UniTask Start(int startHour, int startMinute, int data)
     {
-        if (_isStarted == false)
+        if (IsStarted == false)
         {
-            _isStarted = true;
+            IsStarted = true;
             _cancellationTokenSource = new CancellationTokenSource();
             _currentHour = startHour;
             if (startMinute < _maxMinute && startMinute > _firstMinute)
@@ -41,7 +41,7 @@ public class PhoneTime
             {
                 _currentMinute = _firstMinute;
             }
-            while (_isStarted)
+            while (IsStarted)
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
                 if (_currentMinute == _lastMinute)
@@ -52,16 +52,15 @@ public class PhoneTime
                 {
                     _currentMinute++;
                 }
-                timeText.text = GetCurrentTime();
             }
         }
     }
 
     public void Stop()
     {
-        if (_isStarted == true)
+        if (IsStarted == true)
         {
-            _isStarted = false;
+            IsStarted = false;
             _cancellationTokenSource.Cancel();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ContactsScreenView : BaseScreen
 {
@@ -10,6 +11,8 @@ public class ContactsScreenView : BaseScreen
     [SerializeField] private TextMeshProUGUI _textAddContact;
     [SerializeField] private RectTransform _contactsTransform;
     
+    public Color ColorTopPanel => TopPanelColor;
+    public Image ImageBackground =>  BackgroundImage;
     public TextMeshProUGUI TextFind => _textFind;
     public TextMeshProUGUI TextCalls => _textCalls;
     public TextMeshProUGUI TextExit => _textExit;

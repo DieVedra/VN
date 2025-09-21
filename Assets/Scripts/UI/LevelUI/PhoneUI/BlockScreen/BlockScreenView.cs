@@ -11,7 +11,8 @@ public class BlockScreenView : BaseScreen
     [SerializeField] private TextMeshProUGUI _contactName;
     [SerializeField] private TextMeshProUGUI _notificationText;
     
-    public Color TopPanelColor => TopPanelColor;
+    public Color ColorTopPanel => TopPanelColor;
+    public Image ImageBackground =>  BackgroundImage;
     public TextMeshProUGUI Time => _time;
     public TextMeshProUGUI Data => _data;
     public TextMeshProUGUI ContactName => _contactName;

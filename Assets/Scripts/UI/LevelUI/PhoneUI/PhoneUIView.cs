@@ -17,12 +17,10 @@ public class PhoneUIView : MonoBehaviour
 
     
     [SerializeField, BoxGroup("Backgrounds")] private BlockScreenView _blockScreenViewBackground;
-    [SerializeField, BoxGroup("Backgrounds")] private GameObject _contactsBackground;
-    [SerializeField, BoxGroup("Backgrounds")] private GameObject _messagerBackground;
+    [SerializeField, BoxGroup("Backgrounds")] private DialogScreenView _dialogScreenViewBackground;
+    [SerializeField, BoxGroup("Backgrounds")] private ContactsScreenView _contactsScreenViewBackground;
 
     
-    
-    // [SerializeField] private TextMeshProUGUI _text;
     public IReadOnlyList<Image> SignalIndicatorImage => _signalIndicatorImage;
     public TextMeshProUGUI TimeText => _timeText;
     public TextMeshProUGUI ButteryText => _butteryText;
@@ -30,4 +28,6 @@ public class PhoneUIView : MonoBehaviour
     public Image ButteryIndicatorImage => _butteryIndicatorImage;
     
     public BlockScreenView BlockScreenViewBackground => _blockScreenViewBackground;
+    public DialogScreenView DialogScreenViewBackground => _dialogScreenViewBackground;
+    public ContactsScreenView ContactsScreenViewBackground => _contactsScreenViewBackground;
 }
