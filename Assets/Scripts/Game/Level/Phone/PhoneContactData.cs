@@ -6,11 +6,15 @@ using UnityEngine;
 public class PhoneContactData
 {
     [field: SerializeField] public string Name { get; private set; }
+
     // [field: SerializeField] public string NameKey { get; private set; }
 
-    [SerializeField] private Sprite _icon;
-    [SerializeField] private bool _withIcon;
-    [SerializeField] private List<PhoneMessage> PhoneMessages;
+    [field: SerializeField] public Sprite Icon  { get; private set; }
+
+    [field: SerializeField] public bool WithIcon  { get; private set; }
+
+    [SerializeField] private List<PhoneMessage> _phoneMessages;
+
     private LocalizationString _nameContact;
 
     public LocalizationString LocalizationString
@@ -21,11 +25,28 @@ public class PhoneContactData
             {
                 _nameContact = new LocalizationString(Name);
             }
-            else
+            if (string.IsNullOrEmpty(_nameContact.DefaultText))
             {
                 _nameContact.SetText(Name);
             }
+            if (string.IsNullOrEmpty(_nameContact.Key))
+            {
+                _nameContact.GenerateStableHash();
+            }
             return _nameContact;
         }
+    }
+
+    public IReadOnlyList<PhoneMessage> PhoneMessages => _phoneMessages;
+
+    public PhoneContactData(string name, Sprite icon)
+    {
+        Name = name;
+        Icon = icon;
+    }
+
+    public void AddMessages(IReadOnlyList<PhoneMessage> phoneMessages)
+    {
+        _phoneMessages.AddRange(phoneMessages);
     }
 }

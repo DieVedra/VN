@@ -61,10 +61,14 @@ public class PhoneNodeDrawer : NodeEditor
     private string[] InitNamesPhones()
     {
         List<string> names = new List<string>();
-        for (int i = 0; i < _phoneNode.DataProviders.Count; i++)
+        if (_phoneNode.Phones != null && _phoneNode.Phones.Count > 0)
         {
-            names.Add(_phoneNode.DataProviders[i].NamePhone);
+            for (int i = 0; i < _phoneNode.Phones.Count; i++)
+            {
+                names.Add(_phoneNode.Phones[i].NamePhone);
+            }
         }
+
         return names.ToArray();
     }
 }

@@ -19,10 +19,10 @@ public class PhoneNode : BaseNode, ILocalizable
     private const string _dialogScreenName = "DialogScreen";
     private PhoneUIHandler _phoneUIHandler;
     
-    public IReadOnlyList<PhoneData> DataProviders { get; private set; }
-    public void ConstructMyPhoneNode(IReadOnlyList<PhoneData> dataProviders, PhoneUIHandler phoneUIHandler)
+    public IReadOnlyList<Phone> Phones { get; private set; }
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, PhoneUIHandler phoneUIHandler)
     {
-        DataProviders = dataProviders;
+        Phones = phones;
         _phoneUIHandler = phoneUIHandler;
     }
 

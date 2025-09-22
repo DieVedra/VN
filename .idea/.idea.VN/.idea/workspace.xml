@@ -20,117 +20,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1339a6f3-d5ef-4347-8c7a-45f5e254c391" name="Default Changelist" comment="11">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactsProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactsProvider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneMessage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneMessage.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneScreenBaseHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneScreenBaseHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactCombiner.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactCombiner.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneCreator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneCreator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneDataProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneDataProvider.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNodes.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VN/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Contact.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Contact.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Phone.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Phone.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Phone/Phone.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Phone/Phone.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/NewWildBeachEditorScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/NewWildBeachEditorScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewer.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProvider.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewerInEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewerInEditMode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/BlockScreen/BlockScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/BlockScreen/BlockScreenHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/BlockScreen/BlockScreenView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/BlockScreen/BlockScreenView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/ContactsScreen/ContactsScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/ContactsScreen/ContactsScreenHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/ContactsScreen/ContactsScreenView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/ContactsScreen/ContactsScreenView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/DialogScreen/DialogScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/DialogScreen/DialogScreenHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneTime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneTime.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneUIHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneUIHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/TopPanelHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/TopPanelHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneData.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneData.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ActiveStatus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ActiveStatus.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ActiveStatus1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ActiveStatus1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/EuropioidHandPhone.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/EuropioidHandPhone.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/EuropioidHandPhone.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/EuropioidHandPhone.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/HandsPhone.spriteatlas" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/HandsPhone.spriteatlas.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Phone.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Phone.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Phone.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Phone.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое Элис.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое Элис.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Мама.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Мама.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Марк.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Марк.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Миранда.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Миранда.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Эдвин.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Диалоговое окно Эдвин.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Мама.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Мама.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Марк.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Марк.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Миранда.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Миранда.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Эдвин.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Контакт Эдвин.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактАманда.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактАманда.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактАманда.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактАманда.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактБабушка.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактБабушка.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактТетушка.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КонтактТетушка.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Кружок.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Кружок.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокДжордж.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокДжордж.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокДжордж.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокДжордж.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМама.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМама.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМама.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМама.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМарк.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМарк.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМиранда.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМиранда.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМиранда.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокМиранда.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокЭдвин.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокЭдвин.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокЭдвин.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/КружокЭдвин.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Окно1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Окно1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Ресурс 14.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Ресурс 14.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Ресурс 15.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Ресурс 15.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Слой 4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Слой 4.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Фон2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/Фон2.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ФонКонтакты.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ФонКонтакты.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ФонМессенжер.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/ФонМессенжер.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/для телефона выход.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/для телефона выход.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 2 контакта и выход).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 2 контакта и выход).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 3 контакта и выход).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 3 контакта и выход).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 4 контакта и выход).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (Пустой  - на 4 контакта и выход).png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Марк)..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Марк)..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Миранда)..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Миранда)..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Эдвин)..png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона (мессенджер контакт Эдвин)..png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/Телефон/экран мобильного телефона.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneMessage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Localization/LocalizationString.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Localization/LocalizationString.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNodes/PhoneNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNodes/PhoneNode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneContactsProvider.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneContactsProvider.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneDataSeria4.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Серия 4/Locations/PhoneDataSeria4.asset.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,10 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/ChangeLookCustomCharacterNodeDrawer/CustomizableCharacterNonWardrobeIndexes.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/ChangeLookCustomCharacterNodeDrawer/ChangeLookCustomCharacterNodeDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/SaveService/WardrobeSaveData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CustomizableCharacterIndexesCustodian.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Character/CustomizableCharacter.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/ChangeLookCustomCharacterNode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/AddSpriteNodeToBackgroundDrawer.cs" />
@@ -263,7 +173,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/Background.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Background/BackgroundEditMode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneDataProvider.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/TopPanel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneBackground.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneBackgrounds/BlockScreen.cs" />
@@ -284,15 +193,20 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/BlockScreen/BlockScreenHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/LevelUI/PhoneUI/PhoneUIHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneViewerInEditMode.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProvider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactsData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactsProvider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Localization/LocalizationString.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Nodes/PhoneNodes/PhoneNode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/NodesDrawers/PhoneNodeDrawer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactCombiner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneProviderInEditMode.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneDataProvider.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneContactData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneMessage.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/Phone.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneCreator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Level/Phone/PhoneData.cs" />
       </list>
     </option>
@@ -633,6 +547,7 @@
       <workItem from="1758362214502" duration="13759000" />
       <workItem from="1758450477307" duration="6964000" />
       <workItem from="1758477740754" duration="485000" />
+      <workItem from="1758560763523" duration="13112000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1745677347359</created>
@@ -667,10 +582,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="11" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="393" y="42" key="RiderGenerateDialog" timestamp="1758374731408">
+    <state x="664" y="55" key="RiderGenerateDialog" timestamp="1758576219957">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="393" y="42" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1758374731408" />
+    <state x="664" y="55" key="RiderGenerateDialog/0.0.1366.728@0.0.1366.728" timestamp="1758576219957" />
     <state x="184" y="9" key="SettingsEditor" timestamp="1752747755565">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

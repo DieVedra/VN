@@ -23,7 +23,14 @@ public class LocalizationString
             return _prefix + BitConverter.ToString(hashBytes).Replace("-", "").Substring(0, 8);
         }
     }
-
+    public string GenerateStableHash()
+    {
+        using (var sha256 = SHA256.Create())
+        {
+            byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(DefaultText));
+            return _prefix + BitConverter.ToString(hashBytes).Replace("-", "").Substring(0, 8);
+        }
+    }
     public static implicit operator LocalizationString(string text)
     {
         return new LocalizationString(defaultText: text);
