@@ -16,6 +16,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerEditorMode _gameSeriesHandlerEditorMode;
     [SerializeField] private SeriaGameStatsProviderEditor _seriaGameStatsProviderEditor;
     [SerializeField] private GameStatsViewer _gameStatsViewer;
+    [SerializeField] private PhoneProviderInEditMode _phoneProviderInEditMode;
     [SerializeField] private Wallet _wallet;
 
     [SerializeField, Space(10f)] private int _testMonets;
@@ -73,11 +74,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         InitBackground();
         InitLevelUIProvider();
+        _phoneProviderInEditMode.Construct();
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider,_backgroundEditMode, _levelUIProviderEditMode,
-            CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor,
+            CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
-        
+
         DisableNodesContentEvent.Execute();
+
+
         if (Application.isPlaying)
         {
             if (SaveData != null)
@@ -103,6 +107,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
+
         IsInitializing = false;
     }
 

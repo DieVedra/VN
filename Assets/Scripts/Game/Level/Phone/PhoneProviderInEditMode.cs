@@ -1,39 +1,58 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
-public class PhoneProviderInEditMode : MonoBehaviour
+public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 {
-    [SerializeField] private List<PhoneDataProvider> _dataProviders;
-    [SerializeField] private List<PhoneContactsProvider> _contactsToSeriaProviders;
+    [SerializeField, Expandable] private List<PhoneDataProvider> _dataProviders;
+    [SerializeField, Expandable] private List<PhoneContactsProvider> _contactsToSeriaProviders;
 
-    private List<Phone> _phones;
+    private Dictionary<string, Phone> _phones1;
+    private List<Phone> _phones2;
 
-    private PhoneCreator _phoneCreator;
+    private PhoneCreatorEditMode _phoneCreator;
     private PhoneContactCombiner _phoneContactCombiner;
-    public IReadOnlyList<Phone> GetPhones(int seriaIndex)
+    //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
+    //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
+    public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
-        List<Phone> phones = new List<Phone>();
-        
-        _phoneCreator.CreatePhones(seriaIndex);
-        
-        
-        return phones;
+        if (Application.isPlaying)
+        {
+            _phoneCreator.TryCreatePhones(_phones2, currentSeriaIndex);
+            return _phones2;
+        }
+        else
+        {
+            
+            return _phoneCreator.TryCreatePhonesForNonPlayMode(currentSeriaIndex);
+        }
     }
-    public IReadOnlyList<PhoneContactData> GetContactsToSeria(int seriaIndex)
+    
+    //придумать проверку если контакт был добавлен в телефон ранее то контакт будет дополнен датой текущей серии
+    //а если контакт не был добавлен в телефон ранее а был добавлен в текущей серии то его надо добавить без контента прошлых серий
+    //
+    public IReadOnlyList<PhoneContactDataLocalizable> GetContactsToSeria(int seriaIndex)
     {
-        return _phoneContactCombiner.GetContactsToSeria(seriaIndex);
+        List<PhoneContactDataLocalizable> contactDatas = new List<PhoneContactDataLocalizable>();
+        for (int i = 0; i < _contactsToSeriaProviders.Count; i++)
+        {
+            if (_contactsToSeriaProviders[i].SeriaIndex < seriaIndex)
+            {
+                contactDatas.AddRange(_phoneContactCombiner.CreateNewPhoneContactData(_contactsToSeriaProviders[i].PhoneContactDatas, true));
+                    
+            }else if (_contactsToSeriaProviders[i].SeriaIndex == seriaIndex)
+            {
+                contactDatas.AddRange(_phoneContactCombiner.CreateNewPhoneContactData(_contactsToSeriaProviders[i].PhoneContactDatas, false));
+            }
+        }
+        return contactDatas;
     }
     public void Construct()
     {
-        _phoneCreator = new PhoneCreator(_dataProviders);
-        _phoneContactCombiner = new PhoneContactCombiner(_contactsToSeriaProviders);
-    }
-
-
-
-    private void ContactCombiner()
-    {
-        
+        _phoneContactCombiner = new PhoneContactCombiner();
+        _phoneCreator = new PhoneCreatorEditMode(_dataProviders, _phoneContactCombiner);
+        _phones1 = new Dictionary<string, Phone>();
+        _phones2 = new List<Phone>();
     }
 }
 //глобальное хранилище контактов для каждой серии и у каждого персонажа с телефоном есть свои контакты

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LevelUIView : MonoBehaviour
 {
+    [SerializeField] private PhoneUIView _phoneUIView;
     [SerializeField] private NarrativePanelUI _narrativePanelUI;
     [SerializeField] private NotificationPanelUI _notificationPanelUI;
     [SerializeField] private CharacterPanelUI _characterPanelUI;
@@ -13,6 +14,7 @@ public class LevelUIView : MonoBehaviour
     [SerializeField] private GameControlPanelView _gameControlPanelView;
     [SerializeField] private ResourcePanelWithCanvasGroupView _monetPanel;
     [SerializeField] private ResourcePanelWithCanvasGroupView _heartsPanel;
+    public PhoneUIView PhoneUIView => _phoneUIView;
     public NarrativePanelUI NarrativePanelUI => _narrativePanelUI;
     public NotificationPanelUI NotificationPanelUI => _notificationPanelUI;
     public CharacterPanelUI CharacterPanelUI => _characterPanelUI;

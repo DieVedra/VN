@@ -584,6 +584,7 @@
               <e p="LocalizationCreator.cs" t="Include" />
             </e>
             <e p="NodesDrawers" t="Include">
+              <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
               <e p="AddSpriteNodeToBackgroundDrawer.cs" t="Include" />
               <e p="BackgroundNodeDrawer.cs" t="Include" />
               <e p="ChangeLookCustomCharacterNodeDrawer" t="Include">
@@ -774,14 +775,27 @@
               <e p="MySprite.cs" t="Include" />
               <e p="NextSeriaSwitchHandler.cs" t="Include" />
               <e p="Phone" t="Include">
+                <e p="IPhoneProvider.cs" t="Include" />
                 <e p="Phone.cs" t="Include" />
                 <e p="PhoneContactCombiner.cs" t="Include" />
-                <e p="PhoneContactData.cs" t="Include" />
+                <e p="PhoneContactData" t="Include">
+                  <e p="PhoneContactData.cs" t="Include" />
+                  <e p="PhoneContactDataLocalizable.cs" t="Include" />
+                </e>
                 <e p="PhoneContactsProvider.cs" t="Include" />
-                <e p="PhoneCreator.cs" t="Include" />
-                <e p="PhoneData.cs" t="Include" />
+                <e p="PhoneCreator" t="Include">
+                  <e p="PhoneCreator.cs" t="Include" />
+                  <e p="PhoneCreatorEditMode.cs" t="Include" />
+                </e>
+                <e p="PhoneData" t="Include">
+                  <e p="PhoneData.cs" t="Include" />
+                  <e p="PhoneDataLocalizable.cs" t="Include" />
+                </e>
                 <e p="PhoneDataProvider.cs" t="Include" />
-                <e p="PhoneMessage.cs" t="Include" />
+                <e p="PhoneMessage" t="Include">
+                  <e p="PhoneMessage.cs" t="Include" />
+                  <e p="PhoneMessageLocalization.cs" t="Include" />
+                </e>
                 <e p="PhoneProvider.cs" t="Include" />
                 <e p="PhoneProviderInEditMode.cs" t="Include" />
               </e>
@@ -943,6 +957,7 @@
             </e>
             <e p="NotificationNode.cs" t="Include" />
             <e p="PhoneNodes" t="Include">
+              <e p="AddContactToPhoneNode.cs" t="Include" />
               <e p="PhoneNode.cs" t="Include" />
             </e>
             <e p="PutOnSwimsuitsNode.cs" t="Include" />

@@ -11,6 +11,7 @@ public class NodeGraphInitializer
 
     
     private readonly IGameStatsProvider _gameStatsProvider;
+    private readonly IPhoneProvider _phoneProvider;
     private readonly List<BackgroundContent> _backgrounds;
     private readonly ICharacterProvider _characterProvider;
     private readonly Background _background;
@@ -22,7 +23,7 @@ public class NodeGraphInitializer
 
     public NodeGraphInitializer(List<BackgroundContent> backgrounds, ICharacterProvider characterProvider, Background background, 
         LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer,
-        Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider,
+        Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         SetLocalizationChangeEvent setLocalizationChangeEvent)
@@ -36,6 +37,7 @@ public class NodeGraphInitializer
         _sound = sound;
         _wallet = wallet;
         _gameStatsProvider = gameStatsProvider;
+        _phoneProvider = phoneProvider;
         SwitchToNextNodeEvent = switchToNextNodeEvent;
         SwitchToAnotherNodeGraphEvent = switchToAnotherNodeGraphEvent;
         DisableNodesContentEvent = disableNodesContentEvent;
@@ -147,6 +149,17 @@ public class NodeGraphInitializer
         if (node is ShowArtNode showImageNode)
         {
             showImageNode.Construct(_background);
+            return;
+        }
+
+        if (node is AddContactToPhoneNode addContactToPhoneNode)
+        {
+            addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsToSeria(seriaIndex), _levelUIProvider.NotificationPanelUIHandler);
+            return;
+        }
+        if (node is PhoneNode phoneNode)
+        {
+            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _levelUIProvider.PhoneUIHandler);
         }
     }
 }

@@ -8,6 +8,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
+    private IPhoneProvider _phoneProvider;
     private Wallet _wallet;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
@@ -117,7 +118,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         NodeGraphInitializer = new NodeGraphInitializer(
             _backgroundBuildMode.GetBackgroundContent, _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
-            _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild,
+            _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _phoneProvider,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (SaveData == null)

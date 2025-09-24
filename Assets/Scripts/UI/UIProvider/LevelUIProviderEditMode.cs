@@ -1,8 +1,9 @@
 ﻿using UniRx;
 using UnityEngine;
 
-public class LevelUIProviderEditMode 
+public class LevelUIProviderEditMode
 {
+    public readonly PhoneUIHandler PhoneUIHandler;
     public readonly NarrativePanelUIHandler NarrativePanelUIHandler;
     public readonly NotificationPanelUIHandler NotificationPanelUIHandler;
     public readonly CharacterPanelUIHandler CharacterPanelUIHandler;
@@ -28,6 +29,11 @@ public class LevelUIProviderEditMode
         ButtonSwitchSlideUI buttonSwitchSlideUI = levelUIView.ButtonSwitchSlideUI;
         HeaderSeriesPanelUI headerSeriesPanelUI = levelUIView.HeaderSeriesPanelUI;
 
+        PhoneUIHandler = new PhoneUIHandler();
+        if (levelUIView.PhoneUIView != null)
+        {
+            PhoneUIHandler.Init(levelUIView.PhoneUIView);
+        }
         NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);

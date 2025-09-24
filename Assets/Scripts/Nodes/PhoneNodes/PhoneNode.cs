@@ -7,7 +7,7 @@ using UnityEngine;
 public class PhoneNode : BaseNode, ILocalizable
 {
     [SerializeField] private int _phoneIndex;
-    [SerializeField] private int _phoneScreenIndex;
+    [SerializeField] private int _phoneStartScreenIndex;
     [SerializeField] private int _butteryPercent;
 
     [SerializeField] private LocalizationString _dayLocalizationString;
@@ -28,9 +28,9 @@ public class PhoneNode : BaseNode, ILocalizable
 
     public override UniTask Enter(bool isMerged = false)
     {
-        // _phoneUIHandler.SetBackground(_phoneBackgroundScreens[_phoneScreenIndex], );
+        // _phoneUIHandler.SetBackground(_phoneBackgroundScreens[_phoneStartScreenIndex], );
         
-        switch (_phoneScreenIndex)
+        switch (_phoneStartScreenIndex)
         {
             case (int)PhoneBackgroundScreen.BlockScreen:
                 _phoneUIHandler.SetBlockScreenBackground(_butteryPercent);
@@ -49,7 +49,7 @@ public class PhoneNode : BaseNode, ILocalizable
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         List<LocalizationString> strings = new List<LocalizationString>();
-        switch (_phoneScreenIndex)
+        switch (_phoneStartScreenIndex)
         {
             case (int)PhoneBackgroundScreen.BlockScreen:
                 strings.Add(_dayLocalizationString);
