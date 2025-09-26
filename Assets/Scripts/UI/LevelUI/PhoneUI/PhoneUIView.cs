@@ -9,6 +9,7 @@ public class PhoneUIView : MonoBehaviour
     [SerializeField, BoxGroup("Оформление")] private Image _handImage;
     [SerializeField, BoxGroup("Оформление")] private Image _frameImage;
     
+    [SerializeField, BoxGroup("Top panel")] private RectTransform _signalIndicatorRectTransform;
     [SerializeField, BoxGroup("Top panel")] private List<Image> _signalIndicatorImage;
     [SerializeField, BoxGroup("Top panel")] private TextMeshProUGUI _timeText;
     [SerializeField, BoxGroup("Top panel")] private TextMeshProUGUI _butteryText;
@@ -21,6 +22,7 @@ public class PhoneUIView : MonoBehaviour
     [SerializeField, BoxGroup("Backgrounds")] private ContactsScreenView _contactsScreenViewBackground;
 
     
+    public RectTransform SignalIndicatorRectTransform => _signalIndicatorRectTransform;
     public IReadOnlyList<Image> SignalIndicatorImage => _signalIndicatorImage;
     public TextMeshProUGUI TimeText => _timeText;
     public TextMeshProUGUI ButteryText => _butteryText;

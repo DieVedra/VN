@@ -15,10 +15,10 @@ public class PhoneScreenBaseHandler
         BackgroundImage = backgroundImage;
         TopPanelColor = topPanelColor;
     }
-    public void BaseEnable(PhoneTime phoneTime, int butteryPercent)
+    protected void BaseEnable(PhoneTime phoneTime, int butteryPercent, bool playModeKey)
     {
         Screen.SetActive(true);
-        TopPanelHandler.Init(TopPanelColor, phoneTime, butteryPercent);
+        TopPanelHandler.Init(TopPanelColor, phoneTime, playModeKey, butteryPercent);
     }
 
     public virtual void Disable()

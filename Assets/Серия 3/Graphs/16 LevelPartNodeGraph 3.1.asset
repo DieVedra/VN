@@ -160,6 +160,7 @@ MonoBehaviour:
   - {fileID: 6115039856508558791}
   - {fileID: 2630070790566748709}
   - {fileID: -5082217586533752690}
+  - {fileID: 7561929692321050159}
 --- !u!114 &2630070790566748709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,3 +240,55 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
+--- !u!114 &7561929692321050159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0232c1e77aaf4b1fbb4ff176e4d90986, type: 3}
+  m_Name: Phone
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1016, y: -312}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7561929692321050159}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7561929692321050159}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _phoneIndex: 0
+  _phoneStartScreen: 0
+  _butteryPercent: 85
+  _startHour: 16
+  _startMinute: 20
+  _date:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 
+  _showStartInfo: 1
+  _blockScreenNotificationKey: 1
+  _blockScreenCharacterIndex: 0
+  _dayLocalizationString:
+    <DefaultText>k__BackingField: 
+    <Key>k__BackingField: 

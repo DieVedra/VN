@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-[NodeTint("#289AFF")]
+[NodeTint("#207CCB")]
 public class AddContactToPhoneNode : BaseNode, ILocalizable
 {
     [SerializeField] private int _phoneIndex;
@@ -31,7 +31,6 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
         _notificationPanelUIHandler = notificationPanelUIHandler;
         Phones = phones;
         Contacts = contacts;
-        Debug.Log($"Phones.Count {Phones.Count}");
         _localizationString = new LocalizationString(_notificationTextPart);
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

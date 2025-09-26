@@ -1,11 +1,9 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
 
 [CustomNodeEditorAttribute(typeof(AddContactToPhoneNode))]
-
 public class AddContactToPhoneNodeDrawer : NodeEditor
 {
     private AddContactToPhoneNode _addContactToPhoneNode;

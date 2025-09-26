@@ -13,7 +13,7 @@ public class PhoneTime
     private const int _firstMinute = 0;
     private int _currentHour;
     private int _currentMinute;
-    private int _currentData;
+    private string _currentData;
     private CancellationTokenSource _cancellationTokenSource;
     public bool IsStarted { get; private set; }
 
@@ -26,33 +26,49 @@ public class PhoneTime
     {
         return $"";
     }
-    public async UniTask Start(int startHour, int startMinute, int data)
+    public async UniTask Start(int startHour, int startMinute, string date, bool playModeKey)
     {
-        if (IsStarted == false)
+        if (playModeKey)
         {
-            IsStarted = true;
-            _cancellationTokenSource = new CancellationTokenSource();
-            _currentHour = startHour;
-            if (startMinute < _maxMinute && startMinute > _firstMinute)
+            if (IsStarted == false)
             {
-                _currentMinute = startMinute;
-            }
-            else
-            {
-                _currentMinute = _firstMinute;
-            }
-            while (IsStarted)
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
-                if (_currentMinute == _lastMinute)
+                _currentData = date;
+                IsStarted = true;
+                _cancellationTokenSource = new CancellationTokenSource();
+                _currentHour = startHour;
+                CheckStartMinute(startHour, startMinute, date);
+                while (IsStarted)
                 {
-                    _currentMinute = _firstMinute;
-                }
-                else
-                {
-                    _currentMinute++;
+                    await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
+                    if (_currentMinute == _lastMinute)
+                    {
+                        _currentMinute = _firstMinute;
+                    }
+                    else
+                    {
+                        _currentMinute++;
+                    }
                 }
             }
+        }
+        else
+        {
+            CheckStartMinute(startHour, startMinute, date);
+        }
+    }
+
+    private void CheckStartMinute(int startHour, int startMinute, string date)
+    {
+        _currentData = date;
+        _currentHour = startHour;
+
+        if (startMinute < _maxMinute && startMinute > _firstMinute)
+        {
+            _currentMinute = startMinute;
+        }
+        else
+        {
+            _currentMinute = _firstMinute;
         }
     }
 

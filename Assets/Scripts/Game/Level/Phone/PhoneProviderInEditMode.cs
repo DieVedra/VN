@@ -66,8 +66,3 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 //
 //телефон включается нодой в которой можно выбрать экран
 //при добавлении контакта срабатывает нода оповещения
-//
-//
-//
-//
-//

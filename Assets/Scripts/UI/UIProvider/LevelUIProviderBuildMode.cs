@@ -42,7 +42,8 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
         return ListExtensions.MergeIReadOnlyLists(
             new[] {
                 GameEndPanelHandler.TextDescription, GameEndPanelHandler.TextLabel, GameEndPanelHandler.ButtonBackToMenu,
-                AwaitLoadContentPanelHandler.AwaitLoadText},
-                GameControlPanelUIHandler.GetLocalizableContent());
+                AwaitLoadContentPanelHandler.AwaitLoadText}, 
+            GameControlPanelUIHandler.GetLocalizableContent(),
+            PhoneUIHandler.GetLocalizableContent());
     }
 }
