@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class PhoneDataLocalizable
 {
     private List<PhoneContactDataLocalizable> _phoneContactDatasLocalizable;
-
+    public Sprite Hand { get; private set; }
+    public Sprite PhoneFrame { get; private set; }
+    public Sprite Background { get; private set; }
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable => _phoneContactDatasLocalizable;
 
     public PhoneDataLocalizable(List<PhoneContactDataLocalizable> phoneContactDatasLocalizable)
@@ -30,6 +33,28 @@ public class PhoneDataLocalizable
             {
                 _phoneContactDatasLocalizable.Add(pair.Value);
             }
+        }
+    }
+    public void SetHandSprite(Sprite hand)
+    {
+        if (hand != null)
+        {
+            Hand = hand;
+        }
+    }
+
+    public void SetPhoneFrameSprite(Sprite frame)
+    {
+        if (frame != null)
+        {
+            PhoneFrame = frame;
+        }
+    }
+    public void SetPhoneBackgroundSprite(Sprite background)
+    {
+        if (background != null)
+        {
+            Background = background;
         }
     }
 }

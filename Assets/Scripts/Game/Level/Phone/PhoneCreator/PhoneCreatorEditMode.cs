@@ -1,17 +1,15 @@
-﻿
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class PhoneCreatorEditMode : PhoneCreator
 {
-    public PhoneCreatorEditMode(IReadOnlyList<PhoneDataProvider> dataProviders, PhoneContactCombiner phoneContactCombiner)
-        : base(dataProviders, phoneContactCombiner) { }
+    public PhoneCreatorEditMode(IReadOnlyList<PhoneDataProvider> dataProviders, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, 
+        PhoneContactCombiner phoneContactCombiner)
+        : base(dataProviders, customizableCharacterIndexesCustodians, phoneContactCombiner) { }
     public List<Phone> TryCreatePhonesForNonPlayMode(int currentSeriaIndex)
     {
         List<Phone> phones = new List<Phone>();
         var newPhoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-        Debug.Log($"newPhoneDatas {newPhoneDatas.Count}");
         foreach (var pair in newPhoneDatas)
         {
             Phone phone = new Phone(pair.Value, pair.Key, currentSeriaIndex); 

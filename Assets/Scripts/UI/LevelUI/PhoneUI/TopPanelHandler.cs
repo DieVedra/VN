@@ -17,6 +17,7 @@ public class TopPanelHandler
     private Image _butteryIndicatorImage;
     private PhoneTime _phoneTime;
     private CompositeDisposable _compositeDisposable;
+    private bool _timeTextInited;
     private Vector2 _posShowTime => new Vector2(_posXSignalIndicatorShowTime, _signalIndicatorRectTransform.anchoredPosition.y);
     private Vector2 _posHideTime => new Vector2(_posXSignalIndicatorHideTime, _signalIndicatorRectTransform.anchoredPosition.y);
 
@@ -29,6 +30,7 @@ public class TopPanelHandler
         _butteryText = butteryText;
         _butteryImage = butteryImage;
         _butteryIndicatorImage = butteryIndicatorImage;
+        _timeTextInited = false;
     }
 
     public void Init(Color color, PhoneTime phoneTime, bool playModeKey, int butteryPercent = 85, bool showTimeKey = true)
@@ -37,13 +39,14 @@ public class TopPanelHandler
         {
             _signalIndicatorImage[i].color = color;
         }
-
+        _timeText.color = color;
         if (showTimeKey)
         {
             _signalIndicatorRectTransform.anchoredPosition = _posShowTime;
             _timeText.gameObject.SetActive(true);
-            if (playModeKey == true)
+            if (playModeKey == true & _timeTextInited == false)
             {
+                _timeTextInited = true;
                 _compositeDisposable = new CompositeDisposable();
                 Observable.EveryUpdate().Subscribe(_ =>
                 {
@@ -56,15 +59,18 @@ public class TopPanelHandler
             _signalIndicatorRectTransform.anchoredPosition = _posHideTime;
             _timeText.gameObject.SetActive(false);
         }
+
+        _butteryImage.color = color;
+        _butteryIndicatorImage.color = color;
+        _butteryText.color = color;
         _butteryImage.fillAmount = butteryPercent;
         _butteryText.text = $"{butteryPercent}{_percentSymbol}";
-        
-
         _phoneTime = phoneTime;
     }
 
     public void Dispose()
     {
+        _timeTextInited = false;
         _compositeDisposable?.Clear();
     }
 }

@@ -1,8 +1,6 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UniRx;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
@@ -11,26 +9,30 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private TextMeshProUGUI _time;
     private TextMeshProUGUI _date;
     private Image _notificationContactIcon;
+    private Image _imageBackground;
     private TextMeshProUGUI _contactName;
     private TextMeshProUGUI _notificationText;
     private CompositeDisposable _compositeDisposable;
     private CompositeDisposable _compositeDisposableLocalization;
     private PhoneContactDataLocalizable _currentContact;
     private LocalizationString _dateLocStr;
-    public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler)
-    :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
+    public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, ReactiveCommand<PhoneBackgroundScreen> switchPanelCommand)
+    :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, switchPanelCommand, blockScreenViewBackground.ColorTopPanel)
     {
         _time = blockScreenViewBackground.Time;
         _date = blockScreenViewBackground.Data;
         _notificationContactIcon = blockScreenViewBackground.NotificationContactIcon;
+        _imageBackground = blockScreenViewBackground.ImageBackground;
         _contactName = blockScreenViewBackground.ContactName;
         _notificationText = blockScreenViewBackground.NotificationText;
     }
     
-    public void Enable(PhoneTime phoneTime, PhoneContactDataLocalizable contact, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent, int butteryPercent, bool playModeKey)
+    public void Enable(PhoneTime phoneTime, Phone phone, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent,
+        int butteryPercent, int startScreenCharacterIndex, bool playModeKey, bool blockScreenNotificationKey)
     {
-        _currentContact = contact;
         _dateLocStr = date;
+        _currentContact = phone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
+        _imageBackground.sprite = phone.PhoneDataLocalizable.Background;
         BaseEnable(phoneTime, butteryPercent, playModeKey);
         Screen.SetActive(true);
         TopPanelHandler.Init(TopPanelColor, phoneTime, playModeKey, butteryPercent, false);
@@ -48,15 +50,23 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
         {
             _time.text = phoneTime.GetCurrentTime();
         }
-
-        if (_currentContact.Icon == null)
+        if (blockScreenNotificationKey == false)
         {
-            _notificationContactIcon.gameObject.SetActive(false);
+            _notificationContactIcon.transform.parent.gameObject.SetActive(false);
         }
         else
         {
-            _notificationContactIcon.gameObject.SetActive(true);
-            _notificationContactIcon.sprite = _currentContact.Icon;
+            _currentContact = phone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
+            _notificationContactIcon.transform.parent.gameObject.SetActive(true);
+            if (_currentContact.Icon == null)
+            {
+                _notificationContactIcon.gameObject.SetActive(false);
+            }
+            else
+            {
+                _notificationContactIcon.gameObject.SetActive(true);
+                _notificationContactIcon.sprite = _currentContact.Icon;
+            }
         }
     }
 
@@ -71,7 +81,10 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         _date.text = _dateLocStr;
         _notificationText.text = _notificationNameLocalizationString;
-        _contactName.text = _currentContact.NameContactLocalizationString;
+        if (_currentContact != null)
+        {
+            _contactName.text = _currentContact.NameContactLocalizationString;
+        }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

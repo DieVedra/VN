@@ -7,7 +7,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     [SerializeField, Expandable] private List<PhoneDataProvider> _dataProviders;
     [SerializeField, Expandable] private List<PhoneContactsProvider> _contactsToSeriaProviders;
 
-    private Dictionary<string, Phone> _phones1;
+    private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private List<Phone> _phones2;
 
     private PhoneCreatorEditMode _phoneCreator;
@@ -47,11 +47,11 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         }
         return contactDatas;
     }
-    public void Construct()
+    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
     {
+        // _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         _phoneContactCombiner = new PhoneContactCombiner();
-        _phoneCreator = new PhoneCreatorEditMode(_dataProviders, _phoneContactCombiner);
-        _phones1 = new Dictionary<string, Phone>();
+        _phoneCreator = new PhoneCreatorEditMode(_dataProviders, customizableCharacterIndexesCustodians, _phoneContactCombiner);
         _phones2 = new List<Phone>();
     }
 }

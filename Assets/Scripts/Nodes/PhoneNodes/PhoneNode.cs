@@ -1,5 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -14,36 +14,38 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private LocalizationString _date;
     [SerializeField] private bool _showStartInfo;
     [SerializeField] private bool _blockScreenNotificationKey;
-    [SerializeField] private int _blockScreenCharacterIndex;
+    [SerializeField] private bool _characterOnlineKey;
+    [SerializeField] private int _startScreenCharacterIndex;
 
-    
-    
-    [SerializeField] private LocalizationString _dayLocalizationString;
-    // [SerializeField] private LocalizationString _notificationNameLocalizationString;
-    // [SerializeField] private LocalizationString _notificationLocalizationString;
-
-    private const string _blockScreenName = "BlockScreen";
-    private const string _contactsScreenName = "ContactsScreen";
-    private const string _dialogScreenName = "DialogScreen";
     private PhoneUIHandler _phoneUIHandler;
-    
+    private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
+
     public IReadOnlyList<Phone> Phones { get; private set; }
 
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
         Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
-    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, PhoneUIHandler phoneUIHandler)
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
     {
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
+        _customizationCurtainUIHandler = customizationCurtainUIHandler;
     }
 
-    public override UniTask Enter(bool isMerged = false)
+    public override async UniTask Enter(bool isMerged = false)
     {
-        // _phoneUIHandler.SetBackground(_phoneBackgroundScreens[_phoneStartScreenIndex], );
-
+        CancellationTokenSource = new CancellationTokenSource();
         SetInfoToView();
-        
-        return base.Enter(isMerged);
+        ButtonSwitchSlideUIHandler.DeactivatePushOption();
+
+        await _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+    }
+
+    public override async UniTask Exit()
+    {
+        await _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+        CancellationTokenSource = null;
+        ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
+        _phoneUIHandler.DisposeBackgrounds();
     }
 
     protected override void SetInfoToView()
@@ -51,35 +53,21 @@ public class PhoneNode : BaseNode, ILocalizable
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:
-                _phoneUIHandler.SetBlockScreenBackground(PhoneContactDatasLocalizable[_blockScreenCharacterIndex],
-                    _dayLocalizationString, SetLocalizationChangeEvent, _butteryPercent, _startHour, _startMinute, IsPlayMode(), false);
+                _phoneUIHandler.SetBlockScreenBackground(Phones[_phoneIndex], _date, SetLocalizationChangeEvent,
+                    _startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _blockScreenNotificationKey);
                 break;
-            // case PhoneBackgroundScreen.ContactsScreen:
-            //     _phoneUIHandler.SetContactsScreenBackground(_butteryPercent);
-            //     break;
-            // case PhoneBackgroundScreen.DialogScreen:
-            //     _phoneUIHandler.SetDialogScreenBackground(_butteryPercent);
-            //     break;
+            case PhoneBackgroundScreen.ContactsScreen:
+                _phoneUIHandler.SetContactsScreenBackground(PhoneContactDatasLocalizable, SetLocalizationChangeEvent, _butteryPercent, _startHour, _startMinute, IsPlayMode());
+                break;
+            case PhoneBackgroundScreen.DialogScreen:
+                _phoneUIHandler.SetDialogScreenBackground(PhoneContactDatasLocalizable[_startScreenCharacterIndex],
+                    SetLocalizationChangeEvent, _butteryPercent, _startHour, _startMinute, _characterOnlineKey, IsPlayMode());
+                break;
         }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        List<LocalizationString> strings = new List<LocalizationString>();
-        switch (_phoneStartScreen)
-        {
-            case PhoneBackgroundScreen.BlockScreen:
-                strings.Add(_dayLocalizationString);
-                // strings.Add(_notificationNameLocalizationString);
-                break;
-            // case (int)PhoneBackgroundScreen.ContactsScreen:
-            //     strings.Add();
-            //     break;
-            // case (int)PhoneBackgroundScreen.DialogScreen:
-            //     strings.Add();
-            //     break;
-        }
-
-        return strings;
+        return new[] {_date};
     }
 }

@@ -18,7 +18,8 @@ public class PhoneNodeDrawer : NodeEditor
     private SerializedProperty _butteryPercentSerializedProperty;
     private SerializedProperty _showStartInfoSerializedProperty;
     private SerializedProperty _blockScreenNotificationKeySerializedProperty;
-    private SerializedProperty _blockScreenCharacterIndexSerializedProperty;
+    private SerializedProperty _startScreenCharacterIndexSerializedProperty;
+    private SerializedProperty _characterOnlineKeySerializedProperty;
     
     private const string _blockScreenName = "BlockScreen";
     private const string _contactsScreenName = "ContactsScreen";
@@ -48,7 +49,8 @@ public class PhoneNodeDrawer : NodeEditor
                 _outputSerializedProperty = serializedObject.FindProperty("Output");
                 _showStartInfoSerializedProperty = serializedObject.FindProperty("_showStartInfo");
                 _blockScreenNotificationKeySerializedProperty = serializedObject.FindProperty("_blockScreenNotificationKey");
-                _blockScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_blockScreenCharacterIndex");
+                _startScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_startScreenCharacterIndex");
+                _characterOnlineKeySerializedProperty = serializedObject.FindProperty("_characterOnlineKey");
             }
             else
             {
@@ -93,20 +95,35 @@ public class PhoneNodeDrawer : NodeEditor
                         {
                             EditorGUILayout.BeginHorizontal();
                             EditorGUILayout.LabelField("Notification from character: ");
-                            _blockScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_blockScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
+                            _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
+                            EditorGUILayout.EndHorizontal();
+                            
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Set online status: ");
+                            _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
                             EditorGUILayout.EndHorizontal();
                         }
                     }
                     
                 }
-
                 else if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.ContactsScreen)
                 {
                     
                 }
                 else if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.DialogScreen)
                 {
-                    
+                    if (InitNamesCharacters())
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Dialog with character: ");
+                        _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
+                        EditorGUILayout.EndHorizontal();
+                        
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Set online status: ");
+                        _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
+                        EditorGUILayout.EndHorizontal();
+                    }
                 }
             }
         }

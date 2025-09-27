@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PhoneScreenBaseHandler
@@ -7,13 +8,15 @@ public class PhoneScreenBaseHandler
     protected readonly TopPanelHandler TopPanelHandler;
     protected readonly Image BackgroundImage;
     protected readonly Color TopPanelColor;
+    protected readonly ReactiveCommand<PhoneBackgroundScreen> SwitchPanelCommand;
 
-    protected PhoneScreenBaseHandler(GameObject screen, TopPanelHandler topPanelHandler, Image backgroundImage, Color topPanelColor)
+    protected PhoneScreenBaseHandler(GameObject screen, TopPanelHandler topPanelHandler, Image backgroundImage, ReactiveCommand<PhoneBackgroundScreen> switchPanelCommand, Color topPanelColor)
     {
         Screen = screen;
         TopPanelHandler = topPanelHandler;
         BackgroundImage = backgroundImage;
         TopPanelColor = topPanelColor;
+        SwitchPanelCommand = switchPanelCommand;
     }
     protected void BaseEnable(PhoneTime phoneTime, int butteryPercent, bool playModeKey)
     {

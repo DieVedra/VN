@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class PhoneCreator
 {
     private readonly PhoneContactCombiner _phoneContactCombiner;
     private readonly IReadOnlyList<PhoneDataProvider> _dataProviders;
-
-    public PhoneCreator(IReadOnlyList<PhoneDataProvider> dataProviders, PhoneContactCombiner phoneContactCombiner)
+    private readonly IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
+    public PhoneCreator(IReadOnlyList<PhoneDataProvider> dataProviders, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, PhoneContactCombiner phoneContactCombiner)
     {
         _dataProviders = dataProviders;
         _phoneContactCombiner = phoneContactCombiner;
+        _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
     }
     //телефоны создаются при первом обращении
     //при повторных обращениях идет проверка последней серии в дате телефона и если она меньше текущей то добавляется текущая и обновляется индекс
@@ -65,8 +65,6 @@ public class PhoneCreator
 
     protected Dictionary<string, PhoneDataLocalizable> CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(List<PhoneData> dataProviders, int currentSeriaIndex)
     {
-        //если телефон создан то проверить новую дату и добавить ее если она есть
-        //
         Dictionary<string, PhoneDataLocalizable> phoneDatas = new Dictionary<string, PhoneDataLocalizable>();
         PhoneData phoneData = null;
         for (int i = 0; i < dataProviders.Count; i++)
@@ -75,10 +73,13 @@ public class PhoneCreator
             if (phoneDatas.TryGetValue(phoneData.NamePhone, out PhoneDataLocalizable value))
             {
                 value.AddPhoneContactAndContactData(_phoneContactCombiner.CreateNewPhoneContactData(phoneData.PhoneContactDatas, phoneData.SeriaIndex < currentSeriaIndex));
+                TryAddNewContent(phoneData, value);
             }
             else
             {
-                phoneDatas.Add(phoneData.NamePhone, GetNewPhoneData(phoneData, currentSeriaIndex));
+                var newPhoneData = GetNewPhoneData(phoneData, currentSeriaIndex);
+                TryAddNewContent(phoneData, newPhoneData);
+                phoneDatas.Add(phoneData.NamePhone, newPhoneData);
             }
         }
 
@@ -96,7 +97,9 @@ public class PhoneCreator
                 for (int j = 0; j < _dataProviders[i].PhoneDatas.Count; j++)
                 {
                     phoneData = _dataProviders[i].PhoneDatas[j];
-                    phoneDatas.Add(phoneData.NamePhone, GetNewPhoneData(phoneData, currentSeriaIndex));
+                    var newPhoneData = GetNewPhoneData(phoneData, currentSeriaIndex);
+                    TryAddNewContent(phoneData, newPhoneData);
+                    phoneDatas.Add(phoneData.NamePhone, newPhoneData);
                 }
                 break;
             }
@@ -117,6 +120,40 @@ public class PhoneCreator
         {
             Phone phone = new Phone(pair.Value, pair.Key, currentSeriaIndex);
             phones.Add(phone);
+        }
+    }
+    private int GetIndexBodyCustomizableCharacter(string nameKey)
+    {
+        if (_customizableCharacterIndexesCustodians.TryGetValue(nameKey, out CustomizableCharacterIndexesCustodian value))
+        {
+            return value.BodyIndexRP.Value;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private void TryAddNewContent(PhoneData phoneData , PhoneDataLocalizable phoneDataLocalizable)
+    {
+        if (phoneData.NewContentAdded == true)
+        {
+            var sprite = phoneData.Hands[GetIndexBodyCustomizableCharacter(phoneData.CharacterNameKey)];
+            if (sprite != null)
+            {
+                phoneDataLocalizable.SetHandSprite(sprite);
+            }
+            sprite = phoneData.PhoneFrame;
+            if (sprite != null)
+            {
+                phoneDataLocalizable.SetPhoneFrameSprite(sprite);
+            }
+
+            sprite = phoneData.Background;
+            if (sprite != null)
+            {
+                phoneDataLocalizable.SetPhoneBackgroundSprite(sprite);
+            }
         }
     }
 }

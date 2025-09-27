@@ -13,30 +13,23 @@ public class PhoneTime
     private const int _firstMinute = 0;
     private int _currentHour;
     private int _currentMinute;
-    private string _currentData;
     private CancellationTokenSource _cancellationTokenSource;
     public bool IsStarted { get; private set; }
-
-
+    
     public string GetCurrentTime()
     {
         return $"{_currentHour.ToString()}{_separ1}{_currentMinute.ToString()}";
     }
-    public string GetData()
-    {
-        return $"";
-    }
-    public async UniTask Start(int startHour, int startMinute, string date, bool playModeKey)
+    public async UniTask Start(int startHour, int startMinute, bool playModeKey)
     {
         if (playModeKey)
         {
             if (IsStarted == false)
             {
-                _currentData = date;
                 IsStarted = true;
                 _cancellationTokenSource = new CancellationTokenSource();
                 _currentHour = startHour;
-                CheckStartMinute(startHour, startMinute, date);
+                CheckStartMinute(startHour, startMinute);
                 while (IsStarted)
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
@@ -53,13 +46,12 @@ public class PhoneTime
         }
         else
         {
-            CheckStartMinute(startHour, startMinute, date);
+            CheckStartMinute(startHour, startMinute);
         }
     }
 
-    private void CheckStartMinute(int startHour, int startMinute, string date)
+    private void CheckStartMinute(int startHour, int startMinute)
     {
-        _currentData = date;
         _currentHour = startHour;
 
         if (startMinute < _maxMinute && startMinute > _firstMinute)

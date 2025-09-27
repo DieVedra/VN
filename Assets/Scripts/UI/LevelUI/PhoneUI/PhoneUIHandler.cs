@@ -1,7 +1,6 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using UniRx;
 
 public class PhoneUIHandler : ILocalizable
 {
@@ -10,35 +9,19 @@ public class PhoneUIHandler : ILocalizable
     private ContactsScreenHandler _contactsScreenHandler;
     private DialogScreenHandler _dialogScreenHandler;
     private PhoneTime _phoneTime;
+    private ReactiveCommand<PhoneBackgroundScreen> _switchPanelCommand;
     public PhoneUIHandler()
     {
-        
+        _switchPanelCommand = new ReactiveCommand<PhoneBackgroundScreen>();
     }
 
     public void Init(PhoneUIView phoneUIView)
     {
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
-        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler);
-        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler);
-        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler);
+        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchPanelCommand);
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchPanelCommand);
+        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler, _switchPanelCommand);
     }
-
-    // public void SetBackground(PhoneBackgroundScreen typeBackgroundScreen, bool restartPhoneTimeKey, int startHour, int startMinute, int date, int butteryPercent)
-    // {
-    //     TryStartPhoneTime(startHour, startMinute, date, restartPhoneTimeKey);
-    //     switch (typeBackgroundScreen)
-    //     {
-    //         case PhoneBackgroundScreen.BlockScreen:
-    //             SetBlockScreenBackground(butteryPercent);
-    //             break;
-    //         case PhoneBackgroundScreen.ContactsScreen:
-    //             SetContactsScreenBackground(butteryPercent);
-    //             break;
-    //         case PhoneBackgroundScreen.DialogScreen:
-    //             SetDialogScreenBackground(butteryPercent);
-    //             break;
-    //     }
-    // }
 
     public void DisposeBackgrounds()
     {
@@ -48,32 +31,34 @@ public class PhoneUIHandler : ILocalizable
         _dialogScreenHandler.Disable();
     }
 
-    public void SetBlockScreenBackground(PhoneContactDataLocalizable contact, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int butteryPercent, int startHour, int startMinute, bool playModeKey, bool restartPhoneTimeKey)
+    public void SetBlockScreenBackground(Phone phone, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent,
+        int startScreenCharacterIndex, int butteryPercent, int startHour, int startMinute,
+        bool playModeKey, bool blockScreenNotificationKey, bool restartPhoneTimeKey = true)
     {
-        TryStartPhoneTime(startHour, startMinute, date, restartPhoneTimeKey, playModeKey);
-        _blockScreenHandler.Enable(_phoneTime, contact, date, setLocalizationChangeEvent, butteryPercent, playModeKey);
+        TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _contactsScreenHandler.Disable();
         _dialogScreenHandler.Disable();
+        _blockScreenHandler.Enable(_phoneTime, phone, date,
+            setLocalizationChangeEvent, butteryPercent, startScreenCharacterIndex, playModeKey, blockScreenNotificationKey);
     }
-    public void SetContactsScreenBackground(int butteryPercent, bool playModeKey)
+    public void SetContactsScreenBackground(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable, SetLocalizationChangeEvent setLocalizationChangeEvent,
+        int butteryPercent, int startHour, int startMinute, bool playModeKey, bool restartPhoneTimeKey = true)
     {
-        // TryStartPhoneTime(startHour, startMinute, data, restartPhoneTimeKey);
-
+        TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
-        // _contactsScreenHandler.Enable(_phoneTime, butteryPercent);
         _dialogScreenHandler.Disable();
+        _contactsScreenHandler.Enable(_phoneTime, phoneContactDatasLocalizable, setLocalizationChangeEvent, butteryPercent, playModeKey);
     }
-    public void SetDialogScreenBackground(int butteryPercent, bool playModeKey)
+    public void SetDialogScreenBackground(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
+        int butteryPercent, int startHour, int startMinute, bool characterOnlineKey, bool playModeKey, bool restartPhoneTimeKey = true)
     {
-        // TryStartPhoneTime(startHour, startMinute, data, restartPhoneTimeKey);
-
+        TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _contactsScreenHandler.Disable();
-        // _dialogScreenHandler.Enable(_phoneTime, butteryPercent);
+        _dialogScreenHandler.Enable(_phoneTime, contact, setLocalizationChangeEvent, butteryPercent, playModeKey, characterOnlineKey);
     }
 
-    private void TryStartPhoneTime(int startHour, int startMinute, string date, bool restartPhoneTimeKey, bool playModeKey)
+    private void TryStartPhoneTime(int startHour, int startMinute, bool restartPhoneTimeKey, bool playModeKey)
     {
         if (_phoneTime == null)
         {
@@ -83,13 +68,13 @@ public class PhoneUIHandler : ILocalizable
         if (_phoneTime.IsStarted == true && restartPhoneTimeKey == true)
         {
             _phoneTime.Stop();
-            _phoneTime.Start(startHour, startMinute, date, playModeKey).Forget();
+            _phoneTime.Start(startHour, startMinute, playModeKey).Forget();
 
         }
         
         if (_phoneTime.IsStarted == false)
         {
-            _phoneTime.Start(startHour, startMinute, date, playModeKey).Forget();
+            _phoneTime.Start(startHour, startMinute, playModeKey).Forget();
         }
     }
 
