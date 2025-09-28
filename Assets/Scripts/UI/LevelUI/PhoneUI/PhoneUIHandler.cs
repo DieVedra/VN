@@ -9,18 +9,35 @@ public class PhoneUIHandler : ILocalizable
     private ContactsScreenHandler _contactsScreenHandler;
     private DialogScreenHandler _dialogScreenHandler;
     private PhoneTime _phoneTime;
-    private ReactiveCommand<PhoneBackgroundScreen> _switchPanelCommand;
+    private ReactiveCommand _switchToContactsScreenCommand;
+    private ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
+    private CompositeDisposable _compositeDisposable;
+    private Phone _currentPhone;
+    private SetLocalizationChangeEvent _setLocalizationChangeEvent;
+    private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
     public PhoneUIHandler()
     {
-        _switchPanelCommand = new ReactiveCommand<PhoneBackgroundScreen>();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return _blockScreenHandler.GetLocalizableContent();
     }
 
     public void Init(PhoneUIView phoneUIView)
     {
+        _compositeDisposable = new CompositeDisposable();
+        _switchToContactsScreenCommand = new ReactiveCommand().AddTo(_compositeDisposable);
+        _switchToDialogScreenCommand = new ReactiveCommand<PhoneContactDataLocalizable>().AddTo(_compositeDisposable);
+        _switchToContactsScreenCommand.Subscribe(_=>
+        {
+            SetContactsScreenBackgroundFromAnotherScreen();
+        });
+        _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
-        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchPanelCommand);
-        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchPanelCommand);
-        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler, _switchPanelCommand);
+        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler);
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand);
+        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler, _switchToContactsScreenCommand);
     }
 
     public void DisposeBackgrounds()
@@ -29,33 +46,61 @@ public class PhoneUIHandler : ILocalizable
         _blockScreenHandler.Disable();
         _contactsScreenHandler.Disable();
         _dialogScreenHandler.Disable();
+        _compositeDisposable?.Clear();
+        _switchToContactsScreenCommand = null;
+        _switchToDialogScreenCommand = null;
     }
 
-    public void SetBlockScreenBackground(Phone phone, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent,
+    public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts, Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    {
+        _onlineContacts = onlineContacts;
+        _currentPhone = phone;
+        _setLocalizationChangeEvent = setLocalizationChangeEvent;
+    }
+    public void SetBlockScreenBackgroundFromNode(LocalizationString date,
         int startScreenCharacterIndex, int butteryPercent, int startHour, int startMinute,
-        bool playModeKey, bool blockScreenNotificationKey, bool restartPhoneTimeKey = true)
+        bool playModeKey, bool blockScreenNotificationKey, bool restartPhoneTimeKey = false)
     {
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _contactsScreenHandler.Disable();
         _dialogScreenHandler.Disable();
-        _blockScreenHandler.Enable(_phoneTime, phone, date,
-            setLocalizationChangeEvent, butteryPercent, startScreenCharacterIndex, playModeKey, blockScreenNotificationKey);
+        _blockScreenHandler.Enable(_phoneTime, _currentPhone, date,
+            _setLocalizationChangeEvent, butteryPercent, startScreenCharacterIndex, playModeKey, blockScreenNotificationKey);
     }
-    public void SetContactsScreenBackground(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int butteryPercent, int startHour, int startMinute, bool playModeKey, bool restartPhoneTimeKey = true)
+
+    public void SetContactsScreenBackgroundFromNode(
+        int butteryPercent, int startHour, int startMinute, bool playModeKey, bool restartPhoneTimeKey = false)
     {
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _dialogScreenHandler.Disable();
-        _contactsScreenHandler.Enable(_phoneTime, phoneContactDatasLocalizable, setLocalizationChangeEvent, butteryPercent, playModeKey);
+        _contactsScreenHandler.Enable(_phoneTime, _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent, butteryPercent, playModeKey);
     }
-    public void SetDialogScreenBackground(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int butteryPercent, int startHour, int startMinute, bool characterOnlineKey, bool playModeKey, bool restartPhoneTimeKey = true)
+
+    public void SetDialogScreenBackgroundFromNode(int startScreenCharacterIndex,
+        int butteryPercent, int startHour, int startMinute, bool playModeKey, bool restartPhoneTimeKey = false)
     {
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _contactsScreenHandler.Disable();
-        _dialogScreenHandler.Enable(_phoneTime, contact, setLocalizationChangeEvent, butteryPercent, playModeKey, characterOnlineKey);
+        PhoneContactDataLocalizable contact =
+            _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
+        _dialogScreenHandler.Enable(_phoneTime, contact,
+            _setLocalizationChangeEvent, butteryPercent, playModeKey, GetOnlineStatus(contact.NameContactLocalizationString.Key));
+    }
+
+    private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContactDataLocalizable contact)
+    {
+        _blockScreenHandler.Disable();
+        _contactsScreenHandler.Disable();
+        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, GetOnlineStatus(contact.NameContactLocalizationString.Key));
+    }
+
+    private void SetContactsScreenBackgroundFromAnotherScreen()
+    {
+        _blockScreenHandler.Disable();
+        _dialogScreenHandler.Disable();
+        _contactsScreenHandler.Enable(_currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent);
     }
 
     private void TryStartPhoneTime(int startHour, int startMinute, bool restartPhoneTimeKey, bool playModeKey)
@@ -78,9 +123,17 @@ public class PhoneUIHandler : ILocalizable
         }
     }
 
-    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    private bool GetOnlineStatus(string nameKey)
     {
-        return _blockScreenHandler.GetLocalizableContent();
+        bool result = false;
+        for (int i = 0; i < _onlineContacts.Count; i++)
+        {
+            if (_onlineContacts[i].Key == nameKey)
+            {
+                result = _onlineContacts[i].OnlineKey;
+            }
+        }
+        return result;
     }
 }
 

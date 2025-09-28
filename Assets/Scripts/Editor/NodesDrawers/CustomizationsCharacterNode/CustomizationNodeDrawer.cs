@@ -34,60 +34,63 @@ public class CustomizationNodeDrawer : NodeEditor
         {
             _customizationNode = target as CustomizationNode;
         }
-        serializedObject.Update();
-        
-        if (_popupDrawer == null)
+        else
         {
-            _popupDrawer = new PopupDrawer();
-        }
+            serializedObject.Update();
+            if (_popupDrawer == null)
+            {
+                _popupDrawer = new PopupDrawer();
+            }
 
-        if (_foldoutHairstyleIsOpenProperty == null)
-        {
-            _foldoutHairstyleIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsHairstyles");
-            _foldoutClothesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsClothes");
-            _foldoutBodiesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsBodies");
-            _foldoutSwimsuitsIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsSwimsuits");
-            _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
+            if (_foldoutHairstyleIsOpenProperty == null)
+            {
+                _foldoutHairstyleIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsHairstyles");
+                _foldoutClothesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsClothes");
+                _foldoutBodiesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsBodies");
+                _foldoutSwimsuitsIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsSwimsuits");
+                _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
             
-            _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
-            _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
-            _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
-            _listSettingsSwimsuitsProperty = serializedObject.FindProperty("_settingsSwimsuits");
+                _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
+                _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
+                _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
+                _listSettingsSwimsuitsProperty = serializedObject.FindProperty("_settingsSwimsuits");
             
-            _inputSerializedProperty = serializedObject.FindProperty("Input");
-            _outputSerializedProperty = serializedObject.FindProperty("Output");
-            _localizationStringTextDrawer = new LocalizationStringTextDrawer();
-            _lineDrawer = new LineDrawer();
-            InitCharactersNames();
-        }
+                _inputSerializedProperty = serializedObject.FindProperty("Input");
+                _outputSerializedProperty = serializedObject.FindProperty("Output");
+                _localizationStringTextDrawer = new LocalizationStringTextDrawer();
+                _lineDrawer = new LineDrawer();
+                InitCharactersNames();
+            }
 
-        NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
-        NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
-        _popupDrawer.DrawPopup(_namesCharactersToPopup, _customizationCharacterIndexProperty);
-        if (_listSettingsBodyProperty != null)
-        {
-            DrawCustomizationFields(_customizationNode.SettingsBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
-                "Choice Bodies","ResetBodiesCustomizationSettings", "ReinitBodiesCustomizationSettings");
-        }
+            NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
+            NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
+            _popupDrawer.DrawPopup(_namesCharactersToPopup, _customizationCharacterIndexProperty);
+            if (_listSettingsBodyProperty != null)
+            {
+                DrawCustomizationFields(_customizationNode.SettingsBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
+                    "Choice Bodies","ResetBodiesCustomizationSettings", "ReinitBodiesCustomizationSettings");
+            }
 
-        if (_listSettingsHairstylesProperty != null)
-        {
-            DrawCustomizationFields(_customizationNode.SettingsHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
-                "Choice Hairstyles","ResetHairstylesCustomizationSettings", "ReinitHairstylesCustomizationSettings");
-        }
+            if (_listSettingsHairstylesProperty != null)
+            {
+                DrawCustomizationFields(_customizationNode.SettingsHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
+                    "Choice Hairstyles","ResetHairstylesCustomizationSettings", "ReinitHairstylesCustomizationSettings");
+            }
 
-        if (_listSettingsClothesProperty != null)
-        {
-            DrawCustomizationFields(_customizationNode.SettingsClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
-                "Choice Clothes","ResetClothesCustomizationSettings", "ReinitClothesCustomizationSettings");
-        }
+            if (_listSettingsClothesProperty != null)
+            {
+                DrawCustomizationFields(_customizationNode.SettingsClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
+                    "Choice Clothes","ResetClothesCustomizationSettings", "ReinitClothesCustomizationSettings");
+            }
 
-        if (_listSettingsSwimsuitsProperty != null)
-        {
-            DrawCustomizationFields(_customizationNode.SettingsSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
-                "Choice Swimsuits","ResetSwimsuitsCustomizationSettings", "ReinitSwimsuitsCustomizationSettings");
+            if (_listSettingsSwimsuitsProperty != null)
+            {
+                DrawCustomizationFields(_customizationNode.SettingsSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
+                    "Choice Swimsuits","ResetSwimsuitsCustomizationSettings", "ReinitSwimsuitsCustomizationSettings");
+            }
+
+            serializedObject.ApplyModifiedProperties();
         }
-        serializedObject.ApplyModifiedProperties();
     }
 
     private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)

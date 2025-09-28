@@ -6,19 +6,23 @@ using UnityEngine.UI;
 
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
+    private readonly ReactiveCommand _switchToContactsScreenCommand;
     private LocalizationString _contactNameLS;
     private LocalizationString _contactStatusLS = "Онлайн";
     private readonly Image _contactImage;
     private readonly TextMeshProUGUI _contactName;
     private readonly TextMeshProUGUI _contactStatusText;
     private readonly Button _backArrow;
+    private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
     private readonly RectTransform _dialogTransform;
     private CompositeDisposable _compositeDisposableLocalization;
+    private CompositeDisposable _compositeDisposable;
 
-    public DialogScreenHandler(DialogScreenView dialogScreenView, TopPanelHandler topPanelHandler, ReactiveCommand<PhoneBackgroundScreen> switchPanelCommand)
-        :base(dialogScreenView.gameObject, topPanelHandler, dialogScreenView.GradientImage, switchPanelCommand, dialogScreenView.ColorTopPanel)
+    public DialogScreenHandler(DialogScreenView dialogScreenView, TopPanelHandler topPanelHandler, ReactiveCommand switchToContactsScreenCommand)
+        :base(dialogScreenView.gameObject, topPanelHandler, dialogScreenView.GradientImage, dialogScreenView.ColorTopPanel)
     {
+        _switchToContactsScreenCommand = switchToContactsScreenCommand;
         _contactImage = dialogScreenView.ContactImage;
         _contactStatus = dialogScreenView.ContactStatusGameObject;
         _contactName = dialogScreenView.ContactName;
@@ -39,6 +43,23 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         {
             _contactStatus.SetActive(false);
         }
+        SubscribeButtons();
+        SetTexts();
+        _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+    }
+    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, bool characterOnlineKey)
+    {
+        _contactNameLS = contact.NameContactLocalizationString;
+        if (characterOnlineKey)
+        {
+            _contactStatus.SetActive(true);
+        }
+        else
+        {
+            _contactStatus.SetActive(false);
+        }
+
+        SubscribeButtons();
         SetTexts();
         _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
     }
@@ -46,7 +67,17 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         base.Disable();
         _compositeDisposableLocalization?.Clear();
-        // _compositeDisposable?.Clear();
+        _compositeDisposable?.Clear();
+    }
+
+    private void SubscribeButtons()
+    {
+        _backArrow.onClick.AddListener(() =>
+        {
+            _backArrow.onClick.RemoveAllListeners();
+            _switchToContactsScreenCommand.Execute();
+        });
+        // _readDialog.onClick.AddListener();
     }
     private void SetTexts()
     {

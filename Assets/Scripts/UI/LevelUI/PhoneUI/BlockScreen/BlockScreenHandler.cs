@@ -16,8 +16,8 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CompositeDisposable _compositeDisposableLocalization;
     private PhoneContactDataLocalizable _currentContact;
     private LocalizationString _dateLocStr;
-    public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, ReactiveCommand<PhoneBackgroundScreen> switchPanelCommand)
-    :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, switchPanelCommand, blockScreenViewBackground.ColorTopPanel)
+    public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler)
+    :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
     {
         _time = blockScreenViewBackground.Time;
         _date = blockScreenViewBackground.Data;

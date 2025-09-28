@@ -159,7 +159,7 @@ public class NodeGraphInitializer
         }
         if (node is PhoneNode phoneNode)
         {
-            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _levelUIProvider.PhoneUIHandler,
+            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsToSeria(seriaIndex), _levelUIProvider.PhoneUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler);
         }
     }

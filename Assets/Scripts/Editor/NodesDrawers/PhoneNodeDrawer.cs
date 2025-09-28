@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 using XNodeEditor;
 
 [CustomNodeEditorAttribute(typeof(PhoneNode))]
@@ -7,6 +8,7 @@ public class PhoneNodeDrawer : NodeEditor
 {
     private const int _maxCountSymbol = 20;
     private PhoneNode _phoneNode;
+    private LineDrawer _lineDrawer;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
@@ -16,11 +18,12 @@ public class PhoneNodeDrawer : NodeEditor
     private SerializedProperty _startMinuteSerializedProperty;
     private SerializedProperty _dateSerializedProperty;
     private SerializedProperty _butteryPercentSerializedProperty;
-    private SerializedProperty _showStartInfoSerializedProperty;
+    private SerializedProperty _initStartInfoSerializedProperty;
     private SerializedProperty _blockScreenNotificationKeySerializedProperty;
     private SerializedProperty _startScreenCharacterIndexSerializedProperty;
     private SerializedProperty _characterOnlineKeySerializedProperty;
-    
+    private SerializedProperty _onlineContactsSerializedProperty;
+
     private const string _blockScreenName = "BlockScreen";
     private const string _contactsScreenName = "ContactsScreen";
     private const string _dialogScreenName = "DialogScreen";
@@ -37,6 +40,7 @@ public class PhoneNodeDrawer : NodeEditor
         {
             if (_phoneIndexSerializedProperty == null)
             {
+                _lineDrawer = new LineDrawer();
                 _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbol));
                 _backgroundsNames = new[] {_blockScreenName, _contactsScreenName, _dialogScreenName};
                 _phoneIndexSerializedProperty = serializedObject.FindProperty("_phoneIndex");
@@ -47,13 +51,15 @@ public class PhoneNodeDrawer : NodeEditor
                 _dateSerializedProperty = serializedObject.FindProperty("_date");
                 _inputSerializedProperty = serializedObject.FindProperty("Input");
                 _outputSerializedProperty = serializedObject.FindProperty("Output");
-                _showStartInfoSerializedProperty = serializedObject.FindProperty("_showStartInfo");
+                _initStartInfoSerializedProperty = serializedObject.FindProperty("_initStartInfo");
                 _blockScreenNotificationKeySerializedProperty = serializedObject.FindProperty("_blockScreenNotificationKey");
                 _startScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_startScreenCharacterIndex");
                 _characterOnlineKeySerializedProperty = serializedObject.FindProperty("_characterOnlineKey");
+                _onlineContactsSerializedProperty = serializedObject.FindProperty("_onlineContacts");
             }
             else
             {
+                serializedObject.Update();
                 NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
                 NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
             
@@ -65,10 +71,10 @@ public class PhoneNodeDrawer : NodeEditor
                 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Show start info:");
-                _showStartInfoSerializedProperty.boolValue = EditorGUILayout.Toggle(_showStartInfoSerializedProperty.boolValue);
+                _initStartInfoSerializedProperty.boolValue = EditorGUILayout.Toggle(_initStartInfoSerializedProperty.boolValue);
                 EditorGUILayout.EndHorizontal();
 
-                if (_showStartInfoSerializedProperty.boolValue == true)
+                if (_initStartInfoSerializedProperty.boolValue == true)
                 {
                     DrawDateInfo(_startHourSerializedProperty, "Start hour: ");
                     DrawDateInfo(_startMinuteSerializedProperty, "Start Minute: ");
@@ -119,12 +125,15 @@ public class PhoneNodeDrawer : NodeEditor
                         _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
                         EditorGUILayout.EndHorizontal();
                         
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField("Set online status: ");
-                        _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
-                        EditorGUILayout.EndHorizontal();
+                        // EditorGUILayout.BeginHorizontal();
+                        // EditorGUILayout.LabelField("Set online status: ");
+                        // _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
+                        // EditorGUILayout.EndHorizontal();
                     }
                 }
+
+                DrawOnlineVariants();
+                serializedObject.ApplyModifiedProperties();
             }
         }
     }
@@ -182,5 +191,25 @@ public class PhoneNodeDrawer : NodeEditor
         {
             return false;
         }
+    }
+
+    private void DrawOnlineVariants()
+    {
+        EditorGUILayout.Space();
+        _lineDrawer.DrawHorizontalLine(Color.red);
+        for (int i = 0; i < _onlineContactsSerializedProperty.arraySize; i++)
+        {
+            DrawVariant(_onlineContactsSerializedProperty.GetArrayElementAtIndex(i));
+        }
+    }
+    private void DrawVariant(SerializedProperty contact)
+    {
+        SerializedProperty onlineKeySp = contact.FindPropertyRelative("_onlineKey");
+        EditorGUILayout.BeginHorizontal();
+        string part = contact.FindPropertyRelative("_name").stringValue;
+        string label = $"{part} online status: ";
+        EditorGUILayout.LabelField(label);
+        onlineKeySp.boolValue = EditorGUILayout.Toggle(onlineKeySp.boolValue);
+        EditorGUILayout.EndHorizontal();
     }
 }

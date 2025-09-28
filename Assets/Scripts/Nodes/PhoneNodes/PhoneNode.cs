@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -12,23 +13,26 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    [SerializeField] private bool _showStartInfo;
+    [SerializeField] private bool _initStartInfo;
     [SerializeField] private bool _blockScreenNotificationKey;
-    [SerializeField] private bool _characterOnlineKey;
+    // [SerializeField] private bool _characterOnlineKey;
     [SerializeField] private int _startScreenCharacterIndex;
-
+    [SerializeField] private List<ContactInfoToOnlineStatus> _onlineContacts; 
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
-
     public IReadOnlyList<Phone> Phones { get; private set; }
 
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
         Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
-    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts, PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
     {
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
+        if (IsPlayMode() == false)
+        {
+            CreateDictionaryToChooseOnlineContacts(contacts);
+        }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -50,18 +54,18 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
+        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent);
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:
-                _phoneUIHandler.SetBlockScreenBackground(Phones[_phoneIndex], _date, SetLocalizationChangeEvent,
-                    _startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _blockScreenNotificationKey);
+                _phoneUIHandler.SetBlockScreenBackgroundFromNode(_date,
+                    _startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _blockScreenNotificationKey, _initStartInfo);
                 break;
             case PhoneBackgroundScreen.ContactsScreen:
-                _phoneUIHandler.SetContactsScreenBackground(PhoneContactDatasLocalizable, SetLocalizationChangeEvent, _butteryPercent, _startHour, _startMinute, IsPlayMode());
+                _phoneUIHandler.SetContactsScreenBackgroundFromNode(_butteryPercent, _startHour, _startMinute, IsPlayMode(), _initStartInfo);
                 break;
             case PhoneBackgroundScreen.DialogScreen:
-                _phoneUIHandler.SetDialogScreenBackground(PhoneContactDatasLocalizable[_startScreenCharacterIndex],
-                    SetLocalizationChangeEvent, _butteryPercent, _startHour, _startMinute, _characterOnlineKey, IsPlayMode());
+                _phoneUIHandler.SetDialogScreenBackgroundFromNode(_startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _initStartInfo);
                 break;
         }
     }
@@ -69,5 +73,58 @@ public class PhoneNode : BaseNode, ILocalizable
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[] {_date};
+    }
+
+    private void CreateDictionaryToChooseOnlineContacts(IReadOnlyList<PhoneContactDataLocalizable> contacts)
+    {
+        Dictionary<string, ContactInfoToOnlineStatus> contactsToChooseOnline = new Dictionary<string, ContactInfoToOnlineStatus>();
+        for (int i = 0; i < contacts.Count; i++)
+        {
+            TryAdd(contacts[i]);
+        }
+        int count;
+        PhoneDataLocalizable dataLocalizable;
+        for (int i = 0; i < Phones.Count; i++)
+        {
+            count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
+            dataLocalizable = Phones[i].PhoneDataLocalizable;
+            for (int j = 0; j < count; j++)
+            {
+                TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
+            }
+        }
+
+        if (_onlineContacts != null && _onlineContacts.Count > 0)
+        {
+            ContactInfoToOnlineStatus oldInfo;
+            for (int i = 0; i < _onlineContacts.Count; i++)
+            {
+                oldInfo = _onlineContacts[i];
+                if (contactsToChooseOnline.ContainsKey(oldInfo.Key))
+                {
+                    var oldInfoValue = contactsToChooseOnline[oldInfo.Key];
+                    var newInfoValue = new ContactInfoToOnlineStatus(oldInfoValue.Name, oldInfoValue.Key, oldInfoValue.OnlineKey);
+                    contactsToChooseOnline[oldInfo.Key] = newInfoValue;
+                }
+            }
+        }
+        List<ContactInfoToOnlineStatus> contactInfoToOnlineStatus = new List<ContactInfoToOnlineStatus>(contactsToChooseOnline.Count);
+        foreach (var pair in contactsToChooseOnline)
+        {
+            contactInfoToOnlineStatus.Add(new ContactInfoToOnlineStatus(pair.Value.Name, pair.Value.Key, pair.Value.OnlineKey));
+        }
+        _onlineContacts = contactInfoToOnlineStatus;
+        void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false)
+        {
+            if (contactsToChooseOnline.ContainsKey(phoneContactDataLocalizable.NameContactLocalizationString.Key) == false)
+            {
+                contactsToChooseOnline.Add(
+                    phoneContactDataLocalizable.NameContactLocalizationString.Key,
+                    new ContactInfoToOnlineStatus(
+                        phoneContactDataLocalizable.NameContactLocalizationString.DefaultText,
+                        phoneContactDataLocalizable.NameContactLocalizationString.Key,
+                        statusKey));
+            }
+        }
     }
 }
