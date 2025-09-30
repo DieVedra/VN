@@ -21,13 +21,8 @@ public class PhoneNodeDrawer : NodeEditor
     private SerializedProperty _initStartInfoSerializedProperty;
     private SerializedProperty _blockScreenNotificationKeySerializedProperty;
     private SerializedProperty _startScreenCharacterIndexSerializedProperty;
-    private SerializedProperty _characterOnlineKeySerializedProperty;
     private SerializedProperty _onlineContactsSerializedProperty;
 
-    private const string _blockScreenName = "BlockScreen";
-    private const string _contactsScreenName = "ContactsScreen";
-    private const string _dialogScreenName = "DialogScreen";
-    private string[] _backgroundsNames;
     private string[] _phonesNames;
     private string[] _characaterNames;
     public override void OnBodyGUI()
@@ -42,7 +37,6 @@ public class PhoneNodeDrawer : NodeEditor
             {
                 _lineDrawer = new LineDrawer();
                 _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbol));
-                _backgroundsNames = new[] {_blockScreenName, _contactsScreenName, _dialogScreenName};
                 _phoneIndexSerializedProperty = serializedObject.FindProperty("_phoneIndex");
                 _phoneStartScreenSerializedProperty = serializedObject.FindProperty("_phoneStartScreen");
                 _butteryPercentSerializedProperty = serializedObject.FindProperty("_butteryPercent");
@@ -54,7 +48,6 @@ public class PhoneNodeDrawer : NodeEditor
                 _initStartInfoSerializedProperty = serializedObject.FindProperty("_initStartInfo");
                 _blockScreenNotificationKeySerializedProperty = serializedObject.FindProperty("_blockScreenNotificationKey");
                 _startScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_startScreenCharacterIndex");
-                _characterOnlineKeySerializedProperty = serializedObject.FindProperty("_characterOnlineKey");
                 _onlineContactsSerializedProperty = serializedObject.FindProperty("_onlineContacts");
             }
             else
@@ -103,11 +96,6 @@ public class PhoneNodeDrawer : NodeEditor
                             EditorGUILayout.LabelField("Notification from character: ");
                             _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
                             EditorGUILayout.EndHorizontal();
-                            
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField("Set online status: ");
-                            _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
-                            EditorGUILayout.EndHorizontal();
                         }
                     }
                     
@@ -124,11 +112,6 @@ public class PhoneNodeDrawer : NodeEditor
                         EditorGUILayout.LabelField("Dialog with character: ");
                         _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characaterNames);
                         EditorGUILayout.EndHorizontal();
-                        
-                        // EditorGUILayout.BeginHorizontal();
-                        // EditorGUILayout.LabelField("Set online status: ");
-                        // _characterOnlineKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_characterOnlineKeySerializedProperty.boolValue);
-                        // EditorGUILayout.EndHorizontal();
                     }
                 }
 

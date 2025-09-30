@@ -10,14 +10,12 @@ public class PhoneUIHandler : ILocalizable
     private DialogScreenHandler _dialogScreenHandler;
     private PhoneTime _phoneTime;
     private ReactiveCommand _switchToContactsScreenCommand;
+    private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
     private CompositeDisposable _compositeDisposable;
     private Phone _currentPhone;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
-    public PhoneUIHandler()
-    {
-    }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -35,12 +33,12 @@ public class PhoneUIHandler : ILocalizable
         });
         _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
-        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler);
-        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand);
+        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, _switchToContactsScreenCommand);
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, GetOnlineStatus);
         _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler, _switchToContactsScreenCommand);
     }
 
-    public void DisposeBackgrounds()
+    public void DisposeScreensBackgrounds()
     {
         _phoneTime?.Stop();
         _blockScreenHandler.Disable();
@@ -51,11 +49,13 @@ public class PhoneUIHandler : ILocalizable
         _switchToDialogScreenCommand = null;
     }
 
-    public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts, Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts,
+        Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
         _onlineContacts = onlineContacts;
         _currentPhone = phone;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
+        _switchToNextNodeEvent = switchToNextNodeEvent;
     }
     public void SetBlockScreenBackgroundFromNode(LocalizationString date,
         int startScreenCharacterIndex, int butteryPercent, int startHour, int startMinute,
@@ -74,7 +74,8 @@ public class PhoneUIHandler : ILocalizable
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _dialogScreenHandler.Disable();
-        _contactsScreenHandler.Enable(_phoneTime, _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent, butteryPercent, playModeKey);
+        _contactsScreenHandler.Enable(_phoneTime, _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable,
+            _setLocalizationChangeEvent, _switchToNextNodeEvent, butteryPercent, playModeKey);
     }
 
     public void SetDialogScreenBackgroundFromNode(int startScreenCharacterIndex,
@@ -100,7 +101,7 @@ public class PhoneUIHandler : ILocalizable
     {
         _blockScreenHandler.Disable();
         _dialogScreenHandler.Disable();
-        _contactsScreenHandler.Enable(_currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent);
+        _contactsScreenHandler.Enable(_currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent, _switchToNextNodeEvent);
     }
 
     private void TryStartPhoneTime(int startHour, int startMinute, bool restartPhoneTimeKey, bool playModeKey)

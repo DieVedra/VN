@@ -7,7 +7,9 @@ public class DialogScreenView : BaseScreen
     [SerializeField] private Image _contactImage;
     [SerializeField] private TextMeshProUGUI _contactName;
     [SerializeField] private TextMeshProUGUI _contactStatus;
-    [SerializeField] private Button _backArrow;
+    [SerializeField] private TextMeshProUGUI _iconText;
+    [SerializeField] private Button backArrowButton;
+    [SerializeField] private Button _readDialogButton;
     [SerializeField] private RectTransform _dialogTransform;
     [SerializeField] private GameObject contactStatusGameObject;
 
@@ -17,6 +19,8 @@ public class DialogScreenView : BaseScreen
     public GameObject ContactStatusGameObject => contactStatusGameObject;
     public TextMeshProUGUI ContactName => _contactName;
     public TextMeshProUGUI ContactStatus => _contactStatus;
-    public Button BackArrow => _backArrow;
+    public TextMeshProUGUI IconText => _iconText;
+    public Button BackArrowButton => backArrowButton;
+    public Button ReadDialogButtonButton => _readDialogButton;
     public RectTransform DialogTransform => _dialogTransform;
 }

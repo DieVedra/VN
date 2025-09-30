@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
     private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
+    private readonly Predicate<string> _getOnlineStatus;
     private LocalizationString _textFindLS = "Люди, группы, сообщения";
     private LocalizationString _textCallsLS = "Звонки";
     private LocalizationString _textExitLS = "Выход";
@@ -17,48 +20,55 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _textContacts;
     private readonly TextMeshProUGUI _textAddContact;
     private readonly RectTransform _contactsTransform;
-    private CompositeDisposable _compositeDisposableLocalization;
-    public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, TopPanelHandler topPanelHandler, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand)
-        :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground, contactsScreenViewBackground.ColorTopPanel)
+    private readonly Button _buttonExit;
+    private SwitchToNextNodeEvent _switchToNextNodeEvent;
+    private CompositeDisposable _compositeDisposable;
+    public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, TopPanelHandler topPanelHandler,
+        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, Predicate<string> getOnlineStatus)
+        :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
+            contactsScreenViewBackground.ColorTopPanel)
     {
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
+        _getOnlineStatus = getOnlineStatus;
         _textFind = contactsScreenViewBackground.TextFind;
         _textCalls = contactsScreenViewBackground.TextCalls;
         _textExit = contactsScreenViewBackground.TextExit;
         _textContacts = contactsScreenViewBackground.TextContacts;
         _textAddContact = contactsScreenViewBackground.TextAddContact;
         _contactsTransform = contactsScreenViewBackground.ContactsTransform;
+        _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
 
     public void Enable(PhoneTime phoneTime, IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, int butteryPercent, bool playModeKey)
+        SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent, int butteryPercent, bool playModeKey)
     {
+        _switchToNextNodeEvent = switchToNextNodeEvent;
         SubscribeButtons();
         BaseEnable(phoneTime, butteryPercent, playModeKey);
         SetTexts();
-        _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
     }
     public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
-        SetLocalizationChangeEvent setLocalizationChangeEvent)
+        SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
+        _switchToNextNodeEvent = switchToNextNodeEvent;
         SubscribeButtons();
         SetTexts();
-        _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
     }
     public override void Disable()
     {
         base.Disable();
-        _compositeDisposableLocalization?.Clear();
-        // _compositeDisposable?.Clear();
+        _compositeDisposable?.Clear();
     }
     private void SubscribeButtons()
     {
-        // _backArrow.onClick.AddListener(() =>
-        // {
-        //     _backArrow.onClick.RemoveAllListeners();
-        //     _switchToContactsScreenCommand.Execute();
-        // });
-        // _readDialog.onClick.AddListener();
+        _buttonExit.onClick.AddListener(() =>
+        {
+            _buttonExit.onClick.RemoveAllListeners();
+            Disable();
+            _switchToNextNodeEvent.Execute();
+        });
     }
     private void SetTexts()
     {

@@ -12,11 +12,12 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly Image _contactImage;
     private readonly TextMeshProUGUI _contactName;
     private readonly TextMeshProUGUI _contactStatusText;
+    private readonly TextMeshProUGUI _iconText;
     private readonly Button _backArrow;
     private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
     private readonly RectTransform _dialogTransform;
-    private CompositeDisposable _compositeDisposableLocalization;
+    private PhoneContactDataLocalizable _currentContact;
     private CompositeDisposable _compositeDisposable;
 
     public DialogScreenHandler(DialogScreenView dialogScreenView, TopPanelHandler topPanelHandler, ReactiveCommand switchToContactsScreenCommand)
@@ -27,14 +28,27 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactStatus = dialogScreenView.ContactStatusGameObject;
         _contactName = dialogScreenView.ContactName;
         _contactStatusText = dialogScreenView.ContactStatus;
-        _backArrow = dialogScreenView.BackArrow;
+        _backArrow = dialogScreenView.BackArrowButton;
+        _readDialog = dialogScreenView.ReadDialogButtonButton;
         _dialogTransform = dialogScreenView.DialogTransform;
+        _iconText = dialogScreenView.IconText;
     }
     public void Enable(PhoneTime phoneTime, PhoneContactDataLocalizable contact,
         SetLocalizationChangeEvent setLocalizationChangeEvent, int butteryPercent, bool playModeKey, bool characterOnlineKey)
     {
-        BaseEnable(phoneTime, butteryPercent, playModeKey);
+        _currentContact = contact;
         _contactNameLS = contact.NameContactLocalizationString;
+        BaseEnable(phoneTime, butteryPercent, playModeKey);
+        SetContactImage();
+        SetOnlineKey(characterOnlineKey);
+
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+        SubscribeButtons();
+        SetTexts();
+    }
+
+    private void SetOnlineKey(bool characterOnlineKey)
+    {
         if (characterOnlineKey)
         {
             _contactStatus.SetActive(true);
@@ -43,10 +57,24 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         {
             _contactStatus.SetActive(false);
         }
-        SubscribeButtons();
-        SetTexts();
-        _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
     }
+
+    private void SetContactImage()
+    {
+        _contactImage.sprite = _currentContact.Icon;
+        if (_currentContact.IsEmptyIconKey == true)
+        {
+            _contactImage.color = _currentContact.ColorIcon;
+            _iconText.text = GetFistLetter(_currentContact);
+            _iconText.gameObject.SetActive(true);
+        }
+        else
+        {
+            _contactImage.color = Color.white;
+            _iconText.gameObject.SetActive(false);
+        }
+    }
+
     public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, bool characterOnlineKey)
     {
         _contactNameLS = contact.NameContactLocalizationString;
@@ -59,15 +87,15 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
             _contactStatus.SetActive(false);
         }
 
+        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         SubscribeButtons();
         SetTexts();
-        _compositeDisposableLocalization = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
     }
     public override void Disable()
     {
         base.Disable();
-        _compositeDisposableLocalization?.Clear();
         _compositeDisposable?.Clear();
+        _readDialog.onClick.RemoveAllListeners();
     }
 
     private void SubscribeButtons()

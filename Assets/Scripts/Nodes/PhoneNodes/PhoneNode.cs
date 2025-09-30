@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 [NodeWidth(350),NodeTint("#07B715")]
@@ -15,11 +15,11 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private LocalizationString _date;
     [SerializeField] private bool _initStartInfo;
     [SerializeField] private bool _blockScreenNotificationKey;
-    // [SerializeField] private bool _characterOnlineKey;
     [SerializeField] private int _startScreenCharacterIndex;
     [SerializeField] private List<ContactInfoToOnlineStatus> _onlineContacts; 
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
+    private ReactiveCommand _exitCommand;
     public IReadOnlyList<Phone> Phones { get; private set; }
 
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
@@ -29,6 +29,7 @@ public class PhoneNode : BaseNode, ILocalizable
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
+        _exitCommand = new ReactiveCommand();
         if (IsPlayMode() == false)
         {
             CreateDictionaryToChooseOnlineContacts(contacts);
@@ -48,13 +49,13 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         await _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         CancellationTokenSource = null;
+        _phoneUIHandler.DisposeScreensBackgrounds();
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
-        _phoneUIHandler.DisposeBackgrounds();
     }
 
     protected override void SetInfoToView()
     {
-        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent);
+        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent);
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:
@@ -102,8 +103,7 @@ public class PhoneNode : BaseNode, ILocalizable
                 oldInfo = _onlineContacts[i];
                 if (contactsToChooseOnline.ContainsKey(oldInfo.Key))
                 {
-                    var oldInfoValue = contactsToChooseOnline[oldInfo.Key];
-                    var newInfoValue = new ContactInfoToOnlineStatus(oldInfoValue.Name, oldInfoValue.Key, oldInfoValue.OnlineKey);
+                    var newInfoValue = new ContactInfoToOnlineStatus(oldInfo.Name, oldInfo.Key, oldInfo.OnlineKey);
                     contactsToChooseOnline[oldInfo.Key] = newInfoValue;
                 }
             }
