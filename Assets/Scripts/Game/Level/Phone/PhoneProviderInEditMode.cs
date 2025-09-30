@@ -6,12 +6,19 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 {
     [SerializeField, Expandable] private List<PhoneDataProvider> _dataProviders;
     [SerializeField, Expandable] private List<PhoneContactsProvider> _contactsToSeriaProviders;
+    [SerializeField] private ContactView _contactPrefab;
+    [SerializeField] private MessageView _incomingMessagePrefab;
+    [SerializeField] private MessageView _outcomingMessagePrefab;
 
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private List<Phone> _phones2;
 
     private PhoneCreatorEditMode _phoneCreator;
+
     private PhoneContactCombiner _phoneContactCombiner;
+
+    public PoolsProvider PoolsProvider { get; private set; }
+
     //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
     //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
@@ -53,6 +60,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         _phoneContactCombiner = new PhoneContactCombiner();
         _phoneCreator = new PhoneCreatorEditMode(_dataProviders, customizableCharacterIndexesCustodians, _phoneContactCombiner);
         _phones2 = new List<Phone>();
+        PoolsProvider = new PoolsProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab);
     }
 }
 //глобальное хранилище контактов для каждой серии и у каждого персонажа с телефоном есть свои контакты

@@ -4,6 +4,7 @@ using UniRx;
 
 public class PhoneUIHandler : ILocalizable
 {
+    private readonly PoolsProvider _poolsProvider;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
     private ContactsScreenHandler _contactsScreenHandler;
@@ -16,6 +17,11 @@ public class PhoneUIHandler : ILocalizable
     private Phone _currentPhone;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
+
+    public PhoneUIHandler(PoolsProvider poolsProvider)
+    {
+        _poolsProvider = poolsProvider;
+    }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -50,7 +56,8 @@ public class PhoneUIHandler : ILocalizable
     }
 
     public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts,
-        Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
+        Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
+        ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab)
     {
         _onlineContacts = onlineContacts;
         _currentPhone = phone;

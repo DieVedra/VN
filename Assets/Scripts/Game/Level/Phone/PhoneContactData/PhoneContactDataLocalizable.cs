@@ -34,7 +34,7 @@ public class PhoneContactDataLocalizable
     {
         for (int i = 0; i < phoneMessages.Count; i++)
         {
-            _phoneMessages.Add(new PhoneMessageLocalization(phoneMessages[i].Text,
+            _phoneMessages.Add(new PhoneMessageLocalization(phoneMessages[i].Text, phoneMessages[i].Type, 
                 keyMessagesReadedBySeria == true || phoneMessages[i].IsReaded));
         }
     }

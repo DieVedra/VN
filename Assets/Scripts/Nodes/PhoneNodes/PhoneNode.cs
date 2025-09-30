@@ -55,7 +55,7 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent);
+        // _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent);
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:
