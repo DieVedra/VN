@@ -1,22 +1,26 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class PanelSizeHandler
 {
-    private readonly RectTransform _rectTransform;
+    private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
     private readonly AnimationCurve _panelHeightAnimationCurve;
+    private Vector2 _size = new Vector2();
 
-    public PanelSizeHandler(RectTransform rectTransform, CurveProvider curveProvider)
+    public PanelSizeHandler(LineBreaksCountCalculator lineBreaksCountCalculator, CurveProvider curveProvider)
     {
-        _rectTransform = rectTransform;
+        _lineBreaksCountCalculator = lineBreaksCountCalculator;
         _panelHeightAnimationCurve = curveProvider.GetCurve();
     }
 
-    public void UpdateSize(string text, int lineBreaks)
+    public void UpdateSize(RectTransform rectTransform, TextMeshProUGUI textComponent, string text)
     {
         if (String.IsNullOrEmpty(text) == false)
         {
-            _rectTransform.sizeDelta = new Vector2(_rectTransform.sizeDelta.x, _panelHeightAnimationCurve.Evaluate(lineBreaks));
+            _size.x = rectTransform.sizeDelta.x;
+            _size.y = _panelHeightAnimationCurve.Evaluate(_lineBreaksCountCalculator.GetLineBreaksCount(textComponent, text));
+            rectTransform.sizeDelta = _size;
         }
     }
 }

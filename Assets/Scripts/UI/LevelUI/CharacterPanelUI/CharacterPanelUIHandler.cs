@@ -25,7 +25,7 @@ public class CharacterPanelUIHandler
     private readonly TextBlockPositionHandler _textBlockPositionHandler;
     private readonly TextMeshProUGUI _talkTextComponent;
     private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
-    
+    private readonly RectTransform _talkTextRectTransform;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
     public AnimationPanelWithScale AnimationPanelWithScale => _animationPanelWithScale;
     public CharacterPanelUIHandler(CharacterPanelUI characterPanelUI)
@@ -38,9 +38,8 @@ public class CharacterPanelUIHandler
         _rightPosition = _defaultPosition + _rightOffset;
         _animationPanelWithScale = new AnimationPanelWithScale(_characterPanelUI.PanelTransform, _characterPanelUI.CanvasGroup,
             _rightPosition, _leftPosition, _defaultPosition, characterPanelUI.DurationAnim);
-        _textBlockPositionHandler = new TextBlockPositionHandler(_characterPanelUI.TalkTextComponent.GetComponent<RectTransform>(),
-            new CharacterTextBlockPositionCurveProvider());
-        _lineBreaksCountCalculator = new LineBreaksCountCalculator();
+        _talkTextRectTransform = _characterPanelUI.TalkTextComponent.GetComponent<RectTransform>();
+        _textBlockPositionHandler = new TextBlockPositionHandler(new LineBreaksCountCalculator(), new CharacterTextBlockPositionCurveProvider());
     }
     public void CharacterTalkInEditMode(CharacterTalkData data)
     {
@@ -100,7 +99,6 @@ public class CharacterPanelUIHandler
 
     private void UpdatePosition(string text)
     {
-        _textBlockPositionHandler.UpdatePosition(text,
-            _lineBreaksCountCalculator.GetLineBreaksCount(_talkTextComponent, text));
+        _textBlockPositionHandler.UpdatePosition(_talkTextRectTransform, _talkTextComponent, text);
     }
 }

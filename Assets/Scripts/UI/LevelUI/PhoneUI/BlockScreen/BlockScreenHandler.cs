@@ -79,8 +79,9 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
         {
             _iconText.gameObject.SetActive(false);
             _notificationContactIcon.color = Color.white;
-            _notificationContactIcon.sprite = _currentContact.Icon;
         }
+
+        _notificationContactIcon.sprite = _currentContact.Icon;
         _notificationContactIcon.gameObject.SetActive(true);
     }
 

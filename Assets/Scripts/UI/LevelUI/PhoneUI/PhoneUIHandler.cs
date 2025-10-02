@@ -5,6 +5,8 @@ using UniRx;
 public class PhoneUIHandler : ILocalizable
 {
     private readonly PoolsProvider _poolsProvider;
+    private readonly NarrativePanelUIHandler _narrativePanelUI;
+    private MessagesShower _messagesShower;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
     private ContactsScreenHandler _contactsScreenHandler;
@@ -18,9 +20,10 @@ public class PhoneUIHandler : ILocalizable
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
 
-    public PhoneUIHandler(PoolsProvider poolsProvider)
+    public PhoneUIHandler(PoolsProvider poolsProvider, NarrativePanelUIHandler narrativePanelUI)
     {
         _poolsProvider = poolsProvider;
+        _narrativePanelUI = narrativePanelUI;
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -38,10 +41,14 @@ public class PhoneUIHandler : ILocalizable
             SetContactsScreenBackgroundFromAnotherScreen();
         });
         _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
+        var contactsShower = new ContactsShower(GetOnlineStatus);
+        _messagesShower = new MessagesShower(phoneUIView.BlackoutImage, _narrativePanelUI);
+        _poolsProvider.TryInit(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.ContactsTransform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
         _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, _switchToContactsScreenCommand);
-        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, GetOnlineStatus);
-        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _topPanelHandler, _switchToContactsScreenCommand);
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower, _topPanelHandler, _switchToDialogScreenCommand, _poolsProvider.ContactsPool);
+        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, _messagesShower, _topPanelHandler,
+            _poolsProvider.IncomingMessagePool, _poolsProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
     }
 
     public void DisposeScreensBackgrounds()
@@ -56,8 +63,7 @@ public class PhoneUIHandler : ILocalizable
     }
 
     public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts,
-        Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab)
+        Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
         _onlineContacts = onlineContacts;
         _currentPhone = phone;

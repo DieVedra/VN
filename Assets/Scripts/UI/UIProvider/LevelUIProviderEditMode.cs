@@ -29,12 +29,12 @@ public class LevelUIProviderEditMode
         ButtonSwitchSlideUI buttonSwitchSlideUI = levelUIView.ButtonSwitchSlideUI;
         HeaderSeriesPanelUI headerSeriesPanelUI = levelUIView.HeaderSeriesPanelUI;
 
-        PhoneUIHandler = new PhoneUIHandler(poolsProvider);
+        NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
+        PhoneUIHandler = new PhoneUIHandler(poolsProvider, NarrativePanelUIHandler);
         if (levelUIView.PhoneUIView != null)
         {
             PhoneUIHandler.Init(levelUIView.PhoneUIView);
         }
-        NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 

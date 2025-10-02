@@ -7,9 +7,11 @@ public class PoolsProvider
     private readonly ContactView _contactPrefab;
     private readonly MessageView _incomingMessagePrefab;
     private readonly MessageView _outcomingMessagePrefab;
-    private PoolBase<ContactView> _contactsPool;
-    private PoolBase<MessageView> _incomingMessagePool;
-    private PoolBase<MessageView> _outcomingMessagePool;
+    public PoolBase<ContactView> ContactsPool { get; private set; }
+    public PoolBase<MessageView> IncomingMessagePool { get; private set; }
+    public PoolBase<MessageView> OutcomingMessagePool { get; private set; }
+    private RectTransform _dialogParent, _contactsParent;
+    private bool _isInited = false;
 
     public PoolsProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab)
     {
@@ -18,45 +20,61 @@ public class PoolsProvider
         _outcomingMessagePrefab = outcomingMessagePrefab;
     }
 
-    public void Init()
+    public void TryInit(RectTransform dialogParent, RectTransform contactsParent)
     {
-        _contactsPool = new PoolBase<ContactView>(CreateContact, _contactsCount);
-        _incomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, _messagesCount);
-        _outcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, _messagesCount);
+        if (_isInited == false)
+        {
+            _isInited = true;
+            _dialogParent = dialogParent;
+            _contactsParent = contactsParent;
+            ContactsPool = new PoolBase<ContactView>(CreateContact, OnReturn,  _contactsCount);
+            IncomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, OnReturn, _messagesCount);
+            OutcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, OnReturn, _messagesCount);
+        }
     }
 
-    public ContactView GetContactView()
-    {
-        return _contactsPool.Get();
-    }
     public MessageView GetIncomingMessageView()
     {
-        return _incomingMessagePool.Get();
+        return IncomingMessagePool.Get();
     }
+
     public MessageView GetOutcomingMessageView()
     {
-        return _outcomingMessagePool.Get();
+        return OutcomingMessagePool.Get();
     }
+
     public void RemoveAllContacts()
     {
-        _contactsPool.ReturnAll();
+        ContactsPool.ReturnAll();
     }
 
     public void RemoveAllMessages()
     {
-        _incomingMessagePool.ReturnAll();
-        _outcomingMessagePool.ReturnAll();
+        IncomingMessagePool.ReturnAll();
+        OutcomingMessagePool.ReturnAll();
     }
+
     private ContactView CreateContact()
     {
-        return Object.Instantiate(_contactPrefab);
+        return Object.Instantiate(_contactPrefab, _contactsParent);
     }
+
     private MessageView CreateIncomingMessage()
     {
-        return Object.Instantiate(_incomingMessagePrefab);
+        return Object.Instantiate(_incomingMessagePrefab, _dialogParent);
     }
+
     private MessageView CreateOutcomingMessage()
     {
-        return Object.Instantiate(_outcomingMessagePrefab);
+        return Object.Instantiate(_outcomingMessagePrefab, _dialogParent);
+    }
+
+    private void OnReturn(MessageView view)
+    {
+        view.gameObject.SetActive(false);
+    }
+    private void OnReturn(ContactView view)
+    {
+        view.gameObject.SetActive(false);
     }
 }

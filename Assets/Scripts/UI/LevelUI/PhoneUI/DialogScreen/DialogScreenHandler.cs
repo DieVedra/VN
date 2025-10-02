@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
+    private readonly PoolBase<MessageView> _incomingMessagePool;
+    private readonly PoolBase<MessageView> _outcomingMessagePool;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
     private LocalizationString _contactNameLS;
     private LocalizationString _contactStatusLS = "Онлайн";
@@ -17,12 +19,16 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
     private readonly RectTransform _dialogTransform;
+    private readonly MessagesShower _messagesShower;
     private PhoneContactDataLocalizable _currentContact;
     private CompositeDisposable _compositeDisposable;
 
-    public DialogScreenHandler(DialogScreenView dialogScreenView, TopPanelHandler topPanelHandler, ReactiveCommand switchToContactsScreenCommand)
+    public DialogScreenHandler(DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
+        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool, ReactiveCommand switchToContactsScreenCommand)
         :base(dialogScreenView.gameObject, topPanelHandler, dialogScreenView.GradientImage, dialogScreenView.ColorTopPanel)
     {
+        _incomingMessagePool = incomingMessagePool;
+        _outcomingMessagePool = outcomingMessagePool;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
         _contactImage = dialogScreenView.ContactImage;
         _contactStatus = dialogScreenView.ContactStatusGameObject;
@@ -32,6 +38,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _readDialog = dialogScreenView.ReadDialogButtonButton;
         _dialogTransform = dialogScreenView.DialogTransform;
         _iconText = dialogScreenView.IconText;
+        _messagesShower = messagesShower;
     }
     public void Enable(PhoneTime phoneTime, PhoneContactDataLocalizable contact,
         SetLocalizationChangeEvent setLocalizationChangeEvent, int butteryPercent, bool playModeKey, bool characterOnlineKey)
@@ -45,6 +52,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         SubscribeButtons();
         SetTexts();
+        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent);
     }
 
     private void SetOnlineKey(bool characterOnlineKey)
@@ -90,12 +98,14 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         SubscribeButtons();
         SetTexts();
+        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent);
     }
     public override void Disable()
     {
         base.Disable();
         _compositeDisposable?.Clear();
         _readDialog.onClick.RemoveAllListeners();
+        _messagesShower.Dispose();
     }
 
     private void SubscribeButtons()
@@ -105,7 +115,10 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
             _backArrow.onClick.RemoveAllListeners();
             _switchToContactsScreenCommand.Execute();
         });
-        // _readDialog.onClick.AddListener();
+        _readDialog.onClick.AddListener(() =>
+        {
+            _messagesShower.ShowNext();
+        });
     }
     private void SetTexts()
     {

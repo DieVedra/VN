@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
+    private readonly ContactsShower _contactsShower;
     private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
-    private readonly Predicate<string> _getOnlineStatus;
+    private readonly PoolBase<ContactView> _contactsPool;
     private LocalizationString _textFindLS = "Люди, группы, сообщения";
     private LocalizationString _textCallsLS = "Звонки";
     private LocalizationString _textExitLS = "Выход";
@@ -23,13 +24,14 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly Button _buttonExit;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
-    public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, TopPanelHandler topPanelHandler,
-        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, Predicate<string> getOnlineStatus)
+    public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
+        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
             contactsScreenViewBackground.ColorTopPanel)
     {
+        _contactsShower = contactsShower;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
-        _getOnlineStatus = getOnlineStatus;
+        _contactsPool = contactsPool;
         _textFind = contactsScreenViewBackground.TextFind;
         _textCalls = contactsScreenViewBackground.TextCalls;
         _textExit = contactsScreenViewBackground.TextExit;
@@ -42,11 +44,8 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     public void Enable(PhoneTime phoneTime, IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent, int butteryPercent, bool playModeKey)
     {
-        _switchToNextNodeEvent = switchToNextNodeEvent;
-        SubscribeButtons();
         BaseEnable(phoneTime, butteryPercent, playModeKey);
-        SetTexts();
-        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+        Enable(phoneContactDatasLocalizable, setLocalizationChangeEvent, switchToNextNodeEvent);
     }
     public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
@@ -55,10 +54,12 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SubscribeButtons();
         SetTexts();
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
+        _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter);
     }
     public override void Disable()
     {
         base.Disable();
+        _contactsShower.Dispose();
         _compositeDisposable?.Clear();
     }
     private void SubscribeButtons()

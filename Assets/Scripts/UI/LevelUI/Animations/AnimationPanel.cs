@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class AnimationPanel
 {
-    private readonly float _fadeEndValue = 0f;
-    private readonly float _unfadeEndValue = 1f;
+    private const float _fadeEndValue = 0f;
+    private const float _unfadeEndValue = 1f;
     private readonly float _duration;
     private readonly RectTransform _panelTransform;
     private readonly CanvasGroup _canvasGroup;

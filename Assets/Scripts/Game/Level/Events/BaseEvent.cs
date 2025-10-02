@@ -30,6 +30,13 @@ public class BaseEvent
         }).AddTo(compositeDisposable);
         return compositeDisposable;
     }
+    public void SubscribeWithCompositeDisposable(Action operation, CompositeDisposable compositeDisposable)
+    {
+        BaseReactiveCommand.Subscribe(_ =>
+        {
+            operation();
+        }).AddTo(compositeDisposable);
+    }
     public virtual void Execute()
     {
         BaseReactiveCommand.Execute();

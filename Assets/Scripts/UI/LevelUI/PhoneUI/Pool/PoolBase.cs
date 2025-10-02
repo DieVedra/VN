@@ -4,11 +4,14 @@ using System.Collections.Generic;
 public class PoolBase<T>
 {
     private readonly Func<T> _preloadFunc;
+    private readonly Action<T> _returnAction;
     private Queue<T> _pool = new Queue<T>();
     private List<T> _activeContent = new List<T>();
-    public PoolBase(Func<T> preloadFunc, int preloadCount)
+    public IReadOnlyList<T> ActiveContent => _activeContent;
+    public PoolBase(Func<T> preloadFunc, Action<T> returnAction, int preloadCount)
     {
         _preloadFunc = preloadFunc;
+        _returnAction = returnAction;
         for (int i = 0; i < preloadCount; i++)
         {
             Return(preloadFunc());
@@ -22,6 +25,7 @@ public class PoolBase<T>
     }
     public void Return(T item)
     {
+        _returnAction.Invoke(item);
         _pool.Enqueue(item);
     }
     public void ReturnAll()

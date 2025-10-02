@@ -1,22 +1,26 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class TextBlockPositionHandler
 {
-    private readonly RectTransform _textRectTransform;
+    private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
     private readonly AnimationCurve _textPositionAnimationCurve;
+    private Vector2 _size = new Vector2();
 
-    public TextBlockPositionHandler(RectTransform textRectTransform, CurveProvider curveProvider)
+    public TextBlockPositionHandler(LineBreaksCountCalculator lineBreaksCountCalculator, CurveProvider curveProvider)
     {
-        _textRectTransform = textRectTransform;
+        _lineBreaksCountCalculator = lineBreaksCountCalculator;
         _textPositionAnimationCurve = curveProvider.GetCurve();
     }
 
-    public void UpdatePosition(string text, int lineBreaks)
+    public void UpdatePosition(RectTransform textRectTransform, TextMeshProUGUI textComponent, string text)
     {
         if (String.IsNullOrEmpty(text) == false)
         {
-            _textRectTransform.anchoredPosition = new Vector2(_textRectTransform.anchoredPosition.x, _textPositionAnimationCurve.Evaluate(lineBreaks));
+            _size.x = textRectTransform.anchoredPosition.x;
+            _size.y = _textPositionAnimationCurve.Evaluate(_lineBreaksCountCalculator.GetLineBreaksCount(textComponent, text));
+            textRectTransform.anchoredPosition = _size;
         }
     }
 }

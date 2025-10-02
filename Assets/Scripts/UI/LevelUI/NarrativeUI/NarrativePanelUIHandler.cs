@@ -11,12 +11,12 @@ public class NarrativePanelUIHandler
     private readonly Vector3 _fadePosition;
     private readonly NarrativePanelUI _narrativePanelUI;
     private readonly RectTransform _rectTransform;
+    private readonly RectTransform _textRectTransform;
     private readonly TextMeshProUGUI _textComponent;
     private readonly AnimationPanel _animationPanel;
     private readonly TextConsistentlyViewer _textConsistentlyViewer;
     private readonly PanelSizeHandler _panelSizeHandler;
     private readonly TextBlockPositionHandler _textBlockPositionHandler;
-    private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
     public AnimationPanel AnimationPanel => _animationPanel;
     public NarrativePanelUIHandler(NarrativePanelUI narrativePanelUI)
@@ -30,10 +30,10 @@ public class NarrativePanelUIHandler
 
         _animationPanel = new AnimationPanel(_rectTransform, _narrativePanelUI.CanvasGroup,
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
-        _panelSizeHandler = new PanelSizeHandler(narrativePanelUI.RectTransform, new NarrativePanelSizeCurveProvider());
-        _textBlockPositionHandler = new TextBlockPositionHandler(narrativePanelUI.TextComponent.GetComponent<RectTransform>(),
-            new NarrativeTextBlockPositionCurveProvider());
-        _lineBreaksCountCalculator = new LineBreaksCountCalculator();
+        var lineBreaksCountCalculator = new LineBreaksCountCalculator();
+        _panelSizeHandler = new PanelSizeHandler(lineBreaksCountCalculator, new NarrativePanelSizeCurveProvider());
+        _textRectTransform = narrativePanelUI.TextComponent.GetComponent<RectTransform>();
+        _textBlockPositionHandler = new TextBlockPositionHandler(lineBreaksCountCalculator, new NarrativeTextBlockPositionCurveProvider());
     }
     public void NarrativeInEditMode(string text)
     {
@@ -66,8 +66,7 @@ public class NarrativePanelUIHandler
 
     private void UpdatePanel(string text)
     {
-        var count = _lineBreaksCountCalculator.GetLineBreaksCount(_textComponent, text);
-        _panelSizeHandler.UpdateSize(text, count);
-        _textBlockPositionHandler.UpdatePosition(text, count);
+        _panelSizeHandler.UpdateSize(_rectTransform, _textComponent, text);
+        _textBlockPositionHandler.UpdatePosition(_textRectTransform, _textComponent, text);
     }
 }
