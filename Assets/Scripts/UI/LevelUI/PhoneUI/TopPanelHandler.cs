@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TopPanelHandler
 {
+    private const float _percentMultiplier = 0.01f;
     private const string _percentSymbol = "%";
     private const float _posXSignalIndicatorShowTime = -123f;
     private const float _posXSignalIndicatorHideTime = -188f;
@@ -15,7 +16,6 @@ public class TopPanelHandler
     private TextMeshProUGUI _butteryText;
     private Image _butteryImage;
     private Image _butteryIndicatorImage;
-    private PhoneTime _phoneTime;
     private CompositeDisposable _compositeDisposable;
     private bool _timeTextInited;
     private Vector2 _posShowTime => new Vector2(_posXSignalIndicatorShowTime, _signalIndicatorRectTransform.anchoredPosition.y);
@@ -33,7 +33,23 @@ public class TopPanelHandler
         _timeTextInited = false;
     }
 
-    public void Init(Color color, PhoneTime phoneTime, bool playModeKey, int butteryPercent = 85, bool showTimeKey = true)
+    public void Init(PhoneTime phoneTime, bool playMode, int butteryPercent = 85)
+    {
+        if (playMode == true & _timeTextInited == false)
+        {
+            _timeTextInited = true;
+            _compositeDisposable = new CompositeDisposable();
+            Observable.EveryUpdate().Subscribe(_ =>
+            {
+                _timeText.text = phoneTime.GetCurrentTime();
+            }).AddTo(_compositeDisposable);
+        }
+
+        _butteryIndicatorImage.fillAmount = butteryPercent * _percentMultiplier;
+        _butteryText.text = $"{butteryPercent}{_percentSymbol}";
+    }
+
+    public void SetColorAndMode(Color color, bool showTimeKey = true)
     {
         for (int i = 0; i < _signalIndicatorImage.Count; i++)
         {
@@ -44,30 +60,16 @@ public class TopPanelHandler
         {
             _signalIndicatorRectTransform.anchoredPosition = _posShowTime;
             _timeText.gameObject.SetActive(true);
-            if (playModeKey == true & _timeTextInited == false)
-            {
-                _timeTextInited = true;
-                _compositeDisposable = new CompositeDisposable();
-                Observable.EveryUpdate().Subscribe(_ =>
-                {
-                    _timeText.text = _phoneTime.GetCurrentTime();
-                }).AddTo(_compositeDisposable);
-            }
         }
         else
         {
             _signalIndicatorRectTransform.anchoredPosition = _posHideTime;
             _timeText.gameObject.SetActive(false);
         }
-
         _butteryImage.color = color;
         _butteryIndicatorImage.color = color;
         _butteryText.color = color;
-        _butteryImage.fillAmount = butteryPercent;
-        _butteryText.text = $"{butteryPercent}{_percentSymbol}";
-        _phoneTime = phoneTime;
     }
-
     public void Dispose()
     {
         _timeTextInited = false;

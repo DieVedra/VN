@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -8,8 +9,8 @@ using UnityEngine;
 public class MessagesShower
 {
     private const int _sublingIndexBlackoutFrame = 6;
-    private const float _fadeEndValue = 0f;
-    private const float _unfadeEndValue = 0.2f;
+    private const float _fadeEndValue = 0.3f;
+    private const float _unfadeEndValue = 0f;
     private const float _duration = 0.2f;
     private const float _startPositionX = 0f;
     private const float _startPositionY = -666f;
@@ -18,6 +19,7 @@ public class MessagesShower
     private PoolBase<MessageView> _outcomingMessagePool;
     private IReadOnlyList<PhoneMessageLocalization> _phoneMessagesLocalization;
     private PanelSizeHandler _panelSizeHandler;
+    private Action _setOnlineStatus;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private PhoneMessageType _lastMessageType;
@@ -30,6 +32,7 @@ public class MessagesShower
     private CompositeDisposable _compositeDisposable;
     private int _blackoutFrameSublingIndexBufer;
     private bool _inProgress;
+    private bool _resultShowText;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
     public MessagesShower(CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI)
     {
@@ -40,15 +43,18 @@ public class MessagesShower
     }
 
     public void Init(IReadOnlyList<PhoneMessageLocalization> phoneMessagesLocalization,
-        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool, SetLocalizationChangeEvent setLocalizationChangeEvent)
+        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
+        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus)
     {
         _compositeDisposable = new CompositeDisposable();
         _phoneMessagesLocalization = phoneMessagesLocalization;
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
+        _setOnlineStatus = setOnlineStatus;
         _index = 0;
         _inProgress = false;
+        _resultShowText = false;
         for (int i = 0; i < phoneMessagesLocalization.Count; i++)
         {
             if (phoneMessagesLocalization[i].IsReaded == true)
@@ -57,7 +63,10 @@ public class MessagesShower
             }
             else
             {
-                ShowNext(); 
+                if (phoneMessagesLocalization[i].MessageType == PhoneMessageType.Incoming)
+                {
+                    ShowNext();
+                }
                 break;
             }
         }
@@ -70,9 +79,9 @@ public class MessagesShower
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
     }
-    public void ShowNext()
+    public bool ShowNext()
     {
-        if (_inProgress == false && _phoneMessagesLocalization.Count >= _index - 1)
+        if (_inProgress == false && _index < _phoneMessagesLocalization.Count)
         {
             _inProgress = true;
             PhoneMessageLocalization phoneMessageLocalization = _phoneMessagesLocalization[_index];
@@ -87,13 +96,30 @@ public class MessagesShower
                     _lastMessageType = PhoneMessageType.Incoming;
                     break;
                 case PhoneMessageType.Narrative:
-                    SetNarrativeMessage(phoneMessageLocalization.TextMessageLocalizationString).Forget();
-                    _lastMessageType = PhoneMessageType.Narrative;
+                    if (phoneMessageLocalization.IsReaded == false)
+                    {
+                        SetNarrativeMessage(phoneMessageLocalization.TextMessageLocalizationString).Forget();
+                        _lastMessageType = PhoneMessageType.Narrative;
+                    }
                     break;
             }
+
             _index++;
+            _resultShowText = true;
             _inProgress = false;
         }
+        else if (_index == _phoneMessagesLocalization.Count)
+        {
+            _index += _phoneMessagesLocalization.Count;
+            _resultShowText = true;
+            _setOnlineStatus.Invoke();
+        }
+        else
+        {
+            _resultShowText = false;
+        }
+
+        return _resultShowText;
     }
     
     private void SetIncomingMessage(PhoneMessageLocalization phoneMessageLocalization)

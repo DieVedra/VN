@@ -59,6 +59,7 @@ public class LevelUIProviderEditMode
                 headerSeriesPanelUI.gameObject.SetActive(false);
                 levelUIView.MonetPanel.gameObject.SetActive(false);
                 levelUIView.HeartsPanel.gameObject.SetActive(false);
+                levelUIView.PhoneUIView.gameObject.SetActive(false);
             });
         }
     }

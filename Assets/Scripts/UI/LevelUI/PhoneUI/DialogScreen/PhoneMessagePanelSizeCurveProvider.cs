@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class PhoneMessagePanelSizeCurveProvider : CurveProvider
 {
-    private const float _height0 = 100f;
+    private const float _height0 = 93.5f;
     private const float _height1 = 120f;
-    private const float _height2 = 150f;
-    private const float _height3 = 200f;
-    private const float _height4 = 250f;
-    private const float _height5 = 300f;
-    private const float _height6 = 350f;
-    private const float _height7 = 400f;
+    private const float _height2 = 180f;
+    private const float _height3 = 220f;
+    private const float _height4 = 260f;
+    private const float _height5 = 320f;
+    private const float _height6 = 360f;
+    private const float _height7 = 410f;
 
     public override AnimationCurve GetCurve()
     {

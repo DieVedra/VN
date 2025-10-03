@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -38,19 +37,14 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactsTransform = contactsScreenViewBackground.ContactsTransform;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
-
-    public void Enable(PhoneTime phoneTime, IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent, int butteryPercent, bool playModeKey)
-    {
-        BaseEnable(phoneTime, butteryPercent, playModeKey);
-        Enable(phoneContactDatasLocalizable, setLocalizationChangeEvent, switchToNextNodeEvent);
-    }
     public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
+        Screen.SetActive(true);
         _switchToNextNodeEvent = switchToNextNodeEvent;
         SubscribeButtons();
         SetTexts();
+        TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter);
     }

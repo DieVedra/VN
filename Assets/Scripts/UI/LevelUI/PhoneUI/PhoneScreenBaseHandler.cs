@@ -1,5 +1,4 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PhoneScreenBaseHandler
@@ -17,16 +16,10 @@ public class PhoneScreenBaseHandler
         BackgroundImage = backgroundImage;
         TopPanelColor = topPanelColor;
     }
-    protected void BaseEnable(PhoneTime phoneTime, int butteryPercent, bool playModeKey)
-    {
-        Screen.SetActive(true);
-        TopPanelHandler.Init(TopPanelColor, phoneTime, playModeKey, butteryPercent);
-    }
 
     public virtual void Disable()
     {
         Screen.SetActive(false);
-        TopPanelHandler.Dispose();
     }
 
     protected string GetFistLetter(PhoneContactDataLocalizable currentContact)

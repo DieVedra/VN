@@ -9,7 +9,11 @@ public class ContactInfoToOnlineStatus
     [SerializeField] private bool _onlineKey;
     public string Key => _key;
     public string Name => _name;
-    public bool OnlineKey => _onlineKey;
+    public bool OnlineKey
+    {
+        get => _onlineKey;
+        set => _onlineKey = value;
+    }
 
     public ContactInfoToOnlineStatus(string name, string key, bool onlineKey)
     {

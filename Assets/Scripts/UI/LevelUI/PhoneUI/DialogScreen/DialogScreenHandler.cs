@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly RectTransform _dialogTransform;
     private readonly MessagesShower _messagesShower;
     private PhoneContactDataLocalizable _currentContact;
+    private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
 
     public DialogScreenHandler(DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
@@ -40,19 +42,25 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _iconText = dialogScreenView.IconText;
         _messagesShower = messagesShower;
     }
-    public void Enable(PhoneTime phoneTime, PhoneContactDataLocalizable contact,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, int butteryPercent, bool playModeKey, bool characterOnlineKey)
+    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
+        Action<string, bool> setOnlineStatus, bool characterOnlineKey)
     {
+        _switchToNextNodeEvent = switchToNextNodeEvent;
         _currentContact = contact;
         _contactNameLS = contact.NameContactLocalizationString;
-        BaseEnable(phoneTime, butteryPercent, playModeKey);
+        Screen.SetActive(true);
+        TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
         SetOnlineKey(characterOnlineKey);
-
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         SubscribeButtons();
         SetTexts();
-        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent);
+        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+            () =>
+            {
+                setOnlineStatus.Invoke(contact.NameContactLocalizationString.Key, false);
+                SetOnlineKey(false);
+            });
     }
 
     private void SetOnlineKey(bool characterOnlineKey)
@@ -83,23 +91,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         }
     }
 
-    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, bool characterOnlineKey)
-    {
-        _contactNameLS = contact.NameContactLocalizationString;
-        if (characterOnlineKey)
-        {
-            _contactStatus.SetActive(true);
-        }
-        else
-        {
-            _contactStatus.SetActive(false);
-        }
-
-        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        SubscribeButtons();
-        SetTexts();
-        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent);
-    }
     public override void Disable()
     {
         base.Disable();
@@ -117,7 +108,12 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         });
         _readDialog.onClick.AddListener(() =>
         {
-            _messagesShower.ShowNext();
+            if (_messagesShower.ShowNext() == false)
+            {
+                _readDialog.onClick.RemoveAllListeners();
+                _backArrow.onClick.RemoveAllListeners();
+                _switchToNextNodeEvent.Execute();
+            }
         });
     }
     private void SetTexts()

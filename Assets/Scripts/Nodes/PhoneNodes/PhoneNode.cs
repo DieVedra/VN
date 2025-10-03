@@ -55,18 +55,18 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent);
+        _phoneUIHandler.ConstructFromNode(_onlineContacts, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
+            _butteryPercent,_startHour, _startMinute);
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:
-                _phoneUIHandler.SetBlockScreenBackgroundFromNode(_date,
-                    _startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _blockScreenNotificationKey, _initStartInfo);
+                _phoneUIHandler.SetBlockScreenBackgroundFromNode(_date, _startScreenCharacterIndex, IsPlayMode(), _blockScreenNotificationKey);
                 break;
             case PhoneBackgroundScreen.ContactsScreen:
-                _phoneUIHandler.SetContactsScreenBackgroundFromNode(_butteryPercent, _startHour, _startMinute, IsPlayMode(), _initStartInfo);
+                _phoneUIHandler.SetContactsScreenBackgroundFromNode();
                 break;
             case PhoneBackgroundScreen.DialogScreen:
-                _phoneUIHandler.SetDialogScreenBackgroundFromNode(_startScreenCharacterIndex, _butteryPercent, _startHour, _startMinute, IsPlayMode(), _initStartInfo);
+                _phoneUIHandler.SetDialogScreenBackgroundFromNode(_startScreenCharacterIndex);
                 break;
         }
     }

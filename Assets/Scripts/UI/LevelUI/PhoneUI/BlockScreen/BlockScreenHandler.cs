@@ -17,7 +17,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _notificationText;
     private readonly TextMeshProUGUI _iconText;
     private readonly Button _buttonInteraction;
-    private LocalizationString _notificationNameLocalizationString = "Получено новое соощение!";
+    private LocalizationString _notificationNameLocalizationString = "Получено новое сообщение!";
     private CompositeDisposable _compositeDisposable;
     private PhoneContactDataLocalizable _currentContact;
     private LocalizationString _dateLocStr;
@@ -38,14 +38,15 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     }
     
     public void Enable(PhoneTime phoneTime, Phone phone, LocalizationString date, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int butteryPercent, int startScreenCharacterIndex, bool playModeKey, bool blockScreenNotificationKey)
+        int startScreenCharacterIndex, bool playModeKey, bool blockScreenNotificationKey)
     {
         _dateLocStr = date;
         _currentContact = phone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
         _imageBackground.sprite = phone.PhoneDataLocalizable.Background;
-        BaseEnable(phoneTime, butteryPercent, playModeKey);
         Screen.SetActive(true);
-        TopPanelHandler.Init(TopPanelColor, phoneTime, playModeKey, butteryPercent, false);
+        // BaseEnable(phoneTime, butteryPercent, playModeKey);
+        // TopPanelHandler.Init(TopPanelColor, phoneTime, playModeKey, butteryPercent, false);
+        TopPanelHandler.SetColorAndMode(TopPanelColor, false);
         SetTexts();
         TrySetTime(phoneTime, setLocalizationChangeEvent, playModeKey);
         
