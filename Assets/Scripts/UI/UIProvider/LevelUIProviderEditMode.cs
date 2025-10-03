@@ -30,11 +30,6 @@ public class LevelUIProviderEditMode
         HeaderSeriesPanelUI headerSeriesPanelUI = levelUIView.HeaderSeriesPanelUI;
 
         NarrativePanelUIHandler = new NarrativePanelUIHandler(narrativePanelUI);
-        PhoneUIHandler = new PhoneUIHandler(poolsProvider, NarrativePanelUIHandler);
-        if (levelUIView.PhoneUIView != null)
-        {
-            PhoneUIHandler.Init(levelUIView.PhoneUIView);
-        }
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
@@ -43,12 +38,16 @@ public class LevelUIProviderEditMode
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
-        if (Application.isPlaying)
+        CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+
+        PhoneUIHandler = new PhoneUIHandler(poolsProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler);
+        if (levelUIView.PhoneUIView != null)
         {
-            CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
-            CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+            PhoneUIHandler.Init(levelUIView.PhoneUIView);
         }
-        else
+
+        if (Application.isPlaying == false)
         {
             _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(() =>
             {

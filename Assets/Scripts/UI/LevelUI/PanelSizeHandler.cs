@@ -14,12 +14,12 @@ public class PanelSizeHandler
         _panelHeightAnimationCurve = curveProvider.GetCurve();
     }
 
-    public void UpdateSize(RectTransform rectTransform, TextMeshProUGUI textComponent, string text)
+    public void UpdateSize(RectTransform rectTransform, TextMeshProUGUI textComponent, string text, bool clear = true)
     {
         if (String.IsNullOrEmpty(text) == false)
         {
             _size.x = rectTransform.sizeDelta.x;
-            _size.y = _panelHeightAnimationCurve.Evaluate(_lineBreaksCountCalculator.GetLineBreaksCount(textComponent, text));
+            _size.y = _panelHeightAnimationCurve.Evaluate(_lineBreaksCountCalculator.GetLineBreaksCount(textComponent, text, clear));
             rectTransform.sizeDelta = _size;
         }
     }

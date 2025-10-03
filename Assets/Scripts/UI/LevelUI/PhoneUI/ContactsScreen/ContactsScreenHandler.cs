@@ -19,7 +19,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _textCalls;
     private readonly TextMeshProUGUI _textExit;
     private readonly TextMeshProUGUI _textContacts;
-    private readonly TextMeshProUGUI _textAddContact;
     private readonly RectTransform _contactsTransform;
     private readonly Button _buttonExit;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
@@ -36,7 +35,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textCalls = contactsScreenViewBackground.TextCalls;
         _textExit = contactsScreenViewBackground.TextExit;
         _textContacts = contactsScreenViewBackground.TextContacts;
-        _textAddContact = contactsScreenViewBackground.TextAddContact;
         _contactsTransform = contactsScreenViewBackground.ContactsTransform;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
@@ -77,7 +75,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textCalls.text = _textCallsLS;
         _textExit.text = _textExitLS;
         _textContacts.text = _textContactsLS;
-        _textAddContact.text = _textAddContactLS;
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

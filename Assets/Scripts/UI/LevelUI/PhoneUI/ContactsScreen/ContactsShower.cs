@@ -40,7 +40,7 @@ public class ContactsShower
     public void Dispose()
     {
         _compositeDisposable?.Clear();
-        _contactsPool.ReturnAll();
+        _contactsPool?.ReturnAll();
     }
     private void CreateContact(PhoneContactDataLocalizable contactDataLocalizable, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, float offset)
     {
@@ -59,6 +59,7 @@ public class ContactsShower
             UnsubscribeAllButtons();
             switchToDialogScreenCommand.Execute(contactDataLocalizable);
         });
+        view.gameObject.SetActive(true);
     }
 
     private void SetOnlineStatus(PhoneContactDataLocalizable contactDataLocalizable, ContactView view)

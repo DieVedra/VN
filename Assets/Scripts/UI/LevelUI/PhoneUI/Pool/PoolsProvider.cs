@@ -1,17 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class PoolsProvider
 {
     private const int _contactsCount = 7;
-    private const int _messagesCount = 10;
-    private readonly ContactView _contactPrefab;
-    private readonly MessageView _incomingMessagePrefab;
-    private readonly MessageView _outcomingMessagePrefab;
-    public PoolBase<ContactView> ContactsPool { get; private set; }
-    public PoolBase<MessageView> IncomingMessagePool { get; private set; }
-    public PoolBase<MessageView> OutcomingMessagePool { get; private set; }
+    private const int _messagesCount = 5;
+    private ContactView _contactPrefab;
+    private MessageView _incomingMessagePrefab;
+    private MessageView _outcomingMessagePrefab;
+
+    private PoolBase<ContactView> _contactsPool;
+    private PoolBase<MessageView> _incomingMessagePool;
+    private PoolBase<MessageView> _outcomingMessagePool;
+    public PoolBase<ContactView> ContactsPool => _contactsPool;
+    public PoolBase<MessageView> IncomingMessagePool => _incomingMessagePool;
+    public PoolBase<MessageView> OutcomingMessagePool => _outcomingMessagePool;
     private RectTransform _dialogParent, _contactsParent;
-    private bool _isInited = false;
 
     public PoolsProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab)
     {
@@ -19,39 +24,53 @@ public class PoolsProvider
         _incomingMessagePrefab = incomingMessagePrefab;
         _outcomingMessagePrefab = outcomingMessagePrefab;
     }
+    
+#if UNITY_EDITOR
+    
+    private readonly Action<GameObject> _addView;
 
-    public void TryInit(RectTransform dialogParent, RectTransform contactsParent)
+    public PoolsProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab,
+        Action<GameObject> addView)
     {
-        if (_isInited == false)
+        _contactPrefab = contactPrefab;
+        _incomingMessagePrefab = incomingMessagePrefab;
+        _outcomingMessagePrefab = outcomingMessagePrefab;
+        _addView = addView;
+    }
+
+    public void AddPoolsViews()
+    {
+        foreach (var view in _contactsPool.Pool)
         {
-            _isInited = true;
-            _dialogParent = dialogParent;
-            _contactsParent = contactsParent;
-            ContactsPool = new PoolBase<ContactView>(CreateContact, OnReturn,  _contactsCount);
-            IncomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, OnReturn, _messagesCount);
-            OutcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, OnReturn, _messagesCount);
+            _addView.Invoke(view.gameObject);
+        }
+        foreach (var view in _incomingMessagePool.Pool)
+        {
+            _addView.Invoke(view.gameObject);
+        }
+        foreach (var view in _outcomingMessagePool.Pool)
+        {
+            _addView.Invoke(view.gameObject);
         }
     }
+#endif
 
-    public MessageView GetIncomingMessageView()
+    public void Init(RectTransform dialogParent, RectTransform contactsParent)
     {
-        return IncomingMessagePool.Get();
-    }
+        _dialogParent = dialogParent;
+        _contactsParent = contactsParent;
+        _contactsPool = new PoolBase<ContactView>(CreateContact, OnReturn, _contactsCount);
+        _incomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, OnReturn, _messagesCount);
+        _outcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, OnReturn, _messagesCount);
+        
+#if UNITY_EDITOR
 
-    public MessageView GetOutcomingMessageView()
-    {
-        return OutcomingMessagePool.Get();
-    }
+        if (Application.isPlaying == false)
+        {
+            AddPoolsViews();
+        }
+#endif
 
-    public void RemoveAllContacts()
-    {
-        ContactsPool.ReturnAll();
-    }
-
-    public void RemoveAllMessages()
-    {
-        IncomingMessagePool.ReturnAll();
-        OutcomingMessagePool.ReturnAll();
     }
 
     private ContactView CreateContact()

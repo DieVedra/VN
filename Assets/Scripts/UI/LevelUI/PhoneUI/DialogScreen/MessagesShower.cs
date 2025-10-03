@@ -4,12 +4,12 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MessagesShower
 {
+    private const int _sublingIndexBlackoutFrame = 6;
     private const float _fadeEndValue = 0f;
-    private const float _unfadeEndValue = 1f;
+    private const float _unfadeEndValue = 0.2f;
     private const float _duration = 0.2f;
     private const float _startPositionX = 0f;
     private const float _startPositionY = -666f;
@@ -17,21 +17,23 @@ public class MessagesShower
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
     private IReadOnlyList<PhoneMessageLocalization> _phoneMessagesLocalization;
-    private Image _blackoutImage;
     private PanelSizeHandler _panelSizeHandler;
+    private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private PhoneMessageType _lastMessageType;
     private CancellationTokenSource _cancellationTokenSource;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private List<MessageView> _messageViewed;
     private int _index = 0;
-    private readonly Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
+    private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
+    private int _blackoutFrameSublingIndexBufer;
     private bool _inProgress;
-    public MessagesShower(Image blackoutImage, NarrativePanelUIHandler narrativePanelUI)
+    private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
+    public MessagesShower(CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI)
     {
-        _blackoutImage = blackoutImage;
+        _curtainUIHandler = curtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
         _messageViewed = new List<MessageView>();
         _panelSizeHandler = new PanelSizeHandler(new LineBreaksCountCalculator(), new PhoneMessagePanelSizeCurveProvider());
@@ -65,8 +67,8 @@ public class MessagesShower
     {
         _messageViewed.Clear();
         _compositeDisposable?.Clear();
-        _incomingMessagePool.ReturnAll();
-        _outcomingMessagePool.ReturnAll();
+        _incomingMessagePool?.ReturnAll();
+        _outcomingMessagePool?.ReturnAll();
     }
     public void ShowNext()
     {
@@ -107,8 +109,8 @@ public class MessagesShower
     private void SetMessage(MessageView view, PhoneMessageLocalization phoneMessageLocalization)
     {
         TryHideNarrativeMessage();
+        _startPosition.x = view.RectTransform.anchoredPosition.x;
         view.RectTransform.anchoredPosition = _startPosition;
-        _panelSizeHandler.UpdateSize(view.ImageRectTransform, view.Text, phoneMessageLocalization.TextMessageLocalizationString);
         var newPosYOffset = view.ImageRectTransform.sizeDelta.y + _offset;
         for (int i = 0; i < _messageViewed.Count; i++)
         {
@@ -116,6 +118,7 @@ public class MessagesShower
             _pos.y = _messageViewed[i].RectTransform.anchoredPosition.y + newPosYOffset;
             _messageViewed[i].RectTransform.anchoredPosition = _pos;
         }
+
         _messageViewed.Add(view);
         view.Text.text = phoneMessageLocalization.TextMessageLocalizationString;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
@@ -123,6 +126,7 @@ public class MessagesShower
             view.Text.text = phoneMessageLocalization.TextMessageLocalizationString;
         }, _compositeDisposable);
         view.gameObject.SetActive(true);
+        _panelSizeHandler.UpdateSize(view.ImageRectTransform, view.Text, phoneMessageLocalization.TextMessageLocalizationString, false);
         phoneMessageLocalization.IsReaded = true;
     }
     private async UniTaskVoid SetNarrativeMessage(string text)
@@ -136,8 +140,13 @@ public class MessagesShower
         }
         else
         {
+            _blackoutFrameSublingIndexBufer = _curtainUIHandler.Transform.GetSiblingIndex();
+            _curtainUIHandler.Transform.SetSiblingIndex(_sublingIndexBlackoutFrame);
+            _curtainUIHandler.CurtainImage.raycastTarget = false;
+            _curtainUIHandler.CurtainImage.color = _colorHide;
+            _curtainUIHandler.CurtainImage.gameObject.SetActive(true);
             await UniTask.WhenAll(
-                _blackoutImage.DOFade(_fadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
+                _curtainUIHandler.CurtainImage.DOFade(_fadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
                 _narrativePanelUI.AnimationPanel.UnfadePanel(_cancellationTokenSource.Token));
         }
         
@@ -148,8 +157,11 @@ public class MessagesShower
     {
         if (_lastMessageType == PhoneMessageType.Narrative)
         {
+            _curtainUIHandler.Transform.SetSiblingIndex(_blackoutFrameSublingIndexBufer);
+            _curtainUIHandler.CurtainImage.raycastTarget = true;
+            _curtainUIHandler.CurtainImage.gameObject.SetActive(false);
             UniTask.WhenAll(
-                _blackoutImage.DOFade(_unfadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
+                _curtainUIHandler.CurtainImage.DOFade(_unfadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
                 _narrativePanelUI.AnimationPanel.FadePanel(_cancellationTokenSource.Token));
         }
     }

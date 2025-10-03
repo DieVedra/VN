@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class PhoneUIHandler : ILocalizable
 {
     private readonly PoolsProvider _poolsProvider;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
+    private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private MessagesShower _messagesShower;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
@@ -20,10 +22,11 @@ public class PhoneUIHandler : ILocalizable
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
 
-    public PhoneUIHandler(PoolsProvider poolsProvider, NarrativePanelUIHandler narrativePanelUI)
+    public PhoneUIHandler(PoolsProvider poolsProvider, NarrativePanelUIHandler narrativePanelUI, CustomizationCurtainUIHandler curtainUIHandler)
     {
         _poolsProvider = poolsProvider;
         _narrativePanelUI = narrativePanelUI;
+        _curtainUIHandler = curtainUIHandler;
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -42,8 +45,8 @@ public class PhoneUIHandler : ILocalizable
         });
         _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
         var contactsShower = new ContactsShower(GetOnlineStatus);
-        _messagesShower = new MessagesShower(phoneUIView.BlackoutImage, _narrativePanelUI);
-        _poolsProvider.TryInit(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.ContactsTransform);
+        _messagesShower = new MessagesShower(_curtainUIHandler, _narrativePanelUI);
+        _poolsProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.ContactsTransform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
         _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, _switchToContactsScreenCommand);
         _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower, _topPanelHandler, _switchToDialogScreenCommand, _poolsProvider.ContactsPool);
@@ -77,6 +80,7 @@ public class PhoneUIHandler : ILocalizable
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _contactsScreenHandler.Disable();
         _dialogScreenHandler.Disable();
+        _blockScreenHandler.Disable();
         _blockScreenHandler.Enable(_phoneTime, _currentPhone, date,
             _setLocalizationChangeEvent, butteryPercent, startScreenCharacterIndex, playModeKey, blockScreenNotificationKey);
     }
@@ -87,6 +91,7 @@ public class PhoneUIHandler : ILocalizable
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _dialogScreenHandler.Disable();
+        _contactsScreenHandler.Disable();
         _contactsScreenHandler.Enable(_phoneTime, _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable,
             _setLocalizationChangeEvent, _switchToNextNodeEvent, butteryPercent, playModeKey);
     }
@@ -97,6 +102,7 @@ public class PhoneUIHandler : ILocalizable
         TryStartPhoneTime(startHour, startMinute, restartPhoneTimeKey, playModeKey);
         _blockScreenHandler.Disable();
         _contactsScreenHandler.Disable();
+        _dialogScreenHandler.Disable();
         PhoneContactDataLocalizable contact =
             _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
         _dialogScreenHandler.Enable(_phoneTime, contact,

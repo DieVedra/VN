@@ -16,8 +16,7 @@ public static class GameInitializer
     private static void InitializeOnLoad()
     {
         EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        // EditorApplication.isPlaying
-        TryInitWithTimer(0.02f);
+        TryInitWithTimer(_timerTime);
     }
     private static void OnPlayModeStateChanged(PlayModeStateChange playModeState)
     {
@@ -25,21 +24,21 @@ public static class GameInitializer
         {
             case PlayModeStateChange.ExitingEditMode:
                 IsGamePlayMode = true;
-                // Debug.Log($"GameEnteredPlayMode {IsGamePlayMode}");
+                // Debug.Log($"ExitingEditMode");
                 break;
             
             case PlayModeStateChange.ExitingPlayMode:
                 IsGamePlayMode = false;
-                // Debug.Log($"ExitingPlayMode {IsGamePlayMode}");
+                // Debug.Log($"ExitingPlayMode");
                 break;
             case PlayModeStateChange.EnteredPlayMode:
                 IsGamePlayMode = true;
-                // Debug.Log($"EnteredPlayMode {IsGamePlayMode}");
+                // Debug.Log($"EnteredPlayMode");
                 break;
             case PlayModeStateChange.EnteredEditMode:
                 IsGamePlayMode = false;
                 TryInitWithTimer(_timerTime);
-                // Debug.Log($"GameEditMode {IsGamePlayMode}");
+                // Debug.Log($"EnteredEditMode");
                 break;
         }
     }

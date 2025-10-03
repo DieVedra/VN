@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +10,11 @@ public class CurtainUIHandler
     private const float _unfadeSkipValue = 0.2f;
     protected readonly BlackFrameView BlackFrameView;
     protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
-    protected readonly Image CurtainImage;
+    public readonly Image CurtainImage;
+    public Transform Transform;
     public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
     {
+        Transform = blackFrameView.transform;
         BlackFrameView = blackFrameView;
         BlockGameControlPanelUI = blockGameControlPanelUI;
         CurtainImage = BlackFrameView.Image;

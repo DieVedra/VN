@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LineBreaksCountCalculator
 {
-    public int GetLineBreaksCount(TextMeshProUGUI textComponent, string text)
+    public int GetLineBreaksCount(TextMeshProUGUI textComponent, string text, bool clear = true)
     {
         Color textColor = textComponent.color;
         textComponent.color = Color.clear;
@@ -14,14 +14,18 @@ public class LineBreaksCountCalculator
             textComponent.gameObject.SetActive(true);
         }
         textComponent.ForceMeshUpdate();
-        
         int lineCount = textComponent.textInfo.lineCount;
         int lineBreaks = 0;
         if (lineCount > 0)
         {
             lineBreaks = textComponent.textInfo.lineCount - 1;
         }
-        textComponent.text = String.Empty;
+
+        if (clear == true)
+        {
+            textComponent.text = String.Empty;
+        }
+
         textComponent.color = textColor;
         return lineBreaks;
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -6,19 +7,20 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 {
     [SerializeField, Expandable] private List<PhoneDataProvider> _dataProviders;
     [SerializeField, Expandable] private List<PhoneContactsProvider> _contactsToSeriaProviders;
+    
     [SerializeField] private ContactView _contactPrefab;
     [SerializeField] private MessageView _incomingMessagePrefab;
     [SerializeField] private MessageView _outcomingMessagePrefab;
-
+    [SerializeField] private List<ObjectsToDestroy> _views;
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private List<Phone> _phones2;
 
     private PhoneCreatorEditMode _phoneCreator;
 
     private PhoneContactCombiner _phoneContactCombiner;
+    private PoolsProvider _poolsProvider;
 
-    public PoolsProvider PoolsProvider { get; private set; }
-
+    public PoolsProvider PoolsProvider => _poolsProvider;
     //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
     //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
@@ -36,8 +38,21 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     }
     
     //придумать проверку если контакт был добавлен в телефон ранее то контакт будет дополнен датой текущей серии
+    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
+    {
+        // _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
+        _phoneContactCombiner = new PhoneContactCombiner();
+        _phoneCreator = new PhoneCreatorEditMode(_dataProviders, customizableCharacterIndexesCustodians, _phoneContactCombiner);
+        _phones2 = new List<Phone>();
+        for (int i = 0; i < _views.Count; i++)
+        {
+            _views[i].IsNewkey = false;
+        }
+        _poolsProvider = new PoolsProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab, AddView);
+        TryDestroyOld();
+    }
     //а если контакт не был добавлен в телефон ранее а был добавлен в текущей серии то его надо добавить без контента прошлых серий
-    //
+
     public IReadOnlyList<PhoneContactDataLocalizable> GetContactsToSeria(int seriaIndex)
     {
         List<PhoneContactDataLocalizable> contactDatas = new List<PhoneContactDataLocalizable>();
@@ -54,15 +69,38 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         }
         return contactDatas;
     }
-    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
+    private void TryDestroyOld()
     {
-        // _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
-        _phoneContactCombiner = new PhoneContactCombiner();
-        _phoneCreator = new PhoneCreatorEditMode(_dataProviders, customizableCharacterIndexesCustodians, _phoneContactCombiner);
-        _phones2 = new List<Phone>();
-        PoolsProvider = new PoolsProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab);
+        bool recursion = false;
+        for (int i = 0; i < _views.Count; i++)
+        {
+            if (_views[i].IsNewkey == false)
+            {
+                recursion = true;
+                DestroyImmediate(_views[i].Go);
+                _views.RemoveAt(i);
+            }
+        }
+
+        if (recursion == true)
+        {
+            recursion = false;
+            TryDestroyOld();
+        }
+    }
+
+    private void AddView(GameObject view)
+    {
+        _views.Add(new ObjectsToDestroy(){IsNewkey = true, Go = view});
+    }
+    [Serializable]
+    protected class ObjectsToDestroy
+    {
+        [field: SerializeField] public bool IsNewkey;
+        [field: SerializeField] public GameObject Go;
     }
 }
+
 //глобальное хранилище контактов для каждой серии и у каждого персонажа с телефоном есть свои контакты
 //
 //при сохранении игры сохраняются ключи или индексы добавленных в телефон контактов

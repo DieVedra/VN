@@ -8,7 +8,6 @@ public class PhoneUIView : MonoBehaviour
 {
     [SerializeField, BoxGroup("Оформление")] private Image _handImage;
     [SerializeField, BoxGroup("Оформление")] private Image _frameImage;
-    [SerializeField, BoxGroup("Blackout")] private Image _blackoutImage;
 
     [SerializeField, BoxGroup("Top panel")] private RectTransform _signalIndicatorRectTransform;
     [SerializeField, BoxGroup("Top panel")] private List<Image> _signalIndicatorImage;
@@ -33,5 +32,4 @@ public class PhoneUIView : MonoBehaviour
     public BlockScreenView BlockScreenViewBackground => _blockScreenViewBackground;
     public DialogScreenView DialogScreenViewBackground => _dialogScreenViewBackground;
     public ContactsScreenView ContactsScreenViewBackground => _contactsScreenViewBackground;
-    public Image BlackoutImage => _blackoutImage;
 }
