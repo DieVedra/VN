@@ -13,8 +13,8 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler,
         GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
-        OnEndGameEvent onEndGameEvent, PoolsProvider poolsProvider)
-        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI, poolsProvider)
+        OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider)
+        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider)
     {
         if (Application.isPlaying)
         {

@@ -74,7 +74,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         InitBackground();
         _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
-        InitLevelUIProvider(_phoneProviderInEditMode.PoolsProvider);
+        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider);
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider,_backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
@@ -140,12 +140,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
             SaveServiceProvider.SaveService.Save(SaveData);
         }
     }
-    private void InitLevelUIProvider(PoolsProvider poolsProvider)
+    private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider)
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler,
-            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, poolsProvider);
+            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

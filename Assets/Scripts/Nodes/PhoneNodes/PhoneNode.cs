@@ -13,27 +13,29 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    [SerializeField] private bool _initStartInfo;
     [SerializeField] private bool _blockScreenNotificationKey;
     [SerializeField] private int _startScreenCharacterIndex;
-    [SerializeField] private List<ContactInfoToOnlineStatus> _onlineContacts; 
+    [SerializeField] private List<string> _onlineContacts;
+    [SerializeField] private List<string> _notificationContacts;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
-    private ReactiveCommand _exitCommand;
+    // private ReactiveCommand _exitCommand;
     public IReadOnlyList<Phone> Phones { get; private set; }
-
+    public IReadOnlyList<PhoneContactDataLocalizable> Contacts { get; private set; }
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
         Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
-    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts, PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts,
+        PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
     {
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
-        _exitCommand = new ReactiveCommand();
-        if (IsPlayMode() == false)
-        {
-            CreateDictionaryToChooseOnlineContacts(contacts);
-        }
+        Contacts = contacts;
+        // _exitCommand = new ReactiveCommand();
+        // if (IsPlayMode() == false)
+        // {
+        //     CreateContactsToOnlineAndNotifications(contacts);
+        // }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -75,56 +77,74 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         return new[] {_date};
     }
-
-    private void CreateDictionaryToChooseOnlineContacts(IReadOnlyList<PhoneContactDataLocalizable> contacts)
+    private void Awake()
     {
-        Dictionary<string, ContactInfoToOnlineStatus> contactsToChooseOnline = new Dictionary<string, ContactInfoToOnlineStatus>();
-        for (int i = 0; i < contacts.Count; i++)
-        {
-            TryAdd(contacts[i]);
-        }
-        int count;
-        PhoneDataLocalizable dataLocalizable;
-        for (int i = 0; i < Phones.Count; i++)
-        {
-            count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
-            dataLocalizable = Phones[i].PhoneDataLocalizable;
-            for (int j = 0; j < count; j++)
-            {
-                TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
-            }
-        }
+        Debug.Log($"Awake()");
 
-        if (_onlineContacts != null && _onlineContacts.Count > 0)
-        {
-            ContactInfoToOnlineStatus oldInfo;
-            for (int i = 0; i < _onlineContacts.Count; i++)
-            {
-                oldInfo = _onlineContacts[i];
-                if (contactsToChooseOnline.ContainsKey(oldInfo.Key))
-                {
-                    var newInfoValue = new ContactInfoToOnlineStatus(oldInfo.Name, oldInfo.Key, oldInfo.OnlineKey);
-                    contactsToChooseOnline[oldInfo.Key] = newInfoValue;
-                }
-            }
-        }
-        List<ContactInfoToOnlineStatus> contactInfoToOnlineStatus = new List<ContactInfoToOnlineStatus>(contactsToChooseOnline.Count);
-        foreach (var pair in contactsToChooseOnline)
-        {
-            contactInfoToOnlineStatus.Add(new ContactInfoToOnlineStatus(pair.Value.Name, pair.Value.Key, pair.Value.OnlineKey));
-        }
-        _onlineContacts = contactInfoToOnlineStatus;
-        void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false)
-        {
-            if (contactsToChooseOnline.ContainsKey(phoneContactDataLocalizable.NameContactLocalizationString.Key) == false)
-            {
-                contactsToChooseOnline.Add(
-                    phoneContactDataLocalizable.NameContactLocalizationString.Key,
-                    new ContactInfoToOnlineStatus(
-                        phoneContactDataLocalizable.NameContactLocalizationString.DefaultText,
-                        phoneContactDataLocalizable.NameContactLocalizationString.Key,
-                        statusKey));
-            }
-        }
     }
+
+    private void OnDestroy()
+    {
+        Debug.Log($"OnDestroy()");
+    }
+    // private void CreateContactsToOnlineAndNotifications(IReadOnlyList<PhoneContactDataLocalizable> contacts)
+    // {
+    //     Dictionary<string, ContactInfoToGame> contactsDictionary = new Dictionary<string, ContactInfoToGame>();
+    //     for (int i = 0; i < contacts.Count; i++)
+    //     {
+    //         TryAdd(contacts[i]);
+    //     }
+    //     int count;
+    //     PhoneDataLocalizable dataLocalizable;
+    //     for (int i = 0; i < Phones.Count; i++)
+    //     {
+    //         count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
+    //         dataLocalizable = Phones[i].PhoneDataLocalizable;
+    //         for (int j = 0; j < count; j++)
+    //         {
+    //             TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
+    //         }
+    //     }
+    //
+    //     if (_onlineContacts != null)
+    //     {
+    //         TransferringKeys(_onlineContacts);
+    //     }
+    //
+    //     if (_notificationContacts != null)
+    //     {
+    //         TransferringKeys(_notificationContacts);
+    //
+    //     }
+    //     void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false)
+    //     {
+    //         if (contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContactLocalizationString.Key) == false)
+    //         {
+    //             contactsDictionary.Add(
+    //                 phoneContactDataLocalizable.NameContactLocalizationString.Key,
+    //                 new ContactInfoToGame(
+    //                     phoneContactDataLocalizable.NameContactLocalizationString.DefaultText,
+    //                     phoneContactDataLocalizable.NameContactLocalizationString.Key,
+    //                     statusKey));
+    //         }
+    //     }
+    //
+    //     void TransferringKeys(List<ContactInfoToGame> from)
+    //     {
+    //         for (int i = 0; i < from.Count; i++)
+    //         {
+    //             if (contactsDictionary.ContainsKey(from[i].KeyName))
+    //             {
+    //                 var newInfoValue = new ContactInfoToGame(from[i].Name, from[i].KeyName, from[i].OnlineKey);
+    //                 contactsDictionary[from[i].KeyName] = newInfoValue;
+    //             }
+    //         }
+    //         from.Clear();
+    //         foreach (var pair in contactsDictionary)
+    //         {
+    //             from.Add(new ContactInfoToGame(pair.Value.Name, pair.Value.KeyName, pair.Value.OnlineKey));
+    //         }
+    //         from.TrimExcess();
+    //     }
+    // }
 }

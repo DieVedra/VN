@@ -604,6 +604,9 @@
               <e p="MergerNodeDrawer.cs" t="Include" />
               <e p="NarrativeNodeDrawer.cs" t="Include" />
               <e p="NotificationNodeDrawer.cs" t="Include" />
+              <e p="PhoneNodeDrawer" t="Include">
+                <e p="NodeEditorSettings.cs" t="Include" />
+              </e>
               <e p="PhoneNodeDrawer.cs" t="Include" />
               <e p="ShowArtNodeDrawer.cs" t="Include" />
               <e p="SmoothTransitionNodeDrawer.cs" t="Include" />
@@ -783,7 +786,6 @@
                   <e p="PhoneContactData.cs" t="Include" />
                   <e p="PhoneContactDataLocalizable.cs" t="Include" />
                 </e>
-                <e p="PhoneContactsColors.cs" t="Include" />
                 <e p="PhoneContactsProvider.cs" t="Include" />
                 <e p="PhoneCreator" t="Include">
                   <e p="PhoneCreator.cs" t="Include" />
@@ -801,6 +803,10 @@
                 </e>
                 <e p="PhoneProvider.cs" t="Include" />
                 <e p="PhoneProviderInEditMode.cs" t="Include" />
+                <e p="Pool" t="Include">
+                  <e p="PhoneContentProvider.cs" t="Include" />
+                  <e p="PoolBase.cs" t="Include" />
+                </e>
               </e>
               <e p="Providers" t="Include">
                 <e p="AudioClipProvider.cs" t="Include" />
@@ -961,7 +967,7 @@
             <e p="NotificationNode.cs" t="Include" />
             <e p="PhoneNodes" t="Include">
               <e p="AddContactToPhoneNode.cs" t="Include" />
-              <e p="ContactInfoToOnlineStatus.cs" t="Include" />
+              <e p="ContactInfoToGame.cs" t="Include" />
               <e p="PhoneNode.cs" t="Include" />
             </e>
             <e p="PutOnSwimsuitsNode.cs" t="Include" />
@@ -1101,6 +1107,7 @@
                 <e p="BlockScreen" t="Include">
                   <e p="BlockScreenHandler.cs" t="Include" />
                   <e p="BlockScreenView.cs" t="Include" />
+                  <e p="NotificationView.cs" t="Include" />
                 </e>
                 <e p="Contact.cs" t="Include" />
                 <e p="ContactsScreen" t="Include">
@@ -1123,10 +1130,6 @@
                 <e p="PhoneTime.cs" t="Include" />
                 <e p="PhoneUIHandler.cs" t="Include" />
                 <e p="PhoneUIView.cs" t="Include" />
-                <e p="Pool" t="Include">
-                  <e p="PoolBase.cs" t="Include" />
-                  <e p="PoolsProvider.cs" t="Include" />
-                </e>
                 <e p="TopPanelHandler.cs" t="Include" />
               </e>
               <e p="ResourcesViewModeCalculator.cs" t="Include" />

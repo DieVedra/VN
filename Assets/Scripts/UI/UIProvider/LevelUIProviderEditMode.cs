@@ -19,7 +19,7 @@ public class LevelUIProviderEditMode
     public LevelUIProviderEditMode(
         LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, 
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, PoolsProvider poolsProvider)
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -41,7 +41,7 @@ public class LevelUIProviderEditMode
         CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
 
-        PhoneUIHandler = new PhoneUIHandler(poolsProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler);
+        PhoneUIHandler = new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler);
         if (levelUIView.PhoneUIView != null)
         {
             PhoneUIHandler.Init(levelUIView.PhoneUIView);

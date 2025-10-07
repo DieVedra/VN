@@ -8,7 +8,7 @@ public class PhoneContactCombiner
         List<PhoneContactDataLocalizable> contactDataLocalizables = new List<PhoneContactDataLocalizable>();
         for (int i = 0; i < phoneContactDatas.Count; i++)
         {
-            var contactDataLocalizable = new PhoneContactDataLocalizable(phoneContactDatas[i].Name, phoneContactDatas[i].Icon, phoneContactDatas[i].IsEmptyIconKey);
+            var contactDataLocalizable = new PhoneContactDataLocalizable(phoneContactDatas[i].Name, phoneContactDatas[i].Icon, phoneContactDatas[i].Color,  phoneContactDatas[i].IsEmptyIconKey);
             contactDataLocalizable.AddMessages(phoneContactDatas[i].PhoneMessages, keyMessagesReadedBySeria);
             contactDataLocalizables.Add(contactDataLocalizable);
         }

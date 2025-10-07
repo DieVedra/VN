@@ -2,39 +2,41 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class PoolsProvider
+public class PhoneContentProvider
 {
     private const int _contactsCount = 7;
     private const int _messagesCount = 5;
     private ContactView _contactPrefab;
     private MessageView _incomingMessagePrefab;
     private MessageView _outcomingMessagePrefab;
-
     private PoolBase<ContactView> _contactsPool;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
+    public NotificationView NotificationViewPrefab { get; private set; }
     public PoolBase<ContactView> ContactsPool => _contactsPool;
     public PoolBase<MessageView> IncomingMessagePool => _incomingMessagePool;
     public PoolBase<MessageView> OutcomingMessagePool => _outcomingMessagePool;
     private RectTransform _dialogParent, _contactsParent;
 
-    public PoolsProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab)
+    public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab, NotificationView notificationViewPrefab)
     {
         _contactPrefab = contactPrefab;
         _incomingMessagePrefab = incomingMessagePrefab;
         _outcomingMessagePrefab = outcomingMessagePrefab;
+        NotificationViewPrefab = notificationViewPrefab;
     }
     
 #if UNITY_EDITOR
     
     private readonly Action<GameObject> _addView;
 
-    public PoolsProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab,
+    public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab, NotificationView notificationViewPrefab,
         Action<GameObject> addView)
     {
         _contactPrefab = contactPrefab;
         _incomingMessagePrefab = incomingMessagePrefab;
         _outcomingMessagePrefab = outcomingMessagePrefab;
+        NotificationViewPrefab = notificationViewPrefab;
         _addView = addView;
     }
 

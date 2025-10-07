@@ -11,6 +11,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     [SerializeField] private ContactView _contactPrefab;
     [SerializeField] private MessageView _incomingMessagePrefab;
     [SerializeField] private MessageView _outcomingMessagePrefab;
+    [SerializeField] private NotificationView _notificationViewPrefab;
     [SerializeField] private List<ObjectsToDestroy> _views;
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private List<Phone> _phones2;
@@ -18,9 +19,9 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     private PhoneCreatorEditMode _phoneCreator;
 
     private PhoneContactCombiner _phoneContactCombiner;
-    private PoolsProvider _poolsProvider;
+    private PhoneContentProvider _phoneContentProvider;
 
-    public PoolsProvider PoolsProvider => _poolsProvider;
+    public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
     //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
     //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
@@ -48,7 +49,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         {
             _views[i].IsNewkey = false;
         }
-        _poolsProvider = new PoolsProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab, AddView);
+        _phoneContentProvider = new PhoneContentProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab, _notificationViewPrefab, AddView);
         TryDestroyOld();
     }
     //а если контакт не был добавлен в телефон ранее а был добавлен в текущей серии то его надо добавить без контента прошлых серий

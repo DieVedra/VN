@@ -14,14 +14,14 @@ public class PhoneContactDataLocalizable
     public LocalizationString NameContactLocalizationString => _nameContact;
     public IReadOnlyList<PhoneMessageLocalization> PhoneMessagesLocalization => _phoneMessages;
 
-    public PhoneContactDataLocalizable(string name, Sprite icon, bool isEmptyIconKey)
+    public PhoneContactDataLocalizable(string name, Sprite icon, Color color, bool isEmptyIconKey)
     {
         _nameContact = new LocalizationString(name);
         _icon = icon;
         _isEmptyIconKey = isEmptyIconKey;
         if (isEmptyIconKey == true)
         {
-            _colorIcon = PhoneContactsColors.GetColor();
+            _colorIcon = color;
             
         }
         _phoneMessages = new List<PhoneMessageLocalization>();

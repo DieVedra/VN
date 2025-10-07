@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PhoneUIHandler : ILocalizable
 {
-    private readonly PoolsProvider _poolsProvider;
+    private readonly PhoneContentProvider _phoneContentProvider;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private TopPanelHandler _topPanelHandler;
@@ -21,11 +21,11 @@ public class PhoneUIHandler : ILocalizable
     private Phone _currentPhone;
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private IReadOnlyList<ContactInfoToOnlineStatus> _onlineContacts;
+    private IReadOnlyList<ContactInfoToGame> _onlineContacts;
 
-    public PhoneUIHandler(PoolsProvider poolsProvider, NarrativePanelUIHandler narrativePanelUI, CustomizationCurtainUIHandler curtainUIHandler)
+    public PhoneUIHandler(PhoneContentProvider phoneContentProvider, NarrativePanelUIHandler narrativePanelUI, CustomizationCurtainUIHandler curtainUIHandler)
     {
-        _poolsProvider = poolsProvider;
+        _phoneContentProvider = phoneContentProvider;
         _narrativePanelUI = narrativePanelUI;
         _curtainUIHandler = curtainUIHandler;
     }
@@ -48,12 +48,12 @@ public class PhoneUIHandler : ILocalizable
         _phoneUIGameObject = phoneUIView.gameObject;
         var contactsShower = new ContactsShower(GetOnlineStatus);
         var messagesShower = new MessagesShower(_curtainUIHandler, _narrativePanelUI);
-        _poolsProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.ContactsTransform);
+        _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.ContactsTransform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText, phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
-        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _switchToDialogScreenCommand, _switchToContactsScreenCommand);
-        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower, _topPanelHandler, _switchToDialogScreenCommand, _poolsProvider.ContactsPool);
+        _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _phoneContentProvider.NotificationViewPrefab, _switchToDialogScreenCommand, _switchToContactsScreenCommand);
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower, _topPanelHandler, _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
         _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, messagesShower, _topPanelHandler,
-            _poolsProvider.IncomingMessagePool, _poolsProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
+            _phoneContentProvider.IncomingMessagePool, _phoneContentProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
     }
 
     public void DisposeScreensBackgrounds()
@@ -69,11 +69,11 @@ public class PhoneUIHandler : ILocalizable
         _topPanelHandler.Dispose();
     }
 
-    public void ConstructFromNode(IReadOnlyList<ContactInfoToOnlineStatus> onlineContacts,
+    public void ConstructFromNode(IReadOnlyList<string> onlineContacts,
         Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         bool playModeKey, int butteryPercent, int startHour, int startMinute)
     {
-        _onlineContacts = onlineContacts.ToList();
+        // _onlineContacts = onlineContacts.ToList();
         _currentPhone = phone;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _switchToNextNodeEvent = switchToNextNodeEvent;
@@ -133,9 +133,9 @@ public class PhoneUIHandler : ILocalizable
         bool result = false;
         for (int i = 0; i < _onlineContacts.Count; i++)
         {
-            if (_onlineContacts[i].Key == nameKey)
+            if (_onlineContacts[i].KeyName == nameKey)
             {
-                result = _onlineContacts[i].OnlineKey;
+                result = _onlineContacts[i].Key;
             }
         }
         return result;
@@ -144,9 +144,9 @@ public class PhoneUIHandler : ILocalizable
     {
         for (int i = 0; i < _onlineContacts.Count; i++)
         {
-            if (_onlineContacts[i].Key == nameKey)
+            if (_onlineContacts[i].KeyName == nameKey)
             {
-                _onlineContacts[i].OnlineKey = key;
+                // _onlineContacts[i].Key = key;
             }
         }
     }

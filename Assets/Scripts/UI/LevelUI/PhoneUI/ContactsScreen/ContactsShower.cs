@@ -26,14 +26,14 @@ public class ContactsShower
         ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand,
         Func<PhoneContactDataLocalizable, string> getFistLetter)
     {
-        _pos = new Vector2(_startPosX, _startPosY);
+        _pos = new Vector2(_startPosX, _startPosY + _offsetY);
         _getFistLetter = getFistLetter;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
         _contactsPool = contactsPool;
         for (int i = 0; i < phoneContactDatasLocalizable.Count; i++)
         {
-            CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand, _offsetY * i);
+            CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
         }
     }
 
@@ -42,10 +42,10 @@ public class ContactsShower
         _compositeDisposable?.Clear();
         _contactsPool?.ReturnAll();
     }
-    private void CreateContact(PhoneContactDataLocalizable contactDataLocalizable, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, float offset)
+    private void CreateContact(PhoneContactDataLocalizable contactDataLocalizable, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand)
     {
         var view = _contactsPool.Get();
-        _pos.y -= offset;
+        _pos.y -= _offsetY;
         view.RectTransform.anchoredPosition = _pos;
         TrySetIcon(contactDataLocalizable, view.TextIcon, view.Image);
         view.TextName.text = contactDataLocalizable.NameContactLocalizationString;
@@ -54,6 +54,7 @@ public class ContactsShower
             view.TextName.text = contactDataLocalizable.NameContactLocalizationString;
         }, _compositeDisposable);
         SetOnlineStatus(contactDataLocalizable, view);
+        TryIndicateNewMessages(contactDataLocalizable.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
         view.ContactButton.onClick.AddListener(() =>
         {
             UnsubscribeAllButtons();
@@ -96,6 +97,19 @@ public class ContactsShower
         for (int i = 0; i < _contactsPool.ActiveContent.Count; i++)
         {
             _contactsPool.ActiveContent[i].ContactButton.onClick.RemoveAllListeners();
+        }
+    }
+
+    private void TryIndicateNewMessages(IReadOnlyList<PhoneMessageLocalization> phoneMessagesLocalization, GameObject newMessageIndicator)
+    {
+        int count = phoneMessagesLocalization.Count;
+        for (int i = count - 1; i >= 0; i--)
+        {
+            if (phoneMessagesLocalization[i].IsReaded == false)
+            {
+                newMessageIndicator.SetActive(true);
+                break;
+            }
         }
     }
 }

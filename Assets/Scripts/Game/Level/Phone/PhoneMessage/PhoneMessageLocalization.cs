@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 public class PhoneMessageLocalization
 {
     private readonly LocalizationString _textMessage;
