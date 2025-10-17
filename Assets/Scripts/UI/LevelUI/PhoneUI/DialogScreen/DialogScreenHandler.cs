@@ -19,7 +19,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly Button _backArrow;
     private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
-    private readonly RectTransform _dialogTransform;
     private readonly MessagesShower _messagesShower;
     private PhoneContactDataLocalizable _currentContact;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
@@ -38,7 +37,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactStatusText = dialogScreenView.ContactStatus;
         _backArrow = dialogScreenView.BackArrowButton;
         _readDialog = dialogScreenView.ReadDialogButtonButton;
-        _dialogTransform = dialogScreenView.DialogTransform;
         _iconText = dialogScreenView.IconText;
         _messagesShower = messagesShower;
     }
@@ -47,7 +45,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         _switchToNextNodeEvent = switchToNextNodeEvent;
         _currentContact = contact;
-        _contactNameLS = contact.NameContactLocalizationString;
+        _contactNameLS = contact.NikNameContact;
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
@@ -58,7 +56,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {
-                setOnlineStatus.Invoke(contact.NameContactLocalizationString.Key, false);
+                setOnlineStatus.Invoke(contact.NameContact.Key, false);
                 SetOnlineKey(false);
             });
     }
@@ -101,18 +99,20 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 
     private void SubscribeButtons()
     {
-        _backArrow.onClick.AddListener(() =>
-        {
-            _backArrow.onClick.RemoveAllListeners();
-            _switchToContactsScreenCommand.Execute();
-        });
+        _readDialog.interactable = true;
+        _backArrow.interactable = false;
         _readDialog.onClick.AddListener(() =>
         {
             if (_messagesShower.ShowNext() == false)
             {
+                _readDialog.interactable = false;
                 _readDialog.onClick.RemoveAllListeners();
-                _backArrow.onClick.RemoveAllListeners();
-                _switchToNextNodeEvent.Execute();
+                _backArrow.interactable = true;
+                _backArrow.onClick.AddListener(() =>
+                    {
+                        _backArrow.onClick.RemoveAllListeners();
+                        _switchToContactsScreenCommand.Execute();
+                    });
             }
         });
     }

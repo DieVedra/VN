@@ -73,7 +73,7 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
         List<string> names = new List<string>();
         for (int i = 0; i < _addContactToPhoneNode.Contacts.Count; i++)
         {
-            names.Add(_addContactToPhoneNode.Contacts[i].NameContactLocalizationString);
+            names.Add(_addContactToPhoneNode.Contacts[i].NameContact);
         }
         _namesContacts = names.ToArray();
     }

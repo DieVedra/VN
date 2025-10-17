@@ -154,12 +154,13 @@ public class NodeGraphInitializer
 
         if (node is AddContactToPhoneNode addContactToPhoneNode)
         {
-            addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsToSeria(seriaIndex), _levelUIProvider.NotificationPanelUIHandler);
+            addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex),
+                _phoneProvider.GetContactsAddToPhone(seriaIndex), _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
             return;
         }
         if (node is PhoneNode phoneNode)
         {
-            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsToSeria(seriaIndex), _levelUIProvider.PhoneUIHandler,
+            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsAddToPhone(seriaIndex), _levelUIProvider.PhoneUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler);
         }
     }

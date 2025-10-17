@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 using UnityEngine;
 
 public class LevelUIProviderEditMode
@@ -19,7 +20,8 @@ public class LevelUIProviderEditMode
     public LevelUIProviderEditMode(
         LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, 
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider)
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider,
+        Action phoneInitOperation)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -41,12 +43,8 @@ public class LevelUIProviderEditMode
         CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
 
-        PhoneUIHandler = new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler);
-        if (levelUIView.PhoneUIView != null)
-        {
-            PhoneUIHandler.Init(levelUIView.PhoneUIView);
-        }
-
+        PhoneUIHandler =
+            new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler, phoneInitOperation);
         if (Application.isPlaying == false)
         {
             _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(() =>

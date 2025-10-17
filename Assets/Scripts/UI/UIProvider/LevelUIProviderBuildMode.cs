@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
@@ -13,8 +14,9 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler,
         GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
-        OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider)
-        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider)
+        OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, Action phoneInitOperation)
+        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent,
+            customizationCharacterPanelUI, phoneContentProvider, phoneInitOperation)
     {
         if (Application.isPlaying)
         {

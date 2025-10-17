@@ -1,7 +1,16 @@
-﻿namespace Game.AssetLoaders.PrefabLoaders.Phone
+﻿using Cysharp.Threading.Tasks;
+public class NotificationViewPrefabAssetProvider : PrefabLoader
 {
-    public class NotificationViewPrefabAssetProvider
+    private const string _name = "PhoneNotification";
+
+    public async UniTask<NotificationView> LoadNotificationPrefab()
     {
-        
+        await Load(_name);
+        return CashedPrefab.GetComponent<NotificationView>();
     }
+
+    public void UnloadAsset()
+    {
+        base.Unload();
+    } 
 }

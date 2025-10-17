@@ -21,7 +21,8 @@ public class LocalizationCreator : ScriptableObject
 
         
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
-
+    [SerializeField] private PhoneDataProvider _phoneDataProvider;
+    [SerializeField] private PhoneContactsProvider _phoneContactsProvider;
     [SerializeField, Space(30f)] private string _text;
     [SerializeField] private string _key;
 
@@ -54,14 +55,42 @@ public class LocalizationCreator : ScriptableObject
                 }
             }
         }
+
+        if (_phoneDataProvider != null)
+        {
+            int count1;
+            for (int i = 0; i < _phoneDataProvider.PhoneDatas.Count; i++)
+            {
+                count1 = _phoneDataProvider.PhoneDatas[i].PhoneContactDatas.Count;
+                for (int j = 0; j < count1; j++)
+                {
+                    CollectPhoneContactData(seriaStrings, _phoneDataProvider.PhoneDatas[i].PhoneContactDatas[j]);
+                }
+            }
+        }
+
+        if (_phoneContactsProvider != null)
+        {
+            for (int i = 0; i < _phoneContactsProvider.PhoneContactDatas.Count; i++)
+            {
+                CollectPhoneContactData(seriaStrings, _phoneContactsProvider.PhoneContactDatas[i]);
+            }
+        }
+        
         CreateFile(CreateDictionary(seriaStrings), $"{Application.dataPath}{_path}{_seriaFileLocalizationFileName}");
     }
 
-    // [Button()]
-    // private void Create()
-    // {
-    //     CreateFile(CreateDictionary(LocalizationString.LocalizationStrings), $"{Application.dataPath}{_path}{_fileName}");
-    // }
+    private void CollectPhoneContactData(List<LocalizationString> seriaStrings, PhoneContactData phoneContactData)
+    {
+        int count2;
+        seriaStrings.Add(new LocalizationString(phoneContactData.NikName));
+        seriaStrings.Add(new LocalizationString(phoneContactData.Name));
+        count2 = phoneContactData.PhoneMessages.Count;
+        for (int k = 0; k < count2; k++)
+        {
+            seriaStrings.Add(phoneContactData.PhoneMessages[k].Text);
+        }
+    }
 
     private void CreateFile(Dictionary<string, string> dictionary, string newPath)
     {
@@ -158,5 +187,13 @@ public class LocalizationCreator : ScriptableObject
             _key = key;
             Debug.Log($"{_forging}{key}{_forging}{_colon} {_forging}{_text}{_forging}");
         }
+    }
+
+    [Button()]
+    private void Clear()
+    {
+        _seriaForCreateFileLocalization = null;
+        _phoneDataProvider = null;
+        _phoneContactsProvider = null;
     }
 }

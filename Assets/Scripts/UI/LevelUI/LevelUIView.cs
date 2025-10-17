@@ -14,7 +14,11 @@ public class LevelUIView : MonoBehaviour
     [SerializeField] private GameControlPanelView _gameControlPanelView;
     [SerializeField] private ResourcePanelWithCanvasGroupView _monetPanel;
     [SerializeField] private ResourcePanelWithCanvasGroupView _heartsPanel;
-    public PhoneUIView PhoneUIView => _phoneUIView;
+    public PhoneUIView PhoneUIView
+    {
+        get => _phoneUIView;
+        set => _phoneUIView = value;
+    }
     public NarrativePanelUI NarrativePanelUI => _narrativePanelUI;
     public NotificationPanelUI NotificationPanelUI => _notificationPanelUI;
     public CharacterPanelUI CharacterPanelUI => _characterPanelUI;

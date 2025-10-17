@@ -4,47 +4,69 @@ public class PhoneCreator
 {
     private readonly PhoneContactCombiner _phoneContactCombiner;
     private readonly IReadOnlyList<PhoneDataProvider> _dataProviders;
+    private readonly IReadOnlyList<PhoneContactsProvider> _contactsToSeriaProviders;
     private readonly IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
-    public PhoneCreator(IReadOnlyList<PhoneDataProvider> dataProviders, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, PhoneContactCombiner phoneContactCombiner)
+    public PhoneCreator(IReadOnlyList<PhoneDataProvider> dataProviders,
+        IReadOnlyList<PhoneContactsProvider> contactsToSeriaProviders,
+        IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, PhoneContactCombiner phoneContactCombiner)
     {
         _dataProviders = dataProviders;
+        _contactsToSeriaProviders = contactsToSeriaProviders;
         _phoneContactCombiner = phoneContactCombiner;
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
     }
     //телефоны создаются при первом обращении
     //при повторных обращениях идет проверка последней серии в дате телефона и если она меньше текущей то добавляется текущая и обновляется индекс
     //так же идет проверка наличия новых дат новых телефонов и если они есть то создаются новые
-    public void TryCreatePhones(List<Phone> phones, int currentSeriaIndex)
-    {
-        if (phones.Count > 0)
-        {
-            var newPhoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
-                GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-            if (newPhoneDatas.Count > 0)
-            {
-                CreatePhones(phones, currentSeriaIndex, newPhoneDatas);
-            }
-        }
-        else
-        {
-            var phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);
-            if (phoneDatas.Count > 0)
-            {
-                for (int i = 0; i < phones.Count; i++)
-                {
-                    if (phones[i].LastSeriaIndex < currentSeriaIndex)
-                    {
-                        if (phoneDatas.TryGetValue(phones[i].NamePhone, out PhoneDataLocalizable phoneDataLocalizable))
-                        {
-                            phones[i].AddPhoneData(phoneDataLocalizable.PhoneContactDatasLocalizable, currentSeriaIndex);
-                            phoneDatas.Remove(phones[i].NamePhone);
-                        }
-                    }
-                }
+    // public void TryCreatePhonesOrAddData(List<Phone> phones, int currentSeriaIndex)
+    // {
+    //     Dictionary<string, PhoneDataLocalizable> phoneDatas;
+    //     if (phones.Count > 0)
+    //     {
+    //         //собирает все даты по сериям в список который идет для создания телефона
+    //         phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
+    //             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
+    //     }
+    //     else
+    //     {
+    //         //собирает даты по текущей серии и дабвляет к существующим котнактам
+    //         phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);
+    //         TryAddIntegratedContent(phones, currentSeriaIndex, phoneDatas);
+    //     }
+    //     TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
+    // }
 
-                if (phoneDatas.Count > 0)
+    // public void CreatePhonesOnStart(List<Phone> phones, int currentSeriaIndex)
+    // {
+    //     if (phones.Count > 0)
+    //     {
+    //         //собирает все даты по сериям в список который идет для создания телефона
+    //         Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
+    //             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
+    //         TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
+    //     }
+    // }
+
+    public void TryAddDataToIntegratedContactsAndTryCreateNewPhones(List<Phone> phones, int currentSeriaIndex)
+    {
+        Dictionary<string, PhoneDataLocalizable> phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);
+        TryAddIntegratedContent(phones, currentSeriaIndex, phoneDatas);
+        TryCreatePhones(phones, phoneDatas, currentSeriaIndex); // создаст новые если что то останется в списке
+
+    }
+    private void TryAddIntegratedContent(List<Phone> phones, int currentSeriaIndex, Dictionary<string, PhoneDataLocalizable> phoneDatas)
+    {
+        if (phoneDatas.Count > 0)
+        {
+            for (int i = 0; i < phones.Count; i++)
+            {
+                if (phones[i].LastSeriaIndex < currentSeriaIndex)
                 {
-                    CreatePhones(phones, currentSeriaIndex, phoneDatas);
+                    if (phoneDatas.TryGetValue(phones[i].NamePhone, out PhoneDataLocalizable phoneDataLocalizable))
+                    {
+                        phones[i].AddPhoneData(phoneDataLocalizable.PhoneContactDatasLocalizable, currentSeriaIndex, true);
+                        phoneDatas.Remove(phones[i].NamePhone);
+                    }
                 }
             }
         }
@@ -72,7 +94,7 @@ public class PhoneCreator
             phoneData = dataProviders[i];
             if (phoneDatas.TryGetValue(phoneData.NamePhone, out PhoneDataLocalizable value))
             {
-                value.AddPhoneContactAndContactData(_phoneContactCombiner.CreateNewPhoneContactData(phoneData.PhoneContactDatas, phoneData.SeriaIndex < currentSeriaIndex));
+                value.AddContactData(_phoneContactCombiner.CreateNewPhoneContactData(phoneData.PhoneContactDatas, phoneData.SeriaIndex < currentSeriaIndex));
                 TryAddNewContent(phoneData, value);
             }
             else
@@ -114,7 +136,7 @@ public class PhoneCreator
         return new PhoneDataLocalizable(contactDataLocalizable);
     }
 
-    private void CreatePhones(List<Phone> phones, int currentSeriaIndex, Dictionary<string, PhoneDataLocalizable> newPhoneDatas)
+    protected void TryCreatePhones(List<Phone> phones, Dictionary<string, PhoneDataLocalizable> newPhoneDatas, int currentSeriaIndex)
     {
         foreach (var pair in newPhoneDatas)
         {

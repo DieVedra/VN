@@ -73,6 +73,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
 
         InitBackground();
+        if (SaveData != null)
+        {
+            _phoneProviderInEditMode.TrySetSaveData(SaveData.Contacts);
+        }
         _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider);
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider,_backgroundEditMode, _levelUIProviderEditMode,
@@ -134,6 +138,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
+            SaveData.Contacts = _phoneProviderInEditMode.GetSaveData();
 
             StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
@@ -145,7 +150,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler,
-            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider);
+            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
+            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);});
+        // _levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

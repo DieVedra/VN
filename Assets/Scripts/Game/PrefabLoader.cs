@@ -33,7 +33,6 @@ public class PrefabLoader : LoadPercentProvider
         CashedPrefab = await handle.Task;
         IsLoading = false;
     }
-
     protected async UniTask<GameObject> InstantiatePrefab(string assetId, Transform parent = null, bool isSynchronously = false)
     {
         IsInstantiating = true;

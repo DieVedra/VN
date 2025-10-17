@@ -78,6 +78,7 @@ public class MessagesShower
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
+        TryHideNarrativeMessage();
     }
     public bool ShowNext()
     {
@@ -98,7 +99,7 @@ public class MessagesShower
                 case PhoneMessageType.Narrative:
                     if (phoneMessageLocalization.IsReaded == false)
                     {
-                        SetNarrativeMessage(phoneMessageLocalization.TextMessageLocalizationString).Forget();
+                        SetNarrativeMessage(phoneMessageLocalization).Forget();
                         _lastMessageType = PhoneMessageType.Narrative;
                     }
                     break;
@@ -124,12 +125,12 @@ public class MessagesShower
     
     private void SetIncomingMessage(PhoneMessageLocalization phoneMessageLocalization)
     {
-        SetMessage(_outcomingMessagePool.Get(), phoneMessageLocalization);
+        SetMessage(_incomingMessagePool.Get(), phoneMessageLocalization);
     }
 
     private void SetOutcomingMessage(PhoneMessageLocalization phoneMessageLocalization)
     {
-        SetMessage(_incomingMessagePool.Get(), phoneMessageLocalization);
+        SetMessage(_outcomingMessagePool.Get(), phoneMessageLocalization);
     }
 
     private void SetMessage(MessageView view, PhoneMessageLocalization phoneMessageLocalization)
@@ -146,19 +147,20 @@ public class MessagesShower
         }
 
         _messageViewed.Add(view);
-        view.Text.text = phoneMessageLocalization.TextMessageLocalizationString;
+        view.Text.text = phoneMessageLocalization.TextMessage;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            view.Text.text = phoneMessageLocalization.TextMessageLocalizationString;
+            view.Text.text = phoneMessageLocalization.TextMessage;
         }, _compositeDisposable);
         view.gameObject.SetActive(true);
-        _panelSizeHandler.UpdateSize(view.ImageRectTransform, view.Text, phoneMessageLocalization.TextMessageLocalizationString, false);
+        _panelSizeHandler.UpdateSize(view.ImageRectTransform, view.Text, phoneMessageLocalization.TextMessage, false);
         phoneMessageLocalization.IsReaded = true;
     }
-    private async UniTaskVoid SetNarrativeMessage(string text)
+    private async UniTaskVoid SetNarrativeMessage(PhoneMessageLocalization phoneMessageLocalization)
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        _narrativePanelUI.EmergenceNarrativePanelInPlayMode(text);
+        _narrativePanelUI.EmergenceNarrativePanelInPlayMode(phoneMessageLocalization.TextMessage);
+        phoneMessageLocalization.IsReaded = true;
 
         if (_lastMessageType == PhoneMessageType.Narrative)
         {
@@ -176,7 +178,7 @@ public class MessagesShower
                 _narrativePanelUI.AnimationPanel.UnfadePanel(_cancellationTokenSource.Token));
         }
         
-        await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(_cancellationTokenSource.Token, text);
+        await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(_cancellationTokenSource.Token, phoneMessageLocalization.TextMessage);
     }
     
     private void TryHideNarrativeMessage()

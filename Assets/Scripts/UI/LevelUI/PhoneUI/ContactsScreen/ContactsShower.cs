@@ -7,34 +7,50 @@ using UnityEngine.UI;
 
 public class ContactsShower
 {
-    private const float _startPosX = 0f;
-    private const float _startPosY = 520f;
-    private const float _offsetY = 155f;
     private readonly Predicate<string> _getOnlineStatus;
+    private readonly VerticalLayoutGroup _verticalLayoutGroup;
+    private readonly ContentSizeFitter _contentSizeFitter;
+    private readonly RectTransform _contactsTransform;
     private PoolBase<ContactView> _contactsPool;
-    private Vector2 _pos;
     private CompositeDisposable _compositeDisposable;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private Func<PhoneContactDataLocalizable, string> _getFistLetter;
-    public ContactsShower(Predicate<string> getOnlineStatus)
+    private Action _activateExitButton;
+    private bool _newMessagesNotFound;
+    public ContactsShower(VerticalLayoutGroup verticalLayoutGroup, ContentSizeFitter contentSizeFitter, RectTransform contactsTransform, Predicate<string> getOnlineStatus)
     {
+        _verticalLayoutGroup = verticalLayoutGroup;
+        _contentSizeFitter = contentSizeFitter;
+        _contactsTransform = contactsTransform;
         _getOnlineStatus = getOnlineStatus;
     }
 
     public void Init(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         PoolBase<ContactView> contactsPool, SetLocalizationChangeEvent setLocalizationChangeEvent,
         ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand,
-        Func<PhoneContactDataLocalizable, string> getFistLetter)
+        Func<PhoneContactDataLocalizable, string> getFistLetter, Action activateExitButton)
     {
-        _pos = new Vector2(_startPosX, _startPosY + _offsetY);
         _getFistLetter = getFistLetter;
+        _activateExitButton = activateExitButton;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
         _contactsPool = contactsPool;
+        _verticalLayoutGroup.enabled = true;
+        _contentSizeFitter.enabled = true;
         for (int i = 0; i < phoneContactDatasLocalizable.Count; i++)
         {
             CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
         }
+        if (_newMessagesNotFound == true)
+        {
+            _activateExitButton.Invoke();
+        }
+
+        Observable.Timer(TimeSpan.FromSeconds(Time.deltaTime)).Subscribe(_ =>
+        {
+            _contentSizeFitter.enabled = false;
+            _verticalLayoutGroup.enabled = false;
+        }).AddTo(_compositeDisposable);
     }
 
     public void Dispose()
@@ -45,13 +61,12 @@ public class ContactsShower
     private void CreateContact(PhoneContactDataLocalizable contactDataLocalizable, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand)
     {
         var view = _contactsPool.Get();
-        _pos.y -= _offsetY;
-        view.RectTransform.anchoredPosition = _pos;
+        view.transform.SetParent(_contactsTransform);
         TrySetIcon(contactDataLocalizable, view.TextIcon, view.Image);
-        view.TextName.text = contactDataLocalizable.NameContactLocalizationString;
+        view.TextName.text = contactDataLocalizable.NikNameContact;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            view.TextName.text = contactDataLocalizable.NameContactLocalizationString;
+            view.TextName.text = contactDataLocalizable.NikNameContact;
         }, _compositeDisposable);
         SetOnlineStatus(contactDataLocalizable, view);
         TryIndicateNewMessages(contactDataLocalizable.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
@@ -65,7 +80,7 @@ public class ContactsShower
 
     private void SetOnlineStatus(PhoneContactDataLocalizable contactDataLocalizable, ContactView view)
     {
-        if (_getOnlineStatus.Invoke(contactDataLocalizable.NameContactLocalizationString.Key))
+        if (_getOnlineStatus.Invoke(contactDataLocalizable.NameContact.Key))
         {
             view.OnlineStatusImage.gameObject.SetActive(true);
         }
@@ -103,11 +118,13 @@ public class ContactsShower
     private void TryIndicateNewMessages(IReadOnlyList<PhoneMessageLocalization> phoneMessagesLocalization, GameObject newMessageIndicator)
     {
         int count = phoneMessagesLocalization.Count;
+        _newMessagesNotFound = true;
         for (int i = count - 1; i >= 0; i--)
         {
             if (phoneMessagesLocalization[i].IsReaded == false)
             {
                 newMessageIndicator.SetActive(true);
+                _newMessagesNotFound = false;
                 break;
             }
         }

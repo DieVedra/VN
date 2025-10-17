@@ -2,19 +2,29 @@
 
 public class PhoneCreatorEditMode : PhoneCreator
 {
-    public PhoneCreatorEditMode(IReadOnlyList<PhoneDataProvider> dataProviders, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, 
+    public PhoneCreatorEditMode(IReadOnlyList<PhoneDataProvider> dataProviders,
+        IReadOnlyList<PhoneContactsProvider> contactsToSeriaProviders,
+        IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, 
         PhoneContactCombiner phoneContactCombiner)
-        : base(dataProviders, customizableCharacterIndexesCustodians, phoneContactCombiner) { }
+        : base(dataProviders, contactsToSeriaProviders, customizableCharacterIndexesCustodians, phoneContactCombiner) { }
+    
+    
+    //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим ограниченным контентом
     public List<Phone> TryCreatePhonesForNonPlayMode(int currentSeriaIndex)
     {
-        List<Phone> phones = new List<Phone>();
         var newPhoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-        foreach (var pair in newPhoneDatas)
-        {
-            Phone phone = new Phone(pair.Value, pair.Key, currentSeriaIndex); 
-            phones.Add(phone);
-        }
-        return phones;
+        List<Phone> list = new List<Phone>(newPhoneDatas.Count);
+        TryCreatePhones(list, newPhoneDatas, currentSeriaIndex);
+        return list;
     }
+    public void CreatePhonesOnStart(List<Phone> phones, int currentSeriaIndex)
+    {
+        //собирает все даты по сериям в список который идет для создания телефона
+        Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
+            GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
+        TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
+    }
+
+    
 }

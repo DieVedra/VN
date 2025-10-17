@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using UniRx;
 
 public class LevelLoadDataHandler
@@ -11,6 +12,7 @@ public class LevelLoadDataHandler
     public readonly GameSeriesProvider GameSeriesProvider;
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
+    public readonly PhoneProviderInBuildMode PhoneProviderInBuildMode;
     private readonly BackgroundContentCreator _backgroundContentCreator;
     
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
@@ -23,7 +25,8 @@ public class LevelLoadDataHandler
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
     public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, BackgroundContentCreator backgroundContentCreator,
-        LevelLocalizationProvider levelLocalizationProvider, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
+        LevelLocalizationProvider levelLocalizationProvider, Func<UniTask> createPhoneView,
+        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, int numberFirstSeria = 1)
     {
@@ -38,6 +41,7 @@ public class LevelLoadDataHandler
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();
+        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(createPhoneView);
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
             CharacterProviderBuildMode.CustomizableCharacterDataProviderParticipiteInLoad,
@@ -62,6 +66,7 @@ public class LevelLoadDataHandler
         BackgroundDataProvider.Dispose();
         SeriaGameStatsProviderBuild.Dispose();
         _backgroundContentCreator.Dispose();
+        PhoneProviderInBuildMode.Dispose();
     }
     public async UniTask LoadStartSeriaContent()
     {
@@ -80,6 +85,7 @@ public class LevelLoadDataHandler
         await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
+        await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 
@@ -102,6 +108,9 @@ public class LevelLoadDataHandler
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
             await SeriaGameStatsProviderBuild.TryLoadData(nextSeriaIndex);
             await _backgroundContentCreator.TryCreateBackgroundContent();
+
+            await PhoneProviderInBuildMode.TryLoadDatas(nextSeriaIndex);
+            
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber);
             _onContentIsLoadProperty.SetValue(false);
         }
@@ -114,7 +123,8 @@ public class LevelLoadDataHandler
             CharacterProviderBuildMode.Construct(),
             AudioClipProvider.Init(), 
             BackgroundDataProvider.Init(),
-            SeriaGameStatsProviderBuild.Init());
+            SeriaGameStatsProviderBuild.Init(),
+            PhoneProviderInBuildMode.Init(CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
     }
 
     private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
@@ -124,6 +134,7 @@ public class LevelLoadDataHandler
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        PhoneProviderInBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
     private void OnSwitchToNextSeria(bool key)
     {

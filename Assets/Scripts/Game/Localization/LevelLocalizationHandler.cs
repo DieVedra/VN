@@ -8,6 +8,8 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly ILocalizable _characterProviderLocalizable;
     private readonly GameStatsHandler _gameStatsHandler;
+    private readonly ILocalizable _phoneUIHandler;
+    private readonly ILocalizable _phoneProviderInBuildMode;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ReactiveCommand _onEndSwitchLocalization;
     private CompositeDisposable _compositeDisposable;
@@ -16,12 +18,14 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
         LevelLocalizationProvider levelLocalizationProvider, ILocalizable characterProviderLocalizable,
-        GameStatsHandler gameStatsHandler, SetLocalizationChangeEvent setLocalizationChangeEvent)
+        GameStatsHandler gameStatsHandler, ILocalizable phoneUIHandler, ILocalizable phoneProviderInBuildMode,  SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _currentSeriaNodeGraphsProvider = currentSeriaNodeGraphsProvider;
         _levelLocalizationProvider = levelLocalizationProvider;
         _characterProviderLocalizable = characterProviderLocalizable;
         _gameStatsHandler = gameStatsHandler;
+        _phoneUIHandler = phoneUIHandler;
+        _phoneProviderInBuildMode = phoneProviderInBuildMode;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
         _onEndSwitchLocalization = new ReactiveCommand().AddTo(_compositeDisposable);
@@ -39,11 +43,25 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
             SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
             SetLocalizationToStats(_gameStatsHandler);
             SetLocalizationToCharacters();
+            SetLocalizationToPhoneData();
             _setLocalizationChangeEvent.Execute();
             _currentLocalization = null;
         }
     }
 
+    private void SetLocalizationToPhoneData()
+    {
+        foreach (var localizationString in _phoneUIHandler.GetLocalizableContent())
+        {
+            SetText(localizationString);
+
+        }
+
+        foreach (var localizationString in _phoneProviderInBuildMode.GetLocalizableContent())
+        {
+            SetText(localizationString);
+        }
+    }
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
         for (int i = 0; i < seriaNodeGraphsHandler.SeriaPartNodeGraphs.Count; i++)

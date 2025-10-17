@@ -18,7 +18,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _textCalls;
     private readonly TextMeshProUGUI _textExit;
     private readonly TextMeshProUGUI _textContacts;
-    private readonly RectTransform _contactsTransform;
     private readonly Button _buttonExit;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
@@ -34,19 +33,19 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textCalls = contactsScreenViewBackground.TextCalls;
         _textExit = contactsScreenViewBackground.TextExit;
         _textContacts = contactsScreenViewBackground.TextContacts;
-        _contactsTransform = contactsScreenViewBackground.ContactsTransform;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
     public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
+        _buttonExit.interactable = false;
         Screen.SetActive(true);
         _switchToNextNodeEvent = switchToNextNodeEvent;
         SubscribeButtons();
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter);
+        _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
     }
     public override void Disable()
     {
@@ -56,10 +55,10 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     }
     private void SubscribeButtons()
     {
+        _buttonExit.interactable = true;
         _buttonExit.onClick.AddListener(() =>
         {
             _buttonExit.onClick.RemoveAllListeners();
-            Disable();
             _switchToNextNodeEvent.Execute();
         });
     }

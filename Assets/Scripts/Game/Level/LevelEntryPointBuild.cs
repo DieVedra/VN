@@ -8,6 +8,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
+    private const int PhoneSiblingIndex = 5;
     private IPhoneProvider _phoneProvider;
     private Wallet _wallet;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
@@ -21,6 +22,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
+    private PhoneUIView _phoneView;
+    
     private BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUIEvent;
     private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
@@ -64,28 +67,23 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
+                _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
+            _levelLoadDataHandler.PhoneProviderInBuildMode.TrySetSaveData(SaveData.Contacts);
         }
         else
         {
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
-                _levelLocalizationProvider, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
+                _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
 
 
         await _levelLoadDataHandler.LoadStartSeriaContent();
+        await InitLevelUIProvider();
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
-            _gameStatsHandler, _setLocalizationChangeEvent);
-        LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
-        LevelUIView = await levelCanvasAssetProvider.CreateAsset();
-        if (LevelUIView.TryGetComponent(out Canvas canvas))
-        {
-            canvas.worldCamera = Camera.main;
-        }
-        await TryCreateBlackFrameUIHandler();
-
+            _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode, _setLocalizationChangeEvent);
+        
         Init();
         OnSceneTransitionEvent.Subscribe(() =>
         {
@@ -95,9 +93,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
-
     }
 
+    private async UniTask CreatePhoneView()
+    {
+        LevelUIView.PhoneUIView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView(LevelUIView.transform);
+    }
     private void Init()
     {
         if (LoadSaveData == true)
@@ -106,7 +107,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.StoryStarted = true;
         }
         InitGlobalSound();
-        InitLevelUIProvider();
         InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(viewerCreatorBuildMode);
@@ -173,12 +173,22 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
+            SaveData.Contacts = _levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData();
             SaveServiceProvider.SaveLevelProgress();
         }
     }
 
-    private void InitLevelUIProvider()
+    private async UniTask InitLevelUIProvider()
     {
+        LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
+        LevelUIView = await levelCanvasAssetProvider.CreateAsset();
+        if (LevelUIView.TryGetComponent(out Canvas canvas))
+        {
+            canvas.worldCamera = Camera.main;
+        }
+
+        await TryCreateBlackFrameUIHandler();
+        
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
@@ -188,9 +198,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _panelsLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
-            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent, null);
+            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent, _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider,
+            () =>
+            {
+                LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneSiblingIndex);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
+            });
     }
-
     private void InitLocalization()
     {
         _panelsLocalizationHandler.SetLocalizableContentFromLevel(_levelUIProviderBuildMode.GetLocalizableContent());

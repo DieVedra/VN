@@ -15,13 +15,11 @@ public class PhoneUIView : MonoBehaviour
     [SerializeField, BoxGroup("Top panel")] private TextMeshProUGUI _butteryText;
     [SerializeField, BoxGroup("Top panel")] private Image _butteryImage;
     [SerializeField, BoxGroup("Top panel")] private Image _butteryIndicatorImage;
-
-
+    
     [SerializeField, BoxGroup("Backgrounds")] private BlockScreenView _blockScreenViewBackground;
     [SerializeField, BoxGroup("Backgrounds")] private DialogScreenView _dialogScreenViewBackground;
     [SerializeField, BoxGroup("Backgrounds")] private ContactsScreenView _contactsScreenViewBackground;
-
-
+    
     public RectTransform SignalIndicatorRectTransform => _signalIndicatorRectTransform;
     public IReadOnlyList<Image> SignalIndicatorImage => _signalIndicatorImage;
     public TextMeshProUGUI TimeText => _timeText;

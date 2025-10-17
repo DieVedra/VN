@@ -5,6 +5,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MyScrollHandler : ILocalizable
 {
@@ -21,6 +22,7 @@ public class MyScrollHandler : ILocalizable
     private readonly LocalizationString _buttonContinueText = "Продолжить";
     private readonly RectTransform _transform;
     private readonly RectTransform _content;
+    private readonly HorizontalLayoutGroup _contentLayoutGroup;
     private readonly RectTransform _swipeAreaRect;
     private readonly RectTransform _swipeProgressIndicatorsParent;
 
@@ -64,6 +66,7 @@ public class MyScrollHandler : ILocalizable
         _isRightMove = new ReactiveProperty<bool>();
         _languageChanged = languageChanged;
         _swipeDetectorOff = swipeDetectorOff;
+        _contentLayoutGroup = _content.GetComponent<HorizontalLayoutGroup>();
     }
 
     public async UniTask Construct(IReadOnlyList<Story> stories, PlayStoryPanelHandler playStoryPanelHandler,
@@ -83,6 +86,7 @@ public class MyScrollHandler : ILocalizable
         _startIndex = startIndex;
         if (_contentCount > 0)
         {
+            _contentLayoutGroup.enabled = true;
             _swipeDetector = new SwipeDetector(_pressInputAction, _positionInputAction, _swipeAreaRect, _contentCount == 1 ? _sensitivitySlider * _halfMultiplier : _sensitivitySlider);
             await CreateContent(playStoryPanelHandler, levelLoader);
             _content.anchoredPosition = Vector2.zero;
@@ -130,6 +134,7 @@ public class MyScrollHandler : ILocalizable
                     _swipeDetector.Enable();
                 }
             });
+            _contentLayoutGroup.enabled = false;
         }
     }
 

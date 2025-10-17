@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -19,30 +18,31 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
     private LocalizationString _localizationString;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
     private CompositeDisposable _compositeDisposable;
-
+    private int _currentSeria;
     public IReadOnlyList<Phone> Phones { get; private set; }
 
     public IReadOnlyList<PhoneContactDataLocalizable> Contacts { get; private set; }
 
     
     public void ConstructMyAddContactToPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts,
-        NotificationPanelUIHandler notificationPanelUIHandler)
+        NotificationPanelUIHandler notificationPanelUIHandler, int currentSeria)
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
         Phones = phones;
         Contacts = contacts;
+        _currentSeria = currentSeria;
         _localizationString = new LocalizationString(_notificationTextPart);
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {_localizationString};
+        return new[] { _localizationString};
     }
 
     public override UniTask Enter(bool isMerged = false)
     {
         if (_addContact == true)
         {
-            Phones[_phoneIndex].AddPhoneData(0, Contacts[_contactIndex]);
+            Phones[_phoneIndex].AddPhoneData(_currentSeria, Contacts[_contactIndex]);
             Show().Forget();
         }
         return base.Enter(isMerged);
@@ -54,7 +54,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
     }
     private void SetText()
     {
-        _notificationPanelUIHandler.ShowNotificationInEditMode($"{Contacts[_contactIndex].NameContactLocalizationString}{_localizationString}");
+        _notificationPanelUIHandler.ShowNotificationInEditMode($"{Contacts[_contactIndex].NikNameContact}{_localizationString}");
     }
     private async UniTaskVoid Show()
     {

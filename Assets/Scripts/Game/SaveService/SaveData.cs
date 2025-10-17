@@ -9,4 +9,5 @@ public class SaveData
     public string NameStartStory;
     public string LanguageLocalizationKey;
     public StoryData[] StoryDatas;
+    public PhoneAddedContact[] Contacts;
 }

@@ -24,7 +24,7 @@ public class PhoneScreenBaseHandler
 
     protected string GetFistLetter(PhoneContactDataLocalizable currentContact)
     {
-        return $"{currentContact.NameContactLocalizationString.DefaultText[_indexFirstLetter]}";
+        return $"{currentContact.NameContact.DefaultText[_indexFirstLetter]}";
     }
 
 }
