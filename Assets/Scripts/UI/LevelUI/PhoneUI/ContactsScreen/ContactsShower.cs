@@ -37,6 +37,7 @@ public class ContactsShower
         _contactsPool = contactsPool;
         _verticalLayoutGroup.enabled = true;
         _contentSizeFitter.enabled = true;
+        _newMessagesNotFound = true;
         for (int i = 0; i < phoneContactDatasLocalizable.Count; i++)
         {
             CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
@@ -118,7 +119,6 @@ public class ContactsShower
     private void TryIndicateNewMessages(IReadOnlyList<PhoneMessageLocalization> phoneMessagesLocalization, GameObject newMessageIndicator)
     {
         int count = phoneMessagesLocalization.Count;
-        _newMessagesNotFound = true;
         for (int i = count - 1; i >= 0; i--)
         {
             if (phoneMessagesLocalization[i].IsReaded == false)

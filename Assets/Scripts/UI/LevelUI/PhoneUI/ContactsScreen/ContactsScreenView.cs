@@ -10,6 +10,7 @@ public class ContactsScreenView : BaseScreen
     [SerializeField] private TextMeshProUGUI _textContacts;
     [SerializeField] private RectTransform _contactsTransform;
     [SerializeField] private Button _buttonExit;
+    [SerializeField] private CanvasGroup _buttonExitCanvasGroup;
     
     public Color ColorTopPanel => TopPanelColor;
     public Image ImageBackground =>  BackgroundImage;
@@ -19,4 +20,5 @@ public class ContactsScreenView : BaseScreen
     public TextMeshProUGUI TextContacts => _textContacts;
     public RectTransform ContactsTransform => _contactsTransform;
     public Button ButtonExit => _buttonExit;
+    public CanvasGroup ButtonExitCanvasGroup => _buttonExitCanvasGroup;
 }

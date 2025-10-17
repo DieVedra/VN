@@ -4,6 +4,11 @@ using UnityEngine.UI;
 public class PhoneScreenBaseHandler
 {
     private const int _indexFirstLetter = 0;
+    protected const float Duration = 0.8f;
+    protected const int LoopsCount = -1;
+    protected const float AlphaMax = 1f;
+    protected const float AlphaMin = 0.5f;
+
     protected readonly GameObject Screen;
     protected readonly TopPanelHandler TopPanelHandler;
     protected readonly Image BackgroundImage;

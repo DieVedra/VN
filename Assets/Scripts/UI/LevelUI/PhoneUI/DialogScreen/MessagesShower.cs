@@ -20,6 +20,7 @@ public class MessagesShower
     private IReadOnlyList<PhoneMessageLocalization> _phoneMessagesLocalization;
     private PanelSizeHandler _panelSizeHandler;
     private Action _setOnlineStatus;
+    private Action _disableReadButton;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private PhoneMessageType _lastMessageType;
@@ -33,6 +34,7 @@ public class MessagesShower
     private int _blackoutFrameSublingIndexBufer;
     private bool _inProgress;
     private bool _resultShowText;
+    private bool _characterOnlineKey;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
     public MessagesShower(CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI)
     {
@@ -44,7 +46,7 @@ public class MessagesShower
 
     public void Init(IReadOnlyList<PhoneMessageLocalization> phoneMessagesLocalization,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus)
+        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus, Action disableReadButton, bool characterOnlineKey)
     {
         _compositeDisposable = new CompositeDisposable();
         _phoneMessagesLocalization = phoneMessagesLocalization;
@@ -52,22 +54,39 @@ public class MessagesShower
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _setOnlineStatus = setOnlineStatus;
+        _disableReadButton = disableReadButton;
         _index = 0;
         _inProgress = false;
         _resultShowText = false;
+        _characterOnlineKey = characterOnlineKey;
+        if (phoneMessagesLocalization.Count == 0)
+        {
+            disableReadButton.Invoke();
+        }
         for (int i = 0; i < phoneMessagesLocalization.Count; i++)
         {
+            
             if (phoneMessagesLocalization[i].IsReaded == true)
             {
                 ShowNext();
+                TryDisableReadButtonAndEnableBack(i);
             }
             else
             {
                 if (phoneMessagesLocalization[i].MessageType == PhoneMessageType.Incoming)
                 {
                     ShowNext();
+                    TryDisableReadButtonAndEnableBack(i);
                 }
                 break;
+            }
+        }
+
+        void TryDisableReadButtonAndEnableBack(int i)
+        {
+            if (i == phoneMessagesLocalization.Count - 1)
+            {
+                disableReadButton.Invoke();
             }
         }
     }
@@ -109,17 +128,16 @@ public class MessagesShower
             _resultShowText = true;
             _inProgress = false;
         }
-        else if (_index == _phoneMessagesLocalization.Count)
-        {
-            _index += _phoneMessagesLocalization.Count;
-            _resultShowText = true;
-            _setOnlineStatus.Invoke();
-        }
         else
         {
-            _resultShowText = false;
+            ResultFalse();
         }
 
+        void ResultFalse()
+        {
+            _resultShowText = false;
+            _setOnlineStatus.Invoke();
+        }
         return _resultShowText;
     }
     

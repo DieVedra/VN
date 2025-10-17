@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -19,13 +22,16 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _textExit;
     private readonly TextMeshProUGUI _textContacts;
     private readonly Button _buttonExit;
+    private readonly CanvasGroup _buttonExitCanvasGroup;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
+    private CancellationTokenSource _cancellationTokenSource;
     public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
         ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
             contactsScreenViewBackground.ColorTopPanel)
     {
+        _buttonExitCanvasGroup = contactsScreenViewBackground.ButtonExitCanvasGroup;
         _contactsShower = contactsShower;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
         _contactsPool = contactsPool;
@@ -38,10 +44,10 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
+        _buttonExitCanvasGroup.alpha = AlphaMin;
         _buttonExit.interactable = false;
         Screen.SetActive(true);
         _switchToNextNodeEvent = switchToNextNodeEvent;
-        SubscribeButtons();
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
@@ -52,15 +58,19 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         base.Disable();
         _contactsShower.Dispose();
         _compositeDisposable?.Clear();
+        _cancellationTokenSource?.Cancel();
     }
     private void SubscribeButtons()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
         _buttonExit.interactable = true;
         _buttonExit.onClick.AddListener(() =>
         {
             _buttonExit.onClick.RemoveAllListeners();
             _switchToNextNodeEvent.Execute();
         });
+        _buttonExitCanvasGroup.DOFade(AlphaMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo)
+            .WithCancellation(_cancellationTokenSource.Token);
     }
     private void SetTexts()
     {
