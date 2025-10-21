@@ -43,8 +43,6 @@ public class LevelUIProviderEditMode
         CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
 
-        PhoneUIHandler =
-            new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler, phoneInitOperation);
         if (Application.isPlaying == false)
         {
             _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(() =>
@@ -60,6 +58,13 @@ public class LevelUIProviderEditMode
                 levelUIView.PhoneUIView.gameObject.SetActive(false);
             });
         }
+        else
+        {
+            _compositeDisposable = new CompositeDisposable();
+        }
+
+        PhoneUIHandler =
+            new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler, _compositeDisposable, phoneInitOperation);
     }
 
     public virtual void Dispose()

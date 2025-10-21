@@ -2,14 +2,17 @@
 using System;
 
 [Serializable]
-public class SaveStat : BaseStat
+public class SaveStat
 {
-    private bool _showKey;
+    public string NameKey { get; private set; }
+    public int Value { get; private set; }
 
-    public bool ShowKey => _showKey;
+    public bool ShowKey { get; private set; }
 
-    public SaveStat(string name, int value, bool showKey) : base(name, value)
+    public SaveStat(string nameKey, int value, bool showKey)
     {
-        _showKey = showKey;
+        NameKey = nameKey;
+        Value = value;
+        ShowKey = showKey;
     }
 }

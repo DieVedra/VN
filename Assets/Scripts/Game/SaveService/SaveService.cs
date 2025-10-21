@@ -19,15 +19,16 @@ public class SaveService
         
     }
 
-    public (bool, SaveData) LoadData()
+    public bool LoadData(out SaveData outSaveData)
     {
-        if (_saveMethod.Load(_savePath) is SaveData saveData)
+        outSaveData = _saveMethod.Load<SaveData>(_savePath);
+        if (outSaveData != null)
         {
-            return (true, saveData);
+            return true;
         }
         else
         {
-            return (false, null);
+            return false;
         }
     }
 

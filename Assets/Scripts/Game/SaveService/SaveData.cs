@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 
 [System.Serializable]
 public class SaveData
@@ -8,6 +9,10 @@ public class SaveData
     public bool SoundStatus;
     public string NameStartStory;
     public string LanguageLocalizationKey;
-    public StoryData[] StoryDatas;
-    public PhoneAddedContact[] Contacts;
+    public List<StoryData> StoryDatas;
+
+    public SaveData()
+    {
+        StoryDatas = new List<StoryData>();
+    }
 }

@@ -2,6 +2,6 @@
 public interface ISaveMetod
 {
     string FileFormat { get; }
-    object Load(string path);
+    T Load<T>(string path);
     void Save(string path, object data);
 }

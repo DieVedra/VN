@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PhoneSaveHandler
 {
@@ -14,7 +15,6 @@ public class PhoneSaveHandler
     {
         List<PhoneAddedContact> datas = new List<PhoneAddedContact>();
         PhoneContactDataLocalizable phoneContactDataLocalizable;
-        PhoneAddedContact data;
         int count;
         for (int i = 0; i < phones.Count; i++)
         {
@@ -22,16 +22,18 @@ public class PhoneSaveHandler
             for (int j = 0; j < count; j++)
             {
                 phoneContactDataLocalizable = phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable[j];
-                if (phoneContactDataLocalizable.IsAddebleContactKey == true)
+                // if (phoneContactDataLocalizable.IsAddebleContactKey == true)
+                // {
+                // }
+
+                PhoneAddedContact data = new PhoneAddedContact
                 {
-                    data = new PhoneAddedContact
-                    {
-                        PhoneName = phones[i].NamePhone, ContactIndex = j, ContactNameKey = phoneContactDataLocalizable.NameContact.Key,
-                        IndexSeriaInWhichContactWasAdded = phoneContactDataLocalizable.IndexSeriaInWhichContactWasAdded,
-                        LastSeriaNonReadedMessagesIndexes = GetLastSeriaNonReadedMessagesIndexes(phoneContactDataLocalizable)
-                    };
-                    datas.Add(data);
-                }
+                    PhoneName = phones[i].NamePhone, ContactIndex = j, ContactNameKey = phoneContactDataLocalizable.NameContact.Key,
+                    IndexSeriaInWhichContactWasAdded = phoneContactDataLocalizable.IndexSeriaInWhichContactWasAdded,
+                    LastSeriaReadedMessagesIndexes = GetLastSeriaReadedMessagesIndexes(phoneContactDataLocalizable)
+                };
+                datas.Add(data);
+
             }
         }
         return datas.ToArray();
@@ -86,12 +88,12 @@ public class PhoneSaveHandler
                         {
                             contactDataLocalizable = GetPhoneContactDataLocalizable(phoneContactData);
                             contactDataLocalizable.IndexSeriaInWhichContactWasAdded = indexSeriaInWhichContactWasAdded;
-                            TryAddMessages(data.LastSeriaNonReadedMessagesIndexes, contactDataLocalizable,
+                            TryAddMessages(data.LastSeriaReadedMessagesIndexes, contactDataLocalizable,
                                 phoneContactData, contactsProviders[i].SeriaIndex < currentSeriaIndex);
                         }
                         else
                         {
-                            TryAddMessages(data.LastSeriaNonReadedMessagesIndexes, contactDataLocalizable,
+                            TryAddMessages(data.LastSeriaReadedMessagesIndexes, contactDataLocalizable,
                                 phoneContactData, contactsProviders[i].SeriaIndex < currentSeriaIndex);
                         }
                     }
@@ -120,7 +122,7 @@ public class PhoneSaveHandler
         return contact;
     }
 
-    private int[] GetLastSeriaNonReadedMessagesIndexes(PhoneContactDataLocalizable phoneContactDataLocalizable)
+    private int[] GetLastSeriaReadedMessagesIndexes(PhoneContactDataLocalizable phoneContactDataLocalizable)
     {
         List<int> indexes = new List<int>();
         int count = phoneContactDataLocalizable.PhoneMessagesLocalization.Count;

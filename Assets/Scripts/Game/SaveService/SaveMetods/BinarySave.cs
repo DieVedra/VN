@@ -15,18 +15,19 @@ public class BinarySave : ISaveMetod
 
     public string FileFormat => _fileFormat;
 
-    public object Load(string path)
+    public T Load<T>(string path)
     {
         if (File.Exists(path) == true)
         {
             using FileStream file = new FileStream(path, FileMode.Open);
+            T result = (T)_binaryFormatter.Deserialize(file);
             Debug.Log($"File is Loaded  {path}");
-            return _binaryFormatter.Deserialize(file);
+            return result;
         }
         else
         {
             Debug.Log("File is null");
-            return null;
+            return default;
         }
     }
 

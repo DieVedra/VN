@@ -18,41 +18,12 @@ public class PhoneCreator
     //телефоны создаются при первом обращении
     //при повторных обращениях идет проверка последней серии в дате телефона и если она меньше текущей то добавляется текущая и обновляется индекс
     //так же идет проверка наличия новых дат новых телефонов и если они есть то создаются новые
-    // public void TryCreatePhonesOrAddData(List<Phone> phones, int currentSeriaIndex)
-    // {
-    //     Dictionary<string, PhoneDataLocalizable> phoneDatas;
-    //     if (phones.Count > 0)
-    //     {
-    //         //собирает все даты по сериям в список который идет для создания телефона
-    //         phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
-    //             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-    //     }
-    //     else
-    //     {
-    //         //собирает даты по текущей серии и дабвляет к существующим котнактам
-    //         phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);
-    //         TryAddIntegratedContent(phones, currentSeriaIndex, phoneDatas);
-    //     }
-    //     TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
-    // }
-
-    // public void CreatePhonesOnStart(List<Phone> phones, int currentSeriaIndex)
-    // {
-    //     if (phones.Count > 0)
-    //     {
-    //         //собирает все даты по сериям в список который идет для создания телефона
-    //         Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
-    //             GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-    //         TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
-    //     }
-    // }
 
     public void TryAddDataToIntegratedContactsAndTryCreateNewPhones(List<Phone> phones, int currentSeriaIndex)
     {
         Dictionary<string, PhoneDataLocalizable> phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);
         TryAddIntegratedContent(phones, currentSeriaIndex, phoneDatas);
         TryCreatePhones(phones, phoneDatas, currentSeriaIndex); // создаст новые если что то останется в списке
-
     }
     private void TryAddIntegratedContent(List<Phone> phones, int currentSeriaIndex, Dictionary<string, PhoneDataLocalizable> phoneDatas)
     {
@@ -138,10 +109,26 @@ public class PhoneCreator
 
     protected void TryCreatePhones(List<Phone> phones, Dictionary<string, PhoneDataLocalizable> newPhoneDatas, int currentSeriaIndex)
     {
+        bool key = true;
         foreach (var pair in newPhoneDatas)
         {
-            Phone phone = new Phone(pair.Value, pair.Key, currentSeriaIndex);
-            phones.Add(phone);
+            for (int i = 0; i < phones.Count; i++)
+            {
+                if (phones[i].NamePhone == pair.Key)
+                {
+                    key = false;
+                    break;
+                }
+                else
+                {
+                    key = true;
+                }
+            }
+            if (key == true)
+            {
+                Phone phone = new Phone(pair.Value, pair.Key, currentSeriaIndex);
+                phones.Add(phone);
+            }
         }
     }
     private int GetIndexBodyCustomizableCharacter(string nameKey)
@@ -158,24 +145,27 @@ public class PhoneCreator
 
     private void TryAddNewContent(PhoneData phoneData , PhoneDataLocalizable phoneDataLocalizable)
     {
-        if (phoneData.NewContentAdded == true)
+        if (phoneData.Hands?.Count > 0)
         {
-            var sprite = phoneData.Hands[GetIndexBodyCustomizableCharacter(phoneData.CharacterNameKey)];
-            if (sprite != null)
+            int index = GetIndexBodyCustomizableCharacter(phoneData.CharacterNameKey);
+            if (index < phoneData.Hands.Count)
             {
-                phoneDataLocalizable.SetHandSprite(sprite);
+                var sprite = phoneData.Hands[index];
+                if (sprite != null)
+                {
+                    phoneDataLocalizable.SetHandSprite(sprite);
+                }
             }
-            sprite = phoneData.PhoneFrame;
-            if (sprite != null)
-            {
-                phoneDataLocalizable.SetPhoneFrameSprite(sprite);
-            }
+        }
 
-            sprite = phoneData.Background;
-            if (sprite != null)
-            {
-                phoneDataLocalizable.SetPhoneBackgroundSprite(sprite);
-            }
+        if (phoneData.PhoneFrame != null)
+        {
+            phoneDataLocalizable.SetPhoneFrameSprite(phoneData.PhoneFrame);
+        }
+
+        if (phoneData.Background != null)
+        {
+            phoneDataLocalizable.SetPhoneBackgroundSprite(phoneData.Background);
         }
     }
 }

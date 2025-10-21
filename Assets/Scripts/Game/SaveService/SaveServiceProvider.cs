@@ -28,7 +28,7 @@ public class SaveServiceProvider
         _saveData.Monets = wallet.GetMonetsCount;
         _saveData.Hearts = wallet.GetHeartsCount;
         _saveData.SoundStatus = globalSound.SoundStatus.Value;
-        _saveData.StoryDatas = storiesProvider.GetStoryDatas();
+        _saveData.StoryDatas.AddRange(storiesProvider.GetStoryDatas());
         _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
         if (mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName != String.Empty)
         {
@@ -37,26 +37,30 @@ public class SaveServiceProvider
 
         SaveService.Save(_saveData);
     }
-    public void LoadSaveData()
+    public bool LoadSaveData()
     {
-        var result = SaveService.LoadData();
-        if (result.Item1 == true)
+        if (SaveService.LoadData(out _saveData) == true)
         {
             Debug.Log($"SaveData: true");
             SaveHasBeenLoaded = true;
-            var loadedSave = result.Item2;
-            SaveData.SoundStatus = loadedSave.SoundStatus;
-            SaveData.Monets = loadedSave.Monets;
-            SaveData.Hearts = loadedSave.Hearts;
-            SaveData.NameStartStory = loadedSave.NameStartStory;
-            SaveData.StoryDatas = loadedSave.StoryDatas;
-            _saveData.LanguageLocalizationKey = loadedSave.LanguageLocalizationKey;
+            // _saveData.SoundStatus = loadedSave.SoundStatus;
+            // _saveData.Monets = loadedSave.Monets;
+            // _saveData.Hearts = loadedSave.Hearts;
+            // _saveData.NameStartStory = loadedSave.NameStartStory;
+            // _saveData.StoryDatas = loadedSave.StoryDatas;
+            
+            Debug.Log($"_saveData.StoryDatas1  {_saveData.StoryDatas.Count}");
+
+            // _saveData.LanguageLocalizationKey = loadedSave.LanguageLocalizationKey;
         }
         else
         {
             SaveHasBeenLoaded = false;
             Debug.Log($"SaveData: false");
         }
+        Debug.Log($"_saveData.StoryDatas2  {_saveData.StoryDatas.Count}");
+
+        return SaveHasBeenLoaded;
     }
 
     public void TrySetLanguageLocalizationKey(string key)
@@ -71,7 +75,7 @@ public class SaveServiceProvider
     {
         if (SaveHasBeenLoaded == false)
         {
-            _saveData.StoryDatas = storiesProvider.GetStoryDatas();
+            _saveData.StoryDatas.AddRange(storiesProvider.GetStoryDatas());
         }
     }
     public void TrySetStartStory(string nameStartStory)

@@ -64,7 +64,11 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     }
     public PhoneAddedContact[] GetSaveData()
     {
-        _saveContacts = _phoneSaveHandler.GetSaveData(_phones);
+        var a = _phoneSaveHandler.GetSaveData(_phones);
+        Debug.Log($"_saveContacts1  {a.Length}");
+
+        _saveContacts = a;
+        Debug.Log($"_saveContacts2  {_saveContacts.Length}");
         return _saveContacts;
     }
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
@@ -78,10 +82,13 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
                 {
                     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
                 }
+                Debug.Log($"_phones.Count == 0   {_phones.Count}");
             }
             else
             {
                 _phoneCreator.TryAddDataToIntegratedContactsAndTryCreateNewPhones(_phones, currentSeriaIndex);
+                Debug.Log($"TryAddDataToIntegratedContactsAndTryCreateNewPhones   {_phones.Count}");
+
             }
             return _phones;
         }

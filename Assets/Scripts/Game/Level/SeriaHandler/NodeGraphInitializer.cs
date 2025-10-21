@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class NodeGraphInitializer
 {
@@ -111,6 +112,10 @@ public class NodeGraphInitializer
         }
         if (node is CustomizationNode customizationNode)
         {
+            if (customizationNode == null)
+            {
+                Debug.Log(1);
+            }
             customizationNode.ConstructMyCustomizationNode(
                 _levelUIProvider.CustomizationCharacterPanelUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler,

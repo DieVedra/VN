@@ -89,6 +89,48 @@ MonoBehaviour:
   _showTime: 2
   _delayDisplayTime: 0
   _color: {r: 0.5402353, g: 0.58109564, b: 0.9411765, a: 1}
+--- !u!114 &-7863326530030941403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0c51bb6ac34c92ad209688425a50c7, type: 3}
+  m_Name: Switch To Next Seria
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2728, y: -2968}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -7863326530030941403}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -7862014579530731797}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7863326530030941403}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _putOnSwimsuit: 0
 --- !u!114 &-7862014579530731797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +144,7 @@ MonoBehaviour:
   m_Name: Phone
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3288, y: -2792}
+  position: {x: -3432, y: -2968}
   ports:
     keys:
     - Input
@@ -126,7 +168,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 1653188457232635458}
+        node: {fileID: -7863326530030941403}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -134,7 +176,7 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _phoneIndex: 0
-  _phoneStartScreen: 0
+  _phoneStartScreen: 1
   _butteryPercent: 80
   _startHour: 10
   _startMinute: 11
@@ -153,12 +195,12 @@ MonoBehaviour:
     _keyNotification: 0
   - _keyName: str_D5DBBDEB
     _name: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
-    _keyOnline: 1
-    _keyNotification: 1
+    _keyOnline: 0
+    _keyNotification: 0
   - _keyName: str_461E5165
     _name: "\u0411\u0430\u0431\u0443\u0448\u043A\u0430"
     _keyOnline: 0
-    _keyNotification: 1
+    _keyNotification: 0
 --- !u!114 &-6844770746203813899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,6 +1149,7 @@ MonoBehaviour:
   - {fileID: 8302261360956621105}
   - {fileID: 6806775555269463789}
   - {fileID: -7862014579530731797}
+  - {fileID: -7863326530030941403}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,10 +1377,7 @@ MonoBehaviour:
       _node: {fileID: 1653188457232635458}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: -7862014579530731797}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0

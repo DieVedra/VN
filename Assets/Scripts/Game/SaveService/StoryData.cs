@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 [System.Serializable]
 public class StoryData
 {
@@ -13,7 +15,21 @@ public class StoryData
     public bool StoryStarted;
     public int MyIndex;
     public int CustomizableCharacterIndex;
-    public SaveStat[] Stats;
+
     public BackgroundSaveData BackgroundSaveData;
-    public WardrobeSaveData[] WardrobeSaveDatas;
+
+    // public SaveStat[] Stats;
+    // public PhoneAddedContact[] Contacts;
+    // public WardrobeSaveData[] WardrobeSaveDatas;
+
+    public List<SaveStat> Stats;
+    public List<WardrobeSaveData> WardrobeSaveDatas;
+    public List<PhoneAddedContact> Contacts;
+
+    public StoryData()
+    {
+        Stats = new List<SaveStat>();
+        WardrobeSaveDatas = new List<WardrobeSaveData>();
+        Contacts = new List<PhoneAddedContact>();
+    }
 }

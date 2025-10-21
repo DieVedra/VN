@@ -5,5 +5,5 @@ public class PhoneAddedContact
     public int ContactIndex;
     public string ContactNameKey;
     public int IndexSeriaInWhichContactWasAdded;
-    public int[] LastSeriaNonReadedMessagesIndexes;
+    public int[] LastSeriaReadedMessagesIndexes;
 }

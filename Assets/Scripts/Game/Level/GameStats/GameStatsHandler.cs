@@ -20,7 +20,7 @@ public class GameStatsHandler
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            baseStats.Add(new SaveStat(_stats[i].NameText, _stats[i].Value, _stats[i].ShowKey));
+            baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value, _stats[i].ShowKey));
         }
     
         return baseStats.ToArray();
@@ -31,7 +31,7 @@ public class GameStatsHandler
         List<Stat> stats = new List<Stat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            stats.Add(new Stat(_stats[i].NameText, 0, _stats[i].ShowKey, _stats[i].ColorField));
+            stats.Add(new Stat(_stats[i].NameKey, 0, _stats[i].ShowKey, _stats[i].ColorField));
         }
 
         return stats;
@@ -56,7 +56,7 @@ public class GameStatsHandler
             {
                 if (_stats[i].NameKey == saveStats[j].NameKey && (saveStats[j].Value != _stats[i].Value) == false)
                 {
-                    _stats[i] = new Stat(_stats[i].NameText, saveStats[j].Value, saveStats[j].ShowKey, _stats[i].ColorField);
+                    _stats[i] = new Stat(_stats[i].NameKey, saveStats[j].Value, saveStats[j].ShowKey, _stats[i].ColorField);
                 }
             }
         }

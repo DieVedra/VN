@@ -16,7 +16,7 @@ public class StoriesProvider : ScriptableObject
         {
             for (int i = 0; i < _stories.Count; i++)
             {
-                for (int j = 0; j < saveData.StoryDatas.Length; j++)
+                for (int j = 0; j < saveData.StoryDatas.Count; j++)
                 {
                     if (_stories[i].StoryName == saveData.StoryDatas[j].StoryName)
                     {

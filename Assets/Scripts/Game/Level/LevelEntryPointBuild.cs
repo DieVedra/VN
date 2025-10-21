@@ -69,7 +69,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
-            _levelLoadDataHandler.PhoneProviderInBuildMode.TrySetSaveData(SaveData.Contacts);
+            // _levelLoadDataHandler.PhoneProviderInBuildMode.TrySetSaveData(SaveData.Contacts);
         }
         else
         {
@@ -103,7 +103,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
+            // _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }
         InitGlobalSound();
@@ -166,14 +166,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
-            StoryData.Stats = _gameStatsHandler.GetStatsToSave();
+            // StoryData.Stats = _gameStatsHandler.GetStatsToSave();
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
-            StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians);
+            // StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians);
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
-            SaveData.Contacts = _levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData();
+            // SaveData.Contacts = _levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData();
             SaveServiceProvider.SaveLevelProgress();
         }
     }

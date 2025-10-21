@@ -11,28 +11,29 @@ public class PhoneUIHandler : ILocalizable
     private readonly PhoneContentProvider _phoneContentProvider;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
+    private readonly ReactiveCommand _switchToContactsScreenCommand;
+    private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
     private Action _initOperation;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
     private ContactsScreenHandler _contactsScreenHandler;
     private DialogScreenHandler _dialogScreenHandler;
     private PhoneTime _phoneTime;
-    private ReactiveCommand _switchToContactsScreenCommand;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
-    private ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
-    private CompositeDisposable _compositeDisposable;
     private Phone _currentPhone;
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private Dictionary<string, ContactInfoToGame> _contactsInfoToGame;
 
     public PhoneUIHandler(PhoneContentProvider phoneContentProvider, NarrativePanelUIHandler narrativePanelUI,
-        CustomizationCurtainUIHandler curtainUIHandler, Action initOperation)
+        CustomizationCurtainUIHandler curtainUIHandler, CompositeDisposable compositeDisposable, Action initOperation)
     {
         _phoneContentProvider = phoneContentProvider;
         _narrativePanelUI = narrativePanelUI;
         _curtainUIHandler = curtainUIHandler;
         _initOperation = initOperation;
+        _switchToContactsScreenCommand = new ReactiveCommand().AddTo(compositeDisposable);
+        _switchToDialogScreenCommand = new ReactiveCommand<PhoneContactDataLocalizable>().AddTo(compositeDisposable);
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -42,9 +43,6 @@ public class PhoneUIHandler : ILocalizable
 
     public void Init(PhoneUIView phoneUIView)
     {
-        _compositeDisposable = new CompositeDisposable();
-        _switchToContactsScreenCommand = new ReactiveCommand().AddTo(_compositeDisposable);
-        _switchToDialogScreenCommand = new ReactiveCommand<PhoneContactDataLocalizable>().AddTo(_compositeDisposable);
         _switchToContactsScreenCommand.Subscribe(_=>
         {
             SetContactsScreenBackgroundFromAnotherScreen();
@@ -74,9 +72,6 @@ public class PhoneUIHandler : ILocalizable
         _blockScreenHandler.Disable();
         _contactsScreenHandler.Disable();
         _dialogScreenHandler.Disable();
-        _compositeDisposable?.Clear();
-        _switchToContactsScreenCommand = null;
-        _switchToDialogScreenCommand = null;
         _phoneUIGameObject.SetActive(false);
         _topPanelHandler.Dispose();
     }
@@ -87,7 +82,11 @@ public class PhoneUIHandler : ILocalizable
     {
         _initOperation?.Invoke();
         _initOperation = null;
-        _contactsInfoToGame = contactsInfoToGame.ToDictionary(x=>x.KeyName);
+        if (contactsInfoToGame != null)
+        {
+            _contactsInfoToGame = contactsInfoToGame.ToDictionary(x=>x.KeyName);
+        }
+
         _currentPhone = phone;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _switchToNextNodeEvent = switchToNextNodeEvent;

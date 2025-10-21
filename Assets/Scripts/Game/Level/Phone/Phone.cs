@@ -29,8 +29,4 @@ public class Phone
         }
         LastSeriaIndex = seriaIndex;
     }
-    // public void AddPhoneData(IReadOnlyList<PhoneContactDataLocalizable> contactDataLocalizables, int seriaIndex, bool isIntergatedInPhoneData)
-    // {
-    //     PhoneDataLocalizable.AddPhoneContacts(dictionary, isIntergatedInPhoneData == true ? _defaultIndexSeriaInWhichContactWasAdded : seriaIndex);
-    // }
 }
