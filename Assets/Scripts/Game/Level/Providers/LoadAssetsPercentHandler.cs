@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class LoadAssetsPercentHandler
 {
@@ -32,7 +33,6 @@ public class LoadAssetsPercentHandler
     public void StartCalculatePercent()
     {
         _percentProvidersParticipiteInLoad = new List<IParticipiteInLoad>();
-
         for (int i = 0; i < _allPercentProviders.Length; ++i)
         {
             if (_allPercentProviders[i].ParticipiteInLoad == true)

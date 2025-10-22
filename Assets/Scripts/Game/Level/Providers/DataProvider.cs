@@ -19,11 +19,13 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
 
     public readonly ReactiveCommand<T> OnLoad;
     protected CompositeDisposable BaseCompositeDisposable;
+    private CompositeDisposable _compositeDisposableOnLoad;
 
     public DataProvider()
     {
         _datas = new List<T>();
-        OnLoad = new ReactiveCommand<T>();
+        _compositeDisposableOnLoad = new CompositeDisposable();
+        OnLoad = new ReactiveCommand<T>().AddTo(_compositeDisposableOnLoad);
         _assetExistsHandler = new AssetExistsHandler();
         _scriptableObjectAssetLoader = new ScriptableObjectAssetLoader();
         _matchNumbersHandler = new MatchNumbersHandler();
@@ -37,6 +39,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
 
     public void Dispose()
     {
+        _compositeDisposableOnLoad?.Clear();
         BaseCompositeDisposable?.Clear();
         _scriptableObjectAssetLoader.TryAbortLoad();
         ParticipiteInLoad = false;

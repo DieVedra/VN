@@ -1,9 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class BackgroundDataProvider
 {

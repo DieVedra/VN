@@ -37,11 +37,11 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
         }
         return stats;
     }
-    public SaveStat[] GetAllStatsToSave()
+    public IReadOnlyList<SaveStat> GetAllStatsToSave()
     {
         return GameStatsHandler.GetStatsToSave();
     }
-    public void UpdateAllStatsFromSave(SaveStat[] saveStats)
+    public void UpdateAllStatsFromSave(IReadOnlyList<SaveStat> saveStats)
     {
         GameStatsHandler.UpdateStatFromSave(saveStats);
     }

@@ -42,11 +42,13 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return ListExtensions.MergeIReadOnlyLists(
-            new[] {
-                GameEndPanelHandler.TextDescription, GameEndPanelHandler.TextLabel, GameEndPanelHandler.ButtonBackToMenu,
-                AwaitLoadContentPanelHandler.AwaitLoadText}, 
-            GameControlPanelUIHandler.GetLocalizableContent(),
-            PhoneUIHandler.GetLocalizableContent());
+        List<LocalizationString> strings = new List<LocalizationString>()
+        {
+            GameEndPanelHandler.TextDescription, GameEndPanelHandler.TextLabel, GameEndPanelHandler.ButtonBackToMenu,
+            AwaitLoadContentPanelHandler.AwaitLoadText
+        };
+        strings.AddRange(GameControlPanelUIHandler.GetLocalizableContent());
+        strings.AddRange(PhoneUIHandler.GetLocalizableContent());
+        return strings;
     }
 }

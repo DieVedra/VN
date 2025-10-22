@@ -9,7 +9,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
     private const int PhoneSiblingIndex = 5;
-    private IPhoneProvider _phoneProvider;
     private Wallet _wallet;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
@@ -23,7 +22,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
     private PhoneUIView _phoneView;
-    
     private BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUIEvent;
     private ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
@@ -63,13 +61,24 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
         if (LoadSaveData == true)
         {
-            SaveData = SaveServiceProvider.SaveData;
-            StoryData = SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+            StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+
+            // if (StoryData == null)
+            // {
+            //     Debug.Log($"StoryData == null   {SaveServiceProvider.SaveData.StoryDatas.Count} {SaveServiceProvider.CurrentStoryIndex}");
+            // }
+            // else
+            // {
+            //     Debug.Log($"StoryData != null  {SaveServiceProvider.SaveData.StoryDatas.Count} {SaveServiceProvider.CurrentStoryIndex}");
+            //
+            // }
+            
+            
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
-                _onContentIsLoadProperty, CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value));
-            // _levelLoadDataHandler.PhoneProviderInBuildMode.TrySetSaveData(SaveData.Contacts);
+                _onContentIsLoadProperty/*,
+                CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value)*/);
         }
         else
         {
@@ -77,8 +86,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
 
+        Debug.Log(4444);
 
-        await _levelLoadDataHandler.LoadStartSeriaContent();
+        await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         await InitLevelUIProvider();
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
@@ -97,13 +107,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private async UniTask CreatePhoneView()
     {
-        LevelUIView.PhoneUIView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView(LevelUIView.transform);
+        _phoneView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView(_globalUIHandler.GlobalUITransforn);
     }
     private void Init()
     {
         if (LoadSaveData == true)
         {
-            // _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
+            _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }
         InitGlobalSound();
@@ -118,10 +128,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
         NodeGraphInitializer = new NodeGraphInitializer(
             _backgroundBuildMode.GetBackgroundContent, _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
-            _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _phoneProvider,
+            _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
-        if (SaveData == null)
+        if (StoryData == null)
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
@@ -132,6 +142,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+            _levelUIProviderBuildMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
         }
     }
     private void OnApplicationQuit()
@@ -166,14 +177,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
-            // StoryData.Stats = _gameStatsHandler.GetStatsToSave();
+            StoryData.Stats.Clear();
+            StoryData.Stats.AddRange(_gameStatsHandler.GetStatsToSave());
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
-            // StoryData.WardrobeSaveDatas = SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians);
+            StoryData.WardrobeSaveDatas.Clear();
+            StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
-            SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
-            // SaveData.Contacts = _levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData();
+            StoryData.Contacts.Clear();
+            StoryData.Contacts.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData());
+            if (_levelUIProviderBuildMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
+            {
+                StoryData.CurrentPhoneMinute = _levelUIProviderBuildMode.PhoneUIHandler.PhoneTime.CurrentMinute;
+            }
+            SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveLevelProgress();
         }
     }
@@ -201,6 +219,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent, _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider,
             () =>
             {
+                LevelUIView.PhoneUIView = _phoneView;
+                _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneSiblingIndex);
                 _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
             });
@@ -226,7 +246,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
         if (LoadSaveData == true)
         {
-            _globalSound.Construct(SaveData.SoundStatus);
+            _globalSound.Construct(SaveServiceProvider.SaveData.SoundStatus);
         }
         else
         {

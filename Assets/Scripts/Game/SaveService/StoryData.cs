@@ -15,7 +15,7 @@ public class StoryData
     public bool StoryStarted;
     public int MyIndex;
     public int CustomizableCharacterIndex;
-
+    public int CurrentPhoneMinute = -1;
     public BackgroundSaveData BackgroundSaveData;
 
     // public SaveStat[] Stats;

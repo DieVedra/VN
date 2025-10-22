@@ -28,10 +28,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private const int _currentStoryIndex = 0;
     private LevelUIProviderEditMode _levelUIProviderEditMode;
+    private SaveData _saveData;
     private ICharacterProvider _characterProvider => _characterProviderEditMode.CharacterProvider;
-
-    // private SaveServiceProvider _getSaveServiceProvider =>
-    //     SaveServiceProvider == null ? new SaveServiceProvider() : SaveServiceProvider;
     public bool IsInitializing { get; private set; }
     public bool InitializeInEditMode => _initializeInEditMode;
 
@@ -49,66 +47,45 @@ public class LevelEntryPointEditor : LevelEntryPoint
         DisableNodesContentEvent?.Execute();
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
-        StoryData storyData = null;
+        // StoryData StoryData = null;
         SaveServiceProvider = new SaveServiceProvider();
         if (Application.isPlaying &&  LoadSaveData == true)
         {
             if (SaveServiceProvider.LoadSaveData() == true)
             {
-                SaveData = SaveServiceProvider.SaveData;
-                _testMonets = SaveData.Monets;
-                _testHearts = SaveData.Hearts;
-                _wallet = new Wallet(SaveData);
-                Debug.Log($"SaveData.Monets {SaveData.Monets}     {SaveData.StoryDatas.Count}");
-                
-                storyData = SaveData.StoryDatas[_currentStoryIndex];
-                Debug.Log($"2");
-
-                
-                if (storyData.Contacts.Count > 0)
+                _saveData = SaveServiceProvider.SaveData;
+                _testMonets = _saveData.Monets;
+                _testHearts = _saveData.Hearts;
+                _wallet = new Wallet(_saveData);
+                StoryData = _saveData.StoryDatas[_currentStoryIndex];
+                if (StoryData.Contacts.Count > 0)
                 {
-                    _phoneProviderInEditMode.TrySetSaveData(storyData.Contacts.ToArray());
+                    _phoneProviderInEditMode.TrySetSaveData(StoryData.Contacts);
                 }
 
-                if (storyData.Stats.Count > 0)
+                if (StoryData.Stats.Count > 0)
                 {
-                    _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(storyData.Stats.ToArray());
-
+                    _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
                 }
 
-                if (storyData.WardrobeSaveDatas.Count > 0)
+                if (StoryData.WardrobeSaveDatas.Count > 0)
                 {
-                    _characterProviderEditMode.Construct(storyData.WardrobeSaveDatas.ToArray());//?
+                    _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
                 }
                 else
                 {
                     _characterProviderEditMode.Construct();
 
                 }
-                // if (SaveData.StoryDatas != null)
-                // {
-                //     Debug.Log($"SaveData.StoryDatas != null");
-                //     // _phoneProviderInEditMode.TrySetSaveData(SaveData.Contacts);
-                //
-                //     // storyData = SaveData.StoryDatas[_currentStoryIndex];
-                //     _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(storyData.Stats);
-                //     _characterProviderEditMode.Construct(storyData.WardrobeSaveDatas);//?
-                // }
-                // else
-                // {
-                //     Debug.Log($"SaveData.StoryDatas == null");
-                //
-                //     _characterProviderEditMode.Construct();
-                // }
             }
             else
             {
-                Construct();
+                ConstructSave();
             }
         }
         else
         {
-            Construct();
+            ConstructSave();
         }
 
         InitGlobalSound();
@@ -133,12 +110,12 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         if (Application.isPlaying)
         {
-            if (storyData != null)
+            if (StoryData != null)
             {
-                Debug.Log($"StoryData.CurrentSeriaIndex{storyData.CurrentSeriaIndex} StoryData. CurrentNodeGraphIndex{storyData. CurrentNodeGraphIndex} StoryData.CurrentNodeIndex{storyData.CurrentNodeIndex}");
-                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(storyData.CurrentSeriaIndex),
-                   storyData. CurrentNodeGraphIndex, storyData.CurrentNodeIndex);
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
+                   StoryData. CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
                 _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
+                _levelUIProviderEditMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
             }
             else if (_testModeEditor.IsTestMode == true)
             {
@@ -158,9 +135,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
 
-        void Construct()
+        void ConstructSave()
         {
-            SaveData = SaveServiceProvider.SaveData;
+            _saveData = SaveServiceProvider.SaveData;
             _characterProviderEditMode.Construct();
             _wallet = new Wallet(_testMonets, _testHearts);
         }
@@ -183,23 +160,27 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            StoryData storyData = new StoryData();
-            storyData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
-            storyData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
-            storyData.CurrentSeriaIndex = _gameSeriesHandlerEditorMode.CurrentSeriaIndex;
-            Debug.Log($"SaveData CurrentNodeGraphIndex:{_gameSeriesHandlerEditorMode.CurrentNodeGraphIndex} CurrentNodeIndex:{_gameSeriesHandlerEditorMode.CurrentNodeIndex} CurrentSeriaIndex:{_gameSeriesHandlerEditorMode.CurrentSeriaIndex}");
-
-            storyData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
-            storyData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
-            storyData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
-            storyData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
-            storyData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
-            storyData.Contacts.AddRange(_phoneProviderInEditMode.GetSaveData());
-            storyData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
-            
-            // SaveData.StoryDatas[_currentStoryIndex] = storyData;
-            SaveData.StoryDatas.Add(storyData);
-            SaveServiceProvider.SaveService.Save(SaveData);
+            // StoryData StoryData = new StoryData();
+            StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
+            StoryData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
+            StoryData.CurrentSeriaIndex = _gameSeriesHandlerEditorMode.CurrentSeriaIndex;
+            StoryData.Stats.Clear();
+            StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
+            StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
+            StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
+            StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
+            StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
+            StoryData.Contacts.Clear();
+            StoryData.Contacts.AddRange(_phoneProviderInEditMode.GetSaveData());
+            StoryData.WardrobeSaveDatas.Clear();
+            StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
+            if (_levelUIProviderEditMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
+            {
+                StoryData.CurrentPhoneMinute = _levelUIProviderEditMode.PhoneUIHandler.PhoneTime.CurrentMinute;
+            }
+            _saveData.StoryDatas.Clear();
+            _saveData.StoryDatas.Add(StoryData);
+            SaveServiceProvider.SaveService.Save(_saveData);
         }
     }
     private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider)
@@ -222,9 +203,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     protected override void InitGlobalSound()
     {
-        if (SaveData != null && LoadSaveData == true)
+        if (_saveData != null && LoadSaveData == true)
         {
-            levelSoundEditMode.Construct(SaveData.SoundStatus);
+            levelSoundEditMode.Construct(_saveData.SoundStatus);
         }
         else
         {

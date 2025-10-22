@@ -15,7 +15,7 @@ public class GameStatsHandler
     {
         _stats = new List<Stat>();
     }
-    public SaveStat[] GetStatsToSave()
+    public IReadOnlyList<SaveStat> GetStatsToSave()
     {
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
@@ -23,7 +23,7 @@ public class GameStatsHandler
             baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value, _stats[i].ShowKey));
         }
     
-        return baseStats.ToArray();
+        return baseStats;
     }
 
     public List<Stat> GetGameStatsForm()
@@ -48,11 +48,11 @@ public class GameStatsHandler
         return stats;
     }
 
-    public void UpdateStatFromSave(SaveStat[] saveStats)
+    public void UpdateStatFromSave(IReadOnlyList<SaveStat> saveStats)
     {
         for (int i = 0; i < _stats.Count; i++)
         {
-            for (int j = 0; j < saveStats.Length; j++)
+            for (int j = 0; j < saveStats.Count; j++)
             {
                 if (_stats[i].NameKey == saveStats[j].NameKey && (saveStats[j].Value != _stats[i].Value) == false)
                 {
@@ -129,7 +129,7 @@ public class GameStatsHandler
         }
         return result;
     }
-    public void AddNextSeriaStats(List<Stat> stats)
+    public void AddNextSeriaStats(IReadOnlyList<Stat> stats)
     {
         if (stats != null && stats.Count > 0)
         {

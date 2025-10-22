@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
 {
@@ -22,7 +23,9 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     private PhoneContactCombiner _phoneContactCombiner;
     private PhoneCreatorBuildMode _phoneCreator;
     private PhoneSaveHandler _phoneSaveHandler;
-    private PhoneAddedContact[] _saveData;
+    private IReadOnlyList<PhoneAddedContact> _saveDataContacts;
+    public IParticipiteInLoad PhoneDataProviderParticipiteInLoad => _dataProviders;
+    public IParticipiteInLoad PhoneContactsProviderParticipiteInLoad => _contactsToSeriaProviders;
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
     private bool _phoneSystemInitilized;
 
@@ -55,14 +58,13 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
             _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
     }
 
-    public void TrySetSaveData(PhoneAddedContact[] saveData)
+    public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> saveDataContacts)
     {
-        _saveData = saveData;
+        _saveDataContacts = saveDataContacts;
     }
-    public PhoneAddedContact[] GetSaveData()
+    public IReadOnlyList<PhoneAddedContact> GetSaveData()
     {
-        _saveData = _phoneSaveHandler.GetSaveData(_phones);
-        return _saveData;
+        return _phoneSaveHandler.GetSaveData(_phones);
     }
     public void Dispose()
     {
@@ -77,15 +79,22 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     {
         if (_phones.Count == 0)
         {
+            Debug.Log($"currentSeriaIndex999  _phones {_phones.Count}");
+
             _phoneCreator.CreatePhonesOnStart(_phones, currentSeriaIndex);
-            if (_saveData != null)
+            Debug.Log($"currentSeriaIndex0  _phones {_phones.Count}");
+
+            if (_saveDataContacts != null)
             {
-                _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders.GetDatas, _saveData, currentSeriaIndex);
+                _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders.GetDatas, _saveDataContacts, currentSeriaIndex);
             }
+            Debug.Log($"currentSeriaIndex1 {currentSeriaIndex}  _phones {_phones.Count}");
         }
         else
         {
             _phoneCreator.TryAddDataToIntegratedContactsAndTryCreateNewPhones(_phones, currentSeriaIndex);
+            Debug.Log($"currentSeriaIndex2 {currentSeriaIndex}  _phones {_phones.Count}");
+
         }
         return _phones;
     }

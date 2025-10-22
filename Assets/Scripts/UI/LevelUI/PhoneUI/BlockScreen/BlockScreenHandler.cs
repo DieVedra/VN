@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
+public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
 {
     private const float _startPosX = 0f;
     private const float _startPosY = 360f;
@@ -15,7 +15,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _date;
     private readonly Button _blockScreenButton;
     private readonly Image _imageBackground;
-    private LocalizationString _notificationNameLocalizationString = "Получено новое сообщение!";
+    private LocalizationString _notificationNameLocalizationString;
     private CompositeDisposable _compositeDisposable;
     private PhoneContactDataLocalizable _currentContact;
     private LocalizationString _dateLocStr;
@@ -26,7 +26,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private IReadOnlyList<PhoneContactDataLocalizable> _phoneContactDatasLocalizable;
     private Vector2 _nextPos = new Vector2();
     public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
-        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, ReactiveCommand switchToContactsScreenCommand)
+        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, LocalizationString notificationNameLocalizationString, ReactiveCommand switchToContactsScreenCommand)
     :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
     {
         _notificationViewPool = notificationViewPool;
@@ -36,6 +36,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _date = blockScreenViewBackground.Data;
         _blockScreenButton = blockScreenViewBackground.BlockScreenButton;
         _imageBackground = blockScreenViewBackground.ImageBackground;
+        _notificationNameLocalizationString = notificationNameLocalizationString;
         _blockScreenButton.enabled = false;
     }
     
@@ -162,9 +163,9 @@ public class BlockScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         _date.text = _dateLocStr;
     }
-    public IReadOnlyList<LocalizationString> GetLocalizableContent()
-    {
-        
-        return new[] {_notificationNameLocalizationString};
-    }
+    // public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    // {
+    //     
+    //     return new[] {_notificationNameLocalizationString};
+    // }
 }

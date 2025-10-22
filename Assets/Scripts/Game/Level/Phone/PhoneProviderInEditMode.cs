@@ -18,7 +18,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     private List<Phone> _phones;
     private Dictionary<string, PhoneContactDataLocalizable> _contactsAddToPhone;
     private PhoneCreatorEditMode _phoneCreator;
-    private PhoneAddedContact[] _saveContacts;
+    private IReadOnlyList<PhoneAddedContact> _saveContacts;
     private PhoneContactCombiner _phoneContactCombiner;
     private PhoneSaveHandler _phoneSaveHandler;
 
@@ -58,18 +58,13 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
 
     //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
-    public void TrySetSaveData(PhoneAddedContact[] contacts)
+    public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> contacts)
     {
         _saveContacts = contacts;
     }
-    public PhoneAddedContact[] GetSaveData()
+    public IReadOnlyList<PhoneAddedContact> GetSaveData()
     {
-        var a = _phoneSaveHandler.GetSaveData(_phones);
-        Debug.Log($"_saveContacts1  {a.Length}");
-
-        _saveContacts = a;
-        Debug.Log($"_saveContacts2  {_saveContacts.Length}");
-        return _saveContacts;
+        return _phoneSaveHandler.GetSaveData(_phones);
     }
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
@@ -82,6 +77,18 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
                 {
                     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
                 }
+                // Debug.Log($"phone  {phone.NamePhone}");
+
+                foreach (var VARIABLE1 in _phones)
+                {
+                    Debug.Log($"phone  {VARIABLE1.NamePhone}");
+
+                    foreach (var VARIABLE in VARIABLE1.PhoneDataLocalizable.PhoneContactDatasLocalizable)
+                    {
+                        Debug.Log($"VARIABLE  {VARIABLE.NameContact}");
+                    }
+                }
+
                 Debug.Log($"_phones.Count == 0   {_phones.Count}");
             }
             else

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class PhoneSaveHandler
 {
@@ -11,7 +10,7 @@ public class PhoneSaveHandler
     //нужно добавить в телефон контакты с диапазоном контента от  серии добавления контакта до текущей
     // в сообщениях текущей серии должны быть проставлены актуальные ключи прочитанных
 
-    public PhoneAddedContact[] GetSaveData(List<Phone> phones)
+    public IReadOnlyList<PhoneAddedContact> GetSaveData(List<Phone> phones)
     {
         List<PhoneAddedContact> datas = new List<PhoneAddedContact>();
         PhoneContactDataLocalizable phoneContactDataLocalizable;
@@ -22,10 +21,6 @@ public class PhoneSaveHandler
             for (int j = 0; j < count; j++)
             {
                 phoneContactDataLocalizable = phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable[j];
-                // if (phoneContactDataLocalizable.IsAddebleContactKey == true)
-                // {
-                // }
-
                 PhoneAddedContact data = new PhoneAddedContact
                 {
                     PhoneName = phones[i].NamePhone, ContactIndex = j, ContactNameKey = phoneContactDataLocalizable.NameContact.Key,
@@ -33,23 +28,25 @@ public class PhoneSaveHandler
                     LastSeriaReadedMessagesIndexes = GetLastSeriaReadedMessagesIndexes(phoneContactDataLocalizable)
                 };
                 datas.Add(data);
-
             }
         }
-        return datas.ToArray();
+        return datas;
     }
     
     public void AddContactsToPhoneFromSaveData(List<Phone> phones, IReadOnlyList<PhoneContactsProvider> contactsToSeriaProviders,
-        PhoneAddedContact[] saveData, int currentSeriaIndex)
+        IReadOnlyList<PhoneAddedContact> saveDataContacts, int currentSeriaIndex)
     {
         Phone currentPhone = null;
         PhoneAddedContact currentSaveData = null;
-        for (int i = 0; i < saveData.Length; i++)
+        for (int i = 0; i < saveDataContacts.Count; i++)
         {
-            currentSaveData = saveData[i];
-            var contact = CreatePhoneContactDataLocalizable(contactsToSeriaProviders, currentSaveData, currentSeriaIndex);
-            currentPhone = GetCurrentPhone(phones, currentSaveData.PhoneName);
-            currentPhone.PhoneDataLocalizable.InsertPhoneContact(contact, currentSaveData.ContactIndex);
+            currentSaveData = saveDataContacts[i];
+            var contact = TryCreatePhoneContactDataLocalizable(contactsToSeriaProviders, currentSaveData, currentSeriaIndex);
+            if (contact != null)
+            {
+                currentPhone = GetCurrentPhone(phones, currentSaveData.PhoneName);
+                currentPhone.PhoneDataLocalizable.InsertPhoneContact(contact, currentSaveData.ContactIndex);
+            }
         }
     }
     private Phone GetCurrentPhone(List<Phone> phones, string namePhone)
@@ -66,7 +63,7 @@ public class PhoneSaveHandler
         return result;
     }
 
-    private PhoneContactDataLocalizable CreatePhoneContactDataLocalizable(
+    private PhoneContactDataLocalizable TryCreatePhoneContactDataLocalizable(
         IReadOnlyList<PhoneContactsProvider> contactsProviders, PhoneAddedContact data, int currentSeriaIndex)
     {
         string nameKey;
@@ -81,7 +78,6 @@ public class PhoneSaveHandler
                 {
                     phoneContactData = contactsProviders[i].PhoneContactDatas[j];
                     nameKey = LocalizationString.GenerateStableHash(phoneContactData.Name);
-
                     if (data.ContactNameKey == nameKey)
                     {
                         if (contactDataLocalizable == null)

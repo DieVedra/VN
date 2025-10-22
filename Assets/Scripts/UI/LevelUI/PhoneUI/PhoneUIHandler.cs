@@ -13,6 +13,7 @@ public class PhoneUIHandler : ILocalizable
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
     private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
+    private LocalizationString _notificationNameLocalizationString = "Получено новое сообщение!";
     private Action _initOperation;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
@@ -24,7 +25,7 @@ public class PhoneUIHandler : ILocalizable
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private Dictionary<string, ContactInfoToGame> _contactsInfoToGame;
-
+    public PhoneTime PhoneTime => _phoneTime;
     public PhoneUIHandler(PhoneContentProvider phoneContentProvider, NarrativePanelUIHandler narrativePanelUI,
         CustomizationCurtainUIHandler curtainUIHandler, CompositeDisposable compositeDisposable, Action initOperation)
     {
@@ -38,7 +39,8 @@ public class PhoneUIHandler : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return _blockScreenHandler.GetLocalizableContent();
+        return new[] {_notificationNameLocalizationString};
+        // return _blockScreenHandler.GetLocalizableContent();
     }
 
     public void Init(PhoneUIView phoneUIView)
@@ -59,7 +61,7 @@ public class PhoneUIHandler : ILocalizable
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
             phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
         _blockScreenHandler = new BlockScreenHandler(phoneUIView.BlockScreenViewBackground, _topPanelHandler, _phoneContentProvider.NotificationViewPool,
-            _switchToDialogScreenCommand, _switchToContactsScreenCommand);
+            _switchToDialogScreenCommand, _notificationNameLocalizationString, _switchToContactsScreenCommand);
         _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower,
             _topPanelHandler, _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
         _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, messagesShower, _topPanelHandler,
@@ -129,6 +131,17 @@ public class PhoneUIHandler : ILocalizable
         _contactsScreenHandler.Enable(_currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable, _setLocalizationChangeEvent, _switchToNextNodeEvent);
     }
 
+    public void TryRestartPhoneTime(int startMinute)
+    {
+        if (_phoneTime != null)
+        {
+            if (startMinute > 0 && _phoneTime.IsStarted)
+            {
+                _phoneTime.Stop();
+                _phoneTime.Restart(startMinute);
+            }
+        }
+    }
     private void TryStartPhoneTime(int startHour, int startMinute, bool playModeKey)
     {
         if (_phoneTime == null)

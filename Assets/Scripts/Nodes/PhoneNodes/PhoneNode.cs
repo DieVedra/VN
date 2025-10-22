@@ -51,6 +51,7 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
+        Debug.Log($"Phones {Phones.Count}  _phoneIndex{_phoneIndex}");
         _phoneUIHandler.ConstructFromNode(_contactsInfoToGame, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
             _butteryPercent,_startHour, _startMinute);
         switch (_phoneStartScreen)

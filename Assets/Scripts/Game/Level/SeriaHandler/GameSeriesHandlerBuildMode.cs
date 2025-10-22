@@ -29,7 +29,10 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
         CharacterProvider = characterProvider;
-        AddSeria(gameSeriesProvider.LastLoaded);
+        foreach (var seria in gameSeriesProvider.GetDatas)
+        {
+            AddSeria(seria);
+        }
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }

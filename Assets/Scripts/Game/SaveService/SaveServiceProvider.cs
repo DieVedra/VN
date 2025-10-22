@@ -28,7 +28,8 @@ public class SaveServiceProvider
         _saveData.Monets = wallet.GetMonetsCount;
         _saveData.Hearts = wallet.GetHeartsCount;
         _saveData.SoundStatus = globalSound.SoundStatus.Value;
-        _saveData.StoryDatas.AddRange(storiesProvider.GetStoryDatas());
+        storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
+        
         _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
         if (mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName != String.Empty)
         {
@@ -49,7 +50,6 @@ public class SaveServiceProvider
             // _saveData.NameStartStory = loadedSave.NameStartStory;
             // _saveData.StoryDatas = loadedSave.StoryDatas;
             
-            Debug.Log($"_saveData.StoryDatas1  {_saveData.StoryDatas.Count}");
 
             // _saveData.LanguageLocalizationKey = loadedSave.LanguageLocalizationKey;
         }
@@ -58,7 +58,6 @@ public class SaveServiceProvider
             SaveHasBeenLoaded = false;
             Debug.Log($"SaveData: false");
         }
-        Debug.Log($"_saveData.StoryDatas2  {_saveData.StoryDatas.Count}");
 
         return SaveHasBeenLoaded;
     }
@@ -75,7 +74,7 @@ public class SaveServiceProvider
     {
         if (SaveHasBeenLoaded == false)
         {
-            _saveData.StoryDatas.AddRange(storiesProvider.GetStoryDatas());
+            storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
         }
     }
     public void TrySetStartStory(string nameStartStory)

@@ -1,6 +1,5 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PhoneCreatorBuildMode : PhoneCreator
 {
@@ -14,12 +13,30 @@ public class PhoneCreatorBuildMode : PhoneCreator
     
     public void CreatePhonesOnStart(List<Phone> phones, int currentSeriaIndex)
     {
-        if (phones.Count > 0)
+
+        //собирает все даты по сериям в список который идет для создания телефона
+        var a = GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex);
+        if (a.Count == 0)
         {
-            //собирает все даты по сериям в список который идет для создания телефона
-            Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
-                GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
-            TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
+            Debug.Log($"a.Count == 0");
+
         }
+
+        for (int i = 0; i < a.Count; i++)
+        {
+            Debug.Log($"a{i} {a[i]}");
+        }
+
+        // Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
+        //     GetAllDataProvidersWithContentFromPreviousSeries(currentSeriaIndex), currentSeriaIndex);
+        Dictionary<string, PhoneDataLocalizable> phoneDatas = CombineIntoOneNewPhoneDataWithContentFromPreviousSeries(
+            a, currentSeriaIndex);
+        foreach (var VARIABLE in phoneDatas)
+        {
+            Debug.Log($"VARIABLE {VARIABLE.Key}");
+
+        }
+
+        TryCreatePhones(phones, phoneDatas, currentSeriaIndex);
     }
 }

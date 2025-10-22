@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -16,20 +17,9 @@ public class BackgroundBuildMode : Background
         BackgroundContentAdditionalSpriteRendererCreator = spriteRendererCreatorBuild;
         SetArtShower();
         InitWardrobeBackground();
-        if (backgroundDataProvider.LocationDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
-        {
-            InitLocations(backgroundDataProvider.GetLocationDatas[LevelLoadDataHandler.IndexFirstSeriaData]);
-        }
-
-        if (backgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
-        {
-            InitAdditionalImages(backgroundDataProvider.GetAdditionalImagesDatas[LevelLoadDataHandler.IndexFirstSeriaData]);
-        }
-
-        if (backgroundDataProvider.ArtsDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
-        {
-            InitArts(backgroundDataProvider.GetArtsDatas[LevelLoadDataHandler.IndexFirstSeriaData]);
-        }
+        
+        
+        InitContent(backgroundDataProvider);
 
         _backgroundContentCreator.OnCreateContent += InitLocations;
         _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(InitAdditionalImages);
@@ -41,7 +31,32 @@ public class BackgroundBuildMode : Background
             TryAddAddebleContentToBackgroundContent(BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage, BackgroundContent.Count);
         }
     }
-    
+
+    private void InitContent(BackgroundDataProvider backgroundDataProvider)
+    {
+        if (backgroundDataProvider.LocationDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
+        {
+            Foo(backgroundDataProvider.GetLocationDatas, InitLocations);
+        }
+
+        if (backgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
+        {
+            Foo(backgroundDataProvider.GetAdditionalImagesDatas, InitAdditionalImages);
+        }
+
+        if (backgroundDataProvider.ArtsDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
+        {
+            Foo(backgroundDataProvider.GetArtsDatas, InitArts);
+        }
+        void Foo(IReadOnlyList<BackgroundData> datas, Action<BackgroundData> operation)
+        {
+            for (int i = 0; i < datas.Count; i++)
+            {
+                operation.Invoke(datas[i]);
+            }
+        }
+    }
+
     private void SetArtShower()
     {
         ArtShower = _backgroundContentCreator.ArtShower;
@@ -57,12 +72,19 @@ public class BackgroundBuildMode : Background
 
     private void InitLocations(BackgroundData backgroundData)
     {
-        for (int i = 0; i < _backgroundContentCreator.InstantiatedBackgroundContent.Count; ++i)
+        BackgroundContentValues values = null;
+        BackgroundContent content = null;
+        for (int i = 0; i < backgroundData.BackgroundContentValues.Count; i++)
         {
-            InitBackgroundContent(_backgroundContentCreator.InstantiatedBackgroundContent[i],
-                backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite),
-                backgroundData.BackgroundContentValues[i]);
-            BackgroundContent.Add(_backgroundContentCreator.InstantiatedBackgroundContent[i]);
+            content = _backgroundContentCreator.TryGetInstantiatedBackgroundContent();
+            if (content != null)
+            {
+                values = backgroundData.BackgroundContentValues[i];
+                InitBackgroundContent(
+                    content,
+                    backgroundData.GetSprite(values.NameSprite), values);
+                BackgroundContent.Add(content);
+            }
         }
     }
     private void InitBackgroundContent(BackgroundContent backgroundContent, Sprite sprite, BackgroundContentValues backgroundContentValues)

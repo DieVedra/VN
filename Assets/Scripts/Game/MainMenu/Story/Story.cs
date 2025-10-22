@@ -76,14 +76,6 @@ public class Story  : ILocalizable
         _currentSeriaIndex = 0;
         _isLiked.Value = false;
         _storyStarted = false;
-        // if (_storyData != null)
-        // {
-        //     _storyData.Stats = null;
-        //     _storyData.IsLiked = false;
-        //     _storyData.CurrentNodeIndex = 0;
-        //     _storyData.CurrentProgressPercent = 0;
-        //     _storyData.CurrentSeriaIndex = 0;
-        // }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

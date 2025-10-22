@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using TMPro;
 
 public class PhoneTime
 {
     private const string _separ1 = ":";
-    private const string _separ2 = ".";
     private const float _delay = 60f;
     private const int _lastMinute = 59;
     private const int _maxMinute = 60;
     private const int _firstMinute = 0;
-    private int _currentHour;
-    private int _currentMinute;
     private CancellationTokenSource _cancellationTokenSource;
+    private int _currentHour;
+    public int CurrentMinute { get; private set; }
     public bool IsStarted { get; private set; }
     
     public string GetCurrentTime()
     {
-        return $"{_currentHour.ToString()}{_separ1}{_currentMinute.ToString()}";
+        return $"{_currentHour.ToString()}{_separ1}{CurrentMinute.ToString()}";
+    }
+
+    public void Restart(int startMinute)
+    {
+        Start(_currentHour, startMinute, true).Forget();
     }
     public async UniTask Start(int startHour, int startMinute, bool playModeKey)
     {
@@ -33,13 +36,13 @@ public class PhoneTime
                 while (IsStarted)
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
-                    if (_currentMinute == _lastMinute)
+                    if (CurrentMinute == _lastMinute)
                     {
-                        _currentMinute = _firstMinute;
+                        CurrentMinute = _firstMinute;
                     }
                     else
                     {
-                        _currentMinute++;
+                        CurrentMinute++;
                     }
                 }
             }
@@ -56,11 +59,11 @@ public class PhoneTime
 
         if (startMinute < _maxMinute && startMinute > _firstMinute)
         {
-            _currentMinute = startMinute;
+            CurrentMinute = startMinute;
         }
         else
         {
-            _currentMinute = _firstMinute;
+            CurrentMinute = _firstMinute;
         }
     }
 

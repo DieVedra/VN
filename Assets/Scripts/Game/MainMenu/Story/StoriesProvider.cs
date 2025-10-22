@@ -49,19 +49,24 @@ public class StoriesProvider : ScriptableObject
         }
         return result;
     }
-    public StoryData[] GetStoryDatas()
+    public void TryUpdateStoryDatas(IReadOnlyList<StoryData> datas)
     {
-        List<StoryData> storyDatas = new List<StoryData>(_stories.Count);
-        for (int i = 0; i < _stories.Count; i++)
+        StoryData storyData = null;
+        for (int i = 0; i < datas.Count; i++)
         {
-            StoryData storyData = new StoryData();
-            storyData.IsLiked = _stories[i].IsLiked;
-            storyData.MyIndex = _stories[i].MyIndex;
-            storyData.StoryName = _stories[i].StoryName;
-            storyData.StoryStarted = _stories[i].StoryStarted;
-            storyDatas.Add(storyData);
+            storyData = datas[i];
+            for (int j = 0; j < _stories.Count; j++)
+            {
+                if (storyData.StoryName == _stories[j].StoryName)
+                {
+                    storyData.IsLiked = _stories[i].IsLiked;
+                    storyData.MyIndex = _stories[i].MyIndex;
+                    storyData.StoryName = _stories[i].StoryName;
+                    storyData.StoryStarted = _stories[i].StoryStarted;
+                    break;
+                }
+            }
         }
-        return storyDatas.ToArray();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

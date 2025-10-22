@@ -14,13 +14,10 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
     public SeriaGameStatsProviderBuild()
     {
         BaseCompositeDisposable = new CompositeDisposable();
+        _gameStatsHandler = new GameStatsHandler();
         OnLoad.Subscribe(_ =>
         {
-            if (_gameStatsHandler == null)
-            {
-                _gameStatsHandler = new GameStatsHandler();
-            }
-            _gameStatsHandler.AddNextSeriaStats(_.Stats.ToList());
+            _gameStatsHandler.AddNextSeriaStats(_.Stats);
         }).AddTo(BaseCompositeDisposable);
     }
 

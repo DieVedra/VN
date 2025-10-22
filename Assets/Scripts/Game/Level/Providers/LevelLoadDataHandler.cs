@@ -1,11 +1,13 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class LevelLoadDataHandler
 {
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
+    private const int _numberFirstSeria = 1;
     private readonly PanelsLocalizationHandler _panelsLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
@@ -28,13 +30,13 @@ public class LevelLoadDataHandler
         LevelLocalizationProvider levelLocalizationProvider, Func<UniTask> createPhoneView,
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
-        OnContentIsLoadProperty<bool> onContentIsLoadProperty, int numberFirstSeria = 1)
+        OnContentIsLoadProperty<bool> onContentIsLoadProperty)
     {
         _panelsLocalizationHandler = panelsLocalizationHandler;
         _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
-        _currentSeriaLoadedNumberProperty.SetValue(numberFirstSeria);
+        _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
@@ -43,16 +45,20 @@ public class LevelLoadDataHandler
         BackgroundDataProvider = new BackgroundDataProvider();
         PhoneProviderInBuildMode = new PhoneProviderInBuildMode(createPhoneView);
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
-            CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
-            CharacterProviderBuildMode.CustomizableCharacterDataProviderParticipiteInLoad,
-            GameSeriesProvider, SeriaGameStatsProviderBuild,
-            AudioClipProvider.AmbientAudioDataProviderParticipiteInLoad,
-            AudioClipProvider.MusicAudioDataProviderParticipiteInLoad,
+            GameSeriesProvider,
+            SeriaGameStatsProviderBuild,
             BackgroundDataProvider.ArtsDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.LocationDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.WardrobeBackgroundDataLoadProviderParticipiteInLoad,
-            _backgroundContentCreator, _levelLocalizationProvider);
+            _backgroundContentCreator,
+            CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
+            CharacterProviderBuildMode.CharactersProviderParticipiteInLoad,
+            AudioClipProvider.AmbientAudioDataProviderParticipiteInLoad,
+            AudioClipProvider.MusicAudioDataProviderParticipiteInLoad,
+            PhoneProviderInBuildMode.PhoneDataProviderParticipiteInLoad,
+            PhoneProviderInBuildMode.PhoneContactsProviderParticipiteInLoad,
+            _levelLocalizationProvider);
         switchToNextSeriaEvent.Subscribe(OnSwitchToNextSeria);
     }
 
@@ -68,8 +74,10 @@ public class LevelLoadDataHandler
         _backgroundContentCreator.Dispose();
         PhoneProviderInBuildMode.Dispose();
     }
-    public async UniTask LoadStartSeriaContent()
+    public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
+        Debug.Log($"LoadStartSeriaContent1  _currentSeriaLoadedNumber {_currentSeriaLoadedNumber}  _indexFirstName {_indexFirstName}");
+
         BackgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
         {
             _backgroundContentCreator.SetCurrentBackgroundData(_);
@@ -83,13 +91,32 @@ public class LevelLoadDataHandler
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
+        
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
+        
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
+
+        if (storyData != null)
+        {
+            PhoneProviderInBuildMode.TrySetSaveData(storyData.Contacts);
+
+            for (int i = 0; i < storyData.CurrentSeriaIndex; i++)
+            {
+                Debug.Log($"LoadNextSeriesContent(){i}  1");
+
+                await LoadNextSeriesContent();
+                Debug.Log($"LoadNextSeriesContent(){i}  2");
+
+            }
+        }
+        
+        Debug.Log($"LoadStartSeriaContent2  _currentSeriaLoadedNumber {_currentSeriaLoadedNumber}  _indexFirstName {_indexFirstName}");
+
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 
-    public async UniTaskVoid LoadNextSeriesContent()
+    public async UniTask LoadNextSeriesContent()
     {
         if (_currentSeriaLoadedNumber < _seriesCount)
         {
@@ -103,6 +130,10 @@ public class LevelLoadDataHandler
             
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
+            // if (saveDataKey == false)
+            // {
+            // }
+
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);

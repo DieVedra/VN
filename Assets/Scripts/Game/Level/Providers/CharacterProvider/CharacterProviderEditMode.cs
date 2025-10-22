@@ -13,7 +13,7 @@ public class CharacterProviderEditMode : MonoBehaviour, ILocalizable
     private CharactersCreator _charactersCreator;
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
     public ICharacterProvider CharacterProvider => _charactersCreator;
-    public void Construct(WardrobeSaveData[] wardrobeSaveDatas = null)
+    public void Construct(IReadOnlyList<WardrobeSaveData> wardrobeSaveDatas = null)
     {
         _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
         _charactersCreator = new CharactersCreator(_charactersDataProviders, _charactersProvider,
@@ -33,7 +33,7 @@ public class CharacterProviderEditMode : MonoBehaviour, ILocalizable
         
         if (wardrobeSaveDatas != null)
         {
-            for (int i = 0; i < wardrobeSaveDatas.Length; i++)
+            for (int i = 0; i < wardrobeSaveDatas.Count; i++)
             {
                 _customizableCharacterIndexesCustodians.Add(
                     wardrobeSaveDatas[i].NameKey, 

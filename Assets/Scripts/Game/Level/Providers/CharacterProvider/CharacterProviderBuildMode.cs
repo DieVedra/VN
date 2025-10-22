@@ -13,7 +13,7 @@ public class CharacterProviderBuildMode : ILocalizable
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
 
     public IParticipiteInLoad CharactersDataProviderParticipiteInLoad => _charactersDataProvider;
-    public IParticipiteInLoad CustomizableCharacterDataProviderParticipiteInLoad => null;
+    public IParticipiteInLoad CharactersProviderParticipiteInLoad => _charactersProvider;
     public ICharacterProvider CharacterProvider => _charactersCreator;
 
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;

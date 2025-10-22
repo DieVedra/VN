@@ -11,15 +11,14 @@ public class BackgroundContentCreator : IParticipiteInLoad
     private readonly Transform _parent;
     private readonly SpriteRendererAssetProvider _spriteRendererAssetProvider;
     private readonly BackgroundContentAssetProvider _backgroundContentAssetProvider;
-    private List<BackgroundContent> _instantiatedBackgroundContent;
+    private readonly Queue<BackgroundContent> _instantiatedBackgroundContent;
     private List<int> _percentsNumbers;
     private BackgroundData _backgroundData;
     public BackgroundContent WardrobeBackground { get; private set; }
     public SpriteRenderer ArtShower { get; private set; }
 
-    private int _contentCount;
+    private int _createContentCount;
     private int _percentCalculatedCount;
-    public IReadOnlyList<BackgroundContent> InstantiatedBackgroundContent => _instantiatedBackgroundContent;
     public bool ParticipiteInLoad { get; private set;}
     public int PercentComplete { get; private set; }
 
@@ -31,6 +30,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
         _spriteRendererAssetProvider = spriteRendererAssetProvider;
         _backgroundContentAssetProvider = new BackgroundContentAssetProvider();
         PercentComplete = _minPercent;
+        _instantiatedBackgroundContent = new Queue<BackgroundContent>();
         ParticipiteInLoad = true;
     }
 
@@ -39,6 +39,17 @@ public class BackgroundContentCreator : IParticipiteInLoad
         _backgroundContentAssetProvider.Abort();
         _spriteRendererAssetProvider.Abort();
         ParticipiteInLoad = false;
+    }
+    public BackgroundContent TryGetInstantiatedBackgroundContent()
+    {
+        if (_instantiatedBackgroundContent.Count > 0)
+        {
+            return _instantiatedBackgroundContent.Dequeue();
+        }
+        else
+        {
+            return default;
+        }
     }
     public void SetDefault()
     {
@@ -60,14 +71,14 @@ public class BackgroundContentCreator : IParticipiteInLoad
 
             if (WardrobeBackground == null)
             {
-                _contentCount++;
+                _createContentCount++;
             }
 
-            _contentCount += _backgroundData.BackgroundContentValues.Count;
+            _createContentCount += _backgroundData.BackgroundContentValues.Count;
             InitPercentCalculate();
-            for (int j = 0; j < _contentCount; ++j)
+            for (int j = 0; j < _createContentCount; ++j)
             {
-                _instantiatedBackgroundContent.Add(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
+                _instantiatedBackgroundContent.Enqueue(await _backgroundContentAssetProvider.GetBackgroundContent(_parent));
                 _percentsNumbers[j] = _maxPercent;
                 UpdatePercentComplete();
             }
@@ -81,12 +92,11 @@ public class BackgroundContentCreator : IParticipiteInLoad
 
             if (WardrobeBackground == null)
             {
-                WardrobeBackground = _instantiatedBackgroundContent[_instantiatedBackgroundContent.Count - 1];
-                _instantiatedBackgroundContent.RemoveAt(_instantiatedBackgroundContent.Count - 1);
+                WardrobeBackground = _instantiatedBackgroundContent.Dequeue();
             }
 
             PercentComplete = _maxPercent;
-            _contentCount = _minCount;
+            _createContentCount = _minCount;
             OnCreateContent?.Invoke(_backgroundData);
             _backgroundData = null;
         }
@@ -98,15 +108,15 @@ public class BackgroundContentCreator : IParticipiteInLoad
         {
             _percentCalculatedCount++;
         }
-        if (_contentCount == _minCount)
+        
+        if (_createContentCount == _minCount)
         {
             PercentComplete = _maxPercent;
             return;
         }
         else
         {
-            _percentCalculatedCount += _contentCount;
-            _instantiatedBackgroundContent = new List<BackgroundContent>();
+            _percentCalculatedCount += _createContentCount;
             PercentComplete = _minPercent;
         }
         _percentsNumbers = new List<int>(_percentCalculatedCount);
