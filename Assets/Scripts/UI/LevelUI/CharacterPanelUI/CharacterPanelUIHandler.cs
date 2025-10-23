@@ -24,7 +24,6 @@ public class CharacterPanelUIHandler
     private readonly AnimationPanelWithScale _animationPanelWithScale;
     private readonly TextBlockPositionHandler _textBlockPositionHandler;
     private readonly TextMeshProUGUI _talkTextComponent;
-    private readonly LineBreaksCountCalculator _lineBreaksCountCalculator;
     private readonly RectTransform _talkTextRectTransform;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
     public AnimationPanelWithScale AnimationPanelWithScale => _animationPanelWithScale;

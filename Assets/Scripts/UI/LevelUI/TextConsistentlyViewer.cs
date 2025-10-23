@@ -62,7 +62,7 @@ public class TextConsistentlyViewer
         List<int> indexes = new List<int>();
         for (int i = 0; i < _stringBuilder.Length; i++)
         {
-            if (_stringBuilder[i] == ' ')
+            if (_stringBuilder[i] == _separator)
             {
                 if (i != _stringBuilder.Length - 1)
                 {

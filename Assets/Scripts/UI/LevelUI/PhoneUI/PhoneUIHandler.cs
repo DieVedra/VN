@@ -8,6 +8,11 @@ using UnityEngine.UI;
 
 public class PhoneUIHandler : ILocalizable
 {
+    private const float _scale = 1f;
+    private const float _left = 439f;
+    private const float _top = -1010f;
+    private const float _right = -439f;
+    private const float _bottom = 1010f;
     private readonly PhoneContentProvider _phoneContentProvider;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
@@ -40,7 +45,6 @@ public class PhoneUIHandler : ILocalizable
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[] {_notificationNameLocalizationString};
-        // return _blockScreenHandler.GetLocalizableContent();
     }
 
     public void Init(PhoneUIView phoneUIView)
@@ -51,6 +55,19 @@ public class PhoneUIHandler : ILocalizable
         });
         _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
         _phoneUIGameObject = phoneUIView.gameObject;
+        RectTransform rectTransform = phoneUIView.transform as RectTransform;
+        var pos = new Vector3(_scale, _scale, _scale);
+        rectTransform.localScale = pos;
+        pos.x = _left;
+        pos.y = _bottom;
+        rectTransform.offsetMin = pos; //left, bottom
+        pos.x = _right;
+        pos.y = _top;
+        rectTransform.offsetMax = pos; //right, top
+        pos.x = rectTransform.localPosition.x;
+        pos.y = rectTransform.localPosition.y;
+        pos.z = 0;
+        rectTransform.localPosition = pos;
         var contactsShower = new ContactsShower(
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),

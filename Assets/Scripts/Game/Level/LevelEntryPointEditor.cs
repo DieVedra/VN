@@ -47,7 +47,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
         DisableNodesContentEvent?.Execute();
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
-        // StoryData StoryData = null;
         SaveServiceProvider = new SaveServiceProvider();
         if (Application.isPlaying &&  LoadSaveData == true)
         {
@@ -160,7 +159,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
-            // StoryData StoryData = new StoryData();
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerEditorMode.CurrentSeriaIndex;

@@ -75,9 +75,12 @@ public class AppStarter
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, panelsLocalizationHandler.LanguageChanged,
                 swipeDetectorOff);
+        MainMenuUIProvider mainMenuUIProvider = result.Item1;
+        MainMenuUIView mainMenuUIView = result.Item2;
+        Transform tr = result.Item3;
         
         panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(ListExtensions.MergeIReadOnlyLists(
-                result.Item1.GetLocalizableContent(),
+            mainMenuUIProvider.GetLocalizableContent(),
                 storiesProvider.GetLocalizableContent()));
         if (loadScreenUIHandler.IsStarted == false)
         {
@@ -93,16 +96,18 @@ public class AppStarter
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
 
-        var levelLoader = LevelLoaderCreate(result.Item1, onSceneTransition, saveServiceProvider, result.Item3, storiesProvider);
+        var levelLoader = LevelLoaderCreate(mainMenuUIProvider, onSceneTransition, saveServiceProvider, tr, storiesProvider);
 
 
         var startIndexStory = storiesProvider.GetIndexByName(saveServiceProvider.SaveData.NameStartStory);
-        await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, result.Item1, result.Item2, result.Item3,
-            storiesProvider, startIndexStory);
 
 
         await prefabsProvider.Init();
-        result.Item2.gameObject.SetActive(true);
+        mainMenuUIView.gameObject.SetActive(true);
+        await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, mainMenuUIView, tr/*,
+            storiesProvider, startIndexStory*/);
+        await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
+            levelLoader, startIndexStory);
 
 
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
@@ -136,12 +141,12 @@ public class AppStarter
 
     private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, 
         MainMenuUIProvider mainMenuUIProvider,
-        MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider, int startIndexStory)
+        MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform/*, StoriesProvider storiesProvider, int startIndexStory*/)
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
         await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
-        await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
-            levelLoader, startIndexStory);
+        // await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
+        //     levelLoader, startIndexStory);
         mainMenuUIProvider.SettingsButtonUIHandler.BaseInit(mainMenuUIView.SettingsButtonView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler,
             soundStatus, localizationChanger);
         mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();

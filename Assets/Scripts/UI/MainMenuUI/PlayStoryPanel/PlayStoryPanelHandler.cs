@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,6 +13,7 @@ public class PlayStoryPanelHandler : ILocalizable
 {
     private readonly LocalizationString _seriaText = "Серия";
     private readonly LocalizationString _playButtonText = "Играть";
+    private ContentHeightCalculator _contentHeightCalculator;
     private LevelLoader _levelLoader;
     private readonly Transform _parent;
     private PlayStoryPanel _playStoryPanel;
@@ -55,6 +57,8 @@ public class PlayStoryPanelHandler : ILocalizable
         _playStoryPanel.transform.SetSiblingIndex(_playStoryPanel.HierarchyIndex);
         _rectTransformPanel = _playStoryPanel.GetComponent<RectTransform>();
         _hideScale = new Vector2(_playStoryPanel.HideScaleValue, _playStoryPanel.HideScaleValue);
+        _contentHeightCalculator = new ContentHeightCalculator(_playStoryPanel.TextDescription);
+
         _unhideScale = _rectTransformPanel.localScale;
         _rectTransformPanel.localScale = _hideScale;
         _cancellationTokenSource = new CancellationTokenSource();
@@ -77,8 +81,8 @@ public class PlayStoryPanelHandler : ILocalizable
         InitLikeButton();
         _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
         _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
-        _playStoryPanel.TextDescription.text = story.Description;
-        
+
+        _contentHeightCalculator.UpdateTextSize(story.Description);
         _playStoryPanel.gameObject.SetActive(true);
         _playStoryPanel.PlayButtonText.text = _playButtonText;
         await UniTask.WhenAll(

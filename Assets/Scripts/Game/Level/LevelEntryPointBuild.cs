@@ -62,32 +62,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
         if (LoadSaveData == true)
         {
             StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-
-            // if (StoryData == null)
-            // {
-            //     Debug.Log($"StoryData == null   {SaveServiceProvider.SaveData.StoryDatas.Count} {SaveServiceProvider.CurrentStoryIndex}");
-            // }
-            // else
-            // {
-            //     Debug.Log($"StoryData != null  {SaveServiceProvider.SaveData.StoryDatas.Count} {SaveServiceProvider.CurrentStoryIndex}");
-            //
-            // }
-            
-            
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
-                _onContentIsLoadProperty/*,
-                CurrentSeriaNumberProvider.GetCurrentSeriaNumber(_currentSeriaIndexReactiveProperty.Value)*/);
+                _onContentIsLoadProperty);
         }
         else
         {
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
-
-        Debug.Log(4444);
-
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         await InitLevelUIProvider();
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
@@ -107,7 +91,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private async UniTask CreatePhoneView()
     {
-        _phoneView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView(_globalUIHandler.GlobalUITransforn);
+        _phoneView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView();
     }
     private void Init()
     {

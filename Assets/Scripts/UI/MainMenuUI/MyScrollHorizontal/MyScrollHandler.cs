@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -23,9 +22,10 @@ public class MyScrollHandler : ILocalizable
     private readonly RectTransform _transform;
     private readonly RectTransform _content;
     private readonly HorizontalLayoutGroup _contentLayoutGroup;
+    private readonly ContentSizeFitter _contentSizeFitter;
     private readonly RectTransform _swipeAreaRect;
     private readonly RectTransform _swipeProgressIndicatorsParent;
-
+    private readonly DescriptionCutter _descriptionCutter;
     private readonly ReactiveProperty<int> _currentIndex;
     private readonly ReactiveProperty<bool> _isRightMove;
     private readonly ReactiveCommand _languageChanged;
@@ -67,6 +67,10 @@ public class MyScrollHandler : ILocalizable
         _languageChanged = languageChanged;
         _swipeDetectorOff = swipeDetectorOff;
         _contentLayoutGroup = _content.GetComponent<HorizontalLayoutGroup>();
+        _contentSizeFitter = _content.GetComponent<ContentSizeFitter>();
+        _contentSizeFitter.enabled = false;
+        _contentLayoutGroup.enabled = false;
+        _descriptionCutter = new DescriptionCutter();
     }
 
     public async UniTask Construct(IReadOnlyList<Story> stories, PlayStoryPanelHandler playStoryPanelHandler,
@@ -87,6 +91,7 @@ public class MyScrollHandler : ILocalizable
         if (_contentCount > 0)
         {
             _contentLayoutGroup.enabled = true;
+            _contentSizeFitter.enabled = true;
             _swipeDetector = new SwipeDetector(_pressInputAction, _positionInputAction, _swipeAreaRect, _contentCount == 1 ? _sensitivitySlider * _halfMultiplier : _sensitivitySlider);
             await CreateContent(playStoryPanelHandler, levelLoader);
             _content.anchoredPosition = Vector2.zero;
@@ -134,13 +139,15 @@ public class MyScrollHandler : ILocalizable
                     _swipeDetector.Enable();
                 }
             });
+            _contentSizeFitter.enabled = false;
+
             _contentLayoutGroup.enabled = false;
         }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new LocalizationString[] {_buttonOpenText, _buttonContinueText };
+        return new [] {_buttonOpenText, _buttonContinueText };
     }
 
     public void Dispose()
@@ -197,13 +204,18 @@ public class MyScrollHandler : ILocalizable
             {
                 panel.ImageBackground.sprite = _stories[i].SpriteStorySkin;
                 panel.ImageLabel.sprite = _stories[i].SpriteLogo;
-                panel.TextDescription.text = _stories[i].Description;
+
 
                 InitContinueButton(panel, _stories[i], levelLoader);
                 InitOpenButton(panel, _stories[i], playStoryPanelHandler);
+                // panel.TextDescription.text = _stories[i].Description;
+                panel.gameObject.SetActive(true);
+                _descriptionCutter.TryCutAndSet(panel.TextDescription, _stories[i].Description);
             }
-
-            panel.gameObject.SetActive(true);
+            else
+            {
+                panel.gameObject.SetActive(true);
+            }
         }
     }
 

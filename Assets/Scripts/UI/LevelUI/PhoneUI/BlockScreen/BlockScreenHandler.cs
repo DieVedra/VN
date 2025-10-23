@@ -70,13 +70,6 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
         {
             for (int i = 0; i < _phoneContactDatasLocalizable.Count; i++)
             {
-                if (_phoneContactDatasLocalizable[i] == null)
-                {
-                    Debug.Log($"_phoneContactDatasLocalizable[i] == null");
-                }
-                Debug.Log($"_phoneContactDatasLocalizable[i].IndexSeriaInWhichContactWasAdded {_phoneContactDatasLocalizable[i].IndexSeriaInWhichContactWasAdded}");
-                Debug.Log($"_phoneContactDatasLocalizable[i].NameContact {_phoneContactDatasLocalizable[i].NameContact}");
-                Debug.Log($"_phoneContactDatasLocalizable[i].NameContact.Key {_phoneContactDatasLocalizable[i].NameContact.Key}");
                 if (_contactsInfoToGame.TryGetValue(_phoneContactDatasLocalizable[i].NameContact.Key, out ContactInfoToGame contactInfoToGame))
                 {
                     if (contactInfoToGame.KeyNotification == true)

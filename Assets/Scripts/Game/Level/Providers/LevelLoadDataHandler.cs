@@ -76,13 +76,10 @@ public class LevelLoadDataHandler
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
-        Debug.Log($"LoadStartSeriaContent1  _currentSeriaLoadedNumber {_currentSeriaLoadedNumber}  _indexFirstName {_indexFirstName}");
-
         BackgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
         {
             _backgroundContentCreator.SetCurrentBackgroundData(_);
         });
-        
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(_currentSeriaLoadedNumber, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
@@ -91,28 +88,18 @@ public class LevelLoadDataHandler
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
         await _backgroundContentCreator.TryCreateBackgroundContent();
-        
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
-        
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
-
         if (storyData != null)
         {
             PhoneProviderInBuildMode.TrySetSaveData(storyData.Contacts);
 
             for (int i = 0; i < storyData.CurrentSeriaIndex; i++)
             {
-                Debug.Log($"LoadNextSeriesContent(){i}  1");
-
                 await LoadNextSeriesContent();
-                Debug.Log($"LoadNextSeriesContent(){i}  2");
-
             }
         }
-        
-        Debug.Log($"LoadStartSeriaContent2  _currentSeriaLoadedNumber {_currentSeriaLoadedNumber}  _indexFirstName {_indexFirstName}");
-
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 
@@ -130,10 +117,6 @@ public class LevelLoadDataHandler
             
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-            // if (saveDataKey == false)
-            // {
-            // }
-
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
