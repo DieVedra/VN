@@ -1,11 +1,17 @@
 ﻿
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 public class NotificationPanelUIHandler
 {
+    public const float ShowTime = 1.5f;
+    public const float DelayDisplayTime = 0f;
+    public readonly Color ColorText = Color.white;
     private readonly float _offsetValue = 45f;
     private readonly AnimationPanel _panelAnimation;
     private readonly NotificationPanelUI _notificationPanelUI;
@@ -25,30 +31,71 @@ public class NotificationPanelUIHandler
             _fadePosition, _unfadePosition, notificationPanelUI.DurationAnim);
         _defaultColorText = _textComponent.color;
     }
-    public void ShowNotificationInEditMode(string text)
+    public void ShowNotificationInEditMode(string text, NotificationNodeData notificationNodeData = null)
     {
         _notificationPanelUI.gameObject.SetActive(true);
         _notificationPanelUI.RectTransform.anchoredPosition = _unfadePosition;
-        _textComponent.text = text;
+        SetText(text);
         _notificationPanelUI.CanvasGroup.alpha = 1f;
+        if (notificationNodeData != null)
+        {
+            _textComponent.color = notificationNodeData.Color;
+        }
+        else
+        {
+            _textComponent.color = ColorText;
+        }
     } 
-    public void EmergenceNotificationPanelInPlayMode()
+    public async UniTask EmergenceNotificationPanelInPlayMode(string text, CancellationToken token, CompositeDisposable compositeDisposable = null, NotificationNodeData notificationNodeData = null)
     {
+        if (notificationNodeData == null)
+        {
+            if (DelayDisplayTime > 0f)
+            {
+                await Delay(token, DelayDisplayTime);
+            }
+        }
+        else
+        {
+            if (notificationNodeData.DelayDisplayTime > 0f)
+            {
+                await Delay(token, notificationNodeData.DelayDisplayTime);
+            }
+        }
         _notificationPanelUI.gameObject.SetActive(true);
         _notificationPanelUI.CanvasGroup.alpha = 0f;
         _notificationPanelUI.RectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
+        ShowNotificationInEditMode(text, notificationNodeData);
+        await AnimationPanel.UnfadePanel(token);
+        if (notificationNodeData == null)
+        {
+            await Delay(token, ShowTime);
+        }
+        else
+        {
+            await Delay(token, notificationNodeData.ShowTime);
+        }
+        await AnimationPanel.FadePanel(token);
+        DisappearanceNotificationPanelInPlayMode();
+        compositeDisposable?.Clear();
     }
 
-    public void DisappearanceNotificationPanelInPlayMode()
+    private async Task Delay(CancellationToken token, float delayTime)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(delayTime), cancellationToken: token);
+    }
+
+    private void DisappearanceNotificationPanelInPlayMode()
     {
         _notificationPanelUI.gameObject.SetActive(false);
         _notificationPanelUI.CanvasGroup.alpha = 0f;
         _notificationPanelUI.RectTransform.anchoredPosition = _fadePosition;
-        SetColorText(_defaultColorText);
+        _textComponent.color = _defaultColorText;
     }
-    public void SetColorText(Color color)
+
+    public void SetText(string text)
     {
-        _textComponent.color = color;
+        _textComponent.text = text;
     }
 }

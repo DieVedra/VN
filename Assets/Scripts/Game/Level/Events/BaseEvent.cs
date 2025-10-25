@@ -73,6 +73,17 @@ public class BaseEvent<T>
         }).AddTo(compositeDisposable);
         return compositeDisposable;
     }
+    public void SubscribeWithCompositeDisposable(Action operation, CompositeDisposable compositeDisposable)
+    {
+        BaseReactiveCommand.Subscribe(_ =>
+        {
+            operation();
+        }).AddTo(compositeDisposable);
+    }
+    public void SubscribeWithCompositeDisposable(Action<T> operation, CompositeDisposable compositeDisposable)
+    {
+        BaseReactiveCommand.Subscribe(operation).AddTo(compositeDisposable);
+    }
     public CompositeDisposable SubscribeWithCompositeDisposable(Action<T> operation)
     {
         var compositeDisposable = new CompositeDisposable();

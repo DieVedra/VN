@@ -34,6 +34,9 @@ public class ChoiceNodeDrawer : NodeEditor
     private SerializedProperty _choice1AdditionaryPriceProperty;
     private SerializedProperty _choice2AdditionaryPriceProperty;
     private SerializedProperty _choice3AdditionaryPriceProperty;
+    private SerializedProperty _showNotificationChoice1Property;
+    private SerializedProperty _showNotificationChoice2Property;
+    private SerializedProperty _showNotificationChoice3Property;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private MethodInfo _privateMethod;
     private string[] _timerPortIndexes;
@@ -95,6 +98,10 @@ public class ChoiceNodeDrawer : NodeEditor
             _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
             _localizationStringText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText2Property);
             _localizationStringText3 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText3Property);
+            
+            _showNotificationChoice1Property = serializedObject.FindProperty("_showNotificationChoice1");
+            _showNotificationChoice2Property = serializedObject.FindProperty("_showNotificationChoice2");
+            _showNotificationChoice3Property = serializedObject.FindProperty("_showNotificationChoice3");
         }
 
         serializedObject.Update();
@@ -127,9 +134,9 @@ public class ChoiceNodeDrawer : NodeEditor
         
         EditorGUI.BeginChangeCheck();
         DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
-            _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, "Choice 1", "_baseStatsChoice1", 0);
+            _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, _showNotificationChoice1Property, "Choice 1", "_baseStatsChoice1", 0);
         DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
-            _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty,"Choice 2", "_baseStatsChoice2", 1);
+            _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty, _showNotificationChoice2Property,"Choice 2", "_baseStatsChoice2", 1);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Show choice3: ");
@@ -138,7 +145,7 @@ public class ChoiceNodeDrawer : NodeEditor
         if (_showChoice3Property.boolValue)
         {
             DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
-                _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, "Choice 3", "_baseStatsChoice3", 2);
+                _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, _showNotificationChoice3Property,"Choice 3", "_baseStatsChoice3", 2);
         }
         if (EditorGUI.EndChangeCheck())
         {
@@ -154,10 +161,12 @@ public class ChoiceNodeDrawer : NodeEditor
 
     private void DrawChoiceField(LocalizationString textProperty, IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations,
         SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty, SerializedProperty choiceAdditionaryPriceProperty,
+        SerializedProperty showNotificationChoiceProperty,
         string label, string nameBaseStatsChoice, int indexNamePort)
     {
         EditorGUILayout.Space(10f);
         _localizationStringTextDrawer.DrawTextField(textProperty, label,false);
+        showNotificationChoiceProperty.boolValue = EditorGUILayout.Toggle("Show notification: ", showStatsChoiceProperty.boolValue);
         choicePriceProperty.floatValue = EditorGUILayout.FloatField("Choice price: ", choicePriceProperty.floatValue, GUILayout.Width(120f));
         choiceAdditionaryPriceProperty.floatValue = EditorGUILayout.FloatField("Choice additionary price: ", choiceAdditionaryPriceProperty.floatValue, GUILayout.Width(120f));
 
@@ -189,15 +198,20 @@ public class ChoiceNodeDrawer : NodeEditor
         {
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
             DrawField(statFormSerializedProperty.FindPropertyRelative("_value"),
+                statFormSerializedProperty.FindPropertyRelative("_notificationKey"),
                 baseStatsChoiceLocalizations[i].LocalizationName.DefaultText);
         }
         EditorGUILayout.EndVertical();
     }
-    private void DrawField(SerializedProperty serializedProperty, string nameField)
+    private void DrawField(SerializedProperty numberSerializedProperty, SerializedProperty notificationKeySerializedProperty, string nameField)
     {
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField(nameField, GUILayout.Width(150f));
-        serializedProperty.intValue = EditorGUILayout.IntField(serializedProperty.intValue, GUILayout.Width(30f));
+        numberSerializedProperty.intValue = EditorGUILayout.IntField(numberSerializedProperty.intValue, GUILayout.Width(30f));
+        
+        EditorGUILayout.LabelField("Add notification: ", GUILayout.Width(100f));
+        notificationKeySerializedProperty.boolValue = EditorGUILayout.Toggle(notificationKeySerializedProperty.boolValue);
+        
         EditorGUILayout.EndHorizontal();
     }
 

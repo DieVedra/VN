@@ -584,7 +584,6 @@
               <e p="LocalizationCreator.cs" t="Include" />
             </e>
             <e p="NodesDrawers" t="Include">
-              <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
               <e p="AddSpriteNodeToBackgroundDrawer.cs" t="Include" />
               <e p="BackgroundNodeDrawer.cs" t="Include" />
               <e p="ChangeLookCustomCharacterNodeDrawer" t="Include">
@@ -605,6 +604,7 @@
               <e p="NarrativeNodeDrawer.cs" t="Include" />
               <e p="NotificationNodeDrawer.cs" t="Include" />
               <e p="PhoneNodeDrawer" t="Include">
+                <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
                 <e p="PhoneNodeDrawer.cs" t="Include" />
               </e>
               <e p="ShowArtNodeDrawer.cs" t="Include" />
@@ -976,7 +976,10 @@
             <e p="NodeInitializer" t="Include">
               <e p="NodeInitializer.cs" t="Include" />
             </e>
-            <e p="NotificationNode.cs" t="Include" />
+            <e p="NotificationNode" t="Include">
+              <e p="NotificationNode.cs" t="Include" />
+              <e p="NotificationNodeData.cs" t="Include" />
+            </e>
             <e p="PhoneNodes" t="Include">
               <e p="AddContactToPhoneNode.cs" t="Include" />
               <e p="ContactInfoToGame.cs" t="Include" />

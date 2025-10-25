@@ -77,25 +77,10 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
                 {
                     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
                 }
-                // Debug.Log($"phone  {phone.NamePhone}");
-
-                foreach (var VARIABLE1 in _phones)
-                {
-                    Debug.Log($"phone  {VARIABLE1.NamePhone}");
-
-                    foreach (var VARIABLE in VARIABLE1.PhoneDataLocalizable.PhoneContactDatasLocalizable)
-                    {
-                        Debug.Log($"VARIABLE  {VARIABLE.NameContact}");
-                    }
-                }
-
-                Debug.Log($"_phones.Count == 0   {_phones.Count}");
             }
             else
             {
                 _phoneCreator.TryAddDataToIntegratedContactsAndTryCreateNewPhones(_phones, currentSeriaIndex);
-                Debug.Log($"TryAddDataToIntegratedContactsAndTryCreateNewPhones   {_phones.Count}");
-
             }
             return _phones;
         }

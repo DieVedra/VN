@@ -6,10 +6,12 @@ public class BaseStat : ILocalizationString
 {
     [SerializeField] private LocalizationString _name;
     [SerializeField] private int _value;
+    [SerializeField] private bool _notificationKey;
     
     public string NameText => _name.DefaultText;
     public string NameKey => _name.Key;
     public int Value => _value;
+    public bool NotificationKey => _notificationKey;
     public LocalizationString LocalizationName => _name;
 
 

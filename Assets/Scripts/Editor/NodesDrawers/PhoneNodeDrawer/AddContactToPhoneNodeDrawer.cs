@@ -12,6 +12,7 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
     private SerializedProperty _addContactSerializableProperty;
     private SerializedProperty _inputSerializableProperty;
     private SerializedProperty _outputSerializableProperty;
+    private SerializedProperty _showNotificationKeySerializableProperty;
     private string[] _namesPhones;
     private string[] _namesContacts;
     public override void OnBodyGUI()
@@ -29,6 +30,7 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
                 _addContactSerializableProperty = serializedObject.FindProperty("_addContact");
                 _inputSerializableProperty = serializedObject.FindProperty("Input");
                 _outputSerializableProperty = serializedObject.FindProperty("Output");
+                _showNotificationKeySerializableProperty = serializedObject.FindProperty("_showNotificationKey");
             }
             NodeEditorGUILayout.PropertyField(_inputSerializableProperty);
             NodeEditorGUILayout.PropertyField(_outputSerializableProperty);
@@ -38,6 +40,13 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
             EditorGUILayout.EndHorizontal();
             if (_addContactSerializableProperty.boolValue == true)
             {
+                if (_showNotificationKeySerializableProperty.boolValue)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Show notification: ", GUILayout.Width(100f));
+                    _showNotificationKeySerializableProperty.boolValue = EditorGUILayout.Toggle(_showNotificationKeySerializableProperty.boolValue);
+                    EditorGUILayout.EndHorizontal();
+                }
                 if (_addContactToPhoneNode.Phones != null && _addContactToPhoneNode.Phones.Count > 0)
                 {
                     InitNamesPhones();

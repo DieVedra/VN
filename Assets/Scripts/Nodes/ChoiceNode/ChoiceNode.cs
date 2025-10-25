@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
@@ -26,6 +27,9 @@ public class ChoiceNode : BaseNode, ILocalizable
     [SerializeField, HideInInspector] private bool _showChoice3Key;
     [SerializeField, HideInInspector] private bool _showOutput;
     [SerializeField, HideInInspector] private bool _addTimer;
+    [SerializeField, HideInInspector] private bool _showNotificationChoice1 = false;
+    [SerializeField, HideInInspector] private bool _showNotificationChoice2 = false;
+    [SerializeField, HideInInspector] private bool _showNotificationChoice3 = false;
     [SerializeField, HideInInspector] private List<BaseStat> _baseStatsChoice1;
     [SerializeField, HideInInspector] private List<BaseStat> _baseStatsChoice2;
     [SerializeField, HideInInspector] private List<BaseStat> _baseStatsChoice3;
@@ -37,6 +41,11 @@ public class ChoiceNode : BaseNode, ILocalizable
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
+    private const char _plus = '+';
+    private const char _space = ' ';
+    private const string _spaceColorPart1 = "<color=#";
+    private const string _spaceColorPart2 = ">";
+    private const string _endSpaceColor = "</color>";
     private const int _defaultTimerValue = 0;
     private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<int> _choiceResultEvent;
@@ -45,6 +54,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
     private CompositeDisposable _compositeDisposable;
+    private NotificationPanelUIHandler _notificationPanelUIHandler;
     private string[] _namesPortsPorts;
     private List<List<BaseStat>> _allStatsChoice;
     public IReadOnlyList<string> NamesPorts => _namesPortsPorts;
@@ -53,13 +63,13 @@ public class ChoiceNode : BaseNode, ILocalizable
     public IReadOnlyList<ILocalizationString> BaseStatsChoice3Localizations => _baseStatsChoice3;
     
     public void ConstructMyChoiceNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
-        SendCurrentNodeEvent<BaseNode> sendCurrentNodeEvent, int seriaIndex)
+        SendCurrentNodeEvent<BaseNode> sendCurrentNodeEvent, NotificationPanelUIHandler notificationPanelUIHandler, int seriaIndex)
     {
         _namesPortsPorts = new[] {_port1, _port2, _port3};
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
         _choiceResultEvent = new ChoiceResultEvent<int>();
         _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
-        _choiceResultEvent.Subscribe(SetNextNodeFromResultChoice);
+        _notificationPanelUIHandler = notificationPanelUIHandler;
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;
         _gameStatsProvider = gameStatsProvider;
@@ -88,6 +98,8 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             _choicePanelUIHandler.SetTexts(data);
         });
+        _choiceResultEvent.SubscribeWithCompositeDisposable(SetNextNodeFromResultChoice, _compositeDisposable);
+
         IsMerged = isMerged;
         if (IsMerged == false)
         {
@@ -167,6 +179,9 @@ public class ChoiceNode : BaseNode, ILocalizable
     private void SetNextNodeFromResultChoice(int buttonPressIndex)
     {
         _choiceResultEvent.Dispose();
+        var stats = _allStatsChoice[buttonPressIndex];
+        
+        TryShowNotification(stats, buttonPressIndex);
         if (_showOutput == true)
         {
             TryFindConnectedPorts(OutputPortBaseNode);
@@ -175,7 +190,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             TryFindConnectedPorts(GetOutputPort($"{_namesPortsPorts[buttonPressIndex]}"));
         }
-        _gameStatsProvider.GameStatsHandler.UpdateStats(_allStatsChoice[buttonPressIndex]);
+        _gameStatsProvider.GameStatsHandler.UpdateStats(stats);
         SwitchToNextNodeEvent.Execute();
     }
 
@@ -195,6 +210,89 @@ public class ChoiceNode : BaseNode, ILocalizable
                 SetNextNode(outputPort.GetConnection(i).node as BaseNode);
                 nextNodeFinded = true;
             }
+        }
+    }
+
+    private void TryShowNotification(List<BaseStat> stats, int buttonPressIndex)
+    {
+        switch (buttonPressIndex)
+        {
+            case 0:
+                if (_showNotificationChoice1)
+                {
+                    ShowNotification(GetText(stats));
+                }
+                break;
+            case 1:
+                if (_showNotificationChoice2)
+                {
+                    ShowNotification(GetText(stats));
+                }
+                break;
+            case 2:
+                if (_showNotificationChoice3)
+                {
+                    ShowNotification(GetText(stats));
+                }
+                break;
+        }
+
+        void ShowNotification(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text) == false)
+            {
+                CompositeDisposable compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+                {
+                    _notificationPanelUIHandler.SetText(GetText(_allStatsChoice[buttonPressIndex]));
+                });
+                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, compositeDisposable).Forget();
+            }
+        }
+
+        string GetText(List<BaseStat> stats)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            bool isFirstStat = true;
+            foreach (var stat in stats)
+            {
+                if (isFirstStat)
+                {
+                    isFirstStat = false;
+                }
+                else
+                {
+                    stringBuilder.Append("\n");
+                }
+                if (stat.NotificationKey)
+                {
+                    var hexColor = GetColor(stat.LocalizationName.Key);
+                    stringBuilder.Append(_spaceColorPart1);
+                    stringBuilder.Append(hexColor);
+                    stringBuilder.Append(_spaceColorPart2);
+                    if (stat.Value > 0)
+                    {
+                        stringBuilder.Append(_plus);
+                    }
+                    stringBuilder.Append(stat.Value.ToString());
+                    stringBuilder.Append(_space);
+                    stringBuilder.Append(stat.LocalizationName);
+                    stringBuilder.Append(_endSpaceColor);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        string GetColor(string key)
+        {
+            foreach (var stat in _gameStatsProvider.GameStatsHandler.Stats)
+            {
+                if (stat.LocalizationName.Key == key)
+                {
+                    return ColorUtility.ToHtmlStringRGB(stat.ColorField);
+                }
+            }
+            return ColorUtility.ToHtmlStringRGB(Color.white);
         }
     }
 }

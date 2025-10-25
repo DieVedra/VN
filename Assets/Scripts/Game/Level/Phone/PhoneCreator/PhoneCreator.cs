@@ -47,7 +47,6 @@ public class PhoneCreator
     protected List<PhoneData> GetAllDataProvidersWithContentFromPreviousSeries(int seriaIndex)
     {
         List<PhoneData> phoneDatas = new List<PhoneData>();
-        Debug.Log($"_dataProviders.Count {_dataProviders.Count}");
         for (int i = 0; i < _dataProviders.Count; i++)
         {
             if (_dataProviders[i].SeriaIndex <= seriaIndex)

@@ -9,7 +9,6 @@ public class NodeGraphInitializer
     public readonly DisableNodesContentEvent DisableNodesContentEvent;
     public readonly SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     public readonly SetLocalizationChangeEvent SetLocalizationChangeEvent;
-
     
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly IPhoneProvider _phoneProvider;
@@ -107,7 +106,7 @@ public class NodeGraphInitializer
         }
         if (node is ChoiceNode choiceNode)
         {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, seriaIndex);
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
             return;
         }
         if (node is CustomizationNode customizationNode)

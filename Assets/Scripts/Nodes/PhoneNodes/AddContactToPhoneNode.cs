@@ -11,10 +11,8 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _phoneIndex;
     [SerializeField] private int _contactIndex;
     [SerializeField] private bool _addContact;
-
+    [SerializeField] private bool _showNotificationKey;
     private const string _notificationTextPart = " в контактах";
-    private const float _delayDisplayTime = 0.5f;
-    private const float _showTime = 2f;
     private LocalizationString _localizationString;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
     private CompositeDisposable _compositeDisposable;
@@ -38,35 +36,27 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
         return new[] { _localizationString};
     }
 
-    public override UniTask Enter(bool isMerged = false)
+    public override async UniTask Enter(bool isMerged = false)
     {
         if (_addContact == true)
         {
             Phones[_phoneIndex].AddPhoneData(_currentSeria, Contacts[_contactIndex]);
-            Show().Forget();
+            if (_showNotificationKey)
+            {
+                _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(
+                    () => { _notificationPanelUIHandler.SetText(GetText());});
+                CancellationTokenSource = new CancellationTokenSource();
+                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(GetText(), CancellationTokenSource.Token, _compositeDisposable).Forget();
+            }
         }
-        return base.Enter(isMerged);
     }
     protected override void SetInfoToView()
     {
-        SetText();
-        _notificationPanelUIHandler.SetColorText(Color.white);
+        _notificationPanelUIHandler.ShowNotificationInEditMode(GetText());
     }
-    private void SetText()
+
+    private string GetText()
     {
-        _notificationPanelUIHandler.ShowNotificationInEditMode($"{Contacts[_contactIndex].NikNameContact}{_localizationString}");
-    }
-    private async UniTaskVoid Show()
-    {
-        CancellationTokenSource = new CancellationTokenSource();
-        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetText);
-        await UniTask.Delay(TimeSpan.FromSeconds(_delayDisplayTime), cancellationToken: CancellationTokenSource.Token);
-        _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode();
-        SetInfoToView();
-        await _notificationPanelUIHandler.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
-        await UniTask.Delay(TimeSpan.FromSeconds(_showTime), cancellationToken: CancellationTokenSource.Token);
-        await _notificationPanelUIHandler.AnimationPanel.FadePanel(CancellationTokenSource.Token);
-        _notificationPanelUIHandler.DisappearanceNotificationPanelInPlayMode();
-        _compositeDisposable.Clear();
+        return $"{Contacts[_contactIndex].NikNameContact}{_localizationString}";
     }
 }
