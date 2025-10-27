@@ -69,6 +69,7 @@ public class LevelUIProviderEditMode
 
     public virtual void Dispose()
     {
+        NarrativePanelUIHandler.Dispose();
         _compositeDisposable?.Clear();
     }
 }

@@ -1,72 +1,101 @@
 ﻿using System;
+using System.Text;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class NarrativePanelUIHandler
+public class NarrativePanelUIHandler : PanelUIHandler
 {
+    private const float _multiplier = 2f;
     private const float _offsetValue = 45f;
     private const float _hideValue = 0f;
     private const float _unhideValue = 1f;
+    private const char _space = '-';
+    private const string _spaceColor = "<color=#00000000>";
+    private const string _endSpaceColor = "</color>";
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
     private readonly NarrativePanelUI _narrativePanelUI;
     private readonly RectTransform _rectTransform;
-    private readonly RectTransform _textRectTransform;
     private readonly TextMeshProUGUI _textComponent;
     private readonly AnimationPanel _animationPanel;
     private readonly TextConsistentlyViewer _textConsistentlyViewer;
-    private readonly PanelSizeHandler _panelSizeHandler;
-    private readonly TextBlockPositionHandler _textBlockPositionHandler;
+    private readonly StringBuilder _stringBuilder;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
     public AnimationPanel AnimationPanel => _animationPanel;
     public NarrativePanelUIHandler(NarrativePanelUI narrativePanelUI)
     {
         _textConsistentlyViewer = new TextConsistentlyViewer(narrativePanelUI.TextComponent);
         _narrativePanelUI = narrativePanelUI;
-        _rectTransform = _narrativePanelUI.RectTransform;
+        _rectTransform = _narrativePanelUI.PanelRectTransform;
         _textComponent = _narrativePanelUI.TextComponent;
         _unfadePosition = _rectTransform.anchoredPosition;
         _fadePosition = new Vector3(_unfadePosition.x, _unfadePosition.y + _offsetValue, _unfadePosition.z);
-
+        _stringBuilder = new StringBuilder();
         _animationPanel = new AnimationPanel(_rectTransform, _narrativePanelUI.CanvasGroup,
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
-        var lineBreaksCountCalculator = new LineBreaksCountCalculator();
-        _panelSizeHandler = new PanelSizeHandler(lineBreaksCountCalculator, new NarrativePanelSizeCurveProvider());
-        _textRectTransform = narrativePanelUI.TextComponent.GetComponent<RectTransform>();
-        _textBlockPositionHandler = new TextBlockPositionHandler(lineBreaksCountCalculator, new NarrativeTextBlockPositionCurveProvider());
+    }
+
+    public void Dispose()
+    {
+        TextConsistentlyViewer.TryStop();
     }
     public void NarrativeInEditMode(string text)
     {
         _narrativePanelUI.gameObject.SetActive(true);
         _rectTransform.anchoredPosition = _unfadePosition;
         _narrativePanelUI.CanvasGroup.alpha = _unhideValue;
-        UpdatePanel(text);
         SetText(text);
     }
 
-    public void EmergenceNarrativePanelInPlayMode(string text)
+    public async UniTask EmergenceNarrativePanelInPlayMode(string text, CancellationToken token)
     {
         _narrativePanelUI.gameObject.SetActive(true);
-        UpdatePanel(text);
         _rectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
+        await AnimationPanel.UnfadePanel(token);
+        await TextConsistentlyViewer.SetTextConsistently(text);
     }
 
     public void SetText(string text)
     {
+        if (TextConsistentlyViewer.IsRun)
+        {
+            TextConsistentlyViewer.TryStop();
+        }
         _textComponent.text = text;
+        ResizePanel();
     }
 
-    public void DisappearanceNarrativePanelInPlayMode()
+    public async UniTask DisappearanceNarrativePanelInPlayMode(CancellationToken token)
     {
+        await AnimationPanel.FadePanel(token);
         _narrativePanelUI.gameObject.SetActive(false);
         _narrativePanelUI.CanvasGroup.alpha = _hideValue;
         _rectTransform.anchoredPosition = _fadePosition;
     }
-
-    private void UpdatePanel(string text)
+    private void ResizePanel()
     {
-        _panelSizeHandler.UpdateSize(_rectTransform, _textComponent, text);
-        _textBlockPositionHandler.UpdatePosition(_textRectTransform, _textComponent, text);
+        _textComponent.text = AddStringOffset(_textComponent.text);
+        _textComponent.ForceMeshUpdate();
+        Size = _textComponent.GetRenderedValues(true);
+        Size.x = _narrativePanelUI.ImageRectTransform.sizeDelta.x;
+        Size.y = Size.y + _narrativePanelUI.HeightOffset * _multiplier;
+        _narrativePanelUI.ImageRectTransform.sizeDelta = Size;
+    }
+
+    private string AddStringOffset(string text)
+    {
+        _stringBuilder.Clear();
+        int count = _narrativePanelUI.FirstLineOffset;
+        _stringBuilder.Append(_spaceColor);
+        for (int i = 0; i < count; i++)
+        {
+            _stringBuilder.Append(_space);
+        }
+        _stringBuilder.Append(_endSpaceColor);
+        _stringBuilder.Append(text);
+        return _stringBuilder.ToString();
     }
 }

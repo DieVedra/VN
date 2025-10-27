@@ -133,13 +133,13 @@ public class PhoneUIHandler : ILocalizable
         DisableScreens();
         PhoneContactDataLocalizable contact =
             _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
-        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, _switchToNextNodeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
+        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
     }
 
     private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContactDataLocalizable contact)
     {
         DisableScreens();
-        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, _switchToNextNodeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
+        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
     }
 
     private void SetContactsScreenBackgroundFromAnotherScreen()

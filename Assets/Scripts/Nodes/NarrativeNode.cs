@@ -29,9 +29,7 @@ public class NarrativeNode : BaseNode, ILocalizable
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
 		}
 
-		_narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText);
-		await _narrativePanelUI.AnimationPanel.UnfadePanel(CancellationTokenSource.Token);
-		await _narrativePanelUI.TextConsistentlyViewer.SetTextConsistently(CancellationTokenSource.Token, _localizationText.DefaultText);
+		await _narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText, CancellationTokenSource.Token);
 		TryActivateButtonSwitchToNextSlide();
 	}
 
@@ -42,8 +40,7 @@ public class NarrativeNode : BaseNode, ILocalizable
 		{
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
 		}
-		await _narrativePanelUI.AnimationPanel.FadePanel(CancellationTokenSource.Token);
-		_narrativePanelUI.DisappearanceNarrativePanelInPlayMode();
+		await _narrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token);
 		_compositeDisposable.Dispose();
 	}
 

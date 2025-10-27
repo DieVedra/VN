@@ -27,7 +27,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly GameObject _contactStatus;
     private readonly MessagesShower _messagesShower;
     private PhoneContactDataLocalizable _currentContact;
-    private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -49,10 +48,9 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
+    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
         Action<string, bool> setOnlineStatus, bool characterOnlineKey)
     {
-        _switchToNextNodeEvent = switchToNextNodeEvent;
         _currentContact = contact;
         _contactNameLS = contact.NikNameContact;
         Screen.SetActive(true);

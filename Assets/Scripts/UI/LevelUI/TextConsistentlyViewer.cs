@@ -13,19 +13,33 @@ public class TextConsistentlyViewer
     private const char _separator = ' ';
     private const string _spaceColor = "<color=#00000000>";
     private const string _endSpaceColor = "</color>";
+    private CancellationTokenSource _cancellationTokenSource;
 
+    public bool IsRun { get; private set; }
     public TextConsistentlyViewer(TextMeshProUGUI textComponent)
     {
         _textComponent = textComponent;
         _stringBuilder = new StringBuilder();
+        IsRun = false;
     }
 
+    public void TryStop()
+    {
+        _cancellationTokenSource?.Cancel();
+        IsRun = false;
+    }
     public void ClearText()
     {
         _textComponent.text = _separator.ToString();
     }
-    public async UniTask SetTextConsistently(CancellationToken cancellationToken, string text)
+    public async UniTask SetTextConsistently(string text)
     {
+        _cancellationTokenSource = new CancellationTokenSource();
+        await SetTextConsistently(_cancellationTokenSource.Token, text);
+    }
+    public async UniTask SetTextConsistently(CancellationToken token, string text)
+    {
+        IsRun = true;
         ClearText();
         _stringBuilder.Clear();
         _stringBuilder.Append(text);
@@ -37,10 +51,10 @@ public class TextConsistentlyViewer
             _textComponent.gameObject.SetActive(false);
             _textComponent.text = consistentlyStrings[i];
             _textComponent.gameObject.SetActive(true);
-            await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: cancellationToken);
+            await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: token);
         }
+        IsRun = false;
     }
-
     private List<string> CreateConsistentlyStrings(List<int> indexes, string text)
     {
         List<string> consistentlyStrings = new List<string>(indexes.Count);
