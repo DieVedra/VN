@@ -39,8 +39,11 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private CanvasGroup _timerPanelCanvasGroup;
     
     [SerializeField] private float _durationAnim = 0.2f;
-    [SerializeField] private float _durationAnimPriceView = 0.2f;
-    [SerializeField] private float _durationAnimStatView = 0.2f;
+    [SerializeField] private float _heightOffset;
+    [SerializeField] private float _offsetBetweenPanels;
+    [SerializeField] private float _imageHeightDefault;
+    [SerializeField] private float _defaultPosYCentralButtonChoice2;
+    
     public Button ButtonChoice1 => _buttonChoice1;
     public Button ButtonChoice2 => _buttonChoice2;
     public Button ButtonChoice3 => _buttonChoice3;
@@ -75,6 +78,8 @@ public class ChoicePanelUI : MonoBehaviour
     public CanvasGroup HeartsPanelCanvasGroup => _heartsPanelCanvasGroup;
     public CanvasGroup TimerPanelCanvasGroup => _timerPanelCanvasGroup;
     public float DurationAnim => _durationAnim;
-    public float DurationAnimPriceView => _durationAnimPriceView;
-    public float DurationAnimStatView => _durationAnimStatView;
+    public float HeightOffset => _heightOffset;
+    public float OffsetBetweenPanels => _offsetBetweenPanels;
+    public float ImageHeightDefault => _imageHeightDefault;
+    public float DefaultPosYCentralButtonChoice2 => _defaultPosYCentralButtonChoice2;
 }

@@ -13,6 +13,9 @@ public class TextConsistentlyViewer
     private const char _separator = ' ';
     private const string _spaceColor = "<color=#00000000>";
     private const string _endSpaceColor = "</color>";
+    private List<string> _consistentlyStrings;
+    private List<int> _indexes;
+    private int _count;
     private CancellationTokenSource _cancellationTokenSource;
 
     public bool IsRun { get; private set; }
@@ -20,6 +23,8 @@ public class TextConsistentlyViewer
     {
         _textComponent = textComponent;
         _stringBuilder = new StringBuilder();
+        _consistentlyStrings = new List<string>();
+        _indexes = new List<int>();
         IsRun = false;
     }
 
@@ -43,47 +48,49 @@ public class TextConsistentlyViewer
         ClearText();
         _stringBuilder.Clear();
         _stringBuilder.Append(text);
-        List<string> consistentlyStrings = CreateConsistentlyStrings(CreateIndexes(), text);
+        CreateIndexes();
+        CreateConsistentlyStrings(text);
         _textComponent.havePropertiesChanged = true;
-        for (int i = 0; i < consistentlyStrings.Count; i++)
+        _count = _consistentlyStrings.Count;
+        for (int i = 0; i < _count; i++)
         {
             ClearText();
             _textComponent.gameObject.SetActive(false);
-            _textComponent.text = consistentlyStrings[i];
+            _textComponent.text = _consistentlyStrings[i];
             _textComponent.gameObject.SetActive(true);
             await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: token);
         }
         IsRun = false;
     }
-    private List<string> CreateConsistentlyStrings(List<int> indexes, string text)
+    private void CreateConsistentlyStrings(string text)
     {
-        List<string> consistentlyStrings = new List<string>(indexes.Count);
+        _consistentlyStrings.Clear();
         _stringBuilder.Clear();
-        for (int i = 0; i < indexes.Count; i++)
+        _count = _indexes.Count;
+        for (int i = 0; i < _count; i++)
         {
             _stringBuilder.Append(text);
-            _stringBuilder.Insert(indexes[i], _spaceColor);
+            _stringBuilder.Insert(_indexes[i], _spaceColor);
             _stringBuilder.Append(_endSpaceColor);
-            consistentlyStrings.Add(_stringBuilder.ToString());
+            _consistentlyStrings.Add(_stringBuilder.ToString());
             _stringBuilder.Clear();
         }
-        consistentlyStrings.Add(text);
-        return consistentlyStrings;
+        _consistentlyStrings.Add(text);
     }
 
-    private List<int> CreateIndexes()
+    private void CreateIndexes()
     {
-        List<int> indexes = new List<int>();
-        for (int i = 0; i < _stringBuilder.Length; i++)
+        _indexes.Clear();
+        _count = _stringBuilder.Length;
+        for (int i = 0; i < _count; i++)
         {
             if (_stringBuilder[i] == _separator)
             {
-                if (i != _stringBuilder.Length - 1)
+                if (i != _count - 1)
                 {
-                    indexes.Add(i);
+                    _indexes.Add(i);
                 }
             }
         }
-        return indexes;
     }
 }

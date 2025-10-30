@@ -2,9 +2,9 @@
 using TMPro;
 using UnityEngine;
 
-public class ChoiceHeightHandler
+public class ChoiceHeightHandler : PanelUIHandler
 {
-    private readonly float _defaultPosY = 260f;
+    private readonly ChoicePanelUI _choicePanelUI;
     private readonly RectTransform _button1Transform;
     private readonly RectTransform _centralButton2Transform;
     private readonly RectTransform _button3Transform;
@@ -12,76 +12,48 @@ public class ChoiceHeightHandler
     private readonly TextMeshProUGUI _textButtonChoice1;
     private readonly TextMeshProUGUI _textCentralButtonChoice2;
     private readonly TextMeshProUGUI _textButtonChoice3;
-    
-    private readonly AnimationCurve _animationCurveHeight;
-    private readonly AnimationCurve _animationCurveRange;
 
-    public ChoiceHeightHandler(RectTransform button1Transform, RectTransform centralButton2Transform, RectTransform button3Transform,
-        TextMeshProUGUI textButtonChoice1, TextMeshProUGUI textCentralButtonChoice2, TextMeshProUGUI textButtonChoice3)
+    private Vector2 Size;
+
+
+    public ChoiceHeightHandler(ChoicePanelUI choicePanelUI)
     {
-        _button1Transform = button1Transform;
-        _centralButton2Transform = centralButton2Transform;
-        _button3Transform = button3Transform;
-        _textButtonChoice1 = textButtonChoice1;
-        _textCentralButtonChoice2 = textCentralButtonChoice2;
-        _textButtonChoice3 = textButtonChoice3;
-        _animationCurveHeight = new AnimationCurve(new Keyframe(1f, 200f), new Keyframe(2f, 230f),
-            new Keyframe(3f, 300f), new Keyframe(4f, 350f), new Keyframe(5f, 420f), new Keyframe(6f, 480f));
-        _animationCurveRange = new AnimationCurve(new Keyframe(3f, 40f),
-            new Keyframe(4f, 80f), new Keyframe(5f, 100f), new Keyframe(6f, 140f));
+        _choicePanelUI = choicePanelUI;
+        _button1Transform = choicePanelUI.RectTransformChoice1;
+        _centralButton2Transform = choicePanelUI.RectTransformChoice2;
+        _button3Transform = choicePanelUI.RectTransformChoice3;
+        
+        _textButtonChoice1 = choicePanelUI.TextButtonChoice1;
+        _textCentralButtonChoice2 = choicePanelUI.TextButtonChoice2;
+        _textButtonChoice3 = choicePanelUI.TextButtonChoice3;
+        SetPosPanel(_centralButton2Transform, choicePanelUI.DefaultPosYCentralButtonChoice2);
     }
 
-    public void UpdateHeight(ChoiceData data)
+    public void UpdateHeights(ChoiceData data)
     {
-        _textButtonChoice1.ForceMeshUpdate();
-        CalculateHeightPanels(_button1Transform, _textButtonChoice1.textInfo.lineCount);
-        _textCentralButtonChoice2.ForceMeshUpdate();
-        CalculateHeightPanels(_centralButton2Transform, _textCentralButtonChoice2.textInfo.lineCount);
-
+        UpdateHeight(_textCentralButtonChoice2, _centralButton2Transform);
+        UpdateHeight(_textButtonChoice1, _button1Transform);
+        float y = _button1Transform.sizeDelta.y + _choicePanelUI.OffsetBetweenPanels;
+        SetPosPanel(_button1Transform, y);
         if (data.ShowChoice3)
         {
-            _textButtonChoice3.ForceMeshUpdate();
-            CalculateHeightPanels(_button3Transform, _textButtonChoice3.textInfo.lineCount);
-        }
-        CalculatePosPanels(data.ShowChoice3);
-    }
-
-    private void CalculateHeightPanels(RectTransform rectTransform, int linesCount)
-    {
-        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, _animationCurveHeight.Evaluate(linesCount));
-    }
-
-    private void CalculatePosPanels(bool showChoice3)
-    {
-        SetPosPanel(_button1Transform, _defaultPosY);
-        SetPosPanel(_button3Transform, -_defaultPosY);
-        float addValue = GetAddValue(_textCentralButtonChoice2.textInfo.lineCount);
-        SetPosPanel(_button1Transform, _button1Transform.anchoredPosition.y + addValue);
-        if (showChoice3)
-        {
-            SetPosPanel(_button3Transform, _button3Transform.anchoredPosition.y - addValue);
-        }
-
-        addValue = GetAddValue(_textButtonChoice1.textInfo.lineCount);
-        SetPosPanel(_button1Transform, _button1Transform.anchoredPosition.y + addValue);
-
-        if (showChoice3)
-        {
-            addValue = GetAddValue(_textButtonChoice3.textInfo.lineCount);
-            SetPosPanel(_button3Transform, _button3Transform.anchoredPosition.y - addValue);
+            UpdateHeight(_textButtonChoice3, _button3Transform);
+            y = _centralButton2Transform.sizeDelta.y + _choicePanelUI.OffsetBetweenPanels;
+            SetPosPanel(_button3Transform, -y);
         }
     }
 
-    private float GetAddValue(int lineCount)
+    private void UpdateHeight(TextMeshProUGUI textButtonChoice, RectTransform buttonTransform)
     {
-        if (lineCount > 2 && lineCount < 7)
+        textButtonChoice.ForceMeshUpdate();
+        Size = textButtonChoice.GetRenderedValues(true);
+        Size.x = buttonTransform.sizeDelta.x;
+        Size.y = Size.y + _choicePanelUI.HeightOffset * Multiplier;
+        if (Size.y <= _choicePanelUI.ImageHeightDefault)
         {
-            return _animationCurveRange.Evaluate(lineCount);
+            Size.y = _choicePanelUI.ImageHeightDefault;
         }
-        else
-        {
-            return 0;
-        }
+        buttonTransform.sizeDelta = Size;
     }
 
     private void SetPosPanel(RectTransform rectTransform, float y)

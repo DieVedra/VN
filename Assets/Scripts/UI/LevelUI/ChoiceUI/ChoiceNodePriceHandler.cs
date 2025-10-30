@@ -44,6 +44,7 @@ public class ChoiceNodePriceHandler
         _additionaryPriceButton1Text = additionaryPriceButton1Text;
         _additionaryPriceButton2Text = additionaryPriceButton2Text;
         _additionaryPriceButton3Text = additionaryPriceButton3Text;
+        _prices = new List<(int, int)>(_pricesCount);
     }
 
     public void TryShowPrices(ChoiceData data)
@@ -69,7 +70,6 @@ public class ChoiceNodePriceHandler
     {
         _wallet.RemoveCash(_prices[buttonPressIndex].Item1);
         _wallet.RemoveHearts(_prices[buttonPressIndex].Item2);
-        _prices = null;
     }
 
     private void TryShowPrice(RectTransform priceRectTransformChoice, TextMeshProUGUI priceText, int price)
@@ -84,7 +84,7 @@ public class ChoiceNodePriceHandler
     private void ResetPrices()
     {
         PriceExists = false;
-        _prices = new List<(int, int)>(_pricesCount);
+        _prices.Clear();
         _priceRectTransformChoice1.gameObject.SetActive(false);
         _priceRectTransformChoice2.gameObject.SetActive(false);
         _priceRectTransformChoice3.gameObject.SetActive(false);

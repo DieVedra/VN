@@ -1,5 +1,4 @@
-﻿
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
@@ -35,10 +34,7 @@ public class ChoicePanelUIHandler
         _choiceActive = new ReactiveProperty<bool>(false);
         _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
 
-        _choiceHeightHandler = new ChoiceHeightHandler(
-            choicePanelUI.RectTransformChoice1, choicePanelUI.RectTransformChoice2, 
-            choicePanelUI.RectTransformChoice3,
-            choicePanelUI.TextButtonChoice1, choicePanelUI.TextButtonChoice2, choicePanelUI.TextButtonChoice3);
+        _choiceHeightHandler = new ChoiceHeightHandler(choicePanelUI);
     }
 
     public void Dispose()
@@ -53,7 +49,7 @@ public class ChoicePanelUIHandler
         _choiceNodePriceHandler.TryShowPrices(data);
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         
-        _choiceHeightHandler.UpdateHeight(data);
+        _choiceHeightHandler.UpdateHeights(data);
         
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
 
@@ -86,7 +82,7 @@ public class ChoicePanelUIHandler
         SetTexts(data);
         _choicePanelUI.gameObject.SetActive(true);
         _choiceNodePriceHandler.TryShowPrices(data);
-        _choiceHeightHandler.UpdateHeight(data);
+        _choiceHeightHandler.UpdateHeights(data);
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
         _choiceNodeTimer.TryShowTimerPanelAnim(cancellationToken).Forget();
         _panelResourceHandler.Show().Forget();
@@ -136,11 +132,6 @@ public class ChoicePanelUIHandler
     private void SetTextButton(Button button, TextMeshProUGUI textComponent, string text = " ", bool key = false)
     {
         SetActiveButton(button, key);
-        SetText(textComponent, text);
-    }
-
-    private void SetText(TextMeshProUGUI textComponent, string text )
-    {
         textComponent.text = text;
     }
     private void SetActiveButton(Button button, bool key)
