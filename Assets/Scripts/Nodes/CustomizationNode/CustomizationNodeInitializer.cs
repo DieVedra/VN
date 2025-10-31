@@ -6,37 +6,36 @@ public class CustomizationNodeInitializer : MyNodeInitializer
 {
     public CustomizationNodeInitializer(GameStatsHandler gameStatsHandler) : base(gameStatsHandler) { }
 
-    public void InitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void InitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         if (sprites == null)
         {
             return;
         }
-        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>(sprites.Count);
+        settings.Clear();
         for (int i = 0; i < sprites.Count; i++)
         {
             if (sprites[i].SpriteToWardrobeKey == false)
             {
                 continue;
             }
-            newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+            settings.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                 i, sprites[i].Price, sprites[i].PriceAdditional));
         }
-        settings = newSettingsList;
     }
     
-    public void ReInitCustomizationSettings(ref List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void ReInitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
         if (sprites == null)
         {
             return;
         }
-        if (settings == null || settings.Count == 0)
+        if (settings.Count == 0)
         {
-            InitCustomizationSettings(ref settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
+            InitCustomizationSettings(settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
         }
         Dictionary<string, CustomizationSettings> dictionaryOldSettings = settings.ToDictionaryDistinct(setting => setting.Name);
-        List<CustomizationSettings> newSettingsList = new List<CustomizationSettings>(sprites.Count);
+        settings.Clear();
         string newName;
         for (int i = 0; i < sprites.Count; i++)
         {
@@ -51,13 +50,12 @@ public class CustomizationNodeInitializer : MyNodeInitializer
                     GameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
-                newSettingsList.Add(customizationSetting);
+                settings.Add(customizationSetting);
                 continue;
             }
-            newSettingsList.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+            settings.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                 i, sprites[i].Price, sprites[i].PriceAdditional));
         }
-        settings = newSettingsList;
     }
 
     public static SelectedCustomizationContentIndexes CreateCustomizationContent(

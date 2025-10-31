@@ -41,11 +41,11 @@ public class ChoiceNode : BaseNode, ILocalizable
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
-    private const char _plus = '+';
-    private const char _space = ' ';
-    private const string _spaceColorPart1 = "<color=#";
-    private const string _spaceColorPart2 = ">";
-    private const string _endSpaceColor = "</color>";
+    // private const char _plus = '+';
+    // private const char _space = ' ';
+    // private const string _spaceColorPart1 = "<color=#";
+    // private const string _spaceColorPart2 = ">";
+    // private const string _endSpaceColor = "</color>";
     private const int _defaultTimerValue = 0;
     private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<int> _choiceResultEvent;
@@ -220,19 +220,19 @@ public class ChoiceNode : BaseNode, ILocalizable
             case 0:
                 if (_showNotificationChoice1)
                 {
-                    ShowNotification(GetText(stats));
+                    ShowNotification(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
                 }
                 break;
             case 1:
                 if (_showNotificationChoice2)
                 {
-                    ShowNotification(GetText(stats));
+                    ShowNotification(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
                 }
                 break;
             case 2:
                 if (_showNotificationChoice3)
                 {
-                    ShowNotification(GetText(stats));
+                    ShowNotification(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
                 }
                 break;
         }
@@ -243,56 +243,10 @@ public class ChoiceNode : BaseNode, ILocalizable
             {
                 CompositeDisposable compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
                 {
-                    _notificationPanelUIHandler.SetText(GetText(_allStatsChoice[buttonPressIndex]));
+                    _notificationPanelUIHandler.SetText(_notificationPanelUIHandler.GetTextStats(_allStatsChoice[buttonPressIndex], _gameStatsProvider));
                 });
                 _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, compositeDisposable).Forget();
             }
-        }
-
-        string GetText(List<BaseStat> stats)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            bool isFirstStat = true;
-            foreach (var stat in stats)
-            {
-                if (isFirstStat)
-                {
-                    isFirstStat = false;
-                }
-                else
-                {
-                    stringBuilder.Append("\n");
-                }
-                if (stat.NotificationKey)
-                {
-                    var hexColor = GetColor(stat.LocalizationName.Key);
-                    stringBuilder.Append(_spaceColorPart1);
-                    stringBuilder.Append(hexColor);
-                    stringBuilder.Append(_spaceColorPart2);
-                    if (stat.Value > 0)
-                    {
-                        stringBuilder.Append(_plus);
-                    }
-                    stringBuilder.Append(stat.Value.ToString());
-                    stringBuilder.Append(_space);
-                    stringBuilder.Append(stat.LocalizationName);
-                    stringBuilder.Append(_endSpaceColor);
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        string GetColor(string key)
-        {
-            foreach (var stat in _gameStatsProvider.GameStatsHandler.Stats)
-            {
-                if (stat.LocalizationName.Key == key)
-                {
-                    return ColorUtility.ToHtmlStringRGB(stat.ColorField);
-                }
-            }
-            return ColorUtility.ToHtmlStringRGB(Color.white);
         }
     }
 }

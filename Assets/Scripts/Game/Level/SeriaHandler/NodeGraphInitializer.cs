@@ -106,22 +106,19 @@ public class NodeGraphInitializer
         }
         if (node is ChoiceNode choiceNode)
         {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent,
+                _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
             return;
         }
         if (node is CustomizationNode customizationNode)
         {
-            if (customizationNode == null)
-            {
-                Debug.Log(1);
-            }
             customizationNode.ConstructMyCustomizationNode(
                 _levelUIProvider.CustomizationCharacterPanelUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler,
                 _characterProvider.GetCustomizationCharacters(seriaIndex),
                 _background, _sound,
                 _gameStatsProvider,
-                _wallet, _wardrobeCharacterViewer, seriaIndex);
+                _wallet, _wardrobeCharacterViewer, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
             return;
         }
         if (node is SwitchNode switchNode)

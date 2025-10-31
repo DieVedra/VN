@@ -11,6 +11,7 @@ public class TextConsistentlyViewer
     private readonly StringBuilder _stringBuilder;
     private const float _delay = 0.02f;
     private const char _separator = ' ';
+    private const char _space = '-';
     private const string _spaceColor = "<color=#00000000>";
     private const string _endSpaceColor = "</color>";
     private List<string> _consistentlyStrings;
@@ -37,19 +38,24 @@ public class TextConsistentlyViewer
     {
         _textComponent.text = _separator.ToString();
     }
-    public async UniTask SetTextConsistently(string text)
+    public async UniTask SetTextConsistently(string text, int stringOffset = 0)
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        await SetTextConsistently(_cancellationTokenSource.Token, text);
+        await SetTextConsistently(_cancellationTokenSource.Token, text, stringOffset);
     }
-    public async UniTask SetTextConsistently(CancellationToken token, string text)
+    public async UniTask SetTextConsistently(CancellationToken token, string text, int stringOffset = 0)
     {
         IsRun = true;
         ClearText();
         _stringBuilder.Clear();
-        _stringBuilder.Append(text);
-        CreateIndexes();
-        CreateConsistentlyStrings(text);
+        if (stringOffset > 0)
+        {
+            Create(AddStringOffset(text, stringOffset));
+        }
+        else
+        {
+            Create(text);
+        }
         _textComponent.havePropertiesChanged = true;
         _count = _consistentlyStrings.Count;
         for (int i = 0; i < _count; i++)
@@ -61,13 +67,18 @@ public class TextConsistentlyViewer
             await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: token);
         }
         IsRun = false;
+
+        void Create(string text1)
+        {
+            CreateIndexes(text1);
+            CreateConsistentlyStrings(text1);
+        }
     }
     private void CreateConsistentlyStrings(string text)
     {
         _consistentlyStrings.Clear();
         _stringBuilder.Clear();
-        _count = _indexes.Count;
-        for (int i = 0; i < _count; i++)
+        for (int i = 0; i < _indexes.Count; i++)
         {
             _stringBuilder.Append(text);
             _stringBuilder.Insert(_indexes[i], _spaceColor);
@@ -78,9 +89,11 @@ public class TextConsistentlyViewer
         _consistentlyStrings.Add(text);
     }
 
-    private void CreateIndexes()
+    private void CreateIndexes(string text)
     {
         _indexes.Clear();
+        _stringBuilder.Clear();
+        _stringBuilder.Append(text);
         _count = _stringBuilder.Length;
         for (int i = 0; i < _count; i++)
         {
@@ -92,5 +105,17 @@ public class TextConsistentlyViewer
                 }
             }
         }
+    }
+    public string AddStringOffset(string text, int count)
+    {
+        _stringBuilder.Clear();
+        _stringBuilder.Append(_spaceColor);
+        for (int i = 0; i < count; i++)
+        {
+            _stringBuilder.Append(_space);
+        }
+        _stringBuilder.Append(_endSpaceColor);
+        _stringBuilder.Append(text);
+        return _stringBuilder.ToString();
     }
 }

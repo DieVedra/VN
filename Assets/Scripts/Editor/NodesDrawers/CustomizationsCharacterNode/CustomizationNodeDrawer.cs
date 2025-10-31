@@ -171,6 +171,8 @@ public class CustomizationNodeDrawer : NodeEditor
 
             DrawIntField(statFormSerializedProperty.FindPropertyRelative("_value"), gameStatsLocalizationStrings[i].LocalizationName.DefaultText);
             DrawBoolField(statFormSerializedProperty.FindPropertyRelative("_showKey"), "ShowKey: ");
+            DrawBoolField(statFormSerializedProperty.FindPropertyRelative("_notificationKey"), "ShowNotification: ");
+
             EditorGUILayout.EndHorizontal();
 
         }
