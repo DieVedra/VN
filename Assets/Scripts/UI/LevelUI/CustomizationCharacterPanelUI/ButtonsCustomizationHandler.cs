@@ -238,7 +238,7 @@ public class ButtonsCustomizationHandler
         }
     }
 
-    private List<BaseStat> GetStatsToResult()
+    private List<CustomizationStat> GetStatsToResult()
     {
         _calculateStatsHandler.PreliminaryStatsCalculation(_switchInfoCustodian.GetAllInfo);
         return _calculateStatsHandler.PreliminaryStats;

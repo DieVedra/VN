@@ -75,7 +75,7 @@ public class ButtonsModeSwitch
         SetTitle();
         if (_statViewHandler.CheckViewStatToShow(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex]))
         {
-            Stat stat = _statViewHandler.GetStatInfo(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].GameStats);
+            CustomizationStat stat = _statViewHandler.GetStatInfo(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].GameStats);
             _statViewHandler.Show(stat.ColorField, _statViewHandler.CreateLabel(stat));
         }
         else

@@ -132,7 +132,7 @@ public class ArrowSwitch
         
         if (_statViewHandler.CheckViewStatToShow(customizationSettings))
         {
-            Stat stat = _statViewHandler.GetStatInfo(customizationSettings.GameStats);
+            CustomizationStat stat = _statViewHandler.GetStatInfo(customizationSettings.GameStats);
             if (_statViewHandler.IsShowed == true)
             {
                 taskRunner.AddOperationToList(() => _statViewHandler.HideToShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));

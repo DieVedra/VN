@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-public class CustomizationResult
+public struct CustomizationResult
 {
-    public readonly List<BaseStat> Stats;
+    public readonly List<CustomizationStat> Stats;
     public readonly int MonetsToRemove;
     public readonly int HeartsToRemove;
 
-    public CustomizationResult(List<BaseStat> stats, (int price, int additionalPrice) prices)
+    public CustomizationResult(List<CustomizationStat> stats, (int price, int additionalPrice) prices)
     {
         Stats = stats;
         MonetsToRemove = prices.price;

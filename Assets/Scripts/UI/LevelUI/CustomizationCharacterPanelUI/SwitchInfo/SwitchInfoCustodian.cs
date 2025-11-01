@@ -83,7 +83,7 @@ public class SwitchInfoCustodian
 
     public void SetStatsToCurrentSwitchInfo()
     {
-        CurrentSwitchInfo.Stats = GetBaseStats(_customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].GameStats);
+        CurrentSwitchInfo.Stats = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].GameStats;
     }
     public void SetPriceToCurrentSwitchInfo()
     {
@@ -92,15 +92,5 @@ public class SwitchInfoCustodian
     public void SetAdditionalPriceToCurrentSwitchInfo()
     {
         CurrentSwitchInfo.AdditionalPrice = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].PriceAdditional;
-    }
-    private List<BaseStat> GetBaseStats(List<Stat> stats)
-    {
-        List<BaseStat> baseStats = new List<BaseStat>(stats.Count);
-        for (int i = 0; i < stats.Count; i++)
-        {
-            baseStats.Add(new BaseStat(stats[i].NameText, stats[i].Value));
-        }
-
-        return baseStats;
     }
 }

@@ -11,15 +11,12 @@ public class NotificationPanelUIHandler
 {
     public const float ShowTime = 1.5f;
     private const float _multiplier = 2f;
-    
     private const string _spaceColorPart1 = "<color=#";
     private const string _spaceColorPart2 = ">";
     private const string _endSpaceColor = "</color>";
     private const char _plus = '+';
     private const char _space = ' ';
     private const char _transfer = '\n';
-    // private const int _defaultTimerValue = 0;
-    
     public readonly Color ColorText = Color.white;
     private readonly float _offsetValue = 45f;
     private readonly float _heightOffset;
@@ -113,6 +110,11 @@ public class NotificationPanelUIHandler
         size.y = size.y + _heightOffset * _multiplier;
         _imageRectTransform.sizeDelta = size;
     }
+
+    public string GetTextStats(List<CustomizationStat> stats, IGameStatsProvider gameStatsProvider)
+    {
+        return GetTextStats(stats, gameStatsProvider);
+    }
     public string GetTextStats(List<BaseStat> stats, IGameStatsProvider gameStatsProvider)
     {
         bool isFirstStat = true;
@@ -142,8 +144,6 @@ public class NotificationPanelUIHandler
                 _stringBuilder.Append(stat.LocalizationName);
                 _stringBuilder.Append(_endSpaceColor);
             }
-            Debug.Log($"stat.NotificationKey {stat.NotificationKey}   {stat.LocalizationName}   {stat.Value}");
-
         }
 
         return _stringBuilder.ToString();

@@ -1,25 +1,35 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class CalculateStatsHandler
 {
-    public List<BaseStat> PreliminaryStats;
-    private List<BaseStat> _stats;
+    private const int _defaultValue = 0;
+    public readonly List<CustomizationStat> PreliminaryStats;
     
-    public CalculateStatsHandler(List<Stat> preliminaryStats)
+    public CalculateStatsHandler(List<CustomizationStat> preliminaryStats)
     {
-        _stats = preliminaryStats.Cast<BaseStat>().ToList();
-        PreliminaryStats = _stats;
+        PreliminaryStats = preliminaryStats;
     }
     public void PreliminaryStatsCalculation(IReadOnlyList<SwitchInfo> switchInfo)
     {
-        PreliminaryStats = _stats.ToList();
+        SkipValues();
+        List<CustomizationStat> stats;
+        int count;
         for (int i = 0; i < switchInfo.Count; i++)
         {
-            for (int j = 0; j < switchInfo[i].Stats.Count; j++)
+            stats = switchInfo[i].Stats;
+            count = stats.Count;
+            for (int j = 0; j < count; j++)
             {
-                PreliminaryStats[j] = new BaseStat(PreliminaryStats[j].NameText, PreliminaryStats[j].Value + switchInfo[i].Stats[j].Value);
+                PreliminaryStats[j].CustomizationStatValue = PreliminaryStats[j].CustomizationStatValue + stats[j].Value;
             }
+        }
+    }
+
+    private void SkipValues()
+    {
+        foreach (var stat in PreliminaryStats)
+        {
+            stat.CustomizationStatValue = _defaultValue;
         }
     }
 }

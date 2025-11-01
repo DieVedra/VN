@@ -12,7 +12,7 @@ public class CustomizationSettings : ICustomizationSettings
     [SerializeField] private int _price;
     [SerializeField] private int _priceAdditional;
 
-    [SerializeField] private List<Stat> _gameStats;
+    [SerializeField] private List<CustomizationStat> _gameStats;
     public string Name => _name;
     public LocalizationString LocalizationName => _name;
     public int Index => _index;
@@ -21,9 +21,9 @@ public class CustomizationSettings : ICustomizationSettings
     public bool KeyShowStats => _keyShowStats;
     public int Price => _price;
     public int PriceAdditional => _priceAdditional;
-    public List<Stat> GameStats => _gameStats;
+    public List<CustomizationStat> GameStats => _gameStats;
     public IReadOnlyList<ILocalizationString> GameStatsLocalizationStrings => _gameStats;
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional, 
+    public CustomizationSettings(List<CustomizationStat> gameStats, string name, int index, int price, int priceAdditional, 
         bool keyAdd, bool keyShowParams, bool keyShowStats)
     {
         _gameStats = gameStats;
@@ -35,7 +35,7 @@ public class CustomizationSettings : ICustomizationSettings
         _keyShowParams = keyShowParams;
         _keyShowStats = keyShowStats;
     }
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional)
+    public CustomizationSettings(List<CustomizationStat> gameStats, string name, int index, int price, int priceAdditional)
     {
         _gameStats = gameStats;
         _name = name;
@@ -46,7 +46,7 @@ public class CustomizationSettings : ICustomizationSettings
         _keyShowParams  = false;
         _keyShowStats  = true;
     }
-    public CustomizationSettings(List<Stat> gameStats, string name, int index, int price, int priceAdditional, bool keyShowStats)
+    public CustomizationSettings(List<CustomizationStat> gameStats, string name, int index, int price, int priceAdditional, bool keyShowStats)
     {
         _gameStats = gameStats;
         _name = name;

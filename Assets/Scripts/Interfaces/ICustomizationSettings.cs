@@ -7,6 +7,6 @@ public interface ICustomizationSettings : ILocalizationString
     public int Price { get; }
     public int PriceAdditional { get; }
 
-    public List<Stat> GameStats { get; }
+    public List<CustomizationStat> GameStats { get; }
     public IReadOnlyList<ILocalizationString> GameStatsLocalizationStrings { get; }
 }

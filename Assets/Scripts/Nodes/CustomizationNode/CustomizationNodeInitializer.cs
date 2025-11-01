@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 
 public class CustomizationNodeInitializer : MyNodeInitializer
 {
@@ -47,7 +46,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
                 var customizationSetting = new CustomizationSettings(
-                    GameStatsHandler.ReinitStats(customizationOldSetting.GameStats),
+                    GameStatsHandler.ReinitCustomizationStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
                 settings.Add(customizationSetting);
@@ -100,6 +99,6 @@ public class CustomizationNodeInitializer : MyNodeInitializer
 
     private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
     {
-        return new CustomizationSettings(GameStatsHandler.GetGameStatsForm(), name, index, price, priceAdditional);
+        return new CustomizationSettings(GameStatsHandler.GetCustomizationStatsForm(), name, index, price, priceAdditional);
     }
 }

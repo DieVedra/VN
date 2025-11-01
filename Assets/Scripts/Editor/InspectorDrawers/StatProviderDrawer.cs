@@ -103,7 +103,7 @@ public class StatProviderDrawer : Editor
         _colorField = EditorGUILayout.ColorField(_colorField, GUILayout.Width(40f));
         if (GUILayout.Button("Add", GUILayout.Width(40f)))
         {
-            _addNewStatMethod.Invoke(_seriaStatProvider, new object[]{new Stat(_nameField, _addValue, false, _colorField)});
+            _addNewStatMethod.Invoke(_seriaStatProvider, new object[]{new Stat(_nameField, _addValue,  _colorField)});
             TryInitStatNames();
             _colorField = Color.white;
             _nameField = string.Empty;

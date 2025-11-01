@@ -128,7 +128,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         {
             _customizationCharacterPanelUIHandler.ShowCustomizationContentInPlayMode(
                 _wardrobeCharacterViewer, _selectedCustomizationContentIndexes, _wallet,
-                new CalculateStatsHandler(_gameStatsHandler.GetGameStatsForm()),
+                new CalculateStatsHandler(_gameStatsHandler.GetGameCustomizationStatsForm()),
                 SetLocalizationChangeEvent, _customizationEndEvent);
         }
         else
@@ -147,7 +147,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         SwitchToNextNodeEvent.Execute();
     }
 
-    private void TryShowNotification(List<BaseStat> stats)
+    private void TryShowNotification(List<CustomizationStat> stats)
     {
         string text = _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider);
         Debug.Log($"TryShowNotification    {text}");

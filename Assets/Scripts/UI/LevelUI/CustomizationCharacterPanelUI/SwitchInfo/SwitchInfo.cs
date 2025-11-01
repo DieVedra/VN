@@ -6,6 +6,6 @@ public class SwitchInfo
     public int Index;
     public int Price;
     public int AdditionalPrice;
-    public List<BaseStat> Stats;
+    public List<CustomizationStat> Stats;
     public ArrowSwitchMode Mode;
 }

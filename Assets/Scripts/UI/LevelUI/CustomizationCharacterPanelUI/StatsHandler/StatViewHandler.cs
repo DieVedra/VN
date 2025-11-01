@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -7,10 +8,14 @@ using UnityEngine;
 
 public class StatViewHandler
 {
+    private const char _plus = '+';
+    private const char _minus = '-';
+    private const char _space = ' ';
     private readonly float _duration;
     private readonly CanvasGroup _statPanelCanvasGroup;
     private readonly TextMeshProUGUI _statPanelText;
     private CancellationTokenSource _cancellationTokenSource;
+    private StringBuilder _stringBuilder = new StringBuilder();
     private bool _isShowed;
 
     public bool IsShowed => _isShowed;
@@ -49,7 +54,7 @@ public class StatViewHandler
         return result;
     }
 
-    public Stat GetStatInfo(List<Stat> gameStats)
+    public CustomizationStat GetStatInfo(List<CustomizationStat> gameStats)
     {
         int index = 0;
         for (int i = 0; i < gameStats.Count; i++)
@@ -62,18 +67,22 @@ public class StatViewHandler
         return gameStats[index];
     }
 
-    public string CreateLabel(Stat stat)
+    public string CreateLabel(CustomizationStat stat)
     {
-        string label;
+        _stringBuilder.Clear();
         if (stat.Value > 0)
         {
-            label = $"+{stat.Value} {stat.NameText}";
+            _stringBuilder.Append(_plus);
         }
         else
         {
-            label = $"-{stat.Value} {stat.NameText}";
+            _stringBuilder.Append(_minus);
         }
-        return label;
+        _stringBuilder.Append(stat.Value);
+        _stringBuilder.Append(_space);
+        _stringBuilder.Append(stat.NameText);
+
+        return _stringBuilder.ToString();
     }
     public async UniTask HideToShowAnim(Color color, string text)
     {
