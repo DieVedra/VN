@@ -6,23 +6,36 @@ public class TaskRunner
 {
     private const int TaskCountMax = 10;
     private List<Func<UniTask>> _operation;
+    public bool IsRun { get; private set; }
+    public bool WaitToBeRunned { get; private set; }
     
     public void AddOperationToList(Func<UniTask> operation)
     {
-        if (_operation == null)
+        WaitToBeRunned = true;
+        if (IsRun == false)
         {
-            _operation = new List<Func<UniTask>>();
-        }
-        if (_operation.Count < TaskCountMax)
-        {
-            _operation.Add(operation);
+            if (_operation == null)
+            {
+                _operation = new List<Func<UniTask>>();
+            }
+
+            if (_operation.Count < TaskCountMax)
+            {
+                _operation.Add(operation);
+            }
         }
     }
 
     public async UniTask TryRunTasks()
     {
-        await TryRunTasks(_operation);
-        _operation = null;
+        if (IsRun == false)
+        {
+            IsRun = true;
+            await TryRunTasks(_operation);
+            _operation.Clear();
+            IsRun = false;
+            WaitToBeRunned = false;
+        }
     }
 
     public async UniTask TryRunTasks(List<Func<UniTask>> tasksEntered)

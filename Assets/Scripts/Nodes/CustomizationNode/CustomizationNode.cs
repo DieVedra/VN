@@ -150,14 +150,13 @@ public class CustomizationNode : BaseNode, ILocalizable
     private void TryShowNotification(List<CustomizationStat> stats)
     {
         string text = _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider);
-        Debug.Log($"TryShowNotification    {text}");
         if (string.IsNullOrWhiteSpace(text) == false)
         {
             CompositeDisposable compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
             {
                 _notificationPanelUIHandler.SetText(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
             });
-            _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, compositeDisposable).Forget();
+            _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, true, compositeDisposable).Forget();
         }
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

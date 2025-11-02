@@ -26,7 +26,7 @@ public class PoolBase<T>
     }
     public void Return(T item)
     {
-        _returnAction.Invoke(item);
+        _returnAction?.Invoke(item);
         _pool.Enqueue(item);
     }
     public void ReturnAll()

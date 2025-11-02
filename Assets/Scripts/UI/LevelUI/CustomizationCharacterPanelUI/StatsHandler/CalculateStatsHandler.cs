@@ -13,6 +13,8 @@ public class CalculateStatsHandler
     {
         SkipValues();
         List<CustomizationStat> stats;
+        CustomizationStat preliminaryStat;
+        CustomizationStat stat;
         int count;
         for (int i = 0; i < switchInfo.Count; i++)
         {
@@ -20,7 +22,13 @@ public class CalculateStatsHandler
             count = stats.Count;
             for (int j = 0; j < count; j++)
             {
-                PreliminaryStats[j].CustomizationStatValue = PreliminaryStats[j].CustomizationStatValue + stats[j].Value;
+                preliminaryStat = PreliminaryStats[j];
+                stat = stats[j];
+                preliminaryStat.CustomizationStatValue = preliminaryStat.CustomizationStatValue + stat.Value;
+                if (stat.Value != _defaultValue)
+                {
+                    preliminaryStat.CustomizationStatNotificationKey = stat.NotificationKey;
+                }
             }
         }
     }

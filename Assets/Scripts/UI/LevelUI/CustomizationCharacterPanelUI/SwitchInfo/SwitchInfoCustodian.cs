@@ -22,28 +22,28 @@ public class SwitchInfoCustodian
         CalculateStatsHandler calculateStatsHandler)
     {
         _customizationSettingsCustodian = customizationSettingsCustodian;
-        var skinPrices = GetPrice(ArrowSwitchMode.SkinColor);
+        var skinValues = GetPriceAndStats(ArrowSwitchMode.SkinColor);
         BodySwitchInfo = new SwitchInfo
         {
-            Price  = skinPrices.Item1,
-            AdditionalPrice = skinPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats,
+            Price  = skinValues.Item1,
+            AdditionalPrice = skinValues.Item2,
+            Stats = skinValues.Item3,
             Mode = ArrowSwitchMode.SkinColor
         };
-        var hairstylesPrices = GetPrice(ArrowSwitchMode.Hairstyle);
+        var hairstylesValues = GetPriceAndStats(ArrowSwitchMode.Hairstyle);
         HairstyleSwitchInfo = new SwitchInfo
         {
-            Price  = hairstylesPrices.Item1,
-            AdditionalPrice = hairstylesPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats,
+            Price  = hairstylesValues.Item1,
+            AdditionalPrice = hairstylesValues.Item2,
+            Stats = hairstylesValues.Item3,
             Mode = ArrowSwitchMode.Hairstyle
         };
-        var clothesPrices = GetPrice(ArrowSwitchMode.Clothes);
+        var clothesValues = GetPriceAndStats(ArrowSwitchMode.Clothes);
         ClothesSwitchInfo = new SwitchInfo
         {
-            Price  = clothesPrices.Item1,
-            AdditionalPrice = clothesPrices.Item2,
-            Stats = calculateStatsHandler.PreliminaryStats,
+            Price  = clothesValues.Item1,
+            AdditionalPrice = clothesValues.Item2,
+            Stats = clothesValues.Item3,
             Mode = ArrowSwitchMode.Clothes
         };
         CurrentSwitchInfo = new SwitchInfo
@@ -51,16 +51,16 @@ public class SwitchInfoCustodian
             Stats = calculateStatsHandler.PreliminaryStats
         };
         _allInfo = new[] {BodySwitchInfo, HairstyleSwitchInfo, ClothesSwitchInfo};
-        (int,int) GetPrice(ArrowSwitchMode mode)
+        (int,int, List<CustomizationStat>) GetPriceAndStats(ArrowSwitchMode mode)
         {
             IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)mode];
             if (indexes.Count > 0)
             {
-                return (indexes[0].Price, indexes[0].PriceAdditional);
+                return (indexes[0].Price, indexes[0].PriceAdditional, indexes[0].GameStats);
             }
             else
             {
-                return (0,0);
+                return (0,0, calculateStatsHandler.PreliminaryStats);
             }
         }
     }

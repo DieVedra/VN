@@ -40,13 +40,10 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
             EditorGUILayout.EndHorizontal();
             if (_addContactSerializableProperty.boolValue == true)
             {
-                if (_showNotificationKeySerializableProperty.boolValue)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Show notification: ", GUILayout.Width(100f));
-                    _showNotificationKeySerializableProperty.boolValue = EditorGUILayout.Toggle(_showNotificationKeySerializableProperty.boolValue);
-                    EditorGUILayout.EndHorizontal();
-                }
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Show notification: ", GUILayout.Width(100f));
+                _showNotificationKeySerializableProperty.boolValue = EditorGUILayout.Toggle(_showNotificationKeySerializableProperty.boolValue);
+                EditorGUILayout.EndHorizontal();
                 if (_addContactToPhoneNode.Phones != null && _addContactToPhoneNode.Phones.Count > 0)
                 {
                     InitNamesPhones();

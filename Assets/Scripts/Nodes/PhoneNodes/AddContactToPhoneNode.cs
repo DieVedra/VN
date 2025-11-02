@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -46,7 +45,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
                 _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(
                     () => { _notificationPanelUIHandler.SetText(GetText());});
                 CancellationTokenSource = new CancellationTokenSource();
-                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(GetText(), CancellationTokenSource.Token, _compositeDisposable).Forget();
+                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(GetText(), CancellationTokenSource.Token, false, _compositeDisposable).Forget();
             }
         }
     }

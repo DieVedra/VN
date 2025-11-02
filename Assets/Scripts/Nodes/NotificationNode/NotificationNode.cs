@@ -26,11 +26,11 @@ public class NotificationNode : BaseNode, ILocalizable
         CancellationTokenSource = new CancellationTokenSource();
         if (_awaitKey)
         {
-            await _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, _compositeDisposable, _notificationNodeData);
+            await _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, false, _compositeDisposable, _notificationNodeData);
         }
         else
         {
-            _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, _compositeDisposable, _notificationNodeData).Forget();
+            _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, false, _compositeDisposable, _notificationNodeData).Forget();
         }
     }
 

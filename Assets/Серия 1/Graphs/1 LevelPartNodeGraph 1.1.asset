@@ -168,7 +168,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 8033070752538020735}
+        node: {fileID: 8002110192135223643}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1580,7 +1580,10 @@ MonoBehaviour:
       _node: {fileID: 4133872993187370784}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Output
+        node: {fileID: 8033070752538020735}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -1931,7 +1934,7 @@ MonoBehaviour:
   m_Name: Customization
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -4552, y: -1720}
+  position: {x: -4600, y: -1576}
   ports:
     keys:
     - Input
@@ -1953,15 +1956,18 @@ MonoBehaviour:
       _node: {fileID: 8002110192135223643}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -6516700827330400648}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   namenode: 1.1.1
   _showFoldoutSettingsHairstyles: 0
-  _showFoldoutSettingsClothes: 1
-  _showFoldoutSettingsBodies: 0
+  _showFoldoutSettingsClothes: 0
+  _showFoldoutSettingsBodies: 1
   _showFoldoutSettingsSwimsuits: 0
   _customizationCharacterIndex: 0
   _settingsBodies:
@@ -1970,7 +1976,7 @@ MonoBehaviour:
       <Key>k__BackingField: str_86A599ED
     _index: 0
     _keyAdd: 1
-    _keyShowParams: 0
+    _keyShowParams: 1
     _keyShowStats: 1
     _price: 0
     _priceAdditional: 0
@@ -4064,7 +4070,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -6516700827330400648}
+        node: {fileID: 4133872993187370784}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

@@ -245,7 +245,7 @@ public class ChoiceNode : BaseNode, ILocalizable
                 {
                     _notificationPanelUIHandler.SetText(_notificationPanelUIHandler.GetTextStats(_allStatsChoice[buttonPressIndex], _gameStatsProvider));
                 });
-                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, compositeDisposable).Forget();
+                _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, false, compositeDisposable).Forget();
             }
         }
     }

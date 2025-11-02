@@ -5,6 +5,7 @@ using UniRx;
 
 public class ArrowSwitch
 {
+    private const int _taskRunCount = 3;
     private readonly ICharacterCustomizationView _characterCustomizationView;
     private readonly SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private readonly TextMeshProUGUI _titleTextComponent;
@@ -17,6 +18,7 @@ public class ArrowSwitch
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
+    private readonly PoolBase<TaskRunner> _poolBase;
     private CompositeDisposable _compositeDisposable;
     private bool _isSwitched;
 
@@ -45,6 +47,7 @@ public class ArrowSwitch
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
+        _poolBase = new PoolBase<TaskRunner>(Create, null, _taskRunCount);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
@@ -117,7 +120,7 @@ public class ArrowSwitch
     private TaskRunner CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData,
         DirectionType directionType, int price, int additionalPrice)
     {
-        TaskRunner taskRunner = new TaskRunner();
+        TaskRunner taskRunner = _poolBase.Get();
         switch (directionType)
         {
             case DirectionType.Right:
@@ -217,8 +220,9 @@ public class ArrowSwitch
             _isSwitched = true;
             while (_isSwitched == true)
             {
-                await _tasksQueue.Dequeue().TryRunTasks();
-
+                var task = _tasksQueue.Dequeue();
+                await task.TryRunTasks();
+                _poolBase.Return(task);
                 if (_tasksQueue.Count == 0)
                 {
                     _isSwitched = false;
@@ -238,4 +242,12 @@ public class ArrowSwitch
             return false;
         }
     }
+    private TaskRunner Create()
+    {
+        return new TaskRunner();;
+    }
+    // private void OnReturn(TaskRunner taskRunner)
+    // {
+    //     view.gameObject.SetActive(false);
+    // }
 }
