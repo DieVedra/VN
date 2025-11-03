@@ -37,6 +37,7 @@ public class CalculateStatsHandler
     {
         foreach (var stat in PreliminaryStats)
         {
+            stat.CustomizationStatNotificationKey = false;
             stat.CustomizationStatValue = _defaultValue;
         }
     }

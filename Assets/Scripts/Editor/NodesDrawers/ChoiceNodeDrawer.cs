@@ -69,93 +69,92 @@ public class ChoiceNodeDrawer : NodeEditor
         {
             _choiceNode = target as ChoiceNode;
         }
-
-        if (_choiceText1Property == null)
+        else
         {
-            _choiceText1Property = serializedObject.FindProperty("_localizationChoiceText1");
-            _choiceText2Property = serializedObject.FindProperty("_localizationChoiceText2");
-            _choiceText3Property = serializedObject.FindProperty("_localizationChoiceText3");
-            _showChoice3Property = serializedObject.FindProperty("_showChoice3Key");
-            _showOutputProperty = serializedObject.FindProperty("_showOutput");
-        
-            _addTimerProperty = serializedObject.FindProperty("_addTimer");
-            _timerValueProperty = serializedObject.FindProperty("_timerValue");
-            _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
-
-            _showStatsChoice1KeyProperty = serializedObject.FindProperty("_showStatsChoice1Key");
-            _showStatsChoice2KeyProperty = serializedObject.FindProperty("_showStatsChoice2Key");
-            _showStatsChoice3KeyProperty = serializedObject.FindProperty("_showStatsChoice3Key");
-
-
-            _choice1PriceProperty = serializedObject.FindProperty("_choice1Price");
-            _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
-            _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
-            _choice1AdditionaryPriceProperty = serializedObject.FindProperty("_choice1AdditionaryPrice");
-            _choice2AdditionaryPriceProperty = serializedObject.FindProperty("_choice2AdditionaryPrice");
-            _choice3AdditionaryPriceProperty = serializedObject.FindProperty("_choice3AdditionaryPrice");
-            _lineDrawer = new LineDrawer();
-            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
-            _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
-            _localizationStringText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText2Property);
-            _localizationStringText3 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText3Property);
-            
-            _showNotificationChoice1Property = serializedObject.FindProperty("_showNotificationChoice1");
-            _showNotificationChoice2Property = serializedObject.FindProperty("_showNotificationChoice2");
-            _showNotificationChoice3Property = serializedObject.FindProperty("_showNotificationChoice3");
-        }
-
-        serializedObject.Update();
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-        
-        
-        _showOutputProperty.boolValue = EditorGUILayout.Toggle("Show Output: ", _showOutputProperty.boolValue);
-        if (_showOutputProperty.boolValue)
-        {
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
-        }
-        
-        EditorGUILayout.BeginHorizontal();
-
-        _addTimerProperty.boolValue = EditorGUILayout.Toggle("Add Timer: ", _addTimerProperty.boolValue, GUILayout.Width(100f));
-        if (_addTimerProperty.boolValue)
-        {
-            _timerValueProperty.intValue= EditorGUILayout.IntField("Timer Value: ", _timerValueProperty.intValue, GUILayout.Width(120f));
-        }
-
-        EditorGUILayout.EndHorizontal();
-        if (_addTimerProperty.boolValue)
-        {
-            TryCreatePortIndexes();
-            _timerPortIndexProperty.intValue =
-                EditorGUILayout.Popup("Port index: ", _timerPortIndexProperty.intValue, _timerPortIndexes);
-        }
-        
-        
-        
-        EditorGUI.BeginChangeCheck();
-        DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
-            _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, _showNotificationChoice1Property, "Choice 1", "_baseStatsChoice1", 0);
-        DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
-            _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty, _showNotificationChoice2Property,"Choice 2", "_baseStatsChoice2", 1);
-        EditorGUILayout.Space(10f);
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Show choice3: ");
-        _showChoice3Property.boolValue = EditorGUILayout.Toggle(_showChoice3Property.boolValue);
-        EditorGUILayout.EndHorizontal();
-        if (_showChoice3Property.boolValue)
-        {
-            DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
-                _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, _showNotificationChoice3Property,"Choice 3", "_baseStatsChoice3", 2);
-        }
-        if (EditorGUI.EndChangeCheck())
-        {
-            serializedObject.ApplyModifiedProperties();
-        
-            if (_privateMethod == null)
+            if (_choiceText1Property == null)
             {
-                _privateMethod = _choiceNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
+                _choiceText1Property = serializedObject.FindProperty("_localizationChoiceText1");
+                _choiceText2Property = serializedObject.FindProperty("_localizationChoiceText2");
+                _choiceText3Property = serializedObject.FindProperty("_localizationChoiceText3");
+                _showChoice3Property = serializedObject.FindProperty("_showChoice3Key");
+                _showOutputProperty = serializedObject.FindProperty("_showOutput");
+        
+                _addTimerProperty = serializedObject.FindProperty("_addTimer");
+                _timerValueProperty = serializedObject.FindProperty("_timerValue");
+                _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
+
+                _showStatsChoice1KeyProperty = serializedObject.FindProperty("_showStatsChoice1Key");
+                _showStatsChoice2KeyProperty = serializedObject.FindProperty("_showStatsChoice2Key");
+                _showStatsChoice3KeyProperty = serializedObject.FindProperty("_showStatsChoice3Key");
+
+
+                _choice1PriceProperty = serializedObject.FindProperty("_choice1Price");
+                _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
+                _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
+                _choice1AdditionaryPriceProperty = serializedObject.FindProperty("_choice1AdditionaryPrice");
+                _choice2AdditionaryPriceProperty = serializedObject.FindProperty("_choice2AdditionaryPrice");
+                _choice3AdditionaryPriceProperty = serializedObject.FindProperty("_choice3AdditionaryPrice");
+                _lineDrawer = new LineDrawer();
+                _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
+                _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
+                _localizationStringText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText2Property);
+                _localizationStringText3 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText3Property);
+            
+                _showNotificationChoice1Property = serializedObject.FindProperty("_showNotificationChoice1");
+                _showNotificationChoice2Property = serializedObject.FindProperty("_showNotificationChoice2");
+                _showNotificationChoice3Property = serializedObject.FindProperty("_showNotificationChoice3");
             }
-            _privateMethod.Invoke(_choiceNode, null);
+
+            serializedObject.Update();
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+
+            _showOutputProperty.boolValue = EditorGUILayout.Toggle("Show Output: ", _showOutputProperty.boolValue);
+            if (_showOutputProperty.boolValue)
+            {
+                NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+            }
+
+            EditorGUILayout.BeginHorizontal();
+            _addTimerProperty.boolValue = EditorGUILayout.Toggle("Add Timer: ", _addTimerProperty.boolValue, GUILayout.Width(100f));
+            if (_addTimerProperty.boolValue)
+            {
+                _timerValueProperty.intValue= EditorGUILayout.IntField("Timer Value: ", _timerValueProperty.intValue, GUILayout.Width(120f));
+            }
+
+            EditorGUILayout.EndHorizontal();
+            if (_addTimerProperty.boolValue)
+            {
+                TryCreatePortIndexes();
+                _timerPortIndexProperty.intValue =
+                    EditorGUILayout.Popup("Port index: ", _timerPortIndexProperty.intValue, _timerPortIndexes);
+            }
+
+            EditorGUI.BeginChangeCheck();
+            DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
+                _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, _showNotificationChoice1Property, "Choice 1", "_baseStatsChoice1", 0);
+            DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
+                _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty, _showNotificationChoice2Property,"Choice 2", "_baseStatsChoice2", 1);
+            EditorGUILayout.Space(10f);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Show choice3: ");
+            _showChoice3Property.boolValue = EditorGUILayout.Toggle(_showChoice3Property.boolValue);
+            EditorGUILayout.EndHorizontal();
+            if (_showChoice3Property.boolValue)
+            {
+                DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
+                    _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, _showNotificationChoice3Property,"Choice 3", "_baseStatsChoice3", 2);
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+        
+                if (_privateMethod == null)
+                {
+                    _privateMethod = _choiceNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
+                }
+                _privateMethod?.Invoke(_choiceNode, null);
+            }
         }
     }
 
@@ -166,7 +165,7 @@ public class ChoiceNodeDrawer : NodeEditor
     {
         EditorGUILayout.Space(10f);
         _localizationStringTextDrawer.DrawTextField(textProperty, label,false);
-        showNotificationChoiceProperty.boolValue = EditorGUILayout.Toggle("Show notification: ", showStatsChoiceProperty.boolValue);
+        showNotificationChoiceProperty.boolValue = EditorGUILayout.Toggle("Show notification: ", showNotificationChoiceProperty.boolValue);
         choicePriceProperty.floatValue = EditorGUILayout.FloatField("Choice price: ", choicePriceProperty.floatValue, GUILayout.Width(120f));
         choiceAdditionaryPriceProperty.floatValue = EditorGUILayout.FloatField("Choice additionary price: ", choiceAdditionaryPriceProperty.floatValue, GUILayout.Width(120f));
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -18,6 +19,10 @@ public class NotificationNode : BaseNode, ILocalizable
     public void ConstructMyNotificationNode(NotificationPanelUIHandler notificationPanelUIHandler)
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
+        Observable.Timer(TimeSpan.FromSeconds(Time.deltaTime)).Subscribe(_ =>
+        {
+            _notificationNodeData.Reset();
+        });
     }
     public override async UniTask Enter(bool isMerged = false)
     {

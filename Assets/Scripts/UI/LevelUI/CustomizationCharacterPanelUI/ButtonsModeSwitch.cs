@@ -57,17 +57,14 @@ public class ButtonsModeSwitch
             case ArrowSwitchMode.SkinColor:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.BodySwitchInfo);
                 TryOffArrowsAndSetCurrentCustomizationSettingses((int) mode);
-                CalculatingStats(_switchInfoCustodian.HairstyleSwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
                 break;
             case ArrowSwitchMode.Hairstyle:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.HairstyleSwitchInfo);
                 TryOffArrowsAndSetCurrentCustomizationSettingses((int) mode);
-                CalculatingStats(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.ClothesSwitchInfo);
                 break;
             case ArrowSwitchMode.Clothes:
                 _switchInfoCustodian.SetToCurrentInfo(_switchInfoCustodian.ClothesSwitchInfo);
                 CheckAndSetClothes();
-                CalculatingStats(_switchInfoCustodian.BodySwitchInfo, _switchInfoCustodian.HairstyleSwitchInfo);
                 break;
         }
         CalculatingPrice();

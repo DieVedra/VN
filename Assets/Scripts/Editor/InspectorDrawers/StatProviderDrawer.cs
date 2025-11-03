@@ -97,7 +97,7 @@ public class StatProviderDrawer : Editor
         DrawField("Add Stat: ", _guiStyle, 80f, 1, FontStyle.Bold);
         EditorGUILayout.Space(10f);
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("NameText: ", GUILayout.Width(40f));
+        EditorGUILayout.LabelField("NameText: ", GUILayout.Width(60f));
         _nameField = EditorGUILayout.TextField(_nameField, GUILayout.Width(150f));
         EditorGUILayout.LabelField("Color: ", GUILayout.Width(40f));
         _colorField = EditorGUILayout.ColorField(_colorField, GUILayout.Width(40f));

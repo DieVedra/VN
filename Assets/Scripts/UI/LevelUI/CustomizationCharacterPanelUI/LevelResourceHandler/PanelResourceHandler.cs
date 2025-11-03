@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
+using UnityEngine;
 
 public class PanelResourceHandler
 {
@@ -59,10 +60,12 @@ public class PanelResourceHandler
             case ResourcesViewMode.MonetMode:
                 await AnimHidePanelMonets(duration);
                 DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
+
                 break;
             case ResourcesViewMode.HeartsMode:
                 await AnimHidePanelHearts(duration);
                 DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
+
                 break;
             case ResourcesViewMode.MonetsAndHeartsMode:
                 await UniTask.WhenAll(AnimHidePanelMonets(duration), AnimHidePanelHearts(duration));

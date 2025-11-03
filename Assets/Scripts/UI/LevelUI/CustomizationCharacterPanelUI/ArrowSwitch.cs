@@ -47,7 +47,7 @@ public class ArrowSwitch
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
-        _poolBase = new PoolBase<TaskRunner>(Create, null, _taskRunCount);
+        _poolBase = new PoolBase<TaskRunner>(() => new TaskRunner(), null, _taskRunCount);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
@@ -242,12 +242,4 @@ public class ArrowSwitch
             return false;
         }
     }
-    private TaskRunner Create()
-    {
-        return new TaskRunner();;
-    }
-    // private void OnReturn(TaskRunner taskRunner)
-    // {
-    //     view.gameObject.SetActive(false);
-    // }
 }

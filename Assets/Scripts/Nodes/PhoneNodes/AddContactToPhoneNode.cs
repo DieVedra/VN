@@ -37,6 +37,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
 
     public override async UniTask Enter(bool isMerged = false)
     {
+        ButtonSwitchSlideUIHandler.DeactivatePushOption();
         if (_addContact == true)
         {
             Phones[_phoneIndex].AddPhoneData(_currentSeria, Contacts[_contactIndex]);
@@ -48,6 +49,8 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
                 _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(GetText(), CancellationTokenSource.Token, false, _compositeDisposable).Forget();
             }
         }
+        SwitchToNextNodeEvent.Execute();
+        ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
     }
     protected override void SetInfoToView()
     {

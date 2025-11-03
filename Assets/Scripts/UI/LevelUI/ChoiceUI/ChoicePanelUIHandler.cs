@@ -104,7 +104,6 @@ public class ChoicePanelUIHandler
             _panelResourceHandler.TryHidePanel().Forget();
         }
         _choicePanelUI.gameObject.SetActive(false);
-        _panelResourceHandler.Dispose();
     }
 
     public void ActivateTimerChoice(ChoiceResultEvent<int> choiceResultEvent, int index, CancellationToken cancellationToken)

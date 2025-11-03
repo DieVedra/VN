@@ -30,7 +30,6 @@ public class NotificationPanelUIHandler : PanelUIHandler
     private readonly TextMeshProUGUI _textComponent;
 
     private readonly PoolBase<TaskRunner> _taskPool;
-    // private readonly TaskRunner _taskRunner;
     private readonly Queue<TaskRunner> _taskRunnerQueue;
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
