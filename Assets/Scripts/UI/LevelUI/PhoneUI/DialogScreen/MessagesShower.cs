@@ -6,21 +6,25 @@ using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
-public class MessagesShower : PanelUIHandler
+public class MessagesShower
 {
-    private const int _sublingIndexBlackoutFrame = 6;
+    private const int _sublingIndexAddebleValue = 1;
+    private const int _defaultValue = 0;
     private const float _fadeEndValue = 0.3f;
     private const float _unfadeEndValue = 0f;
     private const float _duration = 0.2f;
     private const float _startPositionX = 0f;
     private const float _startPositionY = -666f;
-    private const float _offset = 25f;
+    private const float _offset = 30f;
+    private const float _multiplier = 1.6f;
+    private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
     private IReadOnlyList<PhoneMessageLocalization> _phoneMessagesLocalization;
     private Action _setOnlineStatus;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
+    private readonly int _phoneSublingIndex;
     private PhoneMessageType _lastMessageType;
     private CancellationTokenSource _cancellationTokenSource;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
@@ -31,14 +35,16 @@ public class MessagesShower : PanelUIHandler
     private CompositeDisposable _compositeDisposable;
     private CompositeDisposable _narrativeCompositeDisposable;
     private int _blackoutFrameSublingIndexBufer;
+    private int _narrativePanelSublingIndexBufer;
     private bool _inProgress;
     private bool _resultShowText;
     private bool _characterOnlineKey;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
-    public MessagesShower(CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI)
+    public MessagesShower(CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI, int phoneSublingIndex)
     {
         _curtainUIHandler = curtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
+        _phoneSublingIndex = phoneSublingIndex + _sublingIndexAddebleValue;
         _messageViewed = new List<MessageView>();
     }
 
@@ -52,11 +58,11 @@ public class MessagesShower : PanelUIHandler
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _setOnlineStatus = setOnlineStatus;
-        _index = 0;
+        _index = _defaultValue;
         _inProgress = false;
         _resultShowText = false;
         _characterOnlineKey = characterOnlineKey;
-        if (phoneMessagesLocalization.Count == 0)
+        if (phoneMessagesLocalization.Count == _defaultValue)
         {
             disableReadButton.Invoke();
         }
@@ -194,7 +200,9 @@ public class MessagesShower : PanelUIHandler
             }, _narrativeCompositeDisposable);
             
             _blackoutFrameSublingIndexBufer = _curtainUIHandler.Transform.GetSiblingIndex();
-            _curtainUIHandler.Transform.SetSiblingIndex(_sublingIndexBlackoutFrame);
+            _narrativePanelSublingIndexBufer = _narrativePanelUI.RectTransform.GetSiblingIndex();
+            _curtainUIHandler.Transform.SetSiblingIndex(_phoneSublingIndex);
+            _narrativePanelUI.RectTransform.SetSiblingIndex(_curtainUIHandler.Transform.GetSiblingIndex());
             _curtainUIHandler.CurtainImage.raycastTarget = false;
             _curtainUIHandler.CurtainImage.color = _colorHide;
             _curtainUIHandler.CurtainImage.gameObject.SetActive(true);
@@ -209,6 +217,7 @@ public class MessagesShower : PanelUIHandler
         if (_lastMessageType == PhoneMessageType.Narrative)
         {
             _curtainUIHandler.Transform.SetSiblingIndex(_blackoutFrameSublingIndexBufer);
+            _narrativePanelUI.RectTransform.SetSiblingIndex(_narrativePanelSublingIndexBufer);
             _curtainUIHandler.CurtainImage.raycastTarget = true;
             _curtainUIHandler.CurtainImage.gameObject.SetActive(false);
             UniTask.WhenAll(
@@ -219,9 +228,9 @@ public class MessagesShower : PanelUIHandler
     private void ResizePanel(MessageView view)
     {
         view.Text.ForceMeshUpdate();
-        Size = view.Text.GetRenderedValues(true);
-        Size.x = view.ImageRectTransform.sizeDelta.x;
-        Size.y = Size.y + view.HeightOffset * Multiplier;
-        view.ImageRectTransform.sizeDelta = Size;
+        _size = view.Text.GetRenderedValues(true);
+        _size.x = view.ImageRectTransform.sizeDelta.x;
+        _size.y = _size.y + view.Text.fontSize * _multiplier;
+        view.ImageRectTransform.sizeDelta = _size;
     }
 }

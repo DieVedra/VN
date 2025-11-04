@@ -90,12 +90,8 @@ public class PhoneNode : BaseNode, ILocalizable
                 TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
             }
         }
-    
-        if (_contactsInfoToGame != null)
-        {
-            TransferringKeys(_contactsInfoToGame);
-        }
-    
+        TransferringKeys(_contactsInfoToGame);
+
         void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
         {
             if (contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
@@ -128,5 +124,10 @@ public class PhoneNode : BaseNode, ILocalizable
             }
             from.TrimExcess();
         }
+    }
+
+    private void Awake()
+    {
+        _contactsInfoToGame = new List<ContactInfoToGame>();
     }
 }

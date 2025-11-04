@@ -88,13 +88,9 @@ public class PhoneNodeDrawer : NodeEditor
                     DrawVariants(_contactsInfoToGameSerializedProperty, $" notification ", $"_keyNotification");
                     EditorGUILayout.EndScrollView();
                 }
-                else if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.ContactsScreen)
-                {
-                    
-                }
                 else if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.DialogScreen)
                 {
-                    if (_characterNames.Length > 0)
+                    if (_characterNames != null && _characterNames.Length > 0)
                     {
                         EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.LabelField("Dialog with character: ");

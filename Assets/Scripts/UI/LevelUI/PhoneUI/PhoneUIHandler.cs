@@ -72,7 +72,7 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform, GetOnlineStatus);
-        var messagesShower = new MessagesShower(_curtainUIHandler, _narrativePanelUI);
+        var messagesShower = new MessagesShower(_curtainUIHandler, _narrativePanelUI, phoneUIView.transform.GetSiblingIndex());
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,

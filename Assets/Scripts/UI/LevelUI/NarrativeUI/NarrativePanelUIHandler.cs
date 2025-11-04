@@ -13,10 +13,10 @@ public class NarrativePanelUIHandler : PanelUIHandler
     private const float _unhideValue = 1f;
     private const string _spaceColor = "<color=#00000000>";
     private const string _endSpaceColor = "</color>";
+    public readonly RectTransform RectTransform;
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
     private readonly NarrativePanelUI _narrativePanelUI;
-    private readonly RectTransform _rectTransform;
     private readonly TextMeshProUGUI _textComponent;
     private readonly AnimationPanel _animationPanel;
     private readonly TextConsistentlyViewer _textConsistentlyViewer;
@@ -27,12 +27,12 @@ public class NarrativePanelUIHandler : PanelUIHandler
     {
         _textConsistentlyViewer = new TextConsistentlyViewer(narrativePanelUI.TextComponent);
         _narrativePanelUI = narrativePanelUI;
-        _rectTransform = _narrativePanelUI.PanelRectTransform;
+        RectTransform = _narrativePanelUI.PanelRectTransform;
         _textComponent = _narrativePanelUI.TextComponent;
-        _unfadePosition = _rectTransform.anchoredPosition;
+        _unfadePosition = RectTransform.anchoredPosition;
         _fadePosition = new Vector3(_unfadePosition.x, _unfadePosition.y + _offsetValue, _unfadePosition.z);
         _stringBuilder = new StringBuilder();
-        _animationPanel = new AnimationPanel(_rectTransform, _narrativePanelUI.CanvasGroup,
+        _animationPanel = new AnimationPanel(RectTransform, _narrativePanelUI.CanvasGroup,
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
     }
 
@@ -43,7 +43,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
     public void NarrativeInEditMode(string text)
     {
         _narrativePanelUI.gameObject.SetActive(true);
-        _rectTransform.anchoredPosition = _unfadePosition;
+        RectTransform.anchoredPosition = _unfadePosition;
         _narrativePanelUI.CanvasGroup.alpha = _unhideValue;
         SetText(text);
     }
@@ -51,7 +51,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
     public async UniTask EmergenceNarrativePanelInPlayMode(string text, CancellationToken token)
     {
         _narrativePanelUI.gameObject.SetActive(true);
-        _rectTransform.anchoredPosition = _fadePosition;
+        RectTransform.anchoredPosition = _fadePosition;
         _textComponent.text = String.Empty;
         _stringBuilder.Clear();
         _stringBuilder.Append(_spaceColor);
@@ -77,7 +77,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
         await AnimationPanel.FadePanel(token);
         _narrativePanelUI.gameObject.SetActive(false);
         _narrativePanelUI.CanvasGroup.alpha = _hideValue;
-        _rectTransform.anchoredPosition = _fadePosition;
+        RectTransform.anchoredPosition = _fadePosition;
     }
     private void ResizePanel()
     {
