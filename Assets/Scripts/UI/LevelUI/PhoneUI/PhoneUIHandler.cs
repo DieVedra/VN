@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -19,6 +18,7 @@ public class PhoneUIHandler : ILocalizable
     private readonly ReactiveCommand _switchToContactsScreenCommand;
     private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
     private LocalizationString _notificationNameLocalizationString = "Получено новое сообщение!";
+    private IReadOnlyDictionary<string, ContactInfoToGame> _contactsInfoToGame;
     private Action _initOperation;
     private TopPanelHandler _topPanelHandler;
     private BlockScreenHandler _blockScreenHandler;
@@ -29,7 +29,6 @@ public class PhoneUIHandler : ILocalizable
     private Phone _currentPhone;
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private Dictionary<string, ContactInfoToGame> _contactsInfoToGame;
     public PhoneTime PhoneTime => _phoneTime;
     public PhoneUIHandler(PhoneContentProvider phoneContentProvider, NarrativePanelUIHandler narrativePanelUI,
         CustomizationCurtainUIHandler curtainUIHandler, CompositeDisposable compositeDisposable, Action initOperation)
@@ -55,19 +54,24 @@ public class PhoneUIHandler : ILocalizable
         });
         _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
         _phoneUIGameObject = phoneUIView.gameObject;
-        RectTransform rectTransform = phoneUIView.transform as RectTransform;
-        var pos = new Vector3(_scale, _scale, _scale);
-        rectTransform.localScale = pos;
-        pos.x = _left;
-        pos.y = _bottom;
-        rectTransform.offsetMin = pos; //left, bottom
-        pos.x = _right;
-        pos.y = _top;
-        rectTransform.offsetMax = pos; //right, top
-        pos.x = rectTransform.localPosition.x;
-        pos.y = rectTransform.localPosition.y;
-        pos.z = 0;
-        rectTransform.localPosition = pos;
+        if (phoneUIView.transform is RectTransform rectTransform)
+        {
+            var pos = new Vector3(_scale, _scale, _scale);
+            rectTransform.localScale = pos;
+            pos.x = _left;
+            pos.y = _bottom;
+            rectTransform.offsetMin = pos; //left, bottom
+            pos.x = _right;
+            pos.y = _top;
+            rectTransform.offsetMax = pos; //right, top
+            var localPosition = rectTransform.localPosition;
+            pos.x = localPosition.x;
+            pos.y = localPosition.y;
+            pos.z = 0;
+            localPosition = pos;
+            rectTransform.localPosition = localPosition;
+        }
+
         var contactsShower = new ContactsShower(
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
@@ -94,18 +98,13 @@ public class PhoneUIHandler : ILocalizable
         _phoneUIGameObject.SetActive(false);
         _topPanelHandler.Dispose();
     }
-
-    public void ConstructFromNode(IReadOnlyList<ContactInfoToGame> contactsInfoToGame,
+    public void ConstructFromNode(IReadOnlyDictionary<string, ContactInfoToGame> contactsInfoToGame,
         Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         bool playModeKey, int butteryPercent, int startHour, int startMinute)
     {
         _initOperation?.Invoke();
         _initOperation = null;
-        if (contactsInfoToGame != null)
-        {
-            _contactsInfoToGame = contactsInfoToGame.ToDictionary(x=>x.KeyName);
-        }
-
+        _contactsInfoToGame = contactsInfoToGame;
         _currentPhone = phone;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _switchToNextNodeEvent = switchToNextNodeEvent;

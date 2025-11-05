@@ -14,6 +14,7 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private LocalizationString _date;
     [SerializeField] private int _startScreenCharacterIndex;
     [SerializeField] private List<ContactInfoToGame> _contactsInfoToGame;
+    private Dictionary<string, ContactInfoToGame> _contactsDictionary;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     public IReadOnlyList<Phone> Phones { get; private set; }
@@ -27,10 +28,7 @@ public class PhoneNode : BaseNode, ILocalizable
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         Contacts = contacts;
-        if (IsPlayMode() == false)
-        {
-            CreateContactsToOnlineAndNotifications(contacts);
-        }
+        CreateContactsToOnlineAndNotifications(contacts);
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -51,8 +49,7 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        Debug.Log($"Phones {Phones.Count}  _phoneIndex{_phoneIndex}");
-        _phoneUIHandler.ConstructFromNode(_contactsInfoToGame, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
+        _phoneUIHandler.ConstructFromNode(_contactsDictionary, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
             _butteryPercent,_startHour, _startMinute);
         switch (_phoneStartScreen)
         {
@@ -68,13 +65,19 @@ public class PhoneNode : BaseNode, ILocalizable
         }
     }
 
+    public override void Dispose()
+    {
+        _contactsDictionary = null;
+        base.Dispose();
+    }
+
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[] {_date};
     }
     private void CreateContactsToOnlineAndNotifications(IReadOnlyList<PhoneContactDataLocalizable> contacts)
     {
-        Dictionary<string, ContactInfoToGame> contactsDictionary = new Dictionary<string, ContactInfoToGame>();
+        _contactsDictionary = new Dictionary<string, ContactInfoToGame>();
         for (int i = 0; i < contacts.Count; i++)
         {
             TryAdd(contacts[i]);
@@ -90,44 +93,59 @@ public class PhoneNode : BaseNode, ILocalizable
                 TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
             }
         }
-        TransferringKeys(_contactsInfoToGame);
-
-        void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
+        if (_contactsInfoToGame.Count > 0)
         {
-            if (contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
-            {
-                contactsDictionary.Add(
-                    phoneContactDataLocalizable.NameContact.Key,
-                    new ContactInfoToGame(
-                        phoneContactDataLocalizable.NameContact.DefaultText,
-                        phoneContactDataLocalizable.NameContact.Key,
-                        statusKey, notificationKey));
-            }
+            TransferringKeys();
         }
-    
-        void TransferringKeys(List<ContactInfoToGame> from)
+        else
         {
-            for (int i = 0; i < from.Count; i++)
+            FillContactsInfoToGame();
+        }
+    }
+    private void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
+    {
+        if (_contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
+        {
+            _contactsDictionary.Add(
+                phoneContactDataLocalizable.NameContact.Key,
+                new ContactInfoToGame(
+                    phoneContactDataLocalizable.NameContact.Key,
+                    phoneContactDataLocalizable.NameContact.DefaultText,
+                    statusKey, notificationKey));
+        }
+    }
+    private void TransferringKeys()
+    {
+        ContactInfoToGame contact;
+        for (int i = _contactsInfoToGame.Count -1 ; i >= 0; i--)
+        {
+            contact = _contactsInfoToGame[i];
+            if (_contactsDictionary.TryGetValue(contact.KeyName, out ContactInfoToGame contactFromDictionary))
             {
-                if (contactsDictionary.ContainsKey(from[i].KeyName))
-                {
-                    var oldInfoValue = contactsDictionary[from[i].KeyName];
-                    oldInfoValue.KeyNotification = from[i].KeyNotification;
-                    oldInfoValue.KeyOnline = from[i].KeyOnline;
-                    contactsDictionary[from[i].KeyName] = oldInfoValue;
-                }
+                contactFromDictionary.KeyNotification = contact.KeyNotification;
+                contactFromDictionary.KeyOnline = contact.KeyOnline;
             }
-            from.Clear();
-            foreach (var pair in contactsDictionary)
+            else
             {
-                from.Add(new ContactInfoToGame(pair.Value.Name, pair.Value.KeyName, pair.Value.KeyOnline, pair.Value.KeyNotification));
+                _contactsInfoToGame.RemoveAt(i);
             }
-            from.TrimExcess();
         }
     }
 
+    private void FillContactsInfoToGame()
+    {
+        _contactsInfoToGame.Clear();
+        foreach (var pair in _contactsDictionary)
+        {
+            _contactsInfoToGame.Add(pair.Value);
+        }
+        _contactsInfoToGame.TrimExcess();
+    }
     private void Awake()
     {
-        _contactsInfoToGame = new List<ContactInfoToGame>();
+        if (_contactsInfoToGame == null)
+        {
+            _contactsInfoToGame = new List<ContactInfoToGame>();
+        }
     }
 }
