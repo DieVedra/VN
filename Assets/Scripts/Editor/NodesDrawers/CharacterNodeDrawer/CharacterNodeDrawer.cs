@@ -96,7 +96,7 @@ public class CharacterNodeDrawer : NodeEditor
         NodeEditorGUILayout.PropertyField(_inputPortProperty);
         NodeEditorGUILayout.PropertyField(_outputPortProperty);
         EditorGUI.BeginChangeCheck();
-        _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel);
+        _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel, validateText: false);
         _lineDrawer.DrawHorizontalLine(Color.green);
         DrawPopupCharacters();
         if (EditorGUI.EndChangeCheck())

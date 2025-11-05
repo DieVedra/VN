@@ -8,18 +8,18 @@ using UnityEngine;
 public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
 {
     [SerializeField] private LocalizationString _localizationText;
-    [SerializeField, HideInInspector] private int _indexCharacter;
-    [SerializeField, HideInInspector] private int _indexEmotion;
-    [SerializeField, HideInInspector] private int _indexLook;
-    [SerializeField, HideInInspector] private int _previousIndexCharacter;
-    [SerializeField, HideInInspector] private int _previousCharactersCount;
-    [SerializeField, HideInInspector] private DirectionType _directionType;
-    [SerializeField, HideInInspector] private bool _foldoutIsOpen;
-    [SerializeField, HideInInspector] private bool _toggleIsSwimsuit;
-    [SerializeField, HideInInspector] private bool _toggleShowPanel = true;
-    [SerializeField, HideInInspector] private bool _overrideName;
-    [SerializeField, HideInInspector] private string _overridedName;
-    [SerializeField, HideInInspector] private LocalizationString _overridedNameLocalization;
+    [SerializeField] private int _indexCharacter;
+    [SerializeField] private int _indexEmotion;
+    [SerializeField] private int _indexLook;
+    [SerializeField] private int _previousIndexCharacter;
+    [SerializeField] private int _previousCharactersCount;
+    [SerializeField] private DirectionType _directionType;
+    [SerializeField] private bool _foldoutIsOpen;
+    [SerializeField] private bool _toggleIsSwimsuit;
+    [SerializeField] private bool _toggleShowPanel = true;
+    [SerializeField] private bool _overrideName;
+    // [SerializeField] private string _overridedName;
+    [SerializeField] private LocalizationString _overridedNameLocalization;
 
     private Background _background;
     private CharacterTalkData _characterTalkData;
@@ -142,7 +142,9 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
 
     private CharacterTalkData CreateCharacterTalkData()
     {
-        return new CharacterTalkData(_directionType, _overrideName == true ? _overridedName : GetName(), _localizationText);
+        return new CharacterTalkData(_directionType,
+            GetName(),
+            _localizationText);
     }
     private MySprite GetLook()
     {
@@ -170,7 +172,14 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
 
     private string GetName()
     {
-        return Characters[_indexCharacter].MyNameText;
+        if (_overrideName == true)
+        {
+            return _overridedNameLocalization;
+        }
+        else
+        {
+            return Characters[_indexCharacter].MyNameText;
+        }
     }
 
     protected override void TryActivateButtonSwitchToNextSlide()

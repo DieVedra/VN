@@ -14,7 +14,7 @@ public class LocalizationStringTextDrawer
         _simpleTextValidator = simpleTextValidator;
     }
     public LocalizationStringTextDrawer() { }
-    public void DrawTextField(LocalizationString localizationString, string label, bool drawTextArea = true)
+    public void DrawTextField(LocalizationString localizationString, string label, bool drawTextArea = true, bool validateText = true)
     {
         if (_simpleTextValidator == null)
         {
@@ -31,13 +31,20 @@ public class LocalizationStringTextDrawer
             _simpleTextValidator.ValidText = EditorGUILayout.TextField(label, _simpleTextValidator.ValidText, GUILayout.Width(450f));
         }
 
-        if (_simpleTextValidator.TryValidate())
+        if (validateText)
         {
-            localizationString.SetText(_simpleTextValidator.ValidText);
+            if (_simpleTextValidator.TryValidate())
+            {
+                localizationString.SetText(_simpleTextValidator.ValidText);
+            }
+            else
+            {
+                EditorGUILayout.HelpBox(_errorText , MessageType.Error);
+            }
         }
         else
         {
-            EditorGUILayout.HelpBox(_errorText , MessageType.Error);
+            localizationString.SetText(_simpleTextValidator.ValidText);
         }
     }
     public LocalizationString GetLocalizationStringFromProperty(SerializedProperty property)

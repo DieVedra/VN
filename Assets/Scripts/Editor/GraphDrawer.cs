@@ -41,7 +41,6 @@ public class GraphDrawer : NodeGraphEditor
             }
         }
 
-        // EditorGUILayout.LabelField("Node index: ", GUILayout.Width(70f));
         _indexValue = EditorGUILayout.IntField(_indexValue, GUILayout.Width(40f));
         GUILayout.EndHorizontal();
         
