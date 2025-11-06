@@ -23,7 +23,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
         _characterProvider = characterProvider;
         _currentSeriaIndex = currentSeriaIndex;
         _compositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(MoveNext);
-        _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Subscribe(SwitchToAnotherNodeGraph);
+        _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.SubscribeWithCompositeDisposable(SwitchToAnotherNodeGraph, _compositeDisposable);
         if (_seriaPartNodeGraphs.Count > 0)
         {
             if (Application.isPlaying == true)
@@ -55,7 +55,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     private void SwitchToAnotherNodeGraph(SeriaPartNodeGraph seriaPartNodeGraph)
     {
         CurrentNodeGraphIndex = GetIndexCurrentNode(seriaPartNodeGraph);
-        InitGraph(currentNodeGraphIndex: CurrentNodeGraphIndex);
+        InitGraph(currentSeriaIndex: _currentSeriaIndex, currentNodeGraphIndex: CurrentNodeGraphIndex);
     }
     private void InitGraph(int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {

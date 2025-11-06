@@ -17,6 +17,8 @@ public class NotificationNodeDrawer : NodeEditor
     private SerializedProperty _overrideDataKeySerializedProperty;
     private SerializedProperty _notificationNodeDataSerializedProperty;
     private SerializedProperty _awaitKeySerializedProperty;
+    private SerializedProperty _inputPortSerializedProperty;
+    private SerializedProperty _outputPortSerializedProperty;
     public override void OnBodyGUI()
     {
         _notificationNode = target as NotificationNode;
@@ -31,6 +33,9 @@ public class NotificationNodeDrawer : NodeEditor
                 _colorSerializedProperty = _notificationNodeDataSerializedProperty.FindPropertyRelative("_color");
                 _showTimeSerializedProperty = _notificationNodeDataSerializedProperty.FindPropertyRelative("_showTime");
                 _delayDisplayTimeSerializedProperty = _notificationNodeDataSerializedProperty.FindPropertyRelative("_delayDisplayTime");
+                
+                _inputPortSerializedProperty = serializedObject.FindProperty("Input");
+                _outputPortSerializedProperty = serializedObject.FindProperty("Output");
 
                 _privateMethod = _notificationNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
                 _textNodeDrawer = new TextNodeDrawer(
@@ -41,7 +46,12 @@ public class NotificationNodeDrawer : NodeEditor
                     _maxCountSymbols);
             }
 
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+            NodeEditorGUILayout.PropertyField(_inputPortSerializedProperty);
+            if (_awaitKeySerializedProperty.boolValue)
+            {
+                NodeEditorGUILayout.PropertyField(_outputPortSerializedProperty);
+
+            }
             _textNodeDrawer.DrawGUI();
             _overrideDataKeySerializedProperty.boolValue =
                 EditorGUILayout.Toggle("Override Data: ", _overrideDataKeySerializedProperty.boolValue);

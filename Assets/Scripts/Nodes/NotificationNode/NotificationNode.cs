@@ -32,6 +32,7 @@ public class NotificationNode : BaseNode, ILocalizable
         if (_awaitKey)
         {
             await _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, false, _compositeDisposable, _notificationNodeData);
+            SwitchToNextNodeEvent.Execute();
         }
         else
         {
