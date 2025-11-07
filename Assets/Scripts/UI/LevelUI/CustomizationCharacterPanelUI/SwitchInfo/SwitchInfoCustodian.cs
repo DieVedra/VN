@@ -54,6 +54,10 @@ public class SwitchInfoCustodian
         (int,int, List<CustomizationStat>) GetPriceAndStats(ArrowSwitchMode mode)
         {
             IReadOnlyList<ICustomizationSettings> indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)mode];
+            if (indexes.Count == 0 && mode == ArrowSwitchMode.Clothes)
+            {
+                indexes = selectedCustomizationContentIndexes.IndexesSpriteIndexes[(int)ArrowSwitchMode.Swimsuits];
+            }
             if (indexes.Count > 0)
             {
                 return (indexes[0].Price, indexes[0].PriceAdditional, indexes[0].GameStats);

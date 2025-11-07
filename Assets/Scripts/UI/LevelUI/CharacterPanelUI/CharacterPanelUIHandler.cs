@@ -17,6 +17,7 @@ public class CharacterPanelUIHandler : PanelUIHandler
 
     private readonly Vector3 _editModeStartScale = Vector3.one;
     private readonly Vector3 _playModeStartScale = Vector3.zero;
+    private readonly Vector3 _defaultPosition;
 
     private readonly CharacterPanelUI _characterPanelUI;
     private readonly TextConsistentlyViewer _textConsistentlyViewer;
@@ -25,13 +26,13 @@ public class CharacterPanelUIHandler : PanelUIHandler
     private readonly RectTransform _nameTextRectTransform;
     private readonly RectTransform _imageRectTransform;
     public TextConsistentlyViewer TextConsistentlyViewer => _textConsistentlyViewer;
-    private Vector3 _defaultPosition => _characterPanelUI.PanelTransform.anchoredPosition;
     public AnimationPanelWithScale AnimationPanelWithScale => _animationPanelWithScale;
     public CharacterPanelUIHandler(CharacterPanelUI characterPanelUI)
     {
         _textConsistentlyViewer = new TextConsistentlyViewer(characterPanelUI.TalkTextComponent);
         _characterPanelUI = characterPanelUI;
         _talkTextComponent = _characterPanelUI.TalkTextComponent;
+        _defaultPosition = _characterPanelUI.PanelTransform.anchoredPosition;
         _leftPosition = _defaultPosition + _leftOffset;
         _rightPosition = _defaultPosition + _rightOffset;
         _animationPanelWithScale = new AnimationPanelWithScale(_characterPanelUI.PanelTransform, _characterPanelUI.CanvasGroup,
@@ -51,6 +52,7 @@ public class CharacterPanelUIHandler : PanelUIHandler
     public void EmergenceCharacterTalkInPlayMode(CharacterTalkData data)
     {
         _characterPanelUI.PanelTransform.localScale = _playModeStartScale;
+        _characterPanelUI.CanvasGroup.alpha = _zeroValue;
         if (SetPanelDirection(data))
         {
             _characterPanelUI.PanelTransform.anchoredPosition = _rightPosition;
@@ -60,9 +62,7 @@ public class CharacterPanelUIHandler : PanelUIHandler
             _characterPanelUI.PanelTransform.anchoredPosition = _leftPosition;
         }
         SetLocalizationText(data);
-        _characterPanelUI.CanvasGroup.alpha = _zeroValue;
-        _characterPanelUI.PanelTransform.localScale = _editModeStartScale;
-        _characterPanelUI.PanelTransform.anchoredPosition = _defaultPosition;
+        // _characterPanelUI.PanelTransform.anchoredPosition = _defaultPosition;
     }
 
     public void DisappearanceCharacterTalkInPlayMode()

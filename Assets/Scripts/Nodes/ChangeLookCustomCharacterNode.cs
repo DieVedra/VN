@@ -82,6 +82,7 @@ public class ChangeLookCustomCharacterNode : BaseNode
                 _buferCurrentHairstyleIndexRP,
                 _hairstyleIndexRP);
         }
+        SwitchToNextNodeEvent.Execute();
         return default;
     }
 

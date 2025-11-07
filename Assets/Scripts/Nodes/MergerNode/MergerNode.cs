@@ -81,8 +81,6 @@ public class MergerNode : BaseNode
         {
             SetNextNode(GetNextNodeFrom<CustomizationNode>());
         }
-
-        ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
         await _taskRunner.TryRunTasks(CreateTasksExitedList());
     }
 
@@ -112,14 +110,6 @@ public class MergerNode : BaseNode
         foreach (var mergerObject in _mergerObjects)
         {
             GetBaseNode(mergerObject.Value).SkipEnterTransition();
-        }
-    }
-
-    public override void SkipExitTransition()
-    {
-        foreach (var mergerObject in _mergerObjects)
-        {
-            GetBaseNode(mergerObject.Value).SkipExitTransition();
         }
     }
 

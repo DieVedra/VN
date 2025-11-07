@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -22,6 +23,7 @@ public class HeaderNodeDrawer : NodeEditor
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private LocalizationString _localizationText1;
     private LocalizationString _localizationText2;
+    private MethodInfo _privateMethod;
 
 
     private string[] _backgroundsNames;
@@ -69,6 +71,7 @@ public class HeaderNodeDrawer : NodeEditor
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
+                SetInfoToView();
             }
         }
     }
@@ -165,5 +168,13 @@ public class HeaderNodeDrawer : NodeEditor
 
             _audioNames = audioNames.ToArray();
         }
+    }
+    private void SetInfoToView()
+    {
+        if (_privateMethod == null)
+        {
+            _privateMethod = _headerNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        _privateMethod.Invoke(_headerNode, null);
     }
 }

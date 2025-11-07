@@ -118,11 +118,6 @@ public class ButtonsModeSwitch
         }
         _customizationSettingsCustodian.CurrentCustomizationSettings = settings;
     }
-    private void CalculatingStats(params SwitchInfo[] switchInfo)
-    {
-        _switchInfoCustodian.SetStatsToCurrentSwitchInfo();
-        _calculateStatsHandler.PreliminaryStatsCalculation(switchInfo);
-    }
     private void CalculatingPrice()
     {
         _switchInfoCustodian.SetPriceToCurrentSwitchInfo();

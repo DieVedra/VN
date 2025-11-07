@@ -36,10 +36,6 @@ public class NarrativeNode : BaseNode, ILocalizable
 	public override async UniTask Exit()
 	{
 		CancellationTokenSource = new CancellationTokenSource();
-		if (IsMerged == false)
-		{
-			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
-		}
 		await _narrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token);
 		_compositeDisposable.Dispose();
 	}
@@ -54,11 +50,6 @@ public class NarrativeNode : BaseNode, ILocalizable
 		CancellationTokenSource.Cancel();
 		SetInfoToView();
 		TryActivateButtonSwitchToNextSlide();
-	}
-
-	public override void SkipExitTransition()
-	{
-		CancellationTokenSource.Cancel();
 	}
 
 	protected override void SetInfoToView()

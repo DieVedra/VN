@@ -69,10 +69,6 @@ public class HeaderNode : BaseNode, ILocalizable
     public override async UniTask Exit()
     {
         CancellationTokenSource = new CancellationTokenSource();
-        if (IsMerged == false)
-        {
-            _buttonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
-        }
         if (_playHeaderAudio)
         {
             await UniTask.WhenAll(_curtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
@@ -105,12 +101,6 @@ public class HeaderNode : BaseNode, ILocalizable
         CancellationTokenSource.Cancel();
         _buttonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         _curtainUIHandler.SkipAtOpens();
-    }
-
-    public override void SkipExitTransition()
-    {
-        CancellationTokenSource.Cancel();
-        _curtainUIHandler.SkipAtCloses();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

@@ -118,10 +118,6 @@ public class ChoiceNode : BaseNode, ILocalizable
             _timerCancellationTokenSource.Cancel();
         }
         CancellationTokenSource = new CancellationTokenSource();
-        if (IsMerged == false)
-        {
-            ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
-        }
         await _choicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token, _showChoice3Key);
         _compositeDisposable.Dispose();
     }
@@ -141,13 +137,6 @@ public class ChoiceNode : BaseNode, ILocalizable
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[] {_localizationChoiceText1, _localizationChoiceText2, _localizationChoiceText3};
-    }
-
-    public override void SkipExitTransition()
-    {
-        CancellationTokenSource.Cancel();
-        _choicePanelUIHandler.HideChoiceVariants();
-        _sendCurrentNodeEvent.Execute(GetNextNode());
     }
 
     private void TryInitAllStats()

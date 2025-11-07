@@ -77,7 +77,6 @@ public class BaseNode : Node
 
     protected virtual void TryActivateButtonSwitchToNextSlide(){}
     public virtual void SkipEnterTransition(){}
-    public virtual void SkipExitTransition(){}
 
     public virtual async UniTask Enter(bool isMerged = false)
     {

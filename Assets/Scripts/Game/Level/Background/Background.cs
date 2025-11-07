@@ -19,7 +19,8 @@ public class Background : MonoBehaviour
     private const float _durationScale = 2f;
     private const float _durationFade = 1.5f;
     private const float _endValueScale = 0.88f;
-    private const float _endValue = 1f;
+    private const float _endFadeValue = 1f;
+    private const float _startFadeValue = 0f;
 
     protected const string ArtShowerName = "ArtShower";
     protected const string ArtShowerSortingLayerName = "Background";
@@ -117,8 +118,15 @@ public class Background : MonoBehaviour
         _artOpenedIndexes.Add(indexArt);
         ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
         ArtShower.gameObject.SetActive(true);
-        await UniTask.WhenAll(ArtShower.DOFade(_endValue, _durationFade).WithCancellation(cancellationToken),
+        await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
             ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
+    }
+    public async UniTask HideImageInPlayMode(CancellationToken cancellationToken)
+    {
+        ArtShower.color = new Color(1f,1f,1f,1f);
+        ArtShower.transform.localScale = new Vector2(_endValueScale,_endValueScale);
+        ArtShower.gameObject.SetActive(true);
+        await ArtShower.DOFade(_startFadeValue, _durationFade).WithCancellation(cancellationToken);
     }
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition, int index)
     {

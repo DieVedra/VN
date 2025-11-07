@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ShowArtNode : BaseNode
 {
+    [SerializeField] private ShowArtMode _artMode;
     [SerializeField] private int _spriteIndex;
 
     private Background _background;
@@ -25,6 +26,19 @@ public class ShowArtNode : BaseNode
         }
         await _background.ShowImageInPlayMode(_spriteIndex, CancellationTokenSource.Token);
         TryActivateButtonSwitchToNextSlide();
+    }
+
+    public override async UniTask Exit()
+    {
+        CancellationTokenSource = new CancellationTokenSource();
+
+        switch (_artMode)
+        {
+            case ShowArtMode.Mode2:
+                await _background.HideImageInPlayMode(CancellationTokenSource.Token);
+                break;
+        }
+        SwitchToNextNodeEvent.Execute();
     }
 
     protected override void SetInfoToView()

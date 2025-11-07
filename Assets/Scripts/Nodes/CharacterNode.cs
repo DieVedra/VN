@@ -18,7 +18,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     [SerializeField] private bool _toggleIsSwimsuit;
     [SerializeField] private bool _toggleShowPanel = true;
     [SerializeField] private bool _overrideName;
-    // [SerializeField] private string _overridedName;
     [SerializeField] private LocalizationString _overridedNameLocalization;
 
     private Background _background;
@@ -61,12 +60,6 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
     public override async UniTask Exit()
     {
         CancellationTokenSource = new CancellationTokenSource();
-
-        if (IsMerged == false)
-        {
-            ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipExitTransition);
-        }
-
         await UniTask.WhenAll(
             _characterViewer.SpriteViewer.CharacterAnimations.DisappearanceChar(CancellationTokenSource.Token, _directionType),
             _characterPanelUIHandler.AnimationPanelWithScale.FadePanelWithScale(CancellationTokenSource.Token, _directionType));
