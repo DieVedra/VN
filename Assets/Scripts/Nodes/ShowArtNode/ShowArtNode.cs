@@ -38,7 +38,6 @@ public class ShowArtNode : BaseNode
                 await _background.HideImageInPlayMode(CancellationTokenSource.Token);
                 break;
         }
-        SwitchToNextNodeEvent.Execute();
     }
 
     protected override void SetInfoToView()

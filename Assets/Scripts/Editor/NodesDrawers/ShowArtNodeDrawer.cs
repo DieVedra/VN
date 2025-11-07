@@ -11,6 +11,7 @@ public class ShowArtNodeDrawer : NodeEditor
     private SerializedProperty _serializedPropertyInputPort;
     private SerializedProperty _serializedPropertyOutputPort;
     private SerializedProperty _modeSerializedProperty;
+    private EnumPopupDrawer _enumPopupDrawer;
     private string[] _namesArts;
     public override void OnBodyGUI()
     {
@@ -21,13 +22,14 @@ public class ShowArtNodeDrawer : NodeEditor
             _serializedPropertyInputPort = serializedObject.FindProperty("Input");
             _serializedPropertyOutputPort = serializedObject.FindProperty("Output");
             _modeSerializedProperty = serializedObject.FindProperty("_artMode");
+            _enumPopupDrawer = new EnumPopupDrawer();
             InitPopup();
         }
         else
         {
             NodeEditorGUILayout.PropertyField(_serializedPropertyInputPort);
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
-            DrawEnumPopup();
+            _enumPopupDrawer.DrawEnumPopup<ShowArtMode>(_modeSerializedProperty, "Mode: ");
             EditorGUILayout.LabelField("Arts:");
             _serializedPropertyIndexArt.intValue = EditorGUILayout.Popup(_serializedPropertyIndexArt.intValue, _namesArts);
         }
@@ -44,12 +46,5 @@ public class ShowArtNodeDrawer : NodeEditor
             }
         }
         _namesArts = namesArtsToPopup.ToArray();
-    }
-    private void DrawEnumPopup()
-    {
-        ShowArtMode directionType = (ShowArtMode)_modeSerializedProperty.enumValueIndex;
-        EditorGUILayout.LabelField("Mode: ");
-        directionType = (ShowArtMode)EditorGUILayout.EnumPopup(directionType);
-        _modeSerializedProperty.enumValueIndex = (int) directionType;
     }
 }

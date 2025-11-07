@@ -572,6 +572,7 @@
               <e p="FolderCreator.cs" t="Include" />
               <e p="SpriteAtlasCreator.cs" t="Include" />
             </e>
+            <e p="EnumPopupDrawer.cs" t="Include" />
             <e p="GraphDrawer.cs" t="Include" />
             <e p="InspectorDrawers" t="Include">
               <e p="GameEntryPointDrawer.cs" t="Include" />
@@ -944,7 +945,10 @@
           </e>
           <e p="Nodes" t="Include">
             <e p="AddSpriteNodeToBackground.cs" t="Include" />
-            <e p="BackgroundNode.cs" t="Include" />
+            <e p="BackgroundNode" t="Include">
+              <e p="BackgroundNode.cs" t="Include" />
+              <e p="BackgroundNodeMode.cs" t="Include" />
+            </e>
             <e p="BaseNode.cs" t="Include" />
             <e p="ChangeLookCustomCharacterNode.cs" t="Include" />
             <e p="CharacterColorByBackgroundNode.cs" t="Include" />

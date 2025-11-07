@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _colorOverlay;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
@@ -21,6 +22,10 @@ public class Background : MonoBehaviour
     private const float _endValueScale = 0.88f;
     private const float _endFadeValue = 1f;
     private const float _startFadeValue = 0f;
+    private const float _minAlpha = 0f;
+    private const float _maxAlpha = 1f;
+    private const int _orderFrom = 0;
+    private const int _orderTo = 1;
 
     protected const string ArtShowerName = "ArtShower";
     protected const string ArtShowerSortingLayerName = "Background";
@@ -149,6 +154,64 @@ public class Background : MonoBehaviour
     {
         EnableBackgroundByIndex(index);
         await BackgroundContent[index].MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
+    }
+
+    public async UniTask SmoothChangeBackground(int indexTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken)
+    {
+        DisableBackground();
+        var contentTo = BackgroundContent[indexTo];
+        var contentFrom = BackgroundContent[CurrentIndexBackgroundContent];
+        SetAlphaAndOrder(contentTo, _minAlpha, _orderTo);
+        SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
+        contentTo.SetBackgroundPosition(toBackgroundPosition);
+        contentTo.Activate();
+        await contentTo.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken);
+        contentFrom.Diactivate();
+        SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
+        CurrentIndexBackgroundContent = indexTo;
+    }
+
+    public void SmoothChangeBackgroundEmmidiately(int indexTo, BackgroundPosition toBackgroundPosition)
+    {
+        var contentTo = BackgroundContent[indexTo];
+        var contentFrom = BackgroundContent[CurrentIndexBackgroundContent];
+        SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
+        SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
+        contentFrom.Diactivate();
+        contentTo.SetBackgroundPosition(toBackgroundPosition);
+        contentTo.Activate();
+        CurrentIndexBackgroundContent = indexTo;
+    }
+    private void SetAlphaAndOrder(BackgroundContent content, float alpha, int order)
+    {
+        Color color = content.SpriteRenderer.color;
+        color.a = alpha;
+        content.SpriteRenderer.color = color;
+        content.SpriteRenderer.sortingOrder = order;
+    }
+    public async UniTask SetColorOverlayBackground(Color color, CancellationToken cancellationToken, float duration, bool enable)
+    {
+        if (enable == true)
+        {
+            _colorOverlay.gameObject.SetActive(true);
+        }
+        await _colorOverlay.DOColor(color, duration).WithCancellation(cancellationToken);
+        if (enable == false)
+        {
+            _colorOverlay.gameObject.SetActive(false);
+        }
+    }
+    public void SetColorOverlayBackground(Color color, bool enable)
+    {
+        if (enable == true)
+        {
+            _colorOverlay.gameObject.SetActive(true);
+        }
+        _colorOverlay.color = color;
+        if (enable == false)
+        {
+            _colorOverlay.gameObject.SetActive(false);
+        }
     }
     public void SetBackgroundMovementDuringDialogueInEditMode(DirectionType directionType)
     {

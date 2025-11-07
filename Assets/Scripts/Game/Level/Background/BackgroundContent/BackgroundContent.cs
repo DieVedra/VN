@@ -34,6 +34,7 @@ public class BackgroundContent : MonoBehaviour
     public Transform LeftBordTransform => _leftBordTransform;
     public Transform CentralBordTransform => _centralTransform;
     public Transform RightBordTransform => _rightBordTransform;
+    public SpriteRenderer SpriteRenderer => _spriteRenderer;
     public IReadOnlyList<AdditionalImageData> GetIndexesAdditionalImage => _indexesAdditionalImage;
 
 #if UNITY_EDITOR
@@ -110,7 +111,6 @@ public class BackgroundContent : MonoBehaviour
         }
         SetBackgroundPosition(backgroundPosition);
     }
-    
     public void MovementDuringDialogueInEditMode(DirectionType directionType)
     {
         SwitchBackgroundPosition();
