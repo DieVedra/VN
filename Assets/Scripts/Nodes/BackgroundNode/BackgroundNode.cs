@@ -12,7 +12,9 @@ public class BackgroundNode : BaseNode
     [SerializeField] private int _indexTo;
     [SerializeField] private float _changeColorDuration;
     [SerializeField] private float _changeMode2Duration;
-    [SerializeField] private bool _awaitedChangeColor;
+    [SerializeField] private bool _awaitedSmoothChangeBackground;
+    [SerializeField] private bool _awaitedSmoothBackgroundChangePosition;
+    [SerializeField] private bool _awaitedSetColorOverlayBackground;
     [SerializeField] private bool _isSmoothCurtain;
     [SerializeField] private bool _mode3Enable;
     [SerializeField] private BackgroundPosition _backgroundPosition;
@@ -57,7 +59,14 @@ public class BackgroundNode : BaseNode
                 ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
             }
 
-            await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _index);
+            if (_awaitedSmoothBackgroundChangePosition)
+            {
+                await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _index);
+            }
+            else
+            {
+                _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _index).Forget();
+            }
         }
         else
         {
@@ -71,7 +80,15 @@ public class BackgroundNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _background.SmoothChangeBackground(_indexTo,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
+
+        if (_awaitedSmoothChangeBackground)
+        {
+            await _background.SmoothChangeBackground(_indexTo,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
+        }
+        else
+        {
+            _background.SmoothChangeBackground(_indexTo,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token).Forget();
+        }
     }
     private async UniTask Mode3(bool isMerged)
     {
@@ -79,7 +96,7 @@ public class BackgroundNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        if (_awaitedChangeColor)
+        if (_awaitedSetColorOverlayBackground)
         {
             await _background.SetColorOverlayBackground(_color, CancellationTokenSource.Token, _changeColorDuration, _mode3Enable);
         }

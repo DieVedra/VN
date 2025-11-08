@@ -756,8 +756,17 @@ MonoBehaviour:
   namenode: 
   _backgroundNodeMode: 0
   _index: 1
+  _indexTo: 0
+  _changeColorDuration: 0
+  _changeMode2Duration: 0
+  _awaitedSmoothChangeBackground: 0
+  _awaitedSmoothBackgroundChangePosition: 1
+  _awaitedSetColorOverlayBackground: 0
   _isSmoothCurtain: 0
+  _mode3Enable: 0
   _backgroundPosition: 0
+  _backgroundPositionMode2: 0
+  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &-2542093731426923332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,8 +855,17 @@ MonoBehaviour:
   namenode: 
   _backgroundNodeMode: 0
   _index: 2
+  _indexTo: 0
+  _changeColorDuration: 0
+  _changeMode2Duration: 0
+  _awaitedSmoothChangeBackground: 0
+  _awaitedSmoothBackgroundChangePosition: 1
+  _awaitedSetColorOverlayBackground: 0
   _isSmoothCurtain: 0
+  _mode3Enable: 0
   _backgroundPosition: 1
+  _backgroundPositionMode2: 0
+  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &-2409695255228628062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -894,8 +912,17 @@ MonoBehaviour:
   namenode: 
   _backgroundNodeMode: 0
   _index: 2
+  _indexTo: 0
+  _changeColorDuration: 0
+  _changeMode2Duration: 0
+  _awaitedSmoothChangeBackground: 0
+  _awaitedSmoothBackgroundChangePosition: 1
+  _awaitedSetColorOverlayBackground: 0
   _isSmoothCurtain: 1
+  _mode3Enable: 0
   _backgroundPosition: 0
+  _backgroundPositionMode2: 0
+  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &-2309028351275441887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4025,7 +4052,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2168, y: -2408}
+  position: {x: -2152, y: -2360}
   ports:
     keys:
     - Input

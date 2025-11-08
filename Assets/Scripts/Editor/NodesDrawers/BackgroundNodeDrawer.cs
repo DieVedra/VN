@@ -22,6 +22,9 @@ public class BackgroundNodeDrawer : NodeEditor
     private SerializedProperty _mode2IndexToSerializedProperty;
     private SerializedProperty _changeMode2DurationSerializedProperty;
     private SerializedProperty _backgroundPositionMode2SerializedProperty;
+    private SerializedProperty _awaitedSmoothChangeBackgroundSerializedProperty;
+    private SerializedProperty _awaitedSmoothBackgroundChangePositionSerializedProperty;
+    private SerializedProperty _awaitedSetColorOverlayBackgroundSerializedProperty;
     private EnumPopupDrawer _enumPopupDrawer;
     private LineDrawer _lineDrawer;
     public override void OnBodyGUI()
@@ -46,7 +49,9 @@ public class BackgroundNodeDrawer : NodeEditor
                 _changeMode2DurationSerializedProperty = serializedObject.FindProperty("_changeMode2Duration");
                 _backgroundPositionMode2SerializedProperty = serializedObject.FindProperty("_backgroundPositionMode2");
                 _indexSerializedProperty = serializedObject.FindProperty("_index");
-
+                _awaitedSmoothChangeBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSmoothChangeBackground");
+                _awaitedSmoothBackgroundChangePositionSerializedProperty = serializedObject.FindProperty("_awaitedSmoothBackgroundChangePosition");
+                _awaitedSetColorOverlayBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSetColorOverlayBackground");
                 _enumPopupDrawer = new EnumPopupDrawer();
                 _lineDrawer = new LineDrawer();
             }
@@ -80,6 +85,8 @@ public class BackgroundNodeDrawer : NodeEditor
             EditorGUI.BeginChangeCheck();
             DrawPopup(_indexSerializedProperty, "Current: ");
             _enumPopupDrawer.DrawEnumPopup<BackgroundPosition>(_backgroundPositionSerializedProperty, "Current Pos: ");
+            _awaitedSmoothBackgroundChangePositionSerializedProperty.boolValue =
+                EditorGUILayout.Toggle("Awaited: ", _awaitedSmoothBackgroundChangePositionSerializedProperty.boolValue);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("IsSmoothCurtain: ");
             _isSmoothCurtainSerializedProperty.boolValue =
@@ -97,6 +104,8 @@ public class BackgroundNodeDrawer : NodeEditor
     {
         EditorGUILayout.LabelField("SmoothSwitchBackgrounds");
         EditorGUI.BeginChangeCheck();
+        _awaitedSmoothChangeBackgroundSerializedProperty.boolValue =
+            EditorGUILayout.Toggle("Awaited: ", _awaitedSmoothChangeBackgroundSerializedProperty.boolValue);
         _changeMode2DurationSerializedProperty.floatValue = EditorGUILayout.FloatField("Duration: ", _changeMode2DurationSerializedProperty.floatValue);
         DrawPopup(_mode2IndexToSerializedProperty, "To: ");
         _enumPopupDrawer.DrawEnumPopup<BackgroundPosition>(_backgroundPositionMode2SerializedProperty, "To End Pos: ");
@@ -110,6 +119,7 @@ public class BackgroundNodeDrawer : NodeEditor
     {
         EditorGUILayout.LabelField("SmoothChangeOverlayColor");
         EditorGUI.BeginChangeCheck();
+        _awaitedSetColorOverlayBackgroundSerializedProperty.boolValue = EditorGUILayout.Toggle("Awaited: ", _awaitedSetColorOverlayBackgroundSerializedProperty.boolValue);
         _mode3EnableSerializedProperty.boolValue = EditorGUILayout.Toggle("Enabled:  ", _mode3EnableSerializedProperty.boolValue);
         _changeColorDurationSerializedProperty.floatValue = EditorGUILayout.FloatField("Duration: ", _changeColorDurationSerializedProperty.floatValue);
         _colorSerializedProperty.colorValue = EditorGUILayout.ColorField("Target color: ", _colorSerializedProperty.colorValue);
