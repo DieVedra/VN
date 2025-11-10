@@ -10,11 +10,13 @@ public class GameSeriesHandler : MonoBehaviour
     protected NodeGraphInitializer NodeGraphInitializer;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     protected ReactiveProperty<int> CurrentSeriaIndexReactiveProperty;
+    protected ReactiveProperty<bool> PutOnSwimsuitKey;
     protected ICharacterProvider CharacterProvider;
     public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
     
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeGraphIndex;
     public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeIndex;
+    public bool PutOnSwimsuitKeyProperty => PutOnSwimsuitKey.Value;
 
     public virtual void Dispose()
     {
@@ -30,6 +32,6 @@ public class GameSeriesHandler : MonoBehaviour
         {
             SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Dispose();
         }
-        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, CharacterProvider, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(PutOnSwimsuitKey, NodeGraphInitializer, CharacterProvider, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
 }

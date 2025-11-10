@@ -13,6 +13,7 @@ public class StoryData
     public bool IsLiked;
     public bool LowPassEffectIsOn;
     public bool StoryStarted;
+    public bool PutOnSwimsuitKey;
     public int MyIndex;
     public int CustomizableCharacterIndex;
     public int CurrentPhoneMinute = -1;

@@ -17,7 +17,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, OnEndGameEvent onEndGameEvent,
-        int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+        int currentNodeGraphIndex = 0, int currentNodeIndex = 0, bool putOnSwimsuitKey = false)
     {
         _levelLocalizationHandler = levelLocalizationHandler;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
@@ -29,6 +29,8 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
         CharacterProvider = characterProvider;
+        PutOnSwimsuitKey = new ReactiveProperty<bool>(putOnSwimsuitKey);
+
         foreach (var seria in gameSeriesProvider.GetDatas)
         {
             AddSeria(seria);

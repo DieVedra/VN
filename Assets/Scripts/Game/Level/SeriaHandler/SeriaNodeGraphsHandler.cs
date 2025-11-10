@@ -13,11 +13,13 @@ public class SeriaNodeGraphsHandler : ScriptableObject
 
     private int _currentSeriaIndex;
     private NodeGraphInitializer _nodeGraphInitializer;
+    private ReactiveProperty<bool> _putOnSwimsuitKey;
     private ICharacterProvider _characterProvider;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
-    public void Construct(NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider, int currentSeriaIndex,
-        int currentNodeGraphIndex, int currentNodeIndex)
+    public void Construct(ReactiveProperty<bool> putOnSwimsuitKey, NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider,
+        int currentSeriaIndex, int currentNodeGraphIndex, int currentNodeIndex)
     {
+        _putOnSwimsuitKey = putOnSwimsuitKey;
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
         _characterProvider = characterProvider;
@@ -59,7 +61,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     }
     private void InitGraph(int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
+        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_putOnSwimsuitKey, _nodeGraphInitializer, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
     }
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {

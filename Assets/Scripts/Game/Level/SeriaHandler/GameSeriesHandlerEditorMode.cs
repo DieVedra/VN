@@ -10,8 +10,9 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
     public void Construct(
         NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider,
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
-        int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
+        int currentNodeGraphIndex = 0, int currentNodeIndex = 0, bool putOnSwimsuitKey = false)
     {
+        PutOnSwimsuitKey = new ReactiveProperty<bool>(putOnSwimsuitKey);
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;

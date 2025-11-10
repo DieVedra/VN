@@ -5,7 +5,7 @@ public class GameStatsHandler
     private const int _defaultValue = 0;
     private readonly List<Stat> _stats;
 
-    public List<Stat> Stats => _stats;
+    public IReadOnlyList<Stat> Stats => _stats;
 
     public GameStatsHandler(List<Stat> stats)
     {

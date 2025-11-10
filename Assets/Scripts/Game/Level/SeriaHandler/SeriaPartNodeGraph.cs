@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using XNode;
 
@@ -11,16 +12,18 @@ public class SeriaPartNodeGraph : NodeGraph
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
+	private ReactiveProperty<bool> _putOnSwimsuitKey;
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
 	
-	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
+	public void Init(ReactiveProperty<bool> putOnSwimsuitKey, NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
+		_putOnSwimsuitKey = putOnSwimsuitKey;
 		_nodeGraphInitializer = nodeGraphInitializer;
 		_currentNodeIndex = currentNodeIndex;
 		_currentSeriaIndex = currentSeriaIndex;
+		PutOnSwimsuit(_putOnSwimsuitKey.Value);
 		TryInitNodes();
-		
-		
+
 		if (Application.isPlaying == false)
 		{
 			OnChangeGraph += InitNewNode;
@@ -50,7 +53,11 @@ public class SeriaPartNodeGraph : NodeGraph
 		await _currentNode.Enter();
 	}
 
-	public void TryPutOnSwimsuit(bool putOnSwimsuit)
+	public void SetKeyPutOnSwimsuit(bool putOnSwimsuit)
+	{
+		_putOnSwimsuitKey.Value = putOnSwimsuit;
+	}
+	private void PutOnSwimsuit(bool putOnSwimsuit)
 	{
 		for (int i = 0; i < nodes.Count; i++)
 		{
@@ -60,7 +67,6 @@ public class SeriaPartNodeGraph : NodeGraph
 			}
 		}
 	}
-
 	private void SetCurrentNodeAndEnter(BaseNode baseNode)
 	{
 		_currentNode = baseNode;

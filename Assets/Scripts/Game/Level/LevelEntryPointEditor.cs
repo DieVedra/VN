@@ -112,7 +112,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             if (StoryData != null)
             {
                 _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
-                   StoryData. CurrentNodeGraphIndex, StoryData.CurrentNodeIndex);
+                   StoryData. CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
                 _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
                 _levelUIProviderEditMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
             }
@@ -159,6 +159,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (LoadSaveData == true)
         {
+            StoryData.PutOnSwimsuitKey = _gameSeriesHandlerEditorMode.PutOnSwimsuitKeyProperty;
             StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerEditorMode.CurrentNodeGraphIndex;
             StoryData.CurrentNodeIndex = _gameSeriesHandlerEditorMode.CurrentNodeIndex;
             StoryData.CurrentSeriaIndex = _gameSeriesHandlerEditorMode.CurrentSeriaIndex;

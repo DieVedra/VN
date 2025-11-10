@@ -8,6 +8,7 @@ public class PhoneNodeDrawer : NodeEditor
     private const int _maxCountSymbol = 20;
     private PhoneNode _phoneNode;
     private LineDrawer _lineDrawer;
+    private EnumPopupDrawer _enumPopupDrawer;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
@@ -20,7 +21,6 @@ public class PhoneNodeDrawer : NodeEditor
     private SerializedProperty _startScreenCharacterIndexSerializedProperty;
     private SerializedProperty _contactsInfoToGameSerializedProperty;
     private SerializedProperty _sp;
-    private PhoneNodeDrawer _phoneNodeDrawer;
     private Vector2 _posScrollView1;
     private Vector2 _posScrollView2;
     private bool _showStartInfo = false;
@@ -37,6 +37,7 @@ public class PhoneNodeDrawer : NodeEditor
             if (_phoneIndexSerializedProperty == null)
             {
                 _lineDrawer = new LineDrawer();
+                _enumPopupDrawer = new EnumPopupDrawer();
                 InitNamesCharacters();
                 InitNamesPhones();
                 _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbol));
@@ -80,8 +81,7 @@ public class PhoneNodeDrawer : NodeEditor
                     DrawDateInfo(_butteryPercentSerializedProperty, "Buttery percent: ");
                 }
 
-                DrawStartScreenEnumPopup();
-
+                _enumPopupDrawer.DrawEnumPopup<PhoneBackgroundScreen>(_phoneStartScreenSerializedProperty, "Current phone screen: ");
                 if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.BlockScreen)
                 {
                     _posScrollView1 = EditorGUILayout.BeginScrollView(_posScrollView1, GUILayout.Height(100f));
@@ -104,15 +104,6 @@ public class PhoneNodeDrawer : NodeEditor
                 serializedObject.ApplyModifiedProperties();
             }
         }
-    }
-    private void DrawStartScreenEnumPopup()
-    {
-        PhoneBackgroundScreen phoneBackgroundScreen = (PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex;
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Current phone screen: ");
-        phoneBackgroundScreen = (PhoneBackgroundScreen)EditorGUILayout.EnumPopup(phoneBackgroundScreen);
-        EditorGUILayout.EndHorizontal();
-        _phoneStartScreenSerializedProperty.enumValueIndex = (int) phoneBackgroundScreen;
     }
 
     private void DrawDateInfo(SerializedProperty serializedProperty, string name)

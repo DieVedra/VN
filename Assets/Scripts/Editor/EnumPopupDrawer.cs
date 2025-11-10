@@ -8,7 +8,6 @@ public class EnumPopupDrawer
         if (Enum.IsDefined(typeof(T), property.enumValueIndex))
         {
             T directionType = (T)(object)property.enumValueIndex;
-            // EditorGUILayout.LabelField(label);
             directionType = (T)EditorGUILayout.EnumPopup(label,directionType);
             property.enumValueIndex = Convert.ToInt32(directionType);
         }

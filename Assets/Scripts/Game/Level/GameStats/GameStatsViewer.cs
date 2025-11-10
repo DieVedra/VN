@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class GameStatsViewer : MonoBehaviour
 {
-    private List<Stat> _statsToView;
-    public IReadOnlyList<Stat> StatsToView => _statsToView;
+    public IReadOnlyList<Stat> StatsToView { get; private set; }
 
-    public void Construct(List<Stat> stats)
+    public void Construct(IReadOnlyList<Stat> stats)
     {
-        _statsToView = stats;
+        StatsToView = stats;
     }
 }

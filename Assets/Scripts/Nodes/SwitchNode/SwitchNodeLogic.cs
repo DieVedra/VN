@@ -1,70 +1,109 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 public class SwitchNodeLogic
 {
-    private readonly string[] _operators;
+    private const string _equalSymbol = "=";
+    private const string _greatSymbol = ">";
+    private const string _lessSymbol = "<";
+    private const string _greatEqualSymbol = ">=";
+    private const string _lessEqualSymbol = "<=";
+    public readonly string[] Operators;
+    private List<Func<bool>> _toSwitch;
+    public IReadOnlyList<Stat> GameStats;
 
-    public SwitchNodeLogic(string[] operators)
+    public SwitchNodeLogic(IReadOnlyList<Stat> gameStats)
     {
-        _operators = operators;
+        _toSwitch = new List<Func<bool>>();
+        GameStats = gameStats;
+        Operators = new[]{_equalSymbol, _greatSymbol, _lessSymbol, _greatEqualSymbol, _lessEqualSymbol};
     }
 
-    public SwitchNodeLogicResult GetPortIndexOnSwitchResult(IReadOnlyList<Stat> stats, List<CaseForStats> cases)
+    public (bool, int) GetPortIndexOnSwitchResult(List<CaseForStats> cases)
     {
-        SwitchNodeLogicResult result = new SwitchNodeLogicResult();
-        for (int i = 0; i < cases.Count; i++)
+        CaseForStats caseForStats;
+        int count1 = cases.Count;
+        int count2;
+        bool caseFoundSuccessfuly = false;
+        int indexCase = 0;
+        for (int i = 0; i < count1; i++)
         {
-            for (int j = 0; j < cases[i].CaseStats.Count; j++)
+            caseForStats = cases[i];
+            count2 = caseForStats.CaseStats.Count;
+            for (int j = 0; j < count2; j++)
             {
                 if (cases[i].CaseStats[j].IncludeKey == true)
                 {
-                    if (Switch(cases[i].CaseStats[j].IndexCurrentOperator, stats[j].Value, cases[i].CaseStats[j].Value))
-                    {
-                        result = new SwitchNodeLogicResult(true, i);
-                        break;
-                    }
+                    CaseBaseStat caseBaseStat = cases[i].CaseStats[j];
+                    int value = GameStats[j].Value;
+                    _toSwitch.Add(() => Comparison(caseBaseStat.IndexCurrentOperator, value, caseBaseStat.Value));
                 }
             }
 
-            if (result.CaseFoundSuccessfuly == true)
+            count2 = caseForStats.AdditionalCaseStats.Count;
+            for (int j = 0; j < count2; j++)
             {
+                AdditionalCaseStats additionalCaseStats = caseForStats.AdditionalCaseStats[i];
+                int value1 = GameStats[additionalCaseStats.IndexStat1].Value;
+                int value2 = GameStats[additionalCaseStats.IndexStat2].Value;
+
+                _toSwitch.Add(() => Comparison(additionalCaseStats.IndexCurrentOperator, value1, value2));
+            }
+            if (GroupProcessing() == true)
+            {
+                caseFoundSuccessfuly = true;
+                indexCase = i;
                 break;
             }
         }
-        return result;
+        return (caseFoundSuccessfuly, indexCase);
     }
 
-    private bool Switch(int operatorIndex, int gameStatValue, int switchNodeStatValue)
+    private void a()
+    {
+        
+    }
+    private bool GroupProcessing()
     {
         bool result = false;
-        switch (_operators[operatorIndex])
+        foreach (var operation in _toSwitch)
         {
-            case "=":
+            result = operation.Invoke();
+        }
+        _toSwitch.Clear();
+        return result;
+    }
+    private bool Comparison(int operatorIndex, int gameStatValue, int switchNodeStatValue)
+    {
+        bool result = false;
+        switch (Operators[operatorIndex])
+        {
+            case _equalSymbol:
                 if (gameStatValue == switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
-            case ">":
+            case _greatSymbol:
                 if (gameStatValue > switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
-            case "<":
+            case _lessSymbol:
                 if (gameStatValue < switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
-            case ">=":
+            case _greatEqualSymbol:
                 if (gameStatValue >= switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
-            case "<=":
+            case _lessEqualSymbol:
                 if (gameStatValue <= switchNodeStatValue)
                 {
                     result = true;

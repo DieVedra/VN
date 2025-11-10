@@ -13,7 +13,7 @@ public class SwitchToAnotherNodeGraphNode : BaseNode, IPutOnSwimsuit
     }
     public override UniTask Enter(bool isMerged = false)
     {
-        _seriaPartNodeGraph.TryPutOnSwimsuit(_putOnSwimsuit);
+        _seriaPartNodeGraph.SetKeyPutOnSwimsuit(_putOnSwimsuit);
         _switchToAnotherNodeGraphEvent.Execute(_seriaPartNodeGraph);
         return default;
     }
