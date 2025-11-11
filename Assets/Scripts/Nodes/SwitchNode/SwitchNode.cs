@@ -20,12 +20,9 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     private SwitchNodeLogic _switchNodeLogic;
     private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
-    private bool _isInited = false;
-    // public IReadOnlyList<string> Operators => _switchNodeLogic?.Operators;
     public IReadOnlyList<CaseForStats> CaseLocalizations => _casesForStats;
     public IReadOnlyList<Stat> GameStats => _switchNodeLogic.GameStats;
     public SwitchNodeLogic SwitchNodeLogic => _switchNodeLogic;
-    public bool IsInited => _isInited;
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
@@ -38,8 +35,6 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             }
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }
-
-        _isInited = true;
     }
     public override UniTask Enter(bool isMerged = false)
     {

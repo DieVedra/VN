@@ -8,34 +8,34 @@ public class SwitchNodeInitializer : MyNodeInitializer
     {
         if (casesForStats != null)
         {
+            Dictionary<string, CaseBaseStat> newStatsDictionary = GameStatsHandler.CreateCaseBaseStatFormDictionary();
+            Dictionary<string, CaseBaseStat> oldStatsDictionary;
+            IReadOnlyList<AdditionalCaseStats> additionalCaseStats;
+            List<CaseBaseStat> newStats;
+            AdditionalCaseStats stat;
             for (int i = 0; i < casesForStats.Count; i++)
             {
-                var newStats = CreateCaseBaseStat();
-                var oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.NameText);
-                var result = new List<CaseBaseStat>();
+                newStats = GameStatsHandler.CreateCaseBaseStatForm();
+                oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.NameText);
                 for (int j = 0; j < newStats.Count; j++)
                 {
                     if (oldStatsDictionary.TryGetValue(newStats[j].NameText, out CaseBaseStat oldStat))
                     {
-                        result.Add(oldStat);
-                    }
-                    else
-                    {
-                        result.Add(newStats[j]);
+                        newStats[j] = oldStat;
                     }
                 }
-                casesForStats[i] = new CaseForStats(result, casesForStats[i].Name);
+
+                additionalCaseStats = casesForStats[i].AdditionalCaseStats;
+                for (int j = additionalCaseStats.Count - 1; j >= 0; j--)
+                {
+                    stat = additionalCaseStats[j];
+                    if ((newStatsDictionary.ContainsKey(stat.Stat1Key) && newStatsDictionary.ContainsKey(stat.Stat2Key)) == false)
+                    {
+                        casesForStats[i].RemoveAdditionalElement(j);
+                    }
+                }
+                casesForStats[i] = new CaseForStats(newStats, casesForStats[i].Name, additionalCaseStats);
             }
         }
-    }
-    public List<CaseBaseStat> CreateCaseBaseStat()
-    {
-        List<BaseStat> stats = GameStatsHandler.GetGameBaseStatsForm();
-        List<CaseBaseStat> caseStats = new List<CaseBaseStat>(stats.Count);
-        for (int i = 0; i < stats.Count; i++)
-        {
-            caseStats.Add(new CaseBaseStat(stats[i].NameText, stats[i].Value, 0, false));
-        }
-        return caseStats;
     }
 }

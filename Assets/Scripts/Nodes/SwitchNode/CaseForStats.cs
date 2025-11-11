@@ -11,13 +11,18 @@ public class CaseForStats
     [SerializeField] private string _name;
     public string Name => _name;
     public IReadOnlyList<CaseBaseStat> CaseStats => _caseStats;
-    public List<AdditionalCaseStats> AdditionalCaseStats => _additionalCaseStats;
+    public IReadOnlyList<AdditionalCaseStats> AdditionalCaseStats => _additionalCaseStats;
     public IReadOnlyList<ILocalizationString> StatsLocalizations => _caseStats;
 
-    public CaseForStats(List<CaseBaseStat> caseStats, string name, List<AdditionalCaseStats> additionalCaseStats = null)
+    public CaseForStats(List<CaseBaseStat> caseStats, string name, IReadOnlyList<AdditionalCaseStats> additionalCaseStats = null)
     {
         _caseStats = caseStats;
-        _additionalCaseStats = additionalCaseStats;
+        _additionalCaseStats = additionalCaseStats?.ToList();
         _name = name;
+    }
+
+    public void RemoveAdditionalElement(int index)
+    {
+        _additionalCaseStats.RemoveAt(index);
     }
 }

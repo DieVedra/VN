@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Reflection;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 public class LocalizationStringTextDrawer
