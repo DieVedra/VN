@@ -47,7 +47,10 @@ MonoBehaviour:
       _node: {fileID: -8176064504774013757}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -5336776907233498401}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -58,7 +61,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -7238070508143272719}
+        node: {fileID: 357881585916557480}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -227,16 +230,11 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _additionalCaseStats:
-    - _indexCurrentOperator: 0
-      _indexStat1: 0
-      _indexStat2: 0
-      _stat1Key: str_4F394F1E
-      _stat2Key: str_4F394F1E
     - _indexCurrentOperator: 1
-      _indexStat1: 0
-      _indexStat2: 13
-      _stat1Key: str_4F394F1E
-      _stat2Key: str_2C3D4123
+      _indexStat1: 15
+      _indexStat2: 14
+      _stat1Key: str_95058592
+      _stat2Key: str_235CB289
     _name: Port 0
   - _foldoutKey: 0
     _caseStats:
@@ -552,10 +550,7 @@ MonoBehaviour:
       _node: {fileID: -7238070508143272719}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections:
-      - fieldName: Port 0
-        node: {fileID: -8176064504774013757}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -1610,6 +1605,50 @@ MonoBehaviour:
   _isNodeForStats: 1
   _isNodeForBool: 0
   _removeAdditionalCaseIndex: 0
+--- !u!114 &-5336776907233498401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 8232, y: -1864}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5336776907233498401}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -8176064504774013757}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5336776907233498401}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _localizationText:
+    <DefaultText>k__BackingField: 222
+    <Key>k__BackingField: 
 --- !u!114 &-4167447396369536440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2018,6 +2057,52 @@ MonoBehaviour:
   - {fileID: 8657581609710465779}
   - {fileID: 7041351504679213331}
   - {fileID: 4446082129111014228}
+  - {fileID: -5336776907233498401}
+  - {fileID: 357881585916557480}
+--- !u!114 &357881585916557480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3cc03002cfd3345830f28329c06e97, type: 3}
+  m_Name: Narrative
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 8232, y: -2216}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 357881585916557480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Port 0
+        node: {fileID: -8176064504774013757}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 357881585916557480}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _localizationText:
+    <DefaultText>k__BackingField: 111
+    <Key>k__BackingField: 
 --- !u!114 &547977278679112988
 MonoBehaviour:
   m_ObjectHideFlags: 0

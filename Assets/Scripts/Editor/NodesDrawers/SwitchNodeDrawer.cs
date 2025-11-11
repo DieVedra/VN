@@ -29,7 +29,7 @@ public class SwitchNodeDrawer : NodeEditor
     private SerializedProperty _removeAdditionalCaseIndexSerializedProperty;
     private SerializedProperty _keySerializedProperty;
     private string[] _statsNames;
-    
+    private bool _updateAdditionalCases;
     public override void OnBodyGUI()
     {
         if (_switchNode == null)
@@ -43,11 +43,12 @@ public class SwitchNodeDrawer : NodeEditor
             _inputPortProperty = serializedObject.FindProperty("Input");
             _removeAdditionalCaseIndexSerializedProperty = serializedObject.FindProperty("_removeAdditionalCaseIndex");
             _casesForStatsListProperty = serializedObject.FindProperty("_casesForStats");
+            _updateAdditionalCases = false;
         }
         else
         {
             TryInitStatsNames();
-
+            TryUpdateAdditionalCases();
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             if (_nodeForBoolSerializedProperty.boolValue == false)
@@ -269,29 +270,41 @@ public class SwitchNodeDrawer : NodeEditor
 
     private void TryUpdateAdditionalCases()
     {
-        SerializedProperty caseForStats;
-        SerializedProperty additionalCaseStats;
-        SerializedProperty additionalCaseStat;
-        SerializedProperty indexStat1;
-        SerializedProperty indexStat2;
-        
-    // private int _indexStat1;
-    // [SerializeField] private int _indexStat2;
-    // [SerializeField] private LocalizationString _localizationStringStat1;
-    // [SerializeField] private LocalizationString _localizationStringStat2;
-        
-        
-        
-        for (int i = 0; i < _casesForStatsListProperty.arraySize; i++)
+        if (_updateAdditionalCases == false && _switchNode.SwitchNodeLogic != null)
         {
-            caseForStats = _casesForStatsListProperty.GetArrayElementAtIndex(i);
-            additionalCaseStats = caseForStats.FindPropertyRelative("_additionalCaseStats");
-            for (int j = 0; j < additionalCaseStats.arraySize; j++)
+            _updateAdditionalCases = true;
+            SerializedProperty caseForStats;
+            SerializedProperty additionalCaseStats;
+            for (int i = 0; i < _casesForStatsListProperty.arraySize; i++)
             {
-                additionalCaseStat = additionalCaseStats.GetArrayElementAtIndex(j);
-                indexStat1 = additionalCaseStat.FindPropertyRelative("_indexStat1");
-                indexStat2 = additionalCaseStat.FindPropertyRelative("_indexStat2");
-                // AdditionalCaseStats additionalCaseStats = _objectProviderFromProperty.GetObject<LocalizationString>(sp2);
+                caseForStats = _casesForStatsListProperty.GetArrayElementAtIndex(i);
+                additionalCaseStats = caseForStats.FindPropertyRelative("_additionalCaseStats");
+                for (int j = 0; j < additionalCaseStats.arraySize; j++)
+                {
+                    _additionalCaseSerializedProperty = additionalCaseStats.GetArrayElementAtIndex(j);
+                    _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat1");
+                    _keySerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_stat1Key");
+                    Update();
+                    _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat2");
+                    _keySerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_stat2Key");
+                    Update();
+                }
+            }
+        }
+
+        void Update()
+        {
+            if (_keySerializedProperty.stringValue != _switchNode.SwitchNodeLogic
+                .GameStats[_indexStatSerializedProperty.intValue].NameKey)
+            {
+                for (int i = 0; i < _switchNode.SwitchNodeLogic.GameStats.Count; i++)
+                {
+                    if (_switchNode.SwitchNodeLogic.GameStats[i].NameKey == _keySerializedProperty.stringValue)
+                    {
+                        _indexStatSerializedProperty.intValue = i;
+                        break;
+                    }
+                }
             }
         }
     }
