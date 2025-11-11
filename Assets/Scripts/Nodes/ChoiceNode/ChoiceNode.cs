@@ -68,7 +68,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         _namesPortsPorts = new[] {_port1, _port2, _port3};
         _allStatsChoice = new List<List<BaseStat>>(){_baseStatsChoice1, _baseStatsChoice2, _baseStatsChoice3};
         _choiceResultEvent = new ChoiceResultEvent<int>();
-        _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+        _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
         _notificationPanelUIHandler = notificationPanelUIHandler;
         _choicePanelUIHandler = choicePanelUIHandler;
         _sendCurrentNodeEvent = sendCurrentNodeEvent;

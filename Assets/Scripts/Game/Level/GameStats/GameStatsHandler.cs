@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class GameStatsHandler
 {
     private const int _defaultValue = 0;
     private readonly List<Stat> _stats;
 
+    private readonly Dictionary<string, Stat> _statsDictionary;
     public IReadOnlyList<Stat> Stats => _stats;
+    public IReadOnlyDictionary<string, Stat> StatsDictionary => _statsDictionary;
 
     public GameStatsHandler(List<Stat> stats)
     {
         _stats = stats;
+        _statsDictionary = stats.ToDictionary(x => x.NameKey);
     }
 
     public GameStatsHandler()
     {
         _stats = new List<Stat>();
+        _statsDictionary = new Dictionary<string, Stat>();
     }
     public IReadOnlyList<SaveStat> GetStatsToSave()
     {
@@ -26,7 +32,6 @@ public class GameStatsHandler
     
         return baseStats;
     }
-
     public List<Stat> GetGameStatsForm()
     {
         List<Stat> stats = new List<Stat>(_stats.Count);
@@ -92,6 +97,7 @@ public class GameStatsHandler
                 if (_stats[i].NameKey == saveStats[j].NameKey && (saveStats[j].Value != _stats[i].Value) == false)
                 {
                     _stats[i] = new Stat(_stats[i].NameKey, _stats[i].NameKey, saveStats[j].Value, _stats[i].ColorField);
+                    _statsDictionary[_stats[i].NameKey] = _stats[i];
                 }
             }
         }
@@ -106,6 +112,7 @@ public class GameStatsHandler
             {
                 _stats[i] = new Stat(_stats[i].NameText, _stats[i].NameKey, _stats[i].Value + stat.Value,
                     _stats[i].ColorField);
+                _statsDictionary[_stats[i].NameKey] = _stats[i];
             }
         }
     }
@@ -119,6 +126,7 @@ public class GameStatsHandler
             {
                 _stats[i] = new Stat(_stats[i].NameText, _stats[i].NameKey,_stats[i].Value + stat.Value,
                     _stats[i].ColorField);
+                _statsDictionary[_stats[i].NameKey] = _stats[i];
             }
         }
     }
@@ -162,6 +170,7 @@ public class GameStatsHandler
         if (stats != null && stats.Count > 0)
         {
             _stats.AddRange(stats);
+            _statsDictionary.AddRange(stats.ToDictionary(x=>x.NameKey));
         }
     }
 }

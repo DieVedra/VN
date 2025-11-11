@@ -15,24 +15,19 @@ public class SeriaGameStatsProviderEditor : MonoBehaviour, IGameStatsProvider
         _gameStatsHandler = new GameStatsHandler(stats);
     }
 
-    public List<Stat> GetStatsFromCurrentSeria(int seriaIndex)
+    public List<Stat> GetEmptyStatsFromCurrentSeria(int seriaIndex)
     {
         int seriaNumber = ++seriaIndex;
         List<Stat> stats = new List<Stat>();
-        List<Stat> statsForm;
         for (int i = 0; i < _seriaStatsProviders.Count; i++)
         {
-            if (_seriaStatsProviders[i].SeriaNumber > 0)
+            if (_seriaStatsProviders[i].SeriaNumber > 0 && _seriaStatsProviders[i].SeriaNumber <= seriaNumber)
             {
-                if (_seriaStatsProviders[i].SeriaNumber <= seriaNumber)
-                {
-                    statsForm = _seriaStatsProviders[i].Stats.ToList();
-                    stats.AddRange(statsForm);
-                }
-                else
-                {
-                    break;
-                }
+                stats.AddRange(_seriaStatsProviders[i].Stats.ToList());
+            }
+            else
+            {
+                break;
             }
         }
         return stats;

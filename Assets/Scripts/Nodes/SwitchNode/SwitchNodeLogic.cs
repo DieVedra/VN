@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SwitchNodeLogic
 {
@@ -11,12 +12,14 @@ public class SwitchNodeLogic
     private const string _lessEqualSymbol = "<=";
     public readonly string[] Operators;
     private List<Func<bool>> _toSwitch;
-    public IReadOnlyList<Stat> GameStats;
+    private readonly IReadOnlyDictionary<string, Stat> _statsDictionary;
+    public readonly IReadOnlyList<Stat> GameStatsCopied;
 
-    public SwitchNodeLogic(IReadOnlyList<Stat> gameStats)
+    public SwitchNodeLogic(IReadOnlyDictionary<string, Stat> statsDictionary, IReadOnlyList<Stat> gameStatsCopied)
     {
         _toSwitch = new List<Func<bool>>();
-        GameStats = gameStats;
+        _statsDictionary = statsDictionary;
+        GameStatsCopied = gameStatsCopied;
         Operators = new[]{_equalSymbol, _greatSymbol, _lessSymbol, _greatEqualSymbol, _lessEqualSymbol};
     }
 
@@ -36,7 +39,7 @@ public class SwitchNodeLogic
                 if (cases[i].CaseStats[j].IncludeKey == true)
                 {
                     CaseBaseStat caseBaseStat = cases[i].CaseStats[j];
-                    int value = GameStats[j].Value;
+                    int value = _statsDictionary[GameStatsCopied[j].NameKey].Value;
                     _toSwitch.Add(() => Comparison(caseBaseStat.IndexCurrentOperator, value, caseBaseStat.Value));
                 }
             }
@@ -45,9 +48,8 @@ public class SwitchNodeLogic
             for (int j = 0; j < count2; j++)
             {
                 AdditionalCaseStats additionalCaseStats = caseForStats.AdditionalCaseStats[i];
-                int value1 = GameStats[additionalCaseStats.IndexStat1].Value;
-                int value2 = GameStats[additionalCaseStats.IndexStat2].Value;
-
+                int value1 = _statsDictionary[additionalCaseStats.Stat1Key].Value;
+                int value2 = _statsDictionary[additionalCaseStats.Stat2Key].Value;
                 _toSwitch.Add(() => Comparison(additionalCaseStats.IndexCurrentOperator, value1, value2));
             }
             if (GroupProcessing() == true)
@@ -60,13 +62,10 @@ public class SwitchNodeLogic
         return (caseFoundSuccessfuly, indexCase);
     }
 
-    private void a()
-    {
-        
-    }
     private bool GroupProcessing()
     {
         bool result = false;
+        
         foreach (var operation in _toSwitch)
         {
             result = operation.Invoke();

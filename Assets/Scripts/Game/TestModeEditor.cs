@@ -22,11 +22,4 @@ public class TestModeEditor
     {
         _stats = stats;
     }
-    public void TryUpdateStats()
-    {
-        // if (_stats)
-        // {
-        //     
-        // }
-    }
 }

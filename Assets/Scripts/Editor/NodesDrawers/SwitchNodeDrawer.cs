@@ -22,7 +22,7 @@ public class SwitchNodeDrawer : NodeEditor
     private SerializedProperty _nodeForBoolSerializedProperty;
     private SerializedProperty _casesForStatsListProperty;
     private SerializedProperty _inputPortProperty;
-    private SerializedProperty _foldOutKey1SerializedProperty;
+    private SerializedProperty _foldOutKeySerializedProperty;
     private SerializedProperty _additionalCaseStatsArraySerializedProperty;
     private SerializedProperty _additionalCaseSerializedProperty;
     private SerializedProperty _indexStatSerializedProperty;
@@ -30,6 +30,7 @@ public class SwitchNodeDrawer : NodeEditor
     private SerializedProperty _keySerializedProperty;
     private string[] _statsNames;
     private bool _updateAdditionalCases;
+    private bool test;
     public override void OnBodyGUI()
     {
         if (_switchNode == null)
@@ -144,10 +145,9 @@ public class SwitchNodeDrawer : NodeEditor
     }
     private void DrawCase(CaseForStats statsLocalizations, SerializedProperty serializedPropertyMyCase, string portName, string portViewName)
     {
-        _foldOutKey1SerializedProperty = serializedPropertyMyCase.FindPropertyRelative("_foldoutKey");
-        _foldOutKey1SerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldOutKey1SerializedProperty.boolValue,  "Settings");
-        
-        if (_foldOutKey1SerializedProperty.boolValue == true)
+        _foldOutKeySerializedProperty = serializedPropertyMyCase.FindPropertyRelative("_foldoutKey");
+        _foldOutKeySerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldOutKeySerializedProperty.boolValue, $"Settings {portViewName}");
+        if (_foldOutKeySerializedProperty.boolValue)
         {
             DrawStats(statsLocalizations.StatsLocalizations, serializedPropertyMyCase.FindPropertyRelative("_caseStats"));
             _additionalCaseStatsArraySerializedProperty = serializedPropertyMyCase.FindPropertyRelative("_additionalCaseStats");
@@ -225,7 +225,7 @@ public class SwitchNodeDrawer : NodeEditor
         {
             DrawPopup(_statsNames, _indexStatSerializedProperty, 140f);
             _keySerializedProperty.stringValue = _switchNode.SwitchNodeLogic
-                .GameStats[_indexStatSerializedProperty.intValue].NameKey;
+                .GameStatsCopied[_indexStatSerializedProperty.intValue].NameKey;
         }
     }
 
@@ -257,13 +257,13 @@ public class SwitchNodeDrawer : NodeEditor
     }
     private void TryInitStatsNames()
     {
-        if (_switchNode.SwitchNodeLogic?.GameStats != null)
+        if (_switchNode.SwitchNodeLogic?.GameStatsCopied != null)
         {
-            int count = _switchNode.SwitchNodeLogic.GameStats.Count;
+            int count = _switchNode.SwitchNodeLogic.GameStatsCopied.Count;
             _statsNames = new string[count];
             for (int i = 0; i < count; i++)
             {
-                _statsNames[i] = _switchNode.SwitchNodeLogic.GameStats[i].NameText;
+                _statsNames[i] = _switchNode.SwitchNodeLogic.GameStatsCopied[i].NameText;
             }
         }
     }
@@ -295,11 +295,11 @@ public class SwitchNodeDrawer : NodeEditor
         void Update()
         {
             if (_keySerializedProperty.stringValue != _switchNode.SwitchNodeLogic
-                .GameStats[_indexStatSerializedProperty.intValue].NameKey)
+                .GameStatsCopied[_indexStatSerializedProperty.intValue].NameKey)
             {
-                for (int i = 0; i < _switchNode.SwitchNodeLogic.GameStats.Count; i++)
+                for (int i = 0; i < _switchNode.SwitchNodeLogic.GameStatsCopied.Count; i++)
                 {
-                    if (_switchNode.SwitchNodeLogic.GameStats[i].NameKey == _keySerializedProperty.stringValue)
+                    if (_switchNode.SwitchNodeLogic.GameStatsCopied[i].NameKey == _keySerializedProperty.stringValue)
                     {
                         _indexStatSerializedProperty.intValue = i;
                         break;

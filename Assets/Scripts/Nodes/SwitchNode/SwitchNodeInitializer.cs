@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SwitchNodeInitializer : MyNodeInitializer
 {
@@ -8,7 +9,6 @@ public class SwitchNodeInitializer : MyNodeInitializer
     {
         if (casesForStats != null)
         {
-            Dictionary<string, CaseBaseStat> newStatsDictionary = GameStatsHandler.CreateCaseBaseStatFormDictionary();
             Dictionary<string, CaseBaseStat> oldStatsDictionary;
             IReadOnlyList<AdditionalCaseStats> additionalCaseStats;
             List<CaseBaseStat> newStats;
@@ -29,12 +29,12 @@ public class SwitchNodeInitializer : MyNodeInitializer
                 for (int j = additionalCaseStats.Count - 1; j >= 0; j--)
                 {
                     stat = additionalCaseStats[j];
-                    if ((newStatsDictionary.ContainsKey(stat.Stat1Key) && newStatsDictionary.ContainsKey(stat.Stat2Key)) == false)
+                    if ((GameStatsHandler.StatsDictionary.ContainsKey(stat.Stat1Key) && GameStatsHandler.StatsDictionary.ContainsKey(stat.Stat2Key)) == false)
                     {
                         casesForStats[i].RemoveAdditionalElement(j);
                     }
                 }
-                casesForStats[i] = new CaseForStats(newStats, casesForStats[i].Name, additionalCaseStats);
+                casesForStats[i] = new CaseForStats(newStats, casesForStats[i].Name, casesForStats[i].FoldoutKey, additionalCaseStats);
             }
         }
     }

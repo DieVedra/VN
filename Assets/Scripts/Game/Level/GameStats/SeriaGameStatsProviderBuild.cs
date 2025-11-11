@@ -1,16 +1,12 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGameStatsProvider
 {
     private const string SeriaGameStatsProviderName = "StatProviderSeria";
     private GameStatsHandler _gameStatsHandler;
     public GameStatsHandler GameStatsHandler => _gameStatsHandler;
-
     public SeriaGameStatsProviderBuild()
     {
         BaseCompositeDisposable = new CompositeDisposable();
@@ -21,7 +17,7 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
         }).AddTo(BaseCompositeDisposable);
     }
 
-    public List<Stat> GetStatsFromCurrentSeria(int seriaIndex)
+    public List<Stat> GetEmptyStatsFromCurrentSeria(int seriaIndex)
     {
         int seriaNumber = ++seriaIndex;
         List<Stat> stats = new List<Stat>();

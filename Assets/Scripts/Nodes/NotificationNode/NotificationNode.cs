@@ -4,6 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 [NodeTint("#000D7B")]
 public class NotificationNode : BaseNode, ILocalizable
@@ -19,10 +20,7 @@ public class NotificationNode : BaseNode, ILocalizable
     public void ConstructMyNotificationNode(NotificationPanelUIHandler notificationPanelUIHandler)
     {
         _notificationPanelUIHandler = notificationPanelUIHandler;
-        Observable.Timer(TimeSpan.FromSeconds(Time.deltaTime)).Subscribe(_ =>
-        {
-            _notificationNodeData.Reset();
-        });
+        ResetNotificationNodeData().Forget();
     }
     public override async UniTask Enter(bool isMerged = false)
     {
@@ -48,5 +46,12 @@ public class NotificationNode : BaseNode, ILocalizable
     protected override void SetInfoToView()
     {
         _notificationPanelUIHandler.ShowNotificationInEditMode(_localizationText, _notificationNodeData);
+    }
+
+    private async UniTask ResetNotificationNodeData()
+    {
+        CancellationTokenSource = new CancellationTokenSource();
+        await UniTask.Delay(TimeSpan.FromSeconds(Time.deltaTime), cancellationToken: CancellationTokenSource.Token);
+        _notificationNodeData.Reset();
     }
 }

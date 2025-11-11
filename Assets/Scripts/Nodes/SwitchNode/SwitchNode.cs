@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
-using XNode;
 
 [NodeWidth(400),NodeTint("#A53383")]
 public class SwitchNode : BaseNode, IPutOnSwimsuit
@@ -21,17 +19,16 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
     public IReadOnlyList<CaseForStats> CaseLocalizations => _casesForStats;
-    public IReadOnlyList<Stat> GameStats => _switchNodeLogic.GameStats;
     public SwitchNodeLogic SwitchNodeLogic => _switchNodeLogic;
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
-        _switchNodeLogic = new SwitchNodeLogic(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+        _switchNodeLogic = new SwitchNodeLogic(gameStatsProvider.GameStatsHandler.StatsDictionary, _gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
         if (IsPlayMode() == false)
         {
             if (_switchNodeInitializer == null)
             {
-                _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
+                _switchNodeInitializer = new SwitchNodeInitializer(_gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
             }
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }

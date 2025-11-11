@@ -118,10 +118,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
             }
             else if (_testModeEditor.IsTestMode == true)
             {
+                _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
                 _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, _characterProvider, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
                     _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
-                
-                _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
+
                 _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
             }
             else

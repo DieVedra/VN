@@ -56,8 +56,8 @@ public class CustomizationNode : BaseNode, ILocalizable
         _wardrobeCharacterViewer = wardrobeCharacterViewer;
         _notificationPanelUIHandler = notificationPanelUIHandler;
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
-        _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex));
-        _gameStatsProvider.GetStatsFromCurrentSeria(seriaIndex);
+        _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
+        _gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex);
         if (IsPlayMode() == false)
         {
             _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsHandler);
