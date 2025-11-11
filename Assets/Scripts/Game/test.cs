@@ -12,17 +12,27 @@ using UnityEngine.U2D;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] private SpriteAtlas _spriteAtlas;
-    [SerializeField] private string name;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private bool a;
+    [SerializeField] private bool b;
     [Button()]
     private void test1()
     {
-        _spriteRenderer.sprite = _spriteAtlas.GetSprite(name);
+        var res = a && b;
+        Debug.Log($"{res}");
     }
     
     [Button()]
     private void test2()
+    {
+        
+    }
+    [Button()]
+    private void test3()
+    {
+        
+    }
+    [Button()]
+    private void test4()
     {
         
     }

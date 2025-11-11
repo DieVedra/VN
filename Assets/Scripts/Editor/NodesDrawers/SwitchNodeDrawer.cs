@@ -14,6 +14,8 @@ public class SwitchNodeDrawer : NodeEditor
     private SwitchNode _switchNode;
     private LineDrawer _lineDrawer;
     private StringBuilder _stringBuilder;
+    private ObjectProviderFromProperty _objectProviderFromProperty;
+
     private MethodInfo _addStatPortMethod;
     private MethodInfo _removeStatPortMethod;
     private SerializedProperty _nodeForStatsKeySerializedProperty;
@@ -23,103 +25,110 @@ public class SwitchNodeDrawer : NodeEditor
     private SerializedProperty _foldOutKey1SerializedProperty;
     private SerializedProperty _additionalCaseStatsArraySerializedProperty;
     private SerializedProperty _additionalCaseSerializedProperty;
-    private SerializedProperty _addAdditionalCaseSerializedProperty;
+    private SerializedProperty _indexStatSerializedProperty;
     private SerializedProperty _removeAdditionalCaseIndexSerializedProperty;
     private string[] _statsNames;
+    private bool _isInited;
     
     public override void OnBodyGUI()
     {
         if (_switchNode == null)
         {
             _switchNode = target as SwitchNode;
-            _lineDrawer = new LineDrawer();
-            _stringBuilder = new StringBuilder();
-            _nodeForStatsKeySerializedProperty = serializedObject.FindProperty("_isNodeForStats");
-            _nodeForBoolSerializedProperty = serializedObject.FindProperty("_isNodeForBool");
-            _inputPortProperty = serializedObject.FindProperty("Input");
-            _removeAdditionalCaseIndexSerializedProperty = serializedObject.FindProperty("_removeAdditionalCaseIndex");
-            _casesForStatsListProperty = serializedObject.FindProperty("_casesForStats");
         }
         else
         {
-            if (_statsNames == null)
+            if (_switchNode.IsInited == true && _isInited == false)
             {
+                _lineDrawer = new LineDrawer();
+                _stringBuilder = new StringBuilder();
+                _objectProviderFromProperty = new ObjectProviderFromProperty();
+                _nodeForStatsKeySerializedProperty = serializedObject.FindProperty("_isNodeForStats");
+                _nodeForBoolSerializedProperty = serializedObject.FindProperty("_isNodeForBool");
+                _inputPortProperty = serializedObject.FindProperty("Input");
+                _removeAdditionalCaseIndexSerializedProperty = serializedObject.FindProperty("_removeAdditionalCaseIndex");
+                _casesForStatsListProperty = serializedObject.FindProperty("_casesForStats");
                 TryInitStatsNames();
+                // TryUpdateAdditionalCases();
+                _isInited = true;
             }
-            serializedObject.Update();
-            NodeEditorGUILayout.PropertyField(_inputPortProperty);
-            if (_nodeForBoolSerializedProperty.boolValue == false)
+            else
             {
-                EditorGUILayout.BeginHorizontal();
-                _nodeForStatsKeySerializedProperty.boolValue =
-                    EditorGUILayout.Toggle(_nodeForStatsKeySerializedProperty.boolValue);
-                EditorGUILayout.LabelField("Is Stats Switch");
-                EditorGUILayout.EndHorizontal();
-            }
+                serializedObject.Update();
+                NodeEditorGUILayout.PropertyField(_inputPortProperty);
+                if (_nodeForBoolSerializedProperty.boolValue == false)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    _nodeForStatsKeySerializedProperty.boolValue =
+                        EditorGUILayout.Toggle(_nodeForStatsKeySerializedProperty.boolValue);
+                    EditorGUILayout.LabelField("Is Stats Switch");
+                    EditorGUILayout.EndHorizontal();
+                }
 
-            if (_nodeForStatsKeySerializedProperty.boolValue == false)
-            {
-                EditorGUILayout.BeginHorizontal();
-                _nodeForBoolSerializedProperty.boolValue =
-                    EditorGUILayout.Toggle(_nodeForBoolSerializedProperty.boolValue);
-                EditorGUILayout.LabelField("Is Bool Switch");
-                EditorGUILayout.EndHorizontal();
-            }
+                if (_nodeForStatsKeySerializedProperty.boolValue == false)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    _nodeForBoolSerializedProperty.boolValue =
+                        EditorGUILayout.Toggle(_nodeForBoolSerializedProperty.boolValue);
+                    EditorGUILayout.LabelField("Is Bool Switch");
+                    EditorGUILayout.EndHorizontal();
+                }
 
-            if (_nodeForStatsKeySerializedProperty.boolValue == true)
-            {
+                if (_nodeForStatsKeySerializedProperty.boolValue == true)
+                {
             
-                EditorGUILayout.Space(10f);
-                EditorGUILayout.LabelField($"Dynamic ports count: {_switchNode.DynamicOutputs.Count()}");
-                EditorGUILayout.Space(10f);
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Add CaseForStats"))
-                {
-                    AddPortCaseForStats();
-                    serializedObject.Update();
-                }
-
-                if (GUILayout.Button("RemoveStatPort"))
-                {
-                    RemoveStatPort();
-                    serializedObject.Update();
-                }
-
-                EditorGUILayout.EndHorizontal();
-                if (_switchNode.SwitchNodeLogic?.Operators != null)
-                {
-                    if (_casesForStatsListProperty != null && _casesForStatsListProperty.arraySize > 0)
+                    EditorGUILayout.Space(10f);
+                    EditorGUILayout.LabelField($"Dynamic ports count: {_switchNode.DynamicOutputs.Count()}");
+                    EditorGUILayout.Space(10f);
+                    EditorGUILayout.BeginHorizontal();
+                    if (GUILayout.Button("Add CaseForStats"))
                     {
-                        for (int i = 0; i < _casesForStatsListProperty.arraySize; i++)
+                        AddPortCaseForStats();
+                        serializedObject.Update();
+                    }
+
+                    if (GUILayout.Button("RemoveStatPort"))
+                    {
+                        RemoveStatPort();
+                        serializedObject.Update();
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                    if (_switchNode.SwitchNodeLogic?.Operators != null)
+                    {
+                        if (_casesForStatsListProperty != null && _casesForStatsListProperty.arraySize > 0)
                         {
-                            if (i < _casesForStatsListProperty.arraySize)
+                            for (int i = 0; i < _casesForStatsListProperty.arraySize; i++)
                             {
-                                NodePort port = _switchNode.GetOutputPort(_casesForStatsListProperty.GetArrayElementAtIndex(i).FindPropertyRelative("_name").stringValue);
-                                DrawCase(_switchNode.CaseLocalizations[i], _casesForStatsListProperty.GetArrayElementAtIndex(i), port.fieldName, $"CaseForStats {i + 1} port");
+                                if (i < _casesForStatsListProperty.arraySize)
+                                {
+                                    NodePort port = _switchNode.GetOutputPort(_casesForStatsListProperty.GetArrayElementAtIndex(i).FindPropertyRelative("_name").stringValue);
+                                    DrawCase(_switchNode.CaseLocalizations[i], _casesForStatsListProperty.GetArrayElementAtIndex(i), port.fieldName, $"CaseForStats {i + 1} port");
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            EditorGUILayout.Space(10f);
-            if (_nodeForBoolSerializedProperty.boolValue == true)
-            {
-                EditorGUILayout.LabelField("If Input True",GUILayout.Width(100f));
-                NodeEditorGUILayout.PortField(new GUIContent($"Output True Bool Port"), _switchNode.GetOutputPort("OutputTrueBool"));
-            }
+                EditorGUILayout.Space(10f);
+                if (_nodeForBoolSerializedProperty.boolValue == true)
+                {
+                    EditorGUILayout.LabelField("If Input True",GUILayout.Width(100f));
+                    NodeEditorGUILayout.PortField(new GUIContent($"Output True Bool Port"), _switchNode.GetOutputPort("OutputTrueBool"));
+                }
 
-            _lineDrawer.DrawHorizontalLine(Color.yellow);
-            if (_nodeForBoolSerializedProperty.boolValue == true)
-            {
-                NodeEditorGUILayout.PortField(new GUIContent("Output False Bool Port "), _switchNode.OutputPortBaseNode);
-            }
-            else
-            {
-                NodeEditorGUILayout.PortField(new GUIContent("Default Port "), _switchNode.OutputPortBaseNode);
-            }
+                _lineDrawer.DrawHorizontalLine(Color.yellow);
+                if (_nodeForBoolSerializedProperty.boolValue == true)
+                {
+                    NodeEditorGUILayout.PortField(new GUIContent("Output False Bool Port "), _switchNode.OutputPortBaseNode);
+                }
+                else
+                {
+                    NodeEditorGUILayout.PortField(new GUIContent("Default Port "), _switchNode.OutputPortBaseNode);
+                }
 
-            serializedObject.ApplyModifiedProperties();
+                serializedObject.ApplyModifiedProperties();
+            }
         }
     }
     
@@ -205,9 +214,13 @@ public class SwitchNodeDrawer : NodeEditor
             EditorGUILayout.LabelField(_stringBuilder.ToString() ,GUILayout.Width(50f));
             if (_statsNames != null)
             {
-                DrawPopup(_statsNames, _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat1"), 140f);
+                _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat1");
+                DrawPopup(_statsNames, _indexStatSerializedProperty, 140f);
+                
                 DrawPopup(_switchNode.SwitchNodeLogic.Operators, _additionalCaseSerializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
-                DrawPopup(_statsNames, _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat2"), 140f);
+                
+                _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat2");
+                DrawPopup(_statsNames, _indexStatSerializedProperty, 140f);
             }
 
             EditorGUILayout.EndHorizontal();
@@ -250,6 +263,35 @@ public class SwitchNodeDrawer : NodeEditor
             for (int i = 0; i < count; i++)
             {
                 _statsNames[i] = _switchNode.SwitchNodeLogic.GameStats[i].NameText;
+            }
+        }
+    }
+
+    private void TryUpdateAdditionalCases()
+    {
+        SerializedProperty caseForStats;
+        SerializedProperty additionalCaseStats;
+        SerializedProperty additionalCaseStat;
+        SerializedProperty indexStat1;
+        SerializedProperty indexStat2;
+        
+    // private int _indexStat1;
+    // [SerializeField] private int _indexStat2;
+    // [SerializeField] private LocalizationString _localizationStringStat1;
+    // [SerializeField] private LocalizationString _localizationStringStat2;
+        
+        
+        
+        for (int i = 0; i < _casesForStatsListProperty.arraySize; i++)
+        {
+            caseForStats = _casesForStatsListProperty.GetArrayElementAtIndex(i);
+            additionalCaseStats = caseForStats.FindPropertyRelative("_additionalCaseStats");
+            for (int j = 0; j < additionalCaseStats.arraySize; j++)
+            {
+                additionalCaseStat = additionalCaseStats.GetArrayElementAtIndex(j);
+                indexStat1 = additionalCaseStat.FindPropertyRelative("_indexStat1");
+                indexStat2 = additionalCaseStat.FindPropertyRelative("_indexStat2");
+                // AdditionalCaseStats additionalCaseStats = _objectProviderFromProperty.GetObject<LocalizationString>(sp2);
             }
         }
     }

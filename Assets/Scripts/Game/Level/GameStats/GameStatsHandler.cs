@@ -32,19 +32,10 @@ public class GameStatsHandler
         List<Stat> stats = new List<Stat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
-            stats.Add(new Stat(_stats[i].NameText, _stats[i].NameKey, 0, _stats[i].ColorField));
+            stats.Add(new Stat(_stats[i].NameText, _stats[i].NameKey, _defaultValue, _stats[i].ColorField));
         }
         return stats;
     }
-    // public List<Stat> GetGameStatsForm()
-    // {
-    //     List<Stat> stats = new List<Stat>(_stats.Count);
-    //     for (int i = 0; i < _stats.Count; i++)
-    //     {
-    //         stats.Add(new Stat(_stats[i].NameText, _stats[i].NameKey, 0, _stats[i].ColorField));
-    //     }
-    //     return stats;
-    // }
     public List<CustomizationStat> GetGameCustomizationStatsForm()
     {
         List<CustomizationStat> stats = new List<CustomizationStat>(_stats.Count);
@@ -74,7 +65,24 @@ public class GameStatsHandler
     
         return stats;
     }
-
+    public List<CaseBaseStat> CreateCaseBaseStatForm()
+    {
+        List<CaseBaseStat> caseStats = new List<CaseBaseStat>(_stats.Count);
+        for (int i = 0; i < _stats.Count; i++)
+        {
+            caseStats.Add(new CaseBaseStat(_stats[i].NameText, _stats[i].Value, _defaultValue, false));
+        }
+        return caseStats;
+    }
+    public Dictionary<string, CaseBaseStat> CreateCaseBaseStatFormDictionary()
+    {
+        Dictionary<string, CaseBaseStat> caseStats = new Dictionary<string, CaseBaseStat>(_stats.Count);
+        for (int i = 0; i < _stats.Count; i++)
+        {
+            caseStats.Add(_stats[i].NameKey , new CaseBaseStat(_stats[i].NameText, _stats[i].Value, _defaultValue, false));
+        }
+        return caseStats;
+    }
     public void UpdateStatFromSave(IReadOnlyList<SaveStat> saveStats)
     {
         for (int i = 0; i < _stats.Count; i++)
@@ -91,7 +99,6 @@ public class GameStatsHandler
 
     public void UpdateStats(List<BaseStat> addStats)
     {
-        // TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.NameKey);
         for (int i = 0; i < _stats.Count; i++)
         {
@@ -105,7 +112,6 @@ public class GameStatsHandler
 
     public void UpdateStats(List<CustomizationStat> addStats)
     {
-        // TryRegenerateKeys(addStats);
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.NameKey);
         for (int i = 0; i < _stats.Count; i++)
         {
@@ -120,7 +126,6 @@ public class GameStatsHandler
     public List<CustomizationStat> ReinitCustomizationStats(List<CustomizationStat> oldStats)
     {
         List<CustomizationStat> newStats = GetCustomizationStatsForm();
-        // TryRegenerateKeys(oldStats);
         Dictionary<string, CustomizationStat> oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.NameKey);
 
         for (int i = 0; i < newStats.Count; i++)
@@ -137,7 +142,6 @@ public class GameStatsHandler
     public List<BaseStat> ReinitBaseStats(List<BaseStat> oldStats)
     {
         List<BaseStat> newStats = GetGameBaseStatsForm();
-        // TryRegenerateKeys(oldStats);
         var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.NameKey);
         var result = new List<BaseStat>(newStats.Count);
         for (int i = 0; i < newStats.Count; i++)
@@ -160,23 +164,4 @@ public class GameStatsHandler
             _stats.AddRange(stats);
         }
     }
-
-    // private void TryRegenerateKeys(List<Stat> oldStats)
-    // {
-    //     foreach (var stat in oldStats)
-    //     {
-    //         RegenerateKey(stat);
-    //     }
-    // }
-    // private void TryRegenerateKeys(List<BaseStat> oldStats)
-    // {
-    //     foreach (var stat in oldStats)
-    //     {
-    //         RegenerateKey(stat);
-    //     }
-    // }
-    // private void RegenerateKey(BaseStat baseStat)
-    // {
-    //     baseStat.LocalizationName.TryRegenerateKey();
-    // }
 }

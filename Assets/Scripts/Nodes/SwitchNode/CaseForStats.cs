@@ -11,12 +11,13 @@ public class CaseForStats
     [SerializeField] private string _name;
     public string Name => _name;
     public IReadOnlyList<CaseBaseStat> CaseStats => _caseStats;
-    public IReadOnlyList<AdditionalCaseStats> AdditionalCaseStats => _additionalCaseStats;
+    public List<AdditionalCaseStats> AdditionalCaseStats => _additionalCaseStats;
     public IReadOnlyList<ILocalizationString> StatsLocalizations => _caseStats;
 
-    public CaseForStats(List<CaseBaseStat> caseStats, string name)
+    public CaseForStats(List<CaseBaseStat> caseStats, string name, List<AdditionalCaseStats> additionalCaseStats = null)
     {
         _caseStats = caseStats;
+        _additionalCaseStats = additionalCaseStats;
         _name = name;
     }
 }

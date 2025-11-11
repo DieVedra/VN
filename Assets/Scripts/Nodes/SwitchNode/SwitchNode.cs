@@ -20,10 +20,12 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     private SwitchNodeLogic _switchNodeLogic;
     private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
+    private bool _isInited = false;
     // public IReadOnlyList<string> Operators => _switchNodeLogic?.Operators;
     public IReadOnlyList<CaseForStats> CaseLocalizations => _casesForStats;
     public IReadOnlyList<Stat> GameStats => _switchNodeLogic.GameStats;
     public SwitchNodeLogic SwitchNodeLogic => _switchNodeLogic;
+    public bool IsInited => _isInited;
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
@@ -36,6 +38,8 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             }
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }
+
+        _isInited = true;
     }
     public override UniTask Enter(bool isMerged = false)
     {
@@ -82,22 +86,7 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             {
                 _casesForStats = new List<CaseForStats>();
             }
-            var baseStats = _switchNodeInitializer.CreateCaseBaseStat();
-            var caseForStats = new CaseForStats(baseStats, name);
-            _casesForStats.Add(caseForStats);
-            AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: name);
-        }
-    }
-    private void AddDynamicPort2()
-    {
-        if (DynamicOutputs.Count() < _maxDynamicPortsCount)
-        {
-            string name = $"{_port}{DynamicOutputs.Count()}";
-            if (_casesForStats == null)
-            {
-                _casesForStats = new List<CaseForStats>();
-            }
-            var baseStats = _switchNodeInitializer.CreateCaseBaseStat();
+            var baseStats = _gameStatsProvider.GameStatsHandler.CreateCaseBaseStatForm();
             var caseForStats = new CaseForStats(baseStats, name);
             _casesForStats.Add(caseForStats);
             AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: name);
