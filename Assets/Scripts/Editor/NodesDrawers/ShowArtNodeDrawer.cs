@@ -27,11 +27,13 @@ public class ShowArtNodeDrawer : NodeEditor
         }
         else
         {
+            serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_serializedPropertyInputPort);
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
             _enumPopupDrawer.DrawEnumPopup<ShowArtMode>(_modeSerializedProperty, "Mode: ");
             EditorGUILayout.LabelField("Arts:");
             _serializedPropertyIndexArt.intValue = EditorGUILayout.Popup(_serializedPropertyIndexArt.intValue, _namesArts);
+            serializedObject.ApplyModifiedProperties();
         }
     }
     

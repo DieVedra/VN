@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class NodeGraphInitializer
 {
@@ -164,6 +163,12 @@ public class NodeGraphInitializer
             phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsAddToPhone(seriaIndex),
                 _levelUIProvider.PhoneUIHandler,
                 _levelUIProvider.CustomizationCurtainUIHandler);
+            return;
+        }
+
+        if (node is ChangeStatsNode changeStatsNode)
+        {
+            changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
         }
     }
 }

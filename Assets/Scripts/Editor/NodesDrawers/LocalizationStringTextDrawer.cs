@@ -12,7 +12,12 @@ public class LocalizationStringTextDrawer
         _simpleTextValidator = simpleTextValidator;
         _objectProviderFromProperty = new ObjectProviderFromProperty();
     }
-    public LocalizationStringTextDrawer() { }
+
+    public LocalizationStringTextDrawer()
+    {
+        _simpleTextValidator = new SimpleTextValidator(100);
+        _objectProviderFromProperty = new ObjectProviderFromProperty();
+    }
     public void DrawTextField(LocalizationString localizationString, string label, bool drawTextArea = true, bool validateText = true)
     {
         if (_simpleTextValidator == null)
@@ -48,20 +53,6 @@ public class LocalizationStringTextDrawer
     }
     public LocalizationString GetLocalizationStringFromProperty(SerializedProperty property)
     {
-        //
-        // object targetObject = property.serializedObject.targetObject;
-        // Type parentType = targetObject.GetType();
-        // FieldInfo fieldInfo = parentType.GetField(
-        //     property.propertyPath,
-        //     BindingFlags.Instance | 
-        //     BindingFlags.Public | 
-        //     BindingFlags.NonPublic
-        // );
-        // if (fieldInfo != null)
-        // {
-        //     return (LocalizationString)fieldInfo.GetValue(targetObject);
-        // }
-
-        return _objectProviderFromProperty.GetObject<LocalizationString>(property);
+        return _objectProviderFromProperty.GetPropertyObject<LocalizationString>(property);
     }
 }

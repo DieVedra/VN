@@ -6,6 +6,31 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
 {
     private const string SeriaGameStatsProviderName = "StatProviderSeria";
     private GameStatsHandler _gameStatsHandler;
+    public List<T> GetEmptyTStat<T>(int seriaIndex) where T : BaseStat
+    {
+        int seriaNumber = ++seriaIndex;
+        List<T> stats = new List<T>();
+        Stat stat;
+        for (int i = 0; i < GetDatas.Count; i++)
+        {
+            if (GetDatas[i].SeriaNumber > 0 && GetDatas[i].SeriaNumber <= seriaNumber)
+            {
+                for (int j = 0; j < GetDatas[i].Stats.Count; j++)
+                {
+                    stat = GetDatas[i].Stats[j];
+                    var newStat = new Stat(stat.NameText, stat.NameKey, stat.Value, stat.ColorField);
+                    T type = (T)(object)newStat;
+                    stats.Add(type);
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return stats;
+    }
+
     public GameStatsHandler GameStatsHandler => _gameStatsHandler;
     public SeriaGameStatsProviderBuild()
     {

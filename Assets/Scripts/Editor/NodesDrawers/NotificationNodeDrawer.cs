@@ -47,11 +47,7 @@ public class NotificationNodeDrawer : NodeEditor
             }
 
             NodeEditorGUILayout.PropertyField(_inputPortSerializedProperty);
-            if (_awaitKeySerializedProperty.boolValue)
-            {
-                NodeEditorGUILayout.PropertyField(_outputPortSerializedProperty);
-
-            }
+            NodeEditorGUILayout.PropertyField(_outputPortSerializedProperty);
             _textNodeDrawer.DrawGUI();
             _overrideDataKeySerializedProperty.boolValue =
                 EditorGUILayout.Toggle("Override Data: ", _overrideDataKeySerializedProperty.boolValue);

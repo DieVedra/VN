@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
@@ -41,17 +40,12 @@ public class ChoiceNode : BaseNode, ILocalizable
     private const string _port1 = "Choice1Output";
     private const string _port2 = "Choice2Output";
     private const string _port3 = "Choice3Output";
-    // private const char _plus = '+';
-    // private const char _space = ' ';
-    // private const string _spaceColorPart1 = "<color=#";
-    // private const string _spaceColorPart2 = ">";
-    // private const string _endSpaceColor = "</color>";
     private const int _defaultTimerValue = 0;
     private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<int> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private ChoiceNodeInitializer _choiceNodeInitializer;
-    private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
+    // private SendCurrentNodeEvent<BaseNode> _sendCurrentNodeEvent;
     private CancellationTokenSource _timerCancellationTokenSource;
     private CompositeDisposable _compositeDisposable;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
@@ -71,7 +65,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
         _notificationPanelUIHandler = notificationPanelUIHandler;
         _choicePanelUIHandler = choicePanelUIHandler;
-        _sendCurrentNodeEvent = sendCurrentNodeEvent;
+        // _sendCurrentNodeEvent = sendCurrentNodeEvent;
         _gameStatsProvider = gameStatsProvider;
         TryInitAllStats();
         if (IsPlayMode() == false)

@@ -4,7 +4,7 @@ using UnityEditor;
 
 public class ObjectProviderFromProperty
 {
-    public T GetObject<T>(SerializedProperty property)
+    public T GetPropertyObject<T>(SerializedProperty property)
     {
         object targetObject = property.serializedObject.targetObject;
         Type parentType = targetObject.GetType();
@@ -23,5 +23,10 @@ public class ObjectProviderFromProperty
         {
             return default;
         }
+    }
+    public T GetObject<T>(SerializedProperty property)
+    {
+        object targetObject = property.serializedObject.targetObject;
+        return (T)targetObject;
     }
 }
