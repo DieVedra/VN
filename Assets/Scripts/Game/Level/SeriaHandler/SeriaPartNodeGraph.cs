@@ -30,7 +30,7 @@ public class SeriaPartNodeGraph : NodeGraph
 		}
 		else
 		{
-			nodeGraphInitializer.SendCurrentNodeEvent.Subscribe(SetCurrentNodeAndEnter);
+			// nodeGraphInitializer.SendCurrentNodeEvent.Subscribe(SetCurrentNodeAndEnter);
 			_currentNode.Enter().Forget();
 		}
 	}
@@ -67,11 +67,11 @@ public class SeriaPartNodeGraph : NodeGraph
 			}
 		}
 	}
-	private void SetCurrentNodeAndEnter(BaseNode baseNode)
-	{
-		_currentNode = baseNode;
-		_currentNode.Enter().Forget();
-	}
+	// private void SetCurrentNodeAndEnter(BaseNode baseNode)
+	// {
+	// 	_currentNode = baseNode;
+	// 	_currentNode.Enter().Forget();
+	// }
 	private void TryInitNodes()
 	{
 		if (nodes.Count > 0)

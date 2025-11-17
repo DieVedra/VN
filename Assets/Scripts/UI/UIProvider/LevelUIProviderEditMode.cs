@@ -18,7 +18,7 @@ public class LevelUIProviderEditMode
     private CompositeDisposable _compositeDisposable;
 
     public LevelUIProviderEditMode(
-        LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, 
+        LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, IChoicePanelInitializer choicePanelInitializer,
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider,
         Action phoneInitOperation)
@@ -36,7 +36,7 @@ public class LevelUIProviderEditMode
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
         PanelResourceHandler = new PanelResourceHandler(wallet, levelUIView.MonetPanel, levelUIView.HeartsPanel);
-        ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet, PanelResourceHandler);
+        ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet, PanelResourceHandler, choicePanelInitializer);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);

@@ -10,6 +10,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
+    [SerializeField] private ChoiceCaseView[] _choiceCases;
     [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField] private BlackFrameView _blackFrameView;
     [SerializeField] private CharacterProviderEditMode _characterProviderEditMode;
@@ -186,7 +187,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
-        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler,
+        _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
+            new ChoicePanelInitializerEditMode(_choiceCases),
             _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
             ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);});
     }

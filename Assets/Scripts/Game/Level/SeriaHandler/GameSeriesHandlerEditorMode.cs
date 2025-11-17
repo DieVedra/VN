@@ -42,7 +42,7 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         else
         {
             NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
-            NodeGraphInitializer.SendCurrentNodeEvent.Dispose();
+            // NodeGraphInitializer.SendCurrentNodeEvent.Dispose();
             NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
             NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Dispose();
             NodeGraphInitializer.DisableNodesContentEvent.Dispose();

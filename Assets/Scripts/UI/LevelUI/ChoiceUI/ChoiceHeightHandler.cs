@@ -1,45 +1,45 @@
-﻿
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class ChoiceHeightHandler : PanelUIHandler
 {
+    private const int _centralButtonIndex = 1;
+    private readonly ChoiceCaseView[] _choiseCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
-    private readonly RectTransform _button1Transform;
-    private readonly RectTransform _centralButton2Transform;
-    private readonly RectTransform _button3Transform;
-
-    private readonly TextMeshProUGUI _textButtonChoice1;
-    private readonly TextMeshProUGUI _textCentralButtonChoice2;
-    private readonly TextMeshProUGUI _textButtonChoice3;
-
     private Vector2 Size;
-
-
-    public ChoiceHeightHandler(ChoicePanelUI choicePanelUI)
+    public ChoiceHeightHandler(ChoiceCaseView[] choiseCasesViews, ChoicePanelUI choicePanelUI)
     {
+        _choiseCasesViews = choiseCasesViews;
         _choicePanelUI = choicePanelUI;
-        _button1Transform = choicePanelUI.RectTransformChoice1;
-        _centralButton2Transform = choicePanelUI.RectTransformChoice2;
-        _button3Transform = choicePanelUI.RectTransformChoice3;
-        
-        _textButtonChoice1 = choicePanelUI.TextButtonChoice1;
-        _textCentralButtonChoice2 = choicePanelUI.TextButtonChoice2;
-        _textButtonChoice3 = choicePanelUI.TextButtonChoice3;
-        SetPosPanel(_centralButton2Transform, choicePanelUI.DefaultPosYCentralButtonChoice2);
     }
 
     public void UpdateHeights(ChoiceData data)
     {
-        UpdateHeight(_textCentralButtonChoice2, _centralButton2Transform);
-        UpdateHeight(_textButtonChoice1, _button1Transform);
-        float y = _button1Transform.sizeDelta.y + _choicePanelUI.OffsetBetweenPanels;
-        SetPosPanel(_button1Transform, y);
-        if (data.ShowChoice3)
+        ChoiceCaseView choiceCaseView = _choiseCasesViews[_centralButtonIndex];
+        UpdateHeight(choiceCaseView.TextButtonChoice, choiceCaseView.RectTransformChoice);
+        SetPosPanel(choiceCaseView.RectTransformChoice, _choicePanelUI.DefaultPosYCentralButtonChoice2);
+        float y = 0f;
+        for (int i = 0; i < data.ButtonsCount; i++)
         {
-            UpdateHeight(_textButtonChoice3, _button3Transform);
-            y = _centralButton2Transform.sizeDelta.y + _choicePanelUI.OffsetBetweenPanels;
-            SetPosPanel(_button3Transform, -y);
+            if (i == _centralButtonIndex)
+            {
+                continue;
+            }
+            choiceCaseView = _choiseCasesViews[i];
+            UpdateHeight(choiceCaseView.TextButtonChoice, choiceCaseView.RectTransformChoice);
+            if (i < _centralButtonIndex)
+            {
+                y = _choiseCasesViews[_centralButtonIndex].RectTransformChoice.anchoredPosition.y + 
+                    _choiseCasesViews[i].RectTransformChoice.sizeDelta.y +
+                    _choicePanelUI.OffsetBetweenPanels;
+            }
+            else if (i > _centralButtonIndex)
+            {
+                y = -(Mathf.Abs(_choiseCasesViews[i - 1].RectTransformChoice.anchoredPosition.y) +
+                      _choiseCasesViews[i - 1].RectTransformChoice.sizeDelta.y + 
+                      _choicePanelUI.OffsetBetweenPanels);
+            }
+            SetPosPanel(_choiseCasesViews[i].RectTransformChoice, y);
         }
     }
 

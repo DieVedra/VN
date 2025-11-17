@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -7,111 +9,47 @@ using XNodeEditor;
 [CustomNodeEditor(typeof(ChoiceNode))]
 public class ChoiceNodeDrawer : NodeEditor
 {
-    private const int _maxPortCount = 3;
-    private const int _maxCountSymbols = 500;
+    private const string _namePort = "Port";
     private ChoiceNode _choiceNode;
     private LineDrawer _lineDrawer;
-    private SerializedProperty _choiceText1Property;
-    private SerializedProperty _choiceText2Property;
-    private SerializedProperty _choiceText3Property;
-    private SerializedProperty _showChoice3Property;
     private SerializedProperty _showOutputProperty;
     private SerializedProperty _timerPortIndexProperty;
     
     private SerializedProperty _addTimerProperty;
     private SerializedProperty _timerValueProperty;
-    
-    private SerializedProperty _showStatsChoice1KeyProperty;
-    private SerializedProperty _showStatsChoice2KeyProperty;
-    private SerializedProperty _showStatsChoice3KeyProperty;
-
-    private LocalizationString _localizationStringText1;
-    private LocalizationString _localizationStringText2;
-    private LocalizationString _localizationStringText3;
-    private SerializedProperty _choice1PriceProperty;
-    private SerializedProperty _choice2PriceProperty;
-    private SerializedProperty _choice3PriceProperty;
-    private SerializedProperty _choice1AdditionaryPriceProperty;
-    private SerializedProperty _choice2AdditionaryPriceProperty;
-    private SerializedProperty _choice3AdditionaryPriceProperty;
-    private SerializedProperty _showNotificationChoice1Property;
-    private SerializedProperty _showNotificationChoice2Property;
-    private SerializedProperty _showNotificationChoice3Property;
-    private LocalizationStringTextDrawer _localizationStringTextDrawer;
+    private SerializedProperty _choiceCasesProperty;
+    private SerializedProperty _caseProperty;
     private MethodInfo _privateMethod;
+    private MethodInfo _addCase;
+    private MethodInfo _removeCase;
     private string[] _timerPortIndexes;
-
-    private bool NamesNotEmpty()
-    {
-        bool result = false;
-        if (_choiceNode.NamesPorts != null)
-        {
-            if (_choiceNode.NamesPorts.Count > 0)
-            {
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-        }
-        else
-        {
-            result = false;
-        }
-
-        return result;
-    }
 
     public override void OnBodyGUI()
     {
         if (_choiceNode == null)
         {
             _choiceNode = target as ChoiceNode;
+            _showOutputProperty = serializedObject.FindProperty("_showOutput");
+            _lineDrawer = new LineDrawer();
+            _addTimerProperty = serializedObject.FindProperty("_addTimer");
+            _timerValueProperty = serializedObject.FindProperty("_timerValue");
+            _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
+            _showOutputProperty = serializedObject.FindProperty("_showOutput");
+            _choiceCasesProperty = serializedObject.FindProperty("_choiceCases");
+            CreatePortIndexes();
         }
         else
         {
-            if (_choiceText1Property == null)
-            {
-                _choiceText1Property = serializedObject.FindProperty("_localizationChoiceText1");
-                _choiceText2Property = serializedObject.FindProperty("_localizationChoiceText2");
-                _choiceText3Property = serializedObject.FindProperty("_localizationChoiceText3");
-                _showChoice3Property = serializedObject.FindProperty("_showChoice3Key");
-                _showOutputProperty = serializedObject.FindProperty("_showOutput");
-        
-                _addTimerProperty = serializedObject.FindProperty("_addTimer");
-                _timerValueProperty = serializedObject.FindProperty("_timerValue");
-                _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
-
-                _showStatsChoice1KeyProperty = serializedObject.FindProperty("_showStatsChoice1Key");
-                _showStatsChoice2KeyProperty = serializedObject.FindProperty("_showStatsChoice2Key");
-                _showStatsChoice3KeyProperty = serializedObject.FindProperty("_showStatsChoice3Key");
-
-
-                _choice1PriceProperty = serializedObject.FindProperty("_choice1Price");
-                _choice2PriceProperty = serializedObject.FindProperty("_choice2Price");
-                _choice3PriceProperty = serializedObject.FindProperty("_choice3Price");
-                _choice1AdditionaryPriceProperty = serializedObject.FindProperty("_choice1AdditionaryPrice");
-                _choice2AdditionaryPriceProperty = serializedObject.FindProperty("_choice2AdditionaryPrice");
-                _choice3AdditionaryPriceProperty = serializedObject.FindProperty("_choice3AdditionaryPrice");
-                _lineDrawer = new LineDrawer();
-                _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
-                _localizationStringText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText1Property);
-                _localizationStringText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText2Property);
-                _localizationStringText3 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_choiceText3Property);
-            
-                _showNotificationChoice1Property = serializedObject.FindProperty("_showNotificationChoice1");
-                _showNotificationChoice2Property = serializedObject.FindProperty("_showNotificationChoice2");
-                _showNotificationChoice3Property = serializedObject.FindProperty("_showNotificationChoice3");
-            }
-
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-
+            EditorGUILayout.LabelField($"Max cases {ChoiceNode.MaxCaseCount}");
+            EditorGUI.BeginChangeCheck();
             _showOutputProperty.boolValue = EditorGUILayout.Toggle("Show Output: ", _showOutputProperty.boolValue);
+
             if (_showOutputProperty.boolValue)
             {
                 NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+                EditorGUILayout.Space(10f);
             }
 
             EditorGUILayout.BeginHorizontal();
@@ -120,31 +58,28 @@ public class ChoiceNodeDrawer : NodeEditor
             {
                 _timerValueProperty.intValue= EditorGUILayout.IntField("Timer Value: ", _timerValueProperty.intValue, GUILayout.Width(120f));
             }
-
             EditorGUILayout.EndHorizontal();
+
             if (_addTimerProperty.boolValue)
             {
-                TryCreatePortIndexes();
-                _timerPortIndexProperty.intValue =
-                    EditorGUILayout.Popup("Port index: ", _timerPortIndexProperty.intValue, _timerPortIndexes);
+                if (_timerPortIndexes != null && _timerPortIndexes.Length > 0)
+                {
+                    if (_timerPortIndexProperty.intValue > _timerPortIndexes.Length - 1)
+                    {
+                        _timerPortIndexProperty.intValue = _timerPortIndexes.Length - 1;
+                    }
+                    _timerPortIndexProperty.intValue =
+                        EditorGUILayout.Popup("Transit To Port index: ", _timerPortIndexProperty.intValue, _timerPortIndexes);
+                }
             }
 
-            EditorGUI.BeginChangeCheck();
-            DrawChoiceField(_localizationStringText1, _choiceNode.BaseStatsChoice1Localizations,
-                _showStatsChoice1KeyProperty, _choice1PriceProperty, _choice1AdditionaryPriceProperty, _showNotificationChoice1Property, "Choice 1", "_baseStatsChoice1", 0);
-            DrawChoiceField(_localizationStringText2, _choiceNode.BaseStatsChoice2Localizations,
-                _showStatsChoice2KeyProperty, _choice2PriceProperty, _choice2AdditionaryPriceProperty, _showNotificationChoice2Property,"Choice 2", "_baseStatsChoice2", 1);
-            EditorGUILayout.Space(10f);
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Show choice3: ");
-            _showChoice3Property.boolValue = EditorGUILayout.Toggle(_showChoice3Property.boolValue);
-            EditorGUILayout.EndHorizontal();
-            if (_showChoice3Property.boolValue)
+            _lineDrawer.DrawHorizontalLine(Color.cyan);
+            EditorGUILayout.Space(20f);
+            
+            for (int i = 0; i < _choiceCasesProperty.arraySize; i++)
             {
-                DrawChoiceField(_localizationStringText3, _choiceNode.BaseStatsChoice3Localizations,
-                    _showStatsChoice3KeyProperty, _choice3PriceProperty, _choice3AdditionaryPriceProperty, _showNotificationChoice3Property,"Choice 3", "_baseStatsChoice3", 2);
+                DrawChoiceCase(_choiceCasesProperty.GetArrayElementAtIndex(i), i);
             }
-
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
@@ -155,39 +90,23 @@ public class ChoiceNodeDrawer : NodeEditor
                 }
                 _privateMethod?.Invoke(_choiceNode, null);
             }
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Add Case"))
+            {
+                CallMethod(ref _addCase, "AddCase");
+                CreatePortIndexes();
+            }
+
+            if (GUILayout.Button("Remove Case"))
+            {
+                CallMethod(ref _removeCase, "RemoveCase");
+                CreatePortIndexes();
+            }
+            EditorGUILayout.EndHorizontal();
+            serializedObject.ApplyModifiedProperties();
         }
     }
-
-    private void DrawChoiceField(LocalizationString textProperty, IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations,
-        SerializedProperty showStatsChoiceProperty, SerializedProperty choicePriceProperty, SerializedProperty choiceAdditionaryPriceProperty,
-        SerializedProperty showNotificationChoiceProperty,
-        string label, string nameBaseStatsChoice, int indexNamePort)
-    {
-        EditorGUILayout.Space(10f);
-        _localizationStringTextDrawer.DrawTextField(textProperty, label,false);
-        showNotificationChoiceProperty.boolValue = EditorGUILayout.Toggle("Show notification: ", showNotificationChoiceProperty.boolValue);
-        choicePriceProperty.floatValue = EditorGUILayout.FloatField("Choice price: ", choicePriceProperty.floatValue, GUILayout.Width(120f));
-        choiceAdditionaryPriceProperty.floatValue = EditorGUILayout.FloatField("Choice additionary price: ", choiceAdditionaryPriceProperty.floatValue, GUILayout.Width(120f));
-
-        showStatsChoiceProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", showStatsChoiceProperty.boolValue);
-        if (showStatsChoiceProperty.boolValue == true)
-        {
-            DrawStats(baseStatsChoiceLocalizations, serializedObject.FindProperty(nameBaseStatsChoice));
-        }
-        if (NamesNotEmpty())
-        {
-            DrawPort(_choiceNode.NamesPorts[indexNamePort]);
-        }
-        _lineDrawer.DrawHorizontalLine(Color.green);
-    }
-    private void DrawPort(string name)
-    {
-        if (_choiceNode.NamesPorts.Count > 0 && _showOutputProperty.boolValue == false)
-        {
-            NodeEditorGUILayout.PortField(new GUIContent(name), target.GetOutputPort(name));
-        }
-    }
-
     private void DrawStats(IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations, SerializedProperty gameStatsFormsSerializedProperty)
     {
         SerializedProperty statFormSerializedProperty;
@@ -207,26 +126,78 @@ public class ChoiceNodeDrawer : NodeEditor
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField(nameField, GUILayout.Width(150f));
         numberSerializedProperty.intValue = EditorGUILayout.IntField(numberSerializedProperty.intValue, GUILayout.Width(30f));
-        
         EditorGUILayout.LabelField("Add notification: ", GUILayout.Width(100f));
         notificationKeySerializedProperty.boolValue = EditorGUILayout.Toggle(notificationKeySerializedProperty.boolValue);
-        
         EditorGUILayout.EndHorizontal();
     }
 
-    private void TryCreatePortIndexes()
+    private void CreatePortIndexes()
     {
-        if (_timerPortIndexes == null)
+        var a = _choiceNode.DynamicOutputs.Count();
+        _timerPortIndexes = new string[a];
+        for (int i = 0; i < a; i++)
         {
-            _timerPortIndexes = new[] {"Port 1", "Port 2"};
+            _timerPortIndexes[i] = $"{_namePort} {i}";
         }
-        else if(_showChoice3Property.boolValue == false && _timerPortIndexes.Length == _maxPortCount)
+    }
+    private void DrawChoiceCase(SerializedProperty caseSerializedProperty, int index)
+    {
+        _caseProperty = caseSerializedProperty.FindPropertyRelative("_choiceText");
+        DrawHorizontalField<string>(_caseProperty, "Text: ", 50f, 450f);
+
+        _caseProperty = caseSerializedProperty.FindPropertyRelative("_choicePrice");
+        DrawHorizontalField<int>(_caseProperty, "Price: ", 50f);
+        
+        _caseProperty = caseSerializedProperty.FindPropertyRelative("_choiceAdditionaryPrice");
+        DrawHorizontalField<int>(_caseProperty, "Additionary Price: ", 100f);
+
+        _caseProperty = caseSerializedProperty.FindPropertyRelative("_showNotificationChoice");
+        DrawHorizontalField<bool>(_caseProperty, "Show Notifications: ", 120f);
+        
+        _caseProperty = caseSerializedProperty.FindPropertyRelative("_showStatsChoiceKey");
+
+        _caseProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", _caseProperty.boolValue);
+        if (_caseProperty.boolValue == true)
         {
-            _timerPortIndexes = new[] {"Port 1", "Port 2"};
+            DrawStats(_choiceNode.GetStatsChoiceLocalizations(index), caseSerializedProperty.FindPropertyRelative("_baseStatsChoice"));
         }
-        else if (_showChoice3Property.boolValue && _timerPortIndexes.Length < _maxPortCount)
+        
+        
+        if (_showOutputProperty.boolValue == false)
         {
-            _timerPortIndexes = new[] {"Port 1", "Port 2", "Port 3"};
+            NodeEditorGUILayout.PortField(_choiceNode.GetOutputPort($"{ChoiceNode.PortNamePart1}{index}{ChoiceNode.PortNamePart2}"));
         }
+    }
+
+    private void DrawHorizontalField<T>(SerializedProperty serializedProperty, string name, float widthLabel, float widthField = 50f)
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField(name, GUILayout.Width(widthLabel));
+        Type type = typeof(T);
+        if (type == typeof(int))
+        {
+            serializedProperty.intValue = EditorGUILayout.IntField(serializedProperty.intValue, GUILayout.Width(widthField));
+        }
+        else if(type == typeof(float))
+        {
+            serializedProperty.floatValue = EditorGUILayout.FloatField(serializedProperty.floatValue, GUILayout.Width(widthField));
+        }
+        else if(type == typeof(bool))
+        {
+            serializedProperty.boolValue = EditorGUILayout.Toggle(serializedProperty.boolValue, GUILayout.Width(widthField));
+        }
+        else if (type == typeof(string))
+        {
+            _caseProperty.stringValue = EditorGUILayout.TextField(_caseProperty.stringValue, GUILayout.Width(widthField));
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+    private void CallMethod(ref MethodInfo methodInfo, string name)
+    {
+        if (methodInfo == null)
+        {
+            methodInfo = _choiceNode.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        methodInfo?.Invoke(_choiceNode, null);
     }
 }

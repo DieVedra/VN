@@ -103,7 +103,7 @@ public class GameStatsHandler
         }
     }
 
-    public void UpdateStats(List<BaseStat> addStats)
+    public void UpdateStats(IReadOnlyList<BaseStat> addStats)
     {
         var addStatsDictionary = addStats.ToDictionaryDistinct(stat => stat.NameKey);
         for (int i = 0; i < _stats.Count; i++)

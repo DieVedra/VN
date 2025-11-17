@@ -15,7 +15,7 @@ public class SwitchNodeInitializer : MyNodeInitializer
             AdditionalCaseStats stat;
             for (int i = 0; i < casesForStats.Count; i++)
             {
-                newStats = GameStatsHandler.CreateCaseBaseStatForm();
+                newStats = GameStatsHandlerNodeInitializer.CreateCaseBaseStatForm();
                 oldStatsDictionary = casesForStats[i].CaseStats.ToDictionaryDistinct(caseStat => caseStat.NameText);
                 for (int j = 0; j < newStats.Count; j++)
                 {
@@ -29,7 +29,7 @@ public class SwitchNodeInitializer : MyNodeInitializer
                 for (int j = additionalCaseStats.Count - 1; j >= 0; j--)
                 {
                     stat = additionalCaseStats[j];
-                    if ((GameStatsHandler.StatsDictionary.ContainsKey(stat.Stat1Key) && GameStatsHandler.StatsDictionary.ContainsKey(stat.Stat2Key)) == false)
+                    if ((GameStatsHandlerNodeInitializer.StatsDictionary.ContainsKey(stat.Stat1Key) && GameStatsHandlerNodeInitializer.StatsDictionary.ContainsKey(stat.Stat2Key)) == false)
                     {
                         casesForStats[i].RemoveAdditionalElement(j);
                     }

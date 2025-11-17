@@ -3,7 +3,7 @@ using System.Linq;
 
 public class CustomizationNodeInitializer : MyNodeInitializer
 {
-    public CustomizationNodeInitializer(GameStatsHandler gameStatsHandler) : base(gameStatsHandler) { }
+    public CustomizationNodeInitializer(GameStatsHandler gameStatsHandlerNodeInitializer) : base(gameStatsHandlerNodeInitializer) { }
 
     public void InitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
     {
@@ -46,7 +46,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
                 var customizationSetting = new CustomizationSettings(
-                    GameStatsHandler.ReinitCustomizationStats(customizationOldSetting.GameStats),
+                    GameStatsHandlerNodeInitializer.ReinitCustomizationStats(customizationOldSetting.GameStats),
                     sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
                     i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
                 settings.Add(customizationSetting);
@@ -99,6 +99,6 @@ public class CustomizationNodeInitializer : MyNodeInitializer
 
     private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
     {
-        return new CustomizationSettings(GameStatsHandler.GetCustomizationStatsForm(), name, index, price, priceAdditional);
+        return new CustomizationSettings(GameStatsHandlerNodeInitializer.GetCustomizationStatsForm(), name, index, price, priceAdditional);
     }
 }

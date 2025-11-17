@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class MyNodeInitializer
 {
-    protected readonly GameStatsHandler GameStatsHandler;
+    protected readonly GameStatsHandler GameStatsHandlerNodeInitializer;
 
     protected MyNodeInitializer(List<Stat> stats)
     {
-        GameStatsHandler = new GameStatsHandler(stats);
+        GameStatsHandlerNodeInitializer = new GameStatsHandler(stats);
     }
-    protected MyNodeInitializer(GameStatsHandler gameStatsHandler)
+    protected MyNodeInitializer(GameStatsHandler gameStatsHandlerNodeInitializer)
     {
-        GameStatsHandler = gameStatsHandler;
+        GameStatsHandlerNodeInitializer = gameStatsHandlerNodeInitializer;
     }
 }

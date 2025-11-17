@@ -821,11 +821,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2854180686353350603, guid: bf4131a9521c4a348a730a8b1d30c611, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2854180686353350603, guid: bf4131a9521c4a348a730a8b1d30c611, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5221338309456162322, guid: bf4131a9521c4a348a730a8b1d30c611, type: 3}
       propertyPath: m_Name
@@ -2674,10 +2674,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea9939c2cc7431eb680c0a457127c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 5188177908364930441}
-  _rectTransform: {fileID: 5188177908429464803}
+  _textComponent: {fileID: 0}
+  _panelRectTransform: {fileID: 0}
+  _imageRectTransform: {fileID: 0}
   _canvasGroup: {fileID: 5188177907333701022}
   _durationAnim: 0.2
+  _heightOffset: 0
+  _firstLineOffset: 0
 --- !u!1 &5188177907333701017
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,10 +2816,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _imageTransform: {fileID: 5188177909122805286}
   _panelTransform: {fileID: 5188177907379949643}
+  _nameTextTransform: {fileID: 0}
+  _talkTextTransform: {fileID: 0}
   _nameTextComponent: {fileID: 5188177908572466713}
   _talkTextComponent: {fileID: 5188177908413618757}
   _canvasGroup: {fileID: 5188177907379949641}
   _durationAnim: 0.2
+  _heightOffset: 0
+  _imageHeightDefault: 0
 --- !u!224 &5188177907379949643
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3427,9 +3434,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 5188177907565685354}
+  _imageRectTransform: {fileID: 0}
   _text: {fileID: 5188177908315509230}
   _canvasGroup: {fileID: 5188177907565685358}
   _durationAnim: 0.2
+  _heightOffset: 0
 --- !u!224 &5188177907565685354
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3970,7 +3979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &5188177907936260530
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5333,8 +5342,10 @@ MonoBehaviour:
   _heartsPanelCanvasGroup: {fileID: 659836189528181302}
   _timerPanelCanvasGroup: {fileID: 5188177907365011463}
   _durationAnim: 0.2
-  _durationAnimPriceView: 0.2
-  _durationAnimStatView: 0.2
+  _heightOffset: 0
+  _offsetBetweenPanels: 0
+  _imageHeightDefault: 0
+  _defaultPosYCentralButtonChoice2: 0
 --- !u!224 &5188177908493194980
 RectTransform:
   m_ObjectHideFlags: 0

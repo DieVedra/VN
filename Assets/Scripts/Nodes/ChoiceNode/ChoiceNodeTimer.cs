@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -9,6 +8,8 @@ using UnityEngine;
 public class ChoiceNodeTimer
 {
     private const string _separator = ":";
+    private const int _tenSeconds = 10;
+    private const int _zeroSeconds = 0;
     private const int _countSecondsInMinute = 60;
     private const float _minValue = 0f;
     private const float _maxValue = 1f;
@@ -67,7 +68,7 @@ public class ChoiceNodeTimer
             _timerPanelCanvasGroup.gameObject.SetActive(false);
         }
     }
-    public async UniTaskVoid TryStartTimer(ChoiceResultEvent<int> choiceResultEvent, Action operation, int index, CancellationToken cancellationToken)
+    public async UniTaskVoid TryStartTimer(ChoiceResultEvent<ChoiceCase> choiceResultEvent, Action operation, ChoiceCase choiceCaseResult, CancellationToken cancellationToken)
     {
         if (_timerCanBeOn)
         {
@@ -82,7 +83,7 @@ public class ChoiceNodeTimer
             if (_currentTime == 0)
             {
                 operation?.Invoke();
-                choiceResultEvent.Execute(index);
+                choiceResultEvent.Execute(choiceCaseResult);
             }
         }
     }
@@ -90,14 +91,14 @@ public class ChoiceNodeTimer
     private void SetTime()
     {
         _currentSeconds = _currentTime % _countSecondsInMinute;
-        if (_currentSeconds > 0)
+        if (_currentSeconds > _zeroSeconds)
         {
             _currentMinutes = _currentTime / _countSecondsInMinute;
         }
 
-        if (_currentSeconds < 10)
+        if (_currentSeconds < _tenSeconds)
         {
-            _minutesString = $"0{_currentSeconds}";
+            _minutesString = $"{_zeroSeconds}{_currentSeconds}";
         }
         else
         {

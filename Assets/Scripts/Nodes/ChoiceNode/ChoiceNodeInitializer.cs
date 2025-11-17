@@ -9,11 +9,16 @@ public class ChoiceNodeInitializer : MyNodeInitializer
     {
         if (oldBaseStatsChoice == null || oldBaseStatsChoice.Count == 0)
         {
-            oldBaseStatsChoice = GameStatsHandler.GetGameBaseStatsForm();
+            oldBaseStatsChoice = GetBaseStatsChoice();
         }
         else
         {
-            oldBaseStatsChoice = GameStatsHandler.ReinitBaseStats(oldBaseStatsChoice);
+            oldBaseStatsChoice = GameStatsHandlerNodeInitializer.ReinitBaseStats(oldBaseStatsChoice);
         }
+    }
+
+    public List<BaseStat> GetBaseStatsChoice()
+    {
+        return GameStatsHandlerNodeInitializer.GetGameBaseStatsForm();
     }
 }

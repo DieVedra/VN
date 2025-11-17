@@ -8,14 +8,14 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     public readonly GameEndPanelHandler GameEndPanelHandler;
     public readonly AwaitLoadContentPanelHandler AwaitLoadContentPanelHandler;
 
-    public LevelUIProviderBuildMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
+    public LevelUIProviderBuildMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, IChoicePanelInitializer choicePanelInitializer,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler,
         GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, Action phoneInitOperation)
-        : base(levelUIView, blackFrameUIHandler, wallet, disableNodesContentEvent, switchToNextNodeEvent,
+        : base(levelUIView, blackFrameUIHandler, choicePanelInitializer, wallet, disableNodesContentEvent, switchToNextNodeEvent,
             customizationCharacterPanelUI, phoneContentProvider, phoneInitOperation)
     {
         if (Application.isPlaying)

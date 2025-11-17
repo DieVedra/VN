@@ -2,7 +2,6 @@
 
 public class NodeGraphInitializer
 {
-    public readonly SendCurrentNodeEvent<BaseNode> SendCurrentNodeEvent;
     public readonly SwitchToNextNodeEvent SwitchToNextNodeEvent;
     public readonly SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
     public readonly DisableNodesContentEvent DisableNodesContentEvent;
@@ -42,7 +41,6 @@ public class NodeGraphInitializer
         DisableNodesContentEvent = disableNodesContentEvent;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
-        SendCurrentNodeEvent = new SendCurrentNodeEvent<BaseNode>();
     }
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
@@ -105,7 +103,7 @@ public class NodeGraphInitializer
         }
         if (node is ChoiceNode choiceNode)
         {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler, SendCurrentNodeEvent,
+            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
                 _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
             return;
         }

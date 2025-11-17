@@ -190,15 +190,18 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             canvas.worldCamera = Camera.main;
         }
-
         await TryCreateBlackFrameUIHandler();
+        
+        ChoicePanelInitializerBuildMode choicePanelInitializerBuildMode = new ChoicePanelInitializerBuildMode();
+        await choicePanelInitializerBuildMode.ChoicePanelCaseAssetProvider.LoadAsset();
+        
         
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, choicePanelInitializerBuildMode, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _panelsLocalizationHandler, _globalUIHandler,
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, OnSceneTransitionEvent, _globalSound.SmoothAudio),
