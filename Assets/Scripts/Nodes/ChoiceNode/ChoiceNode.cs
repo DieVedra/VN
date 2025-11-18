@@ -11,48 +11,14 @@ using XNode;
 public class ChoiceNode : BaseNode, ILocalizable
 {
     [SerializeField] private List<ChoiceCase> _choiceCases;
-    
-    // [SerializeField] private LocalizationString _localizationChoiceText1;
-    // [SerializeField] private LocalizationString _localizationChoiceText2;
-    // [SerializeField] private LocalizationString _localizationChoiceText3;
-    // [SerializeField] private LocalizationString _localizationChoiceText4;
-
     [SerializeField] private int _timerValue;
     [SerializeField] private int _timerPortIndex;
-    // [SerializeField] private float _choice1Price;
-    // [SerializeField] private float _choice2Price;
-    // [SerializeField] private float _choice3Price;
-    // [SerializeField] private float _choice4Price;
-    // [SerializeField] private float _choice1AdditionaryPrice;
-    // [SerializeField] private float _choice2AdditionaryPrice;
-    // [SerializeField] private float _choice3AdditionaryPrice;
-    // [SerializeField] private float _choice4AdditionaryPrice;
-    // [SerializeField] private bool _showStatsChoice1Key;
-    // [SerializeField] private bool _showStatsChoice2Key;
-    // [SerializeField] private bool _showStatsChoice3Key;
-    // [SerializeField] private bool _showStatsChoice4Key;
-    // [SerializeField] private bool _showChoice3Key;
-    // [SerializeField] private bool _showChoice4Key;
     [SerializeField] private bool _showOutput;
     [SerializeField] private bool _addTimer;
-    // [SerializeField] private bool _showNotificationChoice1 = false;
-    // [SerializeField] private bool _showNotificationChoice2 = false;
-    // [SerializeField] private bool _showNotificationChoice3 = false;
-    // [SerializeField] private bool _showNotificationChoice4 = false;
-    // [SerializeField] private List<BaseStat> _baseStatsChoice1;
-    // [SerializeField] private List<BaseStat> _baseStatsChoice2;
-    // [SerializeField] private List<BaseStat> _baseStatsChoice3;
-    // [SerializeField] private List<BaseStat> _baseStatsChoice4;
-    //
-    // [SerializeField, HideInInspector, Output] private Empty Choice1Output;
-    // [SerializeField, HideInInspector, Output] private Empty Choice2Output;
-    // [SerializeField, HideInInspector, Output] private Empty Choice3Output;
-    // [SerializeField, HideInInspector, Output] private Empty Choice4Output;
     
     public const int MaxCaseCount = 4;
     public const string PortNamePart1 = "_choice";
     public const string PortNamePart2 = "Output";
-
     private IGameStatsProvider _gameStatsProvider;
     private ChoiceResultEvent<ChoiceCase> _choiceResultEvent;
     private ChoicePanelUIHandler _choicePanelUIHandler;

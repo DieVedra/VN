@@ -4,16 +4,13 @@ using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UnityEngine;
 
 public class TextConsistentlyViewer
 {
     private readonly TextMeshProUGUI _textComponent;
     private readonly StringBuilder _stringBuilder;
     private const float _delay = 0.02f;
-    private const char _separator = ' ';
-    private const char _space = '-';
-    private const string _spaceColor = "<color=#00000000>";
-    private const string _endSpaceColor = "</color>";
     private List<string> _consistentlyStrings;
     private List<int> _indexes;
     private int _count;
@@ -36,26 +33,19 @@ public class TextConsistentlyViewer
     }
     public void ClearText()
     {
-        _textComponent.text = _separator.ToString();
+        _textComponent.text = FirstLineCustomizer.Separator.ToString();
     }
-    public async UniTask SetTextConsistently(string text, int stringOffset = 0)
+    public async UniTask SetTextConsistently(string text)
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        await SetTextConsistently(_cancellationTokenSource.Token, text, stringOffset);
+        await SetTextConsistently(_cancellationTokenSource.Token, text);
     }
-    public async UniTask SetTextConsistently(CancellationToken token, string text, int stringOffset = 0)
+    public async UniTask SetTextConsistently(CancellationToken token, string text)
     {
         IsRun = true;
         ClearText();
         _stringBuilder.Clear();
-        if (stringOffset > 0)
-        {
-            Create(AddStringOffset(text, stringOffset));
-        }
-        else
-        {
-            Create(text);
-        }
+        Create(text);
         _textComponent.havePropertiesChanged = true;
         _count = _consistentlyStrings.Count;
         for (int i = 0; i < _count; i++)
@@ -81,8 +71,8 @@ public class TextConsistentlyViewer
         for (int i = 0; i < _indexes.Count; i++)
         {
             _stringBuilder.Append(text);
-            _stringBuilder.Insert(_indexes[i], _spaceColor);
-            _stringBuilder.Append(_endSpaceColor);
+            _stringBuilder.Insert(_indexes[i], FirstLineCustomizer.SpaceColor);
+            _stringBuilder.Append(FirstLineCustomizer.EndSpaceColor);
             _consistentlyStrings.Add(_stringBuilder.ToString());
             _stringBuilder.Clear();
         }
@@ -97,7 +87,7 @@ public class TextConsistentlyViewer
         _count = _stringBuilder.Length;
         for (int i = 0; i < _count; i++)
         {
-            if (_stringBuilder[i] == _separator)
+            if (_stringBuilder[i] == FirstLineCustomizer.Separator)
             {
                 if (i != _count - 1)
                 {
@@ -105,17 +95,5 @@ public class TextConsistentlyViewer
                 }
             }
         }
-    }
-    public string AddStringOffset(string text, int count)
-    {
-        _stringBuilder.Clear();
-        _stringBuilder.Append(_spaceColor);
-        for (int i = 0; i < count; i++)
-        {
-            _stringBuilder.Append(_space);
-        }
-        _stringBuilder.Append(_endSpaceColor);
-        _stringBuilder.Append(text);
-        return _stringBuilder.ToString();
     }
 }
