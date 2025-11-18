@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class ChoicePanelUIHandler
 {
     private readonly ChoiceCaseView[] _choiseCasesViews;
-
     private readonly ChoicePanelUI _choicePanelUI;
     private readonly Wallet _wallet;
     private readonly PanelResourceHandler _panelResourceHandler;
@@ -70,7 +69,6 @@ public class ChoicePanelUIHandler
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         OnUpdateWallet(data, choiceResultEvent);
-        
         
         SetTexts(data);
         _choicePanelUI.gameObject.SetActive(true);

@@ -13,6 +13,8 @@ public class ChoiceCase
     [SerializeField] private List<BaseStat> _baseStatsChoice;
     public int ChoicePrice => _choicePrice;
     public int ChoiceAdditionaryPrice => _choiceAdditionaryPrice;
+    public bool ShowStatsChoiceKey => _showStatsChoiceKey;
+    public bool ShowNotificationChoice => _showNotificationChoice;
 
     public IReadOnlyList<ILocalizationString> BaseStatsChoiceLocalizations => _baseStatsChoice;
     public IEnumerable<BaseStat> BaseStatsChoice => _baseStatsChoice;
@@ -29,6 +31,10 @@ public class ChoiceCase
         _baseStatsChoice = baseStatsChoice;
     }
 
+    public void InitLocalizationString()
+    {
+        _localizationChoiceText = new LocalizationString(_choiceText);
+    }
     public ChoiceCase(List<BaseStat> baseStatsChoice)
     {
         _baseStatsChoice = baseStatsChoice;
@@ -36,8 +42,6 @@ public class ChoiceCase
     
     public LocalizationString GetLocalizationString()
     {
-        _localizationChoiceText.SetText(_choiceText);
-        _localizationChoiceText.TryRegenerateKey();
         return _localizationChoiceText;
     }
 }

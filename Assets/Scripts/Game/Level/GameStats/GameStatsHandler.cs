@@ -147,23 +147,18 @@ public class GameStatsHandler
         }
         return newStats;
     }
-    public List<BaseStat> ReinitBaseStats(List<BaseStat> oldStats)
+    public List<BaseStat> ReinitBaseStats(IReadOnlyList<BaseStat> oldStats)
     {
         List<BaseStat> newStats = GetGameBaseStatsForm();
         var oldStatsDictionary = oldStats.ToDictionaryDistinct(stat => stat.NameKey);
-        var result = new List<BaseStat>(newStats.Count);
         for (int i = 0; i < newStats.Count; i++)
         {
             if (oldStatsDictionary.TryGetValue(newStats[i].NameKey, out BaseStat oldStat))
             {
-                result.Add(oldStat);
-            }
-            else
-            {
-                result.Add(newStats[i]);
+                newStats[i] = oldStat;
             }
         }
-        return result;
+        return newStats;
     }
     public void AddNextSeriaStats(IReadOnlyList<Stat> stats)
     {

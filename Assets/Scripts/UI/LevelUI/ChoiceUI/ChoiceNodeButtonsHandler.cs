@@ -47,7 +47,7 @@ public class ChoiceNodeButtonsHandler
     public async UniTask HideButtons(CancellationToken cancellationToken)
     {
         ChoiceCaseView choiceCaseView;
-        for (int i = _data.ChoiceCases.Count; i >= 0; i--)
+        for (int i = _data.ChoiceCases.Count - 1; i >= 0; i--)
         {
             choiceCaseView = _choiseCasesViews[i];
             DisappearanceChoiceVariant(cancellationToken, choiceCaseView.ButtonChoice, choiceCaseView.RectTransformChoice, choiceCaseView.CanvasGroupChoice, _choicePositions[i]).Forget();

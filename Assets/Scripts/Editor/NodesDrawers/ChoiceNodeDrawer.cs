@@ -42,7 +42,7 @@ public class ChoiceNodeDrawer : NodeEditor
         {
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-            EditorGUILayout.LabelField($"Max cases {ChoiceNode.MaxCaseCount}");
+            EditorGUILayout.LabelField($"Max cases: {ChoiceNode.MaxCaseCount}");
             EditorGUI.BeginChangeCheck();
             _showOutputProperty.boolValue = EditorGUILayout.Toggle("Show Output: ", _showOutputProperty.boolValue);
 
@@ -137,7 +137,7 @@ public class ChoiceNodeDrawer : NodeEditor
         _timerPortIndexes = new string[a];
         for (int i = 0; i < a; i++)
         {
-            _timerPortIndexes[i] = $"{_namePort} {i}";
+            _timerPortIndexes[i] = $"{_namePort} {i+1}";
         }
     }
     private void DrawChoiceCase(SerializedProperty caseSerializedProperty, int index)
@@ -162,11 +162,11 @@ public class ChoiceNodeDrawer : NodeEditor
             DrawStats(_choiceNode.GetStatsChoiceLocalizations(index), caseSerializedProperty.FindPropertyRelative("_baseStatsChoice"));
         }
         
-        
         if (_showOutputProperty.boolValue == false)
         {
             NodeEditorGUILayout.PortField(_choiceNode.GetOutputPort($"{ChoiceNode.PortNamePart1}{index}{ChoiceNode.PortNamePart2}"));
         }
+        _lineDrawer.DrawHorizontalLine(Color.cyan);
     }
 
     private void DrawHorizontalField<T>(SerializedProperty serializedProperty, string name, float widthLabel, float widthField = 50f)
