@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9011431300975522147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 51484.67, y: 4786.211}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -9011431300975522147}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 4718699118443656063}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -9011431300975522147}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6630131056886263978}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
+  _isStartCurtain: 1
+  _isEndCurtain: 0
 --- !u!114 &-8036941621404485811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +142,73 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+--- !u!114 &-6630131056886263978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0232c1e77aaf4b1fbb4ff176e4d90986, type: 3}
+  m_Name: Phone
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 51992.06, y: 4655.0835}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -6630131056886263978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -9011431300975522147}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -6630131056886263978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _phoneIndex: 0
+  _phoneStartScreen: 1
+  _butteryPercent: 85
+  _startHour: 10
+  _startMinute: 28
+  _date:
+    <DefaultText>k__BackingField: 07.14.25
+    <Key>k__BackingField: 
+  _startScreenCharacterIndex: 0
+  _contactsInfoToGame:
+  - _keyName: str_AC60ADBC
+    _name: "\u041C\u0430\u0440\u043A"
+    _keyOnline: 0
+    _keyNotification: 0
+  - _keyName: str_F71AE2E8
+    _name: "\u042D\u0434\u0432\u0438\u043D"
+    _keyOnline: 0
+    _keyNotification: 0
+  - _keyName: str_D5DBBDEB
+    _name: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
+    _keyOnline: 0
+    _keyNotification: 0
+  - _keyName: str_461E5165
+    _name: "\u0411\u0430\u0431\u0443\u0448\u043A\u0430"
+    _keyOnline: 0
+    _keyNotification: 0
 --- !u!114 &-5759260662544050055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +397,10 @@ MonoBehaviour:
       _node: {fileID: -3766109399807641895}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 4718699118443656063}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -318,6 +436,9 @@ MonoBehaviour:
   - {fileID: -5666312230318867194}
   - {fileID: -4011430061912020167}
   - {fileID: -3766109399807641895}
+  - {fileID: 4718699118443656063}
+  - {fileID: -9011431300975522147}
+  - {fileID: -6630131056886263978}
 --- !u!114 &34707638735241611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,6 +595,54 @@ MonoBehaviour:
       \u0434\u0435\u043B\u0430\u0442\u044C \u0438 \u043A\u0430\u043A \u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C\u0441\u044F
       \u0441 \u044D\u0442\u043E\u0439 \u0441\u0438\u0442\u0443\u0430\u0446\u0438\u0435\u0439."
     <Key>k__BackingField: 
+--- !u!114 &4718699118443656063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 51096.98, y: 4749.096}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4718699118443656063}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -3766109399807641895}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4718699118443656063}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -9011431300975522147}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
+  _isStartCurtain: 0
+  _isEndCurtain: 1
 --- !u!114 &6851486635438223285
 MonoBehaviour:
   m_ObjectHideFlags: 0

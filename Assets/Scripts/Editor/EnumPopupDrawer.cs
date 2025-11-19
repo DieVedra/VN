@@ -1,15 +1,18 @@
 ﻿using System;
 using UnityEditor;
 
-public class EnumPopupDrawer
+namespace MyProject
 {
-    public void DrawEnumPopup<T>(SerializedProperty property, string label) where T : Enum
+    public class EnumPopupDrawer
     {
-        if (Enum.IsDefined(typeof(T), property.enumValueIndex))
+        public void DrawEnumPopup<T>(SerializedProperty property, string label) where T : Enum
         {
-            T directionType = (T)(object)property.enumValueIndex;
-            directionType = (T)EditorGUILayout.EnumPopup(label,directionType);
-            property.enumValueIndex = Convert.ToInt32(directionType);
+            if (Enum.IsDefined(typeof(T), property.enumValueIndex))
+            {
+                T directionType = (T)(object)property.enumValueIndex;
+                directionType = (T)EditorGUILayout.EnumPopup(label,directionType);
+                property.enumValueIndex = Convert.ToInt32(directionType);
+            }
         }
     }
 }

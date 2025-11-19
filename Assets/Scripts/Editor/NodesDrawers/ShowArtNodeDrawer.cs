@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using MyProject;
 using UnityEditor;
 using XNodeEditor;
 
@@ -11,7 +12,7 @@ public class ShowArtNodeDrawer : NodeEditor
     private SerializedProperty _serializedPropertyInputPort;
     private SerializedProperty _serializedPropertyOutputPort;
     private SerializedProperty _modeSerializedProperty;
-    private EnumPopupDrawer _enumPopupDrawer;
+    private MyProject.EnumPopupDrawer _enumPopupDrawer;
     private string[] _namesArts;
     public override void OnBodyGUI()
     {

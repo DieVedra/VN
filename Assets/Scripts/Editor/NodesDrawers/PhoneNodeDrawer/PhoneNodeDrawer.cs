@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using MyProject;
+using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
 
@@ -8,7 +9,7 @@ public class PhoneNodeDrawer : NodeEditor
     private const int _maxCountSymbol = 20;
     private PhoneNode _phoneNode;
     private LineDrawer _lineDrawer;
-    private EnumPopupDrawer _enumPopupDrawer;
+    private MyProject.EnumPopupDrawer _enumPopupDrawer;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;

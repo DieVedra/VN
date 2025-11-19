@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using MyProject;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -51,6 +52,7 @@ public class CharacterNodeDrawer : NodeEditor
     private SerializedProperty _toggleIsSwimsuitProperty;
     private SerializedProperty _inputPortProperty;
     private SerializedProperty _outputPortProperty;
+    private MyProject.EnumPopupDrawer _enumPopupDrawer;
 
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private LocalizationString _localizationStringText;
@@ -72,6 +74,7 @@ public class CharacterNodeDrawer : NodeEditor
         if (_indexLookProperty == null)
         {
             _lineDrawer = new LineDrawer();
+            _enumPopupDrawer = new EnumPopupDrawer();
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_symbolMaxCount));
             serializedObject.Update();
             TryInitProperty(ref _indexLookProperty, _indexLookNameProperty);
@@ -134,8 +137,8 @@ public class CharacterNodeDrawer : NodeEditor
             _foldoutIsOpenProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutIsOpenProperty.boolValue, _fouldoutLabel);
             if (_foldoutIsOpenProperty.boolValue)
             {
-                DrawEnumPopup();
-
+                // DrawEnumPopup();
+                _enumPopupDrawer.DrawEnumPopup<DirectionType>(_directionCharacterProperty, _currentDirectionLabel);
 
                 if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using MyProject;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -25,7 +26,7 @@ public class BackgroundNodeDrawer : NodeEditor
     private SerializedProperty _awaitedSmoothChangeBackgroundSerializedProperty;
     private SerializedProperty _awaitedSmoothBackgroundChangePositionSerializedProperty;
     private SerializedProperty _awaitedSetColorOverlayBackgroundSerializedProperty;
-    private EnumPopupDrawer _enumPopupDrawer;
+    private MyProject.EnumPopupDrawer _enumPopupDrawer;
     private LineDrawer _lineDrawer;
     public override void OnBodyGUI()
     {
