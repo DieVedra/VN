@@ -10,42 +10,43 @@ using XNode;
 [NodeTint("#7B0800"), NodeWidth(350)]
 public class ChoiceNode : BaseNode, ILocalizable
 {
-    [SerializeField] private List<ChoiceCase> _choiceCases;
-    [SerializeField] private int _timerValue;
-    [SerializeField] private int _timerPortIndex;
-    [SerializeField] private bool _showOutput;
+    [SerializeField] protected List<ChoiceCase> _choiceCases;
+    [SerializeField] protected int _timerValue;
+    [SerializeField] protected int _timerPortIndex;
+    [SerializeField] protected bool _showOutput;
     [SerializeField] private bool _addTimer;
     
     public const int MaxCaseCount = 4;
     public const string PortNamePart1 = "_choice";
     public const string PortNamePart2 = "Output";
-    private IGameStatsProvider _gameStatsProvider;
-    private ChoiceResultEvent<ChoiceCase> _choiceResultEvent;
-    private ChoicePanelUIHandler _choicePanelUIHandler;
-    private ChoiceNodeInitializer _choiceNodeInitializer;
-    private CancellationTokenSource _timerCancellationTokenSource;
-    private CompositeDisposable _compositeDisposable;
-    private NotificationPanelUIHandler _notificationPanelUIHandler;
-    private ChoiceData _choiceData;
+
+    public ChoiceResultEvent<ChoiceCase> ChoiceResultEvent { get; protected set; }
+    protected IGameStatsProvider GameStatsProvider;
+    protected ChoicePanelUIHandler ChoicePanelUIHandler;
+    protected ChoiceNodeInitializer ChoiceNodeInitializer;
+    protected NotificationPanelUIHandler NotificationPanelUIHandler;
+    protected CancellationTokenSource TimerCancellationTokenSource;
+    protected CompositeDisposable CompositeDisposable;
+    protected ChoiceData ChoiceData;
     
     public void ConstructMyChoiceNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
         NotificationPanelUIHandler notificationPanelUIHandler, int seriaIndex)
     {
-        _choiceResultEvent = new ChoiceResultEvent<ChoiceCase>();
-        _choiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
-        _notificationPanelUIHandler = notificationPanelUIHandler;
-        _choicePanelUIHandler = choicePanelUIHandler;
-        _gameStatsProvider = gameStatsProvider;
+        ChoiceResultEvent = new ChoiceResultEvent<ChoiceCase>();
+        ChoiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
+        NotificationPanelUIHandler = notificationPanelUIHandler;
+        ChoicePanelUIHandler = choicePanelUIHandler;
+        GameStatsProvider = gameStatsProvider;
         for (int i = 0; i < _choiceCases.Count; i++)
         {
             _choiceCases[i].InitLocalizationString();
         }
         if (IsPlayMode() == false)
         {
-            _choiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
+            ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
             DisableNodesContentEvent.Subscribe(() =>
             {
-                _choicePanelUIHandler.HideChoiceVariants();
+                ChoicePanelUIHandler.HideChoiceVariants();
             });
         }
     }
@@ -53,53 +54,53 @@ public class ChoiceNode : BaseNode, ILocalizable
     public override void Dispose()
     {
         base.Dispose();
-        _timerCancellationTokenSource?.Cancel();
+        TimerCancellationTokenSource?.Cancel();
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        _timerCancellationTokenSource = new CancellationTokenSource();
-        _choiceData = CreateChoice();
-        _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+        TimerCancellationTokenSource = new CancellationTokenSource();
+        ChoiceData = CreateChoice();
+        CompositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            _choicePanelUIHandler.SetTexts(_choiceData);
+            ChoicePanelUIHandler.SetTexts(ChoiceData);
         });
-        _choiceResultEvent.SubscribeWithCompositeDisposable(SetNextNodeFromResultChoice, _compositeDisposable);
+        ChoiceResultEvent.SubscribeWithCompositeDisposable(SetNextNodeFromResultChoice, CompositeDisposable);
 
         IsMerged = isMerged;
         if (IsMerged == false)
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _choicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, _choiceData, _choiceResultEvent);
+        await ChoicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, ChoiceData, ChoiceResultEvent);
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
-        _choicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(_choiceData, _choiceResultEvent);
-        _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _choiceCases[_timerPortIndex], _timerCancellationTokenSource.Token);
+        ChoicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(ChoiceData, ChoiceResultEvent);
+        ChoicePanelUIHandler.ActivateTimerChoice(ChoiceResultEvent, _timerPortIndex, _choiceCases[_timerPortIndex], TimerCancellationTokenSource.Token);
     }
 
     public override async UniTask Exit()
     {
         if (_timerValue > 0)
         {
-            _timerCancellationTokenSource.Cancel();
+            TimerCancellationTokenSource.Cancel();
         }
         CancellationTokenSource = new CancellationTokenSource();
-        await _choicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token);
-        _compositeDisposable.Dispose();
-        _choiceData = null;
+        await ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token);
+        CompositeDisposable.Dispose();
+        ChoiceData = null;
     }
     protected override void SetInfoToView()
     {
-        _choicePanelUIHandler.ShowChoiceVariants(CreateChoice());
+        ChoicePanelUIHandler.ShowChoiceVariants(CreateChoice());
     }
 
     public override void SkipEnterTransition()
     {
         CancellationTokenSource.Cancel();
         SetInfoToView();
-        _choicePanelUIHandler.ActivateTimerChoice(_choiceResultEvent, _timerPortIndex, _choiceCases[_timerPortIndex], _timerCancellationTokenSource.Token);
-        _choicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(_choiceData, _choiceResultEvent);
+        ChoicePanelUIHandler.ActivateTimerChoice(ChoiceResultEvent, _timerPortIndex, _choiceCases[_timerPortIndex], TimerCancellationTokenSource.Token);
+        ChoicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(ChoiceData, ChoiceResultEvent);
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -117,14 +118,14 @@ public class ChoiceNode : BaseNode, ILocalizable
         return _choiceCases[index].BaseStatsChoiceLocalizations;
     }
 
-    private ChoiceData CreateChoice()
+    protected ChoiceData CreateChoice()
     {
         return new ChoiceData(_choiceCases, _addTimer == true ? _timerValue : 0);
     }
-    
+
     private void SetNextNodeFromResultChoice(ChoiceCase choiceCaseResult)
     {
-        _choiceResultEvent.Dispose();
+        ChoiceResultEvent.Dispose();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
         if (_showOutput == true)
         {
@@ -135,10 +136,10 @@ public class ChoiceNode : BaseNode, ILocalizable
             int portIndex = _choiceCases.IndexOf(choiceCaseResult);
             TryFindConnectedPorts(GetOutputPort(GetPortName(portIndex)));
         }
-        _gameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
+        GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         SwitchToNextNodeEvent.Execute();
     }
-    private void TryFindConnectedPorts(NodePort outputPort)
+    protected void TryFindConnectedPorts(NodePort outputPort)
     {
         bool notificationNodeFinded = false;
         bool nextNodeFinded = false;
@@ -157,20 +158,20 @@ public class ChoiceNode : BaseNode, ILocalizable
         }
     }
 
-    private void ShowNotification(IEnumerable<BaseStat> stats)
+    protected void ShowNotification(IEnumerable<BaseStat> stats)
     {
-        string text = _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider);
+        string text = NotificationPanelUIHandler.GetTextStats(stats, GameStatsProvider);
         if (string.IsNullOrWhiteSpace(text) == false)
         {
             CompositeDisposable compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
             {
-                _notificationPanelUIHandler.SetText(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
+                NotificationPanelUIHandler.SetText(NotificationPanelUIHandler.GetTextStats(stats, GameStatsProvider));
             });
-            _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, false, compositeDisposable).Forget();
+            NotificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, false, compositeDisposable).Forget();
         }
     }
 
-    private string GetPortName(int index)
+    protected string GetPortName(int index)
     {
         return $"{PortNamePart1}{index}{PortNamePart2}";
     }
@@ -178,7 +179,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         if (DynamicOutputs.Count() < MaxCaseCount)
         {
-            ChoiceCase choiceCase = new ChoiceCase(_choiceNodeInitializer.GetBaseStatsChoice());
+            ChoiceCase choiceCase = new ChoiceCase(ChoiceNodeInitializer.GetBaseStatsChoice());
             _choiceCases.Add(choiceCase);
             AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: GetPortName(DynamicOutputs.Count()));
             EditorUtility.SetDirty(this);

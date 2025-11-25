@@ -8,7 +8,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     [SerializeField] private GameSeriesHandlerBuildMode _gameSeriesHandlerBuildMode;
     [SerializeField] private BackgroundBuildMode _backgroundBuildMode;
 
-    private const int PhoneSiblingIndex = 5;
     private Wallet _wallet;
     private WardrobeCharacterViewer _wardrobeCharacterViewer;
     private LevelUIProviderBuildMode _levelUIProviderBuildMode;
@@ -210,8 +209,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             {
                 LevelUIView.PhoneUIView = _phoneView;
                 _phoneView.transform.SetParent(LevelUIView.transform);
-                LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneSiblingIndex);
-                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
+                LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, NodeGraphInitializer);
             });
     }
     private void InitLocalization()

@@ -26,17 +26,19 @@ public class PhoneNode : BaseNode, ILocalizable
     private Dictionary<string, ContactInfoToGame> _contactsDictionary;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
+    private int _seriaIndex;
     public IReadOnlyList<Phone> Phones { get; private set; }
     public IReadOnlyList<PhoneContactDataLocalizable> Contacts { get; private set; }
     public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
         Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts,
-        PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler)
+        PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
     {
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         Contacts = contacts;
+        _seriaIndex = seriaIndex;
         CreateContactsToOnlineAndNotifications(contacts);
     }
 
@@ -59,7 +61,7 @@ public class PhoneNode : BaseNode, ILocalizable
     protected override void SetInfoToView()
     {
         _phoneUIHandler.ConstructFromNode(_contactsDictionary, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
-            _butteryPercent,_startHour, _startMinute);
+            _seriaIndex, _butteryPercent,_startHour, _startMinute);
         switch (_phoneStartScreen)
         {
             case PhoneBackgroundScreen.BlockScreen:

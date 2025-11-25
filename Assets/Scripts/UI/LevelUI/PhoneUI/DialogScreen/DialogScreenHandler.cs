@@ -48,8 +48,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        Action<string, bool> setOnlineStatus, bool characterOnlineKey)
+    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, NodeGraphInitializer nodeGraphInitializer,
+        Action<string, bool> setOnlineStatus, bool characterOnlineKey, int seriaIndex)
     {
         _currentContact = contact;
         _contactNameLS = contact.NikNameContact;
@@ -58,15 +58,17 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SetContactImage();
         SetOnlineKey(characterOnlineKey);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _backArrowImage.color = _backArrowImageColor;
-        SubscribeButtons();
+        // _backArrowImage.color = _backArrowImageColor;
+        _backArrow.interactable = false;
+        _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        _messagesShower.Init(_currentContact.PhoneMessagesLocalization, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+        _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph(nodeGraphInitializer, seriaIndex);
+        _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {
                 setOnlineStatus.Invoke(contact.NameContact.Key, false);
                 SetOnlineKey(false);
-            }, ReadDisable, characterOnlineKey);
+            }, ActivateBackButton, characterOnlineKey);
     }
 
     private void SetOnlineKey(bool characterOnlineKey)
@@ -106,25 +108,23 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _cancellationTokenSource?.Cancel();
     }
 
-    private void SubscribeButtons()
-    {
-        _readDialog.interactable = true;
-        _backArrow.interactable = false;
-        _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
-        _readDialog.onClick.AddListener(() =>
-        {
-            if (_messagesShower.ShowNext() == false)
-            {
-                ReadDisable();
-            }
-        });
-    }
+    // private void SubscribeButtons()
+    // {
+    //     _readDialog.interactable = true;
+    //     _backArrow.interactable = false;
+    //     _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
+    //     _readDialog.onClick.AddListener(() =>
+    //     {
+    //         if (_messagesShower.ShowNext() == false)
+    //         {
+    //             ReadDisable();
+    //         }
+    //     });
+    // }
 
-    private void ReadDisable()
+    private void ActivateBackButton()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        _readDialog.interactable = false;
-        _readDialog.onClick.RemoveAllListeners();
         _backArrow.interactable = true;
         _backArrow.onClick.AddListener(() =>
         {

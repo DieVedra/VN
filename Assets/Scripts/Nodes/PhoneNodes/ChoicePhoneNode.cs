@@ -1,0 +1,112 @@
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using XNode;
+
+public class ChoicePhoneNode : ChoiceNode
+{
+    private CustomizationCurtainUIHandler _curtainUIHandler;
+    public PhoneMessageNode PhoneMessageNode { get; private set; }
+    public bool IsOver { get; private set; }
+    
+    public void ConstructMyChoicePhoneNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
+        NotificationPanelUIHandler notificationPanelUIHandler, CustomizationCurtainUIHandler curtainUIHandler,
+        int seriaIndex)
+    {
+        IsOver = false;
+        ChoiceResultEvent = new ChoiceResultEvent<ChoiceCase>();
+        ChoiceNodeInitializer = new ChoiceNodeInitializer(gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
+        NotificationPanelUIHandler = notificationPanelUIHandler;
+        ChoicePanelUIHandler = choicePanelUIHandler;
+        GameStatsProvider = gameStatsProvider;
+        _curtainUIHandler = curtainUIHandler;
+        for (int i = 0; i < _choiceCases.Count; i++)
+        {
+            _choiceCases[i].InitLocalizationString();
+        }
+        if (IsPlayMode() == false)
+        {
+            ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
+            DisableNodesContentEvent.Subscribe(() =>
+            {
+                ChoicePanelUIHandler.HideChoiceVariants();
+            });
+        }
+    }
+    public override async UniTask Enter(bool isMerged = false)
+    {
+        CancellationTokenSource = new CancellationTokenSource();
+        TimerCancellationTokenSource = new CancellationTokenSource();
+        ChoiceData = CreateChoice();
+        CompositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+        {
+            ChoicePanelUIHandler.SetTexts(ChoiceData);
+        });
+        ChoiceResultEvent.SubscribeWithCompositeDisposable(SetNextNodeFromResultChoice, CompositeDisposable);
+        IsMerged = isMerged;
+        
+        
+        _curtainUIHandler.SetCurtainUnderTargetPanel(ChoicePanelUIHandler.RectTransform, PhoneUIHandler.PhoneSiblingIndex, true);
+        await UniTask.WhenAll(
+            _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.FadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
+            ChoicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, ChoiceData, ChoiceResultEvent));
+        ButtonSwitchSlideUIHandler.DeactivatePushOption();
+        ChoicePanelUIHandler.ChoiceNodeButtonsHandler.TryActivateButtonsChoice(ChoiceData, ChoiceResultEvent);
+        ChoicePanelUIHandler.ActivateTimerChoice(ChoiceResultEvent, _timerPortIndex, _choiceCases[_timerPortIndex], TimerCancellationTokenSource.Token);
+    }
+
+    public override async UniTask Exit()
+    {
+        if (_timerValue > 0)
+        {
+            TimerCancellationTokenSource.Cancel();
+        }
+        CancellationTokenSource = new CancellationTokenSource();
+        
+        
+        _curtainUIHandler.SetCurtainToDefaultSibling();
+        await UniTask.WhenAll(
+            _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
+            ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token));
+        CompositeDisposable.Dispose();
+        ChoiceData = null;
+        IsOver = true;
+    }
+    protected override void SetInfoToView()
+    {
+        ChoicePanelUIHandler.ShowChoiceVariants(CreateChoice());
+    }
+
+    private void SetNextNodeFromResultChoice(ChoiceCase choiceCaseResult)
+    {
+        ChoiceResultEvent.Dispose();
+        ShowNotification(choiceCaseResult.BaseStatsChoice);
+        if (_showOutput == true)
+        {
+            TryFindConnectedPhoneMessageNode(OutputPortBaseNode);
+        }
+        else
+        {
+            int portIndex = _choiceCases.IndexOf(choiceCaseResult);
+            TryFindConnectedPhoneMessageNode(GetOutputPort(GetPortName(portIndex)));
+        }
+        GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
+        Exit().Forget();
+    }
+
+    private void TryFindConnectedPhoneMessageNode(NodePort outputPort)
+    {
+        for (int i = 0; i < outputPort.GetConnections().Count; i++)
+        {
+            if (outputPort.GetConnection(i).node is PhoneMessageNode phoneMessageNode)
+            {
+                PhoneMessageNode = phoneMessageNode;
+                break;
+            }
+            else
+            {
+                PhoneMessageNode = null;
+            }
+        }
+    }
+}

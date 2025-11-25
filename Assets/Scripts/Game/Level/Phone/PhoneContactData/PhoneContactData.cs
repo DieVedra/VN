@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 [Serializable]
@@ -14,6 +15,7 @@ public class PhoneContactData
 
 
     [SerializeField] private List<PhoneMessage> _phoneMessages;
+    [field:SerializeField, Expandable] public PhoneMessagesGraph PhoneMessagesGraph { get; private set; }
     
     public IReadOnlyList<PhoneMessage> PhoneMessages => _phoneMessages;
 }

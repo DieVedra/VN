@@ -7,21 +7,21 @@ using UnityEngine;
 [NodeTint("#006C17")]
 public class NarrativeNode : BaseNode, ILocalizable
 {
-	[SerializeField] private LocalizationString _localizationText;
+	[SerializeField] protected LocalizationString _localizationText;
 
-	private NarrativePanelUIHandler _narrativePanelUI;
-	private CompositeDisposable _compositeDisposable;
+	protected NarrativePanelUIHandler NarrativePanelUI;
+	protected CompositeDisposable CompositeDisposable;
 	public void ConstructMyNarrativeNode(NarrativePanelUIHandler narrativePanelUI)
 	{
-		_narrativePanelUI = narrativePanelUI;
+		NarrativePanelUI = narrativePanelUI;
 	}
 
 	public override async UniTask Enter(bool isMerged = false)
 	{
 		CancellationTokenSource = new CancellationTokenSource();
-		_compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+		CompositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
 		{
-			_narrativePanelUI.SetText(_localizationText.DefaultText);
+			NarrativePanelUI.SetText(_localizationText.DefaultText);
 		});
 		IsMerged = isMerged;
 		if (isMerged == false)
@@ -29,15 +29,15 @@ public class NarrativeNode : BaseNode, ILocalizable
 			ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
 		}
 
-		await _narrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText, CancellationTokenSource.Token);
+		await NarrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText, CancellationTokenSource.Token);
 		TryActivateButtonSwitchToNextSlide();
 	}
 
 	public override async UniTask Exit()
 	{
 		CancellationTokenSource = new CancellationTokenSource();
-		await _narrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token);
-		_compositeDisposable.Dispose();
+		await NarrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token);
+		CompositeDisposable.Dispose();
 	}
 
 	public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -54,7 +54,7 @@ public class NarrativeNode : BaseNode, ILocalizable
 
 	protected override void SetInfoToView()
 	{
-		_narrativePanelUI.NarrativeInEditMode(_localizationText);
+		NarrativePanelUI.NarrativeInEditMode(_localizationText);
 	}
 
 	protected override void TryActivateButtonSwitchToNextSlide()

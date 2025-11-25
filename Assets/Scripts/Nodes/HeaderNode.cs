@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 

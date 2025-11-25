@@ -87,7 +87,10 @@ MonoBehaviour:
       _node: {fileID: -8993914854098970864}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -3729201651118310337}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -308,6 +311,39 @@ MonoBehaviour:
     <Key>k__BackingField: 
   _type: 1
   IsReaded: 0
+--- !u!114 &-3729201651118310337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5211bb632374499a8326450ab5201996, type: 3}
+  m_Name: End
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 55097.344, y: 4879.4126}
+  ports:
+    keys:
+    - Input
+    values:
+    - _fieldName: Input
+      _node: {fileID: -3729201651118310337}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -8993914854098970864}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 7653429366789574370}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +354,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22137b3ffe4c4624a5e706fe3949e6a9, type: 3}
-  m_Name: PhoneNodeGraph
+  m_Name: EdwinMessagesSeria4
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 7825199347985825798}
@@ -333,6 +369,7 @@ MonoBehaviour:
   - {fileID: -9029371361103304482}
   - {fileID: -5143826860358318401}
   - {fileID: 7653429366789574370}
+  - {fileID: -3729201651118310337}
 --- !u!114 &842475359104991027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +554,10 @@ MonoBehaviour:
       _node: {fileID: 7653429366789574370}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -3729201651118310337}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0

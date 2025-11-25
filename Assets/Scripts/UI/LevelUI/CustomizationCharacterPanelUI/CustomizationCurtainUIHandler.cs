@@ -5,8 +5,35 @@ using UnityEngine;
 
 public class CustomizationCurtainUIHandler : CurtainUIHandler
 {
+    private const float _fadeEndValue = 0.3f;
+    private int _blackoutFrameSiblingIndexBufer;
+    private int _infoPanelSiblingIndexBufer;
+    private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
+    private RectTransform _infoPanel;
     public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
         : base(blackFrameView, blockGameControlPanelUI){}
+
+    public void SetCurtainUnderTargetPanel(RectTransform infoPanel, int targetSiblingIndex, bool raycastTarget = false)
+    {
+        _infoPanel = infoPanel;
+        _blackoutFrameSiblingIndexBufer = Transform.GetSiblingIndex();
+        _infoPanelSiblingIndexBufer = _infoPanel.GetSiblingIndex();
+        Transform.SetSiblingIndex(targetSiblingIndex);
+        _infoPanel.SetSiblingIndex(Transform.GetSiblingIndex());
+        CurtainImage.raycastTarget = raycastTarget;
+        CurtainImage.color = _colorHide;
+        CurtainImage.gameObject.SetActive(true);
+
+    }
+    public void SetCurtainToDefaultSibling()
+    {
+        Transform.SetSiblingIndex(_blackoutFrameSiblingIndexBufer);
+        _infoPanel.SetSiblingIndex(_infoPanelSiblingIndexBufer);
+        CurtainImage.raycastTarget = true;
+        CurtainImage.gameObject.SetActive(false);
+        _infoPanel = null;
+    }
+    
     public override async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
         BlockGameControlPanelUI?.Execute(false);

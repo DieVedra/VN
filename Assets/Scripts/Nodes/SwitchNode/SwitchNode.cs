@@ -7,23 +7,24 @@ using UnityEngine;
 public class SwitchNode : BaseNode, IPutOnSwimsuit
 {
     [Output] public Empty OutputTrueBool;
-    [SerializeField] private List<CaseForStats> _casesForStats;
+    [SerializeField] protected List<CaseForStats> _casesForStats;
     [SerializeField] private bool _isNodeForStats;
     [SerializeField] private bool _isNodeForBool;
     [SerializeField] private int _removeAdditionalCaseIndex;
+    
     private const int _maxDynamicPortsCount = 10;
     private const string _namePort = "OutputTrueBool";
     private const string _port = "Port ";
     private IGameStatsProvider _gameStatsProvider;
-    private SwitchNodeLogic _switchNodeLogic;
+    protected SwitchNodeLogic SwitchNodeLogic;
     private SwitchNodeInitializer _switchNodeInitializer;
     private bool _putOnSwimsuit;
     public IReadOnlyList<CaseForStats> CaseLocalizations => _casesForStats;
-    public SwitchNodeLogic SwitchNodeLogic => _switchNodeLogic;
+    public SwitchNodeLogic GetSwitchNodeLogic => SwitchNodeLogic;
     public void ConstructMySwitchNode(IGameStatsProvider gameStatsProvider, int seriaIndex)
     {
         _gameStatsProvider = gameStatsProvider;
-        _switchNodeLogic = new SwitchNodeLogic(gameStatsProvider.GameStatsHandler.StatsDictionary, _gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
+        SwitchNodeLogic = new SwitchNodeLogic(gameStatsProvider.GameStatsHandler.StatsDictionary, _gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
         if (IsPlayMode() == false)
         {
             if (_switchNodeInitializer == null)
@@ -33,11 +34,11 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }
     }
-    public override UniTask Enter(bool isMerged = false)
+    public async override UniTask Enter(bool isMerged = false)
     {
         if (_isNodeForStats)
         {
-            var result = _switchNodeLogic.GetPortIndexOnSwitchResult(_casesForStats);
+            var result = SwitchNodeLogic.GetPortIndexOnSwitchResult(_casesForStats);
             bool caseFoundSuccessfuly = result.Item1;
             int indexCase = result.Item2;
             if (caseFoundSuccessfuly == true)
@@ -66,8 +67,6 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
         {
             SwitchToNextNodeEvent.Execute();
         }
-
-        return default;
     }
     private void AddDynamicPort()
     {

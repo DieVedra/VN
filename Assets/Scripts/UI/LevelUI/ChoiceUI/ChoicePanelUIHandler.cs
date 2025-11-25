@@ -15,9 +15,11 @@ public class ChoicePanelUIHandler
     private readonly ChoiceNodeTimer _choiceNodeTimer;
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
     private readonly ChoiceNodeButtonsHandler _choiceNodeButtonsHandler;
+    private readonly RectTransform _rectTransform; 
     private CompositeDisposable _compositeDisposableOnUpdateWallet;
     private ReactiveProperty<bool> _choiceActive;
     public ChoiceNodeButtonsHandler ChoiceNodeButtonsHandler => _choiceNodeButtonsHandler;
+    public RectTransform RectTransform => _rectTransform;
 
     public ChoicePanelUIHandler(ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceHandler panelResourceHandler, IChoicePanelInitializer choicePanelInitializer)
     {
@@ -25,7 +27,7 @@ public class ChoicePanelUIHandler
         _wallet = wallet;
         _panelResourceHandler = panelResourceHandler;
         _choiseCasesViews = choicePanelInitializer.GetChoiceCaseViews(choicePanelUI.transform);
-
+        _rectTransform = choicePanelUI.transform as RectTransform;
         _choiceNodeTimer = new ChoiceNodeTimer(choicePanelUI.TimerPanelText, choicePanelUI. TimerPanelCanvasGroup, choicePanelUI.TimerImageRectTransform);
         _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiseCasesViews, wallet);
         

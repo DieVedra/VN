@@ -17,6 +17,8 @@ public class PhoneContactDataLocalizable : ILocalizable
     public bool IsEmptyIconKey => _isEmptyIconKey;
     public bool IsAddebleContactKey => _isAddebleContactKey;
     public IReadOnlyList<PhoneMessageLocalization> PhoneMessagesLocalization => _phoneMessages;
+    public PhoneMessagesGraph PhoneMessagesGraph;
+    
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {

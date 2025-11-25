@@ -90,7 +90,7 @@ public class SwitchNodeDrawer : NodeEditor
                 }
 
                 EditorGUILayout.EndHorizontal();
-                if (_switchNode.SwitchNodeLogic?.Operators != null)
+                if (_switchNode.GetSwitchNodeLogic?.Operators != null)
                 {
                     if (_casesForStatsListProperty != null && _casesForStatsListProperty.arraySize > 0)
                     {
@@ -172,7 +172,7 @@ public class SwitchNodeDrawer : NodeEditor
             DrawLabel(caseStats[i].LocalizationName.DefaultText);
             if (serializedPropertyToggle.boolValue)
             {
-                DrawPopup(_switchNode.SwitchNodeLogic.Operators ,serializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
+                DrawPopup(_switchNode.GetSwitchNodeLogic.Operators ,serializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
                 DrawInt(serializedProperty.FindPropertyRelative("_value"));
             }
             EditorGUILayout.EndHorizontal();
@@ -211,7 +211,7 @@ public class SwitchNodeDrawer : NodeEditor
                 _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat1");
                 _keySerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_stat1Key");
                 DrawPopupStat();
-                DrawPopup(_switchNode.SwitchNodeLogic.Operators, _additionalCaseSerializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
+                DrawPopup(_switchNode.GetSwitchNodeLogic.Operators, _additionalCaseSerializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
                 _indexStatSerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_indexStat2");
                 _keySerializedProperty = _additionalCaseSerializedProperty.FindPropertyRelative("_stat2Key");
                 DrawPopupStat();
@@ -224,7 +224,7 @@ public class SwitchNodeDrawer : NodeEditor
         void DrawPopupStat()
         {
             DrawPopup(_statsNames, _indexStatSerializedProperty, 140f);
-            _keySerializedProperty.stringValue = _switchNode.SwitchNodeLogic
+            _keySerializedProperty.stringValue = _switchNode.GetSwitchNodeLogic
                 .GameStatsCopied[_indexStatSerializedProperty.intValue].NameKey;
         }
     }
@@ -257,20 +257,20 @@ public class SwitchNodeDrawer : NodeEditor
     }
     private void TryInitStatsNames()
     {
-        if (_switchNode.SwitchNodeLogic?.GameStatsCopied != null)
+        if (_switchNode.GetSwitchNodeLogic?.GameStatsCopied != null)
         {
-            int count = _switchNode.SwitchNodeLogic.GameStatsCopied.Count;
+            int count = _switchNode.GetSwitchNodeLogic.GameStatsCopied.Count;
             _statsNames = new string[count];
             for (int i = 0; i < count; i++)
             {
-                _statsNames[i] = _switchNode.SwitchNodeLogic.GameStatsCopied[i].NameText;
+                _statsNames[i] = _switchNode.GetSwitchNodeLogic.GameStatsCopied[i].NameText;
             }
         }
     }
 
     private void TryUpdateAdditionalCases()
     {
-        if (_updateAdditionalCases == false && _switchNode.SwitchNodeLogic != null)
+        if (_updateAdditionalCases == false && _switchNode.GetSwitchNodeLogic != null)
         {
             _updateAdditionalCases = true;
             SerializedProperty caseForStats;
@@ -294,12 +294,12 @@ public class SwitchNodeDrawer : NodeEditor
 
         void Update()
         {
-            if (_keySerializedProperty.stringValue != _switchNode.SwitchNodeLogic
+            if (_keySerializedProperty.stringValue != _switchNode.GetSwitchNodeLogic
                 .GameStatsCopied[_indexStatSerializedProperty.intValue].NameKey)
             {
-                for (int i = 0; i < _switchNode.SwitchNodeLogic.GameStatsCopied.Count; i++)
+                for (int i = 0; i < _switchNode.GetSwitchNodeLogic.GameStatsCopied.Count; i++)
                 {
-                    if (_switchNode.SwitchNodeLogic.GameStatsCopied[i].NameKey == _keySerializedProperty.stringValue)
+                    if (_switchNode.GetSwitchNodeLogic.GameStatsCopied[i].NameKey == _keySerializedProperty.stringValue)
                     {
                         _indexStatSerializedProperty.intValue = i;
                         break;

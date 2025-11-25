@@ -573,7 +573,6 @@
               <e p="SpriteAtlasCreator.cs" t="Include" />
             </e>
             <e p="EnumPopupDrawer.cs" t="Include" />
-            <e p="GraphDrawer.cs" t="Include" />
             <e p="InspectorDrawers" t="Include">
               <e p="GameEntryPointDrawer.cs" t="Include" />
               <e p="GameStatsDrawer.cs" t="Include" />
@@ -583,6 +582,10 @@
             <e p="LineDrawer.cs" t="Include" />
             <e p="Localization" t="Include">
               <e p="LocalizationCreator.cs" t="Include" />
+            </e>
+            <e p="NodeGraphDrawer" t="Include">
+              <e p="PhoneMessageNodeGraphDrawer.cs" t="Include" />
+              <e p="SeriaPartNodeGraphDrawer.cs" t="Include" />
             </e>
             <e p="NodesDrawers" t="Include">
               <e p="AddSpriteNodeToBackgroundDrawer.cs" t="Include" />
@@ -809,12 +812,12 @@
                   <e p="PhoneDataLocalizable.cs" t="Include" />
                 </e>
                 <e p="PhoneDataProvider.cs" t="Include" />
-                <e p="PhoneGraph.cs" t="Include" />
                 <e p="PhoneMessage" t="Include">
                   <e p="PhoneMessage.cs" t="Include" />
                   <e p="PhoneMessageLocalization.cs" t="Include" />
                   <e p="PhoneMessageType.cs" t="Include" />
                 </e>
+                <e p="PhoneMessagesGraph.cs" t="Include" />
                 <e p="PhoneProvider.cs" t="Include" />
                 <e p="PhoneProviderInBuildMode.cs" t="Include" />
                 <e p="PhoneProviderInEditMode.cs" t="Include" />
@@ -972,7 +975,6 @@
             </e>
             <e p="DelayNode.cs" t="Include" />
             <e p="Empty.cs" t="Include" />
-            <e p="EndNode.cs" t="Include" />
             <e p="HeaderNode.cs" t="Include" />
             <e p="MergerNode" t="Include">
               <e p="MergedNodesDeterminator.cs" t="Include" />
@@ -993,9 +995,14 @@
             </e>
             <e p="PhoneNodes" t="Include">
               <e p="AddContactToPhoneNode.cs" t="Include" />
+              <e p="ChoicePhoneNode.cs" t="Include" />
               <e p="ContactInfoToGame.cs" t="Include" />
+              <e p="EndNode.cs" t="Include" />
+              <e p="PhoneAnimValues.cs" t="Include" />
               <e p="PhoneMessageNode.cs" t="Include" />
+              <e p="PhoneNarrativeMessageNode.cs" t="Include" />
               <e p="PhoneNode.cs" t="Include" />
+              <e p="PhoneSwitchNode.cs" t="Include" />
             </e>
             <e p="PutOnSwimsuitsNode.cs" t="Include" />
             <e p="SelectedCustomizationContentIndexes.cs" t="Include" />

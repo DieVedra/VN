@@ -3,7 +3,7 @@ using UnityEngine;
 using XNodeEditor;
 
 [CustomNodeGraphEditor(typeof(SeriaPartNodeGraph))]
-public class GraphDrawer : NodeGraphEditor
+public class SeriaPartNodeGraphDrawer : NodeGraphEditor
 {
     private SeriaPartNodeGraph _seriaPartNodeGraph;
     private SerializedProperty _nodeListProperty;

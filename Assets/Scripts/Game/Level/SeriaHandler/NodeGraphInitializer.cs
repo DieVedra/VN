@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using XNode;
 
 public class NodeGraphInitializer
 {
@@ -55,118 +56,137 @@ public class NodeGraphInitializer
     public void InitOneNode(BaseNode node, int seriaIndex)
     {
         node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
-        if (node is ChangeLookCustomCharacterNode changeLookCustomCharacterNode)
+        TryInit(node, seriaIndex);
+    }
+    public void InitOneNode(Node node, int seriaIndex)
+    {
+        if (node is BaseNode baseNode)
         {
-            changeLookCustomCharacterNode.InitMyChangeLookCustomCharacterNode(_characterProvider.GetCustomizationCharacters(seriaIndex));
-            return;
+            baseNode.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
+            TryInit(baseNode, seriaIndex);
         }
-        if (node is CharacterNode characterNode)
+    }
+    private void TryInit(BaseNode node, int seriaIndex)
+    {
+        switch (node)
         {
-            characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(seriaIndex),
-                _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
-            return;
+            case ChangeLookCustomCharacterNode changeLookCustomCharacterNode:
+                changeLookCustomCharacterNode.InitMyChangeLookCustomCharacterNode(
+                    _characterProvider.GetCustomizationCharacters(seriaIndex));
+                return;
+            
+            case CharacterNode characterNode:
+                characterNode.ConstructMyCharacterNode(_characterProvider.GetCharacters(seriaIndex),
+                    _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
+                return;
+            
+            case NarrativeNode narrativeNode:
+                narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
+                return;
+            
+            case NotificationNode notificationNode:
+                notificationNode.ConstructMyNotificationNode(_levelUIProvider.NotificationPanelUIHandler);
+                return;
+            
+            case SmoothTransitionNode smoothTransitionNode:
+                smoothTransitionNode.ConstructMySmoothTransitionNode(_levelUIProvider.CurtainUIHandler);
+                return;
+            
+            case BackgroundNode backgroundNode:
+                backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
+                return;
+            
+            case SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode:
+                switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent);
+                return;
+            
+            case MergerNode mergerNode:
+                mergerNode.ConstructMyMergerNode();
+                return;
+            
+            case SoundNode soundNode:
+                soundNode.ConstructMySoundNode(_sound);
+                return;
+            
+            case ChoiceNode choiceNode:
+                choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
+                    _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+                return;
+            
+            case CustomizationNode customizationNode:
+                customizationNode.ConstructMyCustomizationNode(
+                    _levelUIProvider.CustomizationCharacterPanelUIHandler,
+                    _levelUIProvider.CustomizationCurtainUIHandler,
+                    _characterProvider.GetCustomizationCharacters(seriaIndex),
+                    _background, _sound,
+                    _gameStatsProvider,
+                    _wallet, _wardrobeCharacterViewer, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+                return;
+            
+            case SwitchNode switchNode:
+                switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
+                return;
+            
+            case AddSpriteNodeToBackground addSpriteNodeToBackground:
+                addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
+                return;
+            
+            case HeaderNode handlerNode:
+                handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
+                    _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
+                return;
+            
+            case CharacterColorByBackgroundNode characterColorByBackgroundNode:
+                characterColorByBackgroundNode.Construct(_characterViewer);
+                return;
+            
+            case SwitchToNextSeriaNode switchToNextSeriaNode:
+                switchToNextSeriaNode.Construct(SwitchToNextSeriaEvent);
+                return;
+            
+            case ShowArtNode showImageNode:
+                showImageNode.Construct(_background);
+                return;
+            
+            case AddContactToPhoneNode addContactToPhoneNode:
+                addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex),
+                    _phoneProvider.GetContactsAddToPhone(seriaIndex), _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+                return;
+            
+            case PhoneNode phoneNode:
+                phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex),
+                    _phoneProvider.GetContactsAddToPhone(seriaIndex),
+                    _levelUIProvider.PhoneUIHandler,
+                    _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
+                return;
+            
+            case ChangeStatsNode changeStatsNode:
+                changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler,
+                    seriaIndex);
+                return;
         }
-        if (node is NarrativeNode narrativeNode)
+    }
+    public void TryInitPhoneMessagesNode(Node node, int seriaIndex)
+    {
+        if (node is BaseNode baseNode)
         {
-            narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
-            return;
-        }
-        if (node is NotificationNode notificationNode)
-        {
-            notificationNode.ConstructMyNotificationNode(_levelUIProvider.NotificationPanelUIHandler);
-            return;
-        }
-        if (node is SmoothTransitionNode smoothTransitionNode)
-        {
-            smoothTransitionNode.ConstructMySmoothTransitionNode(_levelUIProvider.CurtainUIHandler);
-            return;
-        }
-        if (node is BackgroundNode backgroundNode)
-        {
-            backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
-            return;
-        }
-        if (node is SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode)
-        {
-            switchToAnotherNodeGraphNode.ConstructSwitchToAnotherNodeGraphNode(SwitchToAnotherNodeGraphEvent);
-            return;
-        }
-        if (node is MergerNode mergerNode)
-        {
-            mergerNode.ConstructMyMergerNode();
-            return;
-        }
-        if (node is SoundNode soundNode)
-        {
-            soundNode.ConstructMySoundNode(_sound);
-            return;
-        }
-        if (node is ChoiceNode choiceNode)
-        {
-            choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
-                _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
-            return;
-        }
-        if (node is CustomizationNode customizationNode)
-        {
-            customizationNode.ConstructMyCustomizationNode(
-                _levelUIProvider.CustomizationCharacterPanelUIHandler,
-                _levelUIProvider.CustomizationCurtainUIHandler,
-                _characterProvider.GetCustomizationCharacters(seriaIndex),
-                _background, _sound,
-                _gameStatsProvider,
-                _wallet, _wardrobeCharacterViewer, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
-            return;
-        }
-        if (node is SwitchNode switchNode)
-        {
-            switchNode.ConstructMySwitchNode(_gameStatsProvider, seriaIndex);
-            return;
-        }
-        if (node is AddSpriteNodeToBackground addSpriteNodeToBackground)
-        {
-            addSpriteNodeToBackground.ConstructMyAddSpriteNode(_background);
-            return;
-        }
-        if (node is HeaderNode handlerNode)
-        {
-            handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
-                _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
-            return;
-        }
-        if (node is CharacterColorByBackgroundNode characterColorByBackgroundNode)
-        {
-            characterColorByBackgroundNode.Construct(_characterViewer);
-            return;
-        }
-        if (node is SwitchToNextSeriaNode switchToNextSeriaNode)
-        {
-            switchToNextSeriaNode.Construct(SwitchToNextSeriaEvent);
-            return;
-        }
-        if (node is ShowArtNode showImageNode)
-        {
-            showImageNode.Construct(_background);
-            return;
+            baseNode.ConstructBaseNode(null, null, null, SetLocalizationChangeEvent);
         }
 
-        if (node is AddContactToPhoneNode addContactToPhoneNode)
+        switch (node)
         {
-            addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex),
-                _phoneProvider.GetContactsAddToPhone(seriaIndex), _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
-            return;
-        }
-        if (node is PhoneNode phoneNode)
-        {
-            phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex), _phoneProvider.GetContactsAddToPhone(seriaIndex),
-                _levelUIProvider.PhoneUIHandler,
-                _levelUIProvider.CustomizationCurtainUIHandler);
-            return;
-        }
-
-        if (node is ChangeStatsNode changeStatsNode)
-        {
-            changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+            case ChoicePhoneNode choicePhoneNode:
+                choicePhoneNode.ConstructMyChoicePhoneNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
+                    _levelUIProvider.NotificationPanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
+                return;
+            
+            case PhoneSwitchNode phoneSwitchNode:
+                phoneSwitchNode.ConstructMyPhoneSwitchNode(_gameStatsProvider, seriaIndex);
+                return;
+            
+            case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
+                phoneNarrativeMessageNode.ConstructMyPhoneNarrativeNode(_levelUIProvider.NarrativePanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler);
+                return;
         }
     }
 }

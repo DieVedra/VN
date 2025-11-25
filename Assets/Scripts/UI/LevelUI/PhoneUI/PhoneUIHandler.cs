@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PhoneUIHandler : ILocalizable
 {
+    public const int PhoneSiblingIndex = 5;
     private const float _scale = 1f;
     private const float _left = 439f;
     private const float _top = -1010f;
@@ -29,6 +30,8 @@ public class PhoneUIHandler : ILocalizable
     private Phone _currentPhone;
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
+    private NodeGraphInitializer _nodeGraphInitializer;
+    private int _seriaIndex;
     public PhoneTime PhoneTime => _phoneTime;
     public PhoneUIHandler(PhoneContentProvider phoneContentProvider, NarrativePanelUIHandler narrativePanelUI,
         CustomizationCurtainUIHandler curtainUIHandler, CompositeDisposable compositeDisposable, Action initOperation)
@@ -46,8 +49,9 @@ public class PhoneUIHandler : ILocalizable
         return new[] {_notificationNameLocalizationString};
     }
 
-    public void Init(PhoneUIView phoneUIView)
+    public void Init(PhoneUIView phoneUIView, NodeGraphInitializer nodeGraphInitializer)
     {
+        _nodeGraphInitializer = nodeGraphInitializer;
         _switchToContactsScreenCommand.Subscribe(_=>
         {
             SetContactsScreenBackgroundFromAnotherScreen();
@@ -76,7 +80,7 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform, GetOnlineStatus);
-        var messagesShower = new MessagesShower(_curtainUIHandler, _narrativePanelUI, phoneUIView.transform.GetSiblingIndex());
+        var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton , _curtainUIHandler, _narrativePanelUI, phoneUIView.transform.GetSiblingIndex());
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
@@ -100,7 +104,7 @@ public class PhoneUIHandler : ILocalizable
     }
     public void ConstructFromNode(IReadOnlyDictionary<string, ContactInfoToGame> contactsInfoToGame,
         Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        bool playModeKey, int butteryPercent, int startHour, int startMinute)
+        bool playModeKey, int seriaIndex, int butteryPercent, int startHour, int startMinute)
     {
         _initOperation?.Invoke();
         _initOperation = null;
@@ -108,6 +112,7 @@ public class PhoneUIHandler : ILocalizable
         _currentPhone = phone;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _switchToNextNodeEvent = switchToNextNodeEvent;
+        _seriaIndex = seriaIndex;
         TryStartPhoneTime(startHour, startMinute, playModeKey);
         _topPanelHandler.Init(_phoneTime, playModeKey, butteryPercent);
         _phoneUIGameObject.SetActive(true);
@@ -132,13 +137,13 @@ public class PhoneUIHandler : ILocalizable
         DisableScreens();
         PhoneContactDataLocalizable contact =
             _currentPhone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
-        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
+        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, _nodeGraphInitializer, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key), _seriaIndex);
     }
 
     private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContactDataLocalizable contact)
     {
         DisableScreens();
-        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key));
+        _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, _nodeGraphInitializer, SetOnlineStatus, GetOnlineStatus(contact.NameContact.Key), _seriaIndex);
     }
 
     private void SetContactsScreenBackgroundFromAnotherScreen()
