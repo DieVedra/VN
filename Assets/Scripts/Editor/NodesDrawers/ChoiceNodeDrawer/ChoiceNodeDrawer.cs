@@ -10,11 +10,12 @@ using XNodeEditor;
 public class ChoiceNodeDrawer : NodeEditor
 {
     private const string _namePort = "Port";
+    protected object NodeForCallMethods;
     private ChoiceNode _choiceNode;
     private LineDrawer _lineDrawer;
     private SerializedProperty _showOutputProperty;
     private SerializedProperty _timerPortIndexProperty;
-    
+
     private SerializedProperty _addTimerProperty;
     private SerializedProperty _timerValueProperty;
     private SerializedProperty _choiceCasesProperty;
@@ -36,6 +37,15 @@ public class ChoiceNodeDrawer : NodeEditor
             _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
             _showOutputProperty = serializedObject.FindProperty("_showOutput");
             _choiceCasesProperty = serializedObject.FindProperty("_choiceCases");
+
+            if (NodeForCallMethods == null)
+            {
+                NodeForCallMethods = _choiceNode;
+            }
+            Type type = typeof(ChoiceNode);
+            _privateMethod = type.GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
+            _addCase = type.GetMethod("AddCase", BindingFlags.NonPublic | BindingFlags.Instance);
+            _removeCase = type.GetMethod("RemoveCase", BindingFlags.NonPublic | BindingFlags.Instance);
             CreatePortIndexes();
         }
         else
@@ -83,24 +93,19 @@ public class ChoiceNodeDrawer : NodeEditor
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
-        
-                if (_privateMethod == null)
-                {
-                    _privateMethod = _choiceNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
-                }
-                _privateMethod?.Invoke(_choiceNode, null);
+                CallMethodSetInfoToView();
             }
             EditorGUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Add Case"))
             {
-                CallMethod(ref _addCase, "AddCase");
+                CallMethodAddCase();
                 CreatePortIndexes();
             }
 
             if (GUILayout.Button("Remove Case"))
             {
-                CallMethod(ref _removeCase, "RemoveCase");
+                CallMethodRemoveCase();
                 CreatePortIndexes();
             }
             EditorGUILayout.EndHorizontal();
@@ -192,12 +197,17 @@ public class ChoiceNodeDrawer : NodeEditor
         }
         EditorGUILayout.EndHorizontal();
     }
-    private void CallMethod(ref MethodInfo methodInfo, string name)
+
+    private void CallMethodAddCase()
     {
-        if (methodInfo == null)
-        {
-            methodInfo = _choiceNode.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
-        }
-        methodInfo?.Invoke(_choiceNode, null);
+        _addCase.Invoke(NodeForCallMethods, null);
+    }
+    private void CallMethodRemoveCase()
+    {
+        _removeCase.Invoke(NodeForCallMethods, null);
+    }
+    private void CallMethodSetInfoToView()
+    {
+        _privateMethod.Invoke(NodeForCallMethods, null);
     }
 }

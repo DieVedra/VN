@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using XNode;
 
 public class NodeGraphInitializer
 {
@@ -57,14 +56,6 @@ public class NodeGraphInitializer
     {
         node.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
         TryInit(node, seriaIndex);
-    }
-    public void InitOneNode(Node node, int seriaIndex)
-    {
-        if (node is BaseNode baseNode)
-        {
-            baseNode.ConstructBaseNode(_levelUIProvider.ButtonSwitchSlideUIHandler, SwitchToNextNodeEvent, DisableNodesContentEvent, SetLocalizationChangeEvent);
-            TryInit(baseNode, seriaIndex);
-        }
     }
     private void TryInit(BaseNode node, int seriaIndex)
     {
@@ -163,29 +154,6 @@ public class NodeGraphInitializer
             case ChangeStatsNode changeStatsNode:
                 changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler,
                     seriaIndex);
-                return;
-        }
-    }
-    public void TryInitPhoneMessagesNode(Node node, int seriaIndex)
-    {
-        if (node is BaseNode baseNode)
-        {
-            baseNode.ConstructBaseNode(null, null, null, SetLocalizationChangeEvent);
-        }
-
-        switch (node)
-        {
-            case ChoicePhoneNode choicePhoneNode:
-                choicePhoneNode.ConstructMyChoicePhoneNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
-                    _levelUIProvider.NotificationPanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
-                return;
-            
-            case PhoneSwitchNode phoneSwitchNode:
-                phoneSwitchNode.ConstructMyPhoneSwitchNode(_gameStatsProvider, seriaIndex);
-                return;
-            
-            case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
-                phoneNarrativeMessageNode.ConstructMyPhoneNarrativeNode(_levelUIProvider.NarrativePanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler);
                 return;
         }
     }

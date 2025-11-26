@@ -27,10 +27,6 @@ public class ChoicePhoneNode : ChoiceNode
         if (IsPlayMode() == false)
         {
             ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
-            DisableNodesContentEvent.Subscribe(() =>
-            {
-                ChoicePanelUIHandler.HideChoiceVariants();
-            });
         }
     }
     public override async UniTask Enter(bool isMerged = false)

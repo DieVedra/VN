@@ -85,10 +85,13 @@ public class LocalizationCreator : ScriptableObject
         int count2;
         seriaStrings.Add(new LocalizationString(phoneContactData.NikName));
         seriaStrings.Add(new LocalizationString(phoneContactData.Name));
-        count2 = phoneContactData.PhoneMessages.Count;
+        count2 = phoneContactData.PhoneMessagesGraph.nodes.Count;
         for (int k = 0; k < count2; k++)
         {
-            seriaStrings.Add(phoneContactData.PhoneMessages[k].Text);
+            if (phoneContactData.PhoneMessagesGraph.nodes[k] is ILocalizable localizable)
+            {
+                seriaStrings.AddRange(localizable.GetLocalizableContent());
+            }
         }
     }
 

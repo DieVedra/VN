@@ -29,6 +29,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private const int _currentStoryIndex = 0;
     private LevelUIProviderEditMode _levelUIProviderEditMode;
+    private PhoneMessagesGraphInitializer _phoneMessagesGraphInitializer;
     private SaveData _saveData;
     private ICharacterProvider _characterProvider => _characterProviderEditMode.CharacterProvider;
     public bool IsInitializing { get; private set; }
@@ -101,7 +102,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground();
         _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider);
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider,_backgroundEditMode, _levelUIProviderEditMode,
+        _phoneMessagesGraphInitializer = new PhoneMessagesGraphInitializer(_seriaGameStatsProviderEditor, _levelUIProviderEditMode, new SetLocalizationChangeEvent());
+        _phoneMessagesGraphInitializer.InitMessagesGraphs(_phoneProviderInEditMode.DataProviders, _phoneProviderInEditMode.ContactsToSeriaProviders);
+        
+        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
 

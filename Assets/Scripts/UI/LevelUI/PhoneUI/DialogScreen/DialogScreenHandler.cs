@@ -62,7 +62,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph(nodeGraphInitializer, seriaIndex);
+        _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph();
         _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {

@@ -10,7 +10,7 @@ public class PhoneContactCombiner
             var contactDataLocalizable = new PhoneContactDataLocalizable(
                 phoneContactDatas[i].Name, phoneContactDatas[i].NikName, phoneContactDatas[i].Icon, phoneContactDatas[i].Color,  phoneContactDatas[i].IsEmptyIconKey);
             
-            contactDataLocalizable.AddMessages(phoneContactDatas[i].PhoneMessages, keyMessagesReadedBySeria);
+            // contactDataLocalizable.AddMessages(phoneContactDatas[i].PhoneMessages, keyMessagesReadedBySeria);
             
             contactDataLocalizables.Add(contactDataLocalizable);
         }
@@ -28,7 +28,7 @@ public class PhoneContactCombiner
             {
                 toContactDatas.Add(key, new PhoneContactDataLocalizable(fromPhoneContactDatas[i].Name, fromPhoneContactDatas[i].NikName,
                     fromPhoneContactDatas[i].Icon, fromPhoneContactDatas[i].Color, fromPhoneContactDatas[i].IsEmptyIconKey, true));
-                toContactDatas[key].AddMessages(fromPhoneContactDatas[i].PhoneMessages);
+                // toContactDatas[key].AddMessages(fromPhoneContactDatas[i].PhoneMessages);
             }
         }
     }

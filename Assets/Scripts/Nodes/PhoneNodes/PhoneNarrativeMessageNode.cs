@@ -40,11 +40,13 @@ public class PhoneNarrativeMessageNode : NarrativeNode
             NarrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token));
     }
 
+#if UNITY_EDITOR
     protected override void SetInfoToView()
     {
-        NarrativePanelUI.NarrativeInEditMode(_localizationText);
-        
+        Debug.Log($"{_localizationText}");
     }
+#endif
+
     private void TryFindConnectedPhoneMessageNode(NodePort outputPort)
     {
         for (int i = 0; i < outputPort.GetConnections().Count; i++)

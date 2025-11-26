@@ -12,10 +12,12 @@ public class PhoneMessageNode : BaseNode, ILocalizable
 
     public bool IsReaded;
 
+#if UNITY_EDITOR
     protected override void SetInfoToView()
     {
-        
+        Debug.Log($"{_localizationString}");
     }
+#endif
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {

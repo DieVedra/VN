@@ -8,15 +8,15 @@ public class PhoneMessagesGraph : NodeGraph, ILocalizable
 {
 	private Node _nextNode;
 	public bool MessagesIsOut { get; private set; }
-	public void InitPhoneMessagesGraph(NodeGraphInitializer nodeGraphInitializer, int seriaIndex)
+	public void InitPhoneMessagesGraph()
 	{
 		MessagesIsOut = false;
 		for (int i = 0; i < nodes.Count; i++)
 		{
-			nodeGraphInitializer.TryInitPhoneMessagesNode(nodes[i], seriaIndex);
 			if (nodes[i] is StartNode startNode)
 			{
 				_nextNode = startNode.OutputPortBaseNode.Connection.node;
+				break;
 			}
 		}
 	}
@@ -87,18 +87,4 @@ public class PhoneMessagesGraph : NodeGraph, ILocalizable
 	{
 		return new PhoneMessageLocalization(phoneMessageNode.GetLocalizationString, phoneMessageNode.Type);
 	}
-	// private Node TryFindConnectedPhoneMessageNode(NodePort outputPort)
-	// {
-	// 	Node node = null;
-	// 	for (int i = 0; i < outputPort.GetConnections().Count; i++)
-	// 	{
-	// 		if (outputPort.GetConnection(i).node is PhoneMessageNode phoneMessageNode)
-	// 		{
-	// 			node = phoneMessageNode;
-	// 			break;
-	// 		}
-	// 	}
-	//
-	// 	return node;
-	// }
 }

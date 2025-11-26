@@ -599,7 +599,9 @@
                 <e p="CharacterNodeDrawer.cs" t="Include" />
                 <e p="PopupDrawer.cs" t="Include" />
               </e>
-              <e p="ChoiceNodeDrawer.cs" t="Include" />
+              <e p="ChoiceNodeDrawer" t="Include">
+                <e p="ChoiceNodeDrawer.cs" t="Include" />
+              </e>
               <e p="CustomizationsCharacterNode" t="Include">
                 <e p="CustomizationNodeDrawer.cs" t="Include" />
               </e>
@@ -612,13 +614,18 @@
               <e p="PhoneMessageNodeDrawer.cs" t="Include" />
               <e p="PhoneNodeDrawer" t="Include">
                 <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
+                <e p="PhoneChoiceNodeDrawer.cs" t="Include" />
                 <e p="PhoneNodeDrawer.cs" t="Include" />
+                <e p="PhoneSwitchNodeDrawer.cs" t="Include" />
               </e>
               <e p="ShowArtNodeDrawer.cs" t="Include" />
               <e p="SmoothTransitionNodeDrawer.cs" t="Include" />
               <e p="SoundNodeDrawer.cs" t="Include" />
               <e p="StartNodeDrawer.cs" t="Include" />
-              <e p="SwitchNodeDrawer.cs" t="Include" />
+              <e p="SwitchNodeDrawer" t="Include">
+                <e p="SwitchNodeDrawer.cs" t="Include" />
+                <e p="SwitchNodeEditorLogic.cs" t="Include" />
+              </e>
               <e p="SwitchToAnotherNodeGraphNodeDrawer.cs" t="Include" />
               <e p="SwitchToNextSeriaNodeDrawer.cs" t="Include" />
               <e p="TextNodeDrawer.cs" t="Include" />
@@ -818,6 +825,7 @@
                   <e p="PhoneMessageType.cs" t="Include" />
                 </e>
                 <e p="PhoneMessagesGraph.cs" t="Include" />
+                <e p="PhoneMessagesGraphInitializer.cs" t="Include" />
                 <e p="PhoneProvider.cs" t="Include" />
                 <e p="PhoneProviderInBuildMode.cs" t="Include" />
                 <e p="PhoneProviderInEditMode.cs" t="Include" />

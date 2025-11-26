@@ -103,11 +103,11 @@ public class PhoneSaveHandler
     {
         if (key)
         {
-            contactDataLocalizable.AddMessages(phoneContactData.PhoneMessages, true);
+            // contactDataLocalizable.AddMessages(phoneContactData.PhoneMessages, true);
         }
         else
         {
-            contactDataLocalizable.AddMessages(phoneContactData.PhoneMessages, lastSeriaReadedMessagesIndexes);
+            // contactDataLocalizable.AddMessages(phoneContactData.PhoneMessages, lastSeriaReadedMessagesIndexes);
         }
     }
 

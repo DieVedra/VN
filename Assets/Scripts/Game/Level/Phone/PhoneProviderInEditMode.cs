@@ -14,6 +14,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     [SerializeField] private MessageView _outcomingMessagePrefab;
     [SerializeField] private NotificationView _notificationViewPrefab;
     [SerializeField] private List<ObjectsToDestroy> _views;
+    
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private List<Phone> _phones;
     private Dictionary<string, PhoneContactDataLocalizable> _contactsAddToPhone;
@@ -25,9 +26,9 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     private PhoneContentProvider _phoneContentProvider;
 
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
-
-
-    //придумать проверку если контакт был добавлен в телефон ранее то контакт будет дополнен датой текущей серии
+    
+    public IReadOnlyList<PhoneDataProvider> DataProviders => _dataProviders;
+    public IReadOnlyList<PhoneContactsProvider> ContactsToSeriaProviders => _contactsToSeriaProviders;
 
     public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
     {
@@ -55,9 +56,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
         return strings;
     }
 
-    //в лайтайме в эдитор режиме телефоны поставляются  в каждую серию отдельные со своим контентом
-
-    //в рантайме в эдитор режиме телефоны поставляются только в активную серию и их дата дополняется по мере перехода в след серии
     public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> contacts)
     {
         _saveContacts = contacts;
@@ -97,17 +95,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     //к каждой серии контакт должен идти без контента прошлых серий что бы при добавлении был без истории переписки
     public IReadOnlyList<PhoneContactDataLocalizable> GetContactsAddToPhone(int seriaIndex)
     {
-        // if (Application.isPlaying)
-        // {
-        //     
-        // }
-        // else
-        // {
-        //     for (int i = 0; i < _contactsToSeriaProviders.Count; i++)
-        //     {
-        //         _phoneContactCombiner.TryCreateAddebleContactsDataLocalizable(_contactsAddToPhone, _contactsToSeriaProviders[i].PhoneContactDatas);
-        //     }
-        // }
         for (int i = 0; i < _contactsToSeriaProviders.Count; i++)
         {
             _phoneContactCombiner.TryCreateAddebleContactsDataLocalizable(_contactsAddToPhone, _contactsToSeriaProviders[i].PhoneContactDatas);
@@ -147,15 +134,3 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
         [field: SerializeField] public GameObject Go;
     }
 }
-
-//глобальное хранилище контактов для каждой серии и у каждого персонажа с телефоном есть свои контакты
-//
-//при сохранении игры сохраняются ключи или индексы добавленных в телефон контактов
-//у каждого добавленного в телефон контакта текущей серии сохраняются ключи "прочитано" прочитанные сохраняются 
-//
-//из глобального хранилища можно выбрать контакт который можно добавить в конкретный телефон по ходу сюжета
-
-//телефон создается если в серии есть ноды телефона или есть контент для телефона 
-//
-//телефон включается нодой в которой можно выбрать экран
-//при добавлении контакта срабатывает нода оповещения
