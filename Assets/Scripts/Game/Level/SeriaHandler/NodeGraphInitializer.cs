@@ -141,12 +141,12 @@ public class NodeGraphInitializer
             
             case AddContactToPhoneNode addContactToPhoneNode:
                 addContactToPhoneNode.ConstructMyAddContactToPhoneNode(_phoneProvider.GetPhones(seriaIndex),
-                    _phoneProvider.GetContactsAddToPhone(seriaIndex), _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+                    _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex), _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
                 return;
             
             case PhoneNode phoneNode:
                 phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex),
-                    _phoneProvider.GetContactsAddToPhone(seriaIndex),
+                    // _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex),
                     _levelUIProvider.PhoneUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
                 return;

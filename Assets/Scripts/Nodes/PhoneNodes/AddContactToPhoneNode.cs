@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -11,6 +12,10 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _contactIndex;
     [SerializeField] private bool _addContact;
     [SerializeField] private bool _showNotificationKey;
+
+
+    [SerializeField] private List<Phone> _phones;
+    [SerializeField] private List<PhoneContact> _contacts;
     private const string _notificationTextPart = " в контактах";
     private LocalizationString _localizationString;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
@@ -18,12 +23,14 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
     private int _currentSeria;
     public IReadOnlyList<Phone> Phones { get; private set; }
 
-    public IReadOnlyList<PhoneContactDataLocalizable> Contacts { get; private set; }
+    public IReadOnlyList<PhoneContact> Contacts { get; private set; }
 
     
-    public void ConstructMyAddContactToPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts,
+    public void ConstructMyAddContactToPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contacts,
         NotificationPanelUIHandler notificationPanelUIHandler, int currentSeria)
     {
+        _phones = phones.ToList();
+        _contacts = contacts.ToList();
         _notificationPanelUIHandler = notificationPanelUIHandler;
         Phones = phones;
         Contacts = contacts;
@@ -40,7 +47,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         if (_addContact == true)
         {
-            Phones[_phoneIndex].AddPhoneData(_currentSeria, Contacts[_contactIndex]);
+            Phones[_phoneIndex].AddContact(Contacts[_contactIndex]);
             if (_showNotificationKey)
             {
                 _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(
@@ -59,6 +66,6 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
 
     private string GetText()
     {
-        return $"{Contacts[_contactIndex].NikNameContact}{_localizationString}";
+        return $"{Contacts[_contactIndex].NameLocalizationString}{_localizationString}";
     }
 }

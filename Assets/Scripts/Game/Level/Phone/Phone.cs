@@ -1,32 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
+using UnityEngine;
 
 [Serializable]
 public class Phone
 {
-    private const int _defaultIndexSeriaInWhichContactWasAdded = -1;
-    public int LastSeriaIndex { get; private set; }
-    public PhoneDataLocalizable PhoneDataLocalizable { get; private set; }
-    public string NamePhone { get; private set; }
-    public Phone(PhoneDataLocalizable phoneDataLocalizable, string namePhone, int lastSeriaIndex)
+    [field: SerializeField] public LocalizationString NamePhone;
+    [field: SerializeField] public Sprite PhoneFrame { get; private set; }
+    [field: SerializeField] public Sprite Background { get; private set; }
+    
+    [SerializeField] private Sprite[] _hands;
+    private List<PhoneContact> _phoneContactDatas;
+    
+    private IReadOnlyList<Sprite> Hands => _hands;
+    private IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
+    public void AddContact(params PhoneContact[] contacts)
     {
-        LastSeriaIndex = lastSeriaIndex;
-        PhoneDataLocalizable = phoneDataLocalizable;
-        NamePhone = namePhone;
-    }
-
-    public void AddPhoneData(int seriaIndex, params PhoneContactDataLocalizable[] phoneContactDataLocalizable)
-    {
-        AddPhoneData(phoneContactDataLocalizable, seriaIndex, false);
-    }
-
-    public void AddPhoneData(IReadOnlyList<PhoneContactDataLocalizable> contactDataLocalizables, int seriaIndex, bool isIntergatedInPhoneData)
-    {
-        Dictionary<string, PhoneContactDataLocalizable> dictionary;
-        if (PhoneDataLocalizable.AddContactData(out dictionary, contactDataLocalizables))
+        if (_phoneContactDatas == null)
         {
-            PhoneDataLocalizable.AddPhoneContacts(dictionary, isIntergatedInPhoneData == true ? _defaultIndexSeriaInWhichContactWasAdded : seriaIndex);
+            _phoneContactDatas = new List<PhoneContact>();
         }
-        LastSeriaIndex = seriaIndex;
+        _phoneContactDatas.AddRange(contacts);
     }
 }

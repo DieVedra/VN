@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
     private readonly ContactsShower _contactsShower;
-    private readonly ReactiveCommand<PhoneContactDataLocalizable> _switchToDialogScreenCommand;
+    private readonly ReactiveCommand<PhoneContact> _switchToDialogScreenCommand;
     private readonly PoolBase<ContactView> _contactsPool;
     private LocalizationString _textFindLS = "Люди, группы, сообщения";
     private LocalizationString _textCallsLS = "Звонки";
@@ -27,7 +27,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
     public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
-        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
+        ReactiveCommand<PhoneContact> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
             contactsScreenViewBackground.ColorTopPanel)
     {
@@ -41,7 +41,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textContacts = contactsScreenViewBackground.TextContacts;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
-    public void Enable(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
+    public void Enable(IReadOnlyList<PhoneContact> phoneContactDatasLocalizable,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
         _buttonExitCanvasGroup.alpha = AlphaMin;
@@ -51,7 +51,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
+        // _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
     }
     public override void Disable()
     {

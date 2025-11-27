@@ -130,14 +130,14 @@ public class PhoneNodeDrawer : NodeEditor
     {
         if (_phoneNode.Phones != null && _phoneNode.Phones.Count > 0)
         {
-            if (_phoneNode.PhoneContactDatasLocalizable != null && _phoneNode.PhoneContactDatasLocalizable.Count > 0)
-            { 
-                _characterNames = new string[_phoneNode.PhoneContactDatasLocalizable.Count];
-                for (int i = 0; i < _phoneNode.PhoneContactDatasLocalizable.Count; i++)
-                {
-                    _characterNames[i] = _phoneNode.PhoneContactDatasLocalizable[i].NameContact;
-                }
-            }
+            // if (_phoneNode.PhoneContactDatasLocalizable != null && _phoneNode.PhoneContactDatasLocalizable.Count > 0)
+            // { 
+            //     _characterNames = new string[_phoneNode.PhoneContactDatasLocalizable.Count];
+            //     for (int i = 0; i < _phoneNode.PhoneContactDatasLocalizable.Count; i++)
+            //     {
+            //         _characterNames[i] = _phoneNode.PhoneContactDatasLocalizable[i].NameContact;
+            //     }
+            // }
         }
     }
     private void DrawVariants(SerializedProperty array, string label, string nameKey)

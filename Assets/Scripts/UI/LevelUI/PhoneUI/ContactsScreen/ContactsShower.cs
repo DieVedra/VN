@@ -14,7 +14,7 @@ public class ContactsShower
     private PoolBase<ContactView> _contactsPool;
     private CompositeDisposable _compositeDisposable;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private Func<PhoneContactDataLocalizable, string> _getFistLetter;
+    private Func<PhoneContact, string> _getFistLetter;
     private Action _activateExitButton;
     private bool _newMessagesNotFound;
     public ContactsShower(VerticalLayoutGroup verticalLayoutGroup, ContentSizeFitter contentSizeFitter, RectTransform contactsTransform, Predicate<string> getOnlineStatus)
@@ -25,10 +25,10 @@ public class ContactsShower
         _getOnlineStatus = getOnlineStatus;
     }
 
-    public void Init(IReadOnlyList<PhoneContactDataLocalizable> phoneContactDatasLocalizable,
+    public void Init(IReadOnlyList<PhoneContact> phoneContactDatasLocalizable,
         PoolBase<ContactView> contactsPool, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand,
-        Func<PhoneContactDataLocalizable, string> getFistLetter, Action activateExitButton)
+        ReactiveCommand<PhoneContact> switchToDialogScreenCommand,
+        Func<PhoneContact, string> getFistLetter, Action activateExitButton)
     {
         _getFistLetter = getFistLetter;
         _activateExitButton = activateExitButton;
@@ -40,7 +40,7 @@ public class ContactsShower
         _newMessagesNotFound = true;
         for (int i = 0; i < phoneContactDatasLocalizable.Count; i++)
         {
-            CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
+            // CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
         }
         if (_newMessagesNotFound == true)
         {
@@ -59,45 +59,45 @@ public class ContactsShower
         _compositeDisposable?.Clear();
         _contactsPool?.ReturnAll();
     }
-    private void CreateContact(PhoneContactDataLocalizable contactDataLocalizable, ReactiveCommand<PhoneContactDataLocalizable> switchToDialogScreenCommand)
+    private void CreateContact(PhoneContact contactDataLocalizable, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
     {
         var view = _contactsPool.Get();
         view.transform.SetParent(_contactsTransform);
-        TrySetIcon(contactDataLocalizable, view.TextIcon, view.Image);
-        view.TextName.text = contactDataLocalizable.NikNameContact;
-        _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
-        {
-            view.TextName.text = contactDataLocalizable.NikNameContact;
-        }, _compositeDisposable);
-        SetOnlineStatus(contactDataLocalizable, view);
-        TryIndicateNewMessages(contactDataLocalizable.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
-        view.ContactButton.onClick.AddListener(() =>
-        {
-            UnsubscribeAllButtons();
-            switchToDialogScreenCommand.Execute(contactDataLocalizable);
-        });
-        view.gameObject.SetActive(true);
+        // TrySetIcon(contactDataLocalizable, view.TextIcon, view.Image);
+        // view.TextName.text = contactDataLocalizable.NikNameContact;
+        // _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
+        // {
+        //     view.TextName.text = contactDataLocalizable.NikNameContact;
+        // }, _compositeDisposable);
+        // SetOnlineStatus(contactDataLocalizable, view);
+        // TryIndicateNewMessages(contactDataLocalizable.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
+        // view.ContactButton.onClick.AddListener(() =>
+        // {
+        //     UnsubscribeAllButtons();
+        //     switchToDialogScreenCommand.Execute(contactDataLocalizable);
+        // });
+        // view.gameObject.SetActive(true);
     }
 
-    private void SetOnlineStatus(PhoneContactDataLocalizable contactDataLocalizable, ContactView view)
+    private void SetOnlineStatus(PhoneContact contactDataLocalizable, ContactView view)
     {
-        if (_getOnlineStatus.Invoke(contactDataLocalizable.NameContact.Key))
-        {
-            view.OnlineStatusImage.gameObject.SetActive(true);
-        }
-        else
-        {
-            view.OnlineStatusImage.gameObject.SetActive(false);
-        }
+        // if (_getOnlineStatus.Invoke(contactDataLocalizable.NameContact.Key))
+        // {
+        //     view.OnlineStatusImage.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     view.OnlineStatusImage.gameObject.SetActive(false);
+        // }
     }
 
 
-    private void TrySetIcon(PhoneContactDataLocalizable contactDataLocalizable, TextMeshProUGUI textComponent, Image image)
+    private void TrySetIcon(PhoneContact contactDataLocalizable, TextMeshProUGUI textComponent, Image image)
     {
         if (contactDataLocalizable.IsEmptyIconKey == true)
         {
             textComponent.text = _getFistLetter.Invoke(contactDataLocalizable);
-            image.color = contactDataLocalizable.ColorIcon;
+            // image.color = contactDataLocalizable.ColorIcon;
             textComponent.gameObject.SetActive(true);
         }
         else

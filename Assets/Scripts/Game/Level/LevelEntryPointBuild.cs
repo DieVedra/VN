@@ -171,7 +171,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.Contacts.Clear();
-            StoryData.Contacts.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData());
+            // StoryData.Contacts.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData());
             if (_levelUIProviderBuildMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
             {
                 StoryData.CurrentPhoneMinute = _levelUIProviderBuildMode.PhoneUIHandler.PhoneTime.CurrentMinute;

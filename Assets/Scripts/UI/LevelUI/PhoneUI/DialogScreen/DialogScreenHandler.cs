@@ -26,7 +26,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
     private readonly MessagesShower _messagesShower;
-    private PhoneContactDataLocalizable _currentContact;
+    private PhoneContact _currentContact;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -48,11 +48,11 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContactDataLocalizable contact, SetLocalizationChangeEvent setLocalizationChangeEvent, NodeGraphInitializer nodeGraphInitializer,
+    public void Enable(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent, NodeGraphInitializer nodeGraphInitializer,
         Action<string, bool> setOnlineStatus, bool characterOnlineKey, int seriaIndex)
     {
         _currentContact = contact;
-        _contactNameLS = contact.NikNameContact;
+        // _contactNameLS = contact.NikNameContact;
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
@@ -62,13 +62,13 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph();
-        _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
-            () =>
-            {
-                setOnlineStatus.Invoke(contact.NameContact.Key, false);
-                SetOnlineKey(false);
-            }, ActivateBackButton, characterOnlineKey);
+        // _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph();
+        // _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+        //     () =>
+        //     {
+        //         setOnlineStatus.Invoke(contact.NameContact.Key, false);
+        //         SetOnlineKey(false);
+        //     }, ActivateBackButton, characterOnlineKey);
     }
 
     private void SetOnlineKey(bool characterOnlineKey)
@@ -88,7 +88,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactImage.sprite = _currentContact.Icon;
         if (_currentContact.IsEmptyIconKey == true)
         {
-            _contactImage.color = _currentContact.ColorIcon;
+            // _contactImage.color = _currentContact.ColorIcon;
             _iconText.text = GetFistLetter(_currentContact);
             _iconText.gameObject.SetActive(true);
         }

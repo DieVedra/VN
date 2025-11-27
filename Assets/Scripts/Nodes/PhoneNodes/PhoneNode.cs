@@ -1,17 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-
-
-//надо сделать что бы в сообщениях было возможность ветвления
-//перенести все сообщения в графы для удобного редактирования
-
-//переписки с мамой и мирандой достпны при любом исходе
-//переписка с эвином или марком доступна только одна взаимоисключающая
-//если есть их оба контакта то при нажатии на эдвина переписки с марком не должно быть
-//получается что надо добавить механику взаимоисключения сообщений контактов
 [NodeWidth(350),NodeTint("#07B715")]
 public class PhoneNode : BaseNode, ILocalizable
 {
@@ -23,23 +15,25 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private LocalizationString _date;
     [SerializeField] private int _startScreenCharacterIndex;
     [SerializeField] private List<ContactInfoToGame> _contactsInfoToGame;
+    [SerializeField] private List<Phone> _phones;
     private Dictionary<string, ContactInfoToGame> _contactsDictionary;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
     public IReadOnlyList<Phone> Phones { get; private set; }
-    public IReadOnlyList<PhoneContactDataLocalizable> Contacts { get; private set; }
-    public IReadOnlyList<PhoneContactDataLocalizable> PhoneContactDatasLocalizable =>
-        Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
-    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContactDataLocalizable> contacts,
+    public IReadOnlyList<PhoneContact> Contacts { get; private set; }
+    // public IReadOnlyList<PhoneContact> PhoneContactDatasLocalizable =>
+    //     Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones,/* IReadOnlyList<PhoneContact> contacts,*/
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
     {
+        _phones = phones.ToList();
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
-        Contacts = contacts;
+        // Contacts = contacts;
         _seriaIndex = seriaIndex;
-        CreateContactsToOnlineAndNotifications(contacts);
+        // CreateContactsToOnlineAndNotifications(contacts);
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -86,23 +80,23 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         return new[] {_date};
     }
-    private void CreateContactsToOnlineAndNotifications(IReadOnlyList<PhoneContactDataLocalizable> contacts)
+    private void CreateContactsToOnlineAndNotifications(IReadOnlyList<PhoneContact> contacts)
     {
         _contactsDictionary = new Dictionary<string, ContactInfoToGame>();
         for (int i = 0; i < contacts.Count; i++)
         {
-            TryAdd(contacts[i]);
+            // TryAdd(contacts[i]);
         }
         int count;
-        PhoneDataLocalizable dataLocalizable;
+        // PhoneDataLocalizable dataLocalizable;
         for (int i = 0; i < Phones.Count; i++)
         {
-            count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
-            dataLocalizable = Phones[i].PhoneDataLocalizable;
-            for (int j = 0; j < count; j++)
-            {
-                TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
-            }
+            // count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
+            // dataLocalizable = Phones[i].PhoneDataLocalizable;
+            // for (int j = 0; j < count; j++)
+            // {
+            //     // TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
+            // }
         }
         if (_contactsInfoToGame.Count > 0)
         {
@@ -113,18 +107,18 @@ public class PhoneNode : BaseNode, ILocalizable
             FillContactsInfoToGame();
         }
     }
-    private void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
-    {
-        if (_contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
-        {
-            _contactsDictionary.Add(
-                phoneContactDataLocalizable.NameContact.Key,
-                new ContactInfoToGame(
-                    phoneContactDataLocalizable.NameContact.Key,
-                    phoneContactDataLocalizable.NameContact.DefaultText,
-                    statusKey, notificationKey));
-        }
-    }
+    // private void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
+    // {
+    //     if (_contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
+    //     {
+    //         _contactsDictionary.Add(
+    //             phoneContactDataLocalizable.NameContact.Key,
+    //             new ContactInfoToGame(
+    //                 phoneContactDataLocalizable.NameContact.Key,
+    //                 phoneContactDataLocalizable.NameContact.DefaultText,
+    //                 statusKey, notificationKey));
+    //     }
+    // }
     private void TransferringKeys()
     {
         ContactInfoToGame contact;

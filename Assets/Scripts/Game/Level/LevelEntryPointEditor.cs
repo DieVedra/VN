@@ -103,7 +103,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider);
         _phoneMessagesGraphInitializer = new PhoneMessagesGraphInitializer(_seriaGameStatsProviderEditor, _levelUIProviderEditMode, new SetLocalizationChangeEvent());
-        _phoneMessagesGraphInitializer.InitMessagesGraphs(_phoneProviderInEditMode.DataProviders, _phoneProviderInEditMode.ContactsToSeriaProviders);
+        // _phoneMessagesGraphInitializer.InitMessagesGraphs(_phoneProviderInEditMode.DataProviders, _phoneProviderInEditMode.ContactsToSeriaProviders);
         
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
@@ -175,7 +175,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
             StoryData.Contacts.Clear();
-            StoryData.Contacts.AddRange(_phoneProviderInEditMode.GetSaveData());
+            // StoryData.Contacts.AddRange(_phoneProviderInEditMode.GetSaveData());
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
             if (_levelUIProviderEditMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
