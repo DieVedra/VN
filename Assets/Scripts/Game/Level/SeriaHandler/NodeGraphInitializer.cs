@@ -146,7 +146,7 @@ public class NodeGraphInitializer
             
             case PhoneNode phoneNode:
                 phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex),
-                    // _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex),
+                    _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex),
                     _levelUIProvider.PhoneUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
                 return;

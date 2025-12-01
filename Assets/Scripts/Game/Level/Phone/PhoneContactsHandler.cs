@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PhoneContactsHandler
 {
@@ -15,18 +16,27 @@ public class PhoneContactsHandler
 
     public void TryAddContacts(List<Phone> phones, int seriaIndex)
     {
-        if (_checkMathSeriaIndex.Check(seriaIndex))
-        {
-            AddContacts(phones);
-        }
+        Debug.Log($"TryAddContacts {_checkMathSeriaIndex.LastIndex}  {seriaIndex}");
+        // if (_checkMathSeriaIndex.Check(seriaIndex))
+        // {
+        //     Debug.Log($"TryAddContacts ++");
+        // }
+
+        AddContacts(phones);
     }
 
     public void TryCollectAllContactsBySeriaIndexOfRange(int seriaIndex)
     {
+        Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange: {seriaIndex} ");
+
         if (_checkMathSeriaIndex.Check(seriaIndex))
         {
+            Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange ++: {_dictionary.Count} ");
+
             CollectAllContactsBySeriaIndex(seriaIndex, CheckingOfRange);
         }
+        Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange +++: {_dictionary.Count} ");
+
     }
     public void TryCollectAllContactsBySeriaIndexOfMath(int seriaIndex)
     {
@@ -55,6 +65,16 @@ public class PhoneContactsHandler
         }
     }
     
+    public List<PhoneContact> GetAllContactsToPhoneNode()
+    {
+        List<PhoneContact> contacts = new List<PhoneContact>();
+        foreach (var pair in _dictionary)
+        {
+            contacts.Add(pair.Value);
+        }
+        
+        return contacts;
+    }
     public List<PhoneContact> GetContactsAddebleToPhoneBySeriaIndexInPlot(int seriaIndex)
     {
         List<PhoneContact> contacts = new List<PhoneContact>();
@@ -68,15 +88,17 @@ public class PhoneContactsHandler
         
         return contacts;
     }
-
     private void AddContacts(List<Phone> phones)
     {
         Phone phone;
         PhoneContact phoneContact;
         for (int i = 0; i < phones.Count; i++)
         {
+            Debug.Log($"phoneContacts: {phones[i].PhoneContactDatas.Count}    _dictionary {_dictionary.Count} ");
+
             foreach (var pair in _dictionary)
             {
+                Debug.Log($"pair {pair.Value.NameLocalizationString}   ");
                 phone = phones[i];
                 phoneContact = pair.Value;
                 if (phoneContact.ToPhoneKey == phone.NamePhone.Key && phoneContact.AddInPlot == false)

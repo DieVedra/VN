@@ -7,6 +7,7 @@ using UnityEngine;
 [NodeWidth(350),NodeTint("#07B715")]
 public class PhoneNode : BaseNode, ILocalizable
 {
+    [SerializeField] private List<PhoneNodeCase> _phoneNodeCases;
     [SerializeField] private int _phoneIndex;
     [SerializeField] private PhoneBackgroundScreen _phoneStartScreen;
     [SerializeField] private int _butteryPercent;
@@ -16,15 +17,22 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startScreenCharacterIndex;
     [SerializeField] private List<ContactInfoToGame> _contactsInfoToGame;
     [SerializeField] private List<Phone> _phones;
+    // [SerializeField] private List<PhoneContact> _allContactsCurrentPhone;
+    
+    private IReadOnlyList<PhoneContact> _allContacts;
+
+
     private Dictionary<string, ContactInfoToGame> _contactsDictionary;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
     public IReadOnlyList<Phone> Phones { get; private set; }
     public IReadOnlyList<PhoneContact> Contacts { get; private set; }
+    public Phone CurrentPhone => _phones[_phoneIndex];
+    public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
     // public IReadOnlyList<PhoneContact> PhoneContactDatasLocalizable =>
     //     Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
-    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones,/* IReadOnlyList<PhoneContact> contacts,*/
+    public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> allContacts,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
     {
         _phones = phones.ToList();
@@ -34,6 +42,12 @@ public class PhoneNode : BaseNode, ILocalizable
         // Contacts = contacts;
         _seriaIndex = seriaIndex;
         // CreateContactsToOnlineAndNotifications(contacts);
+        // AllContactsCurrentPhone = allContacts;
+        _allContacts = allContacts;
+        
+        
+        
+        
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -152,5 +166,38 @@ public class PhoneNode : BaseNode, ILocalizable
         {
             _contactsInfoToGame = new List<ContactInfoToGame>();
         }
+    }
+
+    public void AddCase(int index)
+    {
+        PhoneContact contact = _allContacts[index];
+        for (int i = 0; i < _phoneNodeCases.Count; i++)
+        {
+            if (_phoneNodeCases[i].ContactKey == contact.NameLocalizationString.Key)
+            {
+                return;
+            }
+        }
+        PhoneNodeCase phoneNodeCase = new PhoneNodeCase(contact.NameLocalizationString.Key,
+            contact.NameLocalizationString.DefaultText, $"Port {DynamicOutputs.Count()}", index);
+        _phoneNodeCases.Add(phoneNodeCase);
+        
+        AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: phoneNodeCase.PortName);
+        // EditorUtility.SetDirty(this);
+    }
+    public void RemoveCase(string key)
+    {
+        for (int i = 0; i < _phoneNodeCases.Count; i++)
+        {
+            if (_phoneNodeCases[i].ContactKey == key)
+            {
+                RemoveDynamicPort(_phoneNodeCases[i].PortName);
+                _phoneNodeCases.RemoveAt(i);
+            }
+        }
+    }
+    public void Removepo()
+    {
+        RemoveDynamicPort($"Port {DynamicOutputs.Count() - 1}");
     }
 }

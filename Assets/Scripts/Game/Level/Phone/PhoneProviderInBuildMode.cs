@@ -107,6 +107,12 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         // }
         return _contactsAddToPhone.Select(x=>x.Value).ToList();
     }
+
+    public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
+    {
+        throw new NotImplementedException();
+    }
+
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
         _dataProviders.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);

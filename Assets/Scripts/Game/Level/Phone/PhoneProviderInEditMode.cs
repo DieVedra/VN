@@ -4,6 +4,11 @@ using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
+//
+//
+//
+//
+//
 public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizable
 {
     [SerializeField, Expandable] private List<PhoneProvider> _phoneProviders;
@@ -92,10 +97,26 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
         }
         else
         {
+            Debug.Log($"+++++++++");
+
+            Debug.Log($"currentSeriaIndex {currentSeriaIndex}");
             _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(currentSeriaIndex); // группировка контактов
             var phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex, false); // создание телефонов
-            
-            _phoneContactsHandler.TryAddContacts(_phones, currentSeriaIndex);
+            Debug.Log($"phones {phones.Count}");
+            for (int i = 0; i < phones.Count; i++)
+            {
+                Debug.Log($"{phones[i]} contacts pre add  {phones[i].PhoneContactDatas.Count}");
+            }
+            _phoneContactsHandler.TryAddContacts(phones, currentSeriaIndex);
+            for (int i = 0; i < phones.Count; i++)
+            {
+                for (int j = 0; j < phones[i].PhoneContactDatas.Count; j++)
+                {
+                    Debug.Log($"contact aft add {phones[i].PhoneContactDatas[j].NameLocalizationString}   AddInPlot {phones[i].PhoneContactDatas[j].AddInPlot}");
+
+                }
+            }
+            Debug.Log($"--------------");
 
             // _phoneContactsHandler.FillPhonesContacts(_phones); //заполнение телефонов контактами которые должны быть не добавляемы из сюжета
             return phones;
@@ -112,6 +133,19 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
             _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(seriaIndex);
         }
         return _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
+    }
+
+    public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
+    {
+        if (Application.isPlaying)
+        {
+            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
+        }
+        else
+        {
+            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(seriaIndex);
+        }
+        return _phoneContactsHandler.GetAllContactsToPhoneNode();
     }
 
     private void TryDestroyOld()

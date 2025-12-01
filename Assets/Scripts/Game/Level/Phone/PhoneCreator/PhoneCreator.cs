@@ -42,7 +42,8 @@ public class PhoneCreator
                     phone = phoneProvider.Phone[j];
                     if (_phonesDictionary.ContainsKey(phone.NamePhone.Key) == false)
                     {
-                        _phonesDictionary.Add(phone.NamePhone.Key, phone);
+                        var newPhone = new Phone(phone.NamePhone, phone.Hands, phone.PhoneFrame, phone.Background);
+                        _phonesDictionary.Add(phone.NamePhone.Key, newPhone);
                     }
                 }
             }

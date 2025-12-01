@@ -1,17 +1,17 @@
 ﻿
 public class CheckMathSeriaIndex
 {
-    private int _lastIndex = -1;
+    public int LastIndex { get; private set; }= -1;
 
     public bool Check(int currentIndex)
     {
-        if (_lastIndex == currentIndex)
+        if (LastIndex == currentIndex)
         {
             return false;
         }
         else
         {
-            _lastIndex = currentIndex;
+            LastIndex = currentIndex;
             return true;
         }
     }
