@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using MyProject;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +13,6 @@ public class PhoneNodeDrawer : NodeEditor
     private PhoneNode _phoneNode;
     private LineDrawer _lineDrawer;
     private EnumPopupDrawer _enumPopupDrawer;
-    private ObjectProviderFromProperty _objectProviderFromProperty;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
@@ -21,15 +22,20 @@ public class PhoneNodeDrawer : NodeEditor
     private SerializedProperty _startMinuteSerializedProperty;
     private SerializedProperty _dateSerializedProperty;
     private SerializedProperty _butteryPercentSerializedProperty;
-    private SerializedProperty _startScreenCharacterIndexSerializedProperty;
+    // private SerializedProperty _startScreenCharacterIndexSerializedProperty;
     private SerializedProperty _contactsInfoToGameSerializedProperty;
     private SerializedProperty _phoneNodeCasesSerializedProperty;
-    private SerializedProperty _phonesSerializedProperty;
-    private SerializedProperty _sp;
-    private SerializedProperty _buferSP;
+    private SerializedProperty _notificationsInBlockScreenSerializedProperty;
+    private SerializedProperty _buferSP1;
+    private SerializedProperty _buferSP2;
+    private MethodInfo _removeAllCases;
+    private MethodInfo _addCase;
+    private MethodInfo _removeCase;
+    private PhoneContact _phoneContact;
     private Vector2 _posScrollView1;
     private Vector2 _posScrollView2;
     private int _indexContact;
+    private int _phonePreviousIndex;
     private bool _showStartInfo = false;
     private string[] _phonesNames;
     private string[] _characterNames;
@@ -39,33 +45,31 @@ public class PhoneNodeDrawer : NodeEditor
         if (_phoneNode == null)
         {
             _phoneNode = target as PhoneNode;
+            _lineDrawer = new LineDrawer();
+            _enumPopupDrawer = new EnumPopupDrawer();
+            InitNamesCharacters();
+            InitNamesPhones();
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbol));
+            _phoneIndexSerializedProperty = serializedObject.FindProperty("_phoneIndex");
+            _phoneStartScreenSerializedProperty = serializedObject.FindProperty("_phoneStartScreen");
+            _butteryPercentSerializedProperty = serializedObject.FindProperty("_butteryPercent");
+            _startHourSerializedProperty = serializedObject.FindProperty("_startHour");
+            _startMinuteSerializedProperty = serializedObject.FindProperty("_startMinute");
+            _dateSerializedProperty = serializedObject.FindProperty("_date");
+            _inputSerializedProperty = serializedObject.FindProperty("Input");
+            _outputSerializedProperty = serializedObject.FindProperty("Output");
+            // _startScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_startScreenCharacterIndex");
+            _contactsInfoToGameSerializedProperty = serializedObject.FindProperty("_contactsInfoToGame");
+            _phoneNodeCasesSerializedProperty = serializedObject.FindProperty("_phoneNodeCases");
+            _notificationsInBlockScreenSerializedProperty = serializedObject.FindProperty("_notificationsInBlockScreen");
+            Type type = _phoneNode.GetType();
+            _removeAllCases = type.GetMethod("RemoveAllCases", BindingFlags.NonPublic | BindingFlags.Instance);
+            _addCase = type.GetMethod("AddCase", BindingFlags.NonPublic | BindingFlags.Instance);
+            _removeCase = type.GetMethod("RemoveCase", BindingFlags.NonPublic | BindingFlags.Instance);
         }
         else
         {
-            if (_phoneIndexSerializedProperty == null)
-            {
-                _lineDrawer = new LineDrawer();
-                _enumPopupDrawer = new EnumPopupDrawer();
-                InitNamesCharacters();
-                InitNamesPhones();
-                _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbol));
-                _phoneIndexSerializedProperty = serializedObject.FindProperty("_phoneIndex");
-                _phoneStartScreenSerializedProperty = serializedObject.FindProperty("_phoneStartScreen");
-                _butteryPercentSerializedProperty = serializedObject.FindProperty("_butteryPercent");
-                _startHourSerializedProperty = serializedObject.FindProperty("_startHour");
-                _startMinuteSerializedProperty = serializedObject.FindProperty("_startMinute");
-                _dateSerializedProperty = serializedObject.FindProperty("_date");
-                _inputSerializedProperty = serializedObject.FindProperty("Input");
-                _outputSerializedProperty = serializedObject.FindProperty("Output");
-                _startScreenCharacterIndexSerializedProperty = serializedObject.FindProperty("_startScreenCharacterIndex");
-                _contactsInfoToGameSerializedProperty = serializedObject.FindProperty("_contactsInfoToGame");
-                _phoneNodeCasesSerializedProperty = serializedObject.FindProperty("_phoneNodeCases");
-                _phonesSerializedProperty = serializedObject.FindProperty("_phones");
-                _objectProviderFromProperty = new ObjectProviderFromProperty();
-            }
-            else
-            {
-                serializedObject.Update();
+            serializedObject.Update();
                 NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
                 NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
             
@@ -74,13 +78,15 @@ public class PhoneNodeDrawer : NodeEditor
                 InitNamesPhones();
                 if (_phonesNames != null)
                 {
-                    // EditorGUI.BeginChangeCheck();
+                    EditorGUI.BeginChangeCheck();
+                    _phonePreviousIndex = _phoneIndexSerializedProperty.intValue;
                     _phoneIndexSerializedProperty.intValue = EditorGUILayout.Popup(_phoneIndexSerializedProperty.intValue, _phonesNames);
-                    // if (EditorGUI.EndChangeCheck())
-                    // {
-                    //     _phoneNode.ResetCurrentPhoneContacts();
-                    //     serializedObject.ApplyModifiedProperties();
-                    // }
+                    if (EditorGUI.EndChangeCheck() && _phonePreviousIndex != _phoneIndexSerializedProperty.intValue)
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                        _removeAllCases.Invoke(_phoneNode, null);
+                        serializedObject.Update();
+                    }
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -98,58 +104,128 @@ public class PhoneNodeDrawer : NodeEditor
                     DrawDateInfo(_butteryPercentSerializedProperty, "Buttery percent: ");
                 }
 
-                _enumPopupDrawer.DrawEnumPopup<PhoneBackgroundScreen>(_phoneStartScreenSerializedProperty, "Current screen: ");
-                if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.BlockScreen)
-                {
-                    _posScrollView1 = EditorGUILayout.BeginScrollView(_posScrollView1, GUILayout.Height(100f));
-                    DrawVariants(_contactsInfoToGameSerializedProperty, $" notification ", $"_keyNotification");
-                    EditorGUILayout.EndScrollView();
-                }
-                // else if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.DialogScreen)
+                
+                
+                // _enumPopupDrawer.DrawEnumPopup<PhoneBackgroundScreen>(_phoneStartScreenSerializedProperty, "Current screen: ");
+                
+                // _posScrollView1 = EditorGUILayout.BeginScrollView(_posScrollView1, GUILayout.Height(100f));
+                // if (expr)
                 // {
-                //     if (_characterNames != null && _characterNames.Length > 0)
-                //     {
-                //         EditorGUILayout.BeginHorizontal();
-                //         EditorGUILayout.LabelField("Dialog with character: ");
-                //         _startScreenCharacterIndexSerializedProperty.intValue = EditorGUILayout.Popup(_startScreenCharacterIndexSerializedProperty.intValue, _characterNames);
-                //         EditorGUILayout.EndHorizontal();
-                //     }
+                //     
                 // }
-                _posScrollView2 = EditorGUILayout.BeginScrollView(_posScrollView2, GUILayout.Height(100f));
-                DrawVariants(_contactsInfoToGameSerializedProperty, $" online status: ", $"_keyOnline");
-                EditorGUILayout.EndScrollView();
                 
-                
-                _lineDrawer.DrawHorizontalLine(Color.blue, height:40);
                 
                 EditorGUILayout.LabelField($"DynamicOutputs: {_phoneNode.DynamicOutputs.Count()}");
                 _lineDrawer.DrawHorizontalLine(Color.magenta);
+                DrawContactsVariants();
 
-                for (int i = 0; i < _phoneNode.AllContacts.Count; i++)
-                {
-                    if (_phoneNode.AllContacts[i].ToPhoneKey == _phoneNode.CurrentPhone.NamePhone.Key)
-                    {
-                        DrawContactInfo(i);
-                    }
-                    _lineDrawer.DrawHorizontalLine(Color.white);
-
-                    EditorGUILayout.Space();
-                }
-
+                _lineDrawer.DrawHorizontalLine(Color.blue);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Index Add: ", GUILayout.Width(65f));
 
                 _indexContact = EditorGUILayout.IntField(_indexContact, GUILayout.Width(20f));
-                
-                if (GUILayout.Button("Add",GUILayout.Width(40f)))
+
+                if (GUILayout.Button("Add Case",GUILayout.Width(80f)))
                 {
-                    _phoneNode.AddCase(_indexContact);
+                    _addCase.Invoke(_phoneNode, new object[] {_indexContact});
+                }
+
+                EditorGUILayout.EndHorizontal();
+                DrawCases();
+
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Index Add: ", GUILayout.Width(65f));
+                _indexContact = EditorGUILayout.IntField(_indexContact, GUILayout.Width(20f));
+                if (GUILayout.Button("Add Notification",GUILayout.Width(100f)))
+                {
+                    AddNotification();
                 }
                 EditorGUILayout.EndHorizontal();
-                _lineDrawer.DrawHorizontalLine(Color.blue, height:40);
-                DrawCases();
                 
+                DrawNotifications();
+
+                // _notificationsInBlockScreenSerializedProperty
+                // EditorGUILayout.EndScrollView();
+
+
+                // if ((PhoneBackgroundScreen)_phoneStartScreenSerializedProperty.enumValueIndex == PhoneBackgroundScreen.BlockScreen)
+                // {
+                //     _posScrollView1 = EditorGUILayout.BeginScrollView(_posScrollView1, GUILayout.Height(100f));
+                //     DrawVariants(_contactsInfoToGameSerializedProperty, $" notification ", $"_keyNotification");
+                //     EditorGUILayout.EndScrollView();
+                // }
+
+
+                // _posScrollView2 = EditorGUILayout.BeginScrollView(_posScrollView2, GUILayout.Height(100f));
+                // DrawVariants(_contactsInfoToGameSerializedProperty, $" online status: ", $"_keyOnline");
+                // EditorGUILayout.EndScrollView();
+
+
+                // _lineDrawer.DrawHorizontalLine(Color.blue);
+
                 serializedObject.ApplyModifiedProperties();
+            
+        }
+    }
+
+    private void DrawNotifications()
+    {
+        for (int i = 0; i < _notificationsInBlockScreenSerializedProperty.arraySize; i++)
+        {
+            _buferSP1 = _notificationsInBlockScreenSerializedProperty.GetArrayElementAtIndex(i);
+            _buferSP2 = _buferSP1.FindPropertyRelative("_contactName");
+            EditorGUILayout.LabelField($"Name contact: {_buferSP2.stringValue}");
+            _buferSP2 = _buferSP1.FindPropertyRelative("_contactKey");
+            EditorGUILayout.LabelField($"Key contact: {_buferSP2.stringValue}");
+
+
+            if (GUILayout.Button("Delete Notification", GUILayout.Width(120f)))
+            {
+                _notificationsInBlockScreenSerializedProperty.DeleteArrayElementAtIndex(i);
+                serializedObject.ApplyModifiedProperties();
+            }
+
+            _lineDrawer.DrawHorizontalLine(Color.gray);
+        }
+        _lineDrawer.DrawHorizontalLine(Color.blue);
+    }
+
+    private void AddNotification()
+    {
+        _phoneContact = _phoneNode.AllContacts[_indexContact];
+        
+        for (int i = 0; i < _notificationsInBlockScreenSerializedProperty.arraySize; i++)
+        {
+            _buferSP1 = _notificationsInBlockScreenSerializedProperty.GetArrayElementAtIndex(i);
+            _buferSP1 = _buferSP1.FindPropertyRelative("_contactKey");
+            if (_phoneContact.NameLocalizationString.Key == _buferSP1.stringValue)
+            {
+                return;
+            }
+        }
+        
+        
+        int index = _notificationsInBlockScreenSerializedProperty.arraySize;
+        _notificationsInBlockScreenSerializedProperty.InsertArrayElementAtIndex(index);
+        _buferSP1 = _notificationsInBlockScreenSerializedProperty.GetArrayElementAtIndex(index);
+
+        _buferSP2 = _buferSP1.FindPropertyRelative("_contactKey");
+        _buferSP2.stringValue = _phoneContact.NameLocalizationString.Key;
+        _buferSP2 = _buferSP1.FindPropertyRelative("_contactName");
+        _buferSP2.stringValue = _phoneContact.NameLocalizationString.DefaultText;
+        serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawContactsVariants()
+    {
+        for (int i = 0; i < _phoneNode.AllContacts.Count; i++)
+        {
+            if (_phoneNode.AllContacts[i].ToPhoneKey == _phoneNode.CurrentPhone.NamePhone.Key)
+            {
+                DrawContactInfo(i);
+                _lineDrawer.DrawHorizontalLine(Color.white);
+                EditorGUILayout.Space();
             }
         }
     }
@@ -200,11 +276,11 @@ public class PhoneNodeDrawer : NodeEditor
         _lineDrawer.DrawHorizontalLine(Color.red);
         for (int i = 0; i < array.arraySize; i++)
         {
-            _sp = array.GetArrayElementAtIndex(i);
+            _buferSP1 = array.GetArrayElementAtIndex(i);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"{_sp.FindPropertyRelative("_name").stringValue}{label}");
-            _sp = _sp.FindPropertyRelative(nameKey);
-            _sp.boolValue = EditorGUILayout.Toggle(_sp.boolValue);
+            EditorGUILayout.LabelField($"{_buferSP1.FindPropertyRelative("_name").stringValue}{label}");
+            _buferSP1 = _buferSP1.FindPropertyRelative(nameKey);
+            _buferSP1.boolValue = EditorGUILayout.Toggle(_buferSP1.boolValue);
             EditorGUILayout.EndHorizontal();
         }
     }
@@ -213,18 +289,16 @@ public class PhoneNodeDrawer : NodeEditor
     {
         for (int i = 0; i < _phoneNodeCasesSerializedProperty.arraySize; i++)
         {
-            _buferSP = _phoneNodeCasesSerializedProperty.GetArrayElementAtIndex(i);
+            _buferSP1 = _phoneNodeCasesSerializedProperty.GetArrayElementAtIndex(i);
             DrawCase();
         }
+        _lineDrawer.DrawHorizontalLine(Color.blue);
     }
 
     private void DrawCase()
     {
-        string portName = _buferSP.FindPropertyRelative("_portName").stringValue;
-        
-        // DrawContactInfo(_buferSP.FindPropertyRelative("_contactIndex").intValue);
-        
-        int index = _buferSP.FindPropertyRelative("_contactIndex").intValue;
+        string portName = _buferSP1.FindPropertyRelative("_portName").stringValue;
+        int index = _buferSP1.FindPropertyRelative("_contactIndex").intValue;
         EditorGUILayout.LabelField($"Name contact: {_phoneNode.AllContacts[index].NameLocalizationString.DefaultText}");
         EditorGUILayout.LabelField($"Key contact: {_phoneNode.AllContacts[index].NameLocalizationString.Key}");
         
@@ -232,7 +306,7 @@ public class PhoneNodeDrawer : NodeEditor
         NodeEditorGUILayout.PortField(port);
         if (GUILayout.Button("Delete case",GUILayout.Width(90f)))
         {
-            _phoneNode.RemoveCase(_buferSP.FindPropertyRelative("_contactKey").stringValue);
+            _removeCase.Invoke(_phoneNode, new object[] {_buferSP1.FindPropertyRelative("_contactKey").stringValue});
         }
         _lineDrawer.DrawHorizontalLine(Color.black);
     }

@@ -21,7 +21,7 @@ public class Phone
 
     // public IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
 
-    public List<PhoneContact> PhoneContactDatas => _phoneContactDatas;
+    public IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
 
     public Phone(LocalizationString namePhone, IReadOnlyList<Sprite> hands, Sprite phoneFrame, Sprite background)
     {

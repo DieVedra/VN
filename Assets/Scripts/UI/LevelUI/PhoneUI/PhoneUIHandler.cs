@@ -117,12 +117,12 @@ public class PhoneUIHandler : ILocalizable
         _topPanelHandler.Init(_phoneTime, playModeKey, butteryPercent);
         _phoneUIGameObject.SetActive(true);
     }
-    public void SetBlockScreenBackgroundFromNode(LocalizationString date,
-        int startScreenCharacterIndex, bool playModeKey)
+    public void SetBlockScreenBackgroundFromNode(IReadOnlyList<PhoneNotification> notificationsInBlockScreen,
+        LocalizationString date, bool playModeKey)
     {
         DisableScreens();
-        _blockScreenHandler.Enable(_contactsInfoToGame, _phoneTime, _currentPhone, date,
-            _setLocalizationChangeEvent, startScreenCharacterIndex, playModeKey);
+        _blockScreenHandler.Enable(_contactsInfoToGame, notificationsInBlockScreen, _phoneTime, _currentPhone, date,
+            _setLocalizationChangeEvent, playModeKey);
     }
 
     public void SetContactsScreenBackgroundFromNode()
@@ -201,5 +201,5 @@ public class PhoneUIHandler : ILocalizable
 
 public enum PhoneBackgroundScreen
 {
-    BlockScreen = 0, ContactsScreen = 1, DialogScreen = 2 
+    BlockScreen = 0, ContactsScreen = 1
 }

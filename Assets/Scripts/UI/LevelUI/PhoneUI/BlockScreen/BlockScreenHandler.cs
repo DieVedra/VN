@@ -40,9 +40,8 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
         _blockScreenButton.enabled = false;
     }
     
-    public void Enable(IReadOnlyDictionary<string, ContactInfoToGame> contactsInfoToGame, PhoneTime phoneTime, Phone phone, LocalizationString date,
-        SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int startScreenCharacterIndex, bool playModeKey)
+    public void Enable(IReadOnlyDictionary<string, ContactInfoToGame> contactsInfoToGame, IReadOnlyList<PhoneNotification> notificationsInBlockScreen, PhoneTime phoneTime, Phone phone, LocalizationString date,
+        SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey)
     {
         _nextPos.x = _startPosX;
         _nextPos.y = _startPosY;
