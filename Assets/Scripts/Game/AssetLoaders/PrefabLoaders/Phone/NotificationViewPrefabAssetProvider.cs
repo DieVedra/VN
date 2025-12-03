@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 public class NotificationViewPrefabAssetProvider : PrefabLoader
 {
-    private const string _name = "PhoneNotification";
+    private const string _name = "ContactInfo";
 
     public async UniTask<NotificationView> LoadNotificationPrefab()
     {

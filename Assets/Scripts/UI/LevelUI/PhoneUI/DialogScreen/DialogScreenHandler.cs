@@ -48,11 +48,11 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent, NodeGraphInitializer nodeGraphInitializer,
+    public void Enable(PhoneContact contact,  SetLocalizationChangeEvent setLocalizationChangeEvent,
         Action<string, bool> setOnlineStatus, bool characterOnlineKey, int seriaIndex)
     {
         _currentContact = contact;
-        // _contactNameLS = contact.NikNameContact;
+        _contactNameLS = contact.NameLocalizationString;
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
@@ -62,7 +62,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        // _currentContact.PhoneMessagesGraph.InitPhoneMessagesGraph();
         // _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
         //     () =>
         //     {
@@ -88,7 +87,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactImage.sprite = _currentContact.Icon;
         if (_currentContact.IsEmptyIconKey == true)
         {
-            // _contactImage.color = _currentContact.ColorIcon;
+            _contactImage.color = _currentContact.Color;
             _iconText.text = GetFistLetter(_currentContact);
             _iconText.gameObject.SetActive(true);
         }
@@ -108,19 +107,19 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _cancellationTokenSource?.Cancel();
     }
 
-    // private void SubscribeButtons()
-    // {
-    //     _readDialog.interactable = true;
-    //     _backArrow.interactable = false;
-    //     _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
-    //     _readDialog.onClick.AddListener(() =>
-    //     {
-    //         if (_messagesShower.ShowNext() == false)
-    //         {
-    //             ReadDisable();
-    //         }
-    //     });
-    // }
+    private void SubscribeButtons()
+    {
+        _readDialog.interactable = true;
+        _backArrow.interactable = false;
+        _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
+        _readDialog.onClick.AddListener(() =>
+        {
+            // if (_messagesShower.ShowNext() == false)
+            // {
+            //     ReadDisable();
+            // }
+        });
+    }
 
     private void ActivateBackButton()
     {

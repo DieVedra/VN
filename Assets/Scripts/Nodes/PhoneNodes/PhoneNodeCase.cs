@@ -1,23 +1,23 @@
 ﻿using System;
 using UnityEngine;
+using XNode;
 
 [Serializable]
-public class PhoneNodeCase
+public class ContactNodeCase : ContactInfo
 {
     [SerializeField] private string _portName;
-    [SerializeField] private string _contactKey;
     [SerializeField] private int _contactIndex;
-    [field: SerializeField] public string ContactName { get; private set; }
+    [SerializeField] private NodePort _port;
 
     public string PortName => _portName;
-    public string ContactKey => _contactKey;
     public int ContactIndex => _contactIndex;
+    public NodePort Port => _port;
 
 
-    public PhoneNodeCase(string contactKey, string contactName, string portName, int contactIndex)
+    public ContactNodeCase(NodePort port, string key, string name, string portName, int contactIndex)
+        : base(key, name)
     {
-        _contactKey = contactKey;
-        ContactName = contactName;
+        _port = port;
         _portName = portName;
         _contactIndex = contactIndex;
     }

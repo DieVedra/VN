@@ -7,30 +7,25 @@ using UnityEngine;
 [NodeWidth(350),NodeTint("#003C05")]
 public class PhoneNode : BaseNode, ILocalizable
 {
-    [SerializeField] private List<PhoneNodeCase> _phoneNodeCases;
-    [SerializeField] private List<PhoneNotification> _notificationsInBlockScreen;
+    [SerializeField] private List<ContactNodeCase> _phoneNodeCases;
+    [SerializeField] private List<ContactInfo> _notificationsInBlockScreen;
+    [SerializeField] private List<ContactInfo> _onlineContacts;
     [SerializeField] private int _phoneIndex;
-    // [SerializeField] private PhoneBackgroundScreen _phoneStartScreen;
     [SerializeField] private int _butteryPercent;
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    [SerializeField] private int _startScreenContactIndex;
-    [SerializeField] private List<ContactInfoToGame> _contactsInfoToGame;
     [SerializeField] private List<Phone> _phones;
     
     private List<PhoneContact> _allContacts;
     private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
     private const string _port = "Port ";
-    private Dictionary<string, ContactInfoToGame> _contactsDictionary;
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
     public IReadOnlyList<Phone> Phones { get; private set; }
     public Phone CurrentPhone => _phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
-    // public IReadOnlyList<PhoneContact> PhoneContactDatasLocalizable =>
-    //     Phones[_phoneIndex].PhoneDataLocalizable.PhoneContactDatasLocalizable;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
     {
@@ -38,11 +33,7 @@ public class PhoneNode : BaseNode, ILocalizable
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
-        // Contacts = contacts;
         _seriaIndex = seriaIndex;
-        // CreateContactsToOnlineAndNotifications(contacts);
-        // AllContactsCurrentPhone = contactsToAddInPlot;
-        // _allContacts = contactsToAddInPlot;
         _contactsToAddInPlot = contactsToAddInPlot;
         InitAllContacts();
         if (IsPlayMode() == false)
@@ -86,76 +77,17 @@ public class PhoneNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        _phoneUIHandler.ConstructFromNode(_contactsDictionary, Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, IsPlayMode(),
+        _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
+            SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute);
-        
-        
-        _phoneUIHandler.SetBlockScreenBackgroundFromNode(_notificationsInBlockScreen, _date, IsPlayMode());
-        
-        
-        // switch (_phoneStartScreen)
-        // {
-        //     case PhoneBackgroundScreen.BlockScreen:
-        //         _phoneUIHandler.SetBlockScreenBackgroundFromNode(_date, _startScreenContactIndex, IsPlayMode());
-        //         break;
-        //     case PhoneBackgroundScreen.ContactsScreen:
-        //         _phoneUIHandler.SetContactsScreenBackgroundFromNode();
-        //         break;
-        //     case PhoneBackgroundScreen.DialogScreen:
-        //         _phoneUIHandler.SetDialogScreenBackgroundFromNode(_startScreenContactIndex);
-        //         break;
-        // }
-    }
 
-    public override void Dispose()
-    {
-        _contactsDictionary = null;
-        base.Dispose();
+        // _phoneUIHandler.SetBlockScreenBackgroundFromNode(_notificationsInBlockScreen, _date, IsPlayMode());
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[] {_date};
     }
-    private void CreateContactsToOnlineAndNotifications(IReadOnlyList<PhoneContact> contacts)
-    {
-        _contactsDictionary = new Dictionary<string, ContactInfoToGame>();
-        for (int i = 0; i < contacts.Count; i++)
-        {
-            // TryAdd(contacts[i]);
-        }
-        int count;
-        // PhoneDataLocalizable dataLocalizable;
-        for (int i = 0; i < Phones.Count; i++)
-        {
-            // count = Phones[i].PhoneDataLocalizable.PhoneContactDatasLocalizable.Count;
-            // dataLocalizable = Phones[i].PhoneDataLocalizable;
-            // for (int j = 0; j < count; j++)
-            // {
-            //     // TryAdd(dataLocalizable.PhoneContactDatasLocalizable[j]);
-            // }
-        }
-        if (_contactsInfoToGame.Count > 0)
-        {
-            TransferringKeys();
-        }
-        else
-        {
-            FillContactsInfoToGame();
-        }
-    }
-    // private void TryAdd(PhoneContactDataLocalizable phoneContactDataLocalizable, bool statusKey = false, bool notificationKey = false)
-    // {
-    //     if (_contactsDictionary.ContainsKey(phoneContactDataLocalizable.NameContact.Key) == false)
-    //     {
-    //         _contactsDictionary.Add(
-    //             phoneContactDataLocalizable.NameContact.Key,
-    //             new ContactInfoToGame(
-    //                 phoneContactDataLocalizable.NameContact.Key,
-    //                 phoneContactDataLocalizable.NameContact.DefaultText,
-    //                 statusKey, notificationKey));
-    //     }
-    // }
     private void InitAllContacts()
     {
         if (_allContacts == null)
@@ -166,41 +98,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _allContacts.AddRange(CurrentPhone.PhoneContactDatas); 
         _allContacts.AddRange(_contactsToAddInPlot);
     }
-    private void TransferringKeys()
-    {
-        ContactInfoToGame contact;
-        for (int i = _contactsInfoToGame.Count -1 ; i >= 0; i--)
-        {
-            contact = _contactsInfoToGame[i];
-            if (_contactsDictionary.TryGetValue(contact.KeyName, out ContactInfoToGame contactFromDictionary))
-            {
-                contactFromDictionary.KeyNotification = contact.KeyNotification;
-                contactFromDictionary.KeyOnline = contact.KeyOnline;
-            }
-            else
-            {
-                _contactsInfoToGame.RemoveAt(i);
-            }
-        }
-    }
-
-    private void FillContactsInfoToGame()
-    {
-        _contactsInfoToGame.Clear();
-        foreach (var pair in _contactsDictionary)
-        {
-            _contactsInfoToGame.Add(pair.Value);
-        }
-        _contactsInfoToGame.TrimExcess();
-    }
-    private void Awake()
-    {
-        if (_contactsInfoToGame == null)
-        {
-            _contactsInfoToGame = new List<ContactInfoToGame>();
-        }
-    }
-
     private void AddCase(int index)
     {
         PhoneContact contact = _allContacts[index];
@@ -215,11 +112,12 @@ public class PhoneNode : BaseNode, ILocalizable
                 return;
             }
         }
-        PhoneNodeCase phoneNodeCase = new PhoneNodeCase(contact.NameLocalizationString.Key,
-            contact.NameLocalizationString.DefaultText, $"{_port}{DynamicOutputs.Count()}", index);
-        _phoneNodeCases.Add(phoneNodeCase);
-        
-        AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: phoneNodeCase.PortName);
+
+        string portName = $"{_port}{DynamicOutputs.Count()}";
+        AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: portName);
+        ContactNodeCase contactNodeCase = new ContactNodeCase(GetPort(portName), contact.NameLocalizationString.Key,
+            contact.NameLocalizationString.DefaultText, portName, index);
+        _phoneNodeCases.Add(contactNodeCase);
     }
     private void RemoveCase(string key)
     {

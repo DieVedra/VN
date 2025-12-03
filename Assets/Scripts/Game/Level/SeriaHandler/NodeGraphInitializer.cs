@@ -71,6 +71,10 @@ public class NodeGraphInitializer
                     _levelUIProvider.CharacterPanelUIHandler, _background, _characterViewer);
                 return;
             
+            case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
+                phoneNarrativeMessageNode.ConstructMyPhoneNarrativeNode(_levelUIProvider.NarrativePanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler);
+                return;
+            
             case NarrativeNode narrativeNode:
                 narrativeNode.ConstructMyNarrativeNode(_levelUIProvider.NarrativePanelUIHandler);
                 return;
@@ -99,6 +103,11 @@ public class NodeGraphInitializer
                 soundNode.ConstructMySoundNode(_sound);
                 return;
             
+            case ChoicePhoneNode choicePhoneNode:
+                choicePhoneNode.ConstructMyChoicePhoneNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
+                    _levelUIProvider.NotificationPanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
+                return;
+            
             case ChoiceNode choiceNode:
                 choiceNode.ConstructMyChoiceNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
                     _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
@@ -112,6 +121,10 @@ public class NodeGraphInitializer
                     _background, _sound,
                     _gameStatsProvider,
                     _wallet, _wardrobeCharacterViewer, _levelUIProvider.NotificationPanelUIHandler, seriaIndex);
+                return;
+            
+            case PhoneSwitchNode phoneSwitchNode:
+                phoneSwitchNode.ConstructMyPhoneSwitchNode(_gameStatsProvider, seriaIndex);
                 return;
             
             case SwitchNode switchNode:
@@ -155,6 +168,19 @@ public class NodeGraphInitializer
                 changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler,
                     seriaIndex);
                 return;
+            
+            // case ChoicePhoneNode choicePhoneNode:
+            //     choicePhoneNode.ConstructMyChoicePhoneNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
+            //         _levelUIProvider.NotificationPanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
+            //     return;
+            
+            // case PhoneSwitchNode phoneSwitchNode:
+            //     phoneSwitchNode.ConstructMyPhoneSwitchNode(_gameStatsProvider, seriaIndex);
+            //     return;
+            
+            // case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
+            //     phoneNarrativeMessageNode.ConstructMyPhoneNarrativeNode(_levelUIProvider.NarrativePanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler);
+            //     return;
         }
     }
 }

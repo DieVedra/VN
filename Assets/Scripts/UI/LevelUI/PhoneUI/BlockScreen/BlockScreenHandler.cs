@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
+public class BlockScreenHandler : PhoneScreenBaseHandler
 {
     private const float _startPosX = 0f;
     private const float _startPosY = 360f;
@@ -22,8 +22,9 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
     private List<NotificationView> _notificationViews;
     private PoolBase<NotificationView> _notificationViewPool;
     private IReadOnlyList<ContactInfoToGame> _notificationContacts;
-    private IReadOnlyDictionary<string, ContactInfoToGame> _contactsInfoToGame;
-    private IReadOnlyList<PhoneContact> _phoneContactDatasLocalizable;
+    private IReadOnlyList<PhoneContact> _phoneContacts;
+    private IReadOnlyList<ContactInfo> _notificationsInBlockScreen;
+    private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
     public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationNameLocalizationString, ReactiveCommand switchToContactsScreenCommand)
@@ -40,16 +41,17 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
         _blockScreenButton.enabled = false;
     }
     
-    public void Enable(IReadOnlyDictionary<string, ContactInfoToGame> contactsInfoToGame, IReadOnlyList<PhoneNotification> notificationsInBlockScreen, PhoneTime phoneTime, Phone phone, LocalizationString date,
+    public void Enable(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<ContactInfo> notificationsInBlockScreen, IReadOnlyList<ContactInfo> sortedOnlineContacts,
+        PhoneTime phoneTime, Phone phone, LocalizationString date,
         SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey)
     {
         _nextPos.x = _startPosX;
         _nextPos.y = _startPosY;
-        _contactsInfoToGame = contactsInfoToGame;
+        _phoneNodeCases = phoneNodeCases;
         _dateLocStr = date;
-        // _currentContact = phone.PhoneDataLocalizable.PhoneContactDatasLocalizable[startScreenCharacterIndex];
-        // _imageBackground.sprite = phone.PhoneDataLocalizable.Background;
-        // _phoneContactDatasLocalizable = phone.PhoneDataLocalizable.PhoneContactDatasLocalizable;
+        _notificationsInBlockScreen = notificationsInBlockScreen;
+        _phoneContacts = phone.PhoneContactDatas;
+        _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
         Screen.SetActive(true);
@@ -65,45 +67,51 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
     private bool TryShowNotifications(SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         bool result = false;
-        if (_contactsInfoToGame != null)
+        if (_notificationsInBlockScreen != null && _notificationsInBlockScreen.Count > 0)
         {
-            for (int i = 0; i < _phoneContactDatasLocalizable.Count; i++)
+            for (int i = 0; i < _notificationsInBlockScreen.Count; i++)
             {
-                // if (_contactsInfoToGame.TryGetValue(_phoneContactDatasLocalizable[i].NameContact.Key, out ContactInfoToGame contactInfoToGame))
-                // {
-                //     if (contactInfoToGame.KeyNotification == true)
-                //     {
-                //         CreateNotification(_phoneContactDatasLocalizable[i], setLocalizationChangeEvent);
-                //         result = true;
-                //     }
-                // }
+                for (int j = 0; j < _phoneContacts.Count; j++)
+                {
+                    if (_notificationsInBlockScreen[i].ContactKey == _phoneContacts[j].NameLocalizationString.Key)
+                    {
+                        for (int k = 0; k < _phoneNodeCases.Count; k++)
+                        {
+                            if (_notificationsInBlockScreen[i].ContactKey == _phoneNodeCases[k].ContactKey)
+                            {
+                                CreateNotification(_phoneContacts[j], setLocalizationChangeEvent);
+                                result = true;
+                            }
+                        }
+                    }
+                }
             }
         }
         return result;
     }
 
-    private void CreateNotification(PhoneContact dataLocalizable, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    private void CreateNotification(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         var notificationView = _notificationViewPool.Get();
         notificationView.RectTransform.anchoredPosition = _nextPos;
-        notificationView.Icon.sprite = dataLocalizable.Icon;
-        if (dataLocalizable.IsEmptyIconKey)
+        notificationView.Icon.sprite = contact.Icon;
+        if (contact.IsEmptyIconKey)
         {
-            // notificationView.Icon.color = dataLocalizable.ColorIcon;   
+            notificationView.Icon.color = contact.Color;   
             notificationView.TextIcon.gameObject.SetActive(true);
         }
         else
         {
             notificationView.TextIcon.gameObject.SetActive(false);
         }
-        notificationView.TextIcon.text = GetFistLetter(dataLocalizable);
-        // notificationView.NameText.text = dataLocalizable.NikNameContact;
+        notificationView.TextIcon.text = GetFistLetter(contact);
+        notificationView.NameText.text = contact.NameLocalizationString;
         notificationView.NotificationText.text = _notificationNameLocalizationString;
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            notificationView.TextIcon.text = GetFistLetter(dataLocalizable);
+            notificationView.TextIcon.text = GetFistLetter(contact);
 
-            // notificationView.NameText.text = dataLocalizable.NikNameContact;
+            notificationView.NameText.text = _notificationNameLocalizationString;
             notificationView.NotificationText.text = _notificationNameLocalizationString;
         }, _compositeDisposable);
         
@@ -113,7 +121,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
             {
                 _notificationViewPool.ActiveContent[i].Button.onClick.RemoveAllListeners();
             }
-            _switchToDialogScreenCommand.Execute(dataLocalizable);
+            _switchToDialogScreenCommand.Execute(contact);
         });
         notificationView.gameObject.SetActive(true);
         _nextPos.y -= _offsetY;
@@ -155,9 +163,4 @@ public class BlockScreenHandler : PhoneScreenBaseHandler/*, ILocalizable*/
     {
         _date.text = _dateLocStr;
     }
-    // public IReadOnlyList<LocalizationString> GetLocalizableContent()
-    // {
-    //     
-    //     return new[] {_notificationNameLocalizationString};
-    // }
 }

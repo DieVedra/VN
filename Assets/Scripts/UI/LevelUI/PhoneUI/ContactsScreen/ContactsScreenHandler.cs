@@ -41,7 +41,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textContacts = contactsScreenViewBackground.TextContacts;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
-    public void Enable(IReadOnlyList<PhoneContact> phoneContactDatasLocalizable,
+    public void Enable(IReadOnlyList<PhoneContact> phoneContacts,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
         _buttonExitCanvasGroup.alpha = AlphaMin;
@@ -51,7 +51,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        // _contactsShower.Init(phoneContactDatasLocalizable, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
+        _contactsShower.Init(phoneContacts, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
     }
     public override void Disable()
     {

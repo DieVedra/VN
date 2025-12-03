@@ -40,7 +40,7 @@ public class ContactsShower
         _newMessagesNotFound = true;
         for (int i = 0; i < phoneContactDatasLocalizable.Count; i++)
         {
-            // CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
+            CreateContact(phoneContactDatasLocalizable[i], switchToDialogScreenCommand);
         }
         if (_newMessagesNotFound == true)
         {
@@ -59,45 +59,45 @@ public class ContactsShower
         _compositeDisposable?.Clear();
         _contactsPool?.ReturnAll();
     }
-    private void CreateContact(PhoneContact contactDataLocalizable, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
+    private void CreateContact(PhoneContact phoneContact, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
     {
         var view = _contactsPool.Get();
         view.transform.SetParent(_contactsTransform);
-        // TrySetIcon(contactDataLocalizable, view.TextIcon, view.Image);
-        // view.TextName.text = contactDataLocalizable.NikNameContact;
-        // _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
-        // {
-        //     view.TextName.text = contactDataLocalizable.NikNameContact;
-        // }, _compositeDisposable);
-        // SetOnlineStatus(contactDataLocalizable, view);
-        // TryIndicateNewMessages(contactDataLocalizable.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
-        // view.ContactButton.onClick.AddListener(() =>
-        // {
-        //     UnsubscribeAllButtons();
-        //     switchToDialogScreenCommand.Execute(contactDataLocalizable);
-        // });
-        // view.gameObject.SetActive(true);
-    }
-
-    private void SetOnlineStatus(PhoneContact contactDataLocalizable, ContactView view)
-    {
-        // if (_getOnlineStatus.Invoke(contactDataLocalizable.NameContact.Key))
-        // {
-        //     view.OnlineStatusImage.gameObject.SetActive(true);
-        // }
-        // else
-        // {
-        //     view.OnlineStatusImage.gameObject.SetActive(false);
-        // }
-    }
-
-
-    private void TrySetIcon(PhoneContact contactDataLocalizable, TextMeshProUGUI textComponent, Image image)
-    {
-        if (contactDataLocalizable.IsEmptyIconKey == true)
+        TrySetIcon(phoneContact, view.TextIcon, view.Image);
+        view.TextName.text = phoneContact.NameLocalizationString.DefaultText;
+        _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            textComponent.text = _getFistLetter.Invoke(contactDataLocalizable);
-            // image.color = contactDataLocalizable.ColorIcon;
+            view.TextName.text = phoneContact.NameLocalizationString.DefaultText;
+        }, _compositeDisposable);
+        SetOnlineStatus(phoneContact, view);
+        // TryIndicateNewMessages(phoneContact.PhoneMessagesLocalization, view.NewMessageIndicatorImage.gameObject);
+        view.ContactButton.onClick.AddListener(() =>
+        {
+            UnsubscribeAllButtons();
+            switchToDialogScreenCommand.Execute(phoneContact);
+        });
+        view.gameObject.SetActive(true);
+    }
+
+    private void SetOnlineStatus(PhoneContact phoneContact, ContactView view)
+    {
+        if (_getOnlineStatus.Invoke(phoneContact.NameLocalizationString.Key))
+        {
+            view.OnlineStatusImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            view.OnlineStatusImage.gameObject.SetActive(false);
+        }
+    }
+
+
+    private void TrySetIcon(PhoneContact phoneContact, TextMeshProUGUI textComponent, Image image)
+    {
+        if (phoneContact.IsEmptyIconKey == true)
+        {
+            textComponent.text = _getFistLetter.Invoke(phoneContact);
+            image.color = phoneContact.Color;
             textComponent.gameObject.SetActive(true);
         }
         else
@@ -105,7 +105,7 @@ public class ContactsShower
             textComponent.gameObject.SetActive(false);
             image.color = Color.white;
         }
-        image.sprite = contactDataLocalizable.Icon;
+        image.sprite = phoneContact.Icon;
     }
 
     private void UnsubscribeAllButtons()

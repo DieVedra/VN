@@ -210,7 +210,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 LevelUIView.PhoneUIView = _phoneView;
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
-                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, NodeGraphInitializer);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
             });
     }
     private void InitLocalization()
