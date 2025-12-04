@@ -3016,6 +3016,34 @@ MonoBehaviour:
   _contactIndex: 0
   _addContact: 1
   _showNotificationKey: 1
+  _phones:
+  - NamePhone:
+      <DefaultText>k__BackingField: EllisPhone
+      <Key>k__BackingField: str_F62CA740
+    <PhoneFrame>k__BackingField: {fileID: 21300000, guid: 1cda44bdbde75074bbd54d940dd1ab85, type: 3}
+    <Background>k__BackingField: {fileID: -1955448553306655712, guid: 967af034b8a18ab4b9f2c86db61d2ef3, type: 3}
+    _hands:
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    _phoneContactDatas: []
+  _contacts:
+  - <NameLocalizationString>k__BackingField:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D"
+      <Key>k__BackingField: str_F71AE2E8
+    <ToPhoneKey>k__BackingField: str_F62CA740
+    <Icon>k__BackingField: {fileID: 21300000, guid: 6b2762db6f3f8a04ca6d4d5d9eee5de5, type: 3}
+    <IsEmptyIconKey>k__BackingField: 0
+    <AddInPlot>k__BackingField: 1
+    <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  - <NameLocalizationString>k__BackingField:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A"
+      <Key>k__BackingField: str_AC60ADBC
+    <ToPhoneKey>k__BackingField: str_F62CA740
+    <Icon>k__BackingField: {fileID: 21300000, guid: d6aa06c695a1c7d45ba9b7af06a91c2c, type: 3}
+    <IsEmptyIconKey>k__BackingField: 0
+    <AddInPlot>k__BackingField: 1
+    <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1915295186481033187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3166,7 +3194,7 @@ MonoBehaviour:
       <Key>k__BackingField: str_95058592
     _value: 0
     _notificationKey: 0
-  _showKey: 0
+  _showKey: 1
 --- !u!114 &2101294760828987312
 MonoBehaviour:
   m_ObjectHideFlags: 0

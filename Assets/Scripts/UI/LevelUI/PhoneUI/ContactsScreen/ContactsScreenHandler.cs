@@ -26,6 +26,8 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
+    private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
+    private HashSet<string> _nonReadedContacts;
     public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
@@ -41,6 +43,24 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textContacts = contactsScreenViewBackground.TextContacts;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
     }
+
+    public void Init(IReadOnlyList<ContactNodeCase> sortedPhoneNodeCases)
+    {
+        _sortedPhoneNodeCases = sortedPhoneNodeCases;
+        if (_nonReadedContacts == null)
+        {
+            _nonReadedContacts = new HashSet<string>();
+        }
+        else
+        {
+            _nonReadedContacts.Clear();
+        }
+
+        for (int i = 0; i < sortedPhoneNodeCases.Count; i++)
+        {
+            _nonReadedContacts.Add(sortedPhoneNodeCases[i].ContactKey);
+        }
+    }
     public void Enable(IReadOnlyList<PhoneContact> phoneContacts,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
     {
@@ -51,7 +71,8 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _contactsShower.Init(phoneContacts, _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
+        _contactsShower.Init(phoneContacts, _sortedPhoneNodeCases, _nonReadedContacts,
+            _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
     }
     public override void Disable()
     {

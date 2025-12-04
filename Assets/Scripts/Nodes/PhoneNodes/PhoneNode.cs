@@ -15,7 +15,7 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    [SerializeField] private List<Phone> _phones;
+    // [SerializeField] private List<Phone> _phones;
     
     private List<PhoneContact> _allContacts;
     private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
@@ -23,13 +23,12 @@ public class PhoneNode : BaseNode, ILocalizable
     private PhoneUIHandler _phoneUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
-    public IReadOnlyList<Phone> Phones { get; private set; }
-    public Phone CurrentPhone => _phones[_phoneIndex];
+    public IReadOnlyList<Phone> Phones;
+    public Phone CurrentPhone => Phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
     {
-        _phones = phones.ToList();
         Phones = phones;
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
@@ -80,8 +79,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
             SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute);
-
-        // _phoneUIHandler.SetBlockScreenBackgroundFromNode(_notificationsInBlockScreen, _date, IsPlayMode());
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -115,8 +112,8 @@ public class PhoneNode : BaseNode, ILocalizable
 
         string portName = $"{_port}{DynamicOutputs.Count()}";
         AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: portName);
-        ContactNodeCase contactNodeCase = new ContactNodeCase(GetPort(portName), contact.NameLocalizationString.Key,
-            contact.NameLocalizationString.DefaultText, portName, index);
+        ContactNodeCase contactNodeCase = new ContactNodeCase(GetPort(portName), index, contact.NameLocalizationString.Key,
+            contact.NameLocalizationString.DefaultText, portName);
         _phoneNodeCases.Add(contactNodeCase);
     }
     private void RemoveCase(string key)

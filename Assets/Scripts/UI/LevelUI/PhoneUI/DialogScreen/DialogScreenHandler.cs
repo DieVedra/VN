@@ -29,6 +29,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private PhoneContact _currentContact;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
+    private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
 
     public DialogScreenHandler(DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool, ReactiveCommand switchToContactsScreenCommand)
@@ -48,7 +49,12 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContact contact,  SetLocalizationChangeEvent setLocalizationChangeEvent,
+
+    public void Init(IReadOnlyList<ContactNodeCase> sortedPhoneNodeCases)
+    {
+        _sortedPhoneNodeCases = sortedPhoneNodeCases;
+    }
+    public void Enable(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
         Action<string, bool> setOnlineStatus, bool characterOnlineKey, int seriaIndex)
     {
         _currentContact = contact;
@@ -56,21 +62,33 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
-        SetOnlineKey(characterOnlineKey);
+        ChangeOnlineIndicator(characterOnlineKey);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        // _backArrowImage.color = _backArrowImageColor;
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        // _messagesShower.Init(_currentContact.PhoneMessagesGraph, _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
-        //     () =>
-        //     {
-        //         setOnlineStatus.Invoke(contact.NameContact.Key, false);
-        //         SetOnlineKey(false);
-        //     }, ActivateBackButton, characterOnlineKey);
+        
+        _messagesShower.Init(GetContactNodeCase(contact.NameLocalizationString.Key) , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+            () =>
+            {
+                setOnlineStatus.Invoke(contact.NameLocalizationString.Key, false);
+                ChangeOnlineIndicator(false);
+            }, ActivateBackButton, characterOnlineKey);
     }
 
-    private void SetOnlineKey(bool characterOnlineKey)
+    private ContactNodeCase GetContactNodeCase(string key)
+    {
+        for (int i = 0; i < _sortedPhoneNodeCases.Count; i++)
+        {
+            if (_sortedPhoneNodeCases[i].ContactKey == key)
+            {
+                return _sortedPhoneNodeCases[i];
+            }
+        }
+
+        return null;
+    }
+    private void ChangeOnlineIndicator(bool characterOnlineKey)
     {
         if (characterOnlineKey)
         {
@@ -105,20 +123,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _readDialog.onClick.RemoveAllListeners();
         _messagesShower.Dispose();
         _cancellationTokenSource?.Cancel();
-    }
-
-    private void SubscribeButtons()
-    {
-        _readDialog.interactable = true;
-        _backArrow.interactable = false;
-        _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
-        _readDialog.onClick.AddListener(() =>
-        {
-            // if (_messagesShower.ShowNext() == false)
-            // {
-            //     ReadDisable();
-            // }
-        });
     }
 
     private void ActivateBackButton()

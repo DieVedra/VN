@@ -142,7 +142,7 @@ public class PhoneNodeDrawer : NodeEditor
                 }
                 EditorGUILayout.EndHorizontal();
                 
-                DrawContactsInfo(_onlineContactsSerializedProperty, _deleteNotification);
+                DrawContactsInfo(_onlineContactsSerializedProperty, _deleteOnline);
                 
                 
                 serializedObject.ApplyModifiedProperties();

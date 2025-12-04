@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using XNode;
 
 public class PhoneUIHandler : ILocalizable
 {
@@ -46,6 +47,8 @@ public class PhoneUIHandler : ILocalizable
         _curtainUIHandler = curtainUIHandler;
         _initOperation = initOperation;
         _sortedPhoneNodeCases = new List<ContactNodeCase>(_caseCount);
+        _sortedOnlineContacts = new List<ContactInfo>(_caseCount);
+        _sortedNotifications = new List<ContactInfo>(_caseCount);
         _phoneMessagesExtractor = new PhoneMessagesExtractor();
         _switchToContactsScreenCommand = new ReactiveCommand().AddTo(compositeDisposable);
         _switchToDialogScreenCommand = new ReactiveCommand<PhoneContact>().AddTo(compositeDisposable);
@@ -86,7 +89,7 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform, GetOnlineStatus);
-        var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton , _curtainUIHandler, _narrativePanelUI, phoneUIView.transform.GetSiblingIndex());
+        var messagesShower = new MessagesShower(_phoneMessagesExtractor, phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton , _curtainUIHandler, _narrativePanelUI, phoneUIView.transform.GetSiblingIndex());
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
@@ -107,6 +110,7 @@ public class PhoneUIHandler : ILocalizable
         _dialogScreenHandler.Disable();
         _phoneUIGameObject.SetActive(false);
         _topPanelHandler.Dispose();
+        _phoneMessagesExtractor.Dispose();
     }
     public void ConstructFromNode(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<ContactInfo> onlineContacts,
         IReadOnlyList<ContactInfo> notificationsInBlockScreen,
@@ -126,6 +130,8 @@ public class PhoneUIHandler : ILocalizable
         TryStartPhoneTime(startHour, startMinute, playModeKey);
         _topPanelHandler.Init(_phoneTime, playModeKey, butteryPercent);
         _phoneUIGameObject.SetActive(true);
+        _contactsScreenHandler.Init(_sortedPhoneNodeCases);
+        _dialogScreenHandler.Init(_sortedPhoneNodeCases);
         SetBlockScreenBackgroundFromNode();
     }
     public void SetBlockScreenBackgroundFromNode()

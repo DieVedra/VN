@@ -10,11 +10,10 @@ public class ContactNodeCase : ContactInfo
     [SerializeField] private NodePort _port;
 
     public string PortName => _portName;
-    public int ContactIndex => _contactIndex;
     public NodePort Port => _port;
 
 
-    public ContactNodeCase(NodePort port, string key, string name, string portName, int contactIndex)
+    public ContactNodeCase(NodePort port, int contactIndex, string key, string name, string portName)
         : base(key, name)
     {
         _port = port;

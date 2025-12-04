@@ -17,12 +17,11 @@ public class MessagesShower
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
-    // private IReadOnlyList<PhoneMessageLocalization> _phoneMessagesLocalization;
     private Action _setOnlineStatus;
     private readonly CustomizationCurtainUIHandler _curtainUIHandler;
     private readonly NarrativePanelUIHandler _narrativePanelUI;
     private readonly Button _readDialogButton;
-
+    private readonly PhoneMessagesExtractor _phoneMessagesExtractor;
     private readonly int _phoneSublingIndex;
     private PhoneMessageType _lastMessageType;
     private CancellationTokenSource _cancellationTokenSource;
@@ -33,13 +32,13 @@ public class MessagesShower
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
     private CompositeDisposable _narrativeCompositeDisposable;
-    private PhoneMessagesGraph _phoneMessagesGraph;
     private Action _activateBackButton;
     private bool _inProgress;
     private bool _resultShowText;
     private bool _characterOnlineKey;
-    public MessagesShower(Button readDialogButton, CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI, int phoneSublingIndex)
+    public MessagesShower(PhoneMessagesExtractor phoneMessagesExtractor, Button readDialogButton, CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI, int phoneSublingIndex)
     {
+        _phoneMessagesExtractor = phoneMessagesExtractor;
         _curtainUIHandler = curtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
         _phoneSublingIndex = phoneSublingIndex + _sublingIndexAddebleValue;
@@ -47,14 +46,12 @@ public class MessagesShower
         _readDialogButton = readDialogButton;
     }
 
-    public void Init(PhoneMessagesGraph phoneMessagesGraph,
+    public void Init(ContactNodeCase contactNodeCase,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus, Action activateBackButton, bool characterOnlineKey)
     {
         _activateBackButton = activateBackButton;
         _compositeDisposable = new CompositeDisposable();
-        // _phoneMessagesLocalization = phoneMessagesLocalization;
-        _phoneMessagesGraph = phoneMessagesGraph;
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
@@ -63,12 +60,18 @@ public class MessagesShower
         _inProgress = false;
         _resultShowText = false;
         _characterOnlineKey = characterOnlineKey;
-        // if (phoneMessagesLocalization.Count == _defaultValue)
-        // {
-        //     activateBackButton.Invoke();
-        // }
-        
-        // _phoneMessagesGraph.InitPhoneMessagesGraph();
+
+//логика вывода уже прочитанных сообщений
+        if (contactNodeCase == null)
+        {
+            activateBackButton.Invoke();
+
+        }
+        else
+        {
+            _phoneMessagesExtractor.Init(contactNodeCase);
+        }
+
         
         // for (int i = 0; i < phoneMessagesLocalization.Count; i++)
         // {
@@ -109,12 +112,11 @@ public class MessagesShower
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
-        // TryHideNarrativeMessage();
     }
 
     private async UniTask ShowNext()
     {
-        PhoneMessageLocalization phoneMessage = await _phoneMessagesGraph.GetMessageText();
+        PhoneMessage phoneMessage = await _phoneMessagesExtractor.GetMessageText();
         if (phoneMessage != null)
         {
             switch (phoneMessage.MessageType)
@@ -130,7 +132,7 @@ public class MessagesShower
             }
         }
 
-        if (_phoneMessagesGraph.MessagesIsOut == false)
+        if (_phoneMessagesExtractor.MessagesIsOut == false)
         {
             SubscribeReadButton();
         }
@@ -139,71 +141,19 @@ public class MessagesShower
             _activateBackButton.Invoke();
         }
     }
-    
-    
-    
-    // public bool ShowNext()
-    // {
-    //     // var t = _phoneMessagesGraph.GetMessageText().Forget();
-    //     //
-    //     // if (t == null)
-    //     // {
-    //     //     
-    //     // }
-    //     
-    //     if (_inProgress == false && _index < _phoneMessagesLocalization.Count)
-    //     {
-    //         _inProgress = true;
-    //         PhoneMessageLocalization phoneMessageLocalization = _phoneMessagesLocalization[_index];
-    //         switch (phoneMessageLocalization.MessageType)
-    //         {
-    //             case PhoneMessageType.Outcoming:
-    //                 SetOutcomingMessage(phoneMessageLocalization);
-    //                 _lastMessageType = PhoneMessageType.Outcoming;
-    //                 break;
-    //             case PhoneMessageType.Incoming:
-    //                 SetIncomingMessage(phoneMessageLocalization);
-    //                 _lastMessageType = PhoneMessageType.Incoming;
-    //                 break;
-    //             // case PhoneMessageType.Narrative:
-    //             //     if (phoneMessageLocalization.IsReaded == false)
-    //             //     {
-    //             //         SetNarrativeMessage(phoneMessageLocalization).Forget();
-    //             //         _lastMessageType = PhoneMessageType.Narrative;
-    //             //     }
-    //             //     break;
-    //         }
-    //
-    //         _index++;
-    //         _resultShowText = true;
-    //         _inProgress = false;
-    //     }
-    //     else
-    //     {
-    //         ResultFalse();
-    //     }
-    //
-    //     void ResultFalse()
-    //     {
-    //         _resultShowText = false;
-    //         _setOnlineStatus.Invoke();
-    //     }
-    //     return _resultShowText;
-    // }
-    
-    private void SetIncomingMessage(PhoneMessageLocalization phoneMessageLocalization)
+
+    private void SetIncomingMessage(PhoneMessage phoneMessage)
     {
-        SetMessage(_incomingMessagePool.Get(), phoneMessageLocalization);
+        SetMessage(_incomingMessagePool.Get(), phoneMessage);
     }
 
-    private void SetOutcomingMessage(PhoneMessageLocalization phoneMessageLocalization)
+    private void SetOutcomingMessage(PhoneMessage phoneMessage)
     {
-        SetMessage(_outcomingMessagePool.Get(), phoneMessageLocalization);
+        SetMessage(_outcomingMessagePool.Get(), phoneMessage);
     }
 
-    private void SetMessage(MessageView view, PhoneMessageLocalization phoneMessageLocalization)
+    private void SetMessage(MessageView view, PhoneMessage phoneMessageLocalization)
     {
-        // TryHideNarrativeMessage();
         _startPosition.x = view.RectTransform.anchoredPosition.x;
         view.RectTransform.anchoredPosition = _startPosition;
         var newPosYOffset = view.ImageRectTransform.sizeDelta.y + _offset;
@@ -224,48 +174,8 @@ public class MessagesShower
         view.gameObject.SetActive(true);
         
         ResizePanel(view);
-        phoneMessageLocalization.IsReaded = true;
+        // phoneMessageLocalization.IsReaded = true;
     }
-    // private async UniTaskVoid SetNarrativeMessage(PhoneMessageLocalization phoneMessageLocalization)
-    // {
-    //     _cancellationTokenSource = new CancellationTokenSource();
-    //     phoneMessageLocalization.IsReaded = true;
-    //     
-    //     if (_lastMessageType == PhoneMessageType.Narrative)
-    //     {
-    //         await _narrativePanelUI.DisappearanceNarrativePanelInPlayMode(_cancellationTokenSource.Token);
-    //     }
-    //     else
-    //     {
-    //         _narrativeCompositeDisposable?.Clear();
-    //         _narrativeCompositeDisposable = new CompositeDisposable();
-    //         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
-    //         {
-    //             _narrativePanelUI.SetText(phoneMessageLocalization.TextMessage);
-    //         }, _narrativeCompositeDisposable);
-    //
-    //         _curtainUIHandler.SetCurtainUnderTargetPanel(_narrativePanelUI.RectTransform, _phoneSublingIndex);
-    //         await UniTask.WhenAll(
-    //             _curtainUIHandler.CurtainImage.DOFade(_fadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
-    //             _narrativePanelUI.EmergenceNarrativePanelInPlayMode(phoneMessageLocalization.TextMessage, _cancellationTokenSource.Token));
-    //     }
-    // }
-    //
-    // private void TryHideNarrativeMessage()
-    // {
-    //     if (_lastMessageType == PhoneMessageType.Narrative)
-    //     {
-    //         // _curtainUIHandler.Transform.SetSiblingIndex(_blackoutFrameSublingIndexBufer);
-    //         // _narrativePanelUI.RectTransform.SetSiblingIndex(_narrativePanelSublingIndexBufer);
-    //         // _curtainUIHandler.CurtainImage.raycastTarget = true;
-    //         // _curtainUIHandler.CurtainImage.gameObject.SetActive(false);
-    //         
-    //         _curtainUIHandler.SetCurtainToDefaultSibling();
-    //         UniTask.WhenAll(
-    //             _curtainUIHandler.CurtainImage.DOFade(_unfadeEndValue, _duration).WithCancellation(_cancellationTokenSource.Token),
-    //             _narrativePanelUI.DisappearanceNarrativePanelInPlayMode(_cancellationTokenSource.Token));
-    //     }
-    // }
     private void ResizePanel(MessageView view)
     {
         view.Text.ForceMeshUpdate();

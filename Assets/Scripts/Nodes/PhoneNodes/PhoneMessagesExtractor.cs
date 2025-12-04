@@ -1,14 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using XNode;
 
 public class PhoneMessagesExtractor
 {
 	private Node _nextNode;
-	public PhoneMessagesExtractor()
-	{
-		
-	}
-
+	private CancellationTokenSource _cancellationTokenSource;
+	private PhoneMessage _phoneMessage;
     public bool MessagesIsOut { get; private set; }
     
 	public void Init(ContactNodeCase contactNodeCase)
@@ -16,21 +14,30 @@ public class PhoneMessagesExtractor
 		MessagesIsOut = false;
 		_nextNode = contactNodeCase.Port.Connection.node;
 	}
-	public async UniTask<PhoneMessageLocalization> GetMessageText()
+
+	public void Dispose()
+	{
+		_cancellationTokenSource?.Cancel();
+	}
+	public async UniTask<PhoneMessage> GetMessageText()
 	{
 		switch (_nextNode)
 		{
 			case ChoicePhoneNode choicePhoneNode:
 				await choicePhoneNode.Enter();
-				await UniTask.WaitUntil(() => choicePhoneNode.IsOver == true);
+				_cancellationTokenSource = new CancellationTokenSource();
+				await UniTask.WaitUntil(() => choicePhoneNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
 				_nextNode = choicePhoneNode.PhoneMessageNode.GetNextNode();
-				return GetPhoneMessage(choicePhoneNode.PhoneMessageNode);
+				SetMessage(choicePhoneNode.PhoneMessageNode);
+				return _phoneMessage;
 
 			case PhoneSwitchNode phoneSwitchNode:
 				await phoneSwitchNode.Enter();
-				await UniTask.WaitUntil(() => phoneSwitchNode.IsOver == true);
+				_cancellationTokenSource = new CancellationTokenSource();
+				await UniTask.WaitUntil(() => phoneSwitchNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
 				_nextNode = phoneSwitchNode.PhoneMessageNode.GetNextNode();
-				return GetPhoneMessage(phoneSwitchNode.PhoneMessageNode);
+				SetMessage(phoneSwitchNode.PhoneMessageNode);
+				return _phoneMessage;
 
 			case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
 				if (phoneNarrativeMessageNode.IsEntered == false)
@@ -41,13 +48,25 @@ public class PhoneMessagesExtractor
 				{
 					await phoneNarrativeMessageNode.Exit();
 					_nextNode = phoneNarrativeMessageNode.PhoneMessageNode.GetNextNode();
-					return GetPhoneMessage(phoneNarrativeMessageNode.PhoneMessageNode);
+					SetMessage(phoneNarrativeMessageNode.PhoneMessageNode);
+					return _phoneMessage;
 				}
 				break;
 			
 			case PhoneMessageNode phoneMessageNode:
 				_nextNode = phoneMessageNode.GetNextNode();
-				return GetPhoneMessage(phoneMessageNode);
+				SetMessage(phoneMessageNode);
+				return _phoneMessage;
+			
+			case NotificationNode notificationNode:
+				notificationNode.Enter().Forget();
+				_nextNode = notificationNode.GetNextNode();
+				if (_nextNode is PhoneMessageNode nextPhoneMessageNode)
+				{
+					_nextNode = nextPhoneMessageNode.GetNextNode();
+					SetMessage(nextPhoneMessageNode);
+				}
+				return _phoneMessage;
 			
 			case EndNode endNode:
 				MessagesIsOut = true;
@@ -56,8 +75,9 @@ public class PhoneMessagesExtractor
 		return default;
 	}
 
-	private PhoneMessageLocalization GetPhoneMessage(PhoneMessageNode phoneMessageNode)
+	private void SetMessage(PhoneMessageNode phoneMessageNode)
 	{
-		return new PhoneMessageLocalization(phoneMessageNode.GetLocalizationString, phoneMessageNode.Type);
+		_phoneMessage.TextMessage = phoneMessageNode.GetLocalizationString;
+		_phoneMessage.MessageType = phoneMessageNode.Type;
 	}
 }
