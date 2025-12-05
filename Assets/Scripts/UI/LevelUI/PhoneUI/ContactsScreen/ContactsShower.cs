@@ -25,7 +25,7 @@ public class ContactsShower
         _getOnlineStatus = getOnlineStatus;
     }
 
-    public void Init(IReadOnlyList<PhoneContact> phoneContacts, IReadOnlyList<ContactNodeCase> sortedPhoneNodeCases,
+    public void Init(IReadOnlyDictionary<string, PhoneContact> phoneContacts,
         HashSet<string> nonReadedContacts,
         PoolBase<ContactView> contactsPool, SetLocalizationChangeEvent setLocalizationChangeEvent,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand,
@@ -39,10 +39,10 @@ public class ContactsShower
         _verticalLayoutGroup.enabled = true;
         _contentSizeFitter.enabled = true;
         _newMessagesNotFound = true;
-        for (int i = 0; i < phoneContacts.Count; i++)
+        Debug.Log($"phoneContacts.Count   {phoneContacts.Count}");
+        foreach (var contact in phoneContacts)
         {
-            
-            CreateContact(phoneContacts[i], nonReadedContacts, switchToDialogScreenCommand);
+            CreateContact(contact.Value, nonReadedContacts, switchToDialogScreenCommand);
         }
         if (_newMessagesNotFound == true)
         {

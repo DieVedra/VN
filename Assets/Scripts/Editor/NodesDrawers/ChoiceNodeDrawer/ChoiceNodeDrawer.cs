@@ -23,7 +23,9 @@ public class ChoiceNodeDrawer : NodeEditor
     private MethodInfo _privateMethod;
     private MethodInfo _addCase;
     private MethodInfo _removeCase;
+    private MethodInfo _initLocalizationStringInCase;
     private string[] _timerPortIndexes;
+    private bool[] _showStatsKeys;
 
     public override void OnBodyGUI()
     {
@@ -37,7 +39,11 @@ public class ChoiceNodeDrawer : NodeEditor
             _timerPortIndexProperty = serializedObject.FindProperty("_timerPortIndex");
             _showOutputProperty = serializedObject.FindProperty("_showOutput");
             _choiceCasesProperty = serializedObject.FindProperty("_choiceCases");
-
+            _showStatsKeys = new bool[ChoiceNode.MaxCaseCount];
+            for (int i = 0; i < ChoiceNode.MaxCaseCount; i++)
+            {
+                _showStatsKeys[i] = false;
+            }
             if (NodeForCallMethods == null)
             {
                 NodeForCallMethods = _choiceNode;
@@ -46,6 +52,7 @@ public class ChoiceNodeDrawer : NodeEditor
             _privateMethod = type.GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
             _addCase = type.GetMethod("AddCase", BindingFlags.NonPublic | BindingFlags.Instance);
             _removeCase = type.GetMethod("RemoveCase", BindingFlags.NonPublic | BindingFlags.Instance);
+            _initLocalizationStringInCase = type.GetMethod("InitLocalizationStringInCase", BindingFlags.NonPublic | BindingFlags.Instance);
             CreatePortIndexes();
         }
         else
@@ -148,7 +155,14 @@ public class ChoiceNodeDrawer : NodeEditor
     private void DrawChoiceCase(SerializedProperty caseSerializedProperty, int index)
     {
         _caseProperty = caseSerializedProperty.FindPropertyRelative("_choiceText");
+        EditorGUI.BeginChangeCheck();
         DrawHorizontalField<string>(_caseProperty, "Text: ", 50f, 450f);
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            _initLocalizationStringInCase.Invoke(NodeForCallMethods, new object[] {index});
+            serializedObject.Update();
+        }
 
         _caseProperty = caseSerializedProperty.FindPropertyRelative("_choicePrice");
         DrawHorizontalField<int>(_caseProperty, "Price: ", 50f);
@@ -158,15 +172,13 @@ public class ChoiceNodeDrawer : NodeEditor
 
         _caseProperty = caseSerializedProperty.FindPropertyRelative("_showNotificationChoice");
         DrawHorizontalField<bool>(_caseProperty, "Show Notifications: ", 120f);
-        
-        _caseProperty = caseSerializedProperty.FindPropertyRelative("_showStatsChoiceKey");
 
-        _caseProperty.boolValue = EditorGUILayout.Toggle("Show stats: ", _caseProperty.boolValue);
-        if (_caseProperty.boolValue == true)
+        _showStatsKeys[index] = EditorGUILayout.BeginFoldoutHeaderGroup(_showStatsKeys[index], "Show stats: ");
+        if (_showStatsKeys[index] == true)
         {
             DrawStats(_choiceNode.GetStatsChoiceLocalizations(index), caseSerializedProperty.FindPropertyRelative("_baseStatsChoice"));
         }
-        
+        EditorGUILayout.EndFoldoutHeaderGroup();
         if (_showOutputProperty.boolValue == false)
         {
             NodeEditorGUILayout.PortField(_choiceNode.GetOutputPort($"{ChoiceNode.PortNamePart1}{index}{ChoiceNode.PortNamePart2}"));

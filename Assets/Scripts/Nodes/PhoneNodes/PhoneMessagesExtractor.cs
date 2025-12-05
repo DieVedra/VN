@@ -1,20 +1,31 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
+using UnityEngine;
 using XNode;
 
 public class PhoneMessagesExtractor
 {
+	private readonly ReactiveCommand _tryShowNextReactiveCommand;
 	private Node _nextNode;
 	private CancellationTokenSource _cancellationTokenSource;
 	private PhoneMessage _phoneMessage;
-    public bool MessagesIsOut { get; private set; }
+
+	public PhoneMessagesExtractor(ReactiveCommand tryShowNextReactiveCommand)
+	{
+		_tryShowNextReactiveCommand = tryShowNextReactiveCommand;
+	}
+
+	public bool MessagesIsOut { get; private set; }
+	public event Action MoveNext;
     
 	public void Init(ContactNodeCase contactNodeCase)
 	{
+		_phoneMessage = new PhoneMessage();
 		MessagesIsOut = false;
 		_nextNode = contactNodeCase.Port.Connection.node;
 	}
-
 	public void Dispose()
 	{
 		_cancellationTokenSource?.Cancel();
@@ -24,22 +35,27 @@ public class PhoneMessagesExtractor
 		switch (_nextNode)
 		{
 			case ChoicePhoneNode choicePhoneNode:
+				Debug.Log($"ChoicePhoneNode choicePhoneNode");
+
 				await choicePhoneNode.Enter();
 				_cancellationTokenSource = new CancellationTokenSource();
 				await UniTask.WaitUntil(() => choicePhoneNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
-				_nextNode = choicePhoneNode.PhoneMessageNode.GetNextNode();
-				SetMessage(choicePhoneNode.PhoneMessageNode);
+				choicePhoneNode.SetMessage(_phoneMessage);
+				_nextNode = choicePhoneNode.GetNextNode();
+				_tryShowNextReactiveCommand.Execute();
 				return _phoneMessage;
 
 			case PhoneSwitchNode phoneSwitchNode:
 				await phoneSwitchNode.Enter();
 				_cancellationTokenSource = new CancellationTokenSource();
 				await UniTask.WaitUntil(() => phoneSwitchNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
-				_nextNode = phoneSwitchNode.PhoneMessageNode.GetNextNode();
-				SetMessage(phoneSwitchNode.PhoneMessageNode);
-				return _phoneMessage;
+				_nextNode = phoneSwitchNode.GetNextNode();
+				_tryShowNextReactiveCommand.Execute();
+				break;
 
 			case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
+				Debug.Log($"PhoneNarrativeMessageNode phoneNarrativeMessageNode");
+
 				if (phoneNarrativeMessageNode.IsEntered == false)
 				{
 					await phoneNarrativeMessageNode.Enter();
@@ -47,15 +63,24 @@ public class PhoneMessagesExtractor
 				else
 				{
 					await phoneNarrativeMessageNode.Exit();
-					_nextNode = phoneNarrativeMessageNode.PhoneMessageNode.GetNextNode();
-					SetMessage(phoneNarrativeMessageNode.PhoneMessageNode);
-					return _phoneMessage;
+					
+					_nextNode = phoneNarrativeMessageNode.GetNextNode();
+					if (_nextNode is PhoneNarrativeMessageNode castNode)
+					{
+						await castNode.Enter();
+					}
+					else
+					{
+						_tryShowNextReactiveCommand.Execute();
+					}
 				}
 				break;
 			
 			case PhoneMessageNode phoneMessageNode:
+				Debug.Log($"PhoneMessageNode phoneMessageNode");
 				_nextNode = phoneMessageNode.GetNextNode();
 				SetMessage(phoneMessageNode);
+				MoveNext?.Invoke();
 				return _phoneMessage;
 			
 			case NotificationNode notificationNode:

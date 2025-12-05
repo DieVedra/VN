@@ -43,24 +43,28 @@ public class BaseNode : Node
     {
         if (_nextNode == null)
         {
-            NodePort nodePort = OutputPortBaseNode;
-            if (nodePort.IsConnected == true)
-            {
-                _nextNode = nodePort.Connection.node as BaseNode;
-                if (_nextNode == null)
-                {
-                    _nextNode = this;
-                }
-            }
-            else
-            {
-                _nextNode = this;
-            }
+            TryFindDefaultNextNodeAndSet();
         }
 
         return _nextNode;
     }
 
+    public void TryFindDefaultNextNodeAndSet()
+    {
+        NodePort nodePort = OutputPortBaseNode;
+        if (nodePort.IsConnected == true)
+        {
+            _nextNode = nodePort.Connection.node as BaseNode;
+            if (_nextNode == null)
+            {
+                _nextNode = this;
+            }
+        }
+        else
+        {
+            _nextNode = this;
+        }
+    }
     protected override void Init()
     {
         base.Init();

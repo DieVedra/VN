@@ -23,7 +23,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private List<NotificationView> _notificationViews;
     private PoolBase<NotificationView> _notificationViewPool;
     private IReadOnlyList<ContactInfoToGame> _notificationContacts;
-    private IReadOnlyList<PhoneContact> _phoneContacts;
+    private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
     private IReadOnlyList<ContactInfo> _notificationsInBlockScreen;
     private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
@@ -51,7 +51,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _phoneNodeCases = phoneNodeCases;
         _dateLocStr = date;
         _notificationsInBlockScreen = notificationsInBlockScreen;
-        _phoneContacts = phone.PhoneContactDatas;
+        _phoneContacts = phone.PhoneContactDictionary;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
@@ -72,18 +72,12 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             for (int i = 0; i < _notificationsInBlockScreen.Count; i++)
             {
-                for (int j = 0; j < _phoneContacts.Count; j++)
+                for (int j = 0; j < _phoneNodeCases.Count; j++)
                 {
-                    if (_notificationsInBlockScreen[i].ContactKey == _phoneContacts[j].NameLocalizationString.Key)
+                    if (_notificationsInBlockScreen[i].ContactKey == _phoneNodeCases[j].ContactKey)
                     {
-                        for (int k = 0; k < _phoneNodeCases.Count; k++)
-                        {
-                            if (_notificationsInBlockScreen[i].ContactKey == _phoneNodeCases[k].ContactKey)
-                            {
-                                CreateNotification(_phoneContacts[j], setLocalizationChangeEvent);
-                                result = true;
-                            }
-                        }
+                        CreateNotification(_phoneContacts[_phoneNodeCases[j].ContactKey], setLocalizationChangeEvent);
+                        result = true;
                     }
                 }
             }

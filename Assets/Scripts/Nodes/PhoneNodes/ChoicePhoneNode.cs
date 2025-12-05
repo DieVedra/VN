@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using XNode;
 
 public class ChoicePhoneNode : ChoiceNode
 {
     private CustomizationCurtainUIHandler _curtainUIHandler;
-    public PhoneMessageNode PhoneMessageNode { get; private set; }
+    private int _resultCaseIndex;
     public bool IsOver { get; private set; }
     
     public void ConstructMyChoicePhoneNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
@@ -29,6 +28,12 @@ public class ChoicePhoneNode : ChoiceNode
             ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
         }
     }
+
+    public void SetMessage(PhoneMessage phoneMessage)
+    {
+        phoneMessage.TextMessage = _choiceCases[_resultCaseIndex].GetLocalizationString();
+        phoneMessage.MessageType = PhoneMessageType.Outcoming;
+    }
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
@@ -41,8 +46,8 @@ public class ChoicePhoneNode : ChoiceNode
         ChoiceResultEvent.SubscribeWithCompositeDisposable(SetNextNodeFromResultChoice, CompositeDisposable);
         IsMerged = isMerged;
         
-        
-        _curtainUIHandler.SetCurtainUnderTargetPanel(ChoicePanelUIHandler.RectTransform, PhoneUIHandler.PhoneSiblingIndex, true);
+        _curtainUIHandler.CurtainImage.raycastTarget = true;
+
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.FadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             ChoicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, ChoiceData, ChoiceResultEvent));
@@ -60,10 +65,11 @@ public class ChoicePhoneNode : ChoiceNode
         CancellationTokenSource = new CancellationTokenSource();
         
         
-        _curtainUIHandler.SetCurtainToDefaultSibling();
+        _curtainUIHandler.ResetSibling();
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token));
+        _curtainUIHandler.CurtainImage.raycastTarget = false;
         CompositeDisposable.Dispose();
         ChoiceData = null;
         IsOver = true;
@@ -77,32 +83,20 @@ public class ChoicePhoneNode : ChoiceNode
     {
         ChoiceResultEvent.Dispose();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
+        GetNextNode();
+        
         if (_showOutput == true)
         {
-            TryFindConnectedPhoneMessageNode(OutputPortBaseNode);
+            TryFindDefaultNextNodeAndSet();
         }
         else
         {
-            int portIndex = _choiceCases.IndexOf(choiceCaseResult);
-            TryFindConnectedPhoneMessageNode(GetOutputPort(GetPortName(portIndex)));
+            _resultCaseIndex = _choiceCases.IndexOf(choiceCaseResult);
+            var nodePort = GetOutputPort(GetPortName(_resultCaseIndex));
+            
+            SetNextNode(nodePort.Connection.node as BaseNode);
         }
         GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         Exit().Forget();
-    }
-
-    private void TryFindConnectedPhoneMessageNode(NodePort outputPort)
-    {
-        for (int i = 0; i < outputPort.GetConnections().Count; i++)
-        {
-            if (outputPort.GetConnection(i).node is PhoneMessageNode phoneMessageNode)
-            {
-                PhoneMessageNode = phoneMessageNode;
-                break;
-            }
-            else
-            {
-                PhoneMessageNode = null;
-            }
-        }
     }
 }

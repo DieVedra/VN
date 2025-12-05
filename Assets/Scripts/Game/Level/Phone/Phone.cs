@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using UnityEngine;
 
 [Serializable]
@@ -17,11 +16,15 @@ public class Phone
 
     [SerializeField] private List<PhoneContact> _phoneContactDatas;
 
+    // private HashSet<string> _phoneContactDictionary;
+    private Dictionary<string, PhoneContact> _phoneContactDictionary;
     public IReadOnlyList<Sprite> Hands => _hands;
 
     // public IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
 
-    public IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
+    // public IReadOnlyList<PhoneContact> PhoneContactDatas => _phoneContactDatas;
+    // public IReadOnlyCollection<string> PhoneContactDictionary => _phoneContactDictionary;
+    public IReadOnlyDictionary<string, PhoneContact> PhoneContactDictionary => _phoneContactDictionary;
 
     public Phone(LocalizationString namePhone, IReadOnlyList<Sprite> hands, Sprite phoneFrame, Sprite background)
     {
@@ -30,14 +33,17 @@ public class Phone
         PhoneFrame = phoneFrame;
         Background = background;
         _phoneContactDatas = new List<PhoneContact>();
+        _phoneContactDictionary = new Dictionary<string, PhoneContact>();
     }
 
-    public void AddContact(params PhoneContact[] contacts)
+    public void AddContact(PhoneContact contact)
     {
-        if (_phoneContactDatas == null)
+        Debug.Log($"AddContact1   {contact.NameLocalizationString.DefaultText}");
+        if (_phoneContactDictionary.ContainsKey(contact.NameLocalizationString.Key) == false)
         {
-            _phoneContactDatas = new List<PhoneContact>();
+            Debug.Log($"AddContact2   {contact.NameLocalizationString.DefaultText}");
+            _phoneContactDatas.Add(contact);
+            _phoneContactDictionary.Add(contact.NameLocalizationString.Key, contact);
         }
-        _phoneContactDatas.AddRange(contacts);
     }
 }

@@ -37,10 +37,6 @@ public class ChoiceNode : BaseNode, ILocalizable
         NotificationPanelUIHandler = notificationPanelUIHandler;
         ChoicePanelUIHandler = choicePanelUIHandler;
         GameStatsProvider = gameStatsProvider;
-        for (int i = 0; i < _choiceCases.Count; i++)
-        {
-            _choiceCases[i].InitLocalizationString();
-        }
         if (IsPlayMode() == false)
         {
             ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
@@ -90,6 +86,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         CompositeDisposable.Dispose();
         ChoiceData = null;
     }
+
     protected override void SetInfoToView()
     {
         ChoicePanelUIHandler.ShowChoiceVariants(CreateChoice());
@@ -139,6 +136,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         SwitchToNextNodeEvent.Execute();
     }
+
     protected void TryFindConnectedPorts(NodePort outputPort)
     {
         bool notificationNodeFinded = false;
@@ -174,6 +172,11 @@ public class ChoiceNode : BaseNode, ILocalizable
     protected string GetPortName(int index)
     {
         return $"{PortNamePart1}{index}{PortNamePart2}";
+    }
+
+    private void InitLocalizationStringInCase(int index)
+    {
+        _choiceCases[index].InitLocalizationString();
     }
     private void AddCase()
     {

@@ -25,10 +25,6 @@ public class PhoneCreator
     
     public List<Phone> CreatePhonesOnStart(int currentSeriaIndex, bool isRuntime = true)
     {
-        if (isRuntime == false)
-        {
-            
-        }
         PhoneProvider phoneProvider;
         Phone phone;
         List<Phone> phones = new List<Phone>();

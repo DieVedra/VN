@@ -10,7 +10,7 @@ public class ChoiceNodeInitializer : MyNodeInitializer
         {
             var newStats = GameStatsHandlerNodeInitializer.ReinitBaseStats(oldChoiceCase[i].BaseStatsChoiceIReadOnly);
             var newCase = new ChoiceCase(newStats, oldChoiceCase[i].GetLocalizationString(), oldChoiceCase[i].ChoicePrice, oldChoiceCase[i].ChoiceAdditionaryPrice,
-                oldChoiceCase[i].ShowStatsChoiceKey, oldChoiceCase[i].ShowNotificationChoice);
+                oldChoiceCase[i].ShowNotificationChoice);
             newCase.InitLocalizationString();
             oldChoiceCase[i] = newCase;
         }

@@ -161,26 +161,14 @@ public class NodeGraphInitializer
                 phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex),
                     _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex),
                     _levelUIProvider.PhoneUIHandler,
-                    _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
+                    _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
+                    _levelUIProvider.ChoicePanelUIHandler, seriaIndex);
                 return;
             
             case ChangeStatsNode changeStatsNode:
                 changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler,
                     seriaIndex);
                 return;
-            
-            // case ChoicePhoneNode choicePhoneNode:
-            //     choicePhoneNode.ConstructMyChoicePhoneNode(_gameStatsProvider, _levelUIProvider.ChoicePanelUIHandler,
-            //         _levelUIProvider.NotificationPanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler, seriaIndex);
-            //     return;
-            
-            // case PhoneSwitchNode phoneSwitchNode:
-            //     phoneSwitchNode.ConstructMyPhoneSwitchNode(_gameStatsProvider, seriaIndex);
-            //     return;
-            
-            // case PhoneNarrativeMessageNode phoneNarrativeMessageNode:
-            //     phoneNarrativeMessageNode.ConstructMyPhoneNarrativeNode(_levelUIProvider.NarrativePanelUIHandler, _levelUIProvider.CustomizationCurtainUIHandler);
-            //     return;
         }
     }
 }

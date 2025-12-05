@@ -22,7 +22,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     
-    private List<Phone> _phones;
+    [SerializeField] private List<Phone> _phones;
     private PhoneCreator _phoneCreator;
     private PhoneContactsHandler _phoneContactsHandler;
 
@@ -49,6 +49,10 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
         }
         _phoneContentProvider = new PhoneContentProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab, _notificationViewPrefab, AddView);
         TryDestroyOld();
+        if (Application.isPlaying)
+        {
+            _phones.Clear();
+        }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -73,11 +77,12 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     {
         if (Application.isPlaying)
         {
-            if (_phones == null)
+            // if (_phones == null)
+            if (_phones.Count == 0)
             {
                 _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(currentSeriaIndex); // группировка контактов
                 _phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex);
-                _phoneContactsHandler.TryAddContacts(_phones, currentSeriaIndex);
+                _phoneContactsHandler.TryAddContacts(_phones);
 
                 
                 // _phoneContactsHandler.FillPhonesContacts(_phones);
@@ -91,34 +96,15 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
             {
                 _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(currentSeriaIndex);
                 _phoneCreator.TryAddPhone(_phones, currentSeriaIndex);
-                _phoneContactsHandler.TryAddContacts(_phones, currentSeriaIndex);
+                _phoneContactsHandler.TryAddContacts(_phones);
             }
             return _phones;
         }
         else
         {
-            Debug.Log($"+++++++++");
-
-            Debug.Log($"currentSeriaIndex {currentSeriaIndex}");
             _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(currentSeriaIndex); // группировка контактов
             var phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex, false); // создание телефонов
-            Debug.Log($"phones {phones.Count}");
-            for (int i = 0; i < phones.Count; i++)
-            {
-                Debug.Log($"{phones[i]} contacts pre add  {phones[i].PhoneContactDatas.Count}");
-            }
-            _phoneContactsHandler.TryAddContacts(phones, currentSeriaIndex);
-            for (int i = 0; i < phones.Count; i++)
-            {
-                for (int j = 0; j < phones[i].PhoneContactDatas.Count; j++)
-                {
-                    Debug.Log($"contact aft add {phones[i].PhoneContactDatas[j].NameLocalizationString}   AddInPlot {phones[i].PhoneContactDatas[j].AddInPlot}");
-
-                }
-            }
-            Debug.Log($"--------------");
-
-            // _phoneContactsHandler.FillPhonesContacts(_phones); //заполнение телефонов контактами которые должны быть не добавляемы из сюжета
+            _phoneContactsHandler.TryAddContacts(phones);
             return phones;
         }
     }

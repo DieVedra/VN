@@ -14,15 +14,23 @@ public class PhoneContactsHandler
         _dictionary = new Dictionary<string, PhoneContact>();
     }
 
-    public void TryAddContacts(List<Phone> phones, int seriaIndex)
+    public void TryAddContacts(List<Phone> phones)
     {
-        Debug.Log($"TryAddContacts {_checkMathSeriaIndex.LastIndex}  {seriaIndex}");
-        // if (_checkMathSeriaIndex.Check(seriaIndex))
-        // {
-        //     Debug.Log($"TryAddContacts ++");
-        // }
-
-        AddContacts(phones);
+        Phone phone;
+        PhoneContact phoneContact;
+        for (int i = 0; i < phones.Count; i++)
+        {
+            foreach (var pair in _dictionary)
+            {
+                phone = phones[i];
+                phoneContact = pair.Value;
+                if (phoneContact.ToPhoneKey == phone.NamePhone.Key && phoneContact.AddInPlot == false)
+                {
+                    phone.AddContact(phoneContact);
+                }
+                
+            }
+        }
     }
 
     public void TryCollectAllContactsBySeriaIndexOfRange(int seriaIndex)
@@ -87,27 +95,6 @@ public class PhoneContactsHandler
         }
         
         return contacts;
-    }
-    private void AddContacts(List<Phone> phones)
-    {
-        Phone phone;
-        PhoneContact phoneContact;
-        for (int i = 0; i < phones.Count; i++)
-        {
-            Debug.Log($"phoneContacts: {phones[i].PhoneContactDatas.Count}    _dictionary {_dictionary.Count} ");
-
-            foreach (var pair in _dictionary)
-            {
-                Debug.Log($"pair {pair.Value.NameLocalizationString}   ");
-                phone = phones[i];
-                phoneContact = pair.Value;
-                if (phoneContact.ToPhoneKey == phone.NamePhone.Key && phoneContact.AddInPlot == false)
-                {
-                    phone.AddContact(phoneContact);
-                }
-                
-            }
-        }
     }
 
     private bool CheckingOfRange(int a, int b)

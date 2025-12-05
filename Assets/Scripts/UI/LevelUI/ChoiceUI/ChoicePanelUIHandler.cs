@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ChoicePanelUIHandler
 {
+    private readonly int _siblingIndex;
     private readonly ChoiceCaseView[] _choiseCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
     private readonly Wallet _wallet;
@@ -35,12 +36,21 @@ public class ChoicePanelUIHandler
         _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiseCasesViews, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
 
         _choiceHeightHandler = new ChoiceHeightHandler(_choiseCasesViews, choicePanelUI);
+        _siblingIndex = _rectTransform.GetSiblingIndex();
     }
 
     public void Dispose()
     {
         _compositeDisposableOnUpdateWallet?.Clear();
         _panelResourceHandler.Dispose();
+    }
+    public void SetSibling(int index)
+    {
+        _rectTransform.SetSiblingIndex(index);
+    }
+    public void ResetSibling()
+    {
+        _rectTransform.SetSiblingIndex(_siblingIndex);
     }
     public void ShowChoiceVariants(ChoiceData data)
     {

@@ -257,6 +257,7 @@ public class PhoneNodeDrawer : NodeEditor
     {
         string portName = _buferSP1.FindPropertyRelative("_portName").stringValue;
         int index = _buferSP1.FindPropertyRelative("_contactIndex").intValue;
+        EditorGUILayout.LabelField($"Index: {index}");
         EditorGUILayout.LabelField($"Name contact: {_phoneNode.AllContacts[index].NameLocalizationString.DefaultText}");
         EditorGUILayout.LabelField($"Key contact: {_phoneNode.AllContacts[index].NameLocalizationString.Key}");
         

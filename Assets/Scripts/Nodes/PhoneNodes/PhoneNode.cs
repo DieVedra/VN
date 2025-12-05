@@ -21,17 +21,29 @@ public class PhoneNode : BaseNode, ILocalizable
     private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
     private const string _port = "Port ";
     private PhoneUIHandler _phoneUIHandler;
+    private NarrativePanelUIHandler _narrativePanelUI;
+    private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
     public IReadOnlyList<Phone> Phones;
     public Phone CurrentPhone => Phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
-        PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler, int seriaIndex)
+        PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
+        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler,
+
+        int seriaIndex)
     {
         Phones = phones;
+        for (int i = 0; i < phones.Count; i++)
+        {
+            Debug.Log($"ConstructMyPhoneNode {seriaIndex}   {CurrentPhone.PhoneContactDictionary.Count}");
+        }
+
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
+        _narrativePanelUI = narrativePanelUI;
+        _choicePanelUIHandler = choicePanelUIHandler;
         _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
         InitAllContacts();
@@ -61,7 +73,13 @@ public class PhoneNode : BaseNode, ILocalizable
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        SetInfoToView();
+        
+        int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
+            SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
+            _seriaIndex, _butteryPercent,_startHour, _startMinute);
+        _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
+        _choicePanelUIHandler.SetSibling(++siblig);
+        _narrativePanelUI.SetSibling(++siblig);
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         await _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
     }
@@ -71,15 +89,20 @@ public class PhoneNode : BaseNode, ILocalizable
         await _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         CancellationTokenSource = null;
         _phoneUIHandler.DisposeScreensBackgrounds();
+        
+        _customizationCurtainUIHandler.ResetSibling();
+        _narrativePanelUI.ResetSibling();
+        _choicePanelUIHandler.ResetSibling();
+        
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
     }
 
-    protected override void SetInfoToView()
-    {
-        _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
-            SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
-            _seriaIndex, _butteryPercent,_startHour, _startMinute);
-    }
+    // protected override void SetInfoToView()
+    // {
+    //     _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
+    //         SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
+    //         _seriaIndex, _butteryPercent,_startHour, _startMinute);
+    // }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -92,7 +115,10 @@ public class PhoneNode : BaseNode, ILocalizable
             _allContacts = new List<PhoneContact>();
         } 
         _allContacts.Clear();
-        _allContacts.AddRange(CurrentPhone.PhoneContactDatas); 
+        foreach (var contact in CurrentPhone.PhoneContactDictionary)
+        {
+            _allContacts.Add(contact.Value);
+        }
         _allContacts.AddRange(_contactsToAddInPlot);
     }
     private void AddCase(int index)

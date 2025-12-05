@@ -12,6 +12,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
     private const float _hideValue = 0f;
     private const float _unhideValue = 1f;
     public readonly RectTransform RectTransform;
+    private readonly int _siblingIndex;
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
     private readonly NarrativePanelUI _narrativePanelUI;
@@ -27,6 +28,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
         _textConsistentlyViewer = new TextConsistentlyViewer(narrativePanelUI.TextComponent);
         _narrativePanelUI = narrativePanelUI;
         RectTransform = _narrativePanelUI.PanelRectTransform;
+        _siblingIndex = RectTransform.GetSiblingIndex();
         _textComponent = _narrativePanelUI.TextComponent;
         _unfadePosition = RectTransform.anchoredPosition;
         _fadePosition = new Vector3(_unfadePosition.x, _unfadePosition.y + _offsetValue, _unfadePosition.z);
@@ -37,6 +39,15 @@ public class NarrativePanelUIHandler : PanelUIHandler
     public void Dispose()
     {
         TextConsistentlyViewer.TryStop();
+    }
+
+    public void SetSibling(int index)
+    {
+        RectTransform.SetSiblingIndex(index);
+    }
+    public void ResetSibling()
+    {
+        RectTransform.SetSiblingIndex(_siblingIndex);
     }
     public void NarrativeInEditMode(string text)
     {
