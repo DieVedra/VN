@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MessageView : MonoBehaviour
 {
@@ -9,6 +10,6 @@ public class MessageView : MonoBehaviour
 
     public RectTransform ImageRectTransform => _imageRectTransform;
     public TextMeshProUGUI Text => _text;
-    public RectTransform RectTransform => _rectTransform;
+    public RectTransform ViewRectTransform => _rectTransform;
 
 }

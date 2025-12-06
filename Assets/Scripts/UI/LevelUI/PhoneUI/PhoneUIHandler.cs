@@ -30,6 +30,7 @@ public class PhoneUIHandler : ILocalizable
     private BlockScreenHandler _blockScreenHandler;
     private ContactsScreenHandler _contactsScreenHandler;
     private DialogScreenHandler _dialogScreenHandler;
+    private ContactPrintStatusHandler _contactPrintStatusHandler;
     private PhoneTime _phoneTime;
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private Phone _currentPhone;
@@ -58,7 +59,7 @@ public class PhoneUIHandler : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {_notificationNameLocalizationString};
+        return new[] {_notificationNameLocalizationString, _contactPrintStatusHandler.PrintLocalizationString };
     }
 
     public void Init(PhoneUIView phoneUIView)
@@ -91,9 +92,11 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform, GetOnlineStatus);
-        
-        var messagesShower = new MessagesShower(_phoneMessagesExtractor, phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton,
-            _curtainUIHandler, _narrativePanelUI, _tryShowReactiveCommand);
+        _contactPrintStatusHandler = new ContactPrintStatusHandler(phoneUIView.DialogScreenViewBackground.PrintsImages,
+            phoneUIView.DialogScreenViewBackground.ContactOnlineStatus.transform.parent.gameObject,
+            phoneUIView.DialogScreenViewBackground.PrintsText);
+        var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.DialogTransform, _contactPrintStatusHandler, _phoneMessagesExtractor,
+            phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton, _tryShowReactiveCommand);
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
@@ -116,6 +119,7 @@ public class PhoneUIHandler : ILocalizable
         _phoneUIGameObject.SetActive(false);
         _topPanelHandler.Dispose();
         _phoneMessagesExtractor?.Dispose();
+        _contactPrintStatusHandler?.Dispose();
     }
     public int ConstructFromNode(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<ContactInfo> onlineContacts,
         IReadOnlyList<ContactInfo> notificationsInBlockScreen,

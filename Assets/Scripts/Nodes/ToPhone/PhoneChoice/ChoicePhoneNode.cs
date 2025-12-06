@@ -47,7 +47,7 @@ public class ChoicePhoneNode : ChoiceNode
         IsMerged = isMerged;
         
         _curtainUIHandler.CurtainImage.raycastTarget = true;
-
+        _curtainUIHandler.Transform.gameObject.SetActive(true);
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.FadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             ChoicePanelUIHandler.ShowChoiceVariantsInPlayMode(CancellationTokenSource.Token, ChoiceData, ChoiceResultEvent));
@@ -63,13 +63,11 @@ public class ChoicePhoneNode : ChoiceNode
             TimerCancellationTokenSource.Cancel();
         }
         CancellationTokenSource = new CancellationTokenSource();
-        
-        
-        _curtainUIHandler.ResetSibling();
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token));
         _curtainUIHandler.CurtainImage.raycastTarget = false;
+        _curtainUIHandler.Transform.gameObject.SetActive(false);
         CompositeDisposable.Dispose();
         ChoiceData = null;
         IsOver = true;

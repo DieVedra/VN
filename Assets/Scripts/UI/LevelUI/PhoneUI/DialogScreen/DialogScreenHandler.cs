@@ -41,7 +41,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactImage = dialogScreenView.ContactImage;
         _contactStatus = dialogScreenView.ContactStatusGameObject;
         _contactName = dialogScreenView.ContactName;
-        _contactStatusText = dialogScreenView.ContactStatus;
+        _contactStatusText = dialogScreenView.ContactOnlineStatus;
         _backArrow = dialogScreenView.BackArrowButton;
         _readDialog = dialogScreenView.ReadDialogButtonButton;
         _iconText = dialogScreenView.IconText;

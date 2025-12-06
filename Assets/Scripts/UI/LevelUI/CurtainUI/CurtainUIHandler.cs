@@ -11,7 +11,7 @@ public class CurtainUIHandler
     protected readonly BlackFrameView BlackFrameView;
     protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
     public readonly Image CurtainImage;
-    public Transform Transform;
+    public readonly Transform Transform;
     public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
     {
         Transform = blackFrameView.transform;

@@ -8,23 +8,21 @@ using UnityEngine.UI;
 
 public class MessagesShower
 {
-    private const int _sublingIndexAddebleValue = 1;
     private const int _defaultValue = 0;
     private const float _startPositionX = 0f;
-    private const float _startPositionY = -666f;
+    private const float _startPositionY = 0f;
     private const float _offset = 30f;
     private const float _multiplier = 1.6f;
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
     private Action _setOnlineStatus;
-    private readonly CustomizationCurtainUIHandler _curtainUIHandler;
-    private readonly NarrativePanelUIHandler _narrativePanelUI;
     private readonly Button _readDialogButton;
+    private readonly RectTransform _dialogTransform;
+    private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
     private readonly PhoneMessagesExtractor _phoneMessagesExtractor;
     private readonly ReactiveCommand _tryShowReactiveCommand;
 
-    private PhoneMessageType _lastMessageType;
     private CancellationTokenSource _cancellationTokenSource;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private List<MessageView> _messageViewed;
@@ -33,18 +31,16 @@ public class MessagesShower
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
-    private CompositeDisposable _narrativeCompositeDisposable;
     private Action _activateBackButton;
     private bool _inProgress;
     private bool _resultShowText;
     private bool _characterOnlineKey;
-    public MessagesShower(PhoneMessagesExtractor phoneMessagesExtractor, Button readDialogButton,
-        CustomizationCurtainUIHandler curtainUIHandler, NarrativePanelUIHandler narrativePanelUI,
+    public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler, PhoneMessagesExtractor phoneMessagesExtractor, Button readDialogButton,
         ReactiveCommand tryShowReactiveCommand)
     {
+        _dialogTransform = dialogTransform;
+        _contactPrintStatusHandler = contactPrintStatusHandler;
         _phoneMessagesExtractor = phoneMessagesExtractor;
-        _curtainUIHandler = curtainUIHandler;
-        _narrativePanelUI = narrativePanelUI;
         _messageViewed = new List<MessageView>();
         _readDialogButton = readDialogButton;
         _queueShowMessages = new Queue<Func<UniTask>>();
@@ -53,6 +49,8 @@ public class MessagesShower
         {
             TryShowAll(ShowNext).Forget();
         });
+        IncreaseDialogTransform(_offset);
+        _cancellationTokenSource = new CancellationTokenSource();
     }
 
     public void Init(ContactNodeCase contactNodeCase,
@@ -115,7 +113,6 @@ public class MessagesShower
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
-        _narrativeCompositeDisposable?.Clear();
         _messageViewed.Clear();
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
@@ -143,11 +140,10 @@ public class MessagesShower
             {
                 case PhoneMessageType.Outcoming:
                     SetOutcomingMessage(phoneMessage);
-                    _lastMessageType = PhoneMessageType.Outcoming;
                     break;
                 case PhoneMessageType.Incoming:
+                    await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length);
                     SetIncomingMessage(phoneMessage);
-                    _lastMessageType = PhoneMessageType.Incoming;
                     break;
             }
         }
@@ -179,18 +175,6 @@ public class MessagesShower
 
     private void SetMessage(MessageView view, PhoneMessage phoneMessage)
     {
-        // _startPosition.x = view.RectTransform.anchoredPosition.x;
-        // view.RectTransform.anchoredPosition = _startPosition;
-        // var newPosYOffset = view.ImageRectTransform.sizeDelta.y + _offset;
-        // Debug.Log($"newPosYOffset {newPosYOffset}  view {view.ImageRectTransform.gameObject.name} sizeDelta {view.ImageRectTransform.sizeDelta}  ");
-        // for (int i = 0; i < _messageViewed.Count; i++)
-        // {
-        //     _pos.x = _messageViewed[i].RectTransform.anchoredPosition.x;
-        //     _pos.y = _messageViewed[i].RectTransform.anchoredPosition.y + newPosYOffset;
-        //     _messageViewed[i].RectTransform.anchoredPosition = _pos;
-        // }
-        //
-        // _messageViewed.Add(view);
         view.Text.text = phoneMessage.TextMessage;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
@@ -201,19 +185,31 @@ public class MessagesShower
         
         ResizePanel(view);
         
-        _startPosition.x = view.RectTransform.anchoredPosition.x;
-        view.RectTransform.anchoredPosition = _startPosition;
-        var newPosYOffset = view.ImageRectTransform.sizeDelta.y + _offset;
+        _startPosition.x = view.ViewRectTransform.anchoredPosition.x;
+        float sizeDeltaY = view.ImageRectTransform.sizeDelta.y;
+        float offset = sizeDeltaY + _offset;
+        _startPosition.y = _startPositionY + offset;
+        
+        view.ViewRectTransform.anchoredPosition = _startPosition;
         for (int i = 0; i < _messageViewed.Count; i++)
         {
-            _pos.x = _messageViewed[i].RectTransform.anchoredPosition.x;
-            _pos.y = _messageViewed[i].RectTransform.anchoredPosition.y + newPosYOffset;
-            _messageViewed[i].RectTransform.anchoredPosition = _pos;
+            _pos.x = _messageViewed[i].ViewRectTransform.anchoredPosition.x;
+            _pos.y = _messageViewed[i].ViewRectTransform.anchoredPosition.y + offset;
+            _messageViewed[i].ViewRectTransform.anchoredPosition = _pos;
         }
 
+        IncreaseDialogTransform(offset);
         _messageViewed.Add(view);
         // phoneMessage.IsReaded = true;
     }
+
+    private void IncreaseDialogTransform(float offset)
+    {
+        _pos = _dialogTransform.sizeDelta;
+        _pos.y += offset;
+        _dialogTransform.sizeDelta = _pos;
+    }
+
     private void ResizePanel(MessageView view)
     {
         view.Text.ForceMeshUpdate();

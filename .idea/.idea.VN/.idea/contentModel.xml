@@ -610,10 +610,11 @@
               <e p="NarrativeNodeDrawer.cs" t="Include" />
               <e p="NotificationNodeDrawer.cs" t="Include" />
               <e p="ObjectProviderFromProperty.cs" t="Include" />
-              <e p="PhoneMessageNodeDrawer.cs" t="Include" />
-              <e p="PhoneNodeDrawer" t="Include">
+              <e p="PhoneNodesDrawers" t="Include">
                 <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
                 <e p="PhoneChoiceNodeDrawer.cs" t="Include" />
+                <e p="PhoneMessageNodeDrawer.cs" t="Include" />
+                <e p="PhoneNarrativeMessageNodeDrawer.cs" t="Include" />
                 <e p="PhoneNodeDrawer.cs" t="Include" />
                 <e p="PhoneSwitchNodeDrawer.cs" t="Include" />
               </e>
@@ -989,20 +990,6 @@
               <e p="NotificationNode.cs" t="Include" />
               <e p="NotificationNodeData.cs" t="Include" />
             </e>
-            <e p="PhoneNodes" t="Include">
-              <e p="AddContactToPhoneNode.cs" t="Include" />
-              <e p="ChoicePhoneNode.cs" t="Include" />
-              <e p="ContactInfo.cs" t="Include" />
-              <e p="ContactInfoToGame.cs" t="Include" />
-              <e p="EndNode.cs" t="Include" />
-              <e p="PhoneAnimValues.cs" t="Include" />
-              <e p="PhoneMessageNode.cs" t="Include" />
-              <e p="PhoneMessagesExtractor.cs" t="Include" />
-              <e p="PhoneNarrativeMessageNode.cs" t="Include" />
-              <e p="PhoneNode.cs" t="Include" />
-              <e p="PhoneNodeCase.cs" t="Include" />
-              <e p="PhoneSwitchNode.cs" t="Include" />
-            </e>
             <e p="PutOnSwimsuitsNode.cs" t="Include" />
             <e p="SelectedCustomizationContentIndexes.cs" t="Include" />
             <e p="ShowArtNode" t="Include">
@@ -1022,6 +1009,30 @@
             </e>
             <e p="SwitchToAnotherNodeGraphNode.cs" t="Include" />
             <e p="SwitchToNextSeriaNode.cs" t="Include" />
+            <e p="ToPhone" t="Include">
+              <e p="AddContactNode" t="Include">
+                <e p="AddContactToPhoneNode.cs" t="Include" />
+              </e>
+              <e p="PhoneChoice" t="Include">
+                <e p="ChoicePhoneNode.cs" t="Include" />
+              </e>
+              <e p="PhoneMessage" t="Include">
+                <e p="PhoneMessageNode.cs" t="Include" />
+                <e p="PhoneNarrativeMessageNode.cs" t="Include" />
+              </e>
+              <e p="PhoneNode" t="Include">
+                <e p="ContactInfo.cs" t="Include" />
+                <e p="ContactInfoToGame.cs" t="Include" />
+                <e p="EndNode.cs" t="Include" />
+                <e p="PhoneAnimValues.cs" t="Include" />
+                <e p="PhoneMessagesExtractor.cs" t="Include" />
+                <e p="PhoneNode.cs" t="Include" />
+                <e p="PhoneNodeCase.cs" t="Include" />
+              </e>
+              <e p="PhoneSwitch" t="Include">
+                <e p="PhoneSwitchNode.cs" t="Include" />
+              </e>
+            </e>
           </e>
           <e p="UI" t="Include">
             <e p="GlobalUI" t="Include">
@@ -1152,6 +1163,7 @@
                   <e p="NotificationView.cs" t="Include" />
                 </e>
                 <e p="Contact.cs" t="Include" />
+                <e p="ContactPrintStatusHandler.cs" t="Include" />
                 <e p="ContactsScreen" t="Include">
                   <e p="ContactsScreenHandler.cs" t="Include" />
                   <e p="ContactsScreenView.cs" t="Include" />

@@ -8,7 +8,6 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
     private const float _fadeEndValue = 0.3f;
     private int _blackoutFrameSiblingIndexBufer;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
-    private RectTransform _infoPanel;
     public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
         : base(blackFrameView, blockGameControlPanelUI){}
 
@@ -18,7 +17,7 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
         Transform.SetSiblingIndex(targetSiblingIndex);
         CurtainImage.color = _colorHide;
         CurtainImage.gameObject.SetActive(true);
-
+        BlackFrameView.Image.color = Color.clear;
     }
     public void ResetSibling()
     {
