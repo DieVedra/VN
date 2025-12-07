@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 using XNode;
 
 public class PhoneMessagesExtractor
@@ -74,10 +72,6 @@ public class PhoneMessagesExtractor
 			case PhoneMessageNode phoneMessageNode:
 				_nextNode = phoneMessageNode.GetNextNode();
 				SetMessage(phoneMessageNode);
-				// if (_nextNode is PhoneNarrativeMessageNode)
-				// {
-				// 	_tryShowNextReactiveCommand.Execute();
-				// }
 				return _phoneMessage;
 			
 			case NotificationNode notificationNode:
@@ -88,7 +82,7 @@ public class PhoneMessagesExtractor
 					_nextNode = nextPhoneMessageNode.GetNextNode();
 					SetMessage(nextPhoneMessageNode);
 				}
-				return _phoneMessage;
+				break;
 			
 			case EndNode endNode:
 				MessagesIsOut = true;
@@ -101,5 +95,6 @@ public class PhoneMessagesExtractor
 	{
 		_phoneMessage.TextMessage = phoneMessageNode.GetLocalizationString;
 		_phoneMessage.MessageType = phoneMessageNode.Type;
+		_phoneMessage.IsReaded = phoneMessageNode.IsReaded;
 	}
 }

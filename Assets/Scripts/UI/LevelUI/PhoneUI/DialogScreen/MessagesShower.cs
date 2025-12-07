@@ -13,6 +13,7 @@ public class MessagesShower
     private const float _startPositionY = 0f;
     private const float _offset = 30f;
     private const float _multiplier = 1.6f;
+    private readonly float _contentStartPosY;
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
@@ -39,6 +40,7 @@ public class MessagesShower
         ReactiveCommand tryShowReactiveCommand)
     {
         _dialogTransform = dialogTransform;
+        _contentStartPosY = dialogTransform.anchoredPosition.y;
         _contactPrintStatusHandler = contactPrintStatusHandler;
         _phoneMessagesExtractor = phoneMessagesExtractor;
         _messageViewed = new List<MessageView>();
@@ -67,7 +69,10 @@ public class MessagesShower
         _inProgress = false;
         _resultShowText = false;
         _characterOnlineKey = characterOnlineKey;
-
+        _pos.x = _dialogTransform.anchoredPosition.x;
+        _pos.y = _contentStartPosY;
+        _dialogTransform.anchoredPosition = _pos;
+        _dialogTransform.sizeDelta = Vector2.zero;
 //логика вывода уже прочитанных сообщений
         if (contactNodeCase == null)
         {
@@ -122,6 +127,8 @@ public class MessagesShower
     private async UniTask TryShowAll(Func<UniTask> operation)
     {
         _queueShowMessages.Enqueue(operation);
+        Debug.Log($"TryShowAll {_queueShowMessages.Count}");
+
         if (_inProgress == false)
         {
             while (_queueShowMessages.Count > 0)
@@ -134,15 +141,21 @@ public class MessagesShower
     {
         _inProgress = true;
         PhoneMessage phoneMessage = await _phoneMessagesExtractor.GetMessageText();
+        Debug.Log($"ShowNext()");
         if (phoneMessage != null)
         {
             switch (phoneMessage.MessageType)
             {
                 case PhoneMessageType.Outcoming:
+                    
                     SetOutcomingMessage(phoneMessage);
                     break;
                 case PhoneMessageType.Incoming:
-                    await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length);
+
+                    if (phoneMessage.IsReaded == false)
+                    {
+                        await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length);
+                    }
                     SetIncomingMessage(phoneMessage);
                     break;
             }
@@ -150,6 +163,10 @@ public class MessagesShower
 
         if (_phoneMessagesExtractor.MessagesIsOut == false)
         {
+            if (phoneMessage?.IsReaded == true)
+            {
+                _tryShowReactiveCommand.Execute();
+            }
             if (_queueShowMessages.Count == 0)
             {
                 SubscribeReadButton();

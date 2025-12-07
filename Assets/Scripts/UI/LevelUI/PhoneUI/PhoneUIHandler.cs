@@ -147,18 +147,23 @@ public class PhoneUIHandler : ILocalizable
     public void SetBlockScreenBackgroundFromNode()
     {
         DisableScreens();
+        
+        
         _blockScreenHandler.Enable(_sortedPhoneNodeCases, _sortedNotifications, _sortedOnlineContacts, _phoneTime, _currentPhone, _date,
             _setLocalizationChangeEvent, _playModeKey);
     }
 
     private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContact contact)
     {
+        //as
         DisableScreens();
         _dialogScreenHandler.Enable(contact, _setLocalizationChangeEvent, SetOnlineStatus, GetOnlineStatus(contact.NameLocalizationString.Key), _seriaIndex);
     }
 
     private void SetContactsScreenBackgroundFromAnotherScreen()
     {
+        //as
+
         DisableScreens();
         _contactsScreenHandler.Enable(_currentPhone.PhoneContactDictionary, _setLocalizationChangeEvent, _switchToNextNodeEvent);
     }

@@ -17,7 +17,7 @@ public class PhoneSwitchNode : SwitchNode
         int indexCase = result.Item2;
         if (caseFoundSuccessfuly == true)
         {
-            SetNextNode(DynamicOutputs.ElementAt(indexCase).node as BaseNode);
+            SetNextNode(DynamicOutputs.ElementAt(indexCase).Connection.node as BaseNode);
         }
         else
         {

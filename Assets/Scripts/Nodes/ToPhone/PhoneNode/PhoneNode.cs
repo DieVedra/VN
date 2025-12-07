@@ -47,10 +47,11 @@ public class PhoneNode : BaseNode, ILocalizable
         _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
         InitAllContacts();
+
         if (IsPlayMode() == false)
         {
             bool key;
-            for (int i = 0; i < _phoneNodeCases.Count; i++)
+            for (int i = _phoneNodeCases.Count - 1; i >= 0; i--)
             {
                 key = false;
                 for (int j = 0; j < _allContacts.Count; j++)
@@ -61,10 +62,13 @@ public class PhoneNode : BaseNode, ILocalizable
                         break;
                     }
                 }
-
                 if (key == false)
                 {
                     Remove(i);
+                }
+                else
+                {
+                    _phoneNodeCases[i].Port = GetPort(_phoneNodeCases[i].PortName);
                 }
             }
         }
@@ -73,7 +77,8 @@ public class PhoneNode : BaseNode, ILocalizable
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        
+        Debug.Log($"_phoneNodeEnter");
+
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
             SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute);
