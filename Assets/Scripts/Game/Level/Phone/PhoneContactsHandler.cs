@@ -35,15 +35,15 @@ public class PhoneContactsHandler
 
     public void TryCollectAllContactsBySeriaIndexOfRange(int seriaIndex)
     {
-        Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange: {seriaIndex} ");
+        // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange: {seriaIndex} ");
 
         if (_checkMathSeriaIndex.Check(seriaIndex))
         {
-            Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange ++: {_dictionary.Count} ");
+            // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange ++: {_dictionary.Count} ");
 
             CollectAllContactsBySeriaIndex(seriaIndex, CheckingOfRange);
         }
-        Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange +++: {_dictionary.Count} ");
+        // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange +++: {_dictionary.Count} ");
 
     }
     public void TryCollectAllContactsBySeriaIndexOfMath(int seriaIndex)

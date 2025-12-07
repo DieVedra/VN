@@ -5079,9 +5079,59 @@ MonoBehaviour:
   - {fileID: 6030158963562595090}
   - {fileID: 5406208571420287258}
   - {fileID: 2163089050685977152}
-  _readDialogButton: {fileID: 7736861053520907098}
+  _readDialogButton: {fileID: 0}
   _dialogTransform: {fileID: 3237723447336998630}
   _contactStatusGameObject: {fileID: 8157946619596124464}
+  _pressInputAction:
+    m_Name: Press Input
+    m_Type: 0
+    m_ExpectedControlType: Button
+    m_Id: c1046ac7-6eb4-40ad-80a4-960fc4581aaa
+    m_Processors: 
+    m_Interactions: Press(behavior=2)
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 1404fc38-a648-4347-8130-bf16b6858e1b
+      m_Path: <Touchscreen>/primaryTouch/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press Input
+      m_Flags: 0
+    - m_Name: 
+      m_Id: d40d9636-33a1-4f96-bfaf-34a0a796e1fa
+      m_Path: <Mouse>/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press Input
+      m_Flags: 0
+    m_Flags: 0
+  _positionInputAction:
+    m_Name: Position Input
+    m_Type: 2
+    m_ExpectedControlType: Vector2
+    m_Id: 327b217a-1249-453e-bf00-8ed2bd27066c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: b0e55886-e384-4979-95a5-d76d5fa0b2a6
+      m_Path: <Touchscreen>/primaryTouch/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Position Input
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 881dbcee-e0ba-44a1-bd1a-0582ab35111b
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Position Input
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &8157946619966673949
 GameObject:
   m_ObjectHideFlags: 0

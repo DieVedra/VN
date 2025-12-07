@@ -38,10 +38,10 @@ public class Phone
 
     public void AddContact(PhoneContact contact)
     {
-        Debug.Log($"AddContact1   {contact.NameLocalizationString.DefaultText}");
+        // Debug.Log($"AddContact1   {contact.NameLocalizationString.DefaultText}");
         if (_phoneContactDictionary.ContainsKey(contact.NameLocalizationString.Key) == false)
         {
-            Debug.Log($"AddContact2   {contact.NameLocalizationString.DefaultText}");
+            // Debug.Log($"AddContact2   {contact.NameLocalizationString.DefaultText}");
             _phoneContactDatas.Add(contact);
             _phoneContactDictionary.Add(contact.NameLocalizationString.Key, contact);
         }

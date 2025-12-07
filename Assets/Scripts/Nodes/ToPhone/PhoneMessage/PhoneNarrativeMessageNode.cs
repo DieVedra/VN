@@ -28,6 +28,8 @@ public class PhoneNarrativeMessageNode : NarrativeNode
             NarrativePanelUI.SetText(_localizationText.DefaultText);
         });
         _curtainUIHandler.Transform.gameObject.SetActive(true);
+        _curtainUIHandler.CurtainImage.raycastTarget = true;
+
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.FadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             NarrativePanelUI.EmergenceNarrativePanelInPlayMode(_localizationText.DefaultText, CancellationTokenSource.Token));
@@ -40,6 +42,7 @@ public class PhoneNarrativeMessageNode : NarrativeNode
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             NarrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token));
         _curtainUIHandler.Transform.gameObject.SetActive(false);
+        _curtainUIHandler.CurtainImage.raycastTarget = false;
     }
 
 #if UNITY_EDITOR

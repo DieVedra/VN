@@ -25,6 +25,8 @@ public class PhoneNode : BaseNode, ILocalizable
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private int _seriaIndex;
+    private bool _curtainUIHandlerRaycastTargetKey;
+
     public IReadOnlyList<Phone> Phones;
     public Phone CurrentPhone => Phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
@@ -35,10 +37,10 @@ public class PhoneNode : BaseNode, ILocalizable
         int seriaIndex)
     {
         Phones = phones;
-        for (int i = 0; i < phones.Count; i++)
-        {
-            Debug.Log($"ConstructMyPhoneNode {seriaIndex}   {CurrentPhone.PhoneContactDictionary.Count}");
-        }
+        // for (int i = 0; i < phones.Count; i++)
+        // {
+        //     Debug.Log($"ConstructMyPhoneNode {seriaIndex}   {CurrentPhone.PhoneContactDictionary.Count}");
+        // }
 
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
@@ -79,12 +81,15 @@ public class PhoneNode : BaseNode, ILocalizable
         CancellationTokenSource = new CancellationTokenSource();
         Debug.Log($"_phoneNodeEnter");
 
+        _curtainUIHandlerRaycastTargetKey = _customizationCurtainUIHandler.CurtainImage.raycastTarget;
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
             SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute);
         _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
         _choicePanelUIHandler.SetSibling(++siblig);
         _narrativePanelUI.SetSibling(++siblig);
+        
+        
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         await _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
     }
@@ -93,6 +98,8 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         await _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         CancellationTokenSource = null;
+        _customizationCurtainUIHandler.CurtainImage.raycastTarget = _curtainUIHandlerRaycastTargetKey;
+
         _phoneUIHandler.DisposeScreensBackgrounds();
         
         _customizationCurtainUIHandler.ResetSibling();

@@ -37,6 +37,7 @@ public class PhoneUIHandler : ILocalizable
     private GameObject _phoneUIGameObject;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private LocalizationString _date;
+    private PressDetector _pressDetector;
     private int _phoneSiblingIndex;
     private int _seriaIndex;
     private bool _playModeKey;
@@ -87,7 +88,7 @@ public class PhoneUIHandler : ILocalizable
             localPosition = pos;
             rectTransform.localPosition = localPosition;
         }
-
+        _pressDetector = new PressDetector(phoneUIView.DialogScreenViewBackground.PressInputAction, phoneUIView.DialogScreenViewBackground.PositionInputAction);
         var contactsShower = new ContactsShower(
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<VerticalLayoutGroup>(),
             phoneUIView.ContactsScreenViewBackground.ContactsTransform.GetComponent<ContentSizeFitter>(),
@@ -96,7 +97,7 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.DialogScreenViewBackground.ContactOnlineStatus.transform.parent.gameObject,
             phoneUIView.DialogScreenViewBackground.PrintsText);
         var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.DialogTransform, _contactPrintStatusHandler, _phoneMessagesExtractor,
-            phoneUIView.DialogScreenViewBackground.ReadDialogButtonButton, _tryShowReactiveCommand);
+            _pressDetector, _tryShowReactiveCommand);
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
@@ -105,7 +106,7 @@ public class PhoneUIHandler : ILocalizable
             _switchToDialogScreenCommand, _notificationNameLocalizationString, _switchToContactsScreenCommand);
         _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground, contactsShower,
             _topPanelHandler, _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
-        _dialogScreenHandler = new DialogScreenHandler(phoneUIView.DialogScreenViewBackground, messagesShower, _topPanelHandler,
+        _dialogScreenHandler = new DialogScreenHandler(_pressDetector, phoneUIView.DialogScreenViewBackground, messagesShower, _topPanelHandler,
             _phoneContentProvider.IncomingMessagePool, _phoneContentProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
         _phoneSiblingIndex = phoneUIView.transform.GetSiblingIndex();
     }

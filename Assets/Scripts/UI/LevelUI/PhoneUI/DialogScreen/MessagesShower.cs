@@ -4,7 +4,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MessagesShower
 {
@@ -18,7 +17,7 @@ public class MessagesShower
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
     private Action _setOnlineStatus;
-    private readonly Button _readDialogButton;
+    private readonly PressDetector _readDialogButton;
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
     private readonly PhoneMessagesExtractor _phoneMessagesExtractor;
@@ -34,10 +33,10 @@ public class MessagesShower
     private CompositeDisposable _compositeDisposable;
     private Action _activateBackButton;
     private bool _inProgress;
-    private bool _resultShowText;
-    private bool _characterOnlineKey;
-    public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler, PhoneMessagesExtractor phoneMessagesExtractor, Button readDialogButton,
-        ReactiveCommand tryShowReactiveCommand)
+    // private bool _resultShowText;
+    // private bool _characterOnlineKey;
+    public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
+        PhoneMessagesExtractor phoneMessagesExtractor, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
     {
         _dialogTransform = dialogTransform;
         _contentStartPosY = dialogTransform.anchoredPosition.y;
@@ -67,11 +66,10 @@ public class MessagesShower
         _setOnlineStatus = setOnlineStatus;
         _index = _defaultValue;
         _inProgress = false;
-        _resultShowText = false;
-        _characterOnlineKey = characterOnlineKey;
-        _pos.x = _dialogTransform.anchoredPosition.x;
-        _pos.y = _contentStartPosY;
-        _dialogTransform.anchoredPosition = _pos;
+        // _resultShowText = false;
+        // _characterOnlineKey = characterOnlineKey;
+        SetDialogToDeafultPos();
+
         _dialogTransform.sizeDelta = Vector2.zero;
 //логика вывода уже прочитанных сообщений
         if (contactNodeCase == null)
@@ -115,6 +113,13 @@ public class MessagesShower
         // }
     }
 
+    private void SetDialogToDeafultPos()
+    {
+        _pos.x = _dialogTransform.anchoredPosition.x;
+        _pos.y = _contentStartPosY;
+        _dialogTransform.anchoredPosition = _pos;
+    }
+
     public void Dispose()
     {
         _cancellationTokenSource?.Cancel();
@@ -122,6 +127,7 @@ public class MessagesShower
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
+        _readDialogButton.Disable();
     }
 
     private async UniTask TryShowAll(Func<UniTask> operation)
@@ -167,6 +173,7 @@ public class MessagesShower
             {
                 _tryShowReactiveCommand.Execute();
             }
+            Debug.Log($"1");
             if (_queueShowMessages.Count == 0)
             {
                 SubscribeReadButton();
@@ -192,6 +199,7 @@ public class MessagesShower
 
     private void SetMessage(MessageView view, PhoneMessage phoneMessage)
     {
+        SetDialogToDeafultPos();
         view.Text.text = phoneMessage.TextMessage;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
@@ -238,12 +246,19 @@ public class MessagesShower
 
     private void SubscribeReadButton()
     {
-        _readDialogButton.interactable = true;
-        _readDialogButton.onClick.AddListener(() =>
-        {
-            _readDialogButton.interactable = false;
-            _readDialogButton.onClick.RemoveAllListeners();
-            _tryShowReactiveCommand.Execute();
-        } );
+        Debug.Log($"SubscribeReadButton()  {_readDialogButton.IsActive}  {_queueShowMessages.Count}");
+
+        if (_readDialogButton.IsActive == false)
+        {        
+            Debug.Log($"2");
+
+            _readDialogButton.Enable(() =>
+            {
+                Debug.Log($"Com1");
+                _readDialogButton.Disable();
+                _tryShowReactiveCommand.Execute();
+                Debug.Log($"Com2");
+            });
+        }
     }
 }

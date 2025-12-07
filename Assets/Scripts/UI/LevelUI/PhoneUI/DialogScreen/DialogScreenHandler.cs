@@ -23,15 +23,16 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private readonly TextMeshProUGUI _contactStatusText;
     private readonly TextMeshProUGUI _iconText;
     private readonly Button _backArrow;
-    private readonly Button _readDialog;
+    // private readonly Button _readDialog;
     private readonly GameObject _contactStatus;
     private readonly MessagesShower _messagesShower;
+    private readonly PressDetector _pressDetector;
     private PhoneContact _currentContact;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
     private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
 
-    public DialogScreenHandler(DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
+    public DialogScreenHandler(PressDetector pressDetector, DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool, ReactiveCommand switchToContactsScreenCommand)
         :base(dialogScreenView.gameObject, topPanelHandler, dialogScreenView.GradientImage, dialogScreenView.ColorTopPanel)
     {
@@ -43,7 +44,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactName = dialogScreenView.ContactName;
         _contactStatusText = dialogScreenView.ContactOnlineStatus;
         _backArrow = dialogScreenView.BackArrowButton;
-        _readDialog = dialogScreenView.ReadDialogButtonButton;
+        // _readDialog = dialogScreenView.ReadDialogButtonButton;
         _iconText = dialogScreenView.IconText;
         _messagesShower = messagesShower;
         _backArrowImage = dialogScreenView.BackArrowImage;
@@ -120,7 +121,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         base.Disable();
         _compositeDisposable?.Clear();
-        _readDialog.onClick.RemoveAllListeners();
         _messagesShower.Dispose();
         _cancellationTokenSource?.Cancel();
     }
