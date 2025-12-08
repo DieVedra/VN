@@ -16,7 +16,7 @@ public class MessagesShower
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
-    private Action _setOnlineStatus;
+    private Action _trySetOnlineStatus;
     private readonly PressDetector _readDialogButton;
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
@@ -33,8 +33,6 @@ public class MessagesShower
     private CompositeDisposable _compositeDisposable;
     private Action _activateBackButton;
     private bool _inProgress;
-    // private bool _resultShowText;
-    // private bool _characterOnlineKey;
     public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
         PhoneMessagesExtractor phoneMessagesExtractor, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
     {
@@ -56,14 +54,14 @@ public class MessagesShower
 
     public void Init(ContactNodeCase contactNodeCase,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus, Action activateBackButton, bool characterOnlineKey)
+        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus, Action activateBackButton)
     {
         _activateBackButton = activateBackButton;
         _compositeDisposable = new CompositeDisposable();
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _setOnlineStatus = setOnlineStatus;
+        _trySetOnlineStatus = setOnlineStatus;
         _index = _defaultValue;
         _inProgress = false;
         // _resultShowText = false;
@@ -133,8 +131,6 @@ public class MessagesShower
     private async UniTask TryShowAll(Func<UniTask> operation)
     {
         _queueShowMessages.Enqueue(operation);
-        Debug.Log($"TryShowAll {_queueShowMessages.Count}");
-
         if (_inProgress == false)
         {
             while (_queueShowMessages.Count > 0)
@@ -147,7 +143,6 @@ public class MessagesShower
     {
         _inProgress = true;
         PhoneMessage phoneMessage = await _phoneMessagesExtractor.GetMessageText();
-        Debug.Log($"ShowNext()");
         if (phoneMessage != null)
         {
             switch (phoneMessage.MessageType)
@@ -173,7 +168,6 @@ public class MessagesShower
             {
                 _tryShowReactiveCommand.Execute();
             }
-            Debug.Log($"1");
             if (_queueShowMessages.Count == 0)
             {
                 SubscribeReadButton();
@@ -181,6 +175,7 @@ public class MessagesShower
         }
         else
         {
+            _trySetOnlineStatus.Invoke();
             _activateBackButton.Invoke();
         }
 
@@ -225,7 +220,6 @@ public class MessagesShower
 
         IncreaseDialogTransform(offset);
         _messageViewed.Add(view);
-        // phoneMessage.IsReaded = true;
     }
 
     private void IncreaseDialogTransform(float offset)
@@ -246,18 +240,12 @@ public class MessagesShower
 
     private void SubscribeReadButton()
     {
-        Debug.Log($"SubscribeReadButton()  {_readDialogButton.IsActive}  {_queueShowMessages.Count}");
-
         if (_readDialogButton.IsActive == false)
-        {        
-            Debug.Log($"2");
-
+        {
             _readDialogButton.Enable(() =>
             {
-                Debug.Log($"Com1");
                 _readDialogButton.Disable();
                 _tryShowReactiveCommand.Execute();
-                Debug.Log($"Com2");
             });
         }
     }

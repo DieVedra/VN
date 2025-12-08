@@ -3,23 +3,24 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 [NodeWidth(350),NodeTint("#003C05")]
 public class PhoneNode : BaseNode, ILocalizable
 {
     [SerializeField] private List<ContactNodeCase> _phoneNodeCases;
-    [SerializeField] private List<ContactInfo> _notificationsInBlockScreen;
-    [SerializeField] private List<ContactInfo> _onlineContacts;
+    [SerializeField] private List<NotificationContactInfo> _notificationsInBlockScreen;
+    [SerializeField] private List<OnlineContactInfo> _onlineContacts;
     [SerializeField] private int _phoneIndex;
     [SerializeField] private int _butteryPercent;
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
     // [SerializeField] private List<Phone> _phones;
-    
+
+    public const string Port = "Port ";
     private List<PhoneContact> _allContacts;
     private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
-    private const string _port = "Port ";
     private PhoneUIHandler _phoneUIHandler;
     private NarrativePanelUIHandler _narrativePanelUI;
     private ChoicePanelUIHandler _choicePanelUIHandler;
@@ -33,15 +34,9 @@ public class PhoneNode : BaseNode, ILocalizable
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
         NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler,
-
         int seriaIndex)
     {
         Phones = phones;
-        // for (int i = 0; i < phones.Count; i++)
-        // {
-        //     Debug.Log($"ConstructMyPhoneNode {seriaIndex}   {CurrentPhone.PhoneContactDictionary.Count}");
-        // }
-
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
@@ -79,8 +74,6 @@ public class PhoneNode : BaseNode, ILocalizable
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        Debug.Log($"_phoneNodeEnter");
-
         _curtainUIHandlerRaycastTargetKey = _customizationCurtainUIHandler.CurtainImage.raycastTarget;
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
             SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
@@ -88,7 +81,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
         _choicePanelUIHandler.SetSibling(++siblig);
         _narrativePanelUI.SetSibling(++siblig);
-        
         
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         await _customizationCurtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
@@ -108,13 +100,6 @@ public class PhoneNode : BaseNode, ILocalizable
         
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
     }
-
-    // protected override void SetInfoToView()
-    // {
-    //     _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
-    //         SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
-    //         _seriaIndex, _butteryPercent,_startHour, _startMinute);
-    // }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -148,11 +133,21 @@ public class PhoneNode : BaseNode, ILocalizable
             }
         }
 
-        string portName = $"{_port}{DynamicOutputs.Count()}";
+        string portName = $"{Port}{DynamicOutputs.Count()}";
         AddDynamicOutput(typeof(Empty), ConnectionType.Override, fieldName: portName);
         ContactNodeCase contactNodeCase = new ContactNodeCase(GetPort(portName), index, contact.NameLocalizationString.Key,
             contact.NameLocalizationString.DefaultText, portName);
         _phoneNodeCases.Add(contactNodeCase);
+    }
+
+    private void AddPortToNotificationContactInfo(string portName, int index)
+    {
+        AddDynamicOutput(typeof(Empty), Node.ConnectionType.Override, fieldName: portName);
+        _notificationsInBlockScreen[index].Port = GetOutputPort(portName);
+    }
+    private void RemovePortFromNotificationContactInfo(string portName)
+    {
+        RemoveDynamicPort(portName);
     }
     private void RemoveCase(string key)
     {
@@ -165,12 +160,6 @@ public class PhoneNode : BaseNode, ILocalizable
         }
     }
 
-    private void Remove(int i)
-    {
-        RemoveDynamicPort(_phoneNodeCases[i].PortName);
-        _phoneNodeCases.RemoveAt(i);
-    }
-
     private void RemoveAllCases()
     {
         for (int i = _phoneNodeCases.Count - 1; i >= 0; i--)
@@ -180,5 +169,11 @@ public class PhoneNode : BaseNode, ILocalizable
         _phoneNodeCases.Clear();
         InitAllContacts();
         _notificationsInBlockScreen.Clear();
+    }
+
+    private void Remove(int i)
+    {
+        RemoveDynamicPort(_phoneNodeCases[i].PortName);
+        _phoneNodeCases.RemoveAt(i);
     }
 }

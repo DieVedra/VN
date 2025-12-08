@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
     private const float _alphaMin1 = 0.65f;
+    private readonly List<OnlineContactInfo> _sortedOnlineContacts;
     private readonly PoolBase<MessageView> _incomingMessagePool;
     private readonly PoolBase<MessageView> _outcomingMessagePool;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
@@ -32,10 +33,12 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CancellationTokenSource _cancellationTokenSource;
     private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
 
-    public DialogScreenHandler(PressDetector pressDetector, DialogScreenView dialogScreenView, MessagesShower messagesShower, TopPanelHandler topPanelHandler,
-        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool, ReactiveCommand switchToContactsScreenCommand)
+    public DialogScreenHandler(List<OnlineContactInfo> sortedOnlineContacts, DialogScreenView dialogScreenView, MessagesShower messagesShower,
+        TopPanelHandler topPanelHandler, PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
+        ReactiveCommand switchToContactsScreenCommand)
         :base(dialogScreenView.gameObject, topPanelHandler, dialogScreenView.GradientImage, dialogScreenView.ColorTopPanel)
     {
+        _sortedOnlineContacts = sortedOnlineContacts;
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
@@ -55,15 +58,14 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     {
         _sortedPhoneNodeCases = sortedPhoneNodeCases;
     }
-    public void Enable(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        Action<string, bool> setOnlineStatus, bool characterOnlineKey, int seriaIndex)
+    public void Enable(PhoneContact contact, OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent, int seriaIndex)
     {
         _currentContact = contact;
         _contactNameLS = contact.NameLocalizationString;
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         SetContactImage();
-        ChangeOnlineIndicator(characterOnlineKey);
+        ChangeOnlineIndicator(onlineContactInfo);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
@@ -72,9 +74,12 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _messagesShower.Init(GetContactNodeCase(contact.NameLocalizationString.Key) , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {
-                setOnlineStatus.Invoke(contact.NameLocalizationString.Key, false);
-                ChangeOnlineIndicator(false);
-            }, ActivateBackButton, characterOnlineKey);
+                if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
+                {
+                    _sortedOnlineContacts.Remove(onlineContactInfo);
+                    ChangeOnlineIndicator(null);
+                }
+            }, ActivateBackButton);
     }
 
     private ContactNodeCase GetContactNodeCase(string key)
@@ -89,9 +94,9 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 
         return null;
     }
-    private void ChangeOnlineIndicator(bool characterOnlineKey)
+    private void ChangeOnlineIndicator(OnlineContactInfo onlineContactInfo)
     {
-        if (characterOnlineKey)
+        if (onlineContactInfo != null)
         {
             _contactStatus.SetActive(true);
         }

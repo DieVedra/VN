@@ -29,6 +29,8 @@ public class PhoneNodeDrawer : NodeEditor
     private MethodInfo _removeAllCases;
     private MethodInfo _addCase;
     private MethodInfo _removeCase;
+    private MethodInfo _addPortToNotificationContactInfo;
+    private MethodInfo _removePortFromNotificationContactInfo;
     private PhoneContact _phoneContact;
     private int _indexContact;
     private int _phonePreviousIndex;
@@ -58,6 +60,8 @@ public class PhoneNodeDrawer : NodeEditor
             _removeAllCases = type.GetMethod("RemoveAllCases", BindingFlags.NonPublic | BindingFlags.Instance);
             _addCase = type.GetMethod("AddCase", BindingFlags.NonPublic | BindingFlags.Instance);
             _removeCase = type.GetMethod("RemoveCase", BindingFlags.NonPublic | BindingFlags.Instance);
+            _addPortToNotificationContactInfo = type.GetMethod("AddPortToNotificationContactInfo", BindingFlags.NonPublic | BindingFlags.Instance);
+            _removePortFromNotificationContactInfo = type.GetMethod("RemovePortFromNotificationContactInfo", BindingFlags.NonPublic | BindingFlags.Instance);
         }
         else
         {
@@ -130,7 +134,17 @@ public class PhoneNodeDrawer : NodeEditor
                 }
                 EditorGUILayout.EndHorizontal();
             
-                DrawContactsInfo(_notificationsInBlockScreenSerializedProperty, _deleteNotification);
+                DrawContactsInfo(_notificationsInBlockScreenSerializedProperty, _deleteNotification, addOperation:() =>
+                {
+                    var port = _phoneNode.GetOutputPort(_buferSP1.FindPropertyRelative("_portName").stringValue);
+                    NodeEditorGUILayout.PortField(port);
+                },
+                    () =>
+                    {
+                        _buferSP2 = _buferSP1.FindPropertyRelative("_portName");
+                        _removePortFromNotificationContactInfo.Invoke(_phoneNode, new object[] {_buferSP2.stringValue});
+                        serializedObject.Update();
+                    });
 
                 EditorGUILayout.BeginHorizontal();
 
@@ -142,14 +156,25 @@ public class PhoneNodeDrawer : NodeEditor
                 }
                 EditorGUILayout.EndHorizontal();
                 
-                DrawContactsInfo(_onlineContactsSerializedProperty, _deleteOnline);
+                DrawContactsInfo(_onlineContactsSerializedProperty, _deleteOnline, addOperation:()=>
+                {
+                    _buferSP2 = _buferSP1.FindPropertyRelative("_isOfflineOnEndKey");
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField($"Is Offline On End: ", GUILayout.Width(100f));
+                    EditorGUI.BeginChangeCheck();
+                    _buferSP2.boolValue = EditorGUILayout.Toggle(_buferSP2.boolValue);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                    }
+                    EditorGUILayout.EndHorizontal();
+                });
                 
                 
                 serializedObject.ApplyModifiedProperties();
         }
     }
-
-    private void DrawContactsInfo(SerializedProperty targetArray, string delete)
+    private void DrawContactsInfo(SerializedProperty targetArray, string delete, Action addOperation = null, Action deleteOperation = null)
     {
         for (int i = 0; i < targetArray.arraySize; i++)
         {
@@ -158,10 +183,12 @@ public class PhoneNodeDrawer : NodeEditor
             EditorGUILayout.LabelField($"Name contact: {_buferSP2.stringValue}");
             _buferSP2 = _buferSP1.FindPropertyRelative("Key");
             EditorGUILayout.LabelField($"Key contact: {_buferSP2.stringValue}");
+            addOperation?.Invoke();
 
 
             if (GUILayout.Button(delete, GUILayout.Width(120f)))
             {
+                deleteOperation?.Invoke();
                 targetArray.DeleteArrayElementAtIndex(i);
                 serializedObject.ApplyModifiedProperties();
             }
@@ -172,7 +199,7 @@ public class PhoneNodeDrawer : NodeEditor
     }
 
 
-    private void AddContactInfo(SerializedProperty targetArray)
+    private int AddContactInfo(SerializedProperty targetArray)
     {
         _phoneContact = _phoneNode.AllContacts[_indexContact];
         for (int i = 0; i < targetArray.arraySize; i++)
@@ -181,7 +208,7 @@ public class PhoneNodeDrawer : NodeEditor
             _buferSP1 = _buferSP1.FindPropertyRelative("Key");
             if (_phoneContact.NameLocalizationString.Key == _buferSP1.stringValue)
             {
-                return;
+                return -1;
             }
         }
         int index = targetArray.arraySize;
@@ -192,6 +219,7 @@ public class PhoneNodeDrawer : NodeEditor
         _buferSP2 = _buferSP1.FindPropertyRelative("Name");
         _buferSP2.stringValue = _phoneContact.NameLocalizationString.DefaultText;
         serializedObject.ApplyModifiedProperties();
+        return index;
     }
 
     private void AddOnlineContact()
@@ -200,7 +228,16 @@ public class PhoneNodeDrawer : NodeEditor
     }
     private void AddNotification()
     {
-        AddContactInfo(_notificationsInBlockScreenSerializedProperty);
+        int index = AddContactInfo(_notificationsInBlockScreenSerializedProperty);
+        if (index >= 0)
+        {
+            _buferSP2 = _buferSP1.FindPropertyRelative("_portName");
+            string portName = $"{PhoneNode.Port}{_phoneNode.DynamicOutputs.Count()}";
+            _buferSP2.stringValue = portName;
+            serializedObject.ApplyModifiedProperties();
+            _addPortToNotificationContactInfo.Invoke(_phoneNode, new object[] {portName, index });
+            serializedObject.Update();
+        }
     }
 
     private void DrawContactsVariants()
@@ -260,7 +297,6 @@ public class PhoneNodeDrawer : NodeEditor
         EditorGUILayout.LabelField($"Index: {index}");
         EditorGUILayout.LabelField($"Name contact: {_phoneNode.AllContacts[index].NameLocalizationString.DefaultText}");
         EditorGUILayout.LabelField($"Key contact: {_phoneNode.AllContacts[index].NameLocalizationString.Key}");
-        
         var port = _phoneNode.GetOutputPort(portName);
         NodeEditorGUILayout.PortField(port);
         if (GUILayout.Button("Delete case",GUILayout.Width(90f)))

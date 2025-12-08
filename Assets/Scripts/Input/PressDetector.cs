@@ -26,7 +26,6 @@ public class PressDetector
         _pressInput.started += SetPress;
         _pressInput.canceled += SetUnpress;
         _onPressOperation = operation;
-        Debug.Log($"Enable ");
         IsActive = true;
     }
     public void Disable()
@@ -37,14 +36,12 @@ public class PressDetector
         _pressInput.Disable();
         _positionInput.Disable();
         _onPressOperation = null;
-        Debug.Log($"Disable ");
         IsActive = false;
     }
     private void SetPress(InputAction.CallbackContext context)
     {
         _isFirstPress = true;
         _isPress = true;
-        Debug.Log($"SetPress ");
     }
     private void SetUnpress(InputAction.CallbackContext context)
     {
@@ -53,7 +50,6 @@ public class PressDetector
         if (_currentPos == _previousPos)
         {
             _onPressOperation?.Invoke();
-            Debug.Log($"On UnpressOperation");
         }
     }
 

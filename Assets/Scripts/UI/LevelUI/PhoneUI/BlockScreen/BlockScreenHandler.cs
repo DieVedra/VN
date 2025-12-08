@@ -22,12 +22,12 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private LocalizationString _dateLocStr;
     private List<NotificationView> _notificationViews;
     private PoolBase<NotificationView> _notificationViewPool;
-    private IReadOnlyList<ContactInfoToGame> _notificationContacts;
     private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
-    private IReadOnlyList<ContactInfo> _notificationsInBlockScreen;
+    private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
+    private IReadOnlyList<OnlineContactInfo> _onlineContacts;
     private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
-    public BlockScreenHandler(BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
+    public BlockScreenHandler(PhoneMessagesExtractor phoneMessagesExtractor, PressDetector pressDetector, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationNameLocalizationString, ReactiveCommand switchToContactsScreenCommand)
     :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
     {
@@ -42,8 +42,8 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _blockScreenButton.enabled = false;
     }
     
-    public void Enable(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<ContactInfo> notificationsInBlockScreen, IReadOnlyList<ContactInfo> sortedOnlineContacts,
-        PhoneTime phoneTime, Phone phone, LocalizationString date,
+    public void Enable(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
+        IReadOnlyList<OnlineContactInfo> onlineContacts, PhoneTime phoneTime, Phone phone, LocalizationString date,
         SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey)
     {
         _nextPos.x = _startPosX;
@@ -51,6 +51,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _phoneNodeCases = phoneNodeCases;
         _dateLocStr = date;
         _notificationsInBlockScreen = notificationsInBlockScreen;
+        _onlineContacts = onlineContacts;
         _phoneContacts = phone.PhoneContactDictionary;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();

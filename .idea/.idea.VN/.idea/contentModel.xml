@@ -614,7 +614,6 @@
                 <e p="AddContactToPhoneNodeDrawer.cs" t="Include" />
                 <e p="PhoneChoiceNodeDrawer.cs" t="Include" />
                 <e p="PhoneMessageNodeDrawer.cs" t="Include" />
-                <e p="PhoneNarrativeMessageNodeDrawer.cs" t="Include" />
                 <e p="PhoneNodeDrawer.cs" t="Include" />
                 <e p="PhoneSwitchNodeDrawer.cs" t="Include" />
               </e>
@@ -1010,28 +1009,24 @@
             <e p="SwitchToAnotherNodeGraphNode.cs" t="Include" />
             <e p="SwitchToNextSeriaNode.cs" t="Include" />
             <e p="ToPhone" t="Include">
-              <e p="AddContactNode" t="Include">
-                <e p="AddContactToPhoneNode.cs" t="Include" />
-              </e>
-              <e p="PhoneChoice" t="Include">
-                <e p="ChoicePhoneNode.cs" t="Include" />
-              </e>
-              <e p="PhoneMessage" t="Include">
-                <e p="PhoneMessageNode.cs" t="Include" />
-                <e p="PhoneNarrativeMessageNode.cs" t="Include" />
-              </e>
+              <e p="AddContactToPhoneNode.cs" t="Include" />
+              <e p="ChoicePhoneNode.cs" t="Include" />
+              <e p="EndNode.cs" t="Include" />
+              <e p="PhoneMessageNode.cs" t="Include" />
+              <e p="PhoneNarrativeMessageNode.cs" t="Include" />
               <e p="PhoneNode" t="Include">
-                <e p="ContactInfo.cs" t="Include" />
+                <e p="ContactInfo" t="Include">
+                  <e p="ContactInfo.cs" t="Include" />
+                  <e p="ContactNodeCase.cs" t="Include" />
+                  <e p="NotificationContactInfo.cs" t="Include" />
+                  <e p="OnlineContactInfo.cs" t="Include" />
+                </e>
                 <e p="ContactInfoToGame.cs" t="Include" />
-                <e p="EndNode.cs" t="Include" />
                 <e p="PhoneAnimValues.cs" t="Include" />
                 <e p="PhoneMessagesExtractor.cs" t="Include" />
                 <e p="PhoneNode.cs" t="Include" />
-                <e p="PhoneNodeCase.cs" t="Include" />
               </e>
-              <e p="PhoneSwitch" t="Include">
-                <e p="PhoneSwitchNode.cs" t="Include" />
-              </e>
+              <e p="PhoneSwitchNode.cs" t="Include" />
             </e>
           </e>
           <e p="UI" t="Include">

@@ -2,16 +2,11 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using XNode;
 
 public class PhoneNarrativeMessageNode : NarrativeNode
 {
-    [SerializeField] private bool _isReaded;
-
     private CustomizationCurtainUIHandler _curtainUIHandler;
     public bool IsEntered { get; private set; }
-    public bool IsReaded => _isReaded;
-
 
     public void ConstructMyPhoneNarrativeNode(NarrativePanelUIHandler narrativePanelUI, CustomizationCurtainUIHandler curtainUIHandler)
     {

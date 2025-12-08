@@ -18,7 +18,11 @@ public class PhoneMessagesExtractor
 
 	public void Init(ContactNodeCase contactNodeCase)
 	{
-		_phoneMessage = new PhoneMessage();
+		if (_phoneMessage == null)
+		{
+			_phoneMessage = new PhoneMessage();
+		}
+		_phoneMessage.IsReaded = false;
 		MessagesIsOut = false;
 		_nextNode = contactNodeCase.Port.Connection.node;
 	}
@@ -72,16 +76,23 @@ public class PhoneMessagesExtractor
 			case PhoneMessageNode phoneMessageNode:
 				_nextNode = phoneMessageNode.GetNextNode();
 				SetMessage(phoneMessageNode);
+				if (_nextNode is EndNode)
+				{
+					_tryShowNextReactiveCommand.Execute();
+				}
+				else if (_nextNode is PhoneMessageNode nextPhoneMessageNode)
+				{
+					if (nextPhoneMessageNode.Type == PhoneMessageType.Incoming)
+					{
+						_tryShowNextReactiveCommand.Execute();
+					}
+				}
 				return _phoneMessage;
 			
 			case NotificationNode notificationNode:
 				notificationNode.Enter().Forget();
 				_nextNode = notificationNode.GetNextNode();
-				if (_nextNode is PhoneMessageNode nextPhoneMessageNode)
-				{
-					_nextNode = nextPhoneMessageNode.GetNextNode();
-					SetMessage(nextPhoneMessageNode);
-				}
+				_tryShowNextReactiveCommand.Execute();
 				break;
 			
 			case EndNode endNode:
