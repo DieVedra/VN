@@ -27,12 +27,13 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
     private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
-    private HashSet<string> _nonReadedContacts;
-    public ContactsScreenHandler(ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
+    private HashSet<string> _unreadebleContacts;
+    public ContactsScreenHandler(HashSet<string> unreadebleContacts, ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
             contactsScreenViewBackground.ColorTopPanel)
     {
+        _unreadebleContacts = unreadebleContacts;
         _buttonExitCanvasGroup = contactsScreenViewBackground.ButtonExitCanvasGroup;
         _contactsShower = contactsShower;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
@@ -42,24 +43,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _textExit = contactsScreenViewBackground.TextExit;
         _textContacts = contactsScreenViewBackground.TextContacts;
         _buttonExit = contactsScreenViewBackground.ButtonExit;
-    }
-
-    public void Init(IReadOnlyList<ContactNodeCase> sortedPhoneNodeCases)
-    {
-        _sortedPhoneNodeCases = sortedPhoneNodeCases;
-        if (_nonReadedContacts == null)
-        {
-            _nonReadedContacts = new HashSet<string>();
-        }
-        else
-        {
-            _nonReadedContacts.Clear();
-        }
-
-        for (int i = 0; i < sortedPhoneNodeCases.Count; i++)
-        {
-            _nonReadedContacts.Add(sortedPhoneNodeCases[i].ContactKey);
-        }
     }
     public void Enable(IReadOnlyDictionary<string, PhoneContact> phoneContacts,
         SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent)
@@ -71,8 +54,9 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         SetTexts();
         TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _contactsShower.Init(phoneContacts, _nonReadedContacts,
+        _contactsShower.Init(phoneContacts, _unreadebleContacts,
             _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);
+        StartScaleAnimation(_contactsPool.ActiveContent);
     }
     public override void Disable()
     {
@@ -80,6 +64,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactsShower.Dispose();
         _compositeDisposable?.Clear();
         _cancellationTokenSource?.Cancel();
+        CancellationTokenSource?.Cancel();
     }
     private void SubscribeButtons()
     {

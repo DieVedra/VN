@@ -16,15 +16,16 @@ public class PhoneMessagesExtractor
 		_tryShowNextReactiveCommand = tryShowNextReactiveCommand;
 	}
 
-	public void Init(ContactNodeCase contactNodeCase)
+	public void Init(NodePort nodePort)
 	{
 		if (_phoneMessage == null)
 		{
 			_phoneMessage = new PhoneMessage();
 		}
 		_phoneMessage.IsReaded = false;
+		_phoneMessage.TextMessage = null;
 		MessagesIsOut = false;
-		_nextNode = contactNodeCase.Port.Connection.node;
+		_nextNode = nodePort.Connection.node;
 	}
 	public void Dispose()
 	{
@@ -62,30 +63,33 @@ public class PhoneMessagesExtractor
 					await phoneNarrativeMessageNode.Exit();
 					
 					_nextNode = phoneNarrativeMessageNode.GetNextNode();
-					if (_nextNode is PhoneNarrativeMessageNode castNode)
-					{
-						await castNode.Enter();
-					}
-					else
-					{
-						_tryShowNextReactiveCommand.Execute();
-					}
+					_tryShowNextReactiveCommand.Execute();
 				}
 				break;
 			
 			case PhoneMessageNode phoneMessageNode:
 				_nextNode = phoneMessageNode.GetNextNode();
 				SetMessage(phoneMessageNode);
+				
+				
 				if (_nextNode is EndNode)
 				{
 					_tryShowNextReactiveCommand.Execute();
 				}
 				else if (_nextNode is PhoneMessageNode nextPhoneMessageNode)
 				{
-					if (nextPhoneMessageNode.Type == PhoneMessageType.Incoming)
+					if (nextPhoneMessageNode.IsReaded == true)
 					{
 						_tryShowNextReactiveCommand.Execute();
 					}
+					else if (nextPhoneMessageNode.Type == PhoneMessageType.Incoming)
+					{
+						_tryShowNextReactiveCommand.Execute();
+					}
+				}
+				else if (_nextNode is PhoneSwitchNode && phoneMessageNode.IsReaded == true)
+				{
+					_tryShowNextReactiveCommand.Execute();
 				}
 				return _phoneMessage;
 			

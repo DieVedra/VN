@@ -15,12 +15,16 @@ public class PhoneContentProvider
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
     private PoolBase<NotificationView> _notificationViewPool;
+    private RectTransform _dialogParent;
+    private Transform _notificationParent, _contactsParent;
+    private Vector3 _messageScale;
+    private Vector3 _notificationScale;
+    private Vector3 _contactScale;
+
     public PoolBase<ContactView> ContactsPool => _contactsPool;
     public PoolBase<MessageView> IncomingMessagePool => _incomingMessagePool;
     public PoolBase<MessageView> OutcomingMessagePool => _outcomingMessagePool;
     public PoolBase<NotificationView> NotificationViewPool => _notificationViewPool;
-    private RectTransform _dialogParent;
-    private Transform _notificationParent, _contactsParent;
 
     public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab,
         MessageView outcomingMessagePrefab, NotificationView notificationViewPrefab)
@@ -43,6 +47,9 @@ public class PhoneContentProvider
         _outcomingMessagePrefab = outcomingMessagePrefab;
         _notificationViewPrefab = notificationViewPrefab;
         _addView = addView;
+        _notificationScale = notificationViewPrefab.transform.localScale;
+        _contactScale = _contactPrefab.transform.localScale;
+        _messageScale = _outcomingMessagePrefab.transform.localScale;
     }
 
     public void AddPoolsViews()
@@ -71,10 +78,10 @@ public class PhoneContentProvider
         _dialogParent = dialogParent;
         _contactsParent = contactsParent;
         _notificationParent = notificationParent;
-        _contactsPool = new PoolBase<ContactView>(CreateContact, OnReturn, _contactsCount);
-        _incomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, OnReturn, _messagesCount);
-        _outcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, OnReturn, _messagesCount);
-        _notificationViewPool = new PoolBase<NotificationView>(CreateNotification, OnReturn, _notificationsCount);
+        _contactsPool = new PoolBase<ContactView>(CreateContact, null, OnReturn, _contactsCount);
+        _incomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, null, OnReturn, _messagesCount);
+        _outcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, null, OnReturn, _messagesCount);
+        _notificationViewPool = new PoolBase<NotificationView>(CreateNotification, null, OnReturn, _notificationsCount);
 #if UNITY_EDITOR
 
         if (Application.isPlaying == false)
@@ -106,18 +113,23 @@ public class PhoneContentProvider
     private void OnReturn(MessageView view)
     {
         view.gameObject.SetActive(false);
+        view.transform.localScale = _messageScale;
     }
     private void OnReturn(ContactView view)
     {
         view.NewMessageIndicatorImage.gameObject.SetActive(false);
         view.OnlineStatusImage.gameObject.SetActive(false);
         view.gameObject.SetActive(false);
-        view.transform.SetParent(_contactsParent);
+        Transform transform;
+        (transform = view.transform).SetParent(_contactsParent);
+        transform.localScale = _contactScale;
     }
     private void OnReturn(NotificationView view)
     {
         view.Button.onClick.RemoveAllListeners();
         view.TextIcon.gameObject.SetActive(false);
         view.gameObject.SetActive(false);
+        view.transform.localScale = _notificationScale;
+        Debug.Log($"OnReturn NotificationView {view.transform.localScale}");
     }
 }

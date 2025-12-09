@@ -3,7 +3,6 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using XNode;
 
 public class BlockScreenHandler : PhoneScreenBaseHandler
 {
@@ -16,21 +15,21 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private readonly TextMeshProUGUI _date;
     private readonly Button _blockScreenButton;
     private readonly Image _imageBackground;
-    private LocalizationString _notificationNameLocalizationString;
+    private readonly MessagesShower _messagesShower;
+    private LocalizationString _notificationTextLocalizationString;
     private CompositeDisposable _compositeDisposable;
-    private PhoneContact _currentContact;
     private LocalizationString _dateLocStr;
-    private List<NotificationView> _notificationViews;
     private PoolBase<NotificationView> _notificationViewPool;
     private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
     private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
     private IReadOnlyList<OnlineContactInfo> _onlineContacts;
     private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
-    public BlockScreenHandler(PhoneMessagesExtractor phoneMessagesExtractor, PressDetector pressDetector, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
-        ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationNameLocalizationString, ReactiveCommand switchToContactsScreenCommand)
+    public BlockScreenHandler(MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
+        ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand)
     :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
     {
+        _messagesShower = messagesShower;
         _notificationViewPool = notificationViewPool;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
@@ -38,7 +37,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _date = blockScreenViewBackground.Data;
         _blockScreenButton = blockScreenViewBackground.BlockScreenButton;
         _imageBackground = blockScreenViewBackground.ImageBackground;
-        _notificationNameLocalizationString = notificationNameLocalizationString;
+        _notificationTextLocalizationString = notificationTextLocalizationString;
         _blockScreenButton.enabled = false;
     }
     
@@ -55,7 +54,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _phoneContacts = phone.PhoneContactDictionary;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
-        setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
+        setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetDateText, _compositeDisposable);
         Screen.SetActive(true);
         TopPanelHandler.SetColorAndMode(TopPanelColor, false);
         TrySetTime(phoneTime, playModeKey);
@@ -63,7 +62,11 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             TryActivateBlockScreen();
         }
-        SetTexts();
+        else
+        {
+            StartScaleAnimation(_notificationViewPool.ActiveContent);
+        }
+        SetDateText();
     }
 
     private bool TryShowNotifications(SetLocalizationChangeEvent setLocalizationChangeEvent)
@@ -73,21 +76,16 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             for (int i = 0; i < _notificationsInBlockScreen.Count; i++)
             {
-                for (int j = 0; j < _phoneNodeCases.Count; j++)
-                {
-                    if (_notificationsInBlockScreen[i].ContactKey == _phoneNodeCases[j].ContactKey)
-                    {
-                        CreateNotification(_phoneContacts[_phoneNodeCases[j].ContactKey], setLocalizationChangeEvent);
-                        result = true;
-                    }
-                }
+                CreateNotification(_notificationsInBlockScreen[i], setLocalizationChangeEvent);
+                result = true;
             }
         }
         return result;
     }
 
-    private void CreateNotification(PhoneContact contact, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    private void CreateNotification(NotificationContactInfo notificationContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
+        PhoneContact contact = notificationContactInfo.Contact;
         var notificationView = _notificationViewPool.Get();
         notificationView.RectTransform.anchoredPosition = _nextPos;
         notificationView.Icon.sprite = contact.Icon;
@@ -100,27 +98,38 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             notificationView.TextIcon.gameObject.SetActive(false);
         }
-        notificationView.TextIcon.text = GetFistLetter(contact);
-        notificationView.NameText.text = contact.NameLocalizationString;
-        notificationView.NotificationText.text = _notificationNameLocalizationString;
-        setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
-        {
-            notificationView.TextIcon.text = GetFistLetter(contact);
-
-            notificationView.NameText.text = _notificationNameLocalizationString;
-            notificationView.NotificationText.text = _notificationNameLocalizationString;
-        }, _compositeDisposable);
         
+        SetTexts();
+        setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
         notificationView.Button.onClick.AddListener(() =>
         {
+            CancellationTokenSource?.Cancel();
+            CancellationTokenSource = null;
             for (int i = 0; i < _notificationViewPool.ActiveContent.Count; i++)
             {
                 _notificationViewPool.ActiveContent[i].Button.onClick.RemoveAllListeners();
             }
-            _switchToDialogScreenCommand.Execute(contact);
+            if (notificationContactInfo.Port.IsConnected)
+            {
+                _messagesShower.InitFromBlockScreen(notificationContactInfo.Port, () =>
+                {
+                    _switchToDialogScreenCommand.Execute(contact);
+                } );
+            }
+            else
+            {
+                _switchToDialogScreenCommand.Execute(contact);
+            }
         });
         notificationView.gameObject.SetActive(true);
         _nextPos.y -= _offsetY;
+
+        void SetTexts()
+        {
+            notificationView.TextIcon.text = GetFistLetter(contact);
+            notificationView.NameText.text = contact.NameLocalizationString;
+            notificationView.NotificationText.text = _notificationTextLocalizationString;
+        }
     }
     private void TryActivateBlockScreen()
     {
@@ -152,10 +161,10 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         base.Disable();
         _compositeDisposable?.Clear();
         _notificationViewPool.ReturnAll();
-        
+        _messagesShower.Dispose();
     }
 
-    private void SetTexts()
+    private void SetDateText()
     {
         _date.text = _dateLocStr;
     }

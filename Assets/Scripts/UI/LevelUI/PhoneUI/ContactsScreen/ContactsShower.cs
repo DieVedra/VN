@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -7,26 +8,27 @@ using UnityEngine.UI;
 
 public class ContactsShower
 {
+    private const float _startPosY = -72f;
+    private const float _startPosX = 0f;
+    private const float _offset = 20f;
     private readonly Predicate<string> _getOnlineStatus;
-    private readonly VerticalLayoutGroup _verticalLayoutGroup;
-    private readonly ContentSizeFitter _contentSizeFitter;
     private readonly RectTransform _contactsTransform;
     private PoolBase<ContactView> _contactsPool;
     private CompositeDisposable _compositeDisposable;
+    private CancellationTokenSource _cancellationTokenSource;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private Func<PhoneContact, string> _getFistLetter;
     private Action _activateExitButton;
+    private Vector2 _bufer;
     private bool _newMessagesNotFound;
-    public ContactsShower(VerticalLayoutGroup verticalLayoutGroup, ContentSizeFitter contentSizeFitter, RectTransform contactsTransform, Predicate<string> getOnlineStatus)
+    public ContactsShower(RectTransform contactsTransform, Predicate<string> getOnlineStatus)
     {
-        _verticalLayoutGroup = verticalLayoutGroup;
-        _contentSizeFitter = contentSizeFitter;
         _contactsTransform = contactsTransform;
         _getOnlineStatus = getOnlineStatus;
     }
 
     public void Init(IReadOnlyDictionary<string, PhoneContact> phoneContacts,
-        HashSet<string> nonReadedContacts,
+        HashSet<string> unreadebleContacts,
         PoolBase<ContactView> contactsPool, SetLocalizationChangeEvent setLocalizationChangeEvent,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand,
         Func<PhoneContact, string> getFistLetter, Action activateExitButton)
@@ -36,24 +38,31 @@ public class ContactsShower
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
         _contactsPool = contactsPool;
-        _verticalLayoutGroup.enabled = true;
-        _contentSizeFitter.enabled = true;
         _newMessagesNotFound = true;
-        Debug.Log($"phoneContacts.Count   {phoneContacts.Count}");
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        _contactsTransform.sizeDelta = Vector2.zero;
+        _bufer = Vector2.zero;
         foreach (var contact in phoneContacts)
         {
-            CreateContact(contact.Value, nonReadedContacts, switchToDialogScreenCommand);
+            CreateContact(contact.Value, unreadebleContacts, switchToDialogScreenCommand);
         }
+        
+        // _bufer.x = _contactsTransform.sizeDelta.x;
+        // _contactsTransform.sizeDelta = _bufer;
+        //
+        // _bufer.x = _startPosX;
+        // RectTransform rectTransform;
+        // for (int i = 0; i < _contactsPool.ActiveContent.Count; i++)
+        // {
+        //     rectTransform = _contactsPool.ActiveContent[i].RectTransform;
+        //     _bufer.y = rectTransform.sizeDelta.y + _offset;
+        //     rectTransform.anchoredPosition = _bufer;
+        // }
         if (_newMessagesNotFound == true)
         {
             _activateExitButton.Invoke();
         }
-
-        Observable.Timer(TimeSpan.FromSeconds(Time.deltaTime)).Subscribe(_ =>
-        {
-            _contentSizeFitter.enabled = false;
-            _verticalLayoutGroup.enabled = false;
-        }).AddTo(_compositeDisposable);
     }
 
     public void Dispose()
@@ -62,10 +71,14 @@ public class ContactsShower
         _contactsPool?.ReturnAll();
     }
     
-    private void CreateContact(PhoneContact phoneContact, HashSet<string> nonReadedContacts, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
+    private void CreateContact(PhoneContact phoneContact, HashSet<string> unreadebleContacts, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
     {
-        var view = _contactsPool.Get();
-        view.transform.SetParent(_contactsTransform);
+        ContactView view = _contactsPool.Get();
+        view.RectTransform.SetParent(_contactsTransform);
+
+        ExpansionSizeContactsFrame(view);
+
+
         TrySetIcon(phoneContact, view.TextIcon, view.Image);
         view.TextName.text = phoneContact.NameLocalizationString.DefaultText;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
@@ -73,14 +86,24 @@ public class ContactsShower
             view.TextName.text = phoneContact.NameLocalizationString.DefaultText;
         }, _compositeDisposable);
         SetOnlineStatus(phoneContact, view);
-        TryIndicateNewMessages(nonReadedContacts, view.NewMessageIndicatorImage.gameObject, phoneContact.NameLocalizationString.Key);
+        TryIndicateNewMessages(unreadebleContacts, view, phoneContact.NameLocalizationString.Key);
         view.ContactButton.onClick.AddListener(() =>
         {
             UnsubscribeAllButtons();
             switchToDialogScreenCommand.Execute(phoneContact);
-            nonReadedContacts.Remove(phoneContact.NameLocalizationString.Key);
+            unreadebleContacts.Remove(phoneContact.NameLocalizationString.Key);
+            _cancellationTokenSource?.Cancel();
         });
         view.gameObject.SetActive(true);
+    }
+
+    private void ExpansionSizeContactsFrame(ContactView view)
+    {
+        _bufer = _contactsTransform.sizeDelta;
+        _bufer.y += view.RectTransform.sizeDelta.y + _offset;
+        _contactsTransform.sizeDelta = _bufer;
+        _bufer.y = -_bufer.y;
+        view.RectTransform.anchoredPosition = _bufer;
     }
 
     private void SetOnlineStatus(PhoneContact phoneContact, ContactView view)
@@ -120,11 +143,12 @@ public class ContactsShower
         }
     }
 
-    private void TryIndicateNewMessages(HashSet<string> nonReadedContacts, GameObject newMessageIndicator, string key)
+    private void TryIndicateNewMessages(HashSet<string> unreadebleContacts, ContactView view, string key)
     {
-        if (nonReadedContacts.Contains(key))
+        if (unreadebleContacts.Contains(key))
         {
-            newMessageIndicator.SetActive(true);
+            view.NewMessageIndicatorImage.gameObject.SetActive(true);
+            // view.transform.DOScale(1.3f, PhoneScreenBaseHandler.Duration).SetLoops(PhoneScreenBaseHandler.LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
             _newMessagesNotFound = false;
         }
     }

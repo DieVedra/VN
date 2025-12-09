@@ -4,6 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using XNode;
 
 public class MessagesShower
 {
@@ -16,7 +17,6 @@ public class MessagesShower
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
-    private Action _trySetOnlineStatus;
     private readonly PressDetector _readDialogButton;
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
@@ -25,13 +25,12 @@ public class MessagesShower
 
     private CancellationTokenSource _cancellationTokenSource;
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
-    private List<MessageView> _messageViewed;
-    private Queue<Func<UniTask>> _queueShowMessages;
-    private int _index = 0;
+    private readonly List<MessageView> _messageViewed;
+    private readonly Queue<Func<UniTask>> _queueShowMessages;
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
-    private Action _activateBackButton;
+    private Action _onMessagesIsOut;
     private bool _inProgress;
     public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
         PhoneMessagesExtractor phoneMessagesExtractor, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
@@ -51,33 +50,34 @@ public class MessagesShower
         IncreaseDialogTransform(_offset);
         _cancellationTokenSource = new CancellationTokenSource();
     }
-
-    public void Init(ContactNodeCase contactNodeCase,
-        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, Action setOnlineStatus, Action activateBackButton)
+    
+    public void InitFromBlockScreen(NodePort nodePort, Action onMessagesIsOut)
     {
-        _activateBackButton = activateBackButton;
+        _inProgress = false;
+        _phoneMessagesExtractor.Init(nodePort);
+        _onMessagesIsOut = onMessagesIsOut;
+        _tryShowReactiveCommand.Execute();
+    }
+    public void InitFromDialogScreen(ContactNodeCase contactNodeCase,
+        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
+        SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
+    {
+        _onMessagesIsOut = onMessagesIsOut;
         _compositeDisposable = new CompositeDisposable();
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
-        _trySetOnlineStatus = setOnlineStatus;
-        _index = _defaultValue;
         _inProgress = false;
-        // _resultShowText = false;
-        // _characterOnlineKey = characterOnlineKey;
-        SetDialogToDeafultPos();
-
+        SetDialogToDefaultPos();
         _dialogTransform.sizeDelta = Vector2.zero;
 //логика вывода уже прочитанных сообщений
         if (contactNodeCase == null)
         {
-            activateBackButton.Invoke();
-
+            _onMessagesIsOut.Invoke();
         }
         else
         {
-            _phoneMessagesExtractor.Init(contactNodeCase);
+            _phoneMessagesExtractor.Init(contactNodeCase.Port);
         }
 
         
@@ -111,7 +111,7 @@ public class MessagesShower
         // }
     }
 
-    private void SetDialogToDeafultPos()
+    private void SetDialogToDefaultPos()
     {
         _pos.x = _dialogTransform.anchoredPosition.x;
         _pos.y = _contentStartPosY;
@@ -164,10 +164,10 @@ public class MessagesShower
 
         if (_phoneMessagesExtractor.MessagesIsOut == false)
         {
-            if (phoneMessage?.IsReaded == true)
-            {
-                _tryShowReactiveCommand.Execute();
-            }
+            // if (phoneMessage?.IsReaded == true)
+            // {
+            //     _tryShowReactiveCommand.Execute();
+            // }
             if (_queueShowMessages.Count == 0)
             {
                 SubscribeReadButton();
@@ -175,8 +175,7 @@ public class MessagesShower
         }
         else
         {
-            _trySetOnlineStatus.Invoke();
-            _activateBackButton.Invoke();
+            _onMessagesIsOut?.Invoke();
         }
 
         _inProgress = false;
@@ -194,7 +193,7 @@ public class MessagesShower
 
     private void SetMessage(MessageView view, PhoneMessage phoneMessage)
     {
-        SetDialogToDeafultPos();
+        SetDialogToDefaultPos();
         view.Text.text = phoneMessage.TextMessage;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {

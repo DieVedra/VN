@@ -99,6 +99,16 @@ public class PhoneNode : BaseNode, ILocalizable
         _choicePanelUIHandler.ResetSibling();
         
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
+        
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        for (int i = 0; i < _phoneNodeCases.Count; i++)
+        {
+            _phoneNodeCases[i].IsReaded = false;
+        }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
@@ -144,6 +154,14 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         AddDynamicOutput(typeof(Empty), Node.ConnectionType.Override, fieldName: portName);
         _notificationsInBlockScreen[index].Port = GetOutputPort(portName);
+        var a = _notificationsInBlockScreen[index].ContactKey;
+        for (int i = 0; i < _allContacts.Count; i++)
+        {
+            if (_allContacts[i].NameLocalizationString.Key == _notificationsInBlockScreen[index].ContactKey)
+            {
+                _notificationsInBlockScreen[index].Contact = _allContacts[i];
+            }
+        }
     }
     private void RemovePortFromNotificationContactInfo(string portName)
     {

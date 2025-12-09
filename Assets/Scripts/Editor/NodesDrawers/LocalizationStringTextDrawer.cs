@@ -40,6 +40,7 @@ public class LocalizationStringTextDrawer
             if (_simpleTextValidator.TryValidate())
             {
                 localizationString.SetText(_simpleTextValidator.ValidText);
+                localizationString.TryRegenerateKey();
             }
             else
             {
@@ -49,6 +50,7 @@ public class LocalizationStringTextDrawer
         else
         {
             localizationString.SetText(_simpleTextValidator.ValidText);
+            localizationString.TryRegenerateKey();
         }
     }
     public LocalizationString GetLocalizationStringFromProperty(SerializedProperty property)

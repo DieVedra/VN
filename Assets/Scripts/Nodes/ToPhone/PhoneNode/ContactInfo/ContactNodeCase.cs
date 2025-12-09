@@ -10,6 +10,7 @@ public class ContactNodeCase : ContactInfo
     [SerializeField] private NodePort _port;
     public string PortName => _portName;
     public int ContactIndex => _contactIndex;
+    public bool IsReaded = false;
     public NodePort Port
     {
         get => _port;

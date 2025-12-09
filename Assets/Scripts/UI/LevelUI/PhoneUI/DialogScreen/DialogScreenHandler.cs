@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
     private const float _alphaMin1 = 0.65f;
+    private const float _scaleValueMax = 1.1f;
     private readonly List<OnlineContactInfo> _sortedOnlineContacts;
     private readonly PoolBase<MessageView> _incomingMessagePool;
     private readonly PoolBase<MessageView> _outcomingMessagePool;
@@ -70,8 +71,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        
-        _messagesShower.Init(GetContactNodeCase(contact.NameLocalizationString.Key) , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+        ContactNodeCase contactNodeCase = GetContactNodeCase(contact.NameLocalizationString.Key);
+        _messagesShower.InitFromDialogScreen(contactNodeCase , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {
                 if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
@@ -79,14 +80,17 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
                     _sortedOnlineContacts.Remove(onlineContactInfo);
                     ChangeOnlineIndicator(null);
                 }
-            }, ActivateBackButton);
+
+                contactNodeCase.IsReaded = true;
+                ActivateBackButton();
+            });
     }
 
     private ContactNodeCase GetContactNodeCase(string key)
     {
         for (int i = 0; i < _sortedPhoneNodeCases.Count; i++)
         {
-            if (_sortedPhoneNodeCases[i].ContactKey == key)
+            if (_sortedPhoneNodeCases[i].ContactKey == key && _sortedPhoneNodeCases[i].IsReaded == false)
             {
                 return _sortedPhoneNodeCases[i];
             }
@@ -141,6 +145,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         });
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         _backArrowImage.DOFade(AlphaMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
+        _backArrowImage.transform.DOScale(_scaleValueMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
     }
     private void SetTexts()
     {

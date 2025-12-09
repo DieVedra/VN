@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PhoneScreenBaseHandler
 {
+    private const float _scaleValueMax = 1.02f;
     private const int _indexFirstLetter = 0;
-    protected const float Duration = 0.8f;
-    protected const int LoopsCount = -1;
+    public const float Duration = 0.8f;
+    public const int LoopsCount = -1;
     protected const float AlphaMax = 1f;
     protected const float AlphaMin = 0.5f;
 
@@ -14,6 +19,8 @@ public class PhoneScreenBaseHandler
     protected readonly Image BackgroundImage;
     protected readonly Color TopPanelColor;
     
+    protected CancellationTokenSource CancellationTokenSource;
+
     protected PhoneScreenBaseHandler(GameObject screen, TopPanelHandler topPanelHandler, Image backgroundImage, Color topPanelColor)
     {
         Screen = screen;
@@ -32,4 +39,30 @@ public class PhoneScreenBaseHandler
         return $"{currentContact.NameLocalizationString.DefaultText[_indexFirstLetter]}";
     }
 
+    protected void StartScaleAnimation<T>(IReadOnlyList<T> activeContent) where T : MonoBehaviour
+    {
+        if (activeContent.Count > 0)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+            for (int i = 0; i < activeContent.Count; i++)
+            {
+                Debug.Log($"StartScaleAnimation {i} {activeContent[i].transform.localScale}");
+
+                activeContent[i].transform.DOScale(_scaleValueMax, Duration).SetDelay(GetDelay(i))
+                    .SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(CancellationTokenSource.Token);
+            }
+
+            float GetDelay(int i)
+            {
+                if (i != 0)
+                {
+                    return i * 0.5f;
+                }
+                else
+                {
+                    return 0f;
+                }
+            }
+        }
+    }
 }

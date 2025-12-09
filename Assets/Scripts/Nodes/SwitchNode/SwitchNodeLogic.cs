@@ -9,7 +9,7 @@ public class SwitchNodeLogic
     private const string _lessSymbol = "<";
     private const string _greatEqualSymbol = ">=";
     private const string _lessEqualSymbol = "<=";
-    public readonly string[] Operators;
+    public readonly string[] Operators = {_equalSymbol, _greatSymbol, _lessSymbol, _greatEqualSymbol, _lessEqualSymbol};
     private List<Func<bool>> _toSwitch;
     private readonly IReadOnlyDictionary<string, Stat> _statsDictionary;
     public readonly IReadOnlyList<Stat> GameStatsCopied;
@@ -19,7 +19,6 @@ public class SwitchNodeLogic
         _toSwitch = new List<Func<bool>>();
         _statsDictionary = statsDictionary;
         GameStatsCopied = gameStatsCopied;
-        Operators = new[]{_equalSymbol, _greatSymbol, _lessSymbol, _greatEqualSymbol, _lessEqualSymbol};
     }
 
     public (bool, int) GetPortIndexOnSwitchResult(List<CaseForStats> cases)

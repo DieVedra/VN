@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: End
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 58168, y: 6904}
+  position: {x: 61560, y: 7176}
   ports:
     keys:
     - Input
@@ -141,7 +141,7 @@ MonoBehaviour:
   namenode: 
   _localizationText:
     <DefaultText>k__BackingField: "\u042D\u0442\u043E \u043C\u043E\u044F \u0440\u0430\u0431\u043E\u0442\u0430."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_1AB86FEB
   _indexCharacter: 7
   _indexEmotion: 0
   _indexLook: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53416, y: 6328}
+  position: {x: 56920, y: 6776}
   ports:
     keys:
     - Input
@@ -205,7 +205,7 @@ MonoBehaviour:
       \u044D\u0442\u043E \u0442\u0435 \u043B\u044E\u0434\u0438, \u0443 \u043A\u043E\u0442\u043E\u0440\u044B\u0445
       \u044F \u043C\u043E\u0433\u0443 \u043F\u043E\u043F\u0440\u043E\u0441\u0438\u0442\u044C
       \u043F\u043E\u043C\u043E\u0449\u0438."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_20718A2A
 --- !u!114 &-7555458833424472713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55272, y: 5528}
+  position: {x: 58136, y: 5736}
   ports:
     keys:
     - Input
@@ -255,7 +255,7 @@ MonoBehaviour:
       \u043C\u043E\u0433\u0443 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438\u0442\u044C
       \u0442\u0435\u0431\u0435 \u043F\u0435\u0440\u0435\u043A\u0430\u043D\u0442\u043E\u0432\u0430\u0442\u044C\u0441\u044F
       \u0443 \u043C\u0435\u043D\u044F."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_DEB3A03C
   _type: 0
   _isReaded: 0
 --- !u!114 &-7378431724803134642
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55896, y: 5544}
+  position: {x: 58760, y: 5752}
   ports:
     keys:
     - Input
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Name: End
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 57528, y: 9176}
+  position: {x: 57768, y: 9176}
   ports:
     keys:
     - Input
@@ -334,7 +334,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 5898828295520088093}
+        node: {fileID: 2471771703661303435}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55464, y: 7288}
+  position: {x: 58856, y: 7560}
   ports:
     keys:
     - Input
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53688, y: 6328}
+  position: {x: 57192, y: 6776}
   ports:
     keys:
     - Input
@@ -454,7 +454,7 @@ MonoBehaviour:
       \u0427\u0442\u043E \u044F \u043E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
       \u0431\u0435\u0437 \u0434\u0435\u043D\u0435\u0433 \u0432 \u0434\u0440\u0443\u0433\u043E\u0439
       \u0441\u0442\u0440\u0430\u043D\u0435?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_EF1E879B
 --- !u!114 &-6630131056886263978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +477,7 @@ MonoBehaviour:
     - Port 1
     - Port 2
     - Port 3
+    - Port 4
     values:
     - _fieldName: Input
       _node: {fileID: -6630131056886263978}
@@ -550,6 +551,18 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    - _fieldName: Port 4
+      _node: {fileID: -6630131056886263978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3768951614550958499}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
   namenode: 
   _phoneNodeCases:
   - Key: str_F71AE2E8
@@ -569,6 +582,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    IsReaded: 0
   - Key: str_AC60ADBC
     Name: "\u041C\u0430\u0440\u043A"
     _portName: Port 1
@@ -586,6 +600,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    IsReaded: 0
   - Key: str_C23C363D
     Name: "\u041C\u0430\u043C\u0430"
     _portName: Port 2
@@ -603,6 +618,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    IsReaded: 0
   - Key: str_D5DBBDEB
     Name: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
     _portName: Port 3
@@ -620,7 +636,33 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
-  _notificationsInBlockScreen: []
+    IsReaded: 0
+  _notificationsInBlockScreen:
+  - Key: str_D5DBBDEB
+    Name: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
+    _portName: Port 4
+    _port:
+      _fieldName: Port 4
+      _node: {fileID: -6630131056886263978}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3768951614550958499}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    _contact:
+      <NameLocalizationString>k__BackingField:
+        <DefaultText>k__BackingField: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
+        <Key>k__BackingField: str_D5DBBDEB
+      <ToPhoneKey>k__BackingField: str_F62CA740
+      <Icon>k__BackingField: {fileID: 21300000, guid: 5f742fc9c18be46408e12993c76ce51d, type: 3}
+      <IsEmptyIconKey>k__BackingField: 0
+      <AddInPlot>k__BackingField: 0
+      <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   _onlineContacts:
   - Key: str_C23C363D
     Name: "\u041C\u0430\u043C\u0430"
@@ -688,7 +730,7 @@ MonoBehaviour:
       \u044F \u043F\u043E\u0434\u0443\u043C\u0430\u043B\u0430 \u043E \u0447\u0435\u043C-\u0442\u043E
       \u0445\u043E\u0440\u043E\u0448\u0435\u043C. \u042F \u0431\u044B\u043B\u0430
       \u0437\u0430\u0432\u043E\u0440\u043E\u0436\u0435\u043D\u0430 \u0438\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E433B11E
 --- !u!114 &-6379627530363908816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,7 +840,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0412\u044B \u043F\u0440\u0438\u0448\u043B\u0438
       \u0432 \u0441\u0435\u0431\u044F?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_403938D0
   _indexCharacter: 7
   _indexEmotion: 0
   _indexLook: 0
@@ -825,7 +867,7 @@ MonoBehaviour:
   m_Name: Phone Switch
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54440, y: 5576}
+  position: {x: 57304, y: 5784}
   ports:
     keys:
     - OutputTrueBool
@@ -1324,7 +1366,7 @@ MonoBehaviour:
   m_Name: End
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56232, y: 5848}
+  position: {x: 59096, y: 6056}
   ports:
     keys:
     - Input
@@ -1467,7 +1509,7 @@ MonoBehaviour:
       \u0432\u0430\u043C, \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E \u0435\u0441\u043B\u0438
       \u0447\u0442\u043E-\u0442\u043E \u0432\u0441\u043F\u043E\u043C\u043D\u0438\u0442\u0435
       \u043E \u0432\u0447\u0435\u0440\u0430\u0448\u043D\u0435\u0439 \u043D\u043E\u0447\u0438."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_7DBF41AE
   _indexCharacter: 7
   _indexEmotion: 1
   _indexLook: 0
@@ -1575,7 +1617,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53480, y: 4968}
+  position: {x: 55912, y: 5528}
   ports:
     keys:
     - Input
@@ -1610,7 +1652,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0412 \u0433\u043E\u043B\u043E\u0432\u0435 \u043F\u043E\u044F\u0432\u0438\u043B\u0430\u0441\u044C
       \u043C\u044B\u0441\u043B\u044C, \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C,
       \u041C\u0430\u0440\u043A \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043C\u043D\u0435."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_637A2CDD
 --- !u!114 &-5484593573194376814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,7 +1708,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55800, y: 6920}
+  position: {x: 59192, y: 7192}
   ports:
     keys:
     - Input
@@ -1754,7 +1796,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041F\u0440\u0438\u0432\u0435\u0442. \u041C\u043D\u0435
       \u043D\u0443\u0436\u043D\u0430 \u043F\u043E\u043C\u043E\u0449\u044C"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_1780C73F
   _type: 1
   _isReaded: 0
 --- !u!114 &-5394507447539008296
@@ -1809,7 +1851,7 @@ MonoBehaviour:
       \u042F \u043D\u0435 \u0445\u043E\u0447\u0443 \u0441\u043D\u043E\u0432\u0430
       \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0442\u044C\u0441\u044F \u0432
       \u043F\u0430\u043B\u0430\u0442\u043A\u0443."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_70610997
   _type: 1
   _isReaded: 0
 --- !u!114 &-5335639604732321812
@@ -1825,7 +1867,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55784, y: 7304}
+  position: {x: 59176, y: 7576}
   ports:
     keys:
     - Input
@@ -1913,7 +1955,7 @@ MonoBehaviour:
       \u0434\u0430\u0436\u0435 \u043D\u0435 \u0437\u043D\u0430\u044E, \u043A\u0430\u043A
       \u0442\u0435\u0431\u044F \u043E\u0442\u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u0438\u0442\u044C
       \u0437\u0430 \u044D\u0442\u043E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_4FF30C27
   _type: 1
   _isReaded: 0
 --- !u!114 &-4633982904625713752
@@ -1968,7 +2010,7 @@ MonoBehaviour:
       \u044D\u0442\u043E \u0441\u043F\u043E\u043A\u043E\u0439\u0441\u0442\u0432\u0438\u0435,
       \u0447\u0442\u043E \u044F \u043F\u043E\u0447\u0443\u0432\u0441\u0442\u0432\u043E\u0432\u0430\u043B\u0430
       \u0440\u044F\u0434\u043E\u043C \u0441 \u043D\u0438\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_1732CC53
 --- !u!114 &-4474034016479075002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,7 +2059,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0412\u0441\u0435 \u0432 \u043F\u043E\u0440\u044F\u0434\u043A\u0435.
       \u0421\u043A\u0430\u0436\u0438, \u0433\u0434\u0435 \u0442\u044B, \u0438 \u044F
       \u0437\u0430\u0435\u0434\u0443 \u0437\u0430 \u0442\u043E\u0431\u043E\u0439."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E6A88062
   _type: 0
   _isReaded: 0
 --- !u!114 &-4294434978933153968
@@ -2033,7 +2075,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53768, y: 5544}
+  position: {x: 56632, y: 5752}
   ports:
     keys:
     - Input
@@ -2067,7 +2109,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u0427\u0442\u043E \u0438\u043C\u0435\u043D\u043D\u043E
       \u0442\u0435\u0431\u0435 \u043D\u0443\u0436\u043D\u043E?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_CB5449A2
   _type: 0
   _isReaded: 0
 --- !u!114 &-4189508441491330881
@@ -2118,7 +2160,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0412\u0438\u0434\u0438\u043C\u043E \u043C\u043D\u0435
       \u043D\u0435 \u0441\u0442\u043E\u0438\u043B\u043E \u0442\u0435\u0431\u0435
       \u043F\u0438\u0441\u0430\u0442\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_7107CE65
   _type: 0
   _isReaded: 0
 --- !u!114 &-4183500573682347484
@@ -2134,7 +2176,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55948.984, y: 5903.4404}
+  position: {x: 58808, y: 6120}
   ports:
     keys:
     - Input
@@ -2288,7 +2330,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 3768951614550958499}
+        node: {fileID: 2471771703661303435}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -2298,7 +2340,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041D\u0435 \u0445\u043E\u0447\u0443 \u0442\u0435\u0431\u044F
       \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0438\u0434\u0435\u0442\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_CC42FDF6
   _type: 0
   _isReaded: 1
 --- !u!114 &-3110858235606313036
@@ -2314,7 +2356,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56168, y: 5544}
+  position: {x: 59032, y: 5752}
   ports:
     keys:
     - Input
@@ -2364,7 +2406,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53496, y: 5240}
+  position: {x: 56360, y: 5448}
   ports:
     keys:
     - Input
@@ -2399,7 +2441,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u042F \u0441\u0443\u0434\u043E\u0440\u043E\u0436\u043D\u043E
       \u043D\u0430\u0447\u0430\u043B\u0430 \u043D\u0430\u0431\u0438\u0440\u0430\u0442\u044C
       \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u0434\u043B\u044F \u043D\u0435\u0433\u043E"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_01907D42
 --- !u!114 &-2842600133737228908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3264,7 +3306,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u0412 \u0443\u0447\u0430\u0441\u0442\u043A\u0435.
       \u0415\u0449\u0435 \u0440\u0430\u0437, \u0441\u043F\u0430\u0441\u0438\u0431\u043E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_81AACD84
   _type: 1
   _isReaded: 0
 --- !u!114 &-2358248763466653519
@@ -3328,7 +3370,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56040, y: 6936}
+  position: {x: 59432, y: 7208}
   ports:
     keys:
     - Input
@@ -3381,7 +3423,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53512, y: 5544}
+  position: {x: 56376, y: 5752}
   ports:
     keys:
     - Input
@@ -3415,7 +3457,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041F\u0440\u0438\u0432\u0435\u0442. \u041C\u043D\u0435
       \u043D\u0443\u0436\u043D\u0430 \u043F\u043E\u043C\u043E\u0449\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_1CE2E8E5
   _type: 1
   _isReaded: 0
 --- !u!114 &-1853662294326265603
@@ -3431,7 +3473,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56264, y: 6952}
+  position: {x: 59656, y: 7224}
   ports:
     keys:
     - Input
@@ -3514,7 +3556,7 @@ MonoBehaviour:
       \u0447\u0430\u0441\u0442\u043E \u043F\u0440\u0438\u0434\u0435\u0442\u0441\u044F
       \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0442\u044C\u0441\u044F \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0443\u044E
       \u043D\u0435\u0434\u0435\u043B\u044E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_CBF91382
   _indexCharacter: 7
   _indexEmotion: 0
   _indexLook: 0
@@ -3619,7 +3661,7 @@ MonoBehaviour:
   namenode: 
   _localizationString:
     <DefaultText>k__BackingField: "\u041A\u0430\u043A\u0430\u044F?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_CDD57B1F
   _type: 0
   _isReaded: 0
 --- !u!114 &-1058169873550722269
@@ -3635,7 +3677,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56312, y: 6632}
+  position: {x: 59704, y: 6904}
   ports:
     keys:
     - Input
@@ -3686,7 +3728,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54056, y: 5528}
+  position: {x: 56920, y: 5736}
   ports:
     keys:
     - Input
@@ -3727,7 +3769,7 @@ MonoBehaviour:
       \u0432\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043D\u0430 \u043F\u043B\u044F\u0436,
       \u0430 \u0434\u0435\u043D\u0435\u0433 \u0441\u043E\u0432\u0441\u0435\u043C
       \u043D\u0435\u0442."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_5F86029D
   _type: 1
   _isReaded: 0
 --- !u!114 &-895965659269465958
@@ -3778,7 +3820,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u042F \u043D\u0430\u0434\u0435\u044E\u0441\u044C,
       \u0447\u0442\u043E \u0432\u044B \u043D\u0430\u0439\u0434\u0435\u0442\u0435
       \u0442\u043E\u0433\u043E, \u043A\u0442\u043E \u044D\u0442\u043E \u0441\u0434\u0435\u043B\u0430\u043B."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E5F3D008
   _indexCharacter: 4
   _indexEmotion: 1
   _indexLook: 0
@@ -3915,7 +3957,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55560, y: 6616}
+  position: {x: 58952, y: 6888}
   ports:
     keys:
     - Input
@@ -3971,7 +4013,7 @@ MonoBehaviour:
   m_Name: Choice Phone
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54920, y: 6600}
+  position: {x: 58312, y: 6872}
   ports:
     keys:
     - Input
@@ -4622,7 +4664,6 @@ MonoBehaviour:
   - {fileID: 3768951614550958499}
   - {fileID: 1062858673529794673}
   - {fileID: 5898828295520088093}
-  - {fileID: 7418359436213198968}
   - {fileID: 55198409109184400}
   - {fileID: 6749035056531989096}
   - {fileID: -2779861483494823587}
@@ -4672,6 +4713,8 @@ MonoBehaviour:
   - {fileID: -6379627530363908816}
   - {fileID: 5526396811487835801}
   - {fileID: -2358248763466653519}
+  - {fileID: 2471771703661303435}
+  - {fileID: 5659760213712770124}
 --- !u!114 &55198409109184400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4720,7 +4763,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u042F \u043D\u0435 \u0445\u043E\u0442\u0435\u043B\u0430
       \u0432\u0435\u0440\u0438\u0442\u044C, \u0447\u0442\u043E \u044D\u0442\u043E
       \u043F\u0440\u0430\u0432\u0434\u0430."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_4B4AB163
   _type: 0
   _isReaded: 1
 --- !u!114 &104279380557087791
@@ -5270,7 +5313,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u041E\u043D \u043F\u043E\u0434\u043E\u0448\u0435\u043B
       \u0432\u043F\u043B\u043E\u0442\u043D\u0443\u044E, \u043F\u0440\u043E\u0442\u044F\u043D\u0443\u0432
       \u043E\u0431\u0440\u0430\u0442\u043D\u043E \u0442\u0435\u043B\u0435\u0444\u043E\u043D."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_232FBD16
 --- !u!114 &167444222709779146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5284,7 +5327,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54520, y: 6584}
+  position: {x: 58024, y: 7032}
   ports:
     keys:
     - Input
@@ -5318,7 +5361,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u0414\u043E\u0431\u0440\u043E\u0435 \u0443\u0442\u0440\u043E!
       \u0427\u0442\u043E \u0441\u043B\u0443\u0447\u0438\u043B\u043E\u0441\u044C?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_A2F4B29D
   _type: 0
   _isReaded: 0
 --- !u!114 &1062858673529794673
@@ -5334,7 +5377,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 57080, y: 8808}
+  position: {x: 53032, y: 5368}
   ports:
     keys:
     - Input
@@ -5367,10 +5410,9 @@ MonoBehaviour:
   namenode: 
   _localizationText:
     <DefaultText>k__BackingField: "\u041C\u0435\u043D\u044F \u043E\u0434\u043E\u043B\u0435\u043B
-      \u0441\u0442\u0440\u0430\u0445 \u0442\u0430\u043A\u043E\u0439 \u0441\u0438\u043B\u044B,
-      \u043A\u0430\u043A\u043E\u0439 \u043F\u0440\u0435\u0436\u0434\u0435 \u044F
-      \u043D\u0438\u043A\u043E\u0433\u0434\u0430 \u043D\u0435 \u0438\u0441\u043F\u044B\u0442\u044B\u0432\u0430\u043B\u0430."
-    <Key>k__BackingField: 
+      \u0442\u0430\u043A\u043E\u0439 \u0441\u0442\u0440\u0430\u0445, \u043A\u0430\u043A\u043E\u0439
+      \u044F \u0434\u0430\u0432\u043D\u043E \u043D\u0435 \u0438\u0441\u043F\u044B\u0442\u044B\u0432\u0430\u043B\u0430."
+    <Key>k__BackingField: str_E8430DB9
 --- !u!114 &1179642175206958856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5384,7 +5426,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55576, y: 6920}
+  position: {x: 58968, y: 7192}
   ports:
     keys:
     - Input
@@ -5473,7 +5515,7 @@ MonoBehaviour:
       \u0442\u0435\u0431\u044F \u0437\u043D\u0430\u044E, \u0447\u0442\u043E\u0431\u044B
       \u043F\u043E\u043C\u043E\u0433\u0430\u0442\u044C \u0432 \u0442\u0430\u043A\u043E\u0439
       \u0441\u0438\u0442\u0443\u0430\u0446\u0438\u0438."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_5ACF4A60
   _type: 0
   _isReaded: 0
 --- !u!114 &1505663416661916859
@@ -5524,7 +5566,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0423 \u0432\u0430\u0441 \u0445\u043E\u0440\u043E\u0448\u0438\u0435
       \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041E\u0444\u0438\u0446\u0435\u0440\u043E\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_3DBCAC02
   _overrideDataKey: 0
   _awaitKey: 0
   _notificationNodeData:
@@ -5579,7 +5621,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u042F \u0443\u0441\u0442\u0430\u043B\u0430 \u043E\u0442
       \u0442\u0435\u0431\u044F, \u042D\u043B\u0438\u0441. \u041D\u0435 \u0445\u043E\u0447\u0443
       \u0442\u0435\u0431\u044F \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0438\u0434\u0435\u0442\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E41752F7
   _type: 0
   _isReaded: 1
 --- !u!114 &1668779556360717282
@@ -5629,7 +5671,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041D\u0435 \u0432\u043E\u043B\u043D\u0443\u0439\u0441\u044F,
       \u044F \u0441\u043A\u043E\u0440\u043E \u043F\u0440\u0438\u0435\u0434\u0443."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_57B35518
   _type: 0
   _isReaded: 0
 --- !u!114 &1698388456942676065
@@ -5678,7 +5720,7 @@ MonoBehaviour:
       \u0437\u0430\u0448\u0435\u043B \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442,
       \u043F\u0435\u0440\u0435\u0431\u0438\u0440\u0430\u044F \u0432 \u0440\u0443\u043A\u0430\u0445
       \u043F\u0430\u043F\u043A\u0443 \u0441 \u0434\u0435\u043B\u043E\u043C \u041C\u0438\u0440\u0430\u043D\u0434\u044B."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_3AAEE6E1
 --- !u!114 &1952376675808710423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5716,7 +5758,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 3768951614550958499}
+        node: {fileID: 2471771703661303435}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -5729,7 +5771,7 @@ MonoBehaviour:
       \u043F\u0443\u0442\u0438 \u043F\u043E\u0441\u043B\u0435 \u044D\u0442\u043E\u0433\u043E
       \u043F\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u044F \u0434\u043E\u043B\u0436\u043D\u044B
       \u0440\u0430\u0437\u043E\u0439\u0442\u0438\u0441\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_647182D1
   _type: 1
   _isReaded: 1
 --- !u!114 &1958843512046844857
@@ -5784,7 +5826,7 @@ MonoBehaviour:
       \u041E\u0434\u043D\u0430 \u0438\u0437 \u043D\u0438\u0445 \u0441\u0435\u0439\u0447\u0430\u0441
       \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u0430. \u041C\u043E\u0436\u0435\u0448\u044C
       \u043F\u043E\u0436\u0438\u0442\u044C \u0432 \u043D\u0435\u0439."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_9307AD88
   _type: 0
   _isReaded: 0
 --- !u!114 &2188486224009761984
@@ -6075,7 +6117,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _additionalCaseStats: []
-    _foldoutKey: 1
+    _foldoutKey: 0
     _name: Port 0
   - _caseStats:
     - _colorField: {r: 1, g: 1, b: 1, a: 1}
@@ -6289,6 +6331,63 @@ MonoBehaviour:
   _isNodeForStats: 0
   _isNodeForBool: 0
   _removeAdditionalCaseIndex: 0
+--- !u!114 &2471771703661303435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02aa13a84c8c4b6c986199bc21a8b05d, type: 3}
+  m_Name: Phone Narrative Message
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 57080, y: 8488}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2471771703661303435}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5621001245483603414}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -3278162605384624294}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 5938011590865017097}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 1952376675808710423}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2471771703661303435}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -6665008256252491706}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _localizationText:
+    <DefaultText>k__BackingField: "\u042F \u0441\u043E\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u043E
+      \u043D\u0435 \u043F\u043E\u043C\u043D\u044E \u044D\u0442\u043E\u0439 \u043F\u0435\u0440\u0435\u043F\u0438\u0441\u043A\u0438."
+    <Key>k__BackingField: str_6CAF676E
 --- !u!114 &2928494660997783702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6381,7 +6480,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0423 \u0432\u0430\u0441 \u0445\u043E\u0440\u043E\u0448\u0438\u0435
       \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_074F5005
   _overrideDataKey: 0
   _awaitKey: 0
   _notificationNodeData:
@@ -6432,7 +6531,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u042F \u043F\u0440\u043E\u0442\u044F\u043D\u0443\u043B\u0430
       \u043E\u0444\u0438\u0446\u0435\u0440\u0443 \u0442\u0435\u043B\u0435\u0444\u043E\u043D."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_6662F584
 --- !u!114 &3768951614550958499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6446,7 +6545,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 57080, y: 8520}
+  position: {x: 52696, y: 5384}
   ports:
     keys:
     - Input
@@ -6457,17 +6556,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Output
-        node: {fileID: 5621001245483603414}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: -3278162605384624294}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: 5938011590865017097}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: 1952376675808710423}
+      - fieldName: Port 4
+        node: {fileID: -6630131056886263978}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -6492,7 +6582,7 @@ MonoBehaviour:
       \u043E \u043D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445
       \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F\u0445. \u042D\u0442\u043E
       \u0431\u044B\u043B \u0434\u0438\u0430\u043B\u043E\u0433 \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_6E23A2BC
 --- !u!114 &3813939732689665978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6506,7 +6596,7 @@ MonoBehaviour:
   m_Name: Notification
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54984, y: 5832}
+  position: {x: 57848, y: 6040}
   ports:
     keys:
     - Input
@@ -6542,7 +6632,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0423 \u0432\u0430\u0441 \u043D\u0435\u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u043E
       \u0445\u043E\u0440\u043E\u0448\u0438\u0435 \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
       \u0441 \u041C\u0430\u0440\u043A\u043E\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_54ABE308
   _overrideDataKey: 0
   _awaitKey: 0
   _notificationNodeData:
@@ -6562,7 +6652,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56760, y: 7000}
+  position: {x: 60152, y: 7272}
   ports:
     keys:
     - Input
@@ -6613,7 +6703,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55608, y: 5848}
+  position: {x: 58472, y: 6056}
   ports:
     keys:
     - Input
@@ -6647,7 +6737,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u0418\u0437\u0432\u0438\u043D\u0438, \u0447\u0442\u043E
       \u043F\u043E\u0442\u0440\u0435\u0432\u043E\u0436\u0438\u043B\u0430."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_FD868227
   _type: 1
   _isReaded: 0
 --- !u!114 &4691563905938361153
@@ -6663,7 +6753,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 56488, y: 6968}
+  position: {x: 59880, y: 7240}
   ports:
     keys:
     - Input
@@ -6759,7 +6849,7 @@ MonoBehaviour:
   m_Name: Notification
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54968, y: 5576}
+  position: {x: 57832, y: 5784}
   ports:
     keys:
     - Input
@@ -6794,7 +6884,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u0423 \u0432\u0430\u0441 \u0445\u043E\u0440\u043E\u0448\u0438\u0435
       \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441 \u041C\u0430\u0440\u043A\u043E\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_34909B20
   _overrideDataKey: 0
   _awaitKey: 0
   _notificationNodeData:
@@ -6848,7 +6938,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041D\u0435 \u0445\u043E\u0447\u0443 \u0442\u0435\u0431\u044F
       \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0438\u0434\u0435\u0442\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_CC42FDF6
   _type: 0
   _isReaded: 1
 --- !u!114 &5151696634548327792
@@ -6898,7 +6988,7 @@ MonoBehaviour:
   _localizationText:
     <DefaultText>k__BackingField: "\u042D\u043B\u0438\u0441, \u044F \u0432\u043E\u043B\u043D\u0443\u044E\u0441\u044C
       \u0437\u0430 \u0432\u0430\u0441. "
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_FD5016AC
   _indexCharacter: 7
   _indexEmotion: 1
   _indexLook: 0
@@ -6993,7 +7083,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 54088, y: 6632}
+  position: {x: 57592, y: 7064}
   ports:
     keys:
     - Input
@@ -7028,7 +7118,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u041F\u0440\u0438\u0432\u0435\u0442, \u041C\u0430\u043C,
       \u043C\u043D\u0435 \u043D\u0443\u0436\u043D\u0430 \u0442\u0432\u043E\u044F
       \u043F\u043E\u043C\u043E\u0449\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_FD6B8D7C
   _type: 1
   _isReaded: 0
 --- !u!114 &5526396811487835801
@@ -7125,7 +7215,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 3768951614550958499}
+        node: {fileID: 2471771703661303435}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -7138,7 +7228,7 @@ MonoBehaviour:
       \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0438\u043C, \u043A\u043E\u043C\u0443
       \u0442\u044B \u0431\u0443\u0434\u0435\u0448\u044C \u043D\u0443\u0436\u043D\u0430
       \u0431\u0435\u0437 \u043C\u0435\u043D\u044F!"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_4823ECB2
   _type: 0
   _isReaded: 1
 --- !u!114 &5646627383016890138
@@ -7181,7 +7271,7 @@ MonoBehaviour:
   namenode: 
   _localizationText:
     <DefaultText>k__BackingField: "\u0414\u0443\u043C\u0430\u044E, \u0434\u0430."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_C711696F
   _indexCharacter: 4
   _indexEmotion: 0
   _indexLook: 0
@@ -7195,6 +7285,47 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
+--- !u!114 &5659760213712770124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5211bb632374499a8326450ab5201996, type: 3}
+  m_Name: End
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 53624, y: 5400}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5659760213712770124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 5898828295520088093}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5659760213712770124}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
 --- !u!114 &5898828295520088093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7208,7 +7339,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 57080, y: 9096}
+  position: {x: 53320, y: 5368}
   ports:
     keys:
     - Input
@@ -7232,7 +7363,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -6665008256252491706}
+        node: {fileID: 5659760213712770124}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -7240,16 +7371,13 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _localizationText:
-    <DefaultText>k__BackingField: "\u0411\u0443\u0434\u0442\u043E \u0432\u043D\u0443\u0442\u0440\u0438
-      \u0447\u0442\u043E-\u0442\u043E \u0441\u043B\u043E\u043C\u0430\u043B\u043E\u0441\u044C,
-      \u0440\u0430\u0437\u0431\u0438\u043B\u043E\u0441\u044C \u0432 \u0449\u0435\u043F\u043A\u0438,
-      \u0438 \u0432\u0441\u0435 \u043C\u043E\u0438 \u0447\u0443\u0432\u0441\u0442\u0432\u0430
-      \u043B\u0430\u0432\u0438\u043D\u043E\u0439 \u0443\u043D\u0435\u0441\u043B\u0438
+    <DefaultText>k__BackingField: "\u0412\u0441\u0435 \u043C\u043E\u0438 \u0447\u0443\u0432\u0441\u0442\u0432\u0430
+      \u0431\u0443\u0434\u0442\u043E \u043B\u0430\u0432\u0438\u043D\u043E\u0439 \u0443\u043D\u0435\u0441\u043B\u0438
       \u043C\u0435\u043D\u044F \u043A \u0441\u0430\u043C\u044B\u043C \u0441\u0442\u0440\u0430\u0448\u043D\u044B\u043C
       \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u0430\u043C \u0442\u043E\u0433\u043E,
       \u0447\u0442\u043E \u043C\u043E\u0433\u043B\u043E \u0441\u043B\u0443\u0447\u0438\u0442\u044C\u0441\u044F
       \u0432\u0447\u0435\u0440\u0430 \u043D\u043E\u0447\u044C\u044E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_F6C50DC1
 --- !u!114 &5901364194946641714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7263,7 +7391,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55352, y: 6920}
+  position: {x: 58744, y: 7192}
   ports:
     keys:
     - Input
@@ -7397,7 +7525,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 3768951614550958499}
+        node: {fileID: 2471771703661303435}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -7407,7 +7535,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041D\u0435\u0442. \u042F \u043D\u0435 \u043E\u0442\u043F\u0443\u0449\u0443
       \u0442\u0435\u0431\u044F."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_AB7A5E15
   _type: 1
   _isReaded: 1
 --- !u!114 &6225428263667890772
@@ -8180,7 +8308,7 @@ MonoBehaviour:
       \u043D\u0435 \u0432\u0438\u043D\u043E\u0432\u0430\u0442\u0430? \u0412\u0441\u0435\u0433\u0434\u0430
       \u0431\u0435\u043B\u0430\u044F \u0438 \u043F\u0443\u0448\u0438\u0441\u0442\u0430\u044F.
       \u041D\u0443, \u043A\u043E\u043D\u0435\u0447\u043D\u043E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_D866BE5F
   _type: 0
   _isReaded: 1
 --- !u!114 &7137931387271452658
@@ -8235,7 +8363,7 @@ MonoBehaviour:
       \u0447\u0435\u0440\u0435\u0437 \u0436\u0430\u043B\u044E\u0437\u0438, \u043D\u0435\u0436\u043D\u043E
       \u043B\u043E\u0436\u0438\u043B\u0438\u0441\u044C \u043D\u0430 \u0435\u0433\u043E
       \u043F\u043B\u0435\u0447\u0438 \u0438 \u043B\u0438\u0446\u043E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E96373A4
 --- !u!114 &7383326013485242197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8297,48 +8425,6 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
---- !u!114 &7418359436213198968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02aa13a84c8c4b6c986199bc21a8b05d, type: 3}
-  m_Name: Phone Narrative Message
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 57576, y: 8616}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 7418359436213198968}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 7418359436213198968}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _localizationText:
-    <DefaultText>k__BackingField: "\u042F \u043D\u0430\u0436\u0430\u043B\u0430 \u043D\u0430
-      \u043D\u0430\u0448 \u0434\u0438\u0430\u043B\u043E\u0433."
-    <Key>k__BackingField: 
 --- !u!114 &7425237482011402026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8391,7 +8477,7 @@ MonoBehaviour:
       \u043C\u043D\u0435, \u043A\u0430\u043A\u0430\u044F \u0442\u044B \u043A\u043B\u0430\u0441\u0441\u043D\u0430\u044F,
       \u0447\u0442\u043E \u0442\u044B \u043B\u0443\u0447\u0448\u0435 \u043C\u0435\u043D\u044F?
       \u0412\u0430\u043B\u044F\u0439."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_DDF21A90
   _type: 0
   _isReaded: 1
 --- !u!114 &7827354216698826725
@@ -8407,7 +8493,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55576, y: 5528}
+  position: {x: 58440, y: 5736}
   ports:
     keys:
     - Input
@@ -8441,7 +8527,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u042D\u0442\u043E \u0431\u044B\u043B\u043E \u0431\u044B
       \u0438\u0434\u0435\u0430\u043B\u044C\u043D\u043E. \u0421\u043F\u0430\u0441\u0438\u0431\u043E."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_B405351D
   _type: 1
   _isReaded: 0
 --- !u!114 &7845589906411830205
@@ -8457,7 +8543,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55304, y: 5848}
+  position: {x: 58168, y: 6056}
   ports:
     keys:
     - Input
@@ -8491,7 +8577,7 @@ MonoBehaviour:
   _localizationString:
     <DefaultText>k__BackingField: "\u041C\u043D\u0435 \u043D\u0435\u0447\u0435\u043C
       \u0442\u0435\u0431\u0435 \u043F\u043E\u043C\u043E\u0447\u044C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_FECB2928
   _type: 0
   _isReaded: 0
 --- !u!114 &7986695556836647361
@@ -8507,7 +8593,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53944, y: 6328}
+  position: {x: 57448, y: 6776}
   ports:
     keys:
     - Input
@@ -8543,7 +8629,7 @@ MonoBehaviour:
       \u0442\u0440\u044F\u0441\u043B\u0438\u0441\u044C, \u0430 \u043B\u0430\u0434\u043E\u0448\u043A\u0438
       \u043F\u043E\u0442\u0435\u043B\u0438. \u0427\u0442\u043E \u0436\u0435 \u043C\u043D\u0435
       \u043D\u0430\u043F\u0438\u0441\u0430\u0442\u044C?"
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_DE57F7C9
 --- !u!114 &8222808209685266705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9107,7 +9193,7 @@ MonoBehaviour:
   m_Name: Phone Narrative Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 55911.3, y: 6635.14}
+  position: {x: 59304, y: 6904}
   ports:
     keys:
     - Input
@@ -9235,7 +9321,7 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0423 \u0432\u0430\u0441 \u043D\u0435\u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u043E
       \u0445\u043E\u0440\u043E\u0448\u0438\u0435 \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
       \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C."
-    <Key>k__BackingField: 
+    <Key>k__BackingField: str_E9B483F3
   _overrideDataKey: 0
   _awaitKey: 0
   _notificationNodeData:

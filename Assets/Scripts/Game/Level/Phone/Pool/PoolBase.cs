@@ -5,14 +5,16 @@ public class PoolBase<T>
 {
     private readonly Func<T> _preloadFunc;
     private readonly Action<T> _returnAction;
+    private readonly Action<T> _getAction;
     private Queue<T> _pool = new Queue<T>();
     private List<T> _activeContent = new List<T>();
     public IReadOnlyList<T> ActiveContent => _activeContent;
     public IReadOnlyList<T> Pool => _pool.ToList();
-    public PoolBase(Func<T> preloadFunc, Action<T> returnAction, int preloadCount)
+    public PoolBase(Func<T> preloadFunc, Action<T> getAction, Action<T> returnAction, int preloadCount)
     {
         _preloadFunc = preloadFunc;
         _returnAction = returnAction;
+        _getAction = getAction;
         for (int i = 0; i < preloadCount; i++)
         {
             Return(preloadFunc());
@@ -21,6 +23,7 @@ public class PoolBase<T>
     public T Get()
     {
         T item = _pool.Count > 0 ? _pool.Dequeue() : _preloadFunc();
+        _getAction?.Invoke(item);
         _activeContent.Add(item);
         return item;
     }

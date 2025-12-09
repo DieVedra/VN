@@ -50,7 +50,7 @@ public class NotificationPanelUIHandler : PanelUIHandler
             _fadePosition, _unfadePosition, notificationPanelUI.DurationAnim);
         _defaultColorText = _textComponent.color;
         _stringBuilder = new StringBuilder();
-        _taskPool = new PoolBase<TaskRunner>(() => new TaskRunner(), null, _defaultPoolCount);
+        _taskPool = new PoolBase<TaskRunner>(() => new TaskRunner(), null, null, _defaultPoolCount);
         _taskRunnerQueue = new Queue<TaskRunner>(_defaultPoolCount);
         _transform = notificationPanelUI.transform;
         _sublingIndex = _transform.GetSiblingIndex();

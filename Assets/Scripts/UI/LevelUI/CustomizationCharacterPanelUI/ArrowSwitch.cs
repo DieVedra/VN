@@ -47,7 +47,7 @@ public class ArrowSwitch
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
         _isSwitched = false;
         _tasksQueue = new Queue<TaskRunner>();
-        _poolBase = new PoolBase<TaskRunner>(() => new TaskRunner(), null, _taskRunCount);
+        _poolBase = new PoolBase<TaskRunner>(() => new TaskRunner(), null, null, _taskRunCount);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
