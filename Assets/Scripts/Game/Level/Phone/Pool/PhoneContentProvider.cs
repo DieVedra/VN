@@ -130,6 +130,5 @@ public class PhoneContentProvider
         view.TextIcon.gameObject.SetActive(false);
         view.gameObject.SetActive(false);
         view.transform.localScale = _notificationScale;
-        Debug.Log($"OnReturn NotificationView {view.transform.localScale}");
     }
 }

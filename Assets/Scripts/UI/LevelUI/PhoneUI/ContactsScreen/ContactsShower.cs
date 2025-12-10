@@ -148,7 +148,6 @@ public class ContactsShower
         if (unreadebleContacts.Contains(key))
         {
             view.NewMessageIndicatorImage.gameObject.SetActive(true);
-            // view.transform.DOScale(1.3f, PhoneScreenBaseHandler.Duration).SetLoops(PhoneScreenBaseHandler.LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
             _newMessagesNotFound = false;
         }
     }

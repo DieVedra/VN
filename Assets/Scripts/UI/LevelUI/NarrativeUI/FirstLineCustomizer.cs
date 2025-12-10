@@ -1,46 +1,46 @@
 ﻿using System.Text;
 using TMPro;
+using UnityEngine;
 
 public class FirstLineCustomizer
 {
     public const string SpaceColor = "<color=#00000000>";
     public const string EndSpaceColor = "</color>";
     public const char Separator = ' ';
-
     private const char _spaceSymbol = '-';
-    private const int _maxCountSymbolsInLine = 23;
-    private const int _minCountSymbolsInLine = 19;
+    private const float _maxLengthLine = 520f;
     private const int _firstIndex = 0;
-    private readonly StringBuilder _stringBuilder = new StringBuilder();
+    private readonly StringBuilder _stringBuilder1 = new StringBuilder();
+    private readonly StringBuilder _stringBuilder2 = new StringBuilder();
+    private bool _firstLineOffset => _narrativePanelUI.FirstLineOffsetKey;
+    private TMP_LineInfo _firstLine;
+    private AnimationCurve _animationCurve => _narrativePanelUI.AnimationCurve;
+    private NarrativePanelUI _narrativePanelUI;
+    public FirstLineCustomizer(NarrativePanelUI narrativePanelUI)
+    {
+        _narrativePanelUI = narrativePanelUI;
+    }
 
     public bool CheckChangeFirstLineLength(out string result, TextMeshProUGUI textComponent, string text)
     {
-        textComponent.ForceMeshUpdate();
-        TMP_LineInfo firstLine = textComponent.textInfo.lineInfo[_firstIndex];
-        if (firstLine.characterCount > _minCountSymbolsInLine)
+        if (_firstLineOffset == false)
         {
-            int index = 0;
-            _stringBuilder.Clear();
-            _stringBuilder.Append(text);
-            for (int i = firstLine.characterCount - 1; i >= 0; i--)
-            {
-                if (i <= _minCountSymbolsInLine && _stringBuilder[i] == Separator)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            var diff = _maxCountSymbolsInLine - index;
-            int firstOffset = diff;
-            int endOffset = diff;
-            string bufer = _stringBuilder.ToString();
-            string ghostlineEnd = GetGhostLine(_spaceSymbol.ToString(), endOffset);
-            string ghostlineStart = GetGhostLine(_spaceSymbol.ToString(), firstOffset);
-            _stringBuilder.Clear();
-            _stringBuilder.Append(bufer);
-            _stringBuilder.Insert(index, ghostlineEnd);
-            _stringBuilder.Insert(_firstIndex, ghostlineStart);
-            result = _stringBuilder.ToString();
+            result = null;
+            return false;
+        }
+        textComponent.ForceMeshUpdate();
+        SetFirstLine(textComponent);
+        if (_firstLine.length > _maxLengthLine)
+        {
+            _stringBuilder1.Clear();
+            _stringBuilder2.Clear();
+            _stringBuilder1.Append(text);
+            FindFirstLineString(textComponent, _firstLine.characterCount - 1);
+            string a = _stringBuilder1.ToString();
+            TryFillSeparatorsFirstLineString(textComponent);
+            _stringBuilder2.Append(a);
+            textComponent.ForceMeshUpdate();
+            result = _stringBuilder2.ToString();
             return true;
         }
         else
@@ -50,15 +50,55 @@ public class FirstLineCustomizer
         }
     }
 
+    private void FindFirstLineString(TextMeshProUGUI textComponent, int startIndex)
+    {
+        int delCount;
+        for (int i = startIndex; i >= 0; i--)
+        {
+            if (_stringBuilder1[i] == Separator)
+            {
+                _stringBuilder2.Append(_stringBuilder1);
+                delCount = _stringBuilder2.Length - i;
+                _stringBuilder2.Remove(i, delCount);
+                textComponent.text = _stringBuilder2.ToString();
+                SetFirstLine(textComponent);
+                if (_firstLine.length < _maxLengthLine)
+                {
+                    _stringBuilder1.Remove(_firstIndex, i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void TryFillSeparatorsFirstLineString(TextMeshProUGUI textComponent)
+    {
+        if (textComponent.transform is RectTransform rectTransform)
+        {
+            float width = rectTransform.sizeDelta.x;
+            float countSepar = _animationCurve.Evaluate(width / _firstLine.length);
+            int count = (int)countSepar;
+            _stringBuilder2.Insert(_firstIndex, GetGhostLine(_spaceSymbol.ToString(), count));
+            _stringBuilder2.Append(GetGhostLine(_spaceSymbol.ToString(), count));
+        }
+        
+        
+    }
     public string GetGhostLine(string line, int count = 1)
     {
-        _stringBuilder.Clear();
-        _stringBuilder.Append(SpaceColor);
+        _stringBuilder1.Clear();
+        _stringBuilder1.Append(SpaceColor);
         for (int i = 0; i < count; i++)
         {
-            _stringBuilder.Append(line);
+            _stringBuilder1.Append(line);
         }
-        _stringBuilder.Append(EndSpaceColor);
-        return _stringBuilder.ToString();
+        _stringBuilder1.Append(EndSpaceColor);
+        return _stringBuilder1.ToString();
+    }
+
+    private void SetFirstLine(TextMeshProUGUI textComponent)
+    {
+        textComponent.ForceMeshUpdate();
+        _firstLine = textComponent.textInfo.lineInfo[_firstIndex];
     }
 }

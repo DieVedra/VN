@@ -9,7 +9,8 @@ public class NarrativePanelUI : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private float _durationAnim = 0.2f;
     [SerializeField] private float _heightOffset;
-    [SerializeField] private int _firstLineOffset;
+    [SerializeField] private bool _firstLineOffsetKey;
+    [SerializeField] private AnimationCurve _animationCurve;
 
     public TextMeshProUGUI TextComponent => _textComponent;
     public RectTransform PanelRectTransform => _panelRectTransform;
@@ -17,5 +18,6 @@ public class NarrativePanelUI : MonoBehaviour
     public CanvasGroup CanvasGroup => _canvasGroup;
     public float DurationAnim => _durationAnim;
     public float HeightOffset => _heightOffset;
-    public int FirstLineOffset => _firstLineOffset;
+    public bool FirstLineOffsetKey => _firstLineOffsetKey;
+    public AnimationCurve AnimationCurve => _animationCurve;
 }

@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ public class ContactsScreenView : BaseScreen
     [SerializeField] private RectTransform _contactsTransform;
     [SerializeField] private Button _buttonExit;
     [SerializeField] private CanvasGroup _buttonExitCanvasGroup;
+    [SerializeField] private ScrollRect _scrollRect;
     
     public Color ColorTopPanel => TopPanelColor;
     public Image ImageBackground =>  BackgroundImage;
@@ -21,4 +24,5 @@ public class ContactsScreenView : BaseScreen
     public RectTransform ContactsTransform => _contactsTransform;
     public Button ButtonExit => _buttonExit;
     public CanvasGroup ButtonExitCanvasGroup => _buttonExitCanvasGroup;
+    public ScrollRect ScrollRect => _scrollRect;
 }

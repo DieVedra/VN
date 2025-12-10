@@ -132,7 +132,94 @@ MonoBehaviour:
   _canvasGroup: {fileID: 928964675062854930}
   _durationAnim: 0.2
   _heightOffset: 70
-  _firstLineOffset: 4
+  _firstLineOffsetKey: 1
+  _animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1.45
+      value: 5
+      inSlope: 11.167912
+      outSlope: 11.167912
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1.5
+      value: 6
+      inSlope: 6.4498973
+      outSlope: 6.4498973
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1.7
+      value: 7
+      inSlope: 7.0846314
+      outSlope: 7.0846314
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.79899997
+    - serializedVersion: 3
+      time: 2
+      value: 9
+      inSlope: 3.0986726
+      outSlope: 3.0986726
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.42134023
+    - serializedVersion: 3
+      time: 3
+      value: 12
+      inSlope: 1.9645602
+      outSlope: 0.5922735
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 1
+    - serializedVersion: 3
+      time: 8
+      value: 15
+      inSlope: 0.58246326
+      outSlope: 0.3583966
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.70193833
+    - serializedVersion: 3
+      time: 11
+      value: 16
+      inSlope: 0.34412643
+      outSlope: 0.24077159
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.6031141
+      outWeight: 0.13713741
+    - serializedVersion: 3
+      time: 21
+      value: 18
+      inSlope: 0.19289339
+      outSlope: 0.49618927
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.11248799
+      outWeight: 0.3422308
+    - serializedVersion: 3
+      time: 25
+      value: 20
+      inSlope: 0.5
+      outSlope: 0.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!225 &928964675062854930
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3760,34 +3847,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1405a2f7aab745c49ac2cf521ed496ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonChoice1: {fileID: 4546768143077610460}
-  _buttonChoice2: {fileID: 4546768141855029528}
-  _buttonChoice3: {fileID: 4546768142627792626}
-  _textButtonChoice1: {fileID: 4546768142827066038}
-  _textButtonChoice2: {fileID: 4546768142076220615}
-  _textButtonChoice3: {fileID: 4546768141925633537}
   _timerPanelText: {fileID: 4546768143779965257}
-  _priceButton1Text: {fileID: 4546768142182651028}
-  _priceButton2Text: {fileID: 4546768142529409678}
-  _priceButton3Text: {fileID: 4546768142442800668}
-  _additionaryPriceButton1Text: {fileID: 1077620748400787539}
-  _additionaryPriceButton2Text: {fileID: 8245695561777005465}
-  _additionaryPriceButton3Text: {fileID: 6228147414304079851}
-  _rectTransformChoice1: {fileID: 4546768143077610451}
-  _rectTransformChoice2: {fileID: 4546768141855029533}
-  _rectTransformChoice3: {fileID: 4546768142627792631}
-  _priceRectTransformChoice1: {fileID: 4546768143221579746}
-  _priceRectTransformChoice2: {fileID: 4546768143837756034}
-  _priceRectTransformChoice3: {fileID: 4546768141804623602}
-  _additionaryPriceRectTransformChoice1: {fileID: 2989423702952108578}
-  _additionaryPriceRectTransformChoice2: {fileID: 1295305003300213424}
-  _additionaryPriceRectTransformChoice3: {fileID: 3014327227825243488}
   _timerImageRectTransform: {fileID: 4546768142380861834}
-  _canvasGroupChoice1: {fileID: 4546768143077610463}
-  _canvasGroupChoice2: {fileID: 4546768141855029529}
-  _canvasGroupChoice3: {fileID: 4546768142627792627}
-  _moneyPanelCanvasGroup: {fileID: 2438462525907553460}
-  _heartsPanelCanvasGroup: {fileID: 9093177061703032217}
   _timerPanelCanvasGroup: {fileID: 4546768141871036328}
   _durationAnim: 0.2
   _heightOffset: 70

@@ -24,7 +24,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
     public AnimationPanel AnimationPanel => _animationPanel;
     public NarrativePanelUIHandler(NarrativePanelUI narrativePanelUI)
     {
-        _firstLineCustomizer = new FirstLineCustomizer();
+        _firstLineCustomizer = new FirstLineCustomizer(narrativePanelUI);
         _textConsistentlyViewer = new TextConsistentlyViewer(narrativePanelUI.TextComponent);
         _narrativePanelUI = narrativePanelUI;
         RectTransform = _narrativePanelUI.PanelRectTransform;
@@ -78,9 +78,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
             result = text;
         }
         ResizePanel();
-        
         await AnimationPanel.UnfadePanel(token);
-        
         await TextConsistentlyViewer.SetTextConsistently(result);
     }
 

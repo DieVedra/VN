@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PhoneUIHandler : ILocalizable
 {
@@ -22,6 +20,7 @@ public class PhoneUIHandler : ILocalizable
     private readonly ReactiveCommand<PhoneContact> _switchToDialogScreenCommand;
     private readonly PhoneMessagesExtractor _phoneMessagesExtractor;
     private readonly ReactiveCommand _tryShowReactiveCommand;
+
     private LocalizationString _notificationTextLocalizationString = "Получено новое сообщение!";
     private List<ContactNodeCase> _sortedPhoneNodeCases;
     private List<OnlineContactInfo> _sortedOnlineContacts;
@@ -104,7 +103,7 @@ public class PhoneUIHandler : ILocalizable
             phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
         _blockScreenHandler = new BlockScreenHandler(messagesShower, phoneUIView.BlockScreenViewBackground, _topPanelHandler, _phoneContentProvider.NotificationViewPool,
             _switchToDialogScreenCommand, _notificationTextLocalizationString, _switchToContactsScreenCommand);
-        _contactsScreenHandler = new ContactsScreenHandler(_unreadebleContacts, phoneUIView.ContactsScreenViewBackground, contactsShower,
+        _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground.ScrollRect, _unreadebleContacts, phoneUIView.ContactsScreenViewBackground, contactsShower,
             _topPanelHandler, _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
         _dialogScreenHandler = new DialogScreenHandler(_sortedOnlineContacts, phoneUIView.DialogScreenViewBackground, messagesShower, _topPanelHandler,
             _phoneContentProvider.IncomingMessagePool, _phoneContentProvider.OutcomingMessagePool, _switchToContactsScreenCommand);

@@ -9,7 +9,7 @@ public class PhoneScreenBaseHandler
 {
     private const float _scaleValueMax = 1.02f;
     private const int _indexFirstLetter = 0;
-    public const float Duration = 0.8f;
+    public const float Duration = 1.5f;
     public const int LoopsCount = -1;
     protected const float AlphaMax = 1f;
     protected const float AlphaMin = 0.5f;
@@ -46,8 +46,6 @@ public class PhoneScreenBaseHandler
             CancellationTokenSource = new CancellationTokenSource();
             for (int i = 0; i < activeContent.Count; i++)
             {
-                Debug.Log($"StartScaleAnimation {i} {activeContent[i].transform.localScale}");
-
                 activeContent[i].transform.DOScale(_scaleValueMax, Duration).SetDelay(GetDelay(i))
                     .SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(CancellationTokenSource.Token);
             }
