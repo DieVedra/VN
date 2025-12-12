@@ -30,7 +30,7 @@ public class BaseNode : Node
         _nextNode = null;
     }
 
-    public virtual void Dispose()
+    public virtual void Shutdown()
     {
         CancellationTokenSource?.Cancel();
     }

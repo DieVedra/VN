@@ -47,9 +47,9 @@ public class ChoiceNode : BaseNode, ILocalizable
         }
     }
 
-    public override void Dispose()
+    public override void Shutdown()
     {
-        base.Dispose();
+        base.Shutdown();
         TimerCancellationTokenSource?.Cancel();
     }
 

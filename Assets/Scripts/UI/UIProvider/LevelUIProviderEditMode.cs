@@ -64,7 +64,7 @@ public class LevelUIProviderEditMode
         }
 
         PhoneUIHandler =
-            new PhoneUIHandler(phoneContentProvider, NarrativePanelUIHandler, CustomizationCurtainUIHandler, _compositeDisposable, phoneInitOperation);
+            new PhoneUIHandler(phoneContentProvider, _compositeDisposable, phoneInitOperation);
     }
 
     public virtual void Dispose()

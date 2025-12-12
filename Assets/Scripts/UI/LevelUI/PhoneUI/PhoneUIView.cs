@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PhoneUIView : MonoBehaviour
 {
     [SerializeField, BoxGroup("Оформление")] private Image _handImage;
+    [SerializeField, BoxGroup("Оформление")] private Image _curtainImage;
     [SerializeField, BoxGroup("Оформление")] private Image _frameImage;
 
     [SerializeField, BoxGroup("Top panel")] private RectTransform _signalIndicatorRectTransform;
@@ -26,6 +27,7 @@ public class PhoneUIView : MonoBehaviour
     public TextMeshProUGUI ButteryText => _butteryText;
     public Image ButteryImage => _butteryImage;
     public Image ButteryIndicatorImage => _butteryIndicatorImage;
+    public Image CurtainImage => _curtainImage;
     
     public BlockScreenView BlockScreenViewBackground => _blockScreenViewBackground;
     public DialogScreenView DialogScreenViewBackground => _dialogScreenViewBackground;

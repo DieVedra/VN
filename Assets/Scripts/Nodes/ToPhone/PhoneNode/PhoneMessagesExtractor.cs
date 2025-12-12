@@ -27,7 +27,7 @@ public class PhoneMessagesExtractor
 		MessagesIsOut = false;
 		_nextNode = nodePort.Connection.node;
 	}
-	public void Dispose()
+	public void Shutdown()
 	{
 		_cancellationTokenSource?.Cancel();
 	}

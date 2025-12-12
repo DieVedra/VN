@@ -11,8 +11,8 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private const float _offsetY = 260f;
     private readonly ReactiveCommand<PhoneContact> _switchToDialogScreenCommand;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
-    private readonly TextMeshProUGUI _time;
-    private readonly TextMeshProUGUI _date;
+    public readonly TextMeshProUGUI Time;
+    public readonly TextMeshProUGUI Date;
     private readonly Button _blockScreenButton;
     private readonly Image _imageBackground;
     private readonly MessagesShower _messagesShower;
@@ -20,43 +20,39 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private CompositeDisposable _compositeDisposable;
     private LocalizationString _dateLocStr;
     private PoolBase<NotificationView> _notificationViewPool;
-    private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
+    // private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
     private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
-    private IReadOnlyList<OnlineContactInfo> _onlineContacts;
-    private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
+    // private IReadOnlyList<OnlineContactInfo> _onlineContacts;
+    // private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
     public BlockScreenHandler(MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand)
-    :base(blockScreenViewBackground.gameObject, topPanelHandler, blockScreenViewBackground.ImageBackground, blockScreenViewBackground.ColorTopPanel)
+    :base(blockScreenViewBackground.gameObject, blockScreenViewBackground.ImageBackground)
     {
         _messagesShower = messagesShower;
         _notificationViewPool = notificationViewPool;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
-        _time = blockScreenViewBackground.Time;
-        _date = blockScreenViewBackground.Data;
+        Time = blockScreenViewBackground.Time;
+        Date = blockScreenViewBackground.Data;
         _blockScreenButton = blockScreenViewBackground.BlockScreenButton;
         _imageBackground = blockScreenViewBackground.ImageBackground;
         _notificationTextLocalizationString = notificationTextLocalizationString;
         _blockScreenButton.enabled = false;
     }
     
-    public void Enable(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
-        IReadOnlyList<OnlineContactInfo> onlineContacts, PhoneTime phoneTime, Phone phone, LocalizationString date,
+    public void Enable(IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
+        PhoneTime phoneTime, Phone phone, LocalizationString date,
         SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey)
     {
         _nextPos.x = _startPosX;
         _nextPos.y = _startPosY;
-        _phoneNodeCases = phoneNodeCases;
         _dateLocStr = date;
         _notificationsInBlockScreen = notificationsInBlockScreen;
-        _onlineContacts = onlineContacts;
-        _phoneContacts = phone.PhoneContactDictionary;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetDateText, _compositeDisposable);
         Screen.SetActive(true);
-        TopPanelHandler.SetColorAndMode(TopPanelColor, false);
         TrySetTime(phoneTime, playModeKey);
         if (TryShowNotifications(setLocalizationChangeEvent) == false)
         {
@@ -145,12 +141,12 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     {
         if (playModeKey == true)
         {
-            Observable.EveryUpdate().Subscribe(_ => { _time.text = phoneTime.GetCurrentTime(); })
+            Observable.EveryUpdate().Subscribe(_ => { Time.text = phoneTime.GetCurrentTime(); })
                 .AddTo(_compositeDisposable);
         }
         else
         {
-            _time.text = phoneTime.GetCurrentTime();
+            Time.text = phoneTime.GetCurrentTime();
         }
     }
 
@@ -166,6 +162,6 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
 
     private void SetDateText()
     {
-        _date.text = _dateLocStr;
+        Date.text = _dateLocStr;
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using XNode;
 
@@ -25,6 +26,7 @@ public class PhoneNode : BaseNode, ILocalizable
     private NarrativePanelUIHandler _narrativePanelUI;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
+    private IReactiveCommandExecuteOnly _applyAddMessages;
     private int _seriaIndex;
     private bool _curtainUIHandlerRaycastTargetKey;
 
@@ -33,7 +35,7 @@ public class PhoneNode : BaseNode, ILocalizable
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler,
+        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, IReactiveCommandExecuteOnly applyAddMessages,
         int seriaIndex)
     {
         Phones = phones;
@@ -43,6 +45,7 @@ public class PhoneNode : BaseNode, ILocalizable
         _choicePanelUIHandler = choicePanelUIHandler;
         _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
+        _applyAddMessages = applyAddMessages;
         InitAllContacts();
 
         if (IsPlayMode() == false)
@@ -75,8 +78,8 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         CancellationTokenSource = new CancellationTokenSource();
         _curtainUIHandlerRaycastTargetKey = _customizationCurtainUIHandler.CurtainImage.raycastTarget;
-        int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, Phones[_phoneIndex],
-            SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
+        int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, 
+            Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute);
         _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
         _choicePanelUIHandler.SetSibling(++siblig);
@@ -92,19 +95,20 @@ public class PhoneNode : BaseNode, ILocalizable
         CancellationTokenSource = null;
         _customizationCurtainUIHandler.CurtainImage.raycastTarget = _curtainUIHandlerRaycastTargetKey;
 
-        _phoneUIHandler.DisposeScreensBackgrounds();
+        _phoneUIHandler.ShutdownScreensBackgrounds();
         
         _customizationCurtainUIHandler.ResetSibling();
         _narrativePanelUI.ResetSibling();
         _choicePanelUIHandler.ResetSibling();
-        
+        _applyAddMessages.Execute();
+        _applyAddMessages = null;
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         
     }
 
-    public override void Dispose()
+    public override void Shutdown()
     {
-        base.Dispose();
+        base.Shutdown();
         for (int i = 0; i < _phoneNodeCases.Count; i++)
         {
             _phoneNodeCases[i].IsReaded = false;

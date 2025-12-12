@@ -99,15 +99,15 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         InitBackground();
-        _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians);
-        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider);
+        CompositeDisposable = new CompositeDisposable();
+        ReactiveCommand applyAddPhoneMessagesToHistory = new ReactiveCommand().AddTo(CompositeDisposable);
+        var phoneMessagesCustodian = new PhoneMessagesCustodian(applyAddPhoneMessagesToHistory);
+        _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, phoneMessagesCustodian);
+        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian);
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
-
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), applyAddPhoneMessagesToHistory);
         DisableNodesContentEvent.Execute();
-
-
         if (Application.isPlaying)
         {
             if (StoryData != null)
@@ -183,14 +183,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
             SaveServiceProvider.SaveService.Save(_saveData);
         }
     }
-    private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider)
+    private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider, PhoneMessagesCustodian phoneMessagesCustodian)
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
             new ChoicePanelInitializerEditMode(_choiceCases),
             _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
-            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);});
+            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian);});
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

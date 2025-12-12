@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
     protected PrefabsProvider PrefabsProvider;
     protected SaveServiceProvider SaveServiceProvider;
+    protected CompositeDisposable CompositeDisposable;
 
     protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
     protected abstract void InitGlobalSound();
@@ -26,5 +28,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected virtual void Dispose()
     {
         CharacterViewer.Dispose();
+        CompositeDisposable.Clear();
     }
 }

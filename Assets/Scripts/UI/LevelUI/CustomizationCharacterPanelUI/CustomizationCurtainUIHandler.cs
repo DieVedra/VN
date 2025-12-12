@@ -24,14 +24,13 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
         Transform.SetSiblingIndex(_blackoutFrameSiblingIndexBufer);
         CurtainImage.gameObject.SetActive(false);
     }
-    
     public override async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
         BlockGameControlPanelUI?.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
-        BlackFrameView.Image.color = Color.black;
-        BlackFrameView.Image.raycastTarget = false;
-        await BlackFrameView.Image.DOFade(AnimationValuesProvider.MinValue, GetActualityDurationCurtainOpens()).WithCancellation(cancellationToken);
+        CurtainImage.color = Color.black;
+        CurtainImage.raycastTarget = false;
+        await CurtainImage.DOFade(AnimationValuesProvider.MinValue, GetActualityDurationCurtainOpens()).WithCancellation(cancellationToken);
         BlackFrameView.gameObject.SetActive(false);
     }
 
@@ -39,9 +38,9 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
     {
         BlockGameControlPanelUI?.Execute(true);
         BlackFrameView.gameObject.SetActive(true);
-        BlackFrameView.Image.color = Color.clear;
-        BlackFrameView.Image.raycastTarget = true;
-        await BlackFrameView.Image.DOFade(AnimationValuesProvider.MaxValue, GetActualityDurationCurtainCloses()).WithCancellation(cancellationToken);
+        CurtainImage.color = Color.clear;
+        CurtainImage.raycastTarget = true;
+        await CurtainImage.DOFade(AnimationValuesProvider.MaxValue, GetActualityDurationCurtainCloses()).WithCancellation(cancellationToken);
     }
     private float GetActualityDurationCurtainOpens()
     {

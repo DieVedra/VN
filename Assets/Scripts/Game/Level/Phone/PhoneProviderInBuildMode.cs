@@ -27,9 +27,11 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     public IParticipiteInLoad PhoneDataProviderParticipiteInLoad => _dataProviders;
     public IParticipiteInLoad PhoneContactsProviderParticipiteInLoad => _contactsToSeriaProviders;
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
+    public PhoneMessagesCustodian PhoneMessagesCustodian { get; }
     private bool _phoneSystemInitilized;
 
-    public PhoneProviderInBuildMode(Func<UniTask> createPhoneView)
+
+    public PhoneProviderInBuildMode(PhoneMessagesCustodian phoneMessagesCustodian, Func<UniTask> createPhoneView)
     {
         _createPhoneView = createPhoneView;
         // _dataProviders = new DataProvider<PhoneDataProvider>();
@@ -62,10 +64,15 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     {
         _saveDataContacts = saveDataContacts;
     }
+
     // public IReadOnlyList<PhoneAddedContact> GetSaveData()
+
     // {
+
     //     return _phoneSaveHandler.GetSaveData(_phones);
+
     // }
+
     public void Dispose()
     {
         _dataProviders.Dispose();
@@ -75,6 +82,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         _incomingMessagePrefabAssetProvider.UnloadAsset();
         _contactPrefabAssetProvider.UnloadAsset();
     }
+
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
         if (_phones.Count == 0)

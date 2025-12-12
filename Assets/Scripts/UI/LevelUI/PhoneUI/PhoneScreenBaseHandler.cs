@@ -15,18 +15,14 @@ public class PhoneScreenBaseHandler
     protected const float AlphaMin = 0.5f;
 
     protected readonly GameObject Screen;
-    protected readonly TopPanelHandler TopPanelHandler;
     protected readonly Image BackgroundImage;
-    protected readonly Color TopPanelColor;
     
     protected CancellationTokenSource CancellationTokenSource;
 
-    protected PhoneScreenBaseHandler(GameObject screen, TopPanelHandler topPanelHandler, Image backgroundImage, Color topPanelColor)
+    protected PhoneScreenBaseHandler(GameObject screen, Image backgroundImage)
     {
         Screen = screen;
-        TopPanelHandler = topPanelHandler;
         BackgroundImage = backgroundImage;
-        TopPanelColor = topPanelColor;
     }
 
     public virtual void Disable()

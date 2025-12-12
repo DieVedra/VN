@@ -58,26 +58,29 @@ public class LevelEntryPointBuild : LevelEntryPoint
         DisableNodesContentEvent = new DisableNodesContentEvent();
         _onEndGameEvent = new OnEndGameEvent();
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
+        CompositeDisposable = new CompositeDisposable();
+        ReactiveCommand applyAddPhoneMessagesToHistory = new ReactiveCommand().AddTo(CompositeDisposable);
+        var phoneMessagesCustodian = new PhoneMessagesCustodian(applyAddPhoneMessagesToHistory);
         if (LoadSaveData == true)
         {
             StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty);
         }
         else
         {
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
                 _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
-        await InitLevelUIProvider();
+        await InitLevelUIProvider(phoneMessagesCustodian);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode, _setLocalizationChangeEvent);
         
-        Init();
+        Init(applyAddPhoneMessagesToHistory);
         OnSceneTransitionEvent.Subscribe(() =>
         {
             Dispose();
@@ -92,7 +95,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         _phoneView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView();
     }
-    private void Init()
+    private void Init(ReactiveCommand applyAddPhoneMessagesToHistory)
     {
         if (LoadSaveData == true)
         {
@@ -112,7 +115,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _backgroundBuildMode.GetBackgroundContent, _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, applyAddPhoneMessagesToHistory);
 
         if (StoryData == null)
         {
@@ -181,7 +184,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
     }
 
-    private async UniTask InitLevelUIProvider()
+    private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian)
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
@@ -210,7 +213,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 LevelUIView.PhoneUIView = _phoneView;
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
-                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian);
             });
     }
     private void InitLocalization()

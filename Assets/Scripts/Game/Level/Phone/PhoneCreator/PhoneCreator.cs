@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class PhoneCreator
 {
-    private readonly IReadOnlyList<PhoneContactsProvider> _contacts;
     private readonly IReadOnlyList<PhoneProvider> _phoneProviders;
     private readonly Dictionary<string, Phone> _phonesDictionary;
-    
     private readonly IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
+    private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly CheckMathSeriaIndex _checkMathSeriaIndex;
 
-    public PhoneCreator(IReadOnlyList<PhoneProvider> phoneProviders, IReadOnlyList<PhoneContactsProvider> contacts,
+    public PhoneCreator(IReadOnlyList<PhoneProvider> phoneProviders,
         IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
-        CheckMathSeriaIndex checkMathSeriaIndex)
+        PhoneMessagesCustodian phoneMessagesCustodian, CheckMathSeriaIndex checkMathSeriaIndex)
     {
         _phoneProviders = phoneProviders;
-        _contacts = contacts;
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
+        _phoneMessagesCustodian = phoneMessagesCustodian;
         _checkMathSeriaIndex = checkMathSeriaIndex;
         _phonesDictionary = new Dictionary<string, Phone>();
     }
@@ -38,8 +36,9 @@ public class PhoneCreator
                     phone = phoneProvider.Phone[j];
                     if (_phonesDictionary.ContainsKey(phone.NamePhone.Key) == false)
                     {
-                        var newPhone = new Phone(phone.NamePhone, phone.Hands, phone.PhoneFrame, phone.Background);
-                        _phonesDictionary.Add(phone.NamePhone.Key, newPhone);
+                        var newPhone = GetNewPhone(phone);
+                        _phoneMessagesCustodian.AddPhoneHistory(newPhone);
+                        _phonesDictionary.Add(newPhone.NamePhone.Key, newPhone);
                     }
                 }
             }
@@ -69,8 +68,10 @@ public class PhoneCreator
                         phone = phoneProvider.Phone[j];
                         if (_phonesDictionary.ContainsKey(phone.NamePhone.Key) == false)
                         {
-                            phones.Add(phone);
-                            _phonesDictionary.Add(phone.NamePhone.Key, phone);
+                            var newPhone = GetNewPhone(phone);
+                            phones.Add(newPhone);
+                            _phoneMessagesCustodian.AddPhoneHistory(newPhone);
+                            _phonesDictionary.Add(newPhone.NamePhone.Key, newPhone);
                         }
                     }
                 }
@@ -78,8 +79,15 @@ public class PhoneCreator
         }
     }
 
+    private Phone GetNewPhone(Phone phone)
+    {
+        var newPhone = new Phone(phone.BlockScreenTopPanelColor, phone.ContactsScreenTopPanelColor,
+            phone.DialogScreenTopPanelColor,
+            phone.NamePhone, phone.Hands, phone.PhoneFrame, phone.Background);
+        return newPhone;
+    }
 
-    
+
     // public void TryAddDataToIntegratedContactsAndTryCreateNewPhones(List<Phone> phones, int currentSeriaIndex)
     // {
     //     Dictionary<string, PhoneDataLocalizable> phoneDatas = TryGetDataProvidersByCurrentSeria(currentSeriaIndex);

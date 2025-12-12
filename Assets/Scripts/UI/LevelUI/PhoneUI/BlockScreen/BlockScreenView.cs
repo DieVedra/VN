@@ -8,7 +8,6 @@ public class BlockScreenView : BaseScreen
     [SerializeField] private TextMeshProUGUI _data;
     [SerializeField] private Button _blockScreenButton;
     
-    public Color ColorTopPanel => TopPanelColor;
     public Image ImageBackground =>  BackgroundImage;
     public TextMeshProUGUI Time => _time;
     public TextMeshProUGUI Data => _data;

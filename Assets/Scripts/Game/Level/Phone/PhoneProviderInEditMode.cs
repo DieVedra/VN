@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
-//
-//
-//
-//
-//
 public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizable
 {
     [SerializeField, Expandable] private List<PhoneProvider> _phoneProviders;
@@ -20,28 +14,33 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     [SerializeField] private NotificationView _notificationViewPrefab;
     [SerializeField] private List<ObjectsToDestroy> _views;
     
+    
     private Dictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     
     [SerializeField] private List<Phone> _phones;
     private PhoneCreator _phoneCreator;
     private PhoneContactsHandler _phoneContactsHandler;
-
-
+    // private PhoneMessagesCustodian _phoneMessagesCustodian;
     private IReadOnlyList<PhoneAddedContact> _saveContacts;
     private PhoneSaveHandler _phoneSaveHandler;
 
     private PhoneContentProvider _phoneContentProvider;
 
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
-    
+
+
+    // public PhoneMessagesCustodian PhoneMessagesCustodian => _phoneMessagesCustodian;
+
+
     // public IReadOnlyList<PhoneDataProvider> DataProviders => null/*_dataProviders*/;
     public IReadOnlyList<PhoneContactsProvider> ContactsToSeriaProviders => _contactsToSeriaProviders;
 
-    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
+
+    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, PhoneMessagesCustodian phoneMessagesCustodian)
     {
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders, checkMathSeriaIndex);
-        _phoneCreator = new PhoneCreator(_phoneProviders, _contactsToSeriaProviders, customizableCharacterIndexesCustodians, checkMathSeriaIndex);
+        _phoneCreator = new PhoneCreator(_phoneProviders, customizableCharacterIndexesCustodians, phoneMessagesCustodian, checkMathSeriaIndex);
         _phoneSaveHandler = new PhoneSaveHandler();
         for (int i = 0; i < _views.Count; i++)
         {
@@ -69,10 +68,15 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     {
         _saveContacts = contacts;
     }
+
     // public IReadOnlyList<PhoneAddedContact> GetSaveData()
+
     // {
+
     //     return _phoneSaveHandler.GetSaveData(_phones);
+
     // }
+
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
         if (Application.isPlaying)
@@ -108,6 +112,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
             return phones;
         }
     }
+
     public IReadOnlyList<PhoneContact> GetContactsToAddInPhoneInPlot(int seriaIndex)
     {
         if (Application.isPlaying)

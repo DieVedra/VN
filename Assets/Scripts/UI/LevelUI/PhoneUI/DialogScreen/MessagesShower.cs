@@ -21,6 +21,7 @@ public class MessagesShower
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
     private readonly PhoneMessagesExtractor _phoneMessagesExtractor;
+    private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly ReactiveCommand _tryShowReactiveCommand;
 
     private CancellationTokenSource _cancellationTokenSource;
@@ -30,15 +31,18 @@ public class MessagesShower
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
+    private string _keyPhone;
+    private string _keyContact;
     private Action _onMessagesIsOut;
     private bool _inProgress;
     public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
-        PhoneMessagesExtractor phoneMessagesExtractor, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
+        PhoneMessagesExtractor phoneMessagesExtractor, PhoneMessagesCustodian phoneMessagesCustodian, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
     {
         _dialogTransform = dialogTransform;
         _contentStartPosY = dialogTransform.anchoredPosition.y;
         _contactPrintStatusHandler = contactPrintStatusHandler;
         _phoneMessagesExtractor = phoneMessagesExtractor;
+        _phoneMessagesCustodian = phoneMessagesCustodian;
         _messageViewed = new List<MessageView>();
         _readDialogButton = readDialogButton;
         _queueShowMessages = new Queue<Func<UniTask>>();
@@ -58,10 +62,12 @@ public class MessagesShower
         _onMessagesIsOut = onMessagesIsOut;
         _tryShowReactiveCommand.Execute();
     }
-    public void InitFromDialogScreen(ContactNodeCase contactNodeCase,
+    public void InitFromDialogScreen(string keyPhone, string keyContact, ContactNodeCase contactNodeCase,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
     {
+        _keyPhone = keyPhone;
+        _keyContact = keyContact;
         _onMessagesIsOut = onMessagesIsOut;
         _compositeDisposable = new CompositeDisposable();
         _incomingMessagePool = incomingMessagePool;
@@ -71,6 +77,27 @@ public class MessagesShower
         SetDialogToDefaultPos();
         _dialogTransform.sizeDelta = Vector2.zero;
 //логика вывода уже прочитанных сообщений
+
+        var readedMessages = _phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact);
+        var readedMessagesFromHistory = readedMessages.Item1;
+        var readedMessagesFromBuffer = readedMessages.Item2;
+        if (readedMessagesFromHistory != null && readedMessagesFromHistory.Count > 0)
+        {
+            for (int i = 0; i < readedMessagesFromHistory.Count; i++)
+            {
+                GenerateFromHistory(readedMessagesFromHistory[i]);
+            }
+        }
+
+        if (readedMessagesFromBuffer != null && readedMessagesFromBuffer.Count > 0)
+        {
+            for (int i = 0; i < readedMessagesFromBuffer.Count; i++)
+            {
+                GenerateFromHistory(readedMessagesFromBuffer[i]);
+            }
+        }
+        
+        
         if (contactNodeCase == null)
         {
             _onMessagesIsOut.Invoke();
@@ -79,36 +106,8 @@ public class MessagesShower
         {
             _phoneMessagesExtractor.Init(contactNodeCase.Port);
         }
-
         
-        // for (int i = 0; i < phoneMessagesLocalization.Count; i++)
-        // {
-        //     
-        //     if (phoneMessagesLocalization[i].IsReaded == true)
-        //     {
-        //         ShowNext();
-        //         TryDisableReadButtonAndEnableBack(i);
-        //     }
-        //     else
-        //     {
-        //         if (phoneMessagesLocalization[i].MessageType == PhoneMessageType.Incoming)
-        //         {
-        //             ShowNext();
-        //             TryDisableReadButtonAndEnableBack(i);
-        //         }
-        //         break;
-        //     }
-        // }
-
-
         _tryShowReactiveCommand.Execute();
-        // void TryDisableReadButtonAndEnableBack(int i)
-        // {
-        //     if (i == phoneMessagesLocalization.Count - 1)
-        //     {
-        //         activateBackButton.Invoke();
-        //     }
-        // }
     }
 
     private void SetDialogToDefaultPos()
@@ -181,17 +180,17 @@ public class MessagesShower
         _inProgress = false;
     }
 
-    private void SetIncomingMessage(PhoneMessage phoneMessage)
+    private void SetIncomingMessage(PhoneMessage phoneMessage, bool addToMessageHistoryKey = true)
     {
-        SetMessage(_incomingMessagePool.Get(), phoneMessage);
+        SetMessage(_incomingMessagePool.Get(), phoneMessage, addToMessageHistoryKey);
     }
 
-    private void SetOutcomingMessage(PhoneMessage phoneMessage)
+    private void SetOutcomingMessage(PhoneMessage phoneMessage, bool addToMessageHistoryKey = true)
     {
-        SetMessage(_outcomingMessagePool.Get(), phoneMessage);
+        SetMessage(_outcomingMessagePool.Get(), phoneMessage, addToMessageHistoryKey);
     }
 
-    private void SetMessage(MessageView view, PhoneMessage phoneMessage)
+    private void SetMessage(MessageView view, PhoneMessage phoneMessage, bool addToMessageHistoryKey)
     {
         SetDialogToDefaultPos();
         view.Text.text = phoneMessage.TextMessage;
@@ -210,6 +209,7 @@ public class MessagesShower
         _startPosition.y = _startPositionY + offset;
         
         view.ViewRectTransform.anchoredPosition = _startPosition;
+        
         for (int i = 0; i < _messageViewed.Count; i++)
         {
             _pos.x = _messageViewed[i].ViewRectTransform.anchoredPosition.x;
@@ -217,7 +217,12 @@ public class MessagesShower
             _messageViewed[i].ViewRectTransform.anchoredPosition = _pos;
         }
 
-        IncreaseDialogTransform(offset);
+        _phoneMessagesCustodian.AddMessageHistoryToBuffer(_keyPhone, _keyContact, phoneMessage);
+        if (addToMessageHistoryKey)
+        {
+            IncreaseDialogTransform(offset);
+        }
+
         _messageViewed.Add(view);
     }
 
@@ -246,6 +251,19 @@ public class MessagesShower
                 _readDialogButton.Disable();
                 _tryShowReactiveCommand.Execute();
             });
+        }
+    }
+
+    private void GenerateFromHistory(PhoneMessage phoneMessage)
+    {
+        switch (phoneMessage.MessageType)
+        {
+            case PhoneMessageType.Outcoming:
+                SetOutcomingMessage(phoneMessage, false);
+                break;
+            case PhoneMessageType.Incoming:
+                SetIncomingMessage(phoneMessage, false);
+                break;
         }
     }
 }

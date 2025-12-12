@@ -18,7 +18,6 @@ public class DialogScreenView : BaseScreen
     [SerializeField] private GameObject _contactStatusGameObject;
     [SerializeField] private InputAction _pressInputAction;
     [SerializeField] private InputAction _positionInputAction;
-    public Color ColorTopPanel => TopPanelColor;
     public Image GradientImage => BackgroundImage;
     public Image ContactImage => _contactImage;
     public Image BackArrowImage => _backArrowImage;

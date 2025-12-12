@@ -1,6 +1,4 @@
-﻿using System;
-using TMPro;
-using UniRx;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +13,6 @@ public class ContactsScreenView : BaseScreen
     [SerializeField] private CanvasGroup _buttonExitCanvasGroup;
     [SerializeField] private ScrollRect _scrollRect;
     
-    public Color ColorTopPanel => TopPanelColor;
     public Image ImageBackground =>  BackgroundImage;
     public TextMeshProUGUI TextFind => _textFind;
     public TextMeshProUGUI TextCalls => _textCalls;

@@ -27,13 +27,12 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
-    private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
+    // private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
     private readonly ScrollRect _scrollRect;
     private HashSet<string> _unreadebleContacts;
     public ContactsScreenHandler(ScrollRect scrollRect, HashSet<string> unreadebleContacts, ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
-        :base(contactsScreenViewBackground.gameObject, topPanelHandler, contactsScreenViewBackground.ImageBackground,
-            contactsScreenViewBackground.ColorTopPanel)
+        :base(contactsScreenViewBackground.gameObject, contactsScreenViewBackground.ImageBackground)
     {
         _scrollRect = scrollRect;
         _unreadebleContacts = unreadebleContacts;
@@ -55,7 +54,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
         Screen.SetActive(true);
         _switchToNextNodeEvent = switchToNextNodeEvent;
         SetTexts();
-        TopPanelHandler.SetColorAndMode(TopPanelColor);
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
         _contactsShower.Init(phoneContacts, _unreadebleContacts,
             _contactsPool, setLocalizationChangeEvent, _switchToDialogScreenCommand, GetFistLetter, SubscribeButtons);

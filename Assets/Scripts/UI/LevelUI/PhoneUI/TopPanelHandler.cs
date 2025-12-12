@@ -11,18 +11,18 @@ public class TopPanelHandler
     private const float _posXSignalIndicatorShowTime = -123f;
     private const float _posXSignalIndicatorHideTime = -188f;
     private readonly RectTransform _signalIndicatorRectTransform;
-    private IReadOnlyList<Image> _signalIndicatorImage;
-    private TextMeshProUGUI _timeText;
-    private TextMeshProUGUI _butteryText;
-    private Image _butteryImage;
-    private Image _butteryIndicatorImage;
+    private readonly IReadOnlyList<Image> _signalIndicatorImage;
+    private readonly TextMeshProUGUI _timeText;
+    private readonly TextMeshProUGUI _butteryText;
+    private readonly Image _butteryImage;
+    private readonly Image _butteryIndicatorImage;
     private CompositeDisposable _compositeDisposable;
     private bool _timeTextInited;
     private Vector2 _posShowTime => new Vector2(_posXSignalIndicatorShowTime, _signalIndicatorRectTransform.anchoredPosition.y);
     private Vector2 _posHideTime => new Vector2(_posXSignalIndicatorHideTime, _signalIndicatorRectTransform.anchoredPosition.y);
 
-    public TopPanelHandler(RectTransform signalIndicatorRectTransform, IReadOnlyList<Image> signalIndicatorImage, TextMeshProUGUI timeText, TextMeshProUGUI butteryText,
-        Image butteryImage, Image butteryIndicatorImage)
+    public TopPanelHandler(RectTransform signalIndicatorRectTransform, IReadOnlyList<Image> signalIndicatorImage,
+        TextMeshProUGUI timeText, TextMeshProUGUI butteryText, Image butteryImage, Image butteryIndicatorImage)
     {
         _signalIndicatorImage = signalIndicatorImage;
         _signalIndicatorRectTransform = signalIndicatorRectTransform;
@@ -47,6 +47,7 @@ public class TopPanelHandler
 
         _butteryIndicatorImage.fillAmount = butteryPercent * _percentMultiplier;
         _butteryText.text = $"{butteryPercent}{_percentSymbol}";
+        _signalIndicatorRectTransform.parent.gameObject.SetActive(true);
     }
 
     public void SetColorAndMode(Color color, bool showTimeKey = true)
@@ -70,7 +71,7 @@ public class TopPanelHandler
         _butteryIndicatorImage.color = color;
         _butteryText.color = color;
     }
-    public void Dispose()
+    public void Shutdown()
     {
         _timeTextInited = false;
         _compositeDisposable?.Clear();

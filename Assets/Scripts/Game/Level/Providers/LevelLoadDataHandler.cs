@@ -25,7 +25,7 @@ public class LevelLoadDataHandler
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
-    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, BackgroundContentCreator backgroundContentCreator,
+    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,  BackgroundContentCreator backgroundContentCreator,
         LevelLocalizationProvider levelLocalizationProvider, Func<UniTask> createPhoneView,
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
@@ -42,7 +42,7 @@ public class LevelLoadDataHandler
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();
-        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(createPhoneView);
+        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(phoneMessagesCustodian, createPhoneView);
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             GameSeriesProvider,
             SeriaGameStatsProviderBuild,
