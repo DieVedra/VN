@@ -25,7 +25,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
 
     protected abstract void InitBackground();
 
-    protected virtual void Dispose()
+    protected virtual void Shutdown()
     {
         CharacterViewer.Dispose();
         CompositeDisposable.Clear();

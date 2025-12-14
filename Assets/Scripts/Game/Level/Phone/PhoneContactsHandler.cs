@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PhoneContactsHandler
 {
-    private readonly List<PhoneContactsProvider> _contactsToSeriaProviders;
+    private readonly IReadOnlyList<PhoneContactsProvider> _contactsToSeriaProviders;
     private readonly CheckMathSeriaIndex _checkMathSeriaIndex;
     private readonly Dictionary<string, PhoneContact> _dictionary;
-    public PhoneContactsHandler(List<PhoneContactsProvider> contactsToSeriaProviders, CheckMathSeriaIndex checkMathSeriaIndex)
+    public PhoneContactsHandler(IReadOnlyList<PhoneContactsProvider> contactsToSeriaProviders, CheckMathSeriaIndex checkMathSeriaIndex)
     {
         _contactsToSeriaProviders = contactsToSeriaProviders;
         _checkMathSeriaIndex = checkMathSeriaIndex;
@@ -35,15 +35,10 @@ public class PhoneContactsHandler
 
     public void TryCollectAllContactsBySeriaIndexOfRange(int seriaIndex)
     {
-        // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange: {seriaIndex} ");
-
         if (_checkMathSeriaIndex.Check(seriaIndex))
         {
-            // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange ++: {_dictionary.Count} ");
-
             CollectAllContactsBySeriaIndex(seriaIndex, CheckingOfRange);
         }
-        // Debug.Log($"TryCollectAllContactsBySeriaIndexOfRange +++: {_dictionary.Count} ");
 
     }
     public void TryCollectAllContactsBySeriaIndexOfMath(int seriaIndex)

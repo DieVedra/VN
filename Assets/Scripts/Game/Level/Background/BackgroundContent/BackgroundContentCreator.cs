@@ -34,7 +34,7 @@ public class BackgroundContentCreator : IParticipiteInLoad
         ParticipiteInLoad = true;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _backgroundContentAssetProvider.Abort();
         _spriteRendererAssetProvider.Abort();

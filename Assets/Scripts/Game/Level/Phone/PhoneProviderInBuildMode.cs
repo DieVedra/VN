@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
 {
+    private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly Func<UniTask> _createPhoneView;
     private const string _nameDataProviderAsset = "PhoneDataProviderSeria";
     private const string _nameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
@@ -18,27 +17,25 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     private readonly DataProvider<PhoneContactsProvider> _contactsToSeriaProviders;
     
     private List<Phone> _phones;
-    private Dictionary<string, PhoneContact> _contactsAddToPhone;
     private PhoneContentProvider _phoneContentProvider;
-    // private PhoneContactCombiner _phoneContactCombiner;
-    // private PhoneCreatorBuildMode _phoneCreator;
+    private PhoneContactsHandler _phoneContactsHandler;
+    private PhoneCreator _phoneCreator;
+
     private PhoneSaveHandler _phoneSaveHandler;
     private IReadOnlyList<PhoneAddedContact> _saveDataContacts;
     public IParticipiteInLoad PhoneDataProviderParticipiteInLoad => _dataProviders;
     public IParticipiteInLoad PhoneContactsProviderParticipiteInLoad => _contactsToSeriaProviders;
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
-    public PhoneMessagesCustodian PhoneMessagesCustodian { get; }
     private bool _phoneSystemInitilized;
 
 
     public PhoneProviderInBuildMode(PhoneMessagesCustodian phoneMessagesCustodian, Func<UniTask> createPhoneView)
     {
+        _phoneMessagesCustodian = phoneMessagesCustodian;
         _createPhoneView = createPhoneView;
-        // _dataProviders = new DataProvider<PhoneDataProvider>();
+        _dataProviders = new DataProvider<PhoneProvider>();
         _contactsToSeriaProviders = new DataProvider<PhoneContactsProvider>();
-        // _phoneContactCombiner = new PhoneContactCombiner();
         _phones = new List<Phone>();
-        // _contactsAddToPhone = new Dictionary<string, PhoneContactDataLocalizable>();
         _notificationViewPrefabAssetProvider = new NotificationViewPrefabAssetProvider();
         _outcomingMessagePrefabAssetProvider = new OutcomingMessagePrefabAssetProvider();
         _incomingMessagePrefabAssetProvider = new IncomingMessagePrefabAssetProvider();
@@ -47,15 +44,18 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         _phoneSystemInitilized = false;
     }
 
-    public async UniTask Init(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)
+    public async UniTask Init()
     {
-        // _phoneCreator = new PhoneCreatorBuildMode(_dataProviders.GetDatas, _contactsToSeriaProviders.GetDatas,
-        //     customizableCharacterIndexesCustodians, _phoneContactCombiner);
         var notificationViewPrefab = await _notificationViewPrefabAssetProvider.LoadNotificationPrefab();
         var outcomingMessagePrefab = await _outcomingMessagePrefabAssetProvider.LoadOutcomingMessagePrefab();
         var incomingMessagePrefab = await _incomingMessagePrefabAssetProvider.LoadIncomingMessagePrefab();
         var contactPrefab = await _contactPrefabAssetProvider.LoadContactPrefab();
+        
+        var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContentProvider = new PhoneContentProvider(contactPrefab, incomingMessagePrefab, outcomingMessagePrefab, notificationViewPrefab);
+        _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders.GetDatas, checkMathSeriaIndex);
+        _phoneCreator = new PhoneCreator(_dataProviders.GetDatas, _phoneMessagesCustodian, checkMathSeriaIndex);
+        
         await UniTask.WhenAll(_dataProviders.CreateNames(_nameDataProviderAsset),
             _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
     }
@@ -66,17 +66,14 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     }
 
     // public IReadOnlyList<PhoneAddedContact> GetSaveData()
-
     // {
-
     //     return _phoneSaveHandler.GetSaveData(_phones);
-
     // }
 
-    public void Dispose()
+    public void Shutdown()
     {
-        _dataProviders.Dispose();
-        _contactsToSeriaProviders.Dispose();
+        _dataProviders.Shutdown();
+        _contactsToSeriaProviders.Shutdown();
         _notificationViewPrefabAssetProvider.UnloadAsset();
         _outcomingMessagePrefabAssetProvider.UnloadAsset();
         _incomingMessagePrefabAssetProvider.UnloadAsset();
@@ -87,39 +84,33 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     {
         if (_phones.Count == 0)
         {
-            Debug.Log($"currentSeriaIndex999  _phones {_phones.Count}");
+            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(currentSeriaIndex); // группировка контактов
+            _phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex);
+            _phoneContactsHandler.TryAddContacts(_phones);
 
-            // _phoneCreator.CreatePhonesOnStart(_phones, currentSeriaIndex);
-            Debug.Log($"currentSeriaIndex0  _phones {_phones.Count}");
-
-            // if (_saveDataContacts != null)
+                
+            // _phoneContactsHandler.FillPhonesContacts(_phones);
+                
+            // if (_saveContacts != null)
             // {
-            //     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders.GetDatas, _saveDataContacts, currentSeriaIndex);
+            //     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
             // }
-            Debug.Log($"currentSeriaIndex1 {currentSeriaIndex}  _phones {_phones.Count}");
         }
         else
         {
-            // _phoneCreator.TryAddDataToIntegratedContactsAndTryCreateNewPhones(_phones, currentSeriaIndex);
-            Debug.Log($"currentSeriaIndex2 {currentSeriaIndex}  _phones {_phones.Count}");
-
+            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(currentSeriaIndex);
+            _phoneCreator.TryAddPhone(_phones, currentSeriaIndex);
+            _phoneContactsHandler.TryAddContacts(_phones);
         }
         return _phones;
     }
 
     public IReadOnlyList<PhoneContact> GetContactsToAddInPhoneInPlot(int seriaIndex)
     {
-        // for (int i = 0; i < _contactsToSeriaProviders.GetDatas.Count; i++)
-        // {
-        //     _phoneContactCombiner.TryCreateAddebleContactsDataLocalizable(_contactsAddToPhone, _contactsToSeriaProviders.GetDatas[i].PhoneContacts);
-        // }
-        return _contactsAddToPhone.Select(x=>x.Value).ToList();
+        _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
+        return _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
     }
 
-    public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
-    {
-        throw new NotImplementedException();
-    }
 
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
@@ -137,24 +128,18 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
                 _phoneSystemInitilized = true;
             }
         }
-
         await _contactsToSeriaProviders.TryLoadData(nextSeriaNameAssetIndex);
-        // if (await _contactsToSeriaProviders.TryLoadData(nextSeriaNameAssetIndex))
-        // {
-        //     
-        // }
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         List<LocalizationString> list = new List<LocalizationString>();
-        for (int i = 0; i < _phones.Count; i++)
+        foreach (var provider in _contactsToSeriaProviders.GetDatas)
         {
-            // list.AddRange(_phones[i].PhoneDataLocalizable.GetLocalizableContent());
-        }
-        foreach (var pair in _contactsAddToPhone)
-        {
-            // list.AddRange(pair.Value.GetLocalizableContent());
+            foreach (var contact in provider.PhoneContacts)
+            {
+                list.Add(contact.NameLocalizationString);
+            }
         }
         return list;
     }

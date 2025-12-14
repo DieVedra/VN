@@ -17,7 +17,7 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    // [SerializeField] private List<Phone> _phones;
+    // [SerializeField] public List<Phone> Phones;
 
     public const string Port = "Port ";
     private List<PhoneContact> _allContacts;
@@ -29,16 +29,18 @@ public class PhoneNode : BaseNode, ILocalizable
     private IReactiveCommandExecuteOnly _applyAddMessages;
     private int _seriaIndex;
     private bool _curtainUIHandlerRaycastTargetKey;
-
+    private IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     public IReadOnlyList<Phone> Phones;
     public Phone CurrentPhone => Phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
+        IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
         NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, IReactiveCommandExecuteOnly applyAddMessages,
         int seriaIndex)
     {
-        Phones = phones;
+        _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
+        Phones = phones.ToList();
         _phoneUIHandler = phoneUIHandler;
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
@@ -80,7 +82,7 @@ public class PhoneNode : BaseNode, ILocalizable
         _curtainUIHandlerRaycastTargetKey = _customizationCurtainUIHandler.CurtainImage.raycastTarget;
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, 
             Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
-            _seriaIndex, _butteryPercent,_startHour, _startMinute);
+            _seriaIndex, _butteryPercent,_startHour, _startMinute, GetIndexBodyCustomizableCharacter(Phones[_phoneIndex].ToCharacterNameKey));
         _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
         _choicePanelUIHandler.SetSibling(++siblig);
         _narrativePanelUI.SetSibling(++siblig);
@@ -131,6 +133,17 @@ public class PhoneNode : BaseNode, ILocalizable
             _allContacts.Add(contact.Value);
         }
         _allContacts.AddRange(_contactsToAddInPlot);
+    }
+    private int GetIndexBodyCustomizableCharacter(string nameKey)
+    {
+        if (_customizableCharacterIndexesCustodians.TryGetValue(nameKey, out CustomizableCharacterIndexesCustodian value))
+        {
+            return value.BodyIndexRP.Value;
+        }
+        else
+        {
+            return 0;
+        }
     }
     private void AddCase(int index)
     {

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UniRx;
-
 
 // public void Cleanup() { /* очистка */ }
 // public void Release() { /* освобождение */ }
@@ -9,7 +7,7 @@ using UniRx;
 // public void Shutdown() { /* завершение работы */ }
 // public void Close() { /* закрытие */ }
 // public void FreeResources() { /* освобождение ресурсов */ }
-public class PhoneMessagesCustodian
+public class PhoneMessagesCustodian : ILocalizable
 {
     private const int _defaultCapasity = 10;
     private readonly Dictionary<string, Dictionary<string, List<PhoneMessage>>> _phonesMessageHistory;
@@ -18,13 +16,29 @@ public class PhoneMessagesCustodian
 
     public PhoneMessagesCustodian(ReactiveCommand applyAddMessages)
     {
-        _phonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>();
-        _bufferPhonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>();
+        _phonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>(_defaultCapasity);
+        _bufferPhonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>(_defaultCapasity);
         _applyAddMessages = applyAddMessages;
         _applyAddMessages.Subscribe(_=>
         {
             ApplyAddMessages();
         });
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        List<LocalizationString> messagesStrings = new List<LocalizationString>();
+        foreach (var pair in _phonesMessageHistory)
+        {
+            foreach (var messages in pair.Value)
+            {
+                foreach (var item in messages.Value)
+                {
+                    messagesStrings.Add(item.TextMessage);
+                }
+            }
+        }
+        return messagesStrings;
     }
 
     public void Init()
@@ -81,12 +95,11 @@ public class PhoneMessagesCustodian
                 {
                     if (dictHistory.ContainsKey(keyValuePair.Key))
                     {
-                        var list = dictHistory[keyValuePair.Key];
-                        if (list == null)
+                        if (dictHistory[keyValuePair.Key] == null)
                         {
-                            list = dictHistory[keyValuePair.Key] = new List<PhoneMessage>(_defaultCapasity);
+                            dictHistory[keyValuePair.Key] = new List<PhoneMessage>(_defaultCapasity);
                         }
-                        list.AddRange(keyValuePair.Value);
+                        dictHistory[keyValuePair.Key].AddRange(keyValuePair.Value);
                     }
                 }
             }

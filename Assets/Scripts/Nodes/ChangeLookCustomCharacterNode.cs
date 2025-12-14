@@ -36,16 +36,16 @@ public class ChangeLookCustomCharacterNode : BaseNode
             var currentCustomizableCharacterIndexesCustodian =
                 CustomizableCharacters[_customizationCharacterIndex].CustomizableCharacterIndexesCustodian;
             
-            _buferCurrentClothesIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentClothesIsActiveRP;
-            _buferCurrentClothesIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentClothesIndexRP;
+            _buferCurrentClothesIsActiveRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentClothesIsActiveRP;
+            _buferCurrentClothesIndexRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentClothesIndexRP;
             _clothesIndexRP = currentCustomizableCharacterIndexesCustodian.ClothesIndexRP;
                 
-            _buferCurrentSwimsuitsIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentSwimsuitsIsActiveRP;
-            _buferCurrentSwimsuitsIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentSwimsuitsIndexRP;
+            _buferCurrentSwimsuitsIsActiveRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentSwimsuitsIsActiveRP;
+            _buferCurrentSwimsuitsIndexRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentSwimsuitsIndexRP;
             _swimsuitsIndexRP = currentCustomizableCharacterIndexesCustodian.SwimsuitsIndexRP;
 
-            _buferCurrentHairstyleIsActiveRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentHairstyleIsActiveRP;
-            _buferCurrentHairstyleIndexRP = currentCustomizableCharacterIndexesCustodian.BuferCurrentHairstyleIndexRP;
+            _buferCurrentHairstyleIsActiveRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentHairstyleIsActiveRP;
+            _buferCurrentHairstyleIndexRP = currentCustomizableCharacterIndexesCustodian.BufferCurrentHairstyleIndexRP;
             _hairstyleIndexRP = currentCustomizableCharacterIndexesCustodian.HairstyleIndexRP;
         }
     }

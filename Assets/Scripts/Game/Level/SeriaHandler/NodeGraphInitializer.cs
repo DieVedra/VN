@@ -13,6 +13,7 @@ public class NodeGraphInitializer
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly IPhoneProvider _phoneProvider;
     private readonly List<BackgroundContent> _backgrounds;
+    private readonly IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private readonly ICharacterProvider _characterProvider;
     private readonly Background _background;
     private readonly LevelUIProviderEditMode _levelUIProvider;
@@ -21,7 +22,7 @@ public class NodeGraphInitializer
     private readonly Sound _sound;
     private readonly Wallet _wallet;
 
-    public NodeGraphInitializer(List<BackgroundContent> backgrounds, ICharacterProvider characterProvider, Background background, 
+    public NodeGraphInitializer(List<BackgroundContent> backgrounds, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, ICharacterProvider characterProvider, Background background, 
         LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer,
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
@@ -29,6 +30,7 @@ public class NodeGraphInitializer
         SetLocalizationChangeEvent setLocalizationChangeEvent, IReactiveCommandExecuteOnly applyAddMessages)
     {
         _backgrounds = backgrounds;
+        _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         _characterProvider = characterProvider;
         _background = background;
         _levelUIProvider = levelUIProvider;
@@ -163,6 +165,7 @@ public class NodeGraphInitializer
             case PhoneNode phoneNode:
                 phoneNode.ConstructMyPhoneNode(_phoneProvider.GetPhones(seriaIndex),
                     _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex),
+                    _customizableCharacterIndexesCustodians,
                     _levelUIProvider.PhoneUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
                     _levelUIProvider.ChoicePanelUIHandler, _applyAddMessages, seriaIndex);

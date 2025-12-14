@@ -28,6 +28,8 @@ public class PhoneUIView : MonoBehaviour
     public Image ButteryImage => _butteryImage;
     public Image ButteryIndicatorImage => _butteryIndicatorImage;
     public Image CurtainImage => _curtainImage;
+    public Image HandImage => _handImage;
+    public Image FrameImage => _frameImage;
     
     public BlockScreenView BlockScreenViewBackground => _blockScreenViewBackground;
     public DialogScreenView DialogScreenViewBackground => _dialogScreenViewBackground;

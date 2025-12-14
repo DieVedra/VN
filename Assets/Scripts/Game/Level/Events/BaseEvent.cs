@@ -10,7 +10,7 @@ public class BaseEvent
         CompositeDisposable = new CompositeDisposable();
         BaseReactiveCommand = new ReactiveCommand().AddTo(CompositeDisposable);
     }
-    public void Dispose()
+    public void Shutdown()
     {
         CompositeDisposable.Clear();
     }

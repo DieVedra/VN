@@ -37,7 +37,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
         _scriptableObjectAssetLoader.SetDefault();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposableOnLoad?.Clear();
         BaseCompositeDisposable?.Clear();

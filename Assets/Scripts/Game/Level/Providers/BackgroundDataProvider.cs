@@ -49,12 +49,12 @@ public class BackgroundDataProvider
             _artsDataProvider.CreateNames(GetNameArts()),
             _wardrobeBackgroundDataProvider.CreateNames(_wardrobeBackgroundDataNameAsset));
     }
-    public void Dispose()
+    public void Shutdown()
     {
-        _locationDataProvider.Dispose();
-        _additionalImagesDataProvider.Dispose();
-        _artsDataProvider.Dispose();
-        _wardrobeBackgroundDataProvider.Dispose();
+        _locationDataProvider.Shutdown();
+        _additionalImagesDataProvider.Shutdown();
+        _artsDataProvider.Shutdown();
+        _wardrobeBackgroundDataProvider.Shutdown();
     }
     public void CheckMatchNumbersSeriaWithNumberAssets(int seriaNumber, int seriaNameAssetIndex)
     {

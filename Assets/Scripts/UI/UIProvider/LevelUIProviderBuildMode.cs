@@ -33,9 +33,9 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
             });
         }
     }
-    public override void Dispose()
+    public override void Shutdown()
     {
-        base.Dispose();
+        base.Shutdown();
         GameControlPanelUIHandler.Dispose();
         ChoicePanelUIHandler.Dispose();
     }

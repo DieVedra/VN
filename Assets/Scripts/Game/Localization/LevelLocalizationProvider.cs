@@ -47,7 +47,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
         {
             var currentLocalization = await _localizationFileProvider.LoadLocalizationFile(name);
             _seriaLocalizations.Add(seriaNumber, currentLocalization);
-            TryDeleteUncessaryLocalization(seriaNumber);
+            // TryDeleteUncessaryLocalization(seriaNumber);
             ParticipiteInLoad = true;
         }
         else
@@ -101,12 +101,12 @@ public class LevelLocalizationProvider : IParticipiteInLoad
             _localizationChanger.GetKey).Forget();
     }
 
-    private void TryDeleteUncessaryLocalization(int seriaNumber)
-    {
-        var seriaNumberForRemove = seriaNumber - _deleteValue;
-        if (_seriaLocalizations.ContainsKey(seriaNumberForRemove))
-        {
-            _seriaLocalizations.Remove(seriaNumberForRemove);
-        }
-    }
+    // private void TryDeleteUncessaryLocalization(int seriaNumber)
+    // {
+    //     var seriaNumberForRemove = seriaNumber - _deleteValue;
+    //     if (_seriaLocalizations.ContainsKey(seriaNumberForRemove))
+    //     {
+    //         _seriaLocalizations.Remove(seriaNumberForRemove);
+    //     }
+    // }
 }

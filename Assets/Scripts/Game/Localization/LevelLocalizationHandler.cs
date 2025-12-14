@@ -10,6 +10,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     private readonly GameStatsHandler _gameStatsHandler;
     private readonly ILocalizable _phoneUIHandler;
     private readonly ILocalizable _phoneProviderInBuildMode;
+    private readonly ILocalizable _phoneMessagesCustodian;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ReactiveCommand _onEndSwitchLocalization;
     private CompositeDisposable _compositeDisposable;
@@ -18,7 +19,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
         LevelLocalizationProvider levelLocalizationProvider, ILocalizable characterProviderLocalizable,
-        GameStatsHandler gameStatsHandler, ILocalizable phoneUIHandler, ILocalizable phoneProviderInBuildMode,  SetLocalizationChangeEvent setLocalizationChangeEvent)
+        GameStatsHandler gameStatsHandler, ILocalizable phoneUIHandler, ILocalizable phoneProviderInBuildMode,
+        ILocalizable phoneMessagesCustodian,
+        SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _currentSeriaNodeGraphsProvider = currentSeriaNodeGraphsProvider;
         _levelLocalizationProvider = levelLocalizationProvider;
@@ -26,12 +29,13 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
         _gameStatsHandler = gameStatsHandler;
         _phoneUIHandler = phoneUIHandler;
         _phoneProviderInBuildMode = phoneProviderInBuildMode;
+        _phoneMessagesCustodian = phoneMessagesCustodian;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _compositeDisposable = new CompositeDisposable();
         _onEndSwitchLocalization = new ReactiveCommand().AddTo(_compositeDisposable);
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
     }
@@ -60,6 +64,11 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
         foreach (var localizationString in _phoneProviderInBuildMode.GetLocalizableContent())
         {
             SetText(localizationString);
+        }
+
+        foreach (var localizationString in _phoneMessagesCustodian.GetLocalizableContent())
+        {
+            
         }
     }
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)

@@ -26,10 +26,10 @@ public class AudioClipProvider
         await UniTask.WhenAll(_musicAudioDataProvider.CreateNames(_nameMusicAsset),
             _ambientAudioDataProvider.CreateNames(_nameAmbientAsset));
     }
-    public void Dispose()
+    public void Shutdown()
     {
-        _musicAudioDataProvider.Dispose();
-        _ambientAudioDataProvider.Dispose();
+        _musicAudioDataProvider.Shutdown();
+        _ambientAudioDataProvider.Shutdown();
     }
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {

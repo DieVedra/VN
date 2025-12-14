@@ -41,10 +41,10 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         }
         else
         {
-            NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
-            NodeGraphInitializer.SwitchToNextNodeEvent.Dispose();
+            NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
+            NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
             NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Dispose();
-            NodeGraphInitializer.DisableNodesContentEvent.Dispose();
+            NodeGraphInitializer.DisableNodesContentEvent.Shutdown();
             NodeGraphInitializer.SwitchToNextSeriaEvent.Dispose();
                 
             Debug.Log($"EndGame");

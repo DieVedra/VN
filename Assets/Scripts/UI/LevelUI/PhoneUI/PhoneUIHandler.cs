@@ -31,7 +31,7 @@ public class PhoneUIHandler : ILocalizable
     private List<NotificationContactInfo> _sortedNotifications;
     private Action _initOperation;
     private TopPanelHandler _topPanelHandler;
-    private PhoneMessagesCustodian _phoneMessagesCustodian;
+    // private PhoneMessagesCustodian _phoneMessagesCustodian;
     private BlockScreenHandler _blockScreenHandler;
     private ContactsScreenHandler _contactsScreenHandler;
     private DialogScreenHandler _dialogScreenHandler;
@@ -46,6 +46,8 @@ public class PhoneUIHandler : ILocalizable
     private HashSet<string> _unreadebleContacts;
     private CancellationTokenSource _cancellationTokenSource;
     private Image _curtainImage;
+    private Image _handImage;
+    private Image _frameImage;
     private int _phoneSiblingIndex;
     private int _seriaIndex;
     private bool _playModeKey;
@@ -114,6 +116,8 @@ public class PhoneUIHandler : ILocalizable
             _phoneContentProvider.IncomingMessagePool, _phoneContentProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
         _phoneSiblingIndex = phoneUIView.transform.GetSiblingIndex();
         _curtainImage = phoneUIView.CurtainImage;
+        _handImage = phoneUIView.HandImage;
+        _frameImage = phoneUIView.FrameImage;
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
@@ -133,7 +137,7 @@ public class PhoneUIHandler : ILocalizable
         IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
         Phone phone, SetLocalizationChangeEvent setLocalizationChangeEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         LocalizationString date,
-        bool playModeKey, int seriaIndex, int butteryPercent, int startHour, int startMinute)
+        bool playModeKey, int seriaIndex, int butteryPercent, int startHour, int startMinute, int handIndex)
     {
         _initOperation?.Invoke();
         SortingCases(phone.PhoneContactDictionary, phoneNodeCases, onlineContacts, notificationsInBlockScreen);
@@ -144,11 +148,12 @@ public class PhoneUIHandler : ILocalizable
         _switchToNextNodeEvent = switchToNextNodeEvent;
         _seriaIndex = seriaIndex;
         _playModeKey = playModeKey;
-        // _phoneMessagesCustodian = phoneMessagesCustodian;
         TryStartPhoneTime(startHour, startMinute, playModeKey);
         _topPanelHandler.Init(_phoneTime, playModeKey, butteryPercent);
         _phoneUIGameObject.SetActive(true);
         _dialogScreenHandler.Init(_sortedPhoneNodeCases);
+        _handImage.sprite = phone.Hands[handIndex];
+        _frameImage.sprite = phone.PhoneFrame;
         SetBlockScreenBackgroundFromNode();
         return _phoneSiblingIndex;
     }

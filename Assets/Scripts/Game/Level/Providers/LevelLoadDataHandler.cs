@@ -61,17 +61,17 @@ public class LevelLoadDataHandler
         switchToNextSeriaEvent.Subscribe(OnSwitchToNextSeria);
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _loadAssetsPercentHandler.StopCalculatePercent();
         _levelLocalizationProvider.LocalizationFileProvider.AbortLoad();
-        CharacterProviderBuildMode.Dispose();
-        GameSeriesProvider.Dispose();
-        AudioClipProvider.Dispose();
-        BackgroundDataProvider.Dispose();
-        SeriaGameStatsProviderBuild.Dispose();
-        _backgroundContentCreator.Dispose();
-        PhoneProviderInBuildMode.Dispose();
+        CharacterProviderBuildMode.Shutdown();
+        GameSeriesProvider.Shutdown();
+        AudioClipProvider.Shutdown();
+        BackgroundDataProvider.Shutdown();
+        SeriaGameStatsProviderBuild.Shutdown();
+        _backgroundContentCreator.Shutdown();
+        PhoneProviderInBuildMode.Shutdown();
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
@@ -137,7 +137,7 @@ public class LevelLoadDataHandler
             AudioClipProvider.Init(), 
             BackgroundDataProvider.Init(),
             SeriaGameStatsProviderBuild.Init(),
-            PhoneProviderInBuildMode.Init(CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
+            PhoneProviderInBuildMode.Init());
     }
 
     private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)

@@ -67,7 +67,7 @@ public class LevelUIProviderEditMode
             new PhoneUIHandler(phoneContentProvider, _compositeDisposable, phoneInitOperation);
     }
 
-    public virtual void Dispose()
+    public virtual void Shutdown()
     {
         NarrativePanelUIHandler.Dispose();
         _compositeDisposable?.Clear();

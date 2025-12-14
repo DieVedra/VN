@@ -78,12 +78,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await InitLevelUIProvider(phoneMessagesCustodian);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
-            _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode, _setLocalizationChangeEvent);
+            _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
+            phoneMessagesCustodian, _setLocalizationChangeEvent);
         
         Init(applyAddPhoneMessagesToHistory);
         OnSceneTransitionEvent.Subscribe(() =>
         {
-            Dispose();
+            Shutdown();
             Save();
         }); 
         
@@ -111,8 +112,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(
-            _backgroundBuildMode.GetBackgroundContent, _characterProvider,_backgroundBuildMode,
+        NodeGraphInitializer = new NodeGraphInitializer(_backgroundBuildMode.GetBackgroundContent,
+            _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
+            _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, applyAddPhoneMessagesToHistory);
@@ -134,7 +136,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private void OnApplicationQuit()
     {
-        Dispose();
+        Shutdown();
         Save();
     }
 
@@ -147,15 +149,15 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, _backgroundContentCreator, CharacterViewer, _spriteRendererCreator);
     }
-    protected override void Dispose()
+    protected override void Shutdown()
     {
-        _levelLocalizationHandler.Dispose();
-        _setLocalizationChangeEvent.Dispose();
+        _levelLocalizationHandler.Shutdown();
+        _setLocalizationChangeEvent.Shutdown();
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
-        _gameSeriesHandlerBuildMode.Dispose();
-        _levelLoadDataHandler.Dispose();
-        _levelUIProviderBuildMode.Dispose();
-        base.Dispose();
+        _gameSeriesHandlerBuildMode.Shutdown();
+        _levelLoadDataHandler.Shutdown();
+        _levelUIProviderBuildMode.Shutdown();
+        base.Shutdown();
     }
     private void Save()
     {

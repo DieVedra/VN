@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizable
+public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 {
     [SerializeField, Expandable] private List<PhoneProvider> _phoneProviders;
     [SerializeField, Expandable] private List<PhoneContactsProvider> _contactsToSeriaProviders;
@@ -20,27 +20,20 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     [SerializeField] private List<Phone> _phones;
     private PhoneCreator _phoneCreator;
     private PhoneContactsHandler _phoneContactsHandler;
-    // private PhoneMessagesCustodian _phoneMessagesCustodian;
     private IReadOnlyList<PhoneAddedContact> _saveContacts;
     private PhoneSaveHandler _phoneSaveHandler;
 
     private PhoneContentProvider _phoneContentProvider;
 
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
-
-
-    // public PhoneMessagesCustodian PhoneMessagesCustodian => _phoneMessagesCustodian;
-
-
-    // public IReadOnlyList<PhoneDataProvider> DataProviders => null/*_dataProviders*/;
     public IReadOnlyList<PhoneContactsProvider> ContactsToSeriaProviders => _contactsToSeriaProviders;
 
 
-    public void Construct(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, PhoneMessagesCustodian phoneMessagesCustodian)
+    public void Construct(PhoneMessagesCustodian phoneMessagesCustodian)
     {
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders, checkMathSeriaIndex);
-        _phoneCreator = new PhoneCreator(_phoneProviders, customizableCharacterIndexesCustodians, phoneMessagesCustodian, checkMathSeriaIndex);
+        _phoneCreator = new PhoneCreator(_phoneProviders, phoneMessagesCustodian, checkMathSeriaIndex);
         _phoneSaveHandler = new PhoneSaveHandler();
         for (int i = 0; i < _views.Count; i++)
         {
@@ -53,17 +46,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
             _phones.Clear();
         }
     }
-
-    public IReadOnlyList<LocalizationString> GetLocalizableContent()
-    {
-        List<LocalizationString> strings = new List<LocalizationString>();
-        for (int i = 0; i < _phones.Count; i++)
-        {
-            // strings.AddRange(_phones[i].PhoneDataLocalizable.GetLocalizableContent());
-        }
-        return strings;
-    }
-
     public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> contacts)
     {
         _saveContacts = contacts;
@@ -81,7 +63,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
     {
         if (Application.isPlaying)
         {
-            // if (_phones == null)
             if (_phones.Count == 0)
             {
                 _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(currentSeriaIndex); // группировка контактов
@@ -126,18 +107,18 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider, ILocalizab
         return _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
     }
 
-    public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
-    {
-        if (Application.isPlaying)
-        {
-            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
-        }
-        else
-        {
-            _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(seriaIndex);
-        }
-        return _phoneContactsHandler.GetAllContactsToPhoneNode();
-    }
+    // public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
+    // {
+    //     if (Application.isPlaying)
+    //     {
+    //         _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
+    //     }
+    //     else
+    //     {
+    //         _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(seriaIndex);
+    //     }
+    //     return _phoneContactsHandler.GetAllContactsToPhoneNode();
+    // }
 
     private void TryDestroyOld()
     {

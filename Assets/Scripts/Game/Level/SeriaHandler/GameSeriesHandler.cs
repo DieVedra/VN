@@ -18,7 +18,7 @@ public class GameSeriesHandler : MonoBehaviour
     public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeIndex;
     public bool PutOnSwimsuitKeyProperty => PutOnSwimsuitKey.Value;
 
-    public virtual void Dispose()
+    public virtual void Shutdown()
     {
         foreach (var handler in SeriaNodeGraphsHandlers)
         {

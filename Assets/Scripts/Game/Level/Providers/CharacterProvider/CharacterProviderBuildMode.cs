@@ -34,10 +34,10 @@ public class CharacterProviderBuildMode : ILocalizable
         await UniTask.WhenAll(_charactersProvider.CreateNames(_charactersProviderName),
             _charactersDataProvider.CreateNames(_charactersDataProviderName));
     }
-    public void Dispose()
+    public void Shutdown()
     {
-        _charactersDataProvider.Dispose();
-        _charactersProvider.Dispose();
+        _charactersDataProvider.Shutdown();
+        _charactersProvider.Shutdown();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

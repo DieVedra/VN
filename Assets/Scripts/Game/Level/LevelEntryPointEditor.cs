@@ -39,7 +39,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         PrefabsProvider = new PrefabsProvider();
         await PrefabsProvider.Init();
         Init();
-        OnSceneTransitionEvent.Subscribe(Dispose);
+        OnSceneTransitionEvent.Subscribe(Shutdown);
     }
     
     public void Init()
@@ -102,9 +102,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CompositeDisposable = new CompositeDisposable();
         ReactiveCommand applyAddPhoneMessagesToHistory = new ReactiveCommand().AddTo(CompositeDisposable);
         var phoneMessagesCustodian = new PhoneMessagesCustodian(applyAddPhoneMessagesToHistory);
-        _phoneProviderInEditMode.Construct(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, phoneMessagesCustodian);
+        _phoneProviderInEditMode.Construct(phoneMessagesCustodian);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian);
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
+        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), applyAddPhoneMessagesToHistory);
         DisableNodesContentEvent.Execute();
@@ -146,14 +146,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     private void OnApplicationQuit()
     {
-        Dispose();
+        Shutdown();
     }
-    protected override void Dispose()
+    protected override void Shutdown()
     {
-        _gameSeriesHandlerEditorMode.Dispose();
-        _levelUIProviderEditMode.Dispose();
+        _gameSeriesHandlerEditorMode.Shutdown();
+        _levelUIProviderEditMode.Shutdown();
         _wardrobeCharacterViewer.Dispose();
-        base.Dispose();
+        base.Shutdown();
         Save();
     }
     private void Save()

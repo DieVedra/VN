@@ -8,7 +8,6 @@ using XNode;
 
 public class MessagesShower
 {
-    private const int _defaultValue = 0;
     private const float _startPositionX = 0f;
     private const float _startPositionY = 0f;
     private const float _offset = 30f;
@@ -76,26 +75,9 @@ public class MessagesShower
         _inProgress = false;
         SetDialogToDefaultPos();
         _dialogTransform.sizeDelta = Vector2.zero;
-//логика вывода уже прочитанных сообщений
-
         var readedMessages = _phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact);
-        var readedMessagesFromHistory = readedMessages.Item1;
-        var readedMessagesFromBuffer = readedMessages.Item2;
-        if (readedMessagesFromHistory != null && readedMessagesFromHistory.Count > 0)
-        {
-            for (int i = 0; i < readedMessagesFromHistory.Count; i++)
-            {
-                GenerateFromHistory(readedMessagesFromHistory[i]);
-            }
-        }
-
-        if (readedMessagesFromBuffer != null && readedMessagesFromBuffer.Count > 0)
-        {
-            for (int i = 0; i < readedMessagesFromBuffer.Count; i++)
-            {
-                GenerateFromHistory(readedMessagesFromBuffer[i]);
-            }
-        }
+        TryGenerateFromHistory(readedMessages.Item1);
+        TryGenerateFromHistory(readedMessages.Item2);
         
         
         if (contactNodeCase == null)
@@ -163,10 +145,6 @@ public class MessagesShower
 
         if (_phoneMessagesExtractor.MessagesIsOut == false)
         {
-            // if (phoneMessage?.IsReaded == true)
-            // {
-            //     _tryShowReactiveCommand.Execute();
-            // }
             if (_queueShowMessages.Count == 0)
             {
                 SubscribeReadButton();
@@ -254,16 +232,22 @@ public class MessagesShower
         }
     }
 
-    private void GenerateFromHistory(PhoneMessage phoneMessage)
+    private void TryGenerateFromHistory(IReadOnlyList<PhoneMessage> list)
     {
-        switch (phoneMessage.MessageType)
+        if (list != null && list.Count > 0)
         {
-            case PhoneMessageType.Outcoming:
-                SetOutcomingMessage(phoneMessage, false);
-                break;
-            case PhoneMessageType.Incoming:
-                SetIncomingMessage(phoneMessage, false);
-                break;
+            foreach (var item in list)
+            {
+                switch (item.MessageType)
+                {
+                    case PhoneMessageType.Outcoming:
+                        SetOutcomingMessage(item, false);
+                        break;
+                    case PhoneMessageType.Incoming:
+                        SetIncomingMessage(item, false);
+                        break;
+                }
+            }
         }
     }
 }

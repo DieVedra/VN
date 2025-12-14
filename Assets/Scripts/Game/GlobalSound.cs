@@ -15,7 +15,7 @@ public class GlobalSound : Sound
     }
     public override void Dispose()
     {
-        _audioClipProvider.Dispose();
+        _audioClipProvider.Shutdown();
         base.Dispose();
     }
     public void SetGlobalSoundData(GlobalAudioData globalAudioData)

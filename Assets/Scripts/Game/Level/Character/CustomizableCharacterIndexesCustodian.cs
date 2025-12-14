@@ -8,27 +8,27 @@ public class CustomizableCharacterIndexesCustodian
     public readonly ReactiveProperty<int> SwimsuitsIndexRP;
     public readonly ReactiveProperty<int> HairstyleIndexRP;
     
-    public readonly ReactiveProperty<bool> BuferCurrentClothesIsActiveRP;
-    public readonly ReactiveProperty<int> BuferCurrentClothesIndexRP;
+    public readonly ReactiveProperty<bool> BufferCurrentClothesIsActiveRP;
+    public readonly ReactiveProperty<int> BufferCurrentClothesIndexRP;
     
-    public readonly ReactiveProperty<bool> BuferCurrentSwimsuitsIsActiveRP;
-    public readonly ReactiveProperty<int> BuferCurrentSwimsuitsIndexRP;
+    public readonly ReactiveProperty<bool> BufferCurrentSwimsuitsIsActiveRP;
+    public readonly ReactiveProperty<int> BufferCurrentSwimsuitsIndexRP;
     
-    public readonly ReactiveProperty<bool> BuferCurrentHairstyleIsActiveRP;
-    public readonly ReactiveProperty<int> BuferCurrentHairstyleIndexRP;
+    public readonly ReactiveProperty<bool> BufferCurrentHairstyleIsActiveRP;
+    public readonly ReactiveProperty<int> BufferCurrentHairstyleIndexRP;
     public CustomizableCharacterIndexesCustodian(string nameKey)
     {
         BodyIndexRP = new ReactiveProperty<int>();
         ClothesIndexRP = new ReactiveProperty<int>();
         SwimsuitsIndexRP = new ReactiveProperty<int>();
         HairstyleIndexRP = new ReactiveProperty<int>();
-        BuferCurrentClothesIsActiveRP = new BoolReactiveProperty(false);
-        BuferCurrentSwimsuitsIsActiveRP = new BoolReactiveProperty(false);
-        BuferCurrentHairstyleIsActiveRP = new BoolReactiveProperty(false);
+        BufferCurrentClothesIsActiveRP = new BoolReactiveProperty(false);
+        BufferCurrentSwimsuitsIsActiveRP = new BoolReactiveProperty(false);
+        BufferCurrentHairstyleIsActiveRP = new BoolReactiveProperty(false);
         
-        BuferCurrentClothesIndexRP = new ReactiveProperty<int>();
-        BuferCurrentSwimsuitsIndexRP = new ReactiveProperty<int>();
-        BuferCurrentHairstyleIndexRP = new ReactiveProperty<int>();
+        BufferCurrentClothesIndexRP = new ReactiveProperty<int>();
+        BufferCurrentSwimsuitsIndexRP = new ReactiveProperty<int>();
+        BufferCurrentHairstyleIndexRP = new ReactiveProperty<int>();
         NameKey = nameKey;
     }
     
@@ -39,9 +39,9 @@ public class CustomizableCharacterIndexesCustodian
         SwimsuitsIndexRP = new ReactiveProperty<int>(wardrobeSaveData.CurrentSwimsuitsIndex);
         HairstyleIndexRP = new ReactiveProperty<int>(wardrobeSaveData.CurrentHairstyleIndex);
 
-        BuferCurrentClothesIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentClothesIsActive);
-        BuferCurrentHairstyleIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentHairstyleIsActive);
-        BuferCurrentSwimsuitsIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentSwimsuitsIsActive);
+        BufferCurrentClothesIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentClothesIsActive);
+        BufferCurrentHairstyleIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentHairstyleIsActive);
+        BufferCurrentSwimsuitsIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentSwimsuitsIsActive);
         NameKey = nameKey;
     }
 
@@ -55,12 +55,12 @@ public class CustomizableCharacterIndexesCustodian
             CurrentHairstyleIndex = HairstyleIndexRP.Value,
             CurrentSwimsuitsIndex = SwimsuitsIndexRP.Value,
             
-            BuferCurrentClothesIsActive = BuferCurrentClothesIsActiveRP.Value,
-            BuferCurrentSwimsuitsIsActive = BuferCurrentSwimsuitsIsActiveRP.Value,
-            BuferCurrentHairstyleIsActive = BuferCurrentHairstyleIsActiveRP.Value,
-            BuferCurrentClothesIndex = BuferCurrentClothesIndexRP.Value,
-            BuferCurrentSwimsuitsIndex = BuferCurrentSwimsuitsIndexRP.Value,
-            BuferCurrentHairstyleIndex = BuferCurrentHairstyleIndexRP.Value
+            BuferCurrentClothesIsActive = BufferCurrentClothesIsActiveRP.Value,
+            BuferCurrentSwimsuitsIsActive = BufferCurrentSwimsuitsIsActiveRP.Value,
+            BuferCurrentHairstyleIsActive = BufferCurrentHairstyleIsActiveRP.Value,
+            BuferCurrentClothesIndex = BufferCurrentClothesIndexRP.Value,
+            BuferCurrentSwimsuitsIndex = BufferCurrentSwimsuitsIndexRP.Value,
+            BuferCurrentHairstyleIndex = BufferCurrentHairstyleIndexRP.Value
         };
     }
 }
