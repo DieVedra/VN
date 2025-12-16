@@ -27,7 +27,6 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private SwitchToNextNodeEvent _switchToNextNodeEvent;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
-    // private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
     private readonly ScrollRect _scrollRect;
     private HashSet<string> _unreadebleContacts;
     public ContactsScreenHandler(ScrollRect scrollRect, HashSet<string> unreadebleContacts, ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
@@ -66,10 +65,10 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
             _scrollRect.vertical = false;
         }
     }
-    public override void Disable()
+    public override void Shutdown()
     {
-        base.Disable();
-        _contactsShower.Dispose();
+        base.Shutdown();
+        _contactsShower.Shutdown();
         _compositeDisposable?.Clear();
         _cancellationTokenSource?.Cancel();
         CancellationTokenSource?.Cancel();

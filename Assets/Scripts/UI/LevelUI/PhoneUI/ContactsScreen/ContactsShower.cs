@@ -47,25 +47,13 @@ public class ContactsShower
         {
             CreateContact(contact.Value, unreadebleContacts, switchToDialogScreenCommand);
         }
-        
-        // _bufer.x = _contactsTransform.sizeDelta.x;
-        // _contactsTransform.sizeDelta = _bufer;
-        //
-        // _bufer.x = _startPosX;
-        // RectTransform rectTransform;
-        // for (int i = 0; i < _contactsPool.ActiveContent.Count; i++)
-        // {
-        //     rectTransform = _contactsPool.ActiveContent[i].RectTransform;
-        //     _bufer.y = rectTransform.sizeDelta.y + _offset;
-        //     rectTransform.anchoredPosition = _bufer;
-        // }
         if (_newMessagesNotFound == true)
         {
             _activateExitButton.Invoke();
         }
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
         _contactsPool?.ReturnAll();
@@ -75,10 +63,7 @@ public class ContactsShower
     {
         ContactView view = _contactsPool.Get();
         view.RectTransform.SetParent(_contactsTransform);
-
         ExpansionSizeContactsFrame(view);
-
-
         TrySetIcon(phoneContact, view.TextIcon, view.Image);
         view.TextName.text = phoneContact.NameLocalizationString.DefaultText;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
@@ -117,8 +102,7 @@ public class ContactsShower
             view.OnlineStatusImage.gameObject.SetActive(false);
         }
     }
-
-
+    
     private void TrySetIcon(PhoneContact phoneContact, TextMeshProUGUI textComponent, Image image)
     {
         if (phoneContact.IsEmptyIconKey == true)

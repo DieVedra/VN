@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class PhoneContactsHandler
 {
     private readonly IReadOnlyList<PhoneContactsProvider> _contactsToSeriaProviders;
     private readonly CheckMathSeriaIndex _checkMathSeriaIndex;
     private readonly Dictionary<string, PhoneContact> _dictionary;
+    public IReadOnlyDictionary<string, PhoneContact> PhoneContactsDictionary => _dictionary;
     public PhoneContactsHandler(IReadOnlyList<PhoneContactsProvider> contactsToSeriaProviders, CheckMathSeriaIndex checkMathSeriaIndex)
     {
         _contactsToSeriaProviders = contactsToSeriaProviders;
@@ -16,19 +16,16 @@ public class PhoneContactsHandler
 
     public void TryAddContacts(List<Phone> phones)
     {
-        Phone phone;
         PhoneContact phoneContact;
-        for (int i = 0; i < phones.Count; i++)
+        foreach (var phone in phones)
         {
             foreach (var pair in _dictionary)
             {
-                phone = phones[i];
                 phoneContact = pair.Value;
                 if (phoneContact.ToPhoneKey == phone.NamePhone.Key && phoneContact.AddInPlot == false)
                 {
                     phone.AddContact(phoneContact);
                 }
-                
             }
         }
     }
@@ -51,14 +48,12 @@ public class PhoneContactsHandler
     public void CollectAllContactsBySeriaIndex(int seriaIndex, Func<int,int, bool> checkOperation)
     {
         _dictionary.Clear();
-        for (int i = 0; i < _contactsToSeriaProviders.Count; i++)
+        foreach (var contactsProvider in _contactsToSeriaProviders)
         {
-            if (checkOperation.Invoke(_contactsToSeriaProviders[i].SeriaIndex, seriaIndex))
+            if (checkOperation.Invoke(contactsProvider.SeriaIndex, seriaIndex))
             {
-                PhoneContact phoneContact;
-                for (int j = 0; j < _contactsToSeriaProviders[i].PhoneContacts.Count; j++)
+                foreach (var phoneContact in contactsProvider.PhoneContacts)
                 {
-                    phoneContact = _contactsToSeriaProviders[i].PhoneContacts[j];
                     if (_dictionary.ContainsKey(phoneContact.NameLocalizationString.Key) == false)
                     {
                         _dictionary.Add(phoneContact.NameLocalizationString.Key, phoneContact);
@@ -68,16 +63,6 @@ public class PhoneContactsHandler
         }
     }
     
-    public List<PhoneContact> GetAllContactsToPhoneNode()
-    {
-        List<PhoneContact> contacts = new List<PhoneContact>();
-        foreach (var pair in _dictionary)
-        {
-            contacts.Add(pair.Value);
-        }
-        
-        return contacts;
-    }
     public List<PhoneContact> GetContactsAddebleToPhoneBySeriaIndexInPlot(int seriaIndex)
     {
         List<PhoneContact> contacts = new List<PhoneContact>();

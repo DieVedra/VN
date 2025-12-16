@@ -76,10 +76,8 @@ public class MessagesShower
         SetDialogToDefaultPos();
         _dialogTransform.sizeDelta = Vector2.zero;
         var readedMessages = _phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact);
-        TryGenerateFromHistory(readedMessages.Item1);
-        TryGenerateFromHistory(readedMessages.Item2);
-        
-        
+        TryGenerateFromHistory(readedMessages);
+
         if (contactNodeCase == null)
         {
             _onMessagesIsOut.Invoke();
@@ -99,14 +97,14 @@ public class MessagesShower
         _dialogTransform.anchoredPosition = _pos;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
         _messageViewed.Clear();
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
-        _readDialogButton.Disable();
+        _readDialogButton.Shutdown();
     }
 
     private async UniTask TryShowAll(Func<UniTask> operation)
@@ -195,7 +193,7 @@ public class MessagesShower
             _messageViewed[i].ViewRectTransform.anchoredPosition = _pos;
         }
 
-        _phoneMessagesCustodian.AddMessageHistoryToBuffer(_keyPhone, _keyContact, phoneMessage);
+        _phoneMessagesCustodian.AddMessageHistory(_keyPhone, _keyContact, phoneMessage);
         if (addToMessageHistoryKey)
         {
             IncreaseDialogTransform(offset);
@@ -226,7 +224,7 @@ public class MessagesShower
         {
             _readDialogButton.Enable(() =>
             {
-                _readDialogButton.Disable();
+                _readDialogButton.Shutdown();
                 _tryShowReactiveCommand.Execute();
             });
         }

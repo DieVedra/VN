@@ -26,7 +26,7 @@ public class LevelLoadDataHandler
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
     public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,  BackgroundContentCreator backgroundContentCreator,
-        LevelLocalizationProvider levelLocalizationProvider, Func<UniTask> createPhoneView,
+        LevelLocalizationProvider levelLocalizationProvider, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView,
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty)
@@ -42,7 +42,7 @@ public class LevelLoadDataHandler
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();
-        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(phoneMessagesCustodian, createPhoneView);
+        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(phoneMessagesCustodian, phoneSaveHandler, createPhoneView);
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             GameSeriesProvider,
             SeriaGameStatsProviderBuild,
@@ -92,8 +92,7 @@ public class LevelLoadDataHandler
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
         if (storyData != null)
         {
-            PhoneProviderInBuildMode.TrySetSaveData(storyData.Contacts);
-
+            PhoneProviderInBuildMode.PhoneSaveHandler.SetPhoneSaveData(storyData);
             for (int i = 0; i < storyData.CurrentSeriaIndex; i++)
             {
                 await LoadNextSeriesContent();

@@ -25,7 +25,7 @@ public class PhoneScreenBaseHandler
         BackgroundImage = backgroundImage;
     }
 
-    public virtual void Disable()
+    public virtual void Shutdown()
     {
         Screen.SetActive(false);
     }

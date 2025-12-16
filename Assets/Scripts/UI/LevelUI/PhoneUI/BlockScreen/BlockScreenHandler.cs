@@ -20,11 +20,9 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private CompositeDisposable _compositeDisposable;
     private LocalizationString _dateLocStr;
     private PoolBase<NotificationView> _notificationViewPool;
-    // private IReadOnlyDictionary<string, PhoneContact> _phoneContacts;
     private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
-    // private IReadOnlyList<OnlineContactInfo> _onlineContacts;
-    // private IReadOnlyList<ContactNodeCase> _phoneNodeCases;
     private Vector2 _nextPos = new Vector2();
+    public bool NotificationPressed { get; private set; }
     public BlockScreenHandler(MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand)
     :base(blockScreenViewBackground.gameObject, blockScreenViewBackground.ImageBackground)
@@ -39,6 +37,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         _imageBackground = blockScreenViewBackground.ImageBackground;
         _notificationTextLocalizationString = notificationTextLocalizationString;
         _blockScreenButton.enabled = false;
+        NotificationPressed = false;
     }
     
     public void Enable(IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
@@ -64,7 +63,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         }
         SetDateText();
     }
-
+    
     private bool TryShowNotifications(SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         bool result = false;
@@ -107,6 +106,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
             }
             if (notificationContactInfo.Port.IsConnected)
             {
+                NotificationPressed = true;
                 _messagesShower.InitFromBlockScreen(notificationContactInfo.Port, () =>
                 {
                     _switchToDialogScreenCommand.Execute(contact);
@@ -150,14 +150,14 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         }
     }
 
-    public override void Disable()
+    public override void Shutdown()
     {
         _blockScreenButton.enabled = false;
         _blockScreenButton.onClick.RemoveAllListeners();
-        base.Disable();
+        base.Shutdown();
         _compositeDisposable?.Clear();
         _notificationViewPool.ReturnAll();
-        _messagesShower.Dispose();
+        _messagesShower.Shutdown();
     }
 
     private void SetDateText()

@@ -34,7 +34,7 @@ public class PhoneCreator
                     if (_phonesDictionary.ContainsKey(phone.NamePhone.Key) == false)
                     {
                         var newPhone = GetNewPhone(phone);
-                        _phoneMessagesCustodian.AddPhoneHistory(newPhone);
+                        _phoneMessagesCustodian.AddPhoneHistory(newPhone.NamePhone.Key);
                         _phonesDictionary.Add(newPhone.NamePhone.Key, newPhone);
                     }
                 }
@@ -67,7 +67,7 @@ public class PhoneCreator
                         {
                             var newPhone = GetNewPhone(phone);
                             phones.Add(newPhone);
-                            _phoneMessagesCustodian.AddPhoneHistory(newPhone);
+                            _phoneMessagesCustodian.AddPhoneHistory(newPhone.NamePhone.Key);
                             _phonesDictionary.Add(newPhone.NamePhone.Key, newPhone);
                         }
                     }

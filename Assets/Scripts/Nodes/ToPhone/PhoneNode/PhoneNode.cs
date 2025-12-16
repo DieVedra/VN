@@ -26,7 +26,6 @@ public class PhoneNode : BaseNode, ILocalizable
     private NarrativePanelUIHandler _narrativePanelUI;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
-    private IReactiveCommandExecuteOnly _applyAddMessages;
     private int _seriaIndex;
     private bool _curtainUIHandlerRaycastTargetKey;
     private IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
@@ -36,8 +35,7 @@ public class PhoneNode : BaseNode, ILocalizable
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, IReactiveCommandExecuteOnly applyAddMessages,
-        int seriaIndex)
+        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, int seriaIndex)
     {
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         Phones = phones.ToList();
@@ -47,7 +45,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _choicePanelUIHandler = choicePanelUIHandler;
         _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
-        _applyAddMessages = applyAddMessages;
         InitAllContacts();
 
         if (IsPlayMode() == false)
@@ -102,8 +99,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _customizationCurtainUIHandler.ResetSibling();
         _narrativePanelUI.ResetSibling();
         _choicePanelUIHandler.ResetSibling();
-        _applyAddMessages.Execute();
-        _applyAddMessages = null;
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
         
     }

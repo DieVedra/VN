@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 [System.Serializable]
 public class StoryData
@@ -14,23 +13,27 @@ public class StoryData
     public bool LowPassEffectIsOn;
     public bool StoryStarted;
     public bool PutOnSwimsuitKey;
+    
+    public bool PhoneNodeIsLastNodeOnSave;
+    public int PhoneScreenIndex;
+    public string DialogContactKey;
+    public List<string> UnreadebleContacts;
+    public List<int> ReadedContactNodeCaseIndexes;
+    public List<PhoneSaveData> PhoneSaveDatas;
+
+
     public int MyIndex;
     public int CustomizableCharacterIndex;
     public int CurrentPhoneMinute = -1;
     public BackgroundSaveData BackgroundSaveData;
 
-    // public SaveStat[] Stats;
-    // public PhoneAddedContact[] Contacts;
-    // public WardrobeSaveData[] WardrobeSaveDatas;
-
     public List<SaveStat> Stats;
     public List<WardrobeSaveData> WardrobeSaveDatas;
-    public List<PhoneAddedContact> Contacts;
 
     public StoryData()
     {
         Stats = new List<SaveStat>();
         WardrobeSaveDatas = new List<WardrobeSaveData>();
-        Contacts = new List<PhoneAddedContact>();
+        PhoneSaveDatas = new List<PhoneSaveData>();
     }
 }

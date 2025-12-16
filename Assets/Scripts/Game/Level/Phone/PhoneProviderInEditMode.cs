@@ -20,7 +20,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     [SerializeField] private List<Phone> _phones;
     private PhoneCreator _phoneCreator;
     private PhoneContactsHandler _phoneContactsHandler;
-    private IReadOnlyList<PhoneAddedContact> _saveContacts;
     private PhoneSaveHandler _phoneSaveHandler;
 
     private PhoneContentProvider _phoneContentProvider;
@@ -29,12 +28,12 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     public IReadOnlyList<PhoneContactsProvider> ContactsToSeriaProviders => _contactsToSeriaProviders;
 
 
-    public void Construct(PhoneMessagesCustodian phoneMessagesCustodian)
+    public void Construct(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders, checkMathSeriaIndex);
         _phoneCreator = new PhoneCreator(_phoneProviders, phoneMessagesCustodian, checkMathSeriaIndex);
-        _phoneSaveHandler = new PhoneSaveHandler();
+        _phoneSaveHandler = phoneSaveHandler;
         for (int i = 0; i < _views.Count; i++)
         {
             _views[i].IsNewkey = false;
@@ -46,18 +45,11 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
             _phones.Clear();
         }
     }
-    public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> contacts)
+
+    public List<PhoneSaveData> GetPhoneSaveData()
     {
-        _saveContacts = contacts;
+        return _phoneSaveHandler.GetSaveData(_phones);
     }
-
-    // public IReadOnlyList<PhoneAddedContact> GetSaveData()
-
-    // {
-
-    //     return _phoneSaveHandler.GetSaveData(_phones);
-
-    // }
 
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
@@ -69,13 +61,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
                 _phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex);
                 _phoneContactsHandler.TryAddContacts(_phones);
 
-                
-                // _phoneContactsHandler.FillPhonesContacts(_phones);
-                
-                // if (_saveContacts != null)
-                // {
-                //     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
-                // }
+                _phoneSaveHandler.TryFillPhonesFromSaveData(_phones, _phoneContactsHandler.PhoneContactsDictionary);
             }
             else
             {
@@ -106,19 +92,6 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         }
         return _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
     }
-
-    // public IReadOnlyList<PhoneContact> GetAllContactsToPhoneNode(int seriaIndex)
-    // {
-    //     if (Application.isPlaying)
-    //     {
-    //         _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
-    //     }
-    //     else
-    //     {
-    //         _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfRange(seriaIndex);
-    //     }
-    //     return _phoneContactsHandler.GetAllContactsToPhoneNode();
-    // }
 
     private void TryDestroyOld()
     {

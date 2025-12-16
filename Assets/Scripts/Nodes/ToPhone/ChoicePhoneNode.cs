@@ -63,6 +63,7 @@ public class ChoicePhoneNode : ChoiceNode
             TimerCancellationTokenSource.Cancel();
         }
         CancellationTokenSource = new CancellationTokenSource();
+        IsOver = true;
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
             ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token));
@@ -70,7 +71,6 @@ public class ChoicePhoneNode : ChoiceNode
         _curtainUIHandler.Transform.gameObject.SetActive(false);
         CompositeDisposable.Dispose();
         ChoiceData = null;
-        IsOver = true;
     }
     protected override void SetInfoToView()
     {

@@ -28,7 +28,7 @@ public class PressDetector
         _onPressOperation = operation;
         IsActive = true;
     }
-    public void Disable()
+    public void Shutdown()
     {
         _positionInput.performed -= CheckPosition;
         _pressInput.started -= SetPress;

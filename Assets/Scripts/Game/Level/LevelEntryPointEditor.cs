@@ -49,6 +49,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
         SaveServiceProvider = new SaveServiceProvider();
+        var phoneMessagesCustodian = new PhoneMessagesCustodian();
+        PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian);
+
         if (Application.isPlaying &&  LoadSaveData == true)
         {
             if (SaveServiceProvider.LoadSaveData() == true)
@@ -58,9 +61,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
                 _testHearts = _saveData.Hearts;
                 _wallet = new Wallet(_saveData);
                 StoryData = _saveData.StoryDatas[_currentStoryIndex];
-                if (StoryData.Contacts.Count > 0)
+                if (StoryData.PhoneSaveDatas.Count > 0)
                 {
-                    _phoneProviderInEditMode.TrySetSaveData(StoryData.Contacts);
+                    phoneSaveHandler.SetPhoneSaveData(StoryData);
                 }
 
                 if (StoryData.Stats.Count > 0)
@@ -99,14 +102,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         InitBackground();
-        CompositeDisposable = new CompositeDisposable();
-        ReactiveCommand applyAddPhoneMessagesToHistory = new ReactiveCommand().AddTo(CompositeDisposable);
-        var phoneMessagesCustodian = new PhoneMessagesCustodian(applyAddPhoneMessagesToHistory);
-        _phoneProviderInEditMode.Construct(phoneMessagesCustodian);
-        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian);
+        _phoneProviderInEditMode.Construct(phoneMessagesCustodian, phoneSaveHandler);
+        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, phoneSaveHandler);
         NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode.GetBackgroundContent, _characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), applyAddPhoneMessagesToHistory);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent());
         DisableNodesContentEvent.Execute();
         if (Application.isPlaying)
         {
@@ -170,8 +170,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
-            StoryData.Contacts.Clear();
-            // StoryData.Contacts.AddRange(_phoneProviderInEditMode.GetSaveData());
+            StoryData.PhoneSaveDatas.Clear();
+            StoryData.PhoneSaveDatas.AddRange(_phoneProviderInEditMode.GetPhoneSaveData());
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
             if (_levelUIProviderEditMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
@@ -183,14 +183,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
             SaveServiceProvider.SaveService.Save(_saveData);
         }
     }
-    private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider, PhoneMessagesCustodian phoneMessagesCustodian)
+    private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
             new ChoicePanelInitializerEditMode(_choiceCases),
             _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
-            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian);});
+            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler);});
     }
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

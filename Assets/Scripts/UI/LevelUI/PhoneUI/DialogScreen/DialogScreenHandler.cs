@@ -81,14 +81,13 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 
     private ContactNodeCase GetContactNodeCase(string key)
     {
-        for (int i = 0; i < _sortedPhoneNodeCases.Count; i++)
+        foreach (var contactNodeCase in _sortedPhoneNodeCases)
         {
-            if (_sortedPhoneNodeCases[i].ContactKey == key && _sortedPhoneNodeCases[i].IsReaded == false)
+            if (contactNodeCase.ContactKey == key && contactNodeCase.IsReaded == false)
             {
-                return _sortedPhoneNodeCases[i];
+                return contactNodeCase;
             }
         }
-
         return null;
     }
     private void ChangeOnlineIndicator(OnlineContactInfo onlineContactInfo)
@@ -119,11 +118,11 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         }
     }
 
-    public override void Disable()
+    public override void Shutdown()
     {
-        base.Disable();
+        base.Shutdown();
         _compositeDisposable?.Clear();
-        _messagesShower.Dispose();
+        _messagesShower.Shutdown();
         _cancellationTokenSource?.Cancel();
     }
 

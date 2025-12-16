@@ -8,7 +8,6 @@ public class NodeGraphInitializer
     public readonly DisableNodesContentEvent DisableNodesContentEvent;
     public readonly SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     public readonly SetLocalizationChangeEvent SetLocalizationChangeEvent;
-    private readonly IReactiveCommandExecuteOnly _applyAddMessages;
 
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly IPhoneProvider _phoneProvider;
@@ -27,7 +26,7 @@ public class NodeGraphInitializer
         Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, IReactiveCommandExecuteOnly applyAddMessages)
+        SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _backgrounds = backgrounds;
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
@@ -45,7 +44,6 @@ public class NodeGraphInitializer
         DisableNodesContentEvent = disableNodesContentEvent;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
-        _applyAddMessages = applyAddMessages;
     }
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
@@ -168,7 +166,7 @@ public class NodeGraphInitializer
                     _customizableCharacterIndexesCustodians,
                     _levelUIProvider.PhoneUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
-                    _levelUIProvider.ChoicePanelUIHandler, _applyAddMessages, seriaIndex);
+                    _levelUIProvider.ChoicePanelUIHandler, seriaIndex);
                 return;
             
             case ChangeStatsNode changeStatsNode:

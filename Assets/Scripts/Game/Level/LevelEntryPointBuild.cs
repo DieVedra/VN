@@ -59,29 +59,29 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _onEndGameEvent = new OnEndGameEvent();
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
         CompositeDisposable = new CompositeDisposable();
-        ReactiveCommand applyAddPhoneMessagesToHistory = new ReactiveCommand().AddTo(CompositeDisposable);
-        var phoneMessagesCustodian = new PhoneMessagesCustodian(applyAddPhoneMessagesToHistory);
+        var phoneMessagesCustodian = new PhoneMessagesCustodian();
+        PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian);
         if (LoadSaveData == true)
         {
             StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
             _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
-                _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
+                _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty);
         }
         else
         {
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
-                _levelLocalizationProvider, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
+                _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
-        await InitLevelUIProvider(phoneMessagesCustodian);
+        await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         
-        Init(applyAddPhoneMessagesToHistory);
+        Init();
         OnSceneTransitionEvent.Subscribe(() =>
         {
             Shutdown();
@@ -96,7 +96,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         _phoneView = await new PhoneUIPrefabAssetProvider().CreatePhoneUIView();
     }
-    private void Init(ReactiveCommand applyAddPhoneMessagesToHistory)
+    private void Init()
     {
         if (LoadSaveData == true)
         {
@@ -117,7 +117,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, applyAddPhoneMessagesToHistory);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
 
         if (StoryData == null)
         {
@@ -175,8 +175,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
-            StoryData.Contacts.Clear();
-            // StoryData.Contacts.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetSaveData());
+            StoryData.PhoneSaveDatas.Clear();
+            StoryData.PhoneSaveDatas.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetPhoneSaveData());
             if (_levelUIProviderBuildMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
             {
                 StoryData.CurrentPhoneMinute = _levelUIProviderBuildMode.PhoneUIHandler.PhoneTime.CurrentMinute;
@@ -186,7 +186,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
     }
 
-    private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian)
+    private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
@@ -215,7 +215,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 LevelUIView.PhoneUIView = _phoneView;
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
-                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler);
             });
     }
     private void InitLocalization()

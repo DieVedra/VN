@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using UniRx;
-
 // public void Cleanup() { /* очистка */ }
 // public void Release() { /* освобождение */ }
 // public void Destroy() { /* уничтожение */ }
@@ -10,25 +8,23 @@ using UniRx;
 public class PhoneMessagesCustodian : ILocalizable
 {
     private const int _defaultCapasity = 10;
-    private readonly Dictionary<string, Dictionary<string, List<PhoneMessage>>> _phonesMessageHistory;
-    private readonly ReactiveCommand _applyAddMessages;
-    private Dictionary<string, Dictionary<string, List<PhoneMessage>>> _bufferPhonesMessageHistory;
+    private Dictionary<string, Dictionary<string, List<PhoneMessage>>> _phonesMessageHistory;
 
-    public PhoneMessagesCustodian(ReactiveCommand applyAddMessages)
+    public PhoneMessagesCustodian()
     {
         _phonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>(_defaultCapasity);
-        _bufferPhonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>(_defaultCapasity);
-        _applyAddMessages = applyAddMessages;
-        _applyAddMessages.Subscribe(_=>
-        {
-            ApplyAddMessages();
-        });
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         List<LocalizationString> messagesStrings = new List<LocalizationString>();
-        foreach (var pair in _phonesMessageHistory)
+        Collect(messagesStrings, _phonesMessageHistory);
+        return messagesStrings;
+    }
+
+    private void Collect(List<LocalizationString> messagesStrings, Dictionary<string, Dictionary<string, List<PhoneMessage>>> messageHistory)
+    {
+        foreach (var pair in messageHistory)
         {
             foreach (var messages in pair.Value)
             {
@@ -38,84 +34,63 @@ public class PhoneMessagesCustodian : ILocalizable
                 }
             }
         }
-        return messagesStrings;
     }
 
-    public void Init()
+    public void Init(IReadOnlyList<PhoneSaveData> saveDatas)
     {
-        
-    }
-
-    public void Shutdown()
-    {
-        
-    }
-
-    public void AddPhoneHistory(Phone phone)
-    {
-        if (_phonesMessageHistory.ContainsKey(phone.NamePhone.Key))
+        string key;
+        foreach (var data in saveDatas)
         {
-            _phonesMessageHistory.Add(phone.NamePhone.Key, new Dictionary<string, List<PhoneMessage>>());
-        }
-    }
-
-    public void AddMessageHistoryToBuffer(string phoneKey, string contactKey, PhoneMessage phoneMessage)
-    {
-        if (_bufferPhonesMessageHistory == null)
-        {
-            _bufferPhonesMessageHistory = new Dictionary<string, Dictionary<string, List<PhoneMessage>>>();
-        }
-        if (_bufferPhonesMessageHistory.ContainsKey(phoneKey))
-        {
-            if (_bufferPhonesMessageHistory[phoneKey].ContainsKey(contactKey))
+            key = data.PhoneNameKey;
+            AddPhoneHistory(key);
+            if (_phonesMessageHistory.ContainsKey(key))
             {
-                _bufferPhonesMessageHistory[phoneKey][contactKey].Add(phoneMessage);
+                _phonesMessageHistory[key] = data.MessageHistory;
+            }
+        }
+    }
+
+    public void AddPhoneHistory(string phoneNameKey)
+    {
+        if (_phonesMessageHistory.ContainsKey(phoneNameKey) == false)
+        {
+            _phonesMessageHistory.Add(phoneNameKey, new Dictionary<string, List<PhoneMessage>>());
+        }
+    }
+
+    public void AddMessageHistory(string phoneKey, string contactKey, PhoneMessage phoneMessage)
+    {
+        if (_phonesMessageHistory.ContainsKey(phoneKey))
+        {
+            if (_phonesMessageHistory[phoneKey].ContainsKey(contactKey))
+            {
+                if (_phonesMessageHistory[phoneKey][contactKey] == null)
+                {
+                    var newList = new List<PhoneMessage>();
+                    newList.Add(phoneMessage);
+                    _phonesMessageHistory[phoneKey][contactKey] = newList;
+                }
+                else
+                {
+                    _phonesMessageHistory[phoneKey][contactKey].Add(phoneMessage);
+                }
             }
             else
             {
-                Add(_bufferPhonesMessageHistory[phoneKey], phoneMessage, contactKey);
+                Add(_phonesMessageHistory[phoneKey], phoneMessage, contactKey);
             }
         }
         else
         {
             var newDictionary = new Dictionary<string, List<PhoneMessage>>();
-            _bufferPhonesMessageHistory.Add(phoneKey, newDictionary);
+            _phonesMessageHistory.Add(phoneKey, newDictionary);
             Add(newDictionary, phoneMessage, contactKey);
-
         }
     }
 
-    private void ApplyAddMessages()
-    {
-        foreach (var pairBuffer in _bufferPhonesMessageHistory)
-        {
-            if (_phonesMessageHistory.TryGetValue(pairBuffer.Key, out Dictionary<string, List<PhoneMessage>> dictHistory))
-            {
-                foreach (var keyValuePair in pairBuffer.Value)
-                {
-                    if (dictHistory.ContainsKey(keyValuePair.Key))
-                    {
-                        if (dictHistory[keyValuePair.Key] == null)
-                        {
-                            dictHistory[keyValuePair.Key] = new List<PhoneMessage>(_defaultCapasity);
-                        }
-                        dictHistory[keyValuePair.Key].AddRange(keyValuePair.Value);
-                    }
-                }
-            }
-            else
-            {
-                _phonesMessageHistory.Add(pairBuffer.Key, pairBuffer.Value);
-            }
-        }
-
-        _bufferPhonesMessageHistory = null;
-    }
-
-    public (IReadOnlyList<PhoneMessage>, IReadOnlyList<PhoneMessage>) GetMessagesHistory(string phoneKey, string contactKey)
+    public IReadOnlyList<PhoneMessage> GetMessagesHistory(string phoneKey, string contactKey)
     {
         IReadOnlyList<PhoneMessage> history = null;
-        IReadOnlyList<PhoneMessage> buffer = null;
         if (_phonesMessageHistory.ContainsKey(phoneKey))
         {
             if (_phonesMessageHistory[phoneKey].ContainsKey(contactKey))
@@ -123,16 +98,7 @@ public class PhoneMessagesCustodian : ILocalizable
                 history = _phonesMessageHistory[phoneKey][contactKey];
             }
         }
-
-        if (_bufferPhonesMessageHistory.ContainsKey(phoneKey))
-        {
-            if (_bufferPhonesMessageHistory[phoneKey].ContainsKey(contactKey))
-            {
-                buffer = _bufferPhonesMessageHistory[phoneKey][contactKey];
-            }
-        }
-
-        return (history, buffer);
+        return history;
     }
 
     private void Add(Dictionary<string, List<PhoneMessage>> targetDictionary, PhoneMessage phoneMessage, string key)

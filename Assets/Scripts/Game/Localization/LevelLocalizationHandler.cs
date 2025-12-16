@@ -68,16 +68,22 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
         foreach (var localizationString in _phoneMessagesCustodian.GetLocalizableContent())
         {
-            
+            foreach (var localization in _levelLocalizationProvider.Localizations)
+            {
+                if (localization.Value.TryGetValue(localizationString.Key, out string value))
+                {
+                    localizationString.SetText(value);
+                }
+            }
         }
     }
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
-        for (int i = 0; i < seriaNodeGraphsHandler.SeriaPartNodeGraphs.Count; i++)
+        foreach (var seriaPartNodeGraph in seriaNodeGraphsHandler.SeriaPartNodeGraphs)
         {
-            for (int j = 0; j < seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes.Count; j++)
+            foreach (var node in seriaPartNodeGraph.nodes)
             {
-                if (seriaNodeGraphsHandler.SeriaPartNodeGraphs[i].nodes[j] is ILocalizable localizable)
+                if (node is ILocalizable localizable)
                 {
                     foreach (var localizationString in localizable.GetLocalizableContent())
                     {
@@ -90,9 +96,9 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     private void SetLocalizationToStats(GameStatsHandler gameStatsHandler)
     {
-        for (int i = 0; i < gameStatsHandler.Stats.Count; i++)
+        foreach (var stat in gameStatsHandler.Stats)
         {
-            SetText(gameStatsHandler.Stats[i].LocalizationName);
+            SetText(stat.LocalizationName);
         }
     }
 

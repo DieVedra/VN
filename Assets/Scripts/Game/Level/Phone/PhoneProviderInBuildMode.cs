@@ -22,14 +22,15 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     private PhoneCreator _phoneCreator;
 
     private PhoneSaveHandler _phoneSaveHandler;
-    private IReadOnlyList<PhoneAddedContact> _saveDataContacts;
     public IParticipiteInLoad PhoneDataProviderParticipiteInLoad => _dataProviders;
     public IParticipiteInLoad PhoneContactsProviderParticipiteInLoad => _contactsToSeriaProviders;
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
+    public PhoneSaveHandler PhoneSaveHandler => _phoneSaveHandler;
+
     private bool _phoneSystemInitilized;
 
 
-    public PhoneProviderInBuildMode(PhoneMessagesCustodian phoneMessagesCustodian, Func<UniTask> createPhoneView)
+    public PhoneProviderInBuildMode(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView)
     {
         _phoneMessagesCustodian = phoneMessagesCustodian;
         _createPhoneView = createPhoneView;
@@ -40,7 +41,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         _outcomingMessagePrefabAssetProvider = new OutcomingMessagePrefabAssetProvider();
         _incomingMessagePrefabAssetProvider = new IncomingMessagePrefabAssetProvider();
         _contactPrefabAssetProvider = new ContactPrefabAssetProvider();
-        _phoneSaveHandler = new PhoneSaveHandler();
+        _phoneSaveHandler = phoneSaveHandler;
         _phoneSystemInitilized = false;
     }
 
@@ -60,15 +61,10 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
             _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
     }
 
-    public void TrySetSaveData(IReadOnlyList<PhoneAddedContact> saveDataContacts)
+    public List<PhoneSaveData> GetPhoneSaveData()
     {
-        _saveDataContacts = saveDataContacts;
+        return _phoneSaveHandler.GetSaveData(_phones);
     }
-
-    // public IReadOnlyList<PhoneAddedContact> GetSaveData()
-    // {
-    //     return _phoneSaveHandler.GetSaveData(_phones);
-    // }
 
     public void Shutdown()
     {
@@ -88,13 +84,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
             _phones = _phoneCreator.CreatePhonesOnStart(currentSeriaIndex);
             _phoneContactsHandler.TryAddContacts(_phones);
 
-                
-            // _phoneContactsHandler.FillPhonesContacts(_phones);
-                
-            // if (_saveContacts != null)
-            // {
-            //     _phoneSaveHandler.AddContactsToPhoneFromSaveData(_phones, _contactsToSeriaProviders, _saveContacts, currentSeriaIndex);
-            // }
+            _phoneSaveHandler.TryFillPhonesFromSaveData(_phones, _phoneContactsHandler.PhoneContactsDictionary);
         }
         else
         {

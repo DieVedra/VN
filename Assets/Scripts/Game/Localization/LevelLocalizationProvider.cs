@@ -19,6 +19,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     
     public int PercentComplete => _localizationFileProvider.GetPercentComplete();
     public LocalizationFileProvider LocalizationFileProvider => _localizationFileProvider;
+    public IReadOnlyDictionary<int, Dictionary<string, string>> Localizations => _seriaLocalizations;
 
     public LevelLocalizationProvider(ILocalizationChanger localizationChanger, ReactiveProperty<int> currentSeriaIndexReactiveProperty)
     {
