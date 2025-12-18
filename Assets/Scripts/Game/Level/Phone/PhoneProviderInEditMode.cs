@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
 
     public PhoneContentProvider PhoneContentProvider => _phoneContentProvider;
     public IReadOnlyList<PhoneContactsProvider> ContactsToSeriaProviders => _contactsToSeriaProviders;
-
+    public PhoneSaveHandler PhoneSaveHandler => _phoneSaveHandler;
 
     public void Construct(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
@@ -45,12 +46,28 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
             _phones.Clear();
         }
     }
-
-    public List<PhoneSaveData> GetPhoneSaveData()
+    public void FillPhoneSaveInfo(StoryData data)
     {
-        return _phoneSaveHandler.GetSaveData(_phones);
+        data.PhoneSaveDatas = _phoneSaveHandler.GetSaveData(_phones);
+        if (_phoneSaveHandler.PhoneNodeIsActiveOnSave == true)
+        {
+            data.PhoneNodeIsActiveOnSave = true;
+            data.PhoneScreenIndex = _phoneSaveHandler.GetPhoneScreenIndex;
+            data.DialogContactKey = _phoneSaveHandler.DialogContactKey;
+            data.UnreadebleContacts = _phoneSaveHandler.UnreadebleContacts.ToList();
+            data.ReadedContactNodeCaseIndexes = _phoneSaveHandler.ReadedContactNodeCaseIndexes.ToList();
+            data.PhoneContentNodeIndex = _phoneSaveHandler.PhoneContentNodeIndex;
+        }
+        else
+        {
+            data.PhoneNodeIsActiveOnSave = false;
+            data.PhoneScreenIndex = -1;
+            data.PhoneContentNodeIndex = -1;
+            data.DialogContactKey = null;
+            data.UnreadebleContacts = null;
+            data.ReadedContactNodeCaseIndexes = null;
+        }
     }
-
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {
         if (Application.isPlaying)

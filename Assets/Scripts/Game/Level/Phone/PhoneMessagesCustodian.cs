@@ -43,9 +43,27 @@ public class PhoneMessagesCustodian : ILocalizable
         {
             key = data.PhoneNameKey;
             AddPhoneHistory(key);
-            if (_phonesMessageHistory.ContainsKey(key))
+            if (_phonesMessageHistory.ContainsKey(key) == false)
             {
-                _phonesMessageHistory[key] = data.MessageHistory;
+                var dictionary = new Dictionary<string, List<PhoneMessage>>();
+                List<PhoneMessage> list;
+                foreach (var pair in data.MessageHistory)
+                {
+                    list = new List<PhoneMessage>(); 
+                    foreach (var saveMessage in pair.Value)
+                    {
+                        PhoneMessage message = new PhoneMessage
+                        {
+                            TextMessage = new LocalizationString(null, saveMessage.KeyMessage),
+                            MessageType = (PhoneMessageType) saveMessage.MessageTypeIndex,
+                            IsReaded = true
+                        };
+
+                        list.Add(message);
+                    }
+                    dictionary.Add(pair.Key, list);
+                }
+                _phonesMessageHistory.Add(key, dictionary);
             }
         }
     }

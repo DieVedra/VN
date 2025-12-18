@@ -14,8 +14,9 @@ public class StoryData
     public bool StoryStarted;
     public bool PutOnSwimsuitKey;
     
-    public bool PhoneNodeIsLastNodeOnSave;
+    public bool PhoneNodeIsActiveOnSave;
     public int PhoneScreenIndex;
+    public int PhoneContentNodeIndex;
     public string DialogContactKey;
     public List<string> UnreadebleContacts;
     public List<int> ReadedContactNodeCaseIndexes;

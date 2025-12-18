@@ -63,7 +63,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
                 StoryData = _saveData.StoryDatas[_currentStoryIndex];
                 if (StoryData.PhoneSaveDatas.Count > 0)
                 {
-                    phoneSaveHandler.SetPhoneSaveData(StoryData);
+                    phoneSaveHandler.SetPhoneInfoFromSaveData(StoryData);
                 }
 
                 if (StoryData.Stats.Count > 0)
@@ -170,8 +170,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
-            StoryData.PhoneSaveDatas.Clear();
-            StoryData.PhoneSaveDatas.AddRange(_phoneProviderInEditMode.GetPhoneSaveData());
+
+            _phoneProviderInEditMode.FillPhoneSaveInfo(StoryData);
+            
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
             if (_levelUIProviderEditMode.PhoneUIHandler.PhoneTime?.IsStarted == true)

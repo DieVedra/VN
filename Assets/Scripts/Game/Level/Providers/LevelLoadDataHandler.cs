@@ -92,7 +92,7 @@ public class LevelLoadDataHandler
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
         if (storyData != null)
         {
-            PhoneProviderInBuildMode.PhoneSaveHandler.SetPhoneSaveData(storyData);
+            PhoneProviderInBuildMode.PhoneSaveHandler.SetPhoneInfoFromSaveData(storyData);
             for (int i = 0; i < storyData.CurrentSeriaIndex; i++)
             {
                 await LoadNextSeriesContent();

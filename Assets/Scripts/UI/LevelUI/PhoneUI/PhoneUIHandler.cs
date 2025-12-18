@@ -53,6 +53,7 @@ public class PhoneUIHandler : ILocalizable
     private int _seriaIndex;
     private bool _playModeKey;
     private bool _loadFromSave;
+    
     public PhoneTime PhoneTime => _phoneTime;
     public PhoneUIHandler(PhoneContentProvider phoneContentProvider,
         CompositeDisposable compositeDisposable, Action initOperation)
@@ -135,6 +136,7 @@ public class PhoneUIHandler : ILocalizable
         _phoneMessagesExtractor?.Shutdown();
         _contactPrintStatusHandler?.Shutdown();
         _cancellationTokenSource?.Cancel();
+        _phoneSaveHandler.SetPhoneNodeActiveKey(false);
     }
     public int ConstructFromNode(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<OnlineContactInfo> onlineContacts,
         IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
@@ -142,8 +144,9 @@ public class PhoneUIHandler : ILocalizable
         LocalizationString date,
         bool playModeKey, int seriaIndex, int butteryPercent, int startHour, int startMinute, int handIndex)
     {
-        _loadFromSave = _phoneSaveHandler.PhoneNodeIsLastNodeOnSave;
         _initOperation?.Invoke();
+        _loadFromSave = _phoneSaveHandler.LoadFromSaveKey;
+        _phoneSaveHandler.SetPhoneNodeActiveKey(true);
         SortingCases(phone.PhoneContactDictionary, phoneNodeCases, onlineContacts, notificationsInBlockScreen);
         _initOperation = null;
         _currentPhone = phone;
@@ -160,6 +163,9 @@ public class PhoneUIHandler : ILocalizable
         _frameImage.sprite = phone.PhoneFrame;
         if (_loadFromSave == true)
         {
+    //         _sortedPhoneNodeCases;
+    // _sortedOnlineContacts;
+    //  _sortedNotifications;
             switch (_phoneSaveHandler.GetPhoneScreenIndex)
             {
                 case (int)PhoneScreen.Block:

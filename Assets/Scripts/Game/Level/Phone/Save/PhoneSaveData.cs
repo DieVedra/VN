@@ -6,5 +6,5 @@ public class PhoneSaveData
 {
     public string PhoneNameKey;
     public List<string> ContactsKeys;
-    public Dictionary<string, List<PhoneMessage>> MessageHistory;
+    public Dictionary<string, List<PhoneSaveMessage>> MessageHistory;
 }
