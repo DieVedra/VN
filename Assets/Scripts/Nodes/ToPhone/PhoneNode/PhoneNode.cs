@@ -26,6 +26,7 @@ public class PhoneNode : BaseNode, ILocalizable
     private NarrativePanelUIHandler _narrativePanelUI;
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
+    private ReactiveProperty<bool> _phoneNodeIsActive;
     private int _seriaIndex;
     private bool _curtainUIHandlerRaycastTargetKey;
     private IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
@@ -35,7 +36,7 @@ public class PhoneNode : BaseNode, ILocalizable
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, int seriaIndex)
+        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, ReactiveProperty<bool> phoneNodeIsActive, int seriaIndex)
     {
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         Phones = phones.ToList();
@@ -45,6 +46,7 @@ public class PhoneNode : BaseNode, ILocalizable
         _choicePanelUIHandler = choicePanelUIHandler;
         _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
+        _phoneNodeIsActive = phoneNodeIsActive;
         InitAllContacts();
 
         if (IsPlayMode() == false)
@@ -77,6 +79,7 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         CancellationTokenSource = new CancellationTokenSource();
         _curtainUIHandlerRaycastTargetKey = _customizationCurtainUIHandler.CurtainImage.raycastTarget;
+        _phoneNodeIsActive.Value = true;
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, 
             Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
             _seriaIndex, _butteryPercent,_startHour, _startMinute, GetIndexBodyCustomizableCharacter(Phones[_phoneIndex].ToCharacterNameKey));
@@ -90,6 +93,7 @@ public class PhoneNode : BaseNode, ILocalizable
 
     public override async UniTask Exit()
     {
+        _phoneNodeIsActive.Value = false;
         await _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         CancellationTokenSource = null;
         _customizationCurtainUIHandler.CurtainImage.raycastTarget = _curtainUIHandlerRaycastTargetKey;

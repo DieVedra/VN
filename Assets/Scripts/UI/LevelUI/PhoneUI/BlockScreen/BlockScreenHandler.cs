@@ -3,6 +3,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using XNode;
 
 public class BlockScreenHandler : PhoneScreenBaseHandler
 {
@@ -23,6 +24,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
     private Vector2 _nextPos = new Vector2();
     public bool NotificationPressed { get; private set; }
+    public int NotificationsInBlockScreenIndex { get; private set; }
     public BlockScreenHandler(MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand)
     :base(blockScreenViewBackground.gameObject, blockScreenViewBackground.ImageBackground)
@@ -42,14 +44,16 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     
     public void Enable(IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
         PhoneTime phoneTime, Phone phone, LocalizationString date,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey)
+        SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey, NodePort portFromSave, bool notificationPressed, int notificationsInBlockScreenIndex)
     {
+        NotificationsInBlockScreenIndex = notificationsInBlockScreenIndex;
         _nextPos.x = _startPosX;
         _nextPos.y = _startPosY;
         _dateLocStr = date;
         _notificationsInBlockScreen = notificationsInBlockScreen;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
+        NotificationPressed = notificationPressed;
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetDateText, _compositeDisposable);
         Screen.SetActive(true);
         TrySetTime(phoneTime, playModeKey);
@@ -59,8 +63,21 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         }
         else
         {
-            StartScaleAnimation(_notificationViewPool.ActiveContent);
+            if (notificationPressed == false)
+            {
+                StartScaleAnimation(_notificationViewPool.ActiveContent);
+            }
         }
+
+        if (notificationPressed == true)
+        {
+            var info = _notificationsInBlockScreen[notificationsInBlockScreenIndex];
+            _messagesShower.InitFromBlockScreen(portFromSave, () =>
+            {
+                _switchToDialogScreenCommand.Execute(info.Contact);
+            } );
+        }
+
         SetDateText();
     }
     
@@ -71,14 +88,14 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             for (int i = 0; i < _notificationsInBlockScreen.Count; i++)
             {
-                CreateNotification(_notificationsInBlockScreen[i], setLocalizationChangeEvent);
+                CreateNotification(_notificationsInBlockScreen[i], setLocalizationChangeEvent, i);
                 result = true;
             }
         }
         return result;
     }
 
-    private void CreateNotification(NotificationContactInfo notificationContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    private void CreateNotification(NotificationContactInfo notificationContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent, int index)
     {
         PhoneContact contact = notificationContactInfo.Contact;
         var notificationView = _notificationViewPool.Get();
@@ -96,27 +113,32 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         
         SetTexts();
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
-        notificationView.Button.onClick.AddListener(() =>
+        if (NotificationPressed == false)
         {
-            CancellationTokenSource?.Cancel();
-            CancellationTokenSource = null;
-            for (int i = 0; i < _notificationViewPool.ActiveContent.Count; i++)
+            notificationView.Button.onClick.AddListener(() =>
             {
-                _notificationViewPool.ActiveContent[i].Button.onClick.RemoveAllListeners();
-            }
-            if (notificationContactInfo.Port.IsConnected)
-            {
-                NotificationPressed = true;
-                _messagesShower.InitFromBlockScreen(notificationContactInfo.Port, () =>
+                CancellationTokenSource?.Cancel();
+                CancellationTokenSource = null;
+                for (int i = 0; i < _notificationViewPool.ActiveContent.Count; i++)
+                {
+                    _notificationViewPool.ActiveContent[i].Button.onClick.RemoveAllListeners();
+                }
+                if (notificationContactInfo.Port.IsConnected)
+                {
+                    NotificationsInBlockScreenIndex = index;
+                    NotificationPressed = true;
+                    _messagesShower.InitFromBlockScreen(notificationContactInfo.Port, () =>
+                    {
+                        _switchToDialogScreenCommand.Execute(contact);
+                    } );
+                }
+                else
                 {
                     _switchToDialogScreenCommand.Execute(contact);
-                } );
-            }
-            else
-            {
-                _switchToDialogScreenCommand.Execute(contact);
-            }
-        });
+                }
+            });
+        }
+
         notificationView.gameObject.SetActive(true);
         _nextPos.y -= _offsetY;
 
@@ -152,6 +174,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
 
     public override void Shutdown()
     {
+        NotificationPressed = false;
         _blockScreenButton.enabled = false;
         _blockScreenButton.onClick.RemoveAllListeners();
         base.Shutdown();

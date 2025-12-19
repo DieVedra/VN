@@ -52,7 +52,7 @@ public class PhoneMessagesExtractor
 				return _phoneMessage;
 
 			case PhoneSwitchNode phoneSwitchNode:
-				_nodeToSave = _nextNode.GetPort("Input").Connection.node;
+				_nodeToSave = _nextNode.GetPort(GameSeriesHandler.InputPortName).Connection.node;
 				await phoneSwitchNode.Enter();
 				_cancellationTokenSource = new CancellationTokenSource();
 				await UniTask.WaitUntil(() => phoneSwitchNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
@@ -103,7 +103,7 @@ public class PhoneMessagesExtractor
 				return _phoneMessage;
 			
 			case NotificationNode notificationNode:
-				_nodeToSave = _nextNode.GetPort("Input").Connection.node;
+				_nodeToSave = _nextNode.GetPort(GameSeriesHandler.InputPortName).Connection.node;
 				notificationNode.Enter().Forget();
 				_nodeToSave = _nextNode = notificationNode.GetNextNode();
 				_tryShowNextReactiveCommand.Execute();

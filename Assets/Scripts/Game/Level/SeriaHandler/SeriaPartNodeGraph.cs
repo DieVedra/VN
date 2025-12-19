@@ -8,12 +8,14 @@ using XNode;
 public class SeriaPartNodeGraph : NodeGraph
 {
 	private BaseNode _currentNode;
+	private BaseNode _toSaveNode;
 	private int _currentNodeIndex;
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
 	private ReactiveProperty<bool> _putOnSwimsuitKey;
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
+	public int NodeIndexToSave => nodes.IndexOf(_toSaveNode);
 	
 	public void Init(ReactiveProperty<bool> putOnSwimsuitKey, NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
@@ -34,21 +36,22 @@ public class SeriaPartNodeGraph : NodeGraph
 		}
 	}
 
-	public void Dispose()
+	public void Shutdown()
 	{
 		if (_baseNodes != null && _baseNodes.Count > 0)
 		{
 			foreach (var baseNodes in _baseNodes)
 			{
-				baseNodes?.Shutdown();
+				baseNodes.Shutdown();
 			}
 		}
 	}
 
 	public async UniTaskVoid MoveNext()
 	{
+		_toSaveNode = _currentNode.GetNextNode();
 		await _currentNode.Exit();
-		_currentNode = _currentNode.GetNextNode();
+		_currentNode = _toSaveNode;
 		await _currentNode.Enter();
 	}
 
@@ -92,7 +95,7 @@ public class SeriaPartNodeGraph : NodeGraph
 				}
 			}
 			_nodeGraphInitializer.Init(_baseNodes, _currentSeriaIndex);
-			_currentNode = _baseNodes[_currentNodeIndex];
+			_toSaveNode = _currentNode = _baseNodes[_currentNodeIndex];
 		}
 	}
 

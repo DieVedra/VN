@@ -2,16 +2,18 @@
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
+using XNode;
 
 public class GameSeriesHandler : MonoBehaviour
 {
     [SerializeField, Expandable] protected List<SeriaNodeGraphsHandler> SeriaNodeGraphsHandlers;
 
+    private const string _outputPortName = "Output";
+    public const string InputPortName = "Input";
     protected NodeGraphInitializer NodeGraphInitializer;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     protected ReactiveProperty<int> CurrentSeriaIndexReactiveProperty;
     protected ReactiveProperty<bool> PutOnSwimsuitKey;
-    protected ICharacterProvider CharacterProvider;
     public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
     
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeGraphIndex;
@@ -22,7 +24,7 @@ public class GameSeriesHandler : MonoBehaviour
     {
         foreach (var handler in SeriaNodeGraphsHandlers)
         {
-            handler.Dispose();
+            handler.Shutdown();
         }
     }
 
@@ -30,8 +32,17 @@ public class GameSeriesHandler : MonoBehaviour
     {
         if (currentSeriaIndex > 0)
         {
-            SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Dispose();
+            SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Shutdown();
         }
-        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(PutOnSwimsuitKey, NodeGraphInitializer, CharacterProvider, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(PutOnSwimsuitKey, NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+    }
+    public NodePort GetNodePort(int nodeIndex)
+    {
+        return SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].nodes[nodeIndex].GetOutputPort(_outputPortName);
+    }
+
+    public (int, int, int) GetInfoToSave()
+    {
+        return (CurrentSeriaIndex, CurrentNodeGraphIndex, SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].NodeIndexToSave);
     }
 }

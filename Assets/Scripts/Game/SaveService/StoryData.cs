@@ -15,11 +15,14 @@ public class StoryData
     public bool PutOnSwimsuitKey;
     
     public bool PhoneNodeIsActiveOnSave;
+    public bool NotificationPressed;
     public int PhoneScreenIndex;
     public int PhoneContentNodeIndex;
+    public int NotificationsInBlockScreenIndex;
     public string DialogContactKey;
-    public List<string> UnreadebleContacts;
     public List<int> ReadedContactNodeCaseIndexes;
+    public List<string> OnlineContactsKeys;
+    public List<string> NotificationsKeys;
     public List<PhoneSaveData> PhoneSaveDatas;
 
 

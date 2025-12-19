@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using XNode;
 
 public class PhoneUIHandler : ILocalizable
 {
@@ -30,6 +32,7 @@ public class PhoneUIHandler : ILocalizable
     private List<OnlineContactInfo> _sortedOnlineContacts;
     private List<NotificationContactInfo> _sortedNotifications;
     private Action _initOperation;
+    private Func<int, NodePort> _onGetNodePort;
     private TopPanelHandler _topPanelHandler;
     private PhoneSaveHandler _phoneSaveHandler;
     private BlockScreenHandler _blockScreenHandler;
@@ -75,14 +78,14 @@ public class PhoneUIHandler : ILocalizable
         return new[] {_notificationTextLocalizationString, _contactPrintStatusHandler.PrintLocalizationString };
     }
 
-    public void Init(PhoneUIView phoneUIView, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
+    public void Init(PhoneUIView phoneUIView, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<int, NodePort> onGetNodePort)
     {
         _switchToContactsScreenCommand.Subscribe(_=>
         {
-            SetContactsScreenBackgroundFromAnotherScreen();
+            SetContactsScreenBackgroundFromAnotherScreenWithTransitionAnim();
         });
         _phoneSaveHandler = phoneSaveHandler;
-        _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreen);
+        _switchToDialogScreenCommand.Subscribe(SetDialogScreenBackgroundFromAnotherScreenWithTransitionAnim);
         _phoneUIGameObject = phoneUIView.gameObject;
         if (phoneUIView.transform is RectTransform rectTransform)
         {
@@ -123,20 +126,20 @@ public class PhoneUIHandler : ILocalizable
         _handImage = phoneUIView.HandImage;
         _frameImage = phoneUIView.FrameImage;
         _cancellationTokenSource = new CancellationTokenSource();
+        _initOperation = null;
+        _onGetNodePort = onGetNodePort;
+        phoneSaveHandler.OnSave += GetInfoToSave;
     }
 
     public void ShutdownScreensBackgrounds()
     {
         _phoneTime?.Stop();
-        _blockScreenHandler.Shutdown();
-        _contactsScreenHandler.Shutdown();
-        _dialogScreenHandler.Shutdown();
+        ShutdownScreens();
         _phoneUIGameObject.SetActive(false);
         _topPanelHandler.Shutdown();
         _phoneMessagesExtractor?.Shutdown();
         _contactPrintStatusHandler?.Shutdown();
         _cancellationTokenSource?.Cancel();
-        _phoneSaveHandler.SetPhoneNodeActiveKey(false);
     }
     public int ConstructFromNode(IReadOnlyList<ContactNodeCase> phoneNodeCases, IReadOnlyList<OnlineContactInfo> onlineContacts,
         IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
@@ -146,9 +149,37 @@ public class PhoneUIHandler : ILocalizable
     {
         _initOperation?.Invoke();
         _loadFromSave = _phoneSaveHandler.LoadFromSaveKey;
-        _phoneSaveHandler.SetPhoneNodeActiveKey(true);
         SortingCases(phone.PhoneContactDictionary, phoneNodeCases, onlineContacts, notificationsInBlockScreen);
-        _initOperation = null;
+        if (_loadFromSave == true)
+        {
+            foreach (var index in _phoneSaveHandler.ReadedContactNodeCaseIndexes)
+            {
+                _sortedPhoneNodeCases[index].IsReaded = true;
+            }
+
+            UpdateNotificationsFromSave();
+            UpdateOnlineContactsFromSave();
+            FillUnreadebleContacts();
+            switch (_phoneSaveHandler.GetPhoneScreenIndex)
+            {
+                case (int)PhoneScreen.Block:
+                    SetBlockScreenBackgroundFromNode(_onGetNodePort?.Invoke(_phoneSaveHandler.PhoneContentNodeIndex),
+                        _phoneSaveHandler.NotificationPressed, _phoneSaveHandler.NotificationsInBlockScreenIndex);
+                    break;
+                case (int)PhoneScreen.Contacts:
+                    SetContactsScreenBackgroundFromAnotherScreen();
+                    break;
+                case (int)PhoneScreen.Dialog:
+                    SetDialogScreenBackgroundFromAnotherScreen(_currentPhone.PhoneContactDictionary[_phoneSaveHandler.DialogContactKey]);
+                    break;
+            }
+        }
+        else
+        {
+            FillUnreadebleContacts();
+            SetBlockScreenBackgroundFromNode();
+        }
+
         _currentPhone = phone;
         _date = date;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
@@ -161,51 +192,98 @@ public class PhoneUIHandler : ILocalizable
         _dialogScreenHandler.Init(_sortedPhoneNodeCases);
         _handImage.sprite = phone.Hands[handIndex];
         _frameImage.sprite = phone.PhoneFrame;
-        if (_loadFromSave == true)
-        {
-    //         _sortedPhoneNodeCases;
-    // _sortedOnlineContacts;
-    //  _sortedNotifications;
-            switch (_phoneSaveHandler.GetPhoneScreenIndex)
-            {
-                case (int)PhoneScreen.Block:
-                    SetBlockScreenBackgroundFromNode();
-                    break;
-                case (int)PhoneScreen.Contacts:
-                    SetContactsScreenBackgroundFromAnotherScreen();
-                    break;
-                case (int)PhoneScreen.Dialog:
-                    SetDialogScreenBackgroundFromAnotherScreen(_currentPhone.PhoneContactDictionary[_phoneSaveHandler.DialogContactKey]);
-                    break;
-            }
-        }
-        else
-        {
-            SetBlockScreenBackgroundFromNode();
-        }
         return _phoneSiblingIndex;
     }
-    public void GetInfoToSave()
+
+    private void UpdateNotificationsFromSave()
     {
+        UpdateFromSave(_sortedNotifications, _phoneSaveHandler.NotificationsKeys);
+    }
+
+    private void UpdateOnlineContactsFromSave()
+    {
+        UpdateFromSave(_sortedOnlineContacts, _phoneSaveHandler.OnlineContactsKeys);
+    }
+
+    private void UpdateFromSave<T>(List<T> sortedInfo, IEnumerable<string> keysFromSave) where T : ContactInfo
+    {
+        bool result = false;
+        for (int i = sortedInfo.Count - 1; i >= 0; i--)
+        {
+            result = false;
+            foreach (var key in keysFromSave)
+            {
+                if (sortedInfo[i].ContactKey == key)
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            if (result == false)
+            {
+                sortedInfo.RemoveAt(i);
+            }
+        }
+    }
+
+    private void FillUnreadebleContacts()
+    {
+        _unreadebleContacts.Clear();
+        foreach (var contactNodeCase in _sortedPhoneNodeCases)
+        {
+            if (contactNodeCase.IsReaded == false)
+            {
+                _unreadebleContacts.Add(contactNodeCase.ContactKey);
+            }
+        }
+    }
+
+    private OnSaveInfo GetInfoToSave()
+    {
+        _phoneSaveHandler.OnSave -= GetInfoToSave;
+        OnSaveInfo info = new OnSaveInfo();
+        info.NotificationsKeys = _sortedNotifications.Select(x=>x.ContactKey).ToList();
+        info.OnlineContactsKeys = _sortedOnlineContacts.Select(x=>x.ContactKey).ToList();
+        int index = 0;
+        List<int> indexes = new List<int>(_sortedPhoneNodeCases.Count);
+        foreach (var nodeCase in _sortedPhoneNodeCases)
+        {
+            if (nodeCase.IsReaded)
+            {
+                indexes.Add(index);
+            }
+            index++;
+        }
+        indexes.TrimExcess();
+        info.ReadedContactNodeCaseIndexes = indexes;
+        info.DialogContactKey = null;
+        info.GetPhoneScreenIndex = (int)_currentPhoneScreen;
         switch (_currentPhoneScreen)
         {
             case PhoneScreen.Block:
+                info.NotificationPressed = _blockScreenHandler.NotificationPressed;
                 if (_blockScreenHandler.NotificationPressed)
                 {
-                    _phoneMessagesExtractor.GetCurrentNodeIndex();
+                    info.PhoneContentNodeIndex = _phoneMessagesExtractor.GetCurrentNodeIndex();
+                    info.NotificationsInBlockScreenIndex = _blockScreenHandler.NotificationsInBlockScreenIndex;
                 }
-                
                 break;
+            
             case PhoneScreen.Contacts:
-                
+                info.PhoneContentNodeIndex = -1;
                 break;
+            
             case PhoneScreen.Dialog:
-                _phoneMessagesExtractor.GetCurrentNodeIndex();
-
+                info.PhoneContentNodeIndex = _phoneMessagesExtractor.GetCurrentNodeIndex();
+                info.DialogContactKey = _dialogScreenHandler.GetCurrentContactKey;
                 break;
         }
+
+        return info;
     }
-    private void SetBlockScreenBackgroundFromNode()
+    
+    private void SetBlockScreenBackgroundFromNode(NodePort portFromSave = null, bool notificationPressed = false , int notificationsInBlockScreenIndex = -1)
     {
         _currentPhoneScreen = PhoneScreen.Block;
         ShutdownScreens();
@@ -213,22 +291,30 @@ public class PhoneUIHandler : ILocalizable
         _blockScreenHandler.Time.color = _currentPhone.BlockScreenTopPanelColor;
         _blockScreenHandler.Date.color = _currentPhone.BlockScreenTopPanelColor;
         _blockScreenHandler.Enable(_sortedNotifications, _phoneTime, _currentPhone, _date,
-            _setLocalizationChangeEvent, _playModeKey);
+            _setLocalizationChangeEvent, _playModeKey, portFromSave, notificationPressed, notificationsInBlockScreenIndex);
     }
 
-    private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContact contact)
+    private void SetDialogScreenBackgroundFromAnotherScreenWithTransitionAnim(PhoneContact contact)
     {
         _currentPhoneScreen = PhoneScreen.Dialog;
         TransitionAnim(() =>
         {
             ShutdownScreens();
             _topPanelHandler.SetColorAndMode(_currentPhone.DialogScreenTopPanelColor);
-            _dialogScreenHandler.Enable(contact, GetOnlineContactInfo(contact.NameLocalizationString.Key), _setLocalizationChangeEvent, _seriaIndex);
+            _dialogScreenHandler.Enable(contact, GetOnlineContactInfo(contact.NameLocalizationString.Key), _setLocalizationChangeEvent);
             _unreadebleContacts.Remove(contact.NameLocalizationString.Key);
         }).Forget();
     }
-
-    private void SetContactsScreenBackgroundFromAnotherScreen()
+    private void SetDialogScreenBackgroundFromAnotherScreen(PhoneContact contact)
+    {
+        _currentPhoneScreen = PhoneScreen.Dialog;
+        ShutdownScreens();
+        _topPanelHandler.SetColorAndMode(_currentPhone.DialogScreenTopPanelColor);
+        _dialogScreenHandler.Enable(contact, GetOnlineContactInfo(contact.NameLocalizationString.Key), _setLocalizationChangeEvent,
+            _phoneSaveHandler.PhoneContentNodeIndex, _phoneSaveHandler.DialogContactKey);
+        _unreadebleContacts.Remove(contact.NameLocalizationString.Key);
+    }
+    private void SetContactsScreenBackgroundFromAnotherScreenWithTransitionAnim()
     {
         _currentPhoneScreen = PhoneScreen.Contacts;
         TransitionAnim(() =>
@@ -237,6 +323,14 @@ public class PhoneUIHandler : ILocalizable
             _topPanelHandler.SetColorAndMode(_currentPhone.ContactsScreenTopPanelColor);
             _contactsScreenHandler.Enable(_currentPhone.PhoneContactDictionary, _setLocalizationChangeEvent, _switchToNextNodeEvent);
         }).Forget();
+    }
+
+    private void SetContactsScreenBackgroundFromAnotherScreen()
+    {
+        _currentPhoneScreen = PhoneScreen.Contacts;
+        ShutdownScreens();
+        _topPanelHandler.SetColorAndMode(_currentPhone.ContactsScreenTopPanelColor);
+        _contactsScreenHandler.Enable(_currentPhone.PhoneContactDictionary, _setLocalizationChangeEvent, _switchToNextNodeEvent);
     }
 
     public void TryRestartPhoneTime(int startMinute)
@@ -308,23 +402,6 @@ public class PhoneUIHandler : ILocalizable
         bool result = false;
         Sorting2(_sortedOnlineContacts);
         Sorting2(_sortedNotifications);
-        
-        _unreadebleContacts.Clear();
-        if (_loadFromSave == true)
-        {
-            foreach (var key in _phoneSaveHandler.UnreadebleContacts)
-            {
-                _unreadebleContacts.Add(key);
-            }
-        }
-        else
-        {
-            foreach (var contactNodeCase in _sortedPhoneNodeCases)
-            {
-                _unreadebleContacts.Add(contactNodeCase.ContactKey);
-            }
-        }
-        
         void Sorting1<T>(IEnumerable<T> info, ICollection<T> sortedInfo, string key) where T : ContactInfo
         {
             foreach (var contactInfo in info)

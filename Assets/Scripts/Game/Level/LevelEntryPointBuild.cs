@@ -26,6 +26,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private OnAwaitLoadContentEvent<AwaitLoadContentPanel> _onAwaitLoadContentEvent;
     private OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
+    private ReactiveProperty<bool> _phoneNodeIsActive;
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
@@ -60,7 +61,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
         CompositeDisposable = new CompositeDisposable();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
-        PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian);
+        _phoneNodeIsActive = new ReactiveProperty<bool>();
+
+        PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, _phoneNodeIsActive);
         if (LoadSaveData == true)
         {
             StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
@@ -117,18 +120,18 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
-            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent);
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, _phoneNodeIsActive);
 
         if (StoryData == null)
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
+                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
                 _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
-                NodeGraphInitializer, _characterProvider, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
+                NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent,
                 StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
             _levelUIProviderBuildMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
@@ -215,7 +218,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 LevelUIView.PhoneUIView = _phoneView;
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
-                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler);
+                _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerBuildMode.GetNodePort);
             });
     }
     private void InitLocalization()

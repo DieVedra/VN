@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UniRx;
 
 public class PhoneSaveHandler
 {
     private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
+    private readonly ReactiveProperty<bool> _phoneNodeIsActive;
     private List<PhoneSaveData> _phoneSaveData;
-    private bool _phoneNodeIsLastNodeOnSave;
-    private bool _phoneNodeIsActive;
     private bool _loadFromSave;
-    public bool PhoneNodeIsActiveOnSave => _phoneNodeIsLastNodeOnSave;
+    public bool PhoneNodeIsActiveKey => _phoneNodeIsActive.Value;
     public bool LoadFromSaveKey {
         get
         {
@@ -20,33 +21,37 @@ public class PhoneSaveHandler
         }
     }
 
-    public string DialogContactKey { get; private set; }
-    public int GetPhoneScreenIndex { get; private set; }
-    public int PhoneContentNodeIndex { get; private set; }
+    public bool NotificationPressed { get; private set; } //оповещение было нажато
+    public string DialogContactKey { get; private set; } // с каким контактом диалог
+    public int GetPhoneScreenIndex { get; private set; } 
+    public int PhoneContentNodeIndex { get; private set; }  // индекс текущей ноды
+    public int NotificationsInBlockScreenIndex { get; private set; } 
     
-    public IReadOnlyList<string> UnreadebleContacts { get; private set; }
     public IReadOnlyList<int> ReadedContactNodeCaseIndexes { get; private set; }
+    public IReadOnlyList<string> OnlineContactsKeys { get; private set; }
+    public IReadOnlyList<string> NotificationsKeys { get; private set; }
+    public event Func<OnSaveInfo> OnSave;
 
-    public PhoneSaveHandler(PhoneMessagesCustodian phoneMessagesCustodian)
+    public PhoneSaveHandler(PhoneMessagesCustodian phoneMessagesCustodian, ReactiveProperty<bool> phoneNodeIsActive)
     {
         _phoneMessagesCustodian = phoneMessagesCustodian;
+        _phoneNodeIsActive = phoneNodeIsActive;
     }
 
-    public void SetPhoneNodeActiveKey(bool key)
-    {
-        _phoneNodeIsActive = key;
-    }
 
     public void SetPhoneInfoFromSaveData(StoryData storyData)
     {
-        _phoneNodeIsLastNodeOnSave = storyData.PhoneNodeIsActiveOnSave;
-        if (_phoneNodeIsLastNodeOnSave)
+        if (storyData.PhoneNodeIsActiveOnSave)
         {
             _phoneSaveData = storyData.PhoneSaveDatas;
             GetPhoneScreenIndex = storyData.PhoneScreenIndex;
+            PhoneContentNodeIndex = storyData.PhoneContentNodeIndex;
             DialogContactKey = storyData.DialogContactKey;
-            UnreadebleContacts = storyData.UnreadebleContacts;
             ReadedContactNodeCaseIndexes = storyData.ReadedContactNodeCaseIndexes;
+            OnlineContactsKeys = storyData.OnlineContactsKeys;
+            NotificationsKeys = storyData.NotificationsKeys;
+            NotificationPressed = storyData.NotificationPressed;
+            NotificationsInBlockScreenIndex = storyData.NotificationsInBlockScreenIndex;
             _loadFromSave = true;
         }
         else
@@ -62,6 +67,20 @@ public class PhoneSaveHandler
     }
     public List<PhoneSaveData> GetSaveData(List<Phone> phones)
     {
+        var info = OnSave?.Invoke();
+        if (info != null)
+        {
+            DialogContactKey = info.DialogContactKey;
+            GetPhoneScreenIndex = info.GetPhoneScreenIndex;
+            PhoneContentNodeIndex = info.PhoneContentNodeIndex;
+            ReadedContactNodeCaseIndexes = info.ReadedContactNodeCaseIndexes;
+            OnlineContactsKeys = info.OnlineContactsKeys;
+            NotificationsKeys = info.NotificationsKeys;
+            NotificationPressed = info.NotificationPressed;
+            NotificationsInBlockScreenIndex = info.NotificationsInBlockScreenIndex;
+        }
+
+
         List<PhoneSaveData> list = new List<PhoneSaveData>();
         PhoneSaveData data;
         List<string> contactsKeys;

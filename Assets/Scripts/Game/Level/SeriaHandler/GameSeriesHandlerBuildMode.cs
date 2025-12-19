@@ -13,7 +13,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
     public SeriaNodeGraphsHandler GetCurrentSeriaNodeGraphsHandler() => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value];
 
     public void Construct(LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
-        NodeGraphInitializer nodeGraphInitializer, ICharacterProvider characterProvider, 
+        NodeGraphInitializer nodeGraphInitializer,
         ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, OnEndGameEvent onEndGameEvent,
@@ -28,7 +28,6 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
-        CharacterProvider = characterProvider;
         PutOnSwimsuitKey = new ReactiveProperty<bool>(putOnSwimsuitKey);
 
         foreach (var seria in gameSeriesProvider.GetDatas)
