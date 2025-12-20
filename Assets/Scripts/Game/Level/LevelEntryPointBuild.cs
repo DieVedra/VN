@@ -59,7 +59,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         DisableNodesContentEvent = new DisableNodesContentEvent();
         _onEndGameEvent = new OnEndGameEvent();
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
-        CompositeDisposable = new CompositeDisposable();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
         _phoneNodeIsActive = new ReactiveProperty<bool>();
 
@@ -167,9 +166,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         if (LoadSaveData == true)
         {
             StoryData.PutOnSwimsuitKey = _gameSeriesHandlerBuildMode.PutOnSwimsuitKeyProperty;
-            StoryData.CurrentNodeGraphIndex = _gameSeriesHandlerBuildMode.CurrentNodeGraphIndex;
-            StoryData.CurrentNodeIndex = _gameSeriesHandlerBuildMode.CurrentNodeIndex;
-            StoryData.CurrentSeriaIndex = _gameSeriesHandlerBuildMode.CurrentSeriaIndex;
+            _gameSeriesHandlerBuildMode.GetInfoToSave(StoryData);
+            
             StoryData.Stats.Clear();
             StoryData.Stats.AddRange(_gameStatsHandler.GetStatsToSave());
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
@@ -178,12 +176,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
             StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
-            StoryData.PhoneSaveDatas.Clear();
-            StoryData.PhoneSaveDatas.AddRange(_levelLoadDataHandler.PhoneProviderInBuildMode.GetPhoneSaveData());
-            if (_levelUIProviderBuildMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
-            {
-                StoryData.CurrentPhoneMinute = _levelUIProviderBuildMode.PhoneUIHandler.PhoneTime.CurrentMinute;
-            }
+            
+            _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
+
             SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveLevelProgress();
         }

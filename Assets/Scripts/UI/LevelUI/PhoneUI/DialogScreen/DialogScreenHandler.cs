@@ -6,6 +6,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using XNode;
 
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
@@ -28,7 +29,6 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private PhoneContact _currentContact;
     private CompositeDisposable _compositeDisposable;
     private CancellationTokenSource _cancellationTokenSource;
-    private IReadOnlyList<ContactNodeCase> _sortedPhoneNodeCases;
     public string GetCurrentContactKey => _currentContact.NameLocalizationString.Key;
 
     public DialogScreenHandler(List<OnlineContactInfo> sortedOnlineContacts, DialogScreenView dialogScreenView, MessagesShower messagesShower,
@@ -50,12 +50,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-
-    public void Init(IReadOnlyList<ContactNodeCase> sortedPhoneNodeCases)
-    {
-        _sortedPhoneNodeCases = sortedPhoneNodeCases;
-    }
-    public void Enable(PhoneContact contact, OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    public void Enable(PhoneContact contact, ContactNodeCase contactNodeCase, NodePort nodePort, OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _currentContact = contact;
         Screen.SetActive(true);
@@ -65,8 +60,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        ContactNodeCase contactNodeCase = GetContactNodeCase(contact.NameLocalizationString.Key);
-        _messagesShower.InitFromDialogScreen(contact.ToPhoneKey, contact.NameLocalizationString.Key, contactNodeCase , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
+        _messagesShower.InitFromDialogScreen(contact.ToPhoneKey, contact.NameLocalizationString.Key, contactNodeCase, nodePort,
+            _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
             () =>
             {
                 if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
@@ -79,42 +74,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
                 ActivateBackButton();
             });
     }
-    public void Enable(PhoneContact contact, OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent,
-        int phoneContentNodeIndex, string dialogContactKey)
-    {
-        _currentContact = contact;
-        Screen.SetActive(true);
-        SetContactImage();
-        ChangeOnlineIndicator(onlineContactInfo);
-        _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts);
-        _backArrow.interactable = false;
-        _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
-        SetTexts();
-        ContactNodeCase contactNodeCase = GetContactNodeCase(contact.NameLocalizationString.Key);
-        _messagesShower.InitFromDialogScreen(contact.ToPhoneKey, contact.NameLocalizationString.Key, contactNodeCase , _incomingMessagePool, _outcomingMessagePool, setLocalizationChangeEvent,
-            () =>
-            {
-                if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
-                {
-                    _sortedOnlineContacts.Remove(onlineContactInfo);
-                    ChangeOnlineIndicator(null);
-                }
 
-                contactNodeCase.IsReaded = true;
-                ActivateBackButton();
-            });
-    }
-    private ContactNodeCase GetContactNodeCase(string key)
-    {
-        foreach (var contactNodeCase in _sortedPhoneNodeCases)
-        {
-            if (contactNodeCase.ContactKey == key && contactNodeCase.IsReaded == false)
-            {
-                return contactNodeCase;
-            }
-        }
-        return null;
-    }
     private void ChangeOnlineIndicator(OnlineContactInfo onlineContactInfo)
     {
         if (onlineContactInfo != null)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 
 public class PhoneSaveHandler
@@ -26,6 +27,7 @@ public class PhoneSaveHandler
     public int GetPhoneScreenIndex { get; private set; } 
     public int PhoneContentNodeIndex { get; private set; }  // индекс текущей ноды
     public int NotificationsInBlockScreenIndex { get; private set; } 
+    public int CurrentPhoneMinute { get; private set; } 
     
     public IReadOnlyList<int> ReadedContactNodeCaseIndexes { get; private set; }
     public IReadOnlyList<string> OnlineContactsKeys { get; private set; }
@@ -50,7 +52,7 @@ public class PhoneSaveHandler
             ReadedContactNodeCaseIndexes = storyData.ReadedContactNodeCaseIndexes;
             OnlineContactsKeys = storyData.OnlineContactsKeys;
             NotificationsKeys = storyData.NotificationsKeys;
-            NotificationPressed = storyData.NotificationPressed;
+            NotificationPressed = storyData.PhoneNotificationPressed;
             NotificationsInBlockScreenIndex = storyData.NotificationsInBlockScreenIndex;
             _loadFromSave = true;
         }
@@ -63,6 +65,38 @@ public class PhoneSaveHandler
         {
             _phoneSaveData = storyData.PhoneSaveDatas;
             _phoneMessagesCustodian.Init(_phoneSaveData);
+        }
+    }
+    
+    public void FillPhoneSaveInfo(StoryData data, List<Phone> phones)
+    {
+        data.PhoneSaveDatas.Clear();
+        data.PhoneSaveDatas = GetSaveData(phones);
+        if (PhoneNodeIsActiveKey == true)
+        {
+            data.PhoneNodeIsActiveOnSave = true;
+            data.PhoneScreenIndex = GetPhoneScreenIndex;
+            data.DialogContactKey = DialogContactKey;
+            data.ReadedContactNodeCaseIndexes = ReadedContactNodeCaseIndexes.ToList();
+            data.PhoneContentNodeIndex = PhoneContentNodeIndex;
+            data.OnlineContactsKeys = OnlineContactsKeys.ToList();
+            data.NotificationsKeys = NotificationsKeys.ToList();
+            data.PhoneNotificationPressed = NotificationPressed;
+            data.NotificationsInBlockScreenIndex = NotificationsInBlockScreenIndex;
+            data.CurrentPhoneMinute = CurrentPhoneMinute;
+        }
+        else
+        {
+            data.PhoneNodeIsActiveOnSave = false;
+            data.PhoneNotificationPressed = false;
+            data.PhoneScreenIndex = -1;
+            data.PhoneContentNodeIndex = -1;
+            data.NotificationsInBlockScreenIndex = -1;
+            data.CurrentPhoneMinute = -1;
+            data.DialogContactKey = null;
+            data.ReadedContactNodeCaseIndexes = null;
+            data.OnlineContactsKeys = null;
+            data.NotificationsKeys = null;
         }
     }
     public List<PhoneSaveData> GetSaveData(List<Phone> phones)
@@ -78,6 +112,7 @@ public class PhoneSaveHandler
             NotificationsKeys = info.NotificationsKeys;
             NotificationPressed = info.NotificationPressed;
             NotificationsInBlockScreenIndex = info.NotificationsInBlockScreenIndex;
+            CurrentPhoneMinute = info.CurrentPhoneMinute;
         }
 
 

@@ -14,13 +14,13 @@ public class StoriesProvider : ScriptableObject
     {
         if (saveData.StoryDatas != null)
         {
-            for (int i = 0; i < _stories.Count; i++)
+            foreach (var story in _stories)
             {
-                for (int j = 0; j < saveData.StoryDatas.Count; j++)
+                foreach (var data in saveData.StoryDatas)
                 {
-                    if (_stories[i].StoryName == saveData.StoryDatas[j].StoryName)
+                    if (story.StoryName == data.StoryName)
                     {
-                        _stories[i].Init(saveData.StoryDatas[j]);
+                        story.Init(data);
                         break;
                     }
                 }
@@ -30,39 +30,38 @@ public class StoriesProvider : ScriptableObject
 
     public void Dispose()
     {
-        for (int i = 0; i < _stories.Count; i++)
+        foreach (var story in _stories)
         {
-            _stories[i].Dispose();
+            story.Dispose();
         }
+        
     }
 
     public int GetIndexByName(string storyName)
     {
         int result = _defaultIndex;
-        for (int i = 0; i < _stories.Count; i++)
+        foreach (var story in _stories)
         {
-            if (_stories[i].StoryName == storyName)
+            if (story.StoryName == storyName)
             {
-                result = i;
                 break;
             }
+            result++;
         }
         return result;
     }
     public void TryUpdateStoryDatas(IReadOnlyList<StoryData> datas)
     {
-        StoryData storyData = null;
-        for (int i = 0; i < datas.Count; i++)
+        foreach (var storyData in datas)
         {
-            storyData = datas[i];
-            for (int j = 0; j < _stories.Count; j++)
+            foreach (var story in _stories)
             {
-                if (storyData.StoryName == _stories[j].StoryName)
+                if (storyData.StoryName == story.StoryName)
                 {
-                    storyData.IsLiked = _stories[i].IsLiked;
-                    storyData.MyIndex = _stories[i].MyIndex;
-                    storyData.StoryName = _stories[i].StoryName;
-                    storyData.StoryStarted = _stories[i].StoryStarted;
+                    storyData.IsLiked = story.IsLiked;
+                    storyData.MyIndex = story.MyIndex;
+                    storyData.StoryName = story.StoryName;
+                    storyData.StoryStarted = story.StoryStarted;
                     break;
                 }
             }

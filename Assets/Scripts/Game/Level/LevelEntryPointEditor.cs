@@ -162,11 +162,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         if (LoadSaveData == true)
         {
             StoryData.PutOnSwimsuitKey = _gameSeriesHandlerEditorMode.PutOnSwimsuitKeyProperty;
-            var result = _gameSeriesHandlerEditorMode.GetInfoToSave();
-            StoryData.CurrentSeriaIndex = result.Item1;
-            StoryData.CurrentNodeGraphIndex = result.Item2;
-            StoryData.CurrentNodeIndex = result.Item3;
-
+            _gameSeriesHandlerEditorMode.GetInfoToSave(StoryData);
+            
             StoryData.Stats.Clear();
             StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
             StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
@@ -178,10 +175,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
-            if (_levelUIProviderEditMode.PhoneUIHandler.PhoneTime?.IsStarted == true)
-            {
-                StoryData.CurrentPhoneMinute = _levelUIProviderEditMode.PhoneUIHandler.PhoneTime.CurrentMinute;
-            }
+            
             _saveData.StoryDatas.Clear();
             _saveData.StoryDatas.Add(StoryData);
             SaveServiceProvider.SaveService.Save(_saveData);

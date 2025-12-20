@@ -48,31 +48,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     }
     public void FillPhoneSaveInfo(StoryData data)
     {
-        data.PhoneSaveDatas = _phoneSaveHandler.GetSaveData(_phones);
-        if (_phoneSaveHandler.PhoneNodeIsActiveKey == true)
-        {
-            data.PhoneNodeIsActiveOnSave = true;
-            data.PhoneScreenIndex = _phoneSaveHandler.GetPhoneScreenIndex;
-            data.DialogContactKey = _phoneSaveHandler.DialogContactKey;
-            data.ReadedContactNodeCaseIndexes = _phoneSaveHandler.ReadedContactNodeCaseIndexes.ToList();
-            data.PhoneContentNodeIndex = _phoneSaveHandler.PhoneContentNodeIndex;
-            data.OnlineContactsKeys = _phoneSaveHandler.OnlineContactsKeys.ToList();
-            data.NotificationsKeys = _phoneSaveHandler.NotificationsKeys.ToList();
-            data.NotificationPressed = _phoneSaveHandler.NotificationPressed;
-            data.NotificationsInBlockScreenIndex = _phoneSaveHandler.NotificationsInBlockScreenIndex;
-        }
-        else
-        {
-            data.PhoneNodeIsActiveOnSave = false;
-            data.NotificationPressed = false;
-            data.PhoneScreenIndex = -1;
-            data.PhoneContentNodeIndex = -1;
-            data.NotificationsInBlockScreenIndex = -1;
-            data.DialogContactKey = null;
-            data.ReadedContactNodeCaseIndexes = null;
-            data.OnlineContactsKeys = null;
-            data.NotificationsKeys = null;
-        }
+        _phoneSaveHandler.FillPhoneSaveInfo(data, _phones);
     }
     public IReadOnlyList<Phone> GetPhones(int currentSeriaIndex)
     {

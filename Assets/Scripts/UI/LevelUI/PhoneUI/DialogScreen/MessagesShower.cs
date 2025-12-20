@@ -61,7 +61,7 @@ public class MessagesShower
         _onMessagesIsOut = onMessagesIsOut;
         _tryShowReactiveCommand.Execute();
     }
-    public void InitFromDialogScreen(string keyPhone, string keyContact, ContactNodeCase contactNodeCase,
+    public void InitFromDialogScreen(string keyPhone, string keyContact, ContactNodeCase contactNodeCase, NodePort nodePort,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
     {
@@ -75,16 +75,15 @@ public class MessagesShower
         _inProgress = false;
         SetDialogToDefaultPos();
         _dialogTransform.sizeDelta = Vector2.zero;
-        var readedMessages = _phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact);
-        TryGenerateFromHistory(readedMessages);
+        TryGenerateFromHistory(_phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact));
 
-        if (contactNodeCase == null)
+        if (contactNodeCase.IsReaded == true)
         {
             _onMessagesIsOut.Invoke();
         }
         else
         {
-            _phoneMessagesExtractor.Init(contactNodeCase.Port);
+            _phoneMessagesExtractor.Init(nodePort);
         }
         
         _tryShowReactiveCommand.Execute();

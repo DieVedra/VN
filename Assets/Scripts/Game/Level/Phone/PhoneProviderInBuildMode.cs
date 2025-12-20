@@ -61,9 +61,9 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
             _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
     }
 
-    public List<PhoneSaveData> GetPhoneSaveData()
+    public void FillPhoneSaveInfo(StoryData data)
     {
-        return _phoneSaveHandler.GetSaveData(_phones);
+        _phoneSaveHandler.FillPhoneSaveInfo(data, _phones);
     }
 
     public void Shutdown()

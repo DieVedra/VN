@@ -15,10 +15,11 @@ public class StoryData
     public bool PutOnSwimsuitKey;
     
     public bool PhoneNodeIsActiveOnSave;
-    public bool NotificationPressed;
+    public bool PhoneNotificationPressed;
     public int PhoneScreenIndex;
     public int PhoneContentNodeIndex;
     public int NotificationsInBlockScreenIndex;
+    public int CurrentPhoneMinute = -1;
     public string DialogContactKey;
     public List<int> ReadedContactNodeCaseIndexes;
     public List<string> OnlineContactsKeys;
@@ -28,7 +29,6 @@ public class StoryData
 
     public int MyIndex;
     public int CustomizableCharacterIndex;
-    public int CurrentPhoneMinute = -1;
     public BackgroundSaveData BackgroundSaveData;
 
     public List<SaveStat> Stats;

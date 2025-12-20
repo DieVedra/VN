@@ -41,8 +41,10 @@ public class GameSeriesHandler : MonoBehaviour
         return SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].nodes[nodeIndex].GetOutputPort(_outputPortName);
     }
 
-    public (int, int, int) GetInfoToSave()
+    public void GetInfoToSave(StoryData data)
     {
-        return (CurrentSeriaIndex, CurrentNodeGraphIndex, SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].NodeIndexToSave);
+        data.CurrentSeriaIndex = CurrentSeriaIndex;
+        data.CurrentNodeGraphIndex = CurrentNodeGraphIndex;
+        data.CurrentNodeIndex = SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].NodeIndexToSave;
     }
 }

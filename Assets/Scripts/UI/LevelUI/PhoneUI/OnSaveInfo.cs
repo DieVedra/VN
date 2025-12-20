@@ -6,6 +6,7 @@ public class OnSaveInfo
     public int GetPhoneScreenIndex;
     public int PhoneContentNodeIndex;
     public int NotificationsInBlockScreenIndex;
+    public int CurrentPhoneMinute;
     public bool NotificationPressed;
     public IReadOnlyList<int> ReadedContactNodeCaseIndexes;
     public IReadOnlyList<string> OnlineContactsKeys;
