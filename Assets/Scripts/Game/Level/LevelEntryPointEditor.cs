@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -151,16 +152,20 @@ public class LevelEntryPointEditor : LevelEntryPoint
     }
     protected override void Shutdown()
     {
+        Save();
         _gameSeriesHandlerEditorMode.Shutdown();
         _levelUIProviderEditMode.Shutdown();
         _wardrobeCharacterViewer.Dispose();
         base.Shutdown();
-        Save();
     }
     private void Save()
     {
         if (LoadSaveData == true)
         {
+            if (StoryData == null)
+            {
+                StoryData = new StoryData();
+            }
             StoryData.PutOnSwimsuitKey = _gameSeriesHandlerEditorMode.PutOnSwimsuitKeyProperty;
             _gameSeriesHandlerEditorMode.GetInfoToSave(StoryData);
             
@@ -175,8 +180,16 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
-            
-            _saveData.StoryDatas.Clear();
+
+            if (_saveData.StoryDatas == null)
+            {
+                _saveData.StoryDatas = new List<StoryData>();
+            }
+            else
+            {
+                _saveData.StoryDatas.Clear();
+            }
+
             _saveData.StoryDatas.Add(StoryData);
             SaveServiceProvider.SaveService.Save(_saveData);
         }

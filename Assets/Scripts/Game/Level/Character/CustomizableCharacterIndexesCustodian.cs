@@ -42,6 +42,9 @@ public class CustomizableCharacterIndexesCustodian
         BufferCurrentClothesIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentClothesIsActive);
         BufferCurrentHairstyleIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentHairstyleIsActive);
         BufferCurrentSwimsuitsIsActiveRP = new BoolReactiveProperty(wardrobeSaveData.BuferCurrentSwimsuitsIsActive);
+        BufferCurrentClothesIndexRP = new ReactiveProperty<int>();
+        BufferCurrentSwimsuitsIndexRP = new ReactiveProperty<int>();
+        BufferCurrentHairstyleIndexRP = new ReactiveProperty<int>();
         NameKey = nameKey;
     }
 

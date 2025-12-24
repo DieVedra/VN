@@ -14,6 +14,7 @@ public class ContactPrintStatusHandler
     private const float _minSymbol = 0f;
     private const float _maxSymbol = 150f;
     private const float _indicateDelay = 0.2f;
+    private const float _delayMultiply = 2f;
     public readonly LocalizationString PrintLocalizationString = "печатает";
     private readonly IReadOnlyList<Image> _printIndicator;
     private readonly GameObject _onlineStatus;
@@ -45,7 +46,7 @@ public class ContactPrintStatusHandler
             _printIndicator[i].gameObject.SetActive(false);
         }
     }
-    public async UniTask IndicateOnPrint(SetLocalizationChangeEvent setLocalizationChangeEvent, int symbolCount)
+    public async UniTask IndicateOnPrint(SetLocalizationChangeEvent setLocalizationChangeEvent, int symbolCount, bool longerKey = false)
     {
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
@@ -60,7 +61,12 @@ public class ContactPrintStatusHandler
         _printStatus.SetActive(true);
         _isRun = true;
         Indicate().Forget();
-        await UniTask.Delay(TimeSpan.FromSeconds(CalculateTime(symbolCount)), cancellationToken: _cancellationTokenSource.Token);
+        float time = CalculateTime(symbolCount);
+        if (longerKey == true)
+        {
+            time *= _delayMultiply;
+        }
+        await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: _cancellationTokenSource.Token);
         _isRun = false;
         _printStatus.SetActive(false);
         if (onlineStatus == true)
@@ -95,6 +101,7 @@ public class ContactPrintStatusHandler
 
     private float CalculateTime(int symbolCount)
     {
-        return Mathf.Lerp(_minTime, _maxTime, Mathf.InverseLerp(_minSymbol, _maxSymbol, symbolCount));
+        float t = Mathf.InverseLerp(_minSymbol, _maxSymbol, symbolCount);
+        return Mathf.Lerp(_minTime, _maxTime, 1 - Mathf.Pow(1 -t, 4)); // t - easeOutQuart formula
     }
 }

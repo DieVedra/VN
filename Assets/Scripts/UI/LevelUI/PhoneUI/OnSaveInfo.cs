@@ -5,7 +5,7 @@ public class OnSaveInfo
     public string DialogContactKey;
     public int GetPhoneScreenIndex;
     public int PhoneContentNodeIndex;
-    public int NotificationsInBlockScreenIndex;
+    public string NotificationsInBlockScreenKey;
     public int CurrentPhoneMinute;
     public bool NotificationPressed;
     public IReadOnlyList<int> ReadedContactNodeCaseIndexes;

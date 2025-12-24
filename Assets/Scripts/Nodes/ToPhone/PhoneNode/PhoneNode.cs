@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -17,7 +18,6 @@ public class PhoneNode : BaseNode, ILocalizable
     [SerializeField] private int _startHour;
     [SerializeField] private int _startMinute;
     [SerializeField] private LocalizationString _date;
-    // [SerializeField] public List<Phone> Phones;
 
     public const string Port = "Port ";
     private List<PhoneContact> _allContacts;
@@ -27,7 +27,6 @@ public class PhoneNode : BaseNode, ILocalizable
     private ChoicePanelUIHandler _choicePanelUIHandler;
     private CustomizationCurtainUIHandler _customizationCurtainUIHandler;
     private ReactiveProperty<bool> _phoneNodeIsActive;
-    private int _seriaIndex;
     private bool _curtainUIHandlerRaycastTargetKey;
     private IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     public IReadOnlyList<Phone> Phones;
@@ -36,7 +35,7 @@ public class PhoneNode : BaseNode, ILocalizable
     public void ConstructMyPhoneNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot,
         IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         PhoneUIHandler phoneUIHandler, CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, ReactiveProperty<bool> phoneNodeIsActive, int seriaIndex)
+        NarrativePanelUIHandler narrativePanelUI, ChoicePanelUIHandler choicePanelUIHandler, ReactiveProperty<bool> phoneNodeIsActive)
     {
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         Phones = phones.ToList();
@@ -44,7 +43,6 @@ public class PhoneNode : BaseNode, ILocalizable
         _customizationCurtainUIHandler = customizationCurtainUIHandler;
         _narrativePanelUI = narrativePanelUI;
         _choicePanelUIHandler = choicePanelUIHandler;
-        _seriaIndex = seriaIndex;
         _contactsToAddInPlot = contactsToAddInPlot;
         _phoneNodeIsActive = phoneNodeIsActive;
         InitAllContacts();
@@ -82,7 +80,7 @@ public class PhoneNode : BaseNode, ILocalizable
         _phoneNodeIsActive.Value = true;
         int siblig = _phoneUIHandler.ConstructFromNode(_phoneNodeCases, _onlineContacts, _notificationsInBlockScreen, 
             Phones[_phoneIndex], SetLocalizationChangeEvent, SwitchToNextNodeEvent, _date, IsPlayMode(),
-            _seriaIndex, _butteryPercent,_startHour, _startMinute, GetIndexBodyCustomizableCharacter(Phones[_phoneIndex].ToCharacterNameKey));
+            _butteryPercent,_startHour, _startMinute, GetIndexBodyCustomizableCharacter(Phones[_phoneIndex].ToCharacterNameKey));
         _customizationCurtainUIHandler.SetCurtainUnderTargetPanel(++siblig);
         _choicePanelUIHandler.SetSibling(++siblig);
         _narrativePanelUI.SetSibling(++siblig);
@@ -209,5 +207,13 @@ public class PhoneNode : BaseNode, ILocalizable
     {
         RemoveDynamicPort(_phoneNodeCases[i].PortName);
         _phoneNodeCases.RemoveAt(i);
+    }
+
+    private void Awake()
+    {
+        if (_phoneNodeCases == null)
+        {
+            _phoneNodeCases = new List<ContactNodeCase>();
+        }
     }
 }

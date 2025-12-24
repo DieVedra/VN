@@ -10,9 +10,11 @@ using XNode;
 
 public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
+    private const float _duration = 1.1f;
     private const float _alphaMin1 = 0.65f;
-    private const float _scaleValueMax = 1.1f;
-    private readonly List<OnlineContactInfo> _sortedOnlineContacts;
+    private const float _scaleValueMax = 1.2f;
+    private readonly Dictionary<string, OnlineContactInfo> _sortedOnlineContacts;
+    private readonly HashSet<string> _unreadebleContacts;
     private readonly PoolBase<MessageView> _incomingMessagePool;
     private readonly PoolBase<MessageView> _outcomingMessagePool;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
@@ -31,12 +33,13 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CancellationTokenSource _cancellationTokenSource;
     public string GetCurrentContactKey => _currentContact.NameLocalizationString.Key;
 
-    public DialogScreenHandler(List<OnlineContactInfo> sortedOnlineContacts, DialogScreenView dialogScreenView, MessagesShower messagesShower,
+    public DialogScreenHandler(Dictionary<string, OnlineContactInfo> sortedOnlineContacts, HashSet<string> unreadebleContacts, DialogScreenView dialogScreenView, MessagesShower messagesShower,
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
         ReactiveCommand switchToContactsScreenCommand)
         :base(dialogScreenView.gameObject, dialogScreenView.GradientImage)
     {
         _sortedOnlineContacts = sortedOnlineContacts;
+        _unreadebleContacts = unreadebleContacts;
         _incomingMessagePool = incomingMessagePool;
         _outcomingMessagePool = outcomingMessagePool;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
@@ -50,7 +53,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
     }
-    public void Enable(PhoneContact contact, ContactNodeCase contactNodeCase, NodePort nodePort, OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
+    public void Enable(PhoneContact contact, ContactNodeCase contactNodeCase, NodePort nodePort,
+        OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _currentContact = contact;
         Screen.SetActive(true);
@@ -66,11 +70,11 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
             {
                 if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
                 {
-                    _sortedOnlineContacts.Remove(onlineContactInfo);
+                    _sortedOnlineContacts.Remove(onlineContactInfo.ContactKey);
                     ChangeOnlineIndicator(null);
                 }
-
                 contactNodeCase.IsReaded = true;
+                _unreadebleContacts.Remove(contact.NameLocalizationString.Key);
                 ActivateBackButton();
             });
     }
@@ -121,8 +125,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
             _switchToContactsScreenCommand.Execute();
         });
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
-        _backArrowImage.DOFade(AlphaMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
-        _backArrowImage.transform.DOScale(_scaleValueMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
+        _backArrowImage.DOFade(AlphaMax, _duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
+        _backArrowImage.transform.DOScale(_scaleValueMax, _duration).SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(_cancellationTokenSource.Token);
     }
     private void SetTexts()
     {

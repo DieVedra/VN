@@ -9,7 +9,6 @@ public class PhoneMessagesExtractor
 	private Node _nextNode;
 	private Node _nodeToSave;
 	private CancellationTokenSource _cancellationTokenSource;
-	private PhoneMessage _phoneMessage;
 	public bool MessagesIsOut { get; private set; }
 
 	public PhoneMessagesExtractor(ReactiveCommand tryShowNextReactiveCommand)
@@ -19,19 +18,20 @@ public class PhoneMessagesExtractor
 
 	public void Init(NodePort nodePort)
 	{
-		if (_phoneMessage == null)
-		{
-			_phoneMessage = new PhoneMessage();
-		}
-		_phoneMessage.IsReaded = false;
-		_phoneMessage.TextMessage = null;
-		MessagesIsOut = false;
 		_nodeToSave = _nextNode = nodePort.Connection.node;
+		MessagesIsOut = false;
 	}
 
 	public int GetCurrentNodeIndex()
 	{
-		return _nodeToSave.graph.nodes.IndexOf(_nodeToSave);
+		if (_nodeToSave == null)
+		{
+			return PhoneSaveHandler.NoneIndex;
+		}
+		else
+		{
+			return _nodeToSave.graph.nodes.IndexOf(_nodeToSave);
+		}
 	}
 	public void Shutdown()
 	{
@@ -47,9 +47,8 @@ public class PhoneMessagesExtractor
 				_cancellationTokenSource = new CancellationTokenSource();
 				await UniTask.WaitUntil(() => choicePhoneNode.IsOver == true, cancellationToken: _cancellationTokenSource.Token);
 				_nodeToSave = _nextNode = choicePhoneNode.GetNextNode();
-				choicePhoneNode.SetMessage(_phoneMessage);
 				_tryShowNextReactiveCommand.Execute();
-				return _phoneMessage;
+				return choicePhoneNode.GetMessage();
 
 			case PhoneSwitchNode phoneSwitchNode:
 				_nodeToSave = _nextNode.GetPort(GameSeriesHandler.InputPortName).Connection.node;
@@ -78,9 +77,6 @@ public class PhoneMessagesExtractor
 			case PhoneMessageNode phoneMessageNode:
 				_nodeToSave = _nextNode;
 				_nextNode = phoneMessageNode.GetNextNode();
-				SetMessage(phoneMessageNode);
-				
-				
 				if (_nextNode is EndNode)
 				{
 					_tryShowNextReactiveCommand.Execute();
@@ -100,7 +96,7 @@ public class PhoneMessagesExtractor
 				{
 					_tryShowNextReactiveCommand.Execute();
 				}
-				return _phoneMessage;
+				return GetMessage(phoneMessageNode);
 			
 			case NotificationNode notificationNode:
 				_nodeToSave = _nextNode.GetPort(GameSeriesHandler.InputPortName).Connection.node;
@@ -116,10 +112,13 @@ public class PhoneMessagesExtractor
 		return default;
 	}
 
-	private void SetMessage(PhoneMessageNode phoneMessageNode)
+	private PhoneMessage GetMessage(PhoneMessageNode phoneMessageNode)
 	{
-		_phoneMessage.TextMessage = phoneMessageNode.GetLocalizationString;
-		_phoneMessage.MessageType = phoneMessageNode.Type;
-		_phoneMessage.IsReaded = phoneMessageNode.IsReaded;
+		return new PhoneMessage
+		{
+			TextMessage = phoneMessageNode.GetLocalizationString,
+			MessageType = phoneMessageNode.Type,
+			IsReaded = phoneMessageNode.IsReaded
+		};
 	}
 }

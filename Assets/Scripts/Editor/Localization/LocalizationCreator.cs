@@ -7,6 +7,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEditor;
+using XNode;
 using Object = UnityEngine.Object;
 
 
@@ -33,23 +34,11 @@ public class LocalizationCreator : ScriptableObject
         {
             foreach (var seria in _seriaForCreateFileLocalization.SeriaPartNodeGraphs)
             {
-                for (int i = 0; i < seria.nodes.Count; i++)
+                foreach (var t in seria.nodes)
                 {
-                    if (seria.nodes[i] is ILocalizable localizable)
+                    if (t is ILocalizable localizable)
                     {
                         seriaStrings.AddRange(localizable.GetLocalizableContent());
-                    }
-
-                    if (seria.nodes[i] is CharacterNode characterNode)
-                    {
-                        if (characterNode.Characters == null)
-                        {
-                            Debug.Log($"characterNode null {characterNode.graph.name}");
-                        }
-                        foreach (var character in characterNode.Characters)
-                        {
-                            seriaStrings.Add(character.Name);
-                        }
                     }
                 }
             }
@@ -57,9 +46,9 @@ public class LocalizationCreator : ScriptableObject
 
         if (_phoneContactsProvider != null)
         {
-            for (int i = 0; i < _phoneContactsProvider.PhoneContacts.Count; i++)
+            foreach (var t in _phoneContactsProvider.PhoneContacts)
             {
-                seriaStrings.Add(_phoneContactsProvider.PhoneContacts[i].NameLocalizationString);
+                seriaStrings.Add(t.NameLocalizationString);
             }
         }
         
@@ -70,6 +59,7 @@ public class LocalizationCreator : ScriptableObject
     {
         string file = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
         File.WriteAllText(newPath, file);
+        Debug.Log($"Localization File Created: {newPath}");
         AssetDatabase.Refresh();
     }
 

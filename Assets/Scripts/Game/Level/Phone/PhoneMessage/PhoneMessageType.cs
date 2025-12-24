@@ -1,5 +1,5 @@
 ﻿
 public enum PhoneMessageType
 {
-    Incoming = 0, Outcoming = 1
+    Incoming = 0, Outcoming = 1, None = 2
 }

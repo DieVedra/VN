@@ -138,8 +138,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     private void OnApplicationQuit()
     {
-        Shutdown();
         Save();
+        Shutdown();
     }
 
     protected override void InitBackground()

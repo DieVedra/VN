@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
 public class PhoneTime
 {
     private const string _separ1 = ":";
+    private const string _minuteFormat = "0";
+    private const int _minuteFormatMax = 10;
     private const float _delay = 60f;
     private const int _lastMinute = 59;
     private const int _maxMinute = 60;
     private const int _firstMinute = 0;
+    private StringBuilder _stringBuilder = new StringBuilder();
     private CancellationTokenSource _cancellationTokenSource;
     private int _currentHour;
     public int CurrentMinute { get; private set; }
@@ -16,7 +20,15 @@ public class PhoneTime
     
     public string GetCurrentTime()
     {
-        return $"{_currentHour.ToString()}{_separ1}{CurrentMinute.ToString()}";
+        _stringBuilder.Clear();
+        _stringBuilder.Append(_currentHour);
+        _stringBuilder.Append(_separ1);
+        if (CurrentMinute < _minuteFormatMax)
+        {
+            _stringBuilder.Append(_minuteFormat);
+        }
+        _stringBuilder.Append(CurrentMinute);
+        return _stringBuilder.ToString();
     }
 
     public void Restart(int startMinute)

@@ -168,7 +168,7 @@ public class NodeGraphInitializer
                     _customizableCharacterIndexesCustodians,
                     _levelUIProvider.PhoneUIHandler,
                     _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
-                    _levelUIProvider.ChoicePanelUIHandler, _phoneNodeIsActive, seriaIndex);
+                    _levelUIProvider.ChoicePanelUIHandler, _phoneNodeIsActive);
                 return;
             
             case ChangeStatsNode changeStatsNode:

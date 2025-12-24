@@ -6,6 +6,7 @@ public class NotificationView : MonoBehaviour
 {
     [SerializeField] private Button _button;
     [SerializeField] private Image _icon;
+    [SerializeField] private Image _onlineIndicator;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private TextMeshProUGUI _textIcon;
     [SerializeField] private TextMeshProUGUI _nameText;
@@ -13,6 +14,7 @@ public class NotificationView : MonoBehaviour
 
     public Button Button => _button;
     public Image Icon => _icon;
+    public Image OnlineIndicator => _onlineIndicator;
     public RectTransform RectTransform => _rectTransform;
     public TextMeshProUGUI TextIcon => _textIcon;
     public TextMeshProUGUI NameText => _nameText;

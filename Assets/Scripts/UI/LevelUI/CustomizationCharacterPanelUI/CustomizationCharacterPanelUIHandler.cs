@@ -105,10 +105,10 @@ public class CustomizationCharacterPanelUIHandler
         (int,int) prices = (0,0);
         foreach (var settings in selectedCustomizationContentIndexes.IndexesSpriteIndexes)
         {
-            for (int i = 0; i < settings.Count; i++)
+            foreach (var t in settings)
             {
-                prices.Item1 += settings[i].Price;
-                prices.Item2 += settings[i].PriceAdditional;
+                prices.Item1 += t.Price;
+                prices.Item2 += t.PriceAdditional;
             }
         }
         return resourcesViewModeCalculator.CalculateResourcesViewMode(prices);

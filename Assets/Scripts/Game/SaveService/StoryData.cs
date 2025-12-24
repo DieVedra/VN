@@ -18,7 +18,7 @@ public class StoryData
     public bool PhoneNotificationPressed;
     public int PhoneScreenIndex;
     public int PhoneContentNodeIndex;
-    public int NotificationsInBlockScreenIndex;
+    public string NotificationsInBlockScreenKey;
     public int CurrentPhoneMinute = -1;
     public string DialogContactKey;
     public List<int> ReadedContactNodeCaseIndexes;

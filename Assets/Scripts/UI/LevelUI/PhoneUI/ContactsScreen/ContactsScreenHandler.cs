@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
 {
+    private const float _duration = 1.1f;
     private const int _minContactsCount = 8;
     private readonly ContactsShower _contactsShower;
     private readonly ReactiveCommand<PhoneContact> _switchToDialogScreenCommand;
@@ -29,7 +30,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CancellationTokenSource _cancellationTokenSource;
     private readonly ScrollRect _scrollRect;
     private HashSet<string> _unreadebleContacts;
-    public ContactsScreenHandler(ScrollRect scrollRect, HashSet<string> unreadebleContacts, ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower, TopPanelHandler topPanelHandler,
+    public ContactsScreenHandler(ScrollRect scrollRect, HashSet<string> unreadebleContacts, ContactsScreenView contactsScreenViewBackground, ContactsShower contactsShower,
         ReactiveCommand<PhoneContact> switchToDialogScreenCommand, PoolBase<ContactView> contactsPool)
         :base(contactsScreenViewBackground.gameObject, contactsScreenViewBackground.ImageBackground)
     {
@@ -82,7 +83,7 @@ public class ContactsScreenHandler : PhoneScreenBaseHandler, ILocalizable
             _buttonExit.onClick.RemoveAllListeners();
             _switchToNextNodeEvent.Execute();
         });
-        _buttonExitCanvasGroup.DOFade(AlphaMax, Duration).SetLoops(LoopsCount, LoopType.Yoyo)
+        _buttonExitCanvasGroup.DOFade(AlphaMax, _duration).SetLoops(LoopsCount, LoopType.Yoyo)
             .WithCancellation(_cancellationTokenSource.Token);
     }
     private void SetTexts()

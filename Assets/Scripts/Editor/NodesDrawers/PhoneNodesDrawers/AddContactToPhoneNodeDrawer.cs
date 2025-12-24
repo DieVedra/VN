@@ -20,36 +20,49 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
         if (_addContactToPhoneNode == null)
         {
             _addContactToPhoneNode = target as AddContactToPhoneNode;
+            _phoneIndexSerializableProperty = serializedObject.FindProperty("_phoneIndex");
+            _contactIndexSerializableProperty = serializedObject.FindProperty("_contactIndex");
+            _addContactSerializableProperty = serializedObject.FindProperty("_addContact");
+            _inputSerializableProperty = serializedObject.FindProperty("Input");
+            _outputSerializableProperty = serializedObject.FindProperty("Output");
+            _showNotificationKeySerializableProperty = serializedObject.FindProperty("_showNotificationKey");
         }
         else
         {
-            if (_phoneIndexSerializableProperty == null)
-            {
-                _phoneIndexSerializableProperty = serializedObject.FindProperty("_phoneIndex");
-                _contactIndexSerializableProperty = serializedObject.FindProperty("_contactIndex");
-                _addContactSerializableProperty = serializedObject.FindProperty("_addContact");
-                _inputSerializableProperty = serializedObject.FindProperty("Input");
-                _outputSerializableProperty = serializedObject.FindProperty("Output");
-                _showNotificationKeySerializableProperty = serializedObject.FindProperty("_showNotificationKey");
-            }
+            serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputSerializableProperty);
             NodeEditorGUILayout.PropertyField(_outputSerializableProperty);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Add contact: ", GUILayout.Width(100f));
+            EditorGUI.BeginChangeCheck();
             _addContactSerializableProperty.boolValue = EditorGUILayout.Toggle(_addContactSerializableProperty.boolValue);
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
             EditorGUILayout.EndHorizontal();
             if (_addContactSerializableProperty.boolValue == true)
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Show notification: ", GUILayout.Width(100f));
+                EditorGUI.BeginChangeCheck();
                 _showNotificationKeySerializableProperty.boolValue = EditorGUILayout.Toggle(_showNotificationKeySerializableProperty.boolValue);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
                 EditorGUILayout.EndHorizontal();
                 if (_addContactToPhoneNode.Phones != null && _addContactToPhoneNode.Phones.Count > 0)
                 {
                     InitNamesPhones();
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("To Phone: ", GUILayout.Width(100f));
+                    EditorGUI.BeginChangeCheck();
                     _phoneIndexSerializableProperty.intValue = EditorGUILayout.Popup(_phoneIndexSerializableProperty.intValue, _namesPhones,  GUILayout.Width(80f));
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                    }
                     EditorGUILayout.EndHorizontal();
                 }
 
@@ -58,7 +71,12 @@ public class AddContactToPhoneNodeDrawer : NodeEditor
                     InitNamesContacts();
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Contact: ", GUILayout.Width(100f));
+                    EditorGUI.BeginChangeCheck();
                     _contactIndexSerializableProperty.intValue = EditorGUILayout.Popup(_contactIndexSerializableProperty.intValue, _namesContacts,  GUILayout.Width(80f));
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                    }
                     EditorGUILayout.EndHorizontal();
                 }
             }

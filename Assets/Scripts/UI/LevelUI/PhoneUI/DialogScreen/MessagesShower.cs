@@ -12,6 +12,7 @@ public class MessagesShower
     private const float _startPositionY = 0f;
     private const float _offset = 30f;
     private const float _multiplier = 1.6f;
+    private const float _sizeYDefault = 93.5f;
     private readonly float _contentStartPosY;
     private Vector2 _size;
     private PoolBase<MessageView> _incomingMessagePool;
@@ -30,10 +31,12 @@ public class MessagesShower
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
     private CompositeDisposable _compositeDisposable;
+    private PhoneMessageType _previousMessageType;
     private string _keyPhone;
     private string _keyContact;
     private Action _onMessagesIsOut;
     private bool _inProgress;
+
     public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
         PhoneMessagesExtractor phoneMessagesExtractor, PhoneMessagesCustodian phoneMessagesCustodian, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
     {
@@ -65,6 +68,7 @@ public class MessagesShower
         PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
     {
+        _previousMessageType = PhoneMessageType.None;
         _keyPhone = keyPhone;
         _keyContact = keyContact;
         _onMessagesIsOut = onMessagesIsOut;
@@ -79,10 +83,12 @@ public class MessagesShower
 
         if (contactNodeCase.IsReaded == true)
         {
+            Debug.Log(1);
             _onMessagesIsOut.Invoke();
         }
         else
         {
+            Debug.Log(2);
             _phoneMessagesExtractor.Init(nodePort);
         }
         
@@ -103,7 +109,7 @@ public class MessagesShower
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
-        _readDialogButton.Shutdown();
+        _readDialogButton.Disable();
     }
 
     private async UniTask TryShowAll(Func<UniTask> operation)
@@ -133,13 +139,23 @@ public class MessagesShower
 
                     if (phoneMessage.IsReaded == false)
                     {
-                        await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length);
+                        if (_previousMessageType == PhoneMessageType.Incoming)
+                        {
+                            await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length, true);
+                        }
+                        else
+                        {
+                            await _contactPrintStatusHandler.IndicateOnPrint(_setLocalizationChangeEvent, phoneMessage.TextMessage.DefaultText.Length);
+                        }
                     }
                     SetIncomingMessage(phoneMessage);
                     break;
             }
+
+            _previousMessageType = phoneMessage.MessageType;
         }
 
+        
         if (_phoneMessagesExtractor.MessagesIsOut == false)
         {
             if (_queueShowMessages.Count == 0)
@@ -172,11 +188,11 @@ public class MessagesShower
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
             view.Text.text = phoneMessage.TextMessage;
-            ResizePanel(view);
+            ResizePanel(view, phoneMessage);
         }, _compositeDisposable);
         view.gameObject.SetActive(true);
         
-        ResizePanel(view);
+        ResizePanel(view, phoneMessage);
         
         _startPosition.x = view.ViewRectTransform.anchoredPosition.x;
         float sizeDeltaY = view.ImageRectTransform.sizeDelta.y;
@@ -184,7 +200,7 @@ public class MessagesShower
         _startPosition.y = _startPositionY + offset;
         
         view.ViewRectTransform.anchoredPosition = _startPosition;
-        
+
         for (int i = 0; i < _messageViewed.Count; i++)
         {
             _pos.x = _messageViewed[i].ViewRectTransform.anchoredPosition.x;
@@ -192,9 +208,9 @@ public class MessagesShower
             _messageViewed[i].ViewRectTransform.anchoredPosition = _pos;
         }
 
-        _phoneMessagesCustodian.AddMessageHistory(_keyPhone, _keyContact, phoneMessage);
         if (addToMessageHistoryKey)
         {
+            _phoneMessagesCustodian.AddMessageHistory(_keyPhone, _keyContact, phoneMessage);
             IncreaseDialogTransform(offset);
         }
 
@@ -208,12 +224,19 @@ public class MessagesShower
         _dialogTransform.sizeDelta = _pos;
     }
 
-    private void ResizePanel(MessageView view)
+    private void ResizePanel(MessageView view, PhoneMessage message)
     {
-        view.Text.ForceMeshUpdate();
-        _size = view.Text.GetRenderedValues(true);
+        if (message.TextMessage.DefaultText != null)
+        {
+            view.Text.ForceMeshUpdate();
+            _size = view.Text.GetRenderedValues(true);
+            _size.y = _size.y + view.Text.fontSize * _multiplier;
+        }
+        else
+        {
+            _size.y = _sizeYDefault;
+        }
         _size.x = view.ImageRectTransform.sizeDelta.x;
-        _size.y = _size.y + view.Text.fontSize * _multiplier;
         view.ImageRectTransform.sizeDelta = _size;
     }
 
@@ -221,9 +244,13 @@ public class MessagesShower
     {
         if (_readDialogButton.IsActive == false)
         {
+            Debug.Log($"SubscribeReadButton");
+
             _readDialogButton.Enable(() =>
             {
-                _readDialogButton.Shutdown();
+                Debug.Log($"_readDialogButton Press");
+
+                _readDialogButton.Disable();
                 _tryShowReactiveCommand.Execute();
             });
         }

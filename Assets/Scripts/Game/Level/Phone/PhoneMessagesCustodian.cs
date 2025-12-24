@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+
 // public void Cleanup() { /* очистка */ }
 // public void Release() { /* освобождение */ }
 // public void Destroy() { /* уничтожение */ }
@@ -43,9 +45,8 @@ public class PhoneMessagesCustodian : ILocalizable
         {
             key = data.PhoneNameKey;
             AddPhoneHistory(key);
-            if (_phonesMessageHistory.ContainsKey(key) == false)
+            if (_phonesMessageHistory.TryGetValue(key, out var dictionary))
             {
-                var dictionary = new Dictionary<string, List<PhoneMessage>>();
                 List<PhoneMessage> list;
                 foreach (var pair in data.MessageHistory)
                 {
@@ -58,12 +59,14 @@ public class PhoneMessagesCustodian : ILocalizable
                             MessageType = (PhoneMessageType) saveMessage.MessageTypeIndex,
                             IsReaded = true
                         };
-
                         list.Add(message);
                     }
                     dictionary.Add(pair.Key, list);
                 }
-                _phonesMessageHistory.Add(key, dictionary);
+            }
+            else
+            {
+                
             }
         }
     }
@@ -82,16 +85,7 @@ public class PhoneMessagesCustodian : ILocalizable
         {
             if (_phonesMessageHistory[phoneKey].ContainsKey(contactKey))
             {
-                if (_phonesMessageHistory[phoneKey][contactKey] == null)
-                {
-                    var newList = new List<PhoneMessage>();
-                    newList.Add(phoneMessage);
-                    _phonesMessageHistory[phoneKey][contactKey] = newList;
-                }
-                else
-                {
-                    _phonesMessageHistory[phoneKey][contactKey].Add(phoneMessage);
-                }
+                _phonesMessageHistory[phoneKey][contactKey].Add(phoneMessage);
             }
             else
             {

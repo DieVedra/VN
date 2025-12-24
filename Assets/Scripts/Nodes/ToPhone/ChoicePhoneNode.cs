@@ -29,10 +29,12 @@ public class ChoicePhoneNode : ChoiceNode
         }
     }
 
-    public void SetMessage(PhoneMessage phoneMessage)
+    public PhoneMessage GetMessage()
     {
-        phoneMessage.TextMessage = _choiceCases[_resultCaseIndex].GetLocalizationString();
-        phoneMessage.MessageType = PhoneMessageType.Outcoming;
+        return new PhoneMessage(){
+            TextMessage = _choiceCases[_resultCaseIndex].GetLocalizationString(),
+            MessageType = PhoneMessageType.Outcoming
+        };
     }
     public override async UniTask Enter(bool isMerged = false)
     {

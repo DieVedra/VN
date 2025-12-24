@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -7,11 +11,15 @@ using XNode;
 
 public class BlockScreenHandler : PhoneScreenBaseHandler
 {
+    private const float _scaleValueMax = 1.02f;
+    private const float _scaleAnimationDelay = 0.5f;
+    private const float _duration = 1.5f;
     private const float _startPosX = 0f;
     private const float _startPosY = 360f;
     private const float _offsetY = 260f;
     private readonly ReactiveCommand<PhoneContact> _switchToDialogScreenCommand;
     private readonly ReactiveCommand _switchToContactsScreenCommand;
+    private readonly Predicate<string> _getOnlineStatus;
     public readonly TextMeshProUGUI Time;
     public readonly TextMeshProUGUI Date;
     private readonly Button _blockScreenButton;
@@ -21,18 +29,20 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private CompositeDisposable _compositeDisposable;
     private LocalizationString _dateLocStr;
     private PoolBase<NotificationView> _notificationViewPool;
-    private IReadOnlyList<NotificationContactInfo> _notificationsInBlockScreen;
+    private Dictionary<string, NotificationContactInfo> _notificationsInBlockScreen;
     private Vector2 _nextPos = new Vector2();
     public bool NotificationPressed { get; private set; }
-    public int NotificationsInBlockScreenIndex { get; private set; }
-    public BlockScreenHandler(MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, TopPanelHandler topPanelHandler, PoolBase<NotificationView> notificationViewPool,
-        ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand)
+    public string NotificationsInBlockScreenKey { get; private set; }
+    public BlockScreenHandler(Dictionary<string, NotificationContactInfo> notificationsInBlockScreen, MessagesShower messagesShower, BlockScreenView blockScreenViewBackground, PoolBase<NotificationView> notificationViewPool,
+        ReactiveCommand<PhoneContact> switchToDialogScreenCommand, LocalizationString notificationTextLocalizationString, ReactiveCommand switchToContactsScreenCommand, Predicate<string> getOnlineStatus)
     :base(blockScreenViewBackground.gameObject, blockScreenViewBackground.ImageBackground)
     {
+        _notificationsInBlockScreen = notificationsInBlockScreen;
         _messagesShower = messagesShower;
         _notificationViewPool = notificationViewPool;
         _switchToDialogScreenCommand = switchToDialogScreenCommand;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
+        _getOnlineStatus = getOnlineStatus;
         Time = blockScreenViewBackground.Time;
         Date = blockScreenViewBackground.Data;
         _blockScreenButton = blockScreenViewBackground.BlockScreenButton;
@@ -42,21 +52,22 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         NotificationPressed = false;
     }
     
-    public void Enable(IReadOnlyList<NotificationContactInfo> notificationsInBlockScreen,
-        PhoneTime phoneTime, Phone phone, LocalizationString date,
-        SetLocalizationChangeEvent setLocalizationChangeEvent, bool playModeKey, NodePort portFromSave, bool notificationPressed, int notificationsInBlockScreenIndex)
+    public void Enable(PhoneTime phoneTime, Phone phone, LocalizationString date,
+        SetLocalizationChangeEvent setLocalizationChangeEvent, NodePort portFromSave, bool playModeKey,
+        bool notificationPressed, string notificationsInBlockScreenKey)
     {
-        NotificationsInBlockScreenIndex = notificationsInBlockScreenIndex;
+        NotificationsInBlockScreenKey = notificationsInBlockScreenKey;
         _nextPos.x = _startPosX;
         _nextPos.y = _startPosY;
         _dateLocStr = date;
-        _notificationsInBlockScreen = notificationsInBlockScreen;
         _imageBackground.sprite = phone.Background;
         _compositeDisposable = new CompositeDisposable();
         NotificationPressed = notificationPressed;
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetDateText, _compositeDisposable);
         Screen.SetActive(true);
         TrySetTime(phoneTime, playModeKey);
+        CancellationTokenSource = new CancellationTokenSource();
+
         if (TryShowNotifications(setLocalizationChangeEvent) == false)
         {
             TryActivateBlockScreen();
@@ -71,8 +82,8 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
 
         if (notificationPressed == true)
         {
-            var info = _notificationsInBlockScreen[notificationsInBlockScreenIndex];
-            _messagesShower.InitFromBlockScreen(portFromSave, () =>
+            var info = _notificationsInBlockScreen[NotificationsInBlockScreenKey];
+            _messagesShower.InitFromBlockScreen(portFromSave.node.GetInputPort(GameSeriesHandler.InputPortName).Connection, () =>
             {
                 _switchToDialogScreenCommand.Execute(info.Contact);
             } );
@@ -86,16 +97,16 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         bool result = false;
         if (_notificationsInBlockScreen != null && _notificationsInBlockScreen.Count > 0)
         {
-            for (int i = 0; i < _notificationsInBlockScreen.Count; i++)
+            foreach (var pair in _notificationsInBlockScreen)
             {
-                CreateNotification(_notificationsInBlockScreen[i], setLocalizationChangeEvent, i);
+                CreateNotification(pair.Value, setLocalizationChangeEvent);
                 result = true;
             }
         }
         return result;
     }
 
-    private void CreateNotification(NotificationContactInfo notificationContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent, int index)
+    private void CreateNotification(NotificationContactInfo notificationContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         PhoneContact contact = notificationContactInfo.Contact;
         var notificationView = _notificationViewPool.Get();
@@ -110,7 +121,15 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
         {
             notificationView.TextIcon.gameObject.SetActive(false);
         }
-        
+
+        if (_getOnlineStatus.Invoke(notificationContactInfo.ContactKey))
+        {
+            notificationView.OnlineIndicator.gameObject.SetActive(true);
+        }
+        else
+        {
+            notificationView.OnlineIndicator.gameObject.SetActive(false);
+        }
         SetTexts();
         setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTexts, _compositeDisposable);
         if (NotificationPressed == false)
@@ -119,13 +138,14 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
             {
                 CancellationTokenSource?.Cancel();
                 CancellationTokenSource = null;
-                for (int i = 0; i < _notificationViewPool.ActiveContent.Count; i++)
+                
+                foreach (var t in _notificationViewPool.ActiveContent)
                 {
-                    _notificationViewPool.ActiveContent[i].Button.onClick.RemoveAllListeners();
+                    t.Button.onClick.RemoveAllListeners();
                 }
                 if (notificationContactInfo.Port.IsConnected)
                 {
-                    NotificationsInBlockScreenIndex = index;
+                    NotificationsInBlockScreenKey = notificationContactInfo.ContactKey;
                     NotificationPressed = true;
                     _messagesShower.InitFromBlockScreen(notificationContactInfo.Port, () =>
                     {
@@ -186,5 +206,19 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
     private void SetDateText()
     {
         Date.text = _dateLocStr;
+    }
+
+    private void StartScaleAnimation<T>(IReadOnlyList<T> activeContent) where T : MonoBehaviour
+    {
+        if (activeContent.Count > 0)
+        {
+            float delay = _startPosX;
+            foreach (var content in activeContent)
+            {
+                content.transform.DOScale(_scaleValueMax, _duration).SetDelay(delay)
+                    .SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(CancellationTokenSource.Token);
+                delay += _scaleAnimationDelay;
+            }
+        }
     }
 }
