@@ -20,13 +20,11 @@ public class PhoneCreator
     
     public List<Phone> CreatePhonesOnStart(int currentSeriaIndex, bool isRuntime = true)
     {
-        PhoneProvider phoneProvider;
         Phone phone;
         List<Phone> phones = new List<Phone>();
-        for (int i = 0; i < _phoneProviders.Count; i++)
+        foreach (var phoneProvider in _phoneProviders)
         {
-            phoneProvider = _phoneProviders[i];
-            if (phoneProvider.SeriaIndex <= currentSeriaIndex)
+            if (phoneProvider != null && phoneProvider.SeriaIndex <= currentSeriaIndex)
             {
                 for (int j = 0; j < phoneProvider.Phone.Count; j++)
                 {

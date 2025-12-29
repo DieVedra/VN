@@ -8,7 +8,6 @@ using UnityEngine;
 public class ChangeStatsNode : BaseNode
 {
     [SerializeField] private List<BaseStat> _stats;
-    [SerializeField] private bool _showKey;
     private IGameStatsProvider _gameStatsProvider;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
     public IReadOnlyList<ILocalizationString> BaseStatsLocalizations => _stats;

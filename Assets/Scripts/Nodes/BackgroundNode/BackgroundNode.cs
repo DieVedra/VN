@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-[NodeTint("#DB620A")]
+[NodeWidth(350),NodeTint("#DB620A")]
 public class BackgroundNode : BaseNode
 {
     [SerializeField] private BackgroundNodeMode _backgroundNodeMode;

@@ -105,6 +105,12 @@ public class PhoneMessagesExtractor
 				_tryShowNextReactiveCommand.Execute();
 				break;
 			
+			case ChangeStatsNode changeStatsNode:
+				changeStatsNode.Enter().Forget();
+				_nodeToSave = _nextNode = changeStatsNode.GetNextNode();
+				_tryShowNextReactiveCommand.Execute();
+				break;
+			
 			case EndNode endNode:
 				MessagesIsOut = true;
 				break;

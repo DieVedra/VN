@@ -7,20 +7,19 @@ using XNodeEditor;
 public class ChangeStatsNodeDrawer : NodeEditor
 {
     private ChangeStatsNode _changeStatsNode;
-    private SerializedProperty _showKeyProperty;
     private SerializedProperty _statsProperty;
     private SerializedProperty _statProperty;
     private SerializedProperty _valueProperty;
     private SerializedProperty _notificationKeyProperty;
     private SerializedProperty _inputPortProperty;
     private SerializedProperty _outputPortProperty;
+    private bool _showKey;
 
     public override void OnBodyGUI()
     {
         if (_changeStatsNode == null)
         {
             _changeStatsNode = target as ChangeStatsNode;
-            _showKeyProperty = serializedObject.FindProperty("_showKey");
             _statsProperty = serializedObject.FindProperty("_stats");
             _inputPortProperty = serializedObject.FindProperty("Input");
             _outputPortProperty = serializedObject.FindProperty("Output");
@@ -30,8 +29,8 @@ public class ChangeStatsNodeDrawer : NodeEditor
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             NodeEditorGUILayout.PropertyField(_outputPortProperty);
-            _showKeyProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_showKeyProperty.boolValue, "Settings");
-            if (_showKeyProperty.boolValue)
+            _showKey = EditorGUILayout.BeginFoldoutHeaderGroup(_showKey, "Settings");
+            if (_showKey)
             {
                 DrawStats(_changeStatsNode.BaseStatsLocalizations);
             }

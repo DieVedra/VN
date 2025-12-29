@@ -50,7 +50,7 @@ public class PhoneContactsHandler
         _dictionary.Clear();
         foreach (var contactsProvider in _contactsToSeriaProviders)
         {
-            if (checkOperation.Invoke(contactsProvider.SeriaIndex, seriaIndex))
+            if (contactsProvider != null && checkOperation.Invoke(contactsProvider.SeriaIndex, seriaIndex))
             {
                 foreach (var phoneContact in contactsProvider.PhoneContacts)
                 {

@@ -28,6 +28,10 @@ public class BackgroundNodeDrawer : NodeEditor
     private SerializedProperty _awaitedSetColorOverlayBackgroundSerializedProperty;
     private MyProject.EnumPopupDrawer _enumPopupDrawer;
     private LineDrawer _lineDrawer;
+    private bool _discriptionKey;
+    private string _discriptionText1 = $"Mode1: Изменение фона с положением";
+    private string _discriptionText2 = $"Mode2: Плавное перетекание фона в другой";
+    private string _discriptionText3 = $"Mode3: Плавное изменение цвета фона";
     public override void OnBodyGUI()
     {
         if (_backgroundNode == null)
@@ -62,6 +66,15 @@ public class BackgroundNodeDrawer : NodeEditor
             NodeEditorGUILayout.PropertyField(_outputPortSerializedProperty);
 
             _enumPopupDrawer.DrawEnumPopup<BackgroundNodeMode>(_backgroundNodeModeSerializedProperty, "Current Mode: ");
+
+            _discriptionKey = EditorGUILayout.Foldout(_discriptionKey, "Discription:");
+            if (_discriptionKey)
+            {
+                EditorGUILayout.LabelField(_discriptionText1);
+                EditorGUILayout.LabelField(_discriptionText2);
+                EditorGUILayout.LabelField(_discriptionText3);
+            }
+            // EditorGUILayout
             _lineDrawer.DrawHorizontalLine(Color.green);
             switch (_backgroundNodeModeSerializedProperty.enumValueIndex)
             {
