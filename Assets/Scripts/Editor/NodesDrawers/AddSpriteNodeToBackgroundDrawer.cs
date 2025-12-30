@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -14,35 +15,59 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
     private SerializedProperty _serializedPropertyIndexBackground;
     private SerializedProperty _serializedPropertyInputPort;
     private SerializedProperty _serializedPropertyOutputPort;
-    
+
     private SerializedProperty _addToBackgroundProperty;
     private SerializedProperty _removeFromBackgroundProperty;
     private SerializedProperty _indexRemoveSpriteProperty;
     private SerializedProperty _indexBackgroundToRemoveProperty;
-    private string[] _namesSpritesToPopup;
-    private string[] _namesBackgroundToPopup;
-    private bool _initPopupInFrame;
+
+    private SerializedProperty _serializedPropertyKeySprite;
+    private SerializedProperty _serializedPropertyKeyBackground;
+    private SerializedProperty _keyRemoveSpriteProperty;
+    private SerializedProperty _keyBackgroundToRemoveProperty;
+    
+    private int _currentIndexSprite;
+    private int _currentIndexBackground;
+    private int _currentIndexRemoveSprite;
+    private int _currentIndexRemoveBackground;
+    
+    private int _indexSprite;
+    private int _indexBackground;
+    private int _indexRemoveSprite;
+    private int _indexRemoveBackground;
+    private List<string> _namesBackgroundToPopup;
+    private List<string> _namesSpritesToPopup;
+
     public override void OnBodyGUI()
     {
-        _addSpriteNodeToBackground = target as AddSpriteNodeToBackground;
-        if (_addSpriteNodeToBackground != null)
+        if (_addSpriteNodeToBackground == null)
         {
-            _initPopupInFrame = false;
+            _addSpriteNodeToBackground = target as AddSpriteNodeToBackground;
+            _serializedPropertyInputPort = serializedObject.FindProperty("Input");
+            _serializedPropertyOutputPort = serializedObject.FindProperty("Output");
+            _serializedPropertyColor = serializedObject.FindProperty("_color");
+            _serializedPropertyPosition = serializedObject.FindProperty("_localPosition");
 
-            if (_serializedPropertyInputPort == null)
-            {
-                _serializedPropertyInputPort = serializedObject.FindProperty("Input");
-                _serializedPropertyOutputPort = serializedObject.FindProperty("Output");
-                _serializedPropertyColor = serializedObject.FindProperty("_color");
-                _serializedPropertyPosition = serializedObject.FindProperty("_localPosition");
-                _serializedPropertyIndexSprite = serializedObject.FindProperty("_indexSprite");
-                _serializedPropertyIndexBackground = serializedObject.FindProperty("_indexBackground");
-                
-                _addToBackgroundProperty = serializedObject.FindProperty("_addToBackground");
-                _removeFromBackgroundProperty = serializedObject.FindProperty("_removeFromBackground");
-                _indexRemoveSpriteProperty = serializedObject.FindProperty("_indexRemoveSprite");
-                _indexBackgroundToRemoveProperty = serializedObject.FindProperty("_indexBackgroundToRemove");
-            }
+
+            _serializedPropertyIndexSprite = serializedObject.FindProperty("_indexSprite");
+
+            _serializedPropertyIndexBackground = serializedObject.FindProperty("_indexBackground");
+
+            _addToBackgroundProperty = serializedObject.FindProperty("_addToBackground");
+            _removeFromBackgroundProperty = serializedObject.FindProperty("_removeFromBackground");
+
+            _indexRemoveSpriteProperty = serializedObject.FindProperty("_indexRemoveSprite");
+            _indexBackgroundToRemoveProperty = serializedObject.FindProperty("_indexBackgroundToRemove");
+            
+            _serializedPropertyKeySprite = serializedObject.FindProperty("_keySprite");
+            _serializedPropertyKeyBackground = serializedObject.FindProperty("_keyBackground");
+            _keyRemoveSpriteProperty = serializedObject.FindProperty("_keyRemoveSprite");
+            _keyBackgroundToRemoveProperty = serializedObject.FindProperty("_keyBackgroundToRemove");
+            _namesBackgroundToPopup = new List<string>();
+            _namesSpritesToPopup = new List<string>();
+        }
+        else
+        {
             NodeEditorGUILayout.PropertyField(_serializedPropertyInputPort);
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
 
@@ -55,20 +80,25 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             EditorGUILayout.LabelField("Add To Background:", GUILayout.Width(200f));
             _addToBackgroundProperty.boolValue = EditorGUILayout.Toggle(_addToBackgroundProperty.boolValue);
             EditorGUILayout.EndHorizontal();
-            
+
             if (_addToBackgroundProperty.boolValue)
             {
-                if (_initPopupInFrame == false)
-                {
-                    InitPopup();
-                }
+                _indexSprite = _indexBackground = 0;
+                InitPopup(_serializedPropertyKeyBackground, _serializedPropertyKeySprite, a,b);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Add to:");
-                _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
+                EditorGUI.BeginChangeCheck();
+                _currentIndexBackground = EditorGUILayout.Popup(_currentIndexBackground,  _namesBackgroundToPopup.ToArray());
+                // _serializedPropertyIndexBackground.intValue = EditorGUILayout.Popup(_serializedPropertyIndexBackground.intValue,  _namesBackgroundToPopup);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Sprite:");
-                _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesSpritesToPopup);
+                _currentIndexSprite = EditorGUILayout.Popup(_currentIndexSprite,  _namesSpritesToPopup.ToArray());
+                // _serializedPropertyIndexSprite.intValue = EditorGUILayout.Popup(_serializedPropertyIndexSprite.intValue,  _namesSpritesToPopup);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
                 EditorGUILayout.EndHorizontal();
             }
             
@@ -79,57 +109,91 @@ public class AddSpriteNodeToBackgroundDrawer : NodeEditor
             
             if (_removeFromBackgroundProperty.boolValue)
             {
-                if (_initPopupInFrame == false)
-                {
-                    InitPopup();
-                }
+                _indexRemoveBackground = _indexRemoveSprite = 0;
+                InitPopup(_keyBackgroundToRemoveProperty, _keyRemoveSpriteProperty, c,d);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Remove from:");
-                _indexBackgroundToRemoveProperty.intValue = EditorGUILayout.Popup(_indexBackgroundToRemoveProperty.intValue,  _namesBackgroundToPopup);
+                EditorGUI.BeginChangeCheck();
+                _currentIndexRemoveBackground = EditorGUILayout.Popup(_currentIndexRemoveBackground,  _namesBackgroundToPopup.ToArray());
+                // _indexBackgroundToRemoveProperty.intValue = EditorGUILayout.Popup(_indexBackgroundToRemoveProperty.intValue,  _namesBackgroundToPopup.ToArray());
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Sprite:");
-                _indexRemoveSpriteProperty.intValue = EditorGUILayout.Popup(_indexRemoveSpriteProperty.intValue,  _namesSpritesToPopup);
+                _currentIndexRemoveSprite = EditorGUILayout.Popup(_currentIndexRemoveSprite, _namesSpritesToPopup.ToArray());
+                // _indexRemoveSpriteProperty.intValue = EditorGUILayout.Popup(_indexRemoveSpriteProperty.intValue, _namesSpritesToPopup.ToArray());
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
                 EditorGUILayout.EndHorizontal();
             }
         }
     }
 
-    private void InitPopup()
+    private void InitPopup(SerializedProperty serializedPropertyKeyBackground, SerializedProperty serializedPropertyKeySprite,
+        Action<string, string> operation1, Action<string, string> operation2)
     {
-        if (_addSpriteNodeToBackground.Backgrounds != null)
+        if (_addSpriteNodeToBackground.GetBackgroundContentDictionary != null)
         {
-            List<string> namesBackgroundToPopup = new List<string>();
-            if (_addSpriteNodeToBackground.Backgrounds != null)
+            _namesBackgroundToPopup.Clear();
+            foreach (var pair in _addSpriteNodeToBackground.GetBackgroundContentDictionary)
             {
-                for (int i = 0; i < _addSpriteNodeToBackground.Backgrounds.Count; ++i)
+                Debug.Log($"{pair.Key} {pair.Value}");
+                if (pair.Value != null)
                 {
-                    if (_addSpriteNodeToBackground.Backgrounds[i] != null)
-                    {
-                        namesBackgroundToPopup.Add(_addSpriteNodeToBackground.Backgrounds[i].name);
-                    }
+                    _namesBackgroundToPopup.Add(pair.Key);
+                    operation1.Invoke(serializedPropertyKeyBackground.stringValue, pair.Key);
                 }
             }
-
-            _namesBackgroundToPopup = namesBackgroundToPopup.ToArray();
+            Debug.Log($"_currentIndexBackground {_currentIndexBackground}");
         }
 
-        if (_addSpriteNodeToBackground.AdditionalImagesToBackground != null)
+        if (_addSpriteNodeToBackground.GetAdditionalImagesToBackgroundDictionary != null)
         {
-            List<string> namesCharactersToPopup = new List<string>();
-            if (_addSpriteNodeToBackground.AdditionalImagesToBackground != null)
+            _namesSpritesToPopup.Clear();
+            foreach (var pair in _addSpriteNodeToBackground.GetAdditionalImagesToBackgroundDictionary)
             {
-                for (int i = 0; i < _addSpriteNodeToBackground.AdditionalImagesToBackground.Count; ++i)
+                if (pair.Value != null)
                 {
-                    if (_addSpriteNodeToBackground.AdditionalImagesToBackground[i] != null)
-                    {
-                        namesCharactersToPopup.Add(_addSpriteNodeToBackground.AdditionalImagesToBackground[i].name);
-                    }
+                    _namesSpritesToPopup.Add(pair.Key);
+                    operation2.Invoke(serializedPropertyKeySprite.stringValue, pair.Key);
                 }
             }
-
-            _namesSpritesToPopup = namesCharactersToPopup.ToArray();
-            _initPopupInFrame = true;
         }
+    }
+
+    private void a(string keyField, string key)
+    {
+        if (key == keyField)
+        {
+            _currentIndexBackground = _indexBackground;
+        }
+        _indexBackground++;
+    }
+
+    private void b(string keyField, string key)
+    {
+        if (key == keyField)
+        {
+            _currentIndexSprite = _indexSprite;
+        }
+        _indexSprite++;
+    }
+    private void c(string keyField, string key)
+    {
+        if (key == keyField)
+        {
+            _currentIndexRemoveBackground = _indexRemoveBackground;
+        }
+        _indexRemoveBackground++;
+    }
+
+    private void d(string keyField, string key)
+    {
+        if (key == keyField)
+        {
+            _currentIndexRemoveSprite = _indexRemoveSprite;
+        }
+        _indexRemoveSprite++;
     }
 }

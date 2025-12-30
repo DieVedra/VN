@@ -15,12 +15,12 @@ public class BackgroundContent : MonoBehaviour
     [SerializeField] private Transform _rightBordTransform;
     [SerializeField] private float _movementDuringDialogueValue = 0.25f;
     [SerializeField] private Color _colorLighting = Color.white;
-    [SerializeField, ReadOnly] private List<AdditionalImageData> _indexesAdditionalImage;
 
     private const float _durationMovementSmoothBackgroundChangePosition = 2f;
     private const float _multiplier = 2f;
     private const float _defaultPosValue = 0f;
 
+    private Dictionary<string, AdditionalImageData> _keysAdditionalImage;
     private SpriteRendererCreator _spriteRendererCreator;
     private Transform _transformSprite;
     private ISetLighting _setLighting;
@@ -35,7 +35,7 @@ public class BackgroundContent : MonoBehaviour
     public Transform CentralBordTransform => _centralTransform;
     public Transform RightBordTransform => _rightBordTransform;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
-    public IReadOnlyList<AdditionalImageData> GetIndexesAdditionalImage => _indexesAdditionalImage;
+    public IReadOnlyDictionary<string, AdditionalImageData> GetKeysAdditionalImage => _keysAdditionalImage;
 
 #if UNITY_EDITOR
     private CompositeDisposable _compositeDisposable;
@@ -68,7 +68,7 @@ public class BackgroundContent : MonoBehaviour
         _setLighting = setLighting;
         _currentBackgroundPosition = BackgroundPosition.Central;
         _addContent = null;
-        _indexesAdditionalImage = new List<AdditionalImageData>();
+        _keysAdditionalImage = new Dictionary<string, AdditionalImageData>();
         gameObject.SetActive(false);
     }
     public void Activate()
@@ -124,8 +124,7 @@ public class BackgroundContent : MonoBehaviour
                 break;
         }
     }
-
-    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
+    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage)
     {
         if (_addContent == null)
         {
@@ -134,29 +133,22 @@ public class BackgroundContent : MonoBehaviour
 
         AdditionalImageData additionalImageData = new AdditionalImageData
         {
-            IndexAdditionalImage = indexAdditionalImage, LocalPosition = localPosition, Color = color
+            LocalPosition = localPosition, Color = color
         };
-
-        _indexesAdditionalImage.Add(additionalImageData);
+        _keysAdditionalImage.Add(keyAdditionalImage, additionalImageData);
         SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
         spriteRenderer.sprite = sprite;
         spriteRenderer.color = color;
         spriteRenderer.transform.localPosition = localPosition;
         spriteRenderer.sortingOrder = _addContent.Count + 1;
         _addContent.Add(sprite.name, spriteRenderer);
+        Debug.Log($"sprite.name");
     }
-    public void RemoveAdditionalSprite(string nameSprite, int indexAdditionalImage)
+    public void RemoveAdditionalSprite(string nameSprite, string keyAdditionalImage)
     {
-        if (_indexesAdditionalImage != null && _indexesAdditionalImage.Count > 0)
+        if (_keysAdditionalImage != null && _keysAdditionalImage.Count > 0)
         {
-            for (int i = 0; i < _indexesAdditionalImage.Count; i++)
-            {
-                if (_indexesAdditionalImage[i].IndexAdditionalImage == indexAdditionalImage)
-                {
-                    _indexesAdditionalImage.Remove(_indexesAdditionalImage[i]);
-                }
-                
-            }
+            _keysAdditionalImage.Remove(keyAdditionalImage);
         }
         if (_addContent != null && _addContent.Count > 0)
         {
@@ -167,6 +159,47 @@ public class BackgroundContent : MonoBehaviour
             }
         }
     }
+    // public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
+    // {
+    //     if (_addContent == null)
+    //     {
+    //         _addContent = new Dictionary<string, SpriteRenderer>();
+    //     }
+    //
+    //     AdditionalImageData additionalImageData = new AdditionalImageData
+    //     {
+    //         LocalPosition = localPosition, Color = color
+    //     };
+    //     _indexesAdditionalImage.Add(additionalImageData);
+    //     SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
+    //     spriteRenderer.sprite = sprite;
+    //     spriteRenderer.color = color;
+    //     spriteRenderer.transform.localPosition = localPosition;
+    //     spriteRenderer.sortingOrder = _addContent.Count + 1;
+    //     _addContent.Add(sprite.name, spriteRenderer);
+    // }
+    // public void RemoveAdditionalSprite(string nameSprite, int indexAdditionalImage)
+    // {
+    //     if (_indexesAdditionalImage != null && _indexesAdditionalImage.Count > 0)
+    //     {
+    //         for (int i = 0; i < _indexesAdditionalImage.Count; i++)
+    //         {
+    //             // if (_indexesAdditionalImage[i].IndexAdditionalImage == indexAdditionalImage)
+    //             // {
+    //             //     _indexesAdditionalImage.Remove(_indexesAdditionalImage[i]);
+    //             // }
+    //             
+    //         }
+    //     }
+    //     if (_addContent != null && _addContent.Count > 0)
+    //     {
+    //         if (_addContent.TryGetValue(nameSprite, out SpriteRenderer renderer))
+    //         {
+    //             Destroy(renderer.gameObject);
+    //             _addContent.Remove(nameSprite);
+    //         }
+    //     }
+    // }
     public async UniTask MovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
         switch (directionType)

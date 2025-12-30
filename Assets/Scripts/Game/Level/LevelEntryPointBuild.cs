@@ -114,7 +114,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundBuildMode.GetBackgroundContent,
+        NodeGraphInitializer = new NodeGraphInitializer(_backgroundBuildMode, _backgroundBuildMode.GetBackgroundContent,
             _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
             _characterProvider,_backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,

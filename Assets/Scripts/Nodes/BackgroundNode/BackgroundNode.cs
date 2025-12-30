@@ -8,8 +8,7 @@ using UnityEngine;
 public class BackgroundNode : BaseNode
 {
     [SerializeField] private BackgroundNodeMode _backgroundNodeMode;
-    [SerializeField] private int _index;
-    [SerializeField] private int _indexTo;
+    [SerializeField] private string _key;
     [SerializeField] private float _changeColorDuration;
     [SerializeField] private float _changeMode2Duration;
     [SerializeField] private bool _awaitedSmoothChangeBackground;
@@ -21,14 +20,13 @@ public class BackgroundNode : BaseNode
     [SerializeField] private BackgroundPosition _backgroundPositionMode2;
 
     [SerializeField] private Color _color;
-    private Background _background;
-    private List<BackgroundContent> _backgrounds;
-    public List<BackgroundContent> Backgrounds => _backgrounds;
+    private IBackgroundsProviderToBackgroundNode _background;
+    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary { get; private set; }
     public bool IsSmoothCurtain => _isSmoothCurtain;
-    public void ConstructBackgroundNode(List<BackgroundContent> backgrounds, Background background)
+    public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode backgroundsProviderToBackgroundNode)
     {
-        _backgrounds = backgrounds;
-        _background = background;
+        _background = backgroundsProviderToBackgroundNode;
+        BackgroundsDictionary = backgroundsProviderToBackgroundNode.GetBackgroundContentDictionary;
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -61,11 +59,11 @@ public class BackgroundNode : BaseNode
 
             if (_awaitedSmoothBackgroundChangePosition)
             {
-                await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _index);
+                await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key);
             }
             else
             {
-                _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _index).Forget();
+                _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key).Forget();
             }
         }
         else
@@ -83,11 +81,11 @@ public class BackgroundNode : BaseNode
 
         if (_awaitedSmoothChangeBackground)
         {
-            await _background.SmoothChangeBackground(_indexTo,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
+            await _background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
         }
         else
         {
-            _background.SmoothChangeBackground(_indexTo,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token).Forget();
+            _background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token).Forget();
         }
     }
     private async UniTask Mode3(bool isMerged)
@@ -119,10 +117,10 @@ public class BackgroundNode : BaseNode
         switch (_backgroundNodeMode)
         {
             case BackgroundNodeMode.Mode1:
-                _background.SetBackgroundPosition(_backgroundPosition, _index);
+                _background.SetBackgroundPosition(_backgroundPosition, _key);
                 break;
             case BackgroundNodeMode.Mode2:
-                _background.SmoothChangeBackgroundEmmidiately(_indexTo, _backgroundPositionMode2);
+                _background.SmoothChangeBackgroundEmmidiately(_key, _backgroundPositionMode2);
                 break;
             case BackgroundNodeMode.Mode3:
                 _background.SetColorOverlayBackground(_color, _mode3Enable);

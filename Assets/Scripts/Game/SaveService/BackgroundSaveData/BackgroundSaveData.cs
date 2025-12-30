@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BackgroundSaveData
 {
     public List<int> ArtOpenedIndexes;
-    public List<IndexesBackgroundContentWithAdditionalImage> IndexesBackgroundContentWithAdditionalImage;
+    public List<BackgroundContentWithAdditionalImage> BackgroundContentWithAdditionalImage;
 
-    public int CurrentIndexBackgroundContent;
+    public string CurrentKeyBackgroundContent;
 }

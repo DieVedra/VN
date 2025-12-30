@@ -29,7 +29,7 @@ public class BackgroundEditMode : Background
         
         if (BackgroundSaveData != null)
         {
-            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage, BackgroundContent.Count);
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.BackgroundContentWithAdditionalImage);
         }
     }
 
@@ -49,34 +49,54 @@ public class BackgroundEditMode : Background
     }
     private void ConstructBackgroundContent()
     {
-        for (int i = 0; i < _locationsDatas.Count; ++i)
+        foreach (var t in _locationsDatas)
         {
-            CreateBackgroundContent(_locationsDatas[i]);
+            CreateBackgroundContent(t);
         }
     }
 
     private void ClearBackgroundContent()
     {
-        if (BackgroundContent.Count > 0)
+        if (BackgroundContentDictionary != null)
         {
-            for (int i = 0; i < BackgroundContent.Count; ++i)
+            foreach (var pair in BackgroundContentDictionary)
             {
-                if (BackgroundContent[i] != null)
+                pair.Value.Dispose();
+                DestroyGameObject(pair.Value.gameObject);
+            }
+            BackgroundContentDictionary.Clear();
+        }
+        else
+        {
+            BackgroundContentDictionary = new Dictionary<string, BackgroundContent>();
+        }
+        
+        if (BackgroundContent != null)
+        {
+            foreach (var t in BackgroundContent)
+            {
+                if (t != null)
                 {
-                    BackgroundContent[i].Dispose();
-                    DestroyGameObject(BackgroundContent[i].gameObject);
+                    t.Dispose();
+                    DestroyGameObject(t.gameObject);
                 }
             }
+            BackgroundContent.Clear();
         }
-        BackgroundContent = new List<BackgroundContent>();
+        else
+        {
+            BackgroundContent = new List<BackgroundContent>();
+        }
     }
     private void CreateBackgroundContent(BackgroundData backgroundData)
     {
-        for (int j = 0; j < backgroundData.BackgroundContentValues.Count; ++j)
+        foreach (var valuese in backgroundData.BackgroundContentValues)
         {
-            BackgroundContent.Add(
-                InstantiateBackgroundContent(backgroundData.GetSprite(backgroundData.BackgroundContentValues[j].NameSprite),
-                    backgroundData.BackgroundContentValues[j]));
+            var sprt = backgroundData.GetSprite(valuese.NameSprite);
+            var bc = InstantiateBackgroundContent(backgroundData.GetSprite(valuese.NameSprite),
+                valuese);
+            BackgroundContentDictionary.Add(valuese.NameSprite, bc);
+            BackgroundContent.Add(bc);
         }
     }
 
@@ -104,28 +124,54 @@ public class BackgroundEditMode : Background
     private void AddAdditionalSprites()
     {
         AdditionalImagesToBackground = new List<Sprite>();
-        for (int i = 0; i < _additionalImagesDatas.Count; ++i)
+        if (AdditionalImagesToBackgroundDictionary == null)
         {
-            AddBackgroundDataContent(ref AdditionalImagesToBackground, _additionalImagesDatas[i]);
+            AdditionalImagesToBackgroundDictionary = new Dictionary<string, Sprite>();
+        }
+        else
+        {
+            AdditionalImagesToBackgroundDictionary.Clear();
+        }
+        
+        foreach (var data in _additionalImagesDatas)
+        {
+            AddBackgroundDataContent(AdditionalImagesToBackground, data);
+            AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, data);
         }
     }
 
     private void AddArtsSprites()
     {
         ArtsSprites = new List<Sprite>();
-        for (int i = 0; i < _artsDatas.Count; i++)
+        if (ArtsSpritesDictionary == null)
         {
-            AddBackgroundDataContent(ref ArtsSprites, _artsDatas[i]);
+            ArtsSpritesDictionary = new Dictionary<string, Sprite>();
         }
-    }
-    private void AddBackgroundDataContent(ref List<Sprite> sprites, BackgroundData backgroundData)
-    {
-        for (int i = 0; i < backgroundData.BackgroundContentValues.Count; ++i)
+        else
         {
-            sprites.Add(backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite));
+            ArtsSpritesDictionary.Clear();
         }
-    }
 
+        foreach (var t in _artsDatas)
+        {
+            AddBackgroundDataContent(ArtsSprites, t);
+            AddBackgroundDataContent(ArtsSpritesDictionary, t);
+        }
+    }
+    private void AddBackgroundDataContent(List<Sprite> sprites, BackgroundData backgroundData)
+    {
+        foreach (var t in backgroundData.BackgroundContentValues)
+        {
+            sprites.Add(backgroundData.GetSprite(t.NameSprite));
+        }
+    }
+    private void AddBackgroundDataContent(Dictionary<string, Sprite> sprites, BackgroundData backgroundData)
+    {
+        foreach (var t in backgroundData.BackgroundContentValues)
+        {
+            sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
+        }
+    }
     private void DestroyGameObject(GameObject transferredGameObject)
     {
         if (Application.isPlaying)

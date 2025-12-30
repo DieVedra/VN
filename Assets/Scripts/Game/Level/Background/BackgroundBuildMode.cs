@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -9,7 +8,8 @@ public class BackgroundBuildMode : Background
     private BackgroundDataProvider _backgroundDataProvider;
     private BackgroundContentCreator _backgroundContentCreator;
 
-    public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator, ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
+    public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator,
+ ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
     {
         _backgroundDataProvider = backgroundDataProvider;
         _backgroundContentCreator = backgroundContentCreator;
@@ -24,11 +24,10 @@ public class BackgroundBuildMode : Background
         _backgroundContentCreator.OnCreateContent += InitLocations;
         _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(InitAdditionalImages);
         _backgroundDataProvider.OnLoadArtsData.Subscribe(InitArts);
-
-
+        
         if (BackgroundSaveData != null)
         {
-            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage, BackgroundContent.Count);
+            // TryAddAddebleContentToBackgroundContent(BackgroundSaveData.BackgroundContentWithAdditionalImage, BackgroundContent.Count);
         }
     }
 
@@ -50,9 +49,9 @@ public class BackgroundBuildMode : Background
         }
         void Foo(IReadOnlyList<BackgroundData> datas, Action<BackgroundData> operation)
         {
-            for (int i = 0; i < datas.Count; i++)
+            foreach (var data in datas)
             {
-                operation.Invoke(datas[i]);
+                operation.Invoke(data);
             }
         }
     }
@@ -72,17 +71,15 @@ public class BackgroundBuildMode : Background
 
     private void InitLocations(BackgroundData backgroundData)
     {
-        BackgroundContentValues values = null;
         BackgroundContent content = null;
-        for (int i = 0; i < backgroundData.BackgroundContentValues.Count; i++)
+        foreach (var contentValue in backgroundData.BackgroundContentValues)
         {
             content = _backgroundContentCreator.TryGetInstantiatedBackgroundContent();
             if (content != null)
             {
-                values = backgroundData.BackgroundContentValues[i];
                 InitBackgroundContent(
                     content,
-                    backgroundData.GetSprite(values.NameSprite), values);
+                    backgroundData.GetSprite(contentValue.NameSprite), contentValue);
                 BackgroundContent.Add(content);
             }
         }
@@ -105,9 +102,9 @@ public class BackgroundBuildMode : Background
 
     private void InitSpriteList(List<Sprite> list, BackgroundData backgroundData)
     {
-        for (int i = 0; i < backgroundData.BackgroundContentValues.Count; ++i)
+        foreach (var contentValue in backgroundData.BackgroundContentValues)
         {
-            list.Add(backgroundData.GetSprite(backgroundData.BackgroundContentValues[i].NameSprite));
+            list.Add(backgroundData.GetSprite(contentValue.NameSprite));
         }
     }
 
