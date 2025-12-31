@@ -16,49 +16,11 @@ MonoBehaviour:
   position: {x: 5672, y: -1128}
   ports:
     keys:
-    - Choice1Output
-    - Choice2Output
-    - Choice3Output
     - Input
     - Output
-    - Choice4Output
-    - Choice22Output
     - _choice0Output
     - _choice1Output
     values:
-    - _fieldName: Choice1Output
-      _node: {fileID: -8717496973659391422}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 3053941034802902618}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice2Output
-      _node: {fileID: -8717496973659391422}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -895143247925345544}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice3Output
-      _node: {fileID: -8717496973659391422}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: Input
       _node: {fileID: -8717496973659391422}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -72,24 +34,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: Output
-      _node: {fileID: -8717496973659391422}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice4Output
-      _node: {fileID: -8717496973659391422}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice22Output
       _node: {fileID: -8717496973659391422}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -124,11 +68,12 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _choiceCases:
-  - _choiceText: "\u0414\u0430\u0432\u0430\u0439, \u0445\u043E\u0447\u0443 \u044D\u0442\u043E
-      \u0443\u0432\u0438\u0434\u0435\u0442\u044C "
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 30
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -268,12 +213,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u0414\u0430\u0432\u0430\u0439 \u043E\u0441\u0442\u0430\u043D\u0435\u043C\u0441\u044F
-      \u0437\u0434\u0435\u0441\u044C, \u043D\u0435 \u0445\u043E\u0447\u0443 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0430\u0442\u044C
-      \u043A\u043E\u043D\u0446\u0435\u0440\u0442."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 0
     _showNotificationChoice: 0
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -413,583 +365,17 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  _localizationChoiceText1:
-    <DefaultText>k__BackingField: "\u0414\u0430\u0432\u0430\u0439, \u0445\u043E\u0447\u0443
-      \u044D\u0442\u043E \u0443\u0432\u0438\u0434\u0435\u0442\u044C "
-    <Key>k__BackingField: 
-  _localizationChoiceText2:
-    <DefaultText>k__BackingField: "\u0414\u0430\u0432\u0430\u0439 \u043E\u0441\u0442\u0430\u043D\u0435\u043C\u0441\u044F
-      \u0437\u0434\u0435\u0441\u044C, \u043D\u0435 \u0445\u043E\u0447\u0443 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0430\u0442\u044C
-      \u043A\u043E\u043D\u0446\u0435\u0440\u0442."
-    <Key>k__BackingField: 
-  _localizationChoiceText3:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
-  _localizationChoiceText4:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
   _timerValue: 0
   _timerPortIndex: 0
-  _choice1Price: 30
-  _choice2Price: 0
-  _choice3Price: 0
-  _choice4Price: 0
-  _choice1AdditionaryPrice: 0
-  _choice2AdditionaryPrice: 0
-  _choice3AdditionaryPrice: 0
-  _choice4AdditionaryPrice: 0
-  _showStatsChoice1Key: 1
-  _showStatsChoice2Key: 0
-  _showStatsChoice3Key: 0
-  _showStatsChoice4Key: 0
-  _showChoice3Key: 0
-  _showChoice4Key: 0
   _showOutput: 0
   _addTimer: 0
-  _showNotificationChoice1: 1
-  _showNotificationChoice2: 0
-  _showNotificationChoice3: 0
-  _showNotificationChoice4: 0
-  _baseStatsChoice1:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 2
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 1
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice2:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice3:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice4:
-  - _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 0, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
 --- !u!114 &-8618017499634148035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,9 +568,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice1Output
-        node: {fileID: -6525027574711904337}
-        reroutePoints: []
       - fieldName: _choice0Output
         node: {fileID: -6525027574711904337}
         reroutePoints: []
@@ -1326,9 +709,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice2Output
-        node: {fileID: -6525027574711904337}
-        reroutePoints: []
       - fieldName: _choice1Output
         node: {fileID: -6525027574711904337}
         reroutePoints: []
@@ -1564,53 +944,12 @@ MonoBehaviour:
   position: {x: 3832, y: -1752}
   ports:
     keys:
-    - Choice1Output
-    - Choice2Output
-    - Choice3Output
     - Input
     - Output
-    - Choice4Output
-    - Choice22Output
     - _choice0Output
     - _choice1Output
     - _choice2Output
     values:
-    - _fieldName: Choice1Output
-      _node: {fileID: -6525027574711904337}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -7902848197750469559}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice2Output
-      _node: {fileID: -6525027574711904337}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -7836468328402904557}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice3Output
-      _node: {fileID: -6525027574711904337}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -2587618743786301780}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: Input
       _node: {fileID: -6525027574711904337}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -1624,24 +963,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: Output
-      _node: {fileID: -6525027574711904337}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice4Output
-      _node: {fileID: -6525027574711904337}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice22Output
       _node: {fileID: -6525027574711904337}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -1688,12 +1009,12 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _choiceCases:
-  - _choiceText: "\u0412\u0435\u0441\u044C \u0434\u0435\u043D\u044C \u043D\u0435
-      \u043C\u043E\u0433\u043B\u0430 \u0432\u044B\u043A\u0438\u043D\u0443\u0442\u044C
-      \u0442\u0435\u0431\u044F \u0438\u0437 \u0433\u043E\u043B\u043E\u0432\u044B."
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 0
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -1833,11 +1154,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u042F \u0434\u0443\u043C\u0430\u043B\u0430, \u043C\u044B \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F
-      \u043F\u043E\u0437\u0436\u0435, \u043F\u043E\u0441\u043B\u0435 \u043A\u043E\u043D\u0446\u0435\u0440\u0442\u0430."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 0
     _showNotificationChoice: 0
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -1977,11 +1306,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u041F\u0440\u043E\u0441\u0442\u0438, \u043D\u043E \u044F \u0445\u043E\u0447\u0443
-      \u043F\u043E\u0442\u0430\u043D\u0446\u0435\u0432\u0430\u0442\u044C \u043E\u0434\u043D\u0430."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -2121,586 +1458,17 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  _localizationChoiceText1:
-    <DefaultText>k__BackingField: "\u0412\u0435\u0441\u044C \u0434\u0435\u043D\u044C
-      \u043D\u0435 \u043C\u043E\u0433\u043B\u0430 \u0432\u044B\u043A\u0438\u043D\u0443\u0442\u044C
-      \u0442\u0435\u0431\u044F \u0438\u0437 \u0433\u043E\u043B\u043E\u0432\u044B."
-    <Key>k__BackingField: 
-  _localizationChoiceText2:
-    <DefaultText>k__BackingField: "\u042F \u0434\u0443\u043C\u0430\u043B\u0430, \u043C\u044B
-      \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F \u043F\u043E\u0437\u0436\u0435,
-      \u043F\u043E\u0441\u043B\u0435 \u043A\u043E\u043D\u0446\u0435\u0440\u0442\u0430."
-    <Key>k__BackingField: 
-  _localizationChoiceText3:
-    <DefaultText>k__BackingField: "\u041F\u0440\u043E\u0441\u0442\u0438, \u043D\u043E
-      \u044F \u0445\u043E\u0447\u0443 \u043F\u043E\u0442\u0430\u043D\u0446\u0435\u0432\u0430\u0442\u044C
-      \u043E\u0434\u043D\u0430."
-    <Key>k__BackingField: 
-  _localizationChoiceText4:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
   _timerValue: 0
   _timerPortIndex: 0
-  _choice1Price: 0
-  _choice2Price: 0
-  _choice3Price: 0
-  _choice4Price: 0
-  _choice1AdditionaryPrice: 0
-  _choice2AdditionaryPrice: 0
-  _choice3AdditionaryPrice: 0
-  _choice4AdditionaryPrice: 0
-  _showStatsChoice1Key: 0
-  _showStatsChoice2Key: 0
-  _showStatsChoice3Key: 1
-  _showStatsChoice4Key: 0
-  _showChoice3Key: 1
-  _showChoice4Key: 0
   _showOutput: 0
   _addTimer: 0
-  _showNotificationChoice1: 1
-  _showNotificationChoice2: 0
-  _showNotificationChoice3: 1
-  _showNotificationChoice4: 0
-  _baseStatsChoice1:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 2
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice2:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice3:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: -4
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice4:
-  - _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 0, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
 --- !u!114 &-6500994484171097275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2810,6 +1578,7 @@ MonoBehaviour:
   _backgroundNodeMode: 0
   _index: 11
   _indexTo: 0
+  _key: "\u043A\u043B\u0443\u0431-\u0442\u0430\u043D\u0446\u043F\u043E\u043B"
   _changeColorDuration: 0
   _changeMode2Duration: 0
   _awaitedSmoothChangeBackground: 0
@@ -2844,9 +1613,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice1Output
-        node: {fileID: -2365843553687661153}
-        reroutePoints: []
       - fieldName: _choice0Output
         node: {fileID: -2365843553687661153}
         reroutePoints: []
@@ -3024,9 +1790,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice3Output
-        node: {fileID: -2365843553687661153}
-        reroutePoints: []
       - fieldName: _choice2Output
         node: {fileID: -2365843553687661153}
         reroutePoints: []
@@ -3266,9 +2029,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice3Output
-        node: {fileID: -6525027574711904337}
-        reroutePoints: []
       - fieldName: _choice2Output
         node: {fileID: -6525027574711904337}
         reroutePoints: []
@@ -3372,53 +2132,12 @@ MonoBehaviour:
   position: {x: 3248.5645, y: -323.603}
   ports:
     keys:
-    - Choice1Output
-    - Choice2Output
-    - Choice3Output
     - Input
     - Output
-    - Choice4Output
-    - Choice22Output
     - _choice0Output
     - _choice1Output
     - _choice2Output
     values:
-    - _fieldName: Choice1Output
-      _node: {fileID: -2365843553687661153}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -5681435471764946774}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice2Output
-      _node: {fileID: -2365843553687661153}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 5992702665777090306}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice3Output
-      _node: {fileID: -2365843553687661153}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -5083722737164177842}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: Input
       _node: {fileID: -2365843553687661153}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -3432,24 +2151,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: Output
-      _node: {fileID: -2365843553687661153}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice4Output
-      _node: {fileID: -2365843553687661153}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice22Output
       _node: {fileID: -2365843553687661153}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -3496,11 +2197,12 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _choiceCases:
-  - _choiceText: "\u0422\u0435\u0431\u0435 \u044F \u043D\u0435 \u043C\u043E\u0433\u0443
-      \u043E\u0442\u043A\u0430\u0437\u0430\u0442\u044C \u043D\u0438 \u0432 \u0447\u0435\u043C."
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -3640,14 +2342,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u041F\u0440\u043E\u0441\u0442\u0438, \u044F \u043D\u0435\u043C\u043D\u043E\u0433\u043E
-      \u0443\u0441\u0442\u0430\u043B\u0430. \u041D\u0430\u0432\u0435\u0440\u043D\u044F\u043A\u0430,
-      \u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0441\u043C\u043E\u0436\u0435\u0442
-      \u0441\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0442\u0435\u0431\u0435
-      \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044E."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -3787,10 +2494,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u0414\u0443\u043C\u0430\u044E, \u0447\u0442\u043E \u043E\u0442\u043A\u0430\u0436\u0443."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 1
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -3930,586 +2646,17 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  _localizationChoiceText1:
-    <DefaultText>k__BackingField: "\u0422\u0435\u0431\u0435 \u044F \u043D\u0435 \u043C\u043E\u0433\u0443
-      \u043E\u0442\u043A\u0430\u0437\u0430\u0442\u044C \u043D\u0438 \u0432 \u0447\u0435\u043C."
-    <Key>k__BackingField: 
-  _localizationChoiceText2:
-    <DefaultText>k__BackingField: "\u041F\u0440\u043E\u0441\u0442\u0438, \u044F \u043D\u0435\u043C\u043D\u043E\u0433\u043E
-      \u0443\u0441\u0442\u0430\u043B\u0430. \u041D\u0430\u0432\u0435\u0440\u043D\u044F\u043A\u0430,
-      \u041C\u0438\u0440\u0430\u043D\u0434\u0430 \u0441\u043C\u043E\u0436\u0435\u0442
-      \u0441\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0442\u0435\u0431\u0435
-      \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044E."
-    <Key>k__BackingField: 
-  _localizationChoiceText3:
-    <DefaultText>k__BackingField: "\u0414\u0443\u043C\u0430\u044E, \u0447\u0442\u043E
-      \u043E\u0442\u043A\u0430\u0436\u0443."
-    <Key>k__BackingField: 
-  _localizationChoiceText4:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
   _timerValue: 0
   _timerPortIndex: 0
-  _choice1Price: 0
-  _choice2Price: 0
-  _choice3Price: 0
-  _choice4Price: 0
-  _choice1AdditionaryPrice: 0
-  _choice2AdditionaryPrice: 0
-  _choice3AdditionaryPrice: 0
-  _choice4AdditionaryPrice: 0
-  _showStatsChoice1Key: 1
-  _showStatsChoice2Key: 1
-  _showStatsChoice3Key: 1
-  _showStatsChoice4Key: 0
-  _showChoice3Key: 1
-  _showChoice4Key: 0
   _showOutput: 0
   _addTimer: 0
-  _showNotificationChoice1: 1
-  _showNotificationChoice2: 1
-  _showNotificationChoice3: 1
-  _showNotificationChoice4: 0
-  _baseStatsChoice1:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 2
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: -2
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice2:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 1
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice3:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: -2
-    _notificationKey: 1
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice4:
-  - _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 0, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
 --- !u!114 &-2057516598206536654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4526,49 +2673,11 @@ MonoBehaviour:
   position: {x: 4712.131, y: -405.093}
   ports:
     keys:
-    - Choice1Output
-    - Choice2Output
-    - Choice3Output
     - Input
     - Output
-    - Choice4Output
-    - Choice22Output
     - _choice0Output
     - _choice1Output
     values:
-    - _fieldName: Choice1Output
-      _node: {fileID: -2057516598206536654}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 5992702665777090306}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice2Output
-      _node: {fileID: -2057516598206536654}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 2929831969314351087}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice3Output
-      _node: {fileID: -2057516598206536654}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: Input
       _node: {fileID: -2057516598206536654}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -4582,24 +2691,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: Output
-      _node: {fileID: -2057516598206536654}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice4Output
-      _node: {fileID: -2057516598206536654}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Choice22Output
       _node: {fileID: -2057516598206536654}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -4634,11 +2725,12 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _choiceCases:
-  - _choiceText: "\u041D\u0435\u0442, \u043D\u0435 \u0445\u043E\u0447\u0443 \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0442\u044C
-      \u041C\u0438\u0440\u0430\u043D\u0434\u0443 \u043E\u0434\u043D\u0443."
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 0
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 0
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -4778,10 +2870,19 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  - _choiceText: "\u042F \u043D\u0435 \u043F\u0440\u043E\u0447\u044C \u043F\u043E\u0434\u044B\u0448\u0430\u0442\u044C."
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+  - _localizationChoiceText:
+      <DefaultText>k__BackingField: 
+      <Key>k__BackingField: str_E3B0C442
+    _choiceText: 
     _choicePrice: 30
     _choiceAdditionaryPrice: 0
-    _showStatsChoiceKey: 0
     _showNotificationChoice: 1
     _baseStatsChoice:
     - _colorField: {r: 0, g: 0, b: 0, a: 0}
@@ -4921,583 +3022,17 @@ MonoBehaviour:
         <Key>k__BackingField: str_6AF6EAC0
       _value: 0
       _notificationKey: 0
-  _localizationChoiceText1:
-    <DefaultText>k__BackingField: "\u041D\u0435\u0442, \u043D\u0435 \u0445\u043E\u0447\u0443
-      \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0442\u044C \u041C\u0438\u0440\u0430\u043D\u0434\u0443
-      \u043E\u0434\u043D\u0443."
-    <Key>k__BackingField: 
-  _localizationChoiceText2:
-    <DefaultText>k__BackingField: "\u042F \u043D\u0435 \u043F\u0440\u043E\u0447\u044C
-      \u043F\u043E\u0434\u044B\u0448\u0430\u0442\u044C."
-    <Key>k__BackingField: 
-  _localizationChoiceText3:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
-  _localizationChoiceText4:
-    <DefaultText>k__BackingField: 
-    <Key>k__BackingField: 
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
   _timerValue: 0
   _timerPortIndex: 0
-  _choice1Price: 0
-  _choice2Price: 30
-  _choice3Price: 0
-  _choice4Price: 0
-  _choice1AdditionaryPrice: 0
-  _choice2AdditionaryPrice: 0
-  _choice3AdditionaryPrice: 0
-  _choice4AdditionaryPrice: 0
-  _showStatsChoice1Key: 1
-  _showStatsChoice2Key: 1
-  _showStatsChoice3Key: 0
-  _showStatsChoice4Key: 0
-  _showChoice3Key: 0
-  _showChoice4Key: 0
   _showOutput: 0
   _addTimer: 0
-  _showNotificationChoice1: 0
-  _showNotificationChoice2: 0
-  _showNotificationChoice3: 0
-  _showNotificationChoice4: 0
-  _baseStatsChoice1:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice2:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 1
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice3:
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0, g: 0, b: 0, a: 0}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
-  _baseStatsChoice4:
-  - _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
-      <Key>k__BackingField: str_4F394F1E
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
-      <Key>k__BackingField: str_5D13A7F1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
-      <Key>k__BackingField: str_FEBA0FC4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
-      <Key>k__BackingField: str_AEF9B513
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_65738CDB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_28D170F4
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_3976D156
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 0, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
-      <Key>k__BackingField: str_54BC83C2
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
-      <Key>k__BackingField: str_4A239BE1
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
-      <Key>k__BackingField: str_436CD854
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
-      <Key>k__BackingField: str_98F415A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
-        \u04213"
-      <Key>k__BackingField: str_23A1C1A5
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_D8536408
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
-      <Key>k__BackingField: str_2C3D4123
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_235CB289
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
-        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_95058592
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
-      <Key>k__BackingField: str_EBE1B5CB
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
-      <Key>k__BackingField: str_8725AFEE
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
-      <Key>k__BackingField: str_0C66266D
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
-        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
-      <Key>k__BackingField: str_9DF0B694
-    _value: 0
-    _notificationKey: 0
-  - _colorField: {r: 1, g: 1, b: 1, a: 1}
-    _name:
-      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
-        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
-      <Key>k__BackingField: str_6AF6EAC0
-    _value: 0
-    _notificationKey: 0
 --- !u!114 &-1595538879118488148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5640,9 +3175,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice2Output
-        node: {fileID: -8717496973659391422}
-        reroutePoints: []
       - fieldName: _choice1Output
         node: {fileID: -8717496973659391422}
         reroutePoints: []
@@ -5954,6 +3486,15 @@ MonoBehaviour:
       _notificationKey: 0
       _indexCurrentOperator: 0
       _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
     _additionalCaseStats: []
     _foldoutKey: 0
     _name: Port 0
@@ -6137,6 +3678,15 @@ MonoBehaviour:
       _notificationKey: 0
       _indexCurrentOperator: 0
       _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
     _additionalCaseStats: []
     _foldoutKey: 0
     _name: Port 1
@@ -6316,6 +3866,15 @@ MonoBehaviour:
         <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
           \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
         <Key>k__BackingField: str_6AF6EAC0
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+          \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+        <Key>k__BackingField: str_0B6495F5
       _value: 0
       _notificationKey: 0
       _indexCurrentOperator: 0
@@ -6711,6 +4270,7 @@ MonoBehaviour:
   _backgroundNodeMode: 0
   _index: 11
   _indexTo: 0
+  _key: "\u043A\u043B\u0443\u0431-\u0442\u0430\u043D\u0446\u043F\u043E\u043B"
   _changeColorDuration: 0
   _changeMode2Duration: 0
   _awaitedSmoothChangeBackground: 0
@@ -6822,6 +4382,7 @@ MonoBehaviour:
   _backgroundNodeMode: 0
   _index: 12
   _indexTo: 0
+  _key: "\u043A\u043B\u0443\u0431-\u0445\u043E\u043B\u043B"
   _changeColorDuration: 0
   _changeMode2Duration: 0
   _awaitedSmoothChangeBackground: 0
@@ -6858,9 +4419,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice2Output
-        node: {fileID: -2057516598206536654}
-        reroutePoints: []
       - fieldName: _choice1Output
         node: {fileID: -2057516598206536654}
         reroutePoints: []
@@ -6927,9 +4485,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice1Output
-        node: {fileID: -8717496973659391422}
-        reroutePoints: []
       - fieldName: _choice0Output
         node: {fileID: -8717496973659391422}
         reroutePoints: []
@@ -7422,12 +4977,6 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Choice1Output
-        node: {fileID: -2057516598206536654}
-        reroutePoints: []
-      - fieldName: Choice2Output
-        node: {fileID: -2365843553687661153}
-        reroutePoints: []
       - fieldName: _choice1Output
         node: {fileID: -2365843553687661153}
         reroutePoints: []

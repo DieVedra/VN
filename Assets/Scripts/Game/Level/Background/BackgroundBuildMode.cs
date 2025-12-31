@@ -28,7 +28,7 @@ public class BackgroundBuildMode : Background
 
         if (BackgroundSaveData != null)
         {
-            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage, BackgroundContent.Count);
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.BackgroundContentWithAdditionalImage);
         }
     }
 

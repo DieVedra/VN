@@ -42,7 +42,7 @@ public class HeaderNode : BaseNode, ILocalizable
 
     public override async UniTask Enter(bool isMerged = false)
     {
-        _previousIndexBackground = _background.CurrentIndexBackgroundContent;
+        // _previousIndexBackground = _background.CurrentIndexBackgroundContent;
         CancellationTokenSource = new CancellationTokenSource();
         _compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetHeaderTexts);
         SetInfoToView();
@@ -77,14 +77,14 @@ public class HeaderNode : BaseNode, ILocalizable
         {
             await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         }
-        _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousIndexBackground);
+        // _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousIndexBackground);
         _headerSeriesPanelHandlerUI.OffHeader();
         _compositeDisposable.Dispose();
     }
 
     protected override void SetInfoToView()
     {
-        _background.SetBackgroundPositionFromSlider(_backgroundPositionValue, _indexBackground);
+        // _background.SetBackgroundPositionFromSlider(_backgroundPositionValue, _indexBackground);
         SetHeaderTexts();
     }
 

@@ -22,9 +22,9 @@ public class NodeGraphInitializer
     private readonly Sound _sound;
     private readonly Wallet _wallet;
 
-    public NodeGraphInitializer(List<BackgroundContent> backgrounds, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians, ICharacterProvider characterProvider, Background background, 
-        LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer, WardrobeCharacterViewer wardrobeCharacterViewer,
-        Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
+    public NodeGraphInitializer(List<BackgroundContent> backgrounds, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
+        ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
+        WardrobeCharacterViewer wardrobeCharacterViewer, Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         SetLocalizationChangeEvent setLocalizationChangeEvent, ReactiveProperty<bool> phoneNodeIsActive)
@@ -93,7 +93,7 @@ public class NodeGraphInitializer
                 return;
             
             case BackgroundNode backgroundNode:
-                backgroundNode.ConstructBackgroundNode(_backgrounds, _background);
+                backgroundNode.ConstructBackgroundNode(_background);
                 return;
             
             case SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode:

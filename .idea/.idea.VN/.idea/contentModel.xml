@@ -706,6 +706,7 @@
             <e p="GlobalSound.cs" t="Include" />
             <e p="Level" t="Include">
               <e p="Background" t="Include">
+                <e p="AdditionalImageData.cs" t="Include" />
                 <e p="Background.cs" t="Include" />
                 <e p="BackgroundBuildMode.cs" t="Include" />
                 <e p="BackgroundContent" t="Include">
@@ -713,10 +714,12 @@
                   <e p="BackgroundContentCreator.cs" t="Include" />
                 </e>
                 <e p="BackgroundContentValues.cs" t="Include" />
+                <e p="BackgroundContentWithAdditionalImage.cs" t="Include" />
                 <e p="BackgroundData.cs" t="Include" />
                 <e p="BackgroundEditMode.cs" t="Include" />
                 <e p="BackgroundPoints.cs" t="Include" />
                 <e p="BackgroundViewSetting.cs" t="Include" />
+                <e p="IAdditionalSpritesProviderToNode.cs" t="Include" />
                 <e p="SpriteRendererCreator" t="Include">
                   <e p="SpriteRendererCreator.cs" t="Include" />
                   <e p="SpriteRendererCreatorBuild.cs" t="Include" />
@@ -892,7 +895,6 @@
             <e p="SaveService" t="Include">
               <e p="BackgroundSaveData" t="Include">
                 <e p="BackgroundSaveData.cs" t="Include" />
-                <e p="IndexesBackgroundContentWithAdditionalImage.cs" t="Include" />
               </e>
               <e p="SaveData.cs" t="Include" />
               <e p="SaveMetods" t="Include">
@@ -956,6 +958,7 @@
             <e p="BackgroundNode" t="Include">
               <e p="BackgroundNode.cs" t="Include" />
               <e p="BackgroundNodeMode.cs" t="Include" />
+              <e p="IBackgroundsProviderToBackgroundNode.cs" t="Include" />
             </e>
             <e p="BaseNode.cs" t="Include" />
             <e p="ChangeLookCustomCharacterNode.cs" t="Include" />

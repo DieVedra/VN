@@ -4,8 +4,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class BackgroundSaveData
 {
-    public List<int> ArtOpenedIndexes;
-    public List<IndexesBackgroundContentWithAdditionalImage> IndexesBackgroundContentWithAdditionalImage;
+    public HashSet<string> ArtOpenedKeys;
+    public List<BackgroundContentWithAdditionalImage> BackgroundContentWithAdditionalImage;
 
-    public int CurrentIndexBackgroundContent;
+    public string CurrentKeyBackgroundContent;
 }

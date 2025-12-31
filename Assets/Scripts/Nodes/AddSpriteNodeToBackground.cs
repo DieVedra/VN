@@ -36,14 +36,14 @@ public class AddSpriteNodeToBackground : BaseNode
 
     protected override void SetInfoToView()
     {
-        if (_addToBackground)
-        {
-            _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
-        }
-
-        if (_removeFromBackground)
-        {
-            _background.TryRemoveAdditionalSpriteToBackgroundContent(_indexBackgroundToRemove, _indexRemoveSprite);
-        }
+        // if (_addToBackground)
+        // {
+        //     _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
+        // }
+        //
+        // if (_removeFromBackground)
+        // {
+        //     _background.TryRemoveAdditionalSpriteToBackgroundContent(_indexBackgroundToRemove, _indexRemoveSprite);
+        // }
     }
 }

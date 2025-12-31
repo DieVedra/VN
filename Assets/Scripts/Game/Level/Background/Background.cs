@@ -5,14 +5,15 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class Background : MonoBehaviour
+public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode
 {
     [SerializeField] private SpriteRenderer _colorOverlay;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
     
-    [SerializeField, NaughtyAttributes.ReadOnly] private List<int> _artOpenedIndexes;
+    
+    // [SerializeField, NaughtyAttributes.ReadOnly] private List<int> _artOpenedIndexes;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
 
@@ -32,82 +33,89 @@ public class Background : MonoBehaviour
     protected const int ArtShowerOrderInLayer = 10;
     protected const float ArtShowerValueScale = 0.88f;
 
+    protected Dictionary<string, BackgroundContent> BackgroundContentDictionary;
+    protected Dictionary<string, Sprite> AdditionalImagesToBackgroundDictionary;
+    protected Dictionary<string, Sprite> ArtsSpritesDictionary;
+    protected HashSet<string> ArtOpenedKeys;
     protected SpriteRenderer ArtShower;
     protected BackgroundContent WardrobeBackground;
     protected BackgroundSaveData BackgroundSaveData;
-    
+
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected ISetLighting SetLighting;
     protected SpriteRendererCreator BackgroundContentAdditionalSpriteRendererCreator;
-    public int CurrentIndexBackgroundContent { get; private set; }
+    public string CurrentKeyBackgroundContent { get; private set; }
     public BackgroundPosition CurrentBackgroundPosition { get; private set; }
     public List<BackgroundContent> GetBackgroundContent => BackgroundContent;
     public IReadOnlyList<Sprite> GetAdditionalImagesToBackground => AdditionalImagesToBackground;
-    public IReadOnlyList<int> ArtOpenedIndexes => _artOpenedIndexes;
 
     public IReadOnlyList<Sprite> GetArtsSprites => ArtsSprites;
+
+    public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary => BackgroundContentDictionary;
+    public IReadOnlyDictionary<string, Sprite> GetAdditionalImagesToBackgroundDictionary => AdditionalImagesToBackgroundDictionary;
 
     public void InitSaveData(BackgroundSaveData backgroundSaveData)
     {
         BackgroundSaveData = backgroundSaveData;
-        _artOpenedIndexes = backgroundSaveData.ArtOpenedIndexes;
-        CurrentIndexBackgroundContent = backgroundSaveData.CurrentIndexBackgroundContent;
+        ArtOpenedKeys = backgroundSaveData.ArtOpenedKeys;
+        CurrentKeyBackgroundContent = backgroundSaveData.CurrentKeyBackgroundContent;
     }
 
     public BackgroundSaveData GetBackgroundSaveData()
     {
         BackgroundSaveData = new BackgroundSaveData
         {
-            ArtOpenedIndexes = _artOpenedIndexes,
-            CurrentIndexBackgroundContent = CurrentIndexBackgroundContent,
-            IndexesBackgroundContentWithAdditionalImage = new List<IndexesBackgroundContentWithAdditionalImage>()
+            ArtOpenedKeys = ArtOpenedKeys,
+            CurrentKeyBackgroundContent = CurrentKeyBackgroundContent,
+            BackgroundContentWithAdditionalImage = new List<BackgroundContentWithAdditionalImage>()
         };
-        for (int i = 0; i < BackgroundContent.Count; i++)
+        foreach (var pair in BackgroundContentDictionary)
         {
-            if (BackgroundContent[i].GetIndexesAdditionalImage.Count > 0)
+            if (pair.Value.GetKeysAdditionalImage.Count > 0)
             {
-                IndexesBackgroundContentWithAdditionalImage indexes = new IndexesBackgroundContentWithAdditionalImage
+                BackgroundContentWithAdditionalImage indexes = new BackgroundContentWithAdditionalImage
                 {
-                    IndexesAdditionalImages = BackgroundContent[i].GetIndexesAdditionalImage.ToList(),
-                    IndexBackgroundContent = i
+                    KeyBackgroundContent = pair.Key,
+                    DataAdditionalImages = BackgroundContentDictionary[pair.Key].GetKeysAdditionalImage
                 };
-                BackgroundSaveData.IndexesBackgroundContentWithAdditionalImage.Add(indexes);
+                BackgroundSaveData.BackgroundContentWithAdditionalImage.Add(indexes);
             }
         }
         return BackgroundSaveData;
     }
 
-    protected void TryAddAddebleContentToBackgroundContent(IReadOnlyList<IndexesBackgroundContentWithAdditionalImage> indexes, int count)
+    protected void TryAddAddebleContentToBackgroundContent(IReadOnlyList<BackgroundContentWithAdditionalImage> indexes)
     {
-        for (int i = 0; i < count; ++i)
+        foreach (var pair1 in BackgroundContentDictionary)
         {
-            if (indexes.Count > 0)
+            foreach (var item in indexes)
             {
-                for (int j = 0; j < indexes.Count; ++j)
+                if (item.KeyBackgroundContent == pair1.Key)
                 {
-                    if (i == indexes[j].IndexBackgroundContent)
+                    foreach (var pair2 in item.DataAdditionalImages)
                     {
-                        for (int k = 0; k < indexes[j].IndexesAdditionalImages.Count; ++k)
-                        {
-                            AddAdditionalSpriteToBackgroundContent(i,
-                                indexes[j].IndexesAdditionalImages[k].IndexAdditionalImage,
-                                indexes[j].IndexesAdditionalImages[k].LocalPosition,
-                                indexes[j].IndexesAdditionalImages[k].Color);
-                        }
-                        break;
+                        AddAdditionalSpriteToBackgroundContent(pair1.Key,
+                            pair2.Key,
+                            pair2.Value.LocalPosition,
+                            pair2.Value.Color);
                     }
+                    break;
                 }
             }
         }
     }
-    public void AddAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage, Vector2 localPosition, Color color)
+
+    public void AddAdditionalSpriteToBackgroundContent(string keyBackground, string keyAdditionalImage, Vector2 localPosition, Color color)
     {
-        BackgroundContent[indexBackground].AddAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage], localPosition, color, indexAdditionalImage);
+        BackgroundContentDictionary[keyBackground].AddAdditionalSprite(
+            AdditionalImagesToBackgroundDictionary[keyAdditionalImage], localPosition, color, keyAdditionalImage);
     }
-    public void TryRemoveAdditionalSpriteToBackgroundContent(int indexBackground, int indexAdditionalImage)
+
+    public void TryRemoveAdditionalSpriteToBackgroundContent(string keyBackground, string keyAdditionalImage)
     {
-        BackgroundContent[indexBackground].RemoveAdditionalSprite(AdditionalImagesToBackground[indexAdditionalImage].name, indexAdditionalImage);
+        BackgroundContentDictionary[keyBackground].RemoveAdditionalSprite(AdditionalImagesToBackgroundDictionary[keyAdditionalImage].name, keyAdditionalImage);
     }
+
     public void ShowArtImage(int indexArt)
     {
         ArtShower.color = new Color(1f,1f,1f,1f);
@@ -115,17 +123,19 @@ public class Background : MonoBehaviour
         ArtShower.gameObject.SetActive(true);
         ArtShower.sprite = ArtsSprites[indexArt];
     }
+
     public async UniTask ShowImageInPlayMode(int indexArt, CancellationToken cancellationToken)
     {
         ArtShower.color = new Color(1f,1f,1f,0f);
         ArtShower.sprite = ArtsSprites[indexArt];
         // CurrentArtIndex = indexArt;
-        _artOpenedIndexes.Add(indexArt);
+        // _artOpenedIndexes.Add(indexArt);
         ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
         ArtShower.gameObject.SetActive(true);
         await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
             ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
     }
+
     public async UniTask HideImageInPlayMode(CancellationToken cancellationToken)
     {
         ArtShower.color = new Color(1f,1f,1f,1f);
@@ -133,34 +143,36 @@ public class Background : MonoBehaviour
         ArtShower.gameObject.SetActive(true);
         await ArtShower.DOFade(_startFadeValue, _durationFade).WithCancellation(cancellationToken);
     }
-    public void SetBackgroundPosition(BackgroundPosition backgroundPosition, int index)
+
+    public void SetBackgroundPosition(BackgroundPosition backgroundPosition, string key)
     {
-        EnableBackgroundByIndex(index);
+        EnableBackgroundByKey(key);
         CurrentBackgroundPosition = backgroundPosition;
-        BackgroundContent[index].SetBackgroundPosition(backgroundPosition);
+        BackgroundContentDictionary[key].SetBackgroundPosition(backgroundPosition);
     }
-    public void SetBackgroundPositionFromSlider(float positionValue, int index)
+
+    public void SetBackgroundPositionFromSlider(float positionValue, string key)
     {
-        EnableBackgroundByIndex(index);
-        BackgroundContent[index].SetBackgroundPositionFromSlider(positionValue);
+        EnableBackgroundByKey(key);
+        BackgroundContentDictionary[key].SetBackgroundPositionFromSlider(positionValue);
     }
+
     public void SetWardrobeBackground()
     {
         DisableBackground();
         WardrobeBackground.gameObject.SetActive(true);
         WardrobeBackground.SetBackgroundPosition(BackgroundPosition.Central);
     }
-    public async UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, int index)
+    public async UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, string key)
     {
-        EnableBackgroundByIndex(index);
-        await BackgroundContent[index].MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
+        EnableBackgroundByKey(key);
+        await BackgroundContentDictionary[key].MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
     }
-
-    public async UniTask SmoothChangeBackground(int indexTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken)
+    public async UniTask SmoothChangeBackground(string keyTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken)
     {
         DisableBackground();
-        var contentTo = BackgroundContent[indexTo];
-        var contentFrom = BackgroundContent[CurrentIndexBackgroundContent];
+        var contentTo = BackgroundContentDictionary[keyTo];
+        var contentFrom = BackgroundContentDictionary[CurrentKeyBackgroundContent];
         SetAlphaAndOrder(contentTo, _minAlpha, _orderTo);
         SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
         contentTo.SetBackgroundPosition(toBackgroundPosition);
@@ -168,20 +180,21 @@ public class Background : MonoBehaviour
         await contentTo.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken);
         contentFrom.Diactivate();
         SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
-        CurrentIndexBackgroundContent = indexTo;
+        CurrentKeyBackgroundContent = keyTo;
     }
 
-    public void SmoothChangeBackgroundEmmidiately(int indexTo, BackgroundPosition toBackgroundPosition)
+    public void SmoothChangeBackgroundEmmidiately(string keyTo, BackgroundPosition toBackgroundPosition)
     {
-        var contentTo = BackgroundContent[indexTo];
-        var contentFrom = BackgroundContent[CurrentIndexBackgroundContent];
+        var contentTo = BackgroundContentDictionary[keyTo];
+        var contentFrom = BackgroundContentDictionary[CurrentKeyBackgroundContent];
         SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
         SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
         contentFrom.Diactivate();
         contentTo.SetBackgroundPosition(toBackgroundPosition);
         contentTo.Activate();
-        CurrentIndexBackgroundContent = indexTo;
+        CurrentKeyBackgroundContent = keyTo;
     }
+
     private void SetAlphaAndOrder(BackgroundContent content, float alpha, int order)
     {
         Color color = content.SpriteRenderer.color;
@@ -189,6 +202,7 @@ public class Background : MonoBehaviour
         content.SpriteRenderer.color = color;
         content.SpriteRenderer.sortingOrder = order;
     }
+
     public async UniTask SetColorOverlayBackground(Color color, CancellationToken cancellationToken, float duration, bool enable)
     {
         if (enable == true)
@@ -201,6 +215,7 @@ public class Background : MonoBehaviour
             _colorOverlay.gameObject.SetActive(false);
         }
     }
+
     public void SetColorOverlayBackground(Color color, bool enable)
     {
         if (enable == true)
@@ -213,22 +228,27 @@ public class Background : MonoBehaviour
             _colorOverlay.gameObject.SetActive(false);
         }
     }
+
     public void SetBackgroundMovementDuringDialogueInEditMode(DirectionType directionType)
     {
-        BackgroundContent[CurrentIndexBackgroundContent].MovementDuringDialogueInEditMode(directionType);
+        BackgroundContentDictionary[CurrentKeyBackgroundContent].MovementDuringDialogueInEditMode(directionType);
     }
+
     public async UniTask SetBackgroundMovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
-        await BackgroundContent[CurrentIndexBackgroundContent].MovementDuringDialogueInPlayMode(cancellationToken, directionType);
+        await BackgroundContentDictionary[CurrentKeyBackgroundContent].MovementDuringDialogueInPlayMode(cancellationToken, directionType);
     }
 
-    private void EnableBackgroundByIndex(int index)
+    private void EnableBackgroundByKey(string key)
     {
         DisableBackground();
-        BackgroundContent[index].Activate();
-        CurrentIndexBackgroundContent = index;
-    }
+        if (BackgroundContentDictionary.ContainsKey(key))
+        {
+            BackgroundContentDictionary[key].Activate();
+        }
 
+        CurrentKeyBackgroundContent = key;
+    }
     private void DisableBackground()
     {
         ArtShower.gameObject.SetActive(false);
@@ -239,6 +259,7 @@ public class Background : MonoBehaviour
             background.Diactivate();
         }
     }
+
     protected void InitArtShower()
     {
         GameObject o;
