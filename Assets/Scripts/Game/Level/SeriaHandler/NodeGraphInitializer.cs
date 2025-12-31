@@ -22,14 +22,13 @@ public class NodeGraphInitializer
     private readonly Sound _sound;
     private readonly Wallet _wallet;
 
-    public NodeGraphInitializer(List<BackgroundContent> backgrounds, IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
+    public NodeGraphInitializer(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
         WardrobeCharacterViewer wardrobeCharacterViewer, Sound sound, Wallet wallet, IGameStatsProvider gameStatsProvider, IPhoneProvider phoneProvider,
         SwitchToNextNodeEvent switchToNextNodeEvent, SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> switchToAnotherNodeGraphEvent,
         DisableNodesContentEvent disableNodesContentEvent , SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         SetLocalizationChangeEvent setLocalizationChangeEvent, ReactiveProperty<bool> phoneNodeIsActive)
     {
-        _backgrounds = backgrounds;
         _customizableCharacterIndexesCustodians = customizableCharacterIndexesCustodians;
         _characterProvider = characterProvider;
         _background = background;
@@ -94,7 +93,6 @@ public class NodeGraphInitializer
             
             case BackgroundNode backgroundNode:
                 backgroundNode.ConstructBackgroundNode(_background);
-                backgroundNode.ConstructBackgroundNode(_backgroundsProviderToBackgroundNode);
                 return;
             
             case SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode:
@@ -142,8 +140,8 @@ public class NodeGraphInitializer
                 return;
             
             case HeaderNode handlerNode:
-                handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
-                handlerNode.Construct(_backgroundsProviderToBackgroundNode.GetBackgroundContentDictionary, _backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
+                
+                handlerNode.Construct(_background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
                     _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
                 return;
             

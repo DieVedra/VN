@@ -1,19 +1,15 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode
+public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode, IBackgroundsProviderToHeaderNode
 {
     [SerializeField] private SpriteRenderer _colorOverlay;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
-    
-    
-    // [SerializeField, NaughtyAttributes.ReadOnly] private List<int> _artOpenedIndexes;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
 

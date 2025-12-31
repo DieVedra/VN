@@ -106,7 +106,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         InitBackground();
         _phoneProviderInEditMode.Construct(phoneMessagesCustodian, phoneSaveHandler);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, phoneSaveHandler);
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundEditMode, _backgroundEditMode.GetBackgroundContent, _characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), phoneNodeIsActive);
         DisableNodesContentEvent.Execute();

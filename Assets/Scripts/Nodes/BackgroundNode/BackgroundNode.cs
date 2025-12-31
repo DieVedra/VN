@@ -23,18 +23,11 @@ public class BackgroundNode : BaseNode
 
     [SerializeField] private Color _color;
     private IBackgroundsProviderToBackgroundNode _background;
-    // public List<BackgroundContent> Backgrounds => _background?.GetBackgroundContent;
     public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary => _background?.GetBackgroundContentDictionary;
     public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
         _background = background;
-    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary { get; private set; }
-    public bool IsSmoothCurtain => _isSmoothCurtain;
-    public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode backgroundsProviderToBackgroundNode)
-    {
-        _background = backgroundsProviderToBackgroundNode;
-        BackgroundsDictionary = backgroundsProviderToBackgroundNode.GetBackgroundContentDictionary;
     }
 
     public override async UniTask Enter(bool isMerged = false)

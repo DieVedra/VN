@@ -114,9 +114,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
         InitBackground();
         
-        NodeGraphInitializer = new NodeGraphInitializer(_backgroundBuildMode, _backgroundBuildMode.GetBackgroundContent,
-            _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
-            _characterProvider,_backgroundBuildMode,
+        NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
+            _characterProvider, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, _phoneNodeIsActive);

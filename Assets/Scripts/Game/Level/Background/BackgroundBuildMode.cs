@@ -10,7 +10,7 @@ public class BackgroundBuildMode : Background
     private BackgroundDataProvider _backgroundDataProvider;
     private BackgroundContentCreator _backgroundContentCreator;
 
-    public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator, ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
+    
     public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator,
  ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
     {

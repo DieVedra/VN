@@ -23,29 +23,27 @@ public class HeaderNode : BaseNode, ILocalizable
     private HeaderSeriesPanelHandlerUI _headerSeriesPanelHandlerUI;
     private CurtainUIHandler _curtainUIHandler;
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
-    private Background _background;
+    private IBackgroundsProviderToHeaderNode _background;
     private CompositeDisposable _compositeDisposable;
     
     public Sound Sound { get; private set; }
-    public IReadOnlyList<BackgroundContent> Backgrounds { get; private set; }
-    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary { get; private set; }
+    public IReadOnlyList<BackgroundContent> Backgrounds => _background?.GetBackgroundContent;
 
+    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary =>
+        _background?.GetBackgroundContentDictionary;
 
-    public void Construct(IReadOnlyDictionary<string, BackgroundContent> backgroundsDictionary, IReadOnlyList<BackgroundContent> backgrounds, Background background, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
-        CurtainUIHandler curtainUIHandler, ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, Sound sound)
+    public void Construct(IBackgroundsProviderToHeaderNode provider, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
+        CurtainUIHandler curtainUIHandler,ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, Sound sound)
     {
-        Backgrounds = backgrounds;
-        BackgroundsDictionary = backgroundsDictionary;
-        _background = background;
+        _background = provider;
         _headerSeriesPanelHandlerUI = headerSeriesPanelHandlerUI;
         _curtainUIHandler = curtainUIHandler;
-        _buttonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
         Sound = sound;
+        _buttonSwitchSlideUIHandler = buttonSwitchSlideUIHandler;
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
-        // _previousIndexBackground = _background.CurrentIndexBackgroundContent;
         _previousKeyBackground = _background.CurrentKeyBackgroundContent;
 
         CancellationTokenSource = new CancellationTokenSource();
@@ -82,7 +80,6 @@ public class HeaderNode : BaseNode, ILocalizable
         {
             await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
         }
-        // _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousIndexBackground);
         _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousKeyBackground);
         _headerSeriesPanelHandlerUI.OffHeader();
         _compositeDisposable.Dispose();
@@ -90,7 +87,6 @@ public class HeaderNode : BaseNode, ILocalizable
 
     protected override void SetInfoToView()
     {
-        // _background.SetBackgroundPositionFromSlider(_backgroundPositionValue, _indexBackground);
         _background.SetBackgroundPositionFromSlider(_backgroundPositionValue, _keyBackground);
         SetHeaderTexts();
     }

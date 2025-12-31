@@ -22,11 +22,9 @@ public class AddSpriteNodeToBackground : BaseNode
     [SerializeField] private string _keyRemoveSprite;
     [SerializeField] private string _keyBackgroundToRemove;
 
-    private Background _background;
     private IAdditionalSpritesProviderToNode _background;
     public IReadOnlyList<BackgroundContent> Backgrounds => _background.GetBackgroundContent;
     public IReadOnlyList<Sprite> AdditionalImagesToBackground => _background.GetAdditionalImagesToBackground;
-    public void ConstructMyAddSpriteNode(Background background)
 
     public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary =>
         _background?.GetBackgroundContentDictionary;
@@ -67,21 +65,12 @@ public class AddSpriteNodeToBackground : BaseNode
     {
         // if (_addToBackground)
         // {
-        //     _background.AddAdditionalSpriteToBackgroundContent(_indexBackground, _indexSprite, _localPosition, _color);
+        //     _background.AddAdditionalSpriteToBackgroundContent(_keyBackground, _keySprite, _localPosition, _color);
         // }
         //
         // if (_removeFromBackground)
         // {
-        //     _background.TryRemoveAdditionalSpriteToBackgroundContent(_indexBackgroundToRemove, _indexRemoveSprite);
+        //     _background.TryRemoveAdditionalSpriteToBackgroundContent(_keyBackgroundToRemove, _keyRemoveSprite);
         // }
-        if (_addToBackground)
-        {
-            _background.AddAdditionalSpriteToBackgroundContent(_keyBackground, _keySprite, _localPosition, _color);
-        }
-
-        if (_removeFromBackground)
-        {
-            _background.TryRemoveAdditionalSpriteToBackgroundContent(_keyBackgroundToRemove, _keyRemoveSprite);
-        }
     }
 }
