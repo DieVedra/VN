@@ -19,10 +19,10 @@ public class ChoicePhoneNode : ChoiceNode
         ChoicePanelUIHandler = choicePanelUIHandler;
         GameStatsProvider = gameStatsProvider;
         _curtainUIHandler = curtainUIHandler;
-        for (int i = 0; i < _choiceCases.Count; i++)
-        {
-            _choiceCases[i].InitLocalizationString();
-        }
+        // for (int i = 0; i < _choiceCases.Count; i++)
+        // {
+        //     _choiceCases[i].InitLocalizationString();
+        // }
         if (IsPlayMode() == false)
         {
             ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);

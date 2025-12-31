@@ -18,25 +18,27 @@ public class ChoiceCase
     public IEnumerable<BaseStat> BaseStatsChoice => _baseStatsChoice;
     public IReadOnlyList<BaseStat> BaseStatsChoiceIReadOnly => _baseStatsChoice;
 
-    public ChoiceCase(List<BaseStat> baseStatsChoice, string choiceText,
+    public ChoiceCase(List<BaseStat> baseStatsChoice, LocalizationString choiceText,
         int choicePrice, int choiceAdditionaryPrice, bool showNotificationChoice)
     {
         _choiceText = choiceText;
+        _localizationChoiceText = choiceText;
         _choicePrice = choicePrice;
         _choiceAdditionaryPrice = choiceAdditionaryPrice;
         _showNotificationChoice = showNotificationChoice;
         _baseStatsChoice = baseStatsChoice;
     }
 
-    public void InitLocalizationString()
-    {
-        _localizationChoiceText = new LocalizationString(_choiceText);
-    }
     public ChoiceCase(List<BaseStat> baseStatsChoice)
     {
         _baseStatsChoice = baseStatsChoice;
     }
-    
+
+    public void InitLocalizationString(string text)
+    {
+        _localizationChoiceText = new LocalizationString(text);
+    }
+
     public LocalizationString GetLocalizationString()
     {
         return _localizationChoiceText;

@@ -150,7 +150,10 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     public void SetBackgroundPositionFromSlider(float positionValue, string key)
     {
         EnableBackgroundByKey(key);
-        BackgroundContentDictionary[key].SetBackgroundPositionFromSlider(positionValue);
+        if (BackgroundContentDictionary.TryGetValue(key, out var value))
+        {
+            value.SetBackgroundPositionFromSlider(positionValue);
+        }
     }
 
     public void SetWardrobeBackground()
@@ -238,9 +241,9 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     private void EnableBackgroundByKey(string key)
     {
         DisableBackground();
-        if (BackgroundContentDictionary.ContainsKey(key))
+        if (BackgroundContentDictionary.TryGetValue(key, out var value))
         {
-            BackgroundContentDictionary[key].Activate();
+            value.Activate();
         }
 
         CurrentKeyBackgroundContent = key;

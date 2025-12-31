@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
@@ -126,23 +124,25 @@ public class BackgroundContent : MonoBehaviour
     }
     public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage)
     {
-        if (_addContent == null)
+        if (_keysAdditionalImage.ContainsKey(keyAdditionalImage) == false)
         {
-            _addContent = new Dictionary<string, SpriteRenderer>();
-        }
+            if (_addContent == null)
+            {
+                _addContent = new Dictionary<string, SpriteRenderer>();
+            }
 
-        AdditionalImageData additionalImageData = new AdditionalImageData
-        {
-            LocalPosition = localPosition, Color = color
-        };
-        _keysAdditionalImage.Add(keyAdditionalImage, additionalImageData);
-        SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
-        spriteRenderer.sprite = sprite;
-        spriteRenderer.color = color;
-        spriteRenderer.transform.localPosition = localPosition;
-        spriteRenderer.sortingOrder = _addContent.Count + 1;
-        _addContent.Add(sprite.name, spriteRenderer);
-        Debug.Log($"sprite.name");
+            AdditionalImageData additionalImageData = new AdditionalImageData
+            {
+                LocalPosition = localPosition, Color = color
+            };
+            _keysAdditionalImage.Add(keyAdditionalImage, additionalImageData);
+            SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
+            spriteRenderer.sprite = sprite;
+            spriteRenderer.color = color;
+            spriteRenderer.transform.localPosition = localPosition;
+            spriteRenderer.sortingOrder = _addContent.Count + 1;
+            _addContent.Add(sprite.name, spriteRenderer);
+        }
     }
     public void RemoveAdditionalSprite(string nameSprite, string keyAdditionalImage)
     {

@@ -18,17 +18,13 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private int _indexHeaderAudio;
     [SerializeField] private bool _playHeaderAudio;
     
-    
     private string _previousKeyBackground;
     private HeaderSeriesPanelHandlerUI _headerSeriesPanelHandlerUI;
     private CurtainUIHandler _curtainUIHandler;
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private IBackgroundsProviderToHeaderNode _background;
     private CompositeDisposable _compositeDisposable;
-    
     public Sound Sound { get; private set; }
-    public IReadOnlyList<BackgroundContent> Backgrounds => _background?.GetBackgroundContent;
-
     public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary =>
         _background?.GetBackgroundContentDictionary;
 

@@ -13,7 +13,6 @@ public class BackgroundNodeDrawer : NodeEditor
     private MethodInfo _privateMethodOnSetBackground;
     private SerializedProperty _isSmoothCurtainSerializedProperty;
     private SerializedProperty _keySerializedProperty;
-    private SerializedProperty _keyToSerializedProperty;
     private SerializedProperty _backgroundNodeModeSerializedProperty;
     private SerializedProperty _inputPortSerializedProperty;
     private SerializedProperty _outputPortSerializedProperty;
@@ -50,12 +49,20 @@ public class BackgroundNodeDrawer : NodeEditor
             _changeMode2DurationSerializedProperty = serializedObject.FindProperty("_changeMode2Duration");
             _backgroundPositionMode2SerializedProperty = serializedObject.FindProperty("_backgroundPositionMode2");
             _keySerializedProperty = serializedObject.FindProperty("_key");
-            _keyToSerializedProperty = serializedObject.FindProperty("_keyTo");
             _awaitedSmoothChangeBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSmoothChangeBackground");
             _awaitedSmoothBackgroundChangePositionSerializedProperty = serializedObject.FindProperty("_awaitedSmoothBackgroundChangePosition");
             _awaitedSetColorOverlayBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSetColorOverlayBackground");
             _enumPopupDrawer = new EnumPopupDrawer();
             _lineDrawer = new LineDrawer();
+            if (string.IsNullOrEmpty(_keySerializedProperty.stringValue))
+            {
+                foreach (var pair in _backgroundNode.BackgroundsDictionary)
+                {
+                    _keySerializedProperty.stringValue = pair.Value.name;
+                    serializedObject.ApplyModifiedProperties();
+                    break;
+                }
+            }
         }
         else
         {
@@ -73,7 +80,6 @@ public class BackgroundNodeDrawer : NodeEditor
                 EditorGUILayout.LabelField(_discriptionText2);
                 EditorGUILayout.LabelField(_discriptionText3);
             }
-            // EditorGUILayout
             _lineDrawer.DrawHorizontalLine(Color.green);
             switch (_backgroundNodeModeSerializedProperty.enumValueIndex)
             {
@@ -120,7 +126,7 @@ public class BackgroundNodeDrawer : NodeEditor
         _awaitedSmoothChangeBackgroundSerializedProperty.boolValue =
             EditorGUILayout.Toggle("Awaited: ", _awaitedSmoothChangeBackgroundSerializedProperty.boolValue);
         _changeMode2DurationSerializedProperty.floatValue = EditorGUILayout.FloatField("Duration: ", _changeMode2DurationSerializedProperty.floatValue);
-        DrawPopup(_keyToSerializedProperty, "To: ");
+        DrawPopup(_keySerializedProperty, "To: ");
         _enumPopupDrawer.DrawEnumPopup<BackgroundPosition>(_backgroundPositionMode2SerializedProperty, "To End Pos: ");
         if (EditorGUI.EndChangeCheck())
         {
@@ -174,7 +180,6 @@ public class BackgroundNodeDrawer : NodeEditor
                 {
                     serializedPropertyKey.stringValue = _namesToPopup[_currentIndex];
                     serializedObject.ApplyModifiedProperties();
-                    Debug.Log($"_currentIndex {_currentIndex} {serializedPropertyKey.stringValue}");
                 }
             }
         }

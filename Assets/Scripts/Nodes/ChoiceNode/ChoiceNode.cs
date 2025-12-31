@@ -174,9 +174,9 @@ public class ChoiceNode : BaseNode, ILocalizable
         return $"{PortNamePart1}{index}{PortNamePart2}";
     }
 
-    private void InitLocalizationStringInCase(int index)
+    private void InitLocalizationStringInCase(int index, string text)
     {
-        _choiceCases[index].InitLocalizationString();
+        _choiceCases[index].InitLocalizationString(text);
     }
     private void AddCase()
     {

@@ -9,14 +9,12 @@ public class HeaderNodeDrawer : NodeEditor
 {
     private const int _maxCountSymbols = 200;
     private HeaderNode _headerNode;
-    private SerializedProperty _spriteSerializedProperty;
     private SerializedProperty _text1SerializedProperty;
     private SerializedProperty _text2SerializedProperty;
     private SerializedProperty _color1SerializedProperty;
     private SerializedProperty _color2SerializedProperty;
     private SerializedProperty _textSize1SerializedProperty;
     private SerializedProperty _textSize2SerializedProperty;
-    private SerializedProperty _indexBackgroundSerializedProperty;
     private SerializedProperty _keyBackgroundSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
     private SerializedProperty _indexHeaderAudioSerializedProperty;
@@ -30,7 +28,6 @@ public class HeaderNodeDrawer : NodeEditor
 
     private List<string> _namesToPopup;
 
-    private string[] _backgroundsNames;
     private string[] _audioNames;
     private int _currentIndex;
     private int _index;
@@ -39,16 +36,12 @@ public class HeaderNodeDrawer : NodeEditor
         if (_headerNode == null)
         {
             _headerNode = target as HeaderNode;
-            _spriteSerializedProperty = serializedObject.FindProperty("_sprite");
             _text1SerializedProperty = serializedObject.FindProperty("_localizationText1");
             _text2SerializedProperty = serializedObject.FindProperty("_localizationText2");
             _color1SerializedProperty = serializedObject.FindProperty("_colorField1");
             _color2SerializedProperty = serializedObject.FindProperty("_colorField2");
             _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
             _textSize2SerializedProperty = serializedObject.FindProperty("_textSize2");
-            
-            _indexBackgroundSerializedProperty = serializedObject.FindProperty("_indexBackground");
-            
             _keyBackgroundSerializedProperty = serializedObject.FindProperty("_keyBackground");
             _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
             _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");

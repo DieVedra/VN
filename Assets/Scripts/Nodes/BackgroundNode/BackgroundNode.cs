@@ -13,9 +13,12 @@ public class BackgroundNode : BaseNode
     
     [SerializeField] private float _changeColorDuration;
     [SerializeField] private float _changeMode2Duration;
+    
     [SerializeField] private bool _awaitedSmoothChangeBackground;
     [SerializeField] private bool _awaitedSmoothBackgroundChangePosition;
     [SerializeField] private bool _awaitedSetColorOverlayBackground;
+    [SerializeField] private bool _awaited;
+    
     [SerializeField] private bool _isSmoothCurtain;
     [SerializeField] private bool _mode3Enable;
     [SerializeField] private BackgroundPosition _backgroundPosition;

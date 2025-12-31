@@ -160,7 +160,7 @@ public class ChoiceNodeDrawer : NodeEditor
         if (EditorGUI.EndChangeCheck())
         {
             serializedObject.ApplyModifiedProperties();
-            _initLocalizationStringInCase.Invoke(NodeForCallMethods, new object[] {index});
+            _initLocalizationStringInCase.Invoke(NodeForCallMethods, new object[] {index, _caseProperty.stringValue});
             serializedObject.Update();
         }
 
