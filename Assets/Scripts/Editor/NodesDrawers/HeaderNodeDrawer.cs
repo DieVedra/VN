@@ -17,52 +17,54 @@ public class HeaderNodeDrawer : NodeEditor
     private SerializedProperty _textSize1SerializedProperty;
     private SerializedProperty _textSize2SerializedProperty;
     private SerializedProperty _indexBackgroundSerializedProperty;
+    private SerializedProperty _keyBackgroundSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
     private SerializedProperty _indexHeaderAudioSerializedProperty;
     private SerializedProperty _playHeaderAudioSerializedProperty;
+    private SerializedProperty _inputPortSerializedProperty;
+    private SerializedProperty _outputPortSerializedProperty;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
     private LocalizationString _localizationText1;
     private LocalizationString _localizationText2;
     private MethodInfo _privateMethod;
 
+    private List<string> _namesToPopup;
 
     private string[] _backgroundsNames;
     private string[] _audioNames;
-
+    private int _currentIndex;
+    private int _index;
     public override void OnBodyGUI()
     {
         if (_headerNode == null)
         {
             _headerNode = target as HeaderNode;
+            _spriteSerializedProperty = serializedObject.FindProperty("_sprite");
+            _text1SerializedProperty = serializedObject.FindProperty("_localizationText1");
+            _text2SerializedProperty = serializedObject.FindProperty("_localizationText2");
+            _color1SerializedProperty = serializedObject.FindProperty("_colorField1");
+            _color2SerializedProperty = serializedObject.FindProperty("_colorField2");
+            _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
+            _textSize2SerializedProperty = serializedObject.FindProperty("_textSize2");
+            
+            _indexBackgroundSerializedProperty = serializedObject.FindProperty("_indexBackground");
+            
+            _keyBackgroundSerializedProperty = serializedObject.FindProperty("_keyBackground");
+            _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
+            _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");
+            _indexHeaderAudioSerializedProperty = serializedObject.FindProperty("_indexHeaderAudio");
+            _inputPortSerializedProperty = serializedObject.FindProperty("Input");
+            _outputPortSerializedProperty = serializedObject.FindProperty("Output");
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
+            _localizationText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text1SerializedProperty);
+            _localizationText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text2SerializedProperty);
         }
         else
         {
-            EditorGUI.BeginChangeCheck();
             serializedObject.Update();
-            if (_localizationStringTextDrawer == null)
-            {            
-                _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
-            }
-
-            if (_spriteSerializedProperty == null)
-            {
-                _spriteSerializedProperty = serializedObject.FindProperty("_sprite");
-                _text1SerializedProperty = serializedObject.FindProperty("_localizationText1");
-                _text2SerializedProperty = serializedObject.FindProperty("_localizationText2");
-                _color1SerializedProperty = serializedObject.FindProperty("_colorField1");
-                _color2SerializedProperty = serializedObject.FindProperty("_colorField2");
-                _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
-                _textSize2SerializedProperty = serializedObject.FindProperty("_textSize2");
-                _indexBackgroundSerializedProperty = serializedObject.FindProperty("_indexBackground");
-                _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
-                _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");
-                _indexHeaderAudioSerializedProperty = serializedObject.FindProperty("_indexHeaderAudio");
-                _localizationText1 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text1SerializedProperty);
-                _localizationText2 = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_text2SerializedProperty);
-            }
-
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+            EditorGUI.BeginChangeCheck();
+            NodeEditorGUILayout.PropertyField(_inputPortSerializedProperty);
+            NodeEditorGUILayout.PropertyField(_outputPortSerializedProperty);
             DrawTextArea(_localizationText1, _color1SerializedProperty, _textSize1SerializedProperty,"Text Chapter Title:");
             DrawTextArea(_localizationText2, _color2SerializedProperty, _textSize2SerializedProperty,"Text Title:");
             DrawPopup();
@@ -99,12 +101,38 @@ public class HeaderNodeDrawer : NodeEditor
 
     private void DrawPopup()
     {
-        InitBackgroundsNames();
-
-        if (_headerNode.Backgrounds != null && _headerNode.Backgrounds.Count > 0)
+        if (_headerNode.BackgroundsDictionary != null && _headerNode.BackgroundsDictionary.Count > 0)
         {
-            _indexBackgroundSerializedProperty.intValue =
-                EditorGUILayout.Popup(_indexBackgroundSerializedProperty.intValue, _backgroundsNames);
+            if (_namesToPopup == null)
+            {
+                _namesToPopup = new List<string>();
+            }
+            else
+            {
+                _namesToPopup.Clear();
+            }
+            _index = 0;
+            _currentIndex = 0;
+            foreach (var pair in _headerNode.BackgroundsDictionary)
+            {
+                if (pair.Value.name == _keyBackgroundSerializedProperty.stringValue)
+                {
+                    _currentIndex = _index;
+                }
+                _namesToPopup.Add(pair.Value.name);
+                _index++;
+            }
+        
+            EditorGUI.BeginChangeCheck();
+            _currentIndex = EditorGUILayout.Popup(_currentIndex,  _namesToPopup.ToArray());
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (_namesToPopup.Count > _currentIndex)
+                {
+                    _keyBackgroundSerializedProperty.stringValue = _namesToPopup[_currentIndex];
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
         }
     }
 
@@ -134,22 +162,6 @@ public class HeaderNodeDrawer : NodeEditor
                 _indexHeaderAudioSerializedProperty.intValue =
                     EditorGUILayout.Popup(_indexHeaderAudioSerializedProperty.intValue, _audioNames);
             }
-        }
-    }
-    private void InitBackgroundsNames()
-    {
-        if (_headerNode.Backgrounds != null && _headerNode.Backgrounds.Count > 0)
-        {
-            List<string> backgroundsNames = new List<string>();
-            for (int i = 0; i < _headerNode.Backgrounds.Count; i++)
-            {
-                if (_headerNode.Backgrounds[i] != null)
-                {
-                    backgroundsNames.Add(_headerNode.Backgrounds[i].name);
-                }
-            }
-
-            _backgroundsNames = backgroundsNames.ToArray();
         }
     }
 

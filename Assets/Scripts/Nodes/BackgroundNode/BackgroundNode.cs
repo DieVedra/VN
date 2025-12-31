@@ -29,6 +29,12 @@ public class BackgroundNode : BaseNode
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
         _background = background;
+    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary { get; private set; }
+    public bool IsSmoothCurtain => _isSmoothCurtain;
+    public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode backgroundsProviderToBackgroundNode)
+    {
+        _background = backgroundsProviderToBackgroundNode;
+        BackgroundsDictionary = backgroundsProviderToBackgroundNode.GetBackgroundContentDictionary;
     }
 
     public override async UniTask Enter(bool isMerged = false)

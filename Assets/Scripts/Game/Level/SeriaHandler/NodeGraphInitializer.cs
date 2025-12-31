@@ -94,6 +94,7 @@ public class NodeGraphInitializer
             
             case BackgroundNode backgroundNode:
                 backgroundNode.ConstructBackgroundNode(_background);
+                backgroundNode.ConstructBackgroundNode(_backgroundsProviderToBackgroundNode);
                 return;
             
             case SwitchToAnotherNodeGraphNode switchToAnotherNodeGraphNode:
@@ -142,6 +143,7 @@ public class NodeGraphInitializer
             
             case HeaderNode handlerNode:
                 handlerNode.Construct(_backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
+                handlerNode.Construct(_backgroundsProviderToBackgroundNode.GetBackgroundContentDictionary, _backgrounds, _background, _levelUIProvider.HeaderSeriesPanelHandlerUI,
                     _levelUIProvider.CurtainUIHandler, _levelUIProvider.ButtonSwitchSlideUIHandler, _sound);
                 return;
             
