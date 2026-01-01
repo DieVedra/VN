@@ -13,12 +13,11 @@ public class GameSeriesHandler : MonoBehaviour
     protected NodeGraphInitializer NodeGraphInitializer;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     protected ReactiveProperty<int> CurrentSeriaIndexReactiveProperty;
-    protected ReactiveProperty<bool> PutOnSwimsuitKey;
     public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
     
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeGraphIndex;
     public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndex].CurrentNodeIndex;
-    public bool PutOnSwimsuitKeyProperty => PutOnSwimsuitKey.Value;
+    public bool PutOnSwimsuitKeyProperty => SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].PutOnSwimsuitKey;
 
     public virtual void Shutdown()
     {
@@ -34,7 +33,7 @@ public class GameSeriesHandler : MonoBehaviour
         {
             SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Shutdown();
         }
-        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(PutOnSwimsuitKey, NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     public NodePort GetNodePort(int nodeIndex)
     {

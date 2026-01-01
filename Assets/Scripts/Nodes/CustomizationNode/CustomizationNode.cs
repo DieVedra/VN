@@ -19,7 +19,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;  
 
     private const int SmileEmotionIndex = 2;
-    private Background _background;
+    private IBackgroundProviderToCustomizationNode _background;
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
@@ -91,9 +91,7 @@ public class CustomizationNode : BaseNode, ILocalizable
         await UniTask.WhenAll(
             _sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music),
             _customizationCurtainUIHandler.CurtainCloses(CancellationTokenSource.Token));
-        ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
-
-        _customizationCharacterPanelUIHandler.Dispose();
+        _customizationCharacterPanelUIHandler.ShutDown();
         _wardrobeCharacterViewer.ResetCharacterView();
         _wardrobeCharacterViewer.gameObject.SetActive(false);
     }

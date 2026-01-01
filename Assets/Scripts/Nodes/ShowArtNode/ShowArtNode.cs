@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 [NodeTint("#515000"), NodeWidth(350)]
@@ -9,9 +10,10 @@ public class ShowArtNode : BaseNode
 {
     [SerializeField] private ShowArtMode _artMode;
     [SerializeField] private int _spriteIndex;
+    [SerializeField] private string _spriteKey;
 
-    private Background _background;
-    public IReadOnlyList<Sprite> Arts => _background.GetArtsSprites;
+    private IBackgroundProviderToShowArtNode _background;
+    public IReadOnlyDictionary<string, Sprite> GetArtsSpritesDictionary => _background?.GetArtsSpritesDictionary;
 
     public void Construct(Background background)
     {
@@ -24,7 +26,7 @@ public class ShowArtNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        await _background.ShowImageInPlayMode(_spriteIndex, CancellationTokenSource.Token);
+        await _background.ShowImageInPlayMode(_spriteKey, CancellationTokenSource.Token);
         TryActivateButtonSwitchToNextSlide();
     }
 
@@ -42,7 +44,7 @@ public class ShowArtNode : BaseNode
 
     protected override void SetInfoToView()
     {
-        _background.ShowArtImage(_spriteIndex);
+        _background.ShowArtImage(_spriteKey);
     }
 
     public override void SkipEnterTransition()

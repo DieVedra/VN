@@ -14,6 +14,7 @@ public class MergerNode : BaseNode
     private TaskRunner _taskRunner;
     private MergedNodesDeterminator _mergedNodesDeterminator;
     private List<string> _names;
+    private List<Func<UniTask>> _tasks;
     private Dictionary<Type, Node> _mergerObjects;
 
     private bool _choiceNodeConnected => _mergerObjects.ContainsKey(typeof(ChoiceNode));
@@ -30,6 +31,7 @@ public class MergerNode : BaseNode
 
     public override async UniTask Enter(bool isMerged = false)
     {
+        ButtonSwitchSlideUIHandler.DeactivatePushOption();
         _mergerObjects = new Dictionary<Type, Node>();
         _mergedNodesDeterminator = new MergedNodesDeterminator(ref _mergerObjects);
         foreach (NodePort port in DynamicOutputs)
@@ -64,10 +66,11 @@ public class MergerNode : BaseNode
         }
 
         await _taskRunner.TryRunTasks(CreateTasksEnteredList());
+        ButtonSwitchSlideUIHandler.DeactivatePushOption();
         TryActivateButtonSwitchToNextSlide();
     }
 
-    public override async UniTask Exit()
+    public override BaseNode GetNextNode()
     {
         if (_choiceNodeConnected == true)
         {
@@ -81,29 +84,41 @@ public class MergerNode : BaseNode
         {
             SetNextNode(GetNextNodeFrom<CustomizationNode>());
         }
+        var a = base.GetNextNode();
+        return a;
+    }
+
+    public override async UniTask Exit()
+    {
         await _taskRunner.TryRunTasks(CreateTasksExitedList());
+        _tasks = null;
     }
 
     private List<Func<UniTask>> CreateTasksExitedList()
     {
-        List<Func<UniTask>> tasksExited = new List<Func<UniTask>>(_maxDynamicPortsCount);
-
+        if (_tasks == null)
+        {
+            _tasks = new List<Func<UniTask>>(_maxDynamicPortsCount);
+        }
+        else
+        {
+            _tasks.Clear();
+        }
         foreach (var mergerObject in _mergerObjects)
         {
-            tasksExited.Add(() => GetBaseNode(mergerObject.Value).Exit());
+            _tasks.Add(() => GetBaseNode(mergerObject.Value).Exit());
         }
-        return tasksExited;
+        return _tasks;
     }
 
     private List<Func<UniTask>> CreateTasksEnteredList()
     {
-        List<Func<UniTask>> tasksEntered = new List<Func<UniTask>>(_maxDynamicPortsCount);
+        _tasks = new List<Func<UniTask>>(_maxDynamicPortsCount);
         foreach (var mergerObject in _mergerObjects)
         {
-            tasksEntered.Add(() => GetBaseNode(mergerObject.Value).Enter(true));
+            _tasks.Add(() => GetBaseNode(mergerObject.Value).Enter(true));
         }
-
-        return tasksEntered;
+        return _tasks;
     }
     public override void SkipEnterTransition()
     {

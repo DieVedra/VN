@@ -12,7 +12,6 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent, ReactiveProperty<int> currentSeriaIndexReactiveProperty,
         int currentNodeGraphIndex = 0, int currentNodeIndex = 0, bool putOnSwimsuitKey = false)
     {
-        PutOnSwimsuitKey = new ReactiveProperty<bool>(putOnSwimsuitKey);
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
@@ -42,9 +41,9 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         {
             NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
             NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
-            NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Dispose();
+            NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Shutdown();
             NodeGraphInitializer.DisableNodesContentEvent.Shutdown();
-            NodeGraphInitializer.SwitchToNextSeriaEvent.Dispose();
+            NodeGraphInitializer.SwitchToNextSeriaEvent.Shutdown();
                 
             Debug.Log($"EndGame");
         }

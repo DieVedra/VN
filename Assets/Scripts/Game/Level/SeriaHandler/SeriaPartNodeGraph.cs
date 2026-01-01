@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 using XNode;
 
@@ -13,17 +12,16 @@ public class SeriaPartNodeGraph : NodeGraph
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
-	private ReactiveProperty<bool> _putOnSwimsuitKey;
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
 	public int NodeIndexToSave => nodes.IndexOf(_toSaveNode);
+	public bool PutOnSwimsuitKey { get; private set; }
 	
-	public void Init(ReactiveProperty<bool> putOnSwimsuitKey, NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
+	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
-		_putOnSwimsuitKey = putOnSwimsuitKey;
 		_nodeGraphInitializer = nodeGraphInitializer;
 		_currentNodeIndex = currentNodeIndex;
 		_currentSeriaIndex = currentSeriaIndex;
-		PutOnSwimsuit(_putOnSwimsuitKey.Value);
+		PutOnSwimsuit();
 		TryInitNodes();
 
 		if (Application.isPlaying == false)
@@ -57,15 +55,16 @@ public class SeriaPartNodeGraph : NodeGraph
 
 	public void SetKeyPutOnSwimsuit(bool putOnSwimsuit)
 	{
-		_putOnSwimsuitKey.Value = putOnSwimsuit;
+		PutOnSwimsuitKey = putOnSwimsuit;
 	}
-	private void PutOnSwimsuit(bool putOnSwimsuit)
+	private void PutOnSwimsuit()
 	{
-		for (int i = 0; i < nodes.Count; i++)
+		foreach (var t in nodes)
 		{
-			if (nodes[i] is PutOnSwimsuitsNode putOnSwimsuitsNode)
+			if (t is PutOnSwimsuitsNode putOnSwimsuitsNode)
 			{
-				putOnSwimsuitsNode.Init(putOnSwimsuit);
+				putOnSwimsuitsNode.Init(PutOnSwimsuitKey);
+				break;
 			}
 		}
 	}
@@ -74,21 +73,21 @@ public class SeriaPartNodeGraph : NodeGraph
 		if (nodes.Count > 0)
 		{
 			_baseNodes = new List<BaseNode>(nodes.Count);
-			for (int i = 0; i < nodes.Count; i++)
+			foreach (var t in nodes)
 			{
 				if (Application.isPlaying == false)
 				{
-					nodes[i].MyInit();
+					t.MyInit();
 				}
 
-				if (nodes[i] is BaseNode baseNodes)
+				if (t is BaseNode baseNodes)
 				{
 					_baseNodes.Add(baseNodes);
 				}
 
 				if (_currentNodeIndex == 0)
 				{
-					if (nodes[i] is StartNode startNode)
+					if (t is StartNode startNode)
 					{
 						_currentNodeIndex = nodes.IndexOf(startNode);
 					}

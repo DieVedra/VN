@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode, IBackgroundsProviderToHeaderNode
+public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode, IBackgroundsProviderToHeaderNode, IBackgroundProviderToShowArtNode, IBackgroundProviderToCustomizationNode
 {
     [SerializeField] private SpriteRenderer _colorOverlay;
     [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
@@ -25,6 +25,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     private const int _orderTo = 1;
 
     protected const string ArtShowerName = "ArtShower";
+    protected const string Space = " ";
     protected const string ArtShowerSortingLayerName = "Background";
     protected const int ArtShowerOrderInLayer = 10;
     protected const float ArtShowerValueScale = 0.88f;
@@ -40,7 +41,8 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected ISetLighting SetLighting;
     protected SpriteRendererCreator BackgroundContentAdditionalSpriteRendererCreator;
-    public string CurrentKeyBackgroundContent { get; private set; }
+    public string CurrentKeyBackgroundContent { get; private set; } = Space;
+    public string CurrentArtKey { get; private set; } = Space;
     public BackgroundPosition CurrentBackgroundPosition { get; private set; }
     public List<BackgroundContent> GetBackgroundContent => BackgroundContent;
     public IReadOnlyList<Sprite> GetAdditionalImagesToBackground => AdditionalImagesToBackground;
@@ -49,6 +51,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary => BackgroundContentDictionary;
     public IReadOnlyDictionary<string, Sprite> GetAdditionalImagesToBackgroundDictionary => AdditionalImagesToBackgroundDictionary;
+    public IReadOnlyDictionary<string, Sprite> GetArtsSpritesDictionary => ArtsSpritesDictionary;
 
     public void InitSaveData(BackgroundSaveData backgroundSaveData)
     {
@@ -112,26 +115,42 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         BackgroundContentDictionary[keyBackground].RemoveAdditionalSprite(AdditionalImagesToBackgroundDictionary[keyAdditionalImage].name, keyAdditionalImage);
     }
 
-    public void ShowArtImage(int indexArt)
+    public void ShowArtImage(string keyArt)
     {
-        ArtShower.color = new Color(1f,1f,1f,1f);
-        ArtShower.transform.localScale = new Vector2(_endValueScale,_endValueScale);
-        ArtShower.gameObject.SetActive(true);
-        ArtShower.sprite = ArtsSprites[indexArt];
+        if (ArtsSpritesDictionary.TryGetValue(keyArt, out var value))
+        {
+            ArtShower.color = new Color(1f,1f,1f,1f);
+            ArtShower.transform.localScale = new Vector2(_endValueScale,_endValueScale);
+            ArtShower.gameObject.SetActive(true);
+            ArtShower.sprite = value;
+        }
     }
 
-    public async UniTask ShowImageInPlayMode(int indexArt, CancellationToken cancellationToken)
+    // public async UniTask ShowImageInPlayMode(int indexArt, CancellationToken cancellationToken)
+    // {
+    //     ArtShower.color = new Color(1f,1f,1f,0f);
+    //     ArtShower.sprite = ArtsSprites[indexArt];
+    //     // CurrentArtIndex = indexArt;
+    //     // _artOpenedIndexes.Add(indexArt);
+    //     ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
+    //     ArtShower.gameObject.SetActive(true);
+    //     await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
+    //         ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
+    // }
+    public async UniTask ShowImageInPlayMode(string keyArt, CancellationToken cancellationToken)
     {
-        ArtShower.color = new Color(1f,1f,1f,0f);
-        ArtShower.sprite = ArtsSprites[indexArt];
-        // CurrentArtIndex = indexArt;
-        // _artOpenedIndexes.Add(indexArt);
-        ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
-        ArtShower.gameObject.SetActive(true);
-        await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
-            ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
+        if (ArtsSpritesDictionary.TryGetValue(keyArt, out var value))
+        {
+            ArtShower.color = new Color(1f,1f,1f,0f);
+            ArtShower.sprite = value;
+            CurrentArtKey = keyArt;
+            // _artOpenedIndexes.Add(indexArt);
+            ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
+            ArtShower.gameObject.SetActive(true);
+            await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
+                ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
+        }
     }
-
     public async UniTask HideImageInPlayMode(CancellationToken cancellationToken)
     {
         ArtShower.color = new Color(1f,1f,1f,1f);
@@ -142,16 +161,19 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition, string key)
     {
-        EnableBackgroundByKey(key);
-        CurrentBackgroundPosition = backgroundPosition;
-        BackgroundContentDictionary[key].SetBackgroundPosition(backgroundPosition);
+        if (key != null && BackgroundContentDictionary.TryGetValue(key, out var value))
+        {
+            EnableBackgroundByKey(key);
+            CurrentBackgroundPosition = backgroundPosition;
+            value.SetBackgroundPosition(backgroundPosition);
+        }
     }
 
     public void SetBackgroundPositionFromSlider(float positionValue, string key)
     {
-        EnableBackgroundByKey(key);
         if (BackgroundContentDictionary.TryGetValue(key, out var value))
         {
+            EnableBackgroundByKey(key);
             value.SetBackgroundPositionFromSlider(positionValue);
         }
     }
@@ -164,34 +186,40 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     }
     public async UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, string key)
     {
-        EnableBackgroundByKey(key);
-        await BackgroundContentDictionary[key].MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
+        if (BackgroundContentDictionary.TryGetValue(key, out var value))
+        {
+            EnableBackgroundByKey(key);
+            await value.MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
+        }
     }
     public async UniTask SmoothChangeBackground(string keyTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken)
     {
-        DisableBackground();
-        var contentTo = BackgroundContentDictionary[keyTo];
-        var contentFrom = BackgroundContentDictionary[CurrentKeyBackgroundContent];
-        SetAlphaAndOrder(contentTo, _minAlpha, _orderTo);
-        SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
-        contentTo.SetBackgroundPosition(toBackgroundPosition);
-        contentTo.Activate();
-        await contentTo.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken);
-        contentFrom.Diactivate();
-        SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
-        CurrentKeyBackgroundContent = keyTo;
+        if (BackgroundContentDictionary.TryGetValue(keyTo, out var contentTo) && BackgroundContentDictionary.TryGetValue(CurrentKeyBackgroundContent, out var contentFrom))
+        {
+            DisableBackground();
+            SetAlphaAndOrder(contentTo, _minAlpha, _orderTo);
+            SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
+            contentTo.SetBackgroundPosition(toBackgroundPosition);
+            contentTo.Activate();
+            await contentTo.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken);
+            contentFrom.Diactivate();
+            SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
+            CurrentKeyBackgroundContent = keyTo;
+        }
     }
 
     public void SmoothChangeBackgroundEmmidiately(string keyTo, BackgroundPosition toBackgroundPosition)
     {
-        var contentTo = BackgroundContentDictionary[keyTo];
-        var contentFrom = BackgroundContentDictionary[CurrentKeyBackgroundContent];
-        SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
-        SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
-        contentFrom.Diactivate();
-        contentTo.SetBackgroundPosition(toBackgroundPosition);
-        contentTo.Activate();
-        CurrentKeyBackgroundContent = keyTo;
+        if (BackgroundContentDictionary.TryGetValue(keyTo, out var contentTo) &&
+            BackgroundContentDictionary.TryGetValue(CurrentKeyBackgroundContent, out var contentFrom))
+        {
+            SetAlphaAndOrder(contentTo, _maxAlpha, _orderFrom);
+            SetAlphaAndOrder(contentFrom, _maxAlpha, _orderFrom);
+            contentFrom.Diactivate();
+            contentTo.SetBackgroundPosition(toBackgroundPosition);
+            contentTo.Activate();
+            CurrentKeyBackgroundContent = keyTo;
+        }
     }
 
     private void SetAlphaAndOrder(BackgroundContent content, float alpha, int order)
@@ -230,12 +258,18 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public void SetBackgroundMovementDuringDialogueInEditMode(DirectionType directionType)
     {
-        BackgroundContentDictionary[CurrentKeyBackgroundContent].MovementDuringDialogueInEditMode(directionType);
+        if (BackgroundContentDictionary.TryGetValue(CurrentKeyBackgroundContent, out var value))
+        {
+            value.MovementDuringDialogueInEditMode(directionType);
+        }
     }
 
     public async UniTask SetBackgroundMovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
-        await BackgroundContentDictionary[CurrentKeyBackgroundContent].MovementDuringDialogueInPlayMode(cancellationToken, directionType);
+        if (BackgroundContentDictionary.TryGetValue(CurrentKeyBackgroundContent, out var value))
+        {
+            await value.MovementDuringDialogueInPlayMode(cancellationToken, directionType);
+        }
     }
 
     private void EnableBackgroundByKey(string key)

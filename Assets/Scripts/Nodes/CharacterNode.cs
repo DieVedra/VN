@@ -89,6 +89,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
         _characterViewer.SetDirection(_directionType);
         if (Characters[_indexCharacter] is CustomizableCharacter customizableCharacter)
         {
+            Debug.Log($"SetInfoToView() {_toggleIsSwimsuit}");
             if (_toggleIsSwimsuit)
             {
                 _characterViewer.SetClothes(customizableCharacter.GetSwimsuitSprite());

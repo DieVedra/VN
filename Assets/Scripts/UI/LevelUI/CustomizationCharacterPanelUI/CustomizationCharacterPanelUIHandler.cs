@@ -25,7 +25,7 @@ public class CustomizationCharacterPanelUIHandler
             customizationCharacterPanelUI.DurationAnimStatView);
     }
 
-    public void Dispose()
+    public void ShutDown()
     {
         _buttonsCustomizationHandler?.DeactivateButtonsCustomization(_customizationCharacterPanelUI);
         _arrowSwitch?.Dispose();

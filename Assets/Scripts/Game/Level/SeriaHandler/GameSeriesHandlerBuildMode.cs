@@ -28,7 +28,6 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
-        PutOnSwimsuitKey = new ReactiveProperty<bool>(putOnSwimsuitKey);
 
         foreach (var seria in gameSeriesProvider.GetDatas)
         {
@@ -66,9 +65,9 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
             {
                 NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
                 NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
-                NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Dispose();
+                NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Shutdown();
                 NodeGraphInitializer.DisableNodesContentEvent.Shutdown();
-                NodeGraphInitializer.SwitchToNextSeriaEvent.Dispose();
+                NodeGraphInitializer.SwitchToNextSeriaEvent.Shutdown();
                 _onEndGameEvent.Execute();
             }
         }

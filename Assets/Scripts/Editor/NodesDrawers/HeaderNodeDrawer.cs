@@ -108,12 +108,16 @@ public class HeaderNodeDrawer : NodeEditor
             _currentIndex = 0;
             foreach (var pair in _headerNode.BackgroundsDictionary)
             {
-                if (pair.Value.name == _keyBackgroundSerializedProperty.stringValue)
+                if (pair.Value != null)
                 {
-                    _currentIndex = _index;
+                    if (pair.Value?.name == _keyBackgroundSerializedProperty.stringValue)
+                    {
+                        _currentIndex = _index;
+                    }
+
+                    _namesToPopup.Add(pair.Value.name);
+                    _index++;
                 }
-                _namesToPopup.Add(pair.Value.name);
-                _index++;
             }
         
             EditorGUI.BeginChangeCheck();

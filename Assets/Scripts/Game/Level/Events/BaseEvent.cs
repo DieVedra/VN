@@ -1,5 +1,6 @@
 ﻿using System;
 using UniRx;
+using UnityEngine;
 
 public class BaseEvent
 {
@@ -53,7 +54,7 @@ public class BaseEvent<T>
         CompositeDisposable = new CompositeDisposable();
         BaseReactiveCommand = new ReactiveCommand<T>().AddTo(CompositeDisposable);
     }
-    public void Dispose()
+    public void Shutdown()
     {
         BaseReactiveCommand.Dispose();
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 968, y: -1560}
+  position: {x: 1704, y: -1736}
   ports:
     keys:
     - Input
@@ -48,6 +48,8 @@ MonoBehaviour:
   _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
+  _customDelay: 1
+  _delay: 0.7
 --- !u!114 &-6289796547050509912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +63,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 120, y: -2040}
+  position: {x: -8, y: -2040}
   ports:
     keys:
     - Input
@@ -232,7 +234,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 996.50085, y: -1355.8447}
+  position: {x: 1672, y: -1384}
   ports:
     keys:
     - Input
@@ -289,7 +291,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1624, y: -2008}
+  position: {x: -1864, y: -1928}
   ports:
     keys:
     - Input
@@ -543,7 +545,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 728, y: -1608}
+  position: {x: 1320, y: -1800}
   ports:
     keys:
     - Input
@@ -666,7 +668,7 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2104, y: -1944}
+  position: {x: -2360, y: -2216}
   ports:
     keys:
     - Input
@@ -913,7 +915,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1864, y: -2168}
+  position: {x: -1832, y: -2312}
   ports:
     keys:
     - Input
@@ -970,7 +972,7 @@ MonoBehaviour:
   m_Name: Switch To Another Node Graph
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1160, y: -1944}
+  position: {x: 2200, y: -1880}
   ports:
     keys:
     - Input
@@ -1125,7 +1127,7 @@ MonoBehaviour:
   m_Name: Customization
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2680, y: -1960}
+  position: {x: -2904, y: -1976}
   ports:
     keys:
     - Input
@@ -3809,7 +3811,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1678.0065, y: -1392.539}
+  position: {x: -1864, y: -1288}
   ports:
     keys:
     - Input
@@ -3844,6 +3846,8 @@ MonoBehaviour:
   _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
+  _customDelay: 1
+  _delay: 0.7
 --- !u!114 &8613998746338004870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3933,3 +3937,5 @@ MonoBehaviour:
   _isEndImmediatlyCurtain: 0
   _isStartCurtain: 0
   _isEndCurtain: 1
+  _customDelay: 0
+  _delay: 0.7

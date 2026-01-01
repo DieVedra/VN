@@ -37,7 +37,7 @@ public class NarrativeNode : BaseNode, ILocalizable
 	{
 		CancellationTokenSource = new CancellationTokenSource();
 		await NarrativePanelUI.DisappearanceNarrativePanelInPlayMode(CancellationTokenSource.Token);
-		CompositeDisposable.Dispose();
+		CompositeDisposable?.Dispose();
 	}
 
 	public IReadOnlyList<LocalizationString> GetLocalizableContent()

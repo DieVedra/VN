@@ -1,5 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using MyProject;
 using UnityEditor;
 using XNodeEditor;
@@ -8,23 +8,29 @@ using XNodeEditor;
 public class ShowArtNodeDrawer : NodeEditor
 {
     private ShowArtNode _showArtNode;
-    private SerializedProperty _serializedPropertyIndexArt;
     private SerializedProperty _serializedPropertyInputPort;
     private SerializedProperty _serializedPropertyOutputPort;
     private SerializedProperty _modeSerializedProperty;
+    private SerializedProperty _spriteKeySerializedProperty;
     private MyProject.EnumPopupDrawer _enumPopupDrawer;
-    private string[] _namesArts;
+    private int _currentIndex;
+    private int _index;
+    private List<string> _namesArtsToPopup;
+    private MethodInfo _showMethod;
+
     public override void OnBodyGUI()
     {
         if (_showArtNode == null)
         {
             _showArtNode = target as ShowArtNode;
-            _serializedPropertyIndexArt = serializedObject.FindProperty("_spriteIndex");
             _serializedPropertyInputPort = serializedObject.FindProperty("Input");
             _serializedPropertyOutputPort = serializedObject.FindProperty("Output");
             _modeSerializedProperty = serializedObject.FindProperty("_artMode");
+            _spriteKeySerializedProperty = serializedObject.FindProperty("_spriteKey");
+            _showMethod = _showArtNode.GetType().GetMethod("SetInfoToView", BindingFlags.NonPublic | BindingFlags.Instance);
             _enumPopupDrawer = new EnumPopupDrawer();
-            InitPopup();
+            _namesArtsToPopup = new List<string>();
+            _currentIndex = 0;
         }
         else
         {
@@ -33,21 +39,33 @@ public class ShowArtNodeDrawer : NodeEditor
             NodeEditorGUILayout.PropertyField(_serializedPropertyOutputPort);
             _enumPopupDrawer.DrawEnumPopup<ShowArtMode>(_modeSerializedProperty, "Mode: ");
             EditorGUILayout.LabelField("Arts:");
-            _serializedPropertyIndexArt.intValue = EditorGUILayout.Popup(_serializedPropertyIndexArt.intValue, _namesArts);
-            serializedObject.ApplyModifiedProperties();
+            UpdatePopup();
+            EditorGUI.BeginChangeCheck();
+            _currentIndex = EditorGUILayout.Popup(_currentIndex, _namesArtsToPopup.ToArray());
+            if (EditorGUI.EndChangeCheck())
+            {
+                _spriteKeySerializedProperty.stringValue = _namesArtsToPopup[_currentIndex];
+                serializedObject.ApplyModifiedProperties();
+                _showMethod?.Invoke(_showArtNode, null);
+            }
         }
     }
     
-    private void InitPopup()
+    private void UpdatePopup()
     {
-        List<string> namesArtsToPopup = new List<string>();
-        if (_showArtNode.Arts != null)
+        if (_showArtNode.GetArtsSpritesDictionary != null)
         {
-            for (int i = 0; i < _showArtNode.Arts.Count; ++i)
+            _index = 0;
+            _namesArtsToPopup.Clear();
+            foreach (var pair in _showArtNode.GetArtsSpritesDictionary)
             {
-                namesArtsToPopup.Add(_showArtNode.Arts[i].name);
+                if (pair.Key == _spriteKeySerializedProperty.stringValue)
+                {
+                    _currentIndex = _index;
+                }
+                _namesArtsToPopup.Add(pair.Key);
+                _index++;
             }
         }
-        _namesArts = namesArtsToPopup.ToArray();
     }
 }

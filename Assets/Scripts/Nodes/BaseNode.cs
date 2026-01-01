@@ -39,7 +39,7 @@ public class BaseNode : Node
     {
         _nextNode = nextNode;
     }
-    public BaseNode GetNextNode()
+    public virtual BaseNode GetNextNode()
     {
         if (_nextNode == null)
         {

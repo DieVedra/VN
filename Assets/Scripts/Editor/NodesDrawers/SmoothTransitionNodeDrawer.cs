@@ -6,6 +6,7 @@ using XNodeEditor;
 public class SmoothTransitionNodeDrawer : NodeEditor
 {
     private const string _labelStartCurtain = "Is Start : ";
+    private const string _labelCustomDelay = "Custom Delay: ";
     private const string _labelEndCurtain = "Is End : ";
     private const string _labelStartImmediatlyCurtain = "Is Start Immediatly: ";
     private const string _labelEndImmediatlyCurtain = "Is End Immediatly: ";
@@ -14,6 +15,10 @@ public class SmoothTransitionNodeDrawer : NodeEditor
     private SmoothTransitionNode _smoothTransitionNode;
     private SerializedProperty _isStartCurtainSerializedProperty;
     private SerializedProperty _isEndCurtainSerializedProperty;
+    private SerializedProperty _customDelaySerializedProperty;
+    private SerializedProperty _delaySerializedProperty;
+    private SerializedProperty _inputSerializedProperty;
+    private SerializedProperty _outputSerializedProperty;
     
     private SerializedProperty _isStartImmediatlyCurtainSerializedProperty;
     private SerializedProperty _isEndImmediatlyCurtainSerializedProperty;
@@ -25,19 +30,30 @@ public class SmoothTransitionNodeDrawer : NodeEditor
         {
             _smoothTransitionNode = target as SmoothTransitionNode;
             _lineDrawer = new LineDrawer();
-        }
-        serializedObject.Update();
-        if (_isStartCurtainSerializedProperty == null)
-        {
+            _customDelaySerializedProperty = serializedObject.FindProperty("_customDelay");
+            _delaySerializedProperty = serializedObject.FindProperty("_delay");
             _isStartCurtainSerializedProperty = serializedObject.FindProperty("_isStartCurtain");
             _isEndCurtainSerializedProperty = serializedObject.FindProperty("_isEndCurtain");
             
             _isStartImmediatlyCurtainSerializedProperty = serializedObject.FindProperty("_isStartImmediatlyCurtain");
             _isEndImmediatlyCurtainSerializedProperty = serializedObject.FindProperty("_isEndImmediatlyCurtain");
+            _inputSerializedProperty = serializedObject.FindProperty("Input");
+            _outputSerializedProperty = serializedObject.FindProperty("Output");
         }
+        serializedObject.Update();
 
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Output"));
+        NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
+        NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
+        
+        DrawToggle(_customDelaySerializedProperty, _labelCustomDelay);
+        if (_customDelaySerializedProperty.boolValue)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Time: ");
+            _delaySerializedProperty.floatValue = EditorGUILayout.FloatField(_delaySerializedProperty.floatValue);
+            EditorGUILayout.EndHorizontal();
+        }
+        
         EditorGUI.BeginChangeCheck();
         _lineDrawer.DrawHorizontalLine(Color.green);
 

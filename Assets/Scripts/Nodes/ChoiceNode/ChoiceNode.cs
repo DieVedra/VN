@@ -122,7 +122,7 @@ public class ChoiceNode : BaseNode, ILocalizable
 
     private void SetNextNodeFromResultChoice(ChoiceCase choiceCaseResult)
     {
-        ChoiceResultEvent.Dispose();
+        ChoiceResultEvent.Shutdown();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
         if (_showOutput == true)
         {

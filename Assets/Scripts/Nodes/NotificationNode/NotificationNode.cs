@@ -30,11 +30,15 @@ public class NotificationNode : BaseNode, ILocalizable
         if (_awaitKey)
         {
             await _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, false, _compositeDisposable, _notificationNodeData);
-            SwitchToNextNodeEvent.Execute();
         }
         else
         {
             _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(_localizationText, CancellationTokenSource.Token, false, _compositeDisposable, _notificationNodeData).Forget();
+        }
+
+        if (isMerged == false)
+        {
+            SwitchToNextNodeEvent.Execute();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,12 +10,19 @@ public class SmoothTransitionNode : BaseNode
     [SerializeField, HideInInspector] private bool _isEndImmediatlyCurtain;
     [SerializeField, HideInInspector] private bool _isStartCurtain;
     [SerializeField, HideInInspector] private bool _isEndCurtain;
+    [SerializeField, HideInInspector] private bool _customDelay;
+    [SerializeField] private float _delay;
 
+    private const float _defaultDelay = 0.7f;
     private CurtainUIHandler _curtainUIHandler;
 
     public void ConstructMySmoothTransitionNode(CurtainUIHandler curtainUIHandler)
     {
         _curtainUIHandler = curtainUIHandler;
+        if (_delay == 0)
+        {
+            _delay = _defaultDelay;
+        }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -50,7 +58,7 @@ public class SmoothTransitionNode : BaseNode
     {
         if (_isStartCurtain)
         {
-            await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+            await WithDelayCheck(()=> _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token));
             return;
         }
         if (_isStartImmediatlyCurtain)
@@ -60,12 +68,25 @@ public class SmoothTransitionNode : BaseNode
         }
         if(_isEndCurtain)
         {
-            await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+            await WithDelayCheck(()=> _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token));
             return;
         }
         if(_isEndImmediatlyCurtain)
         {
             _curtainUIHandler.CurtainClosesImmediate();
+        }
+    }
+
+    private async UniTask WithDelayCheck(Func<UniTask> operation)
+    {
+        if (_customDelay == true)
+        {
+            operation.Invoke().Forget();
+            await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
+        }
+        else
+        {
+            await operation.Invoke();
         }
     }
 }

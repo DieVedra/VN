@@ -81,7 +81,7 @@ public class ChoicePhoneNode : ChoiceNode
 
     private void SetNextNodeFromResultChoice(ChoiceCase choiceCaseResult)
     {
-        ChoiceResultEvent.Dispose();
+        ChoiceResultEvent.Shutdown();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
         GetNextNode();
         
