@@ -984,6 +984,7 @@
             <e p="HeaderNode" t="Include">
               <e p="HeaderNode.cs" t="Include" />
               <e p="IBackgroundsProviderToHeaderNode.cs" t="Include" />
+              <e p="ISoundProviderToHeaderNode.cs" t="Include" />
             </e>
             <e p="MergerNode" t="Include">
               <e p="MergedNodesDeterminator.cs" t="Include" />
@@ -1010,7 +1011,10 @@
               <e p="ShowArtNode.cs" t="Include" />
             </e>
             <e p="SmoothTransitionNode.cs" t="Include" />
-            <e p="SoundNode.cs" t="Include" />
+            <e p="SoundNode" t="Include">
+              <e p="ISoundProviderToSoundNode.cs" t="Include" />
+              <e p="SoundNode.cs" t="Include" />
+            </e>
             <e p="StartNode.cs" t="Include" />
             <e p="SwitchNode" t="Include">
               <e p="AdditionalCaseStats.cs" t="Include" />

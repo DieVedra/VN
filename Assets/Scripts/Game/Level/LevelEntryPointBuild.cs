@@ -233,7 +233,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     }
     protected override void InitGlobalSound()
     {
-        _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
         if (LoadSaveData == true)
         {
             _globalSound.Construct(SaveServiceProvider.SaveData.SoundStatus);
@@ -242,6 +241,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             _globalSound.Construct(true);
         }
+
+        _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
     }
 
     protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)

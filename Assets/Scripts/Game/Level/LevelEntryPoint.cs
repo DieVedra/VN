@@ -1,5 +1,4 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class LevelEntryPoint : MonoBehaviour
 {

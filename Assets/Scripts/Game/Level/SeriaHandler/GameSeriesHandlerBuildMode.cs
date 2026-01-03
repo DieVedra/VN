@@ -28,12 +28,14 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
+        SeriaNodeGraphsHandlers[currentSeriaLoadedNumberProperty.GetValue].SeriaPartNodeGraphs[currentNodeGraphIndex].SetKeyPutOnSwimsuit(putOnSwimsuitKey);
 
         foreach (var seria in gameSeriesProvider.GetDatas)
         {
             AddSeria(seria);
         }
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
+        
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
 

@@ -13,31 +13,26 @@ public class SmoothAudio
     private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
     private readonly IReadOnlyList<AudioClip> _musicAudioData;
     private readonly IReadOnlyList<AudioClip> _ambientAudioData;
+    private readonly IReadOnlyDictionary<string, AudioClip> _musicAudioDictionary;
+    private readonly IReadOnlyDictionary<string, AudioClip> _ambientAudioDictionary;
     public SmoothAudio(Dictionary<AudioSourceType, AudioSource> audioSources,
-        IReadOnlyList<AudioClip> musicAudioData, IReadOnlyList<AudioClip> ambientAudioData)
+        IReadOnlyDictionary<string, AudioClip> musicAudioDictionary,
+        IReadOnlyDictionary<string, AudioClip> ambientAudioDictionary)
     {
         _audioSources = audioSources;
-        _musicAudioData = musicAudioData;
-        _ambientAudioData = ambientAudioData;
+        _musicAudioDictionary = musicAudioDictionary;
+        _ambientAudioDictionary = ambientAudioDictionary;
     }
 
-    public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
+    public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
     {
         await SmoothStopAudio(cancellationToken, audioSourceType);
-        await SmoothPlayAudio(cancellationToken, secondAudioClipIndex, audioSourceType);
+        await SmoothPlayAudio(cancellationToken, secondAudioClipKey, audioSourceType);
     }
-    public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, int secondAudioClipIndex, AudioSourceType audioSourceType)
+    public async UniTask SmoothPlayAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
     {
         MinVolume(audioSourceType);
-        if (audioSourceType == AudioSourceType.Music)
-        {
-            SetClip(_musicAudioData[secondAudioClipIndex], audioSourceType);
-        }
-        else
-        {
-            SetClip(_ambientAudioData[secondAudioClipIndex], audioSourceType);
-        }
-        _audioSources[audioSourceType].clip = (int)audioSourceType == 0 ? _musicAudioData[secondAudioClipIndex] : _ambientAudioData[secondAudioClipIndex];
+        SetClip(secondAudioClipKey, audioSourceType);
         _audioSources[audioSourceType].Play();
         await Fade(cancellationToken, _playEndValue, _duration, audioSourceType);
     }
@@ -52,7 +47,7 @@ public class SmoothAudio
     public async UniTask SmoothPlayAudio(AudioClip audioClip, CancellationToken cancellationToken)
     {
         MinVolume(AudioSourceType.Music);
-        SetClip(audioClip, AudioSourceType.Music);
+        _audioSources[AudioSourceType.Music].clip = audioClip;
         _audioSources[AudioSourceType.Music].Play();
         await Fade(cancellationToken, _playEndValue, _duration, AudioSourceType.Music);
     }
@@ -85,15 +80,21 @@ public class SmoothAudio
         await _audioSources[audioSourceType].DOFade(endValue, duration).WithCancellation(cancellationToken);
     }
 
-    private void SetClip(AudioClip audioClip, AudioSourceType audioSourceType)
+    private void SetClip(string secondAudioClipKey, AudioSourceType audioSourceType)
     {
         switch (audioSourceType)
         {
             case AudioSourceType.Music:
-                _audioSources[audioSourceType].clip = audioClip;
+                if (_musicAudioDictionary.TryGetValue(secondAudioClipKey, out var musicClip))
+                {
+                    _audioSources[audioSourceType].clip = musicClip;
+                }
                 break;
             case AudioSourceType.Ambient:
-                _audioSources[audioSourceType].clip = audioClip;
+                if (_ambientAudioDictionary.TryGetValue(secondAudioClipKey, out var ambientClip))
+                {
+                    _audioSources[audioSourceType].clip = ambientClip;
+                }
                 break;
         }
     }

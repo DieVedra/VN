@@ -16,6 +16,7 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         SwitchToNextSeriaEvent.Subscribe(SwitchSeria);
         CurrentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         NodeGraphInitializer = nodeGraphInitializer;
+        SeriaNodeGraphsHandlers[currentSeriaIndexReactiveProperty.Value].SeriaPartNodeGraphs[currentNodeGraphIndex].SetKeyPutOnSwimsuit(putOnSwimsuitKey);
         if (Application.isPlaying == false)
         {
             for (int i = 0; i < SeriaNodeGraphsHandlers.Count; ++i)
@@ -27,7 +28,6 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         {
             InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
         }
-
         SubscribeReactivePropertiesToShowOnInspector();
     }
     private void SwitchSeria(bool putSwimsuits = false)

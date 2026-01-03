@@ -7,21 +7,23 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class Sound : MonoBehaviour
+public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderToSoundNode
 {
     [SerializeField] private AudioSource _audioSourceMusic;
     [SerializeField] private AudioSource _audioSourceAmbient;
 
     [SerializeField] protected AudioMixer _mixer;
+
+    [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
+    [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
+
+    [SerializeField, Expandable] protected GlobalAudioData GlobalAudioData;
+
     private AudioEffectsCustodian _audioEffectsCustodian;
     private ReactiveProperty<bool> _soundStatus;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
-    
-    [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
-    [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
-    
-    [SerializeField, Expandable] protected GlobalAudioData GlobalAudioData;
-    
+    protected Dictionary<string, AudioClip> MusicDictionary;
+    protected Dictionary<string, AudioClip> AmbientDictionary;
     public float PlayTimeMusic => _audioSourceMusic.time;
     public float PlayTimeAmbient => _audioSourceAmbient.time;
     public float VolumeMusic => _audioSourceMusic.volume;
@@ -30,16 +32,22 @@ public class Sound : MonoBehaviour
     public float CurrentMusicClipTime => _audioSourceMusic.clip == null ? 0f : _audioSourceMusic.clip.length;
     public float CurrentAmbientClipTime => _audioSourceAmbient.clip == null ? 0f : _audioSourceAmbient.clip.length;
     public int CurrentMusicClipIndex { get; private set; }
+    public string CurrentMusicClipKey { get; private set; }
     public int CurrentAdditionalClipIndex { get; private set; }
+    public string CurrentAdditionalClipKey { get; private set; }
     public SmoothAudio SmoothAudio { get; private set; }
 
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
     public IReadOnlyList<AudioClip> Clips => MusicAudioData;
     public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
+    public IReadOnlyDictionary<string, AudioClip> GetMusicDictionary => MusicDictionary;
+    public IReadOnlyDictionary<string, AudioClip> GetAmbientDictionary => AmbientDictionary;
     public IReactiveProperty<bool> SoundStatus => _soundStatus;
 
     protected void Init(bool soundOn = true)
     {
+        MusicDictionary = new Dictionary<string, AudioClip>();
+        AmbientDictionary = new Dictionary<string, AudioClip>();
         _audioSources = new Dictionary<AudioSourceType, AudioSource>()
         {
             {AudioSourceType.Music, _audioSourceMusic},
@@ -50,10 +58,9 @@ public class Sound : MonoBehaviour
         _soundStatus.Subscribe(ChangeSound);
         _soundStatus.Value = soundOn;
         
-        SmoothAudio = new SmoothAudio(_audioSources, MusicAudioData, AmbientAudioData);
+        SmoothAudio = new SmoothAudio(_audioSources, MusicDictionary, AmbientDictionary);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
     }
-
     private void ChangeSound(bool key)
     {
         if (key == true)
@@ -67,10 +74,13 @@ public class Sound : MonoBehaviour
             _audioSourceAmbient.mute = true;
         }
     }
-    public virtual void Dispose()
+    public virtual void Shutdown()
     {
         MusicAudioData = null;
         AmbientAudioData = null;
+        
+        MusicDictionary = null;
+        AmbientDictionary = null;
     }
     public void SetPlayTime(float time, AudioSourceType audioSourceType)
     {
@@ -85,17 +95,23 @@ public class Sound : MonoBehaviour
         }
     }
 
-    public void PlayAudioByIndex(int audioClipIndex, AudioSourceType audioSourceType)
+    public void PlayAudioByIndex(string audioClipKey, AudioSourceType audioSourceType)
     {
         switch (audioSourceType)
         {
             case AudioSourceType.Music:
-                CurrentMusicClipIndex = audioClipIndex;
-                PlayAudioByClip(MusicAudioData[audioClipIndex], audioSourceType);
+                if (MusicDictionary.TryGetValue(audioClipKey, out var clipMusic))
+                {
+                    CurrentMusicClipKey = audioClipKey;
+                    PlayAudioByClip(clipMusic, audioSourceType);
+                }
                 break;
             case AudioSourceType.Ambient:
-                CurrentAdditionalClipIndex = audioClipIndex;
-                PlayAudioByClip(AmbientAudioData[audioClipIndex], audioSourceType);
+                if (AmbientDictionary.TryGetValue(audioClipKey, out var clipAmbient))
+                {
+                    CurrentAdditionalClipKey = audioClipKey;
+                    PlayAudioByClip(clipAmbient, audioSourceType);
+                }
                 break;
         }
     }
@@ -119,8 +135,8 @@ public class Sound : MonoBehaviour
     {
         await SmoothAudio.SmoothPlayAudio(GlobalAudioData.GetWardrobeAudioClip, cancellationToken);
     }
-    public async UniTask SmoothPlayHeaderAudio(int audioClipIndex, CancellationToken cancellationToken)
+    public async UniTask SmoothPlayHeaderAudio(string audioClipKey, CancellationToken cancellationToken)
     {
-        await SmoothAudio.SmoothPlayAudio(MusicAudioData[audioClipIndex], cancellationToken);
+        await SmoothAudio.SmoothPlayAudio(MusicDictionary[audioClipKey], cancellationToken);
     }
 }

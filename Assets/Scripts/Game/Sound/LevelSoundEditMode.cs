@@ -11,27 +11,19 @@ public class LevelSoundEditMode : Sound
         Init(soundOn);
         MusicAudioData = new List<AudioClip>();
         AmbientAudioData = new List<AudioClip>();
-        SetAudioDatas(_musicAudioData, _ambientAudioData);
-    }
-    private void SetAudioDatas(List<AudioData> musicClips, List<AudioData> ambientClips)
-    {
-        for (int i = 0; i < musicClips.Count; ++i)
-        {
-            AddClips(MusicAudioData, musicClips[i].Clips);
-        }
-    
-        for (int i = 0; i < ambientClips.Count; i++)
-        {
-            AddClips(AmbientAudioData, ambientClips[i].Clips);
-    
-        }
+        AddClips(_musicAudioData, MusicAudioData, MusicDictionary);
+        AddClips(_ambientAudioData, AmbientAudioData, AmbientDictionary);
     }
     
-    private void AddClips(List<AudioClip> musicAudioData, IReadOnlyList<AudioClip> clips)
+    private void AddClips(List<AudioData> dataClips, List<AudioClip> target, Dictionary<string, AudioClip> targetDictionary)
     {
-        for (int i = 0; i < clips.Count; i++)
+        foreach (var data in dataClips)
         {
-            musicAudioData.Add(clips[i]);
+            foreach (var clip in data.Clips)
+            {
+                target.Add(clip);
+                targetDictionary.Add(clip.name, clip);
+            }
         }
     }
 }

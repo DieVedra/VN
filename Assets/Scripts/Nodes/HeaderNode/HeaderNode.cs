@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEditor;
 using UnityEngine;
 
 [NodeTint("#006946"), NodeWidth(200)]
@@ -16,6 +17,7 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private string _keyBackground;
     [SerializeField] private float _backgroundPositionValue;
     [SerializeField] private int _indexHeaderAudio;
+    [SerializeField] private string _headerAudioKey;
     [SerializeField] private bool _playHeaderAudio;
     
     private string _previousKeyBackground;
@@ -24,12 +26,12 @@ public class HeaderNode : BaseNode, ILocalizable
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private IBackgroundsProviderToHeaderNode _background;
     private CompositeDisposable _compositeDisposable;
-    public Sound Sound { get; private set; }
+    public ISoundProviderToHeaderNode Sound { get; private set; }
     public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary =>
         _background?.GetBackgroundContentDictionary;
 
     public void Construct(IBackgroundsProviderToHeaderNode provider, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
-        CurtainUIHandler curtainUIHandler,ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, Sound sound)
+        CurtainUIHandler curtainUIHandler,ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, ISoundProviderToHeaderNode sound)
     {
         _background = provider;
         _headerSeriesPanelHandlerUI = headerSeriesPanelHandlerUI;
@@ -55,7 +57,7 @@ public class HeaderNode : BaseNode, ILocalizable
         {
             await UniTask.WhenAll(
                 _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token),
-                Sound.SmoothPlayHeaderAudio(_indexHeaderAudio, CancellationTokenSource.Token));
+                Sound.SmoothPlayHeaderAudio(_headerAudioKey, CancellationTokenSource.Token));
         }
         else
         {
