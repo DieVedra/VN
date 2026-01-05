@@ -21,8 +21,6 @@ public class AddSpriteNodeToBackground : BaseNode
     
 
     private IAdditionalSpritesProviderToNode _background;
-    public IReadOnlyList<BackgroundContent> Backgrounds => _background.GetBackgroundContent;
-    public IReadOnlyList<Sprite> AdditionalImagesToBackground => _background.GetAdditionalImagesToBackground;
 
     public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary =>
         _background?.GetBackgroundContentDictionary;

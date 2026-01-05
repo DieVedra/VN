@@ -29,17 +29,22 @@ public class GlobalSound : Sound
         switch (type)
         {
             case AudioSourceType.Music:
-                foreach (var clip in clips)
-                {
-                    MusicDictionary.Add(clip.name, clip);
-                }
+                Add(clips, MusicDictionary);
                 break;
             case AudioSourceType.Ambient:
-                foreach (var clip in clips)
-                {
-                    AmbientDictionary.Add(clip.name, clip);
-                }
+                Add(clips, AmbientDictionary);
                 break;
+        }
+
+        void Add(IReadOnlyList<AudioClip> fromClips, Dictionary<string, AudioClip> targetDictionary)
+        {
+            foreach (var clip in fromClips)
+            {
+                if (targetDictionary.ContainsKey(clip.name) == false)
+                {
+                    targetDictionary.Add(clip.name, clip);
+                }
+            }
         }
     }
 }

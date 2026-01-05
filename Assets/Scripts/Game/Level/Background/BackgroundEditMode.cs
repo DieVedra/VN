@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BackgroundEditMode : Background
 {
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
+    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
     [SerializeField, HorizontalLine(color:EColor.Blue), Expandable] private List<BackgroundData> _locationsDatas;
     [SerializeField, Expandable] private BackgroundData _wardrobeBackgroundData;
     [SerializeField, Expandable] private List<BackgroundData> _additionalImagesDatas;
@@ -165,13 +168,13 @@ public class BackgroundEditMode : Background
             sprites.Add(backgroundData.GetSprite(t.NameSprite));
         }
     }
-    private void AddBackgroundDataContent(Dictionary<string, Sprite> sprites, BackgroundData backgroundData)
-    {
-        foreach (var t in backgroundData.BackgroundContentValues)
-        {
-            sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
-        }
-    }
+    // private void AddBackgroundDataContent(Dictionary<string, Sprite> sprites, BackgroundData backgroundData)
+    // {
+    //     foreach (var t in backgroundData.BackgroundContentValues)
+    //     {
+    //         sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
+    //     }
+    // }
     private void DestroyGameObject(GameObject transferredGameObject)
     {
         if (Application.isPlaying)

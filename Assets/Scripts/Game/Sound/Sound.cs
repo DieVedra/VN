@@ -33,7 +33,6 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
     public float CurrentAmbientClipTime => _audioSourceAmbient.clip == null ? 0f : _audioSourceAmbient.clip.length;
     public int CurrentMusicClipIndex { get; private set; }
     public string CurrentMusicClipKey { get; private set; }
-    public int CurrentAdditionalClipIndex { get; private set; }
     public string CurrentAdditionalClipKey { get; private set; }
     public SmoothAudio SmoothAudio { get; private set; }
 

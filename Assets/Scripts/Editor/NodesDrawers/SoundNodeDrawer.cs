@@ -15,8 +15,8 @@ public class SoundNodeDrawer : NodeEditor
     private const string _smoothVolumeDecreaseFieldName = "SmoothDecreaseVol: ";
     private SoundNode _soundNode;
     private SerializedProperty _instantNodeTransitionSerializedProperty;
-    private SerializedProperty _currentSoundIndexSerializedProperty;
-    private SerializedProperty _currentAdditionalSoundIndexSerializedProperty;
+    private SerializedProperty _currenMusicSoundKeySerializedProperty;
+    private SerializedProperty _currenAmbientSoundKeySerializedProperty;
     
     private SerializedProperty _smoothMusicTransitionKeySerializedProperty;
     private SerializedProperty _smoothMusicVolumeIncreaseSerializedProperty;
@@ -54,27 +54,29 @@ public class SoundNodeDrawer : NodeEditor
     private int _currentEnumIndex;
     private AudioEffect _audioEffect;
     private string[] _namesEffects;
-    private string[] _names;
-    private string[] _ambientNames;
-    private List<string> _names1;
-    private List<string> _names2;
+    private List<string> _namesMusic;
+    private List<string> _namesAmbient;
+    private int _currentAudioIndex;
+    private int _indexAudio;
     public override void OnBodyGUI()
     {
         if (_soundNode == null)
         {
             _soundNode = target as SoundNode;
-            _currentSoundIndexSerializedProperty = serializedObject.FindProperty("_currentMusicSoundIndex");
-            
+
             _smoothMusicTransitionKeySerializedProperty = serializedObject.FindProperty("_smoothMusicTransitionKey");
             _smoothMusicVolumeIncreaseSerializedProperty = serializedObject.FindProperty("_isMusicSmoothVolumeIncrease");
             _smoothMusicVolumeDecreaseSerializedProperty = serializedObject.FindProperty("_isMusicSmoothVolumeDecrease");
-            
+
             _smoothTransitionKeyAmbientSerializedProperty = serializedObject.FindProperty("_smoothTransitionKeyAmbientSound");
             _smoothVolumeIncreaseAmbientSerializedProperty = serializedObject.FindProperty("_isSmoothVolumeIncreaseAmbientSound");
             _smoothVolumeDecreaseAmbientSerializedProperty = serializedObject.FindProperty("_isSmoothVolumeDecreaseAmbientSound");
-            
+
             _instantNodeTransitionSerializedProperty = serializedObject.FindProperty("_isInstantNodeTransition");
-            _currentAdditionalSoundIndexSerializedProperty = serializedObject.FindProperty("_currentAmbientSoundIndex");
+
+            _currenMusicSoundKeySerializedProperty = serializedObject.FindProperty("_currentMusicSoundKey");
+            _currenAmbientSoundKeySerializedProperty = serializedObject.FindProperty("_currentAmbientSoundKey");
+
             _ambientSoundsKeySerializedProperty = serializedObject.FindProperty("_showAmbientSoundsKey");
             _musicSoundsKeySerializedProperty = serializedObject.FindProperty("_showMusicSoundsKey");
             _volumeSoundSerializedProperty = serializedObject.FindProperty("_volumeMusicSound");
@@ -86,8 +88,8 @@ public class SoundNodeDrawer : NodeEditor
             _inputSerializedProperty = serializedObject.FindProperty("Input");
             _outputSerializedProperty = serializedObject.FindProperty("Output");
             _lineDrawer = new LineDrawer();
-            _names1 = new List<string>();
-            _names2 = new List<string>();
+            _namesMusic = new List<string>();
+            _namesAmbient = new List<string>();
         }
         else
         {
@@ -108,10 +110,13 @@ public class SoundNodeDrawer : NodeEditor
                 if (_smoothMusicTransitionKeySerializedProperty.boolValue == true ||
                     _smoothMusicVolumeIncreaseSerializedProperty.boolValue == true)
                 {
-                    InitMusicNames();
-                    DrawPopupClips(_names, _currentSoundIndexSerializedProperty, "Audio Clips: ");
-                    DrawVolumeSlider(ref  _setVolumeMethod, _volumeSoundSerializedProperty, "SetVolume", "Volume: ");
-                    TryDrawMusicPlayer();
+                    // InitMusicNames();
+                    if (_soundNode.Sound?.GetMusicDictionary != null && _soundNode.Sound.GetMusicDictionary.Count > 0)
+                    {
+                        DrawPopupClips(_namesMusic, _soundNode.Sound.GetMusicDictionary, _currenMusicSoundKeySerializedProperty, "Audio Clips: ");
+                        DrawVolumeSlider(ref  _setVolumeMethod, _volumeSoundSerializedProperty, "SetVolume", "Volume: ");
+                        TryDrawMusicPlayer();
+                    }
                 }
             }
 
@@ -123,10 +128,13 @@ public class SoundNodeDrawer : NodeEditor
                 if (_smoothTransitionKeyAmbientSerializedProperty.boolValue == true ||
                     _smoothVolumeIncreaseAmbientSerializedProperty.boolValue == true)
                 {
-                    InitAmbientNames();
-                    DrawPopupClips(_ambientNames, _currentAdditionalSoundIndexSerializedProperty, "Additional Audio Clips: ");
-                    DrawVolumeSlider(ref _setAdditionalVolumeMethod, _volumeAdditionalSoundSerializedProperty, "SetAdditionalVolume", "Volume: ");
-                    TryDrawAmbientPlayer();
+                    if (_soundNode.Sound?.GetAmbientDictionary != null &&
+                        _soundNode.Sound.GetAmbientDictionary.Count > 0)
+                    {
+                        DrawPopupClips(_namesAmbient, _soundNode.Sound.GetAmbientDictionary, _currenAmbientSoundKeySerializedProperty, "Additional Audio Clips: ");
+                        DrawVolumeSlider(ref _setAdditionalVolumeMethod, _volumeAdditionalSoundSerializedProperty, "SetAdditionalVolume", "Volume: ");
+                        TryDrawAmbientPlayer();
+                    }
                 }
             }
 
@@ -270,13 +278,36 @@ public class SoundNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawPopupClips(string[] names, SerializedProperty serializedProperty, string label)
+    private void DrawPopupClips(List<string> names, IReadOnlyDictionary<string, AudioClip> clips, 
+        SerializedProperty keySerializedProperty, string label)
     {
-        if (names != null && names.Length > 0)
+        names.Clear();
+        _indexAudio = 0;
+        _currentAudioIndex = 0;
+        foreach (var pair in clips)
         {
-            EditorGUILayout.LabelField(label);
-            serializedProperty.intValue = EditorGUILayout.Popup(serializedProperty.intValue,  names);
-            EditorGUILayout.Space(10f);
+            if (pair.Value != null)
+            {
+                if (pair.Value?.name == keySerializedProperty.stringValue)
+                {
+                    _currentAudioIndex = _indexAudio;
+                }
+
+                names.Add(pair.Value.name);
+                _indexAudio++;
+            }
+        }
+
+        EditorGUI.BeginChangeCheck();
+        GUILayout.Label(label);
+        _currentAudioIndex = EditorGUILayout.Popup(_currentAudioIndex,  names.ToArray());
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (names.Count > _currentAudioIndex)
+            {
+                keySerializedProperty.stringValue = names[_currentAudioIndex];
+                serializedObject.ApplyModifiedProperties();
+            }
         }
     }
 
@@ -321,8 +352,7 @@ public class SoundNodeDrawer : NodeEditor
         _audioEffect = (AudioEffect)audioEffectsSerializedProperty.enumValueIndex;
         EditorGUILayout.LabelField($"Effect {_audioEffect.ToString()}");
         EditorGUILayout.BeginHorizontal();
-
-
+        
         effectKeysSerializedProperty.boolValue = EditorGUILayout.Toggle("IsOn", effectKeysSerializedProperty.boolValue);
         
         if (GUILayout.Button("X"))
@@ -340,29 +370,5 @@ public class SoundNodeDrawer : NodeEditor
     private void RemoveEffect(int index)
     {
         InvokeMethod(ref _removeEffectMethod, "RemoveEffect", new object[]{index});
-    }
-    private void InitMusicNames()
-    {
-        if (_soundNode.Sound != null)
-        {        
-            InitNames(ref _names, _names1, _soundNode.Sound.GetMusicDictionary);
-        }
-    }
-    private void InitAmbientNames()
-    {
-        if (_soundNode.Sound != null)
-        {
-            InitNames(ref _ambientNames, _names2, _soundNode.Sound.GetAmbientDictionary);
-        }
-    }
-    private void InitNames(ref string[] names, List<string> namesList, IReadOnlyDictionary<string, AudioClip> clips)
-    {
-        namesList.Clear();
-        foreach (var pair in clips)
-        {
-            namesList.Add(pair.Key);
-        }
-
-        names = namesList.ToArray();
     }
 }

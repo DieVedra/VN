@@ -158,6 +158,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _gameSeriesHandlerBuildMode.Shutdown();
         _levelLoadDataHandler.Shutdown();
         _levelUIProviderBuildMode.Shutdown();
+        _globalSound.Shutdown();
+        _backgroundBuildMode.Shutdown();
         base.Shutdown();
     }
     private void Save()

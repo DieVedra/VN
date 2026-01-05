@@ -1,5 +1,3 @@
-﻿
-using System;
 ﻿using System;
 using System.Collections.Generic;
 using UniRx;
@@ -10,7 +8,6 @@ public class BackgroundBuildMode : Background
     private BackgroundDataProvider _backgroundDataProvider;
     private BackgroundContentCreator _backgroundContentCreator;
 
-    
     public void Construct(BackgroundDataProvider backgroundDataProvider, BackgroundContentCreator backgroundContentCreator,
  ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
     {
@@ -21,14 +18,10 @@ public class BackgroundBuildMode : Background
         SetArtShower();
         InitWardrobeBackground();
         
-        
         InitContent(backgroundDataProvider);
-
         _backgroundContentCreator.OnCreateContent += InitLocations;
         _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(InitAdditionalImages);
         _backgroundDataProvider.OnLoadArtsData.Subscribe(InitArts);
-
-
         
         if (BackgroundSaveData != null)
         {
@@ -36,6 +29,10 @@ public class BackgroundBuildMode : Background
         }
     }
 
+    public void Shutdown()
+    {
+        _backgroundContentCreator.OnCreateContent -= InitLocations;
+    }
     private void InitContent(BackgroundDataProvider backgroundDataProvider)
     {
         if (backgroundDataProvider.LocationDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
@@ -54,10 +51,8 @@ public class BackgroundBuildMode : Background
         }
         void Foo(IReadOnlyList<BackgroundData> datas, Action<BackgroundData> operation)
         {
-            for (int i = 0; i < datas.Count; i++)
             foreach (var data in datas)
             {
-                operation.Invoke(datas[i]);
                 operation.Invoke(data);
             }
         }
@@ -82,12 +77,12 @@ public class BackgroundBuildMode : Background
         foreach (var contentValue in backgroundData.BackgroundContentValues)
         {
             content = _backgroundContentCreator.TryGetInstantiatedBackgroundContent();
-            if (content != null)
+            if (BackgroundContentDictionary.ContainsKey(contentValue.NameSprite) == false && content != null)
             {
                 InitBackgroundContent(
                     content,
                     backgroundData.GetSprite(contentValue.NameSprite), contentValue);
-                BackgroundContent.Add(content);
+                BackgroundContentDictionary.Add(contentValue.NameSprite, content);
             }
         }
     }
@@ -99,24 +94,11 @@ public class BackgroundBuildMode : Background
 
     private void InitAdditionalImages(BackgroundData backgroundData)
     {
-        InitSpriteList(AdditionalImagesToBackground, backgroundData);
+        AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, backgroundData);
     }
     
     private void InitArts(BackgroundData backgroundData)
     {
-        InitSpriteList(ArtsSprites, backgroundData);
-    }
-
-    private void InitSpriteList(List<Sprite> list, BackgroundData backgroundData)
-    {
-        foreach (var contentValue in backgroundData.BackgroundContentValues)
-        {
-            list.Add(backgroundData.GetSprite(contentValue.NameSprite));
-        }
-    }
-
-    private void OnDestroy()
-    {
-        _backgroundContentCreator.OnCreateContent -= InitLocations;
+        AddBackgroundDataContent(ArtsSpritesDictionary, backgroundData);
     }
 }

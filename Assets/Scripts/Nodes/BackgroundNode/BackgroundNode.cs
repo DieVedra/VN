@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -25,12 +26,19 @@ public class BackgroundNode : BaseNode
     [SerializeField] private BackgroundPosition _backgroundPositionMode2;
 
     [SerializeField] private Color _color;
+
+    private const float _minValue = 0f;
+    private const float _defaultDuration = 0.7f;
     private IBackgroundsProviderToBackgroundNode _background;
     public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary => _background?.GetBackgroundContentDictionary;
     public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
         _background = background;
+        if (Math.Abs(_changeMode2Duration - _minValue) < 0.05f)
+        {
+            _changeMode2Duration = _defaultDuration;
+        }
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -56,13 +64,12 @@ public class BackgroundNode : BaseNode
     {
         if (_isSmoothCurtain == true)
         {
-            if (isMerged == false)
+            if (_awaited)
             {
-                ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
-            }
-
-            if (_awaitedSmoothBackgroundChangePosition)
-            {
+                if (isMerged == false)
+                {
+                    ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
+                }
                 await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key);
             }
             else
@@ -78,13 +85,12 @@ public class BackgroundNode : BaseNode
 
     private async UniTask Mode2(bool isMerged)
     {
-        if (isMerged == false)
+        if (_awaited)
         {
-            ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
-        }
-
-        if (_awaitedSmoothChangeBackground)
-        {
+            if (isMerged == false)
+            {
+                ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
+            }
             await _background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
         }
         else
@@ -94,12 +100,12 @@ public class BackgroundNode : BaseNode
     }
     private async UniTask Mode3(bool isMerged)
     {
-        if (isMerged == false)
+        if (_awaited)
         {
-            ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
-        }
-        if (_awaitedSetColorOverlayBackground)
-        {
+            if (isMerged == false)
+            {
+                ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
+            }
             await _background.SetColorOverlayBackground(_color, CancellationTokenSource.Token, _changeColorDuration, _mode3Enable);
         }
         else

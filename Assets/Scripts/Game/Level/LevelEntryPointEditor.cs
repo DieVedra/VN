@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
-    [SerializeField] private LevelSoundEditMode levelSoundEditMode;
+    [SerializeField] private LevelSoundEditMode _levelSoundEditMode;
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space]
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
@@ -107,7 +107,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _phoneProviderInEditMode.Construct(phoneMessagesCustodian, phoneSaveHandler);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, phoneSaveHandler);
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
-            CharacterViewer, _wardrobeCharacterViewer, levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
+            CharacterViewer, _wardrobeCharacterViewer, _levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), phoneNodeIsActive);
         DisableNodesContentEvent.Execute();
         if (Application.isPlaying)
@@ -156,6 +156,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _gameSeriesHandlerEditorMode.Shutdown();
         _levelUIProviderEditMode.Shutdown();
         _wardrobeCharacterViewer.Dispose();
+        _levelSoundEditMode.Shutdown();
         base.Shutdown();
     }
     private void Save()
@@ -171,8 +172,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.Stats.Clear();
             StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
-            StoryData.CurrentAudioClipIndex = levelSoundEditMode.CurrentMusicClipIndex;
-            StoryData.LowPassEffectIsOn = levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
+            StoryData.CurrentAudioClipIndex = _levelSoundEditMode.CurrentMusicClipIndex;
+            StoryData.LowPassEffectIsOn = _levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
@@ -217,11 +218,11 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         if (_saveData != null && LoadSaveData == true)
         {
-            levelSoundEditMode.Construct(_saveData.SoundStatus);
+            _levelSoundEditMode.Construct(_saveData.SoundStatus);
         }
         else
         {
-            levelSoundEditMode.Construct(true);
+            _levelSoundEditMode.Construct(true);
         }
     }
     protected override void InitBackground()

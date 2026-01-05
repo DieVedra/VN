@@ -22,7 +22,10 @@ public class LevelSoundEditMode : Sound
             foreach (var clip in data.Clips)
             {
                 target.Add(clip);
-                targetDictionary.Add(clip.name, clip);
+                if (targetDictionary.ContainsKey(clip.name) == false)
+                {
+                    targetDictionary.Add(clip.name, clip);
+                }
             }
         }
     }

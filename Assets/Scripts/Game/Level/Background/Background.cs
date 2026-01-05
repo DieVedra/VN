@@ -4,12 +4,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode, IBackgroundsProviderToHeaderNode, IBackgroundProviderToShowArtNode, IBackgroundProviderToCustomizationNode
+public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode,
+    IBackgroundsProviderToHeaderNode, IBackgroundProviderToShowArtNode, IBackgroundProviderToCustomizationNode
 {
     [SerializeField] private SpriteRenderer _colorOverlay;
-    [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
-    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
-    [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
+    // [SerializeField, NaughtyAttributes.ReadOnly] protected List<BackgroundContent> BackgroundContent;
+    // [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> AdditionalImagesToBackground;
+    // [SerializeField, NaughtyAttributes.ReadOnly] protected List<Sprite> ArtsSprites;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
 
@@ -33,7 +34,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     protected Dictionary<string, BackgroundContent> BackgroundContentDictionary;
     protected Dictionary<string, Sprite> AdditionalImagesToBackgroundDictionary;
     protected Dictionary<string, Sprite> ArtsSpritesDictionary;
-    protected HashSet<string> ArtOpenedKeys;
+    protected List<string> ArtOpenedKeys;
     protected SpriteRenderer ArtShower;
     protected BackgroundContent WardrobeBackground;
     protected BackgroundSaveData BackgroundSaveData;
@@ -44,10 +45,6 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     public string CurrentKeyBackgroundContent { get; private set; } = Space;
     public string CurrentArtKey { get; private set; } = Space;
     public BackgroundPosition CurrentBackgroundPosition { get; private set; }
-    public List<BackgroundContent> GetBackgroundContent => BackgroundContent;
-    public IReadOnlyList<Sprite> GetAdditionalImagesToBackground => AdditionalImagesToBackground;
-
-    public IReadOnlyList<Sprite> GetArtsSprites => ArtsSprites;
 
     public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary => BackgroundContentDictionary;
     public IReadOnlyDictionary<string, Sprite> GetAdditionalImagesToBackgroundDictionary => AdditionalImagesToBackgroundDictionary;
@@ -126,17 +123,6 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         }
     }
 
-    // public async UniTask ShowImageInPlayMode(int indexArt, CancellationToken cancellationToken)
-    // {
-    //     ArtShower.color = new Color(1f,1f,1f,0f);
-    //     ArtShower.sprite = ArtsSprites[indexArt];
-    //     // CurrentArtIndex = indexArt;
-    //     // _artOpenedIndexes.Add(indexArt);
-    //     ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
-    //     ArtShower.gameObject.SetActive(true);
-    //     await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
-    //         ArtShower.transform.DOScale(_endValueScale, _durationScale).WithCancellation(cancellationToken));
-    // }
     public async UniTask ShowImageInPlayMode(string keyArt, CancellationToken cancellationToken)
     {
         if (ArtsSpritesDictionary.TryGetValue(keyArt, out var value))
@@ -144,7 +130,8 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             ArtShower.color = new Color(1f,1f,1f,0f);
             ArtShower.sprite = value;
             CurrentArtKey = keyArt;
-            // _artOpenedIndexes.Add(indexArt);
+            ArtOpenedKeys ??= new List<string>();
+            ArtOpenedKeys.Add(keyArt);
             ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
             ArtShower.gameObject.SetActive(true);
             await UniTask.WhenAll(ArtShower.DOFade(_endFadeValue, _durationFade).WithCancellation(cancellationToken),
@@ -287,9 +274,9 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         ArtShower.gameObject.SetActive(false);
         WardrobeBackground.gameObject.SetActive(false);
         ArtShower.sprite = null;
-        foreach (var background in BackgroundContent)
+        foreach (var pair in BackgroundContentDictionary)
         {
-            background.Diactivate();
+            pair.Value.Diactivate();
         }
     }
 
@@ -301,5 +288,12 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         ArtShower.transform.localScale = new Vector2(ArtShowerValueScale, ArtShowerValueScale);
         ArtShower.sortingLayerName = ArtShowerSortingLayerName;
         ArtShower.sortingOrder = ArtShowerOrderInLayer;
+    }
+    protected void AddBackgroundDataContent(Dictionary<string, Sprite> sprites, BackgroundData backgroundData)
+    {
+        foreach (var t in backgroundData.BackgroundContentValues)
+        {
+            sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
+        }
     }
 }
