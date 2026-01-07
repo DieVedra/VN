@@ -20,7 +20,7 @@ public class GameStatsDrawer : Editor
             for (int i = 0; i < _gameStatsViewer.StatsToView.Count; i++)
             {
                 DrawFieldColor(
-                    _gameStatsViewer.StatsToView[i].LocalizationName.DefaultText,
+                    _gameStatsViewer.StatsToView[i].LocalizationNameToGame.DefaultText,
                     _gameStatsViewer.StatsToView[i].Value,
                     _gameStatsViewer.StatsToView[i].ShowInEndGameResultKey,
                     _gameStatsViewer.StatsToView[i].ColorField);

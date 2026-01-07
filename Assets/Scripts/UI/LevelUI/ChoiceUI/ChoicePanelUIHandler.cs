@@ -39,10 +39,9 @@ public class ChoicePanelUIHandler
         _siblingIndex = _rectTransform.GetSiblingIndex();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposableOnUpdateWallet?.Clear();
-        _panelResourceHandler.Dispose();
     }
     public void SetSibling(int index)
     {

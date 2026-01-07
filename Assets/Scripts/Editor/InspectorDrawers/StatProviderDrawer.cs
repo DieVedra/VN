@@ -48,7 +48,7 @@ public class StatProviderDrawer : Editor
     //         {
     //             _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
     //             DrawFieldColor(
-    //                 _seriaStatProvider.StatsLocalizationStrings[i].LocalizationName,
+    //                 _seriaStatProvider.StatsLocalizationStrings[i].LocalizationNameToGame,
     //                 _serializedProperty.FindPropertyRelative("_value").intValue,
     //                 _serializedProperty.FindPropertyRelative("_showInEndGameResultKey"),
     //                 _serializedProperty.FindPropertyRelative("_colorField").colorValue);
@@ -150,7 +150,7 @@ public class StatProviderDrawer : Editor
     //     for (int i = 0; i < _listStatsProperty.arraySize; i++)
     //     {
     //         _serializedProperty = _listStatsProperty.GetArrayElementAtIndex(i);
-    //         names.Add(_seriaStatProvider.StatsLocalizationStrings[i].LocalizationName);
+    //         names.Add(_seriaStatProvider.StatsLocalizationStrings[i].LocalizationNameToGame);
     //     }
     //     _names = names.ToArray();
     // }

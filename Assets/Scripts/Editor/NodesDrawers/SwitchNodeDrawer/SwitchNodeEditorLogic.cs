@@ -64,7 +64,7 @@ public class SwitchNodeEditorLogic
             serializedProperty = statsSerializedPropertyMyCase.GetArrayElementAtIndex(i);
             serializedPropertyToggle = serializedProperty.FindPropertyRelative("_includeKey");
             serializedPropertyToggle.boolValue = EditorGUILayout.Toggle(serializedPropertyToggle.boolValue, GUILayout.Width(20f));
-            DrawLabel(caseStats[i].LocalizationName.DefaultText);
+            DrawLabel(caseStats[i].LocalizationNameToGame.DefaultText);
             if (serializedPropertyToggle.boolValue)
             {
                 DrawPopup(_switchNodeLogic.Operators ,serializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);

@@ -7,7 +7,7 @@ using UnityEngine;
 public class SeriaNodeGraphsHandler : ScriptableObject
 {
     [SerializeField, Expandable] private List<SeriaPartNodeGraph> _seriaPartNodeGraphs;
-    private CompositeDisposable _compositeDisposable;
+    private CompositeDisposable _switchToAnotherNodeGraphEventСompositeDisposable;
     public int CurrentNodeGraphIndex { get; private set; }
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
@@ -20,8 +20,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
         _currentSeriaIndex = currentSeriaIndex;
-        _compositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(MoveNext);
-        _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.SubscribeWithCompositeDisposable(SwitchToAnotherNodeGraph, _compositeDisposable);
+        _switchToAnotherNodeGraphEventСompositeDisposable = _nodeGraphInitializer.SwitchToAnotherNodeGraphEvent.SubscribeWithCompositeDisposable(SwitchToAnotherNodeGraph);
         if (_seriaPartNodeGraphs.Count > 0)
         {
             if (Application.isPlaying == true)
@@ -40,7 +39,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
 
     public void Shutdown()
     {
-        _compositeDisposable?.Clear();
+        _switchToAnotherNodeGraphEventСompositeDisposable?.Clear();
         if (_seriaPartNodeGraphs.Count > 0)
         {
             foreach (var graph in _seriaPartNodeGraphs)
@@ -52,6 +51,7 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     
     private void SwitchToAnotherNodeGraph(SeriaPartNodeGraph seriaPartNodeGraph)
     {
+        _seriaPartNodeGraphs[CurrentNodeGraphIndex].Shutdown();
         CurrentNodeGraphIndex = GetIndexCurrentNode(seriaPartNodeGraph);
         InitGraph(currentSeriaIndex: _currentSeriaIndex, currentNodeGraphIndex: CurrentNodeGraphIndex);
     }
@@ -62,9 +62,5 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {
         return _seriaPartNodeGraphs.IndexOf(seriaPartNodeGraph);
-    }
-    private void MoveNext()
-    {
-        _seriaPartNodeGraphs[CurrentNodeGraphIndex].MoveNext().Forget();
     }
 }

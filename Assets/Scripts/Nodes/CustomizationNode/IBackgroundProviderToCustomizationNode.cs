@@ -1,5 +1,6 @@
 ﻿
 public interface IBackgroundProviderToCustomizationNode
 {
-    public void SetWardrobeBackground();
+    public void EnableWardrobeBackground();
+    public void DisableWardrobeBackground();
 }

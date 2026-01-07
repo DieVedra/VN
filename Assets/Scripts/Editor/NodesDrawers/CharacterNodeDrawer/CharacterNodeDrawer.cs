@@ -137,7 +137,6 @@ public class CharacterNodeDrawer : NodeEditor
             _foldoutIsOpenProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutIsOpenProperty.boolValue, _fouldoutLabel);
             if (_foldoutIsOpenProperty.boolValue)
             {
-                // DrawEnumPopup();
                 _enumPopupDrawer.DrawEnumPopup<DirectionType>(_directionCharacterProperty, _currentDirectionLabel);
 
                 if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
@@ -190,13 +189,6 @@ public class CharacterNodeDrawer : NodeEditor
         string[] newNames = names2.Concat(names).ToArray();
         names = newNames;
     }
-    private void DrawEnumPopup()
-    {
-        DirectionType directionType = (DirectionType)_directionCharacterProperty.enumValueIndex;
-        EditorGUILayout.LabelField(_currentDirectionLabel);
-        directionType = (DirectionType)EditorGUILayout.EnumPopup(directionType);
-        _directionCharacterProperty.enumValueIndex = (int) directionType;
-    }
 
     private SerializedProperty GetProperty(string propertyName)
     {
@@ -209,7 +201,7 @@ public class CharacterNodeDrawer : NodeEditor
         {
             _privateMethod = _characterNode.GetType().GetMethod(_nameMethod, BindingFlags.NonPublic | BindingFlags.Instance);
         }
-        _privateMethod.Invoke(_characterNode, null);
+        _privateMethod?.Invoke(_characterNode, null);
     }
 
     private void SetCharactersNames()
@@ -228,11 +220,11 @@ public class CharacterNodeDrawer : NodeEditor
     private void InitCharactersNames()
     {
         _namesCharactersToPopup = new List<string>();
-        for (int i = 0; i < _characterNode.Characters.Count; i++)
+        foreach (var t in _characterNode.Characters)
         {
-            if (_characterNode.Characters[i] != null)
+            if (t != null)
             {
-                _namesCharactersToPopup.Add(_characterNode.Characters[i].MyNameText);
+                _namesCharactersToPopup.Add(t.MyNameText);
             }
         }
     }

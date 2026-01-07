@@ -133,6 +133,8 @@ public class ChoiceNode : BaseNode, ILocalizable
             int portIndex = _choiceCases.IndexOf(choiceCaseResult);
             TryFindConnectedPorts(GetOutputPort(GetPortName(portIndex)));
         }
+        
+        
         GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         SwitchToNextNodeEvent.Execute();
     }

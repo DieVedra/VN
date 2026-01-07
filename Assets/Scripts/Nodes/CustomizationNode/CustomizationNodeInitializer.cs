@@ -5,7 +5,7 @@ public class CustomizationNodeInitializer : MyNodeInitializer
 {
     public CustomizationNodeInitializer(GameStatsHandler gameStatsHandlerNodeInitializer) : base(gameStatsHandlerNodeInitializer) { }
 
-    public void InitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void InitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites)
     {
         if (sprites == null)
         {
@@ -18,12 +18,11 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             {
                 continue;
             }
-            settings.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                i, sprites[i].Price, sprites[i].PriceAdditional));
+            settings.Add(GetNewCustomizationSettings(sprites[i].Name, sprites[i].Name, i, sprites[i].Price, sprites[i].PriceAdditional));
         }
     }
     
-    public void ReInitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites, int skipFirstWordsInLabel = 2, int skipEndWordsInLabel = 0)
+    public void ReInitCustomizationSettings(List<CustomizationSettings> settings, IReadOnlyList<MySprite> sprites)
     {
         if (sprites == null)
         {
@@ -31,9 +30,9 @@ public class CustomizationNodeInitializer : MyNodeInitializer
         }
         if (settings.Count == 0)
         {
-            InitCustomizationSettings(settings, sprites, skipFirstWordsInLabel, skipEndWordsInLabel);
+            InitCustomizationSettings(settings, sprites);
         }
-        Dictionary<string, CustomizationSettings> dictionaryOldSettings = settings.ToDictionaryDistinct(setting => setting.Name);
+        Dictionary<string, CustomizationSettings> dictionaryOldSettings = settings.ToDictionaryDistinct(setting => setting.SpriteName);
         settings.Clear();
         string newName;
         for (int i = 0; i < sprites.Count; i++)
@@ -42,17 +41,17 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             {
                 continue;
             }
-            newName = sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_');
+            newName = sprites[i].Name;
             if (dictionaryOldSettings.TryGetValue(newName, out CustomizationSettings customizationOldSetting) == true)
             {
                 var customizationSetting = new CustomizationSettings(
                     GameStatsHandlerNodeInitializer.ReinitCustomizationStats(customizationOldSetting.GameStats),
-                    sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
-                    i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd, customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
+                    sprites[i].Name, customizationOldSetting.Name,i, sprites[i].Price, sprites[i].PriceAdditional, customizationOldSetting.KeyAdd,
+                    customizationOldSetting.KeyShowParams, customizationOldSetting.KeyShowStats);
                 settings.Add(customizationSetting);
                 continue;
             }
-            settings.Add(GetNewCustomizationSettings(sprites[i].Name.MyCutString(skipFirstWordsInLabel, skipEndWordsInLabel, '_'),
+            settings.Add(GetNewCustomizationSettings(sprites[i].Name, sprites[i].Name,
                 i, sprites[i].Price, sprites[i].PriceAdditional));
         }
     }
@@ -66,8 +65,8 @@ public class CustomizationNodeInitializer : MyNodeInitializer
     {
         List<CustomizationSettings> spriteIndexesBodies = settingsBodies.Where(x=>x.KeyAdd == true).ToList();
         List<CustomizationSettings> spriteIndexesHairstyles = settingsHairstyles.Where(x=>x.KeyAdd == true).ToList();
-        List<CustomizationSettings> spriteIndexesClothes = GetRenamedFieldsToView(settingsClothes, customizableCharacter.ClothesData);
-        List<CustomizationSettings> spriteIndexesSwimsuits = GetRenamedFieldsToView(settingsSwimsuits, customizableCharacter.SwimsuitsData);
+        List<CustomizationSettings> spriteIndexesClothes = settingsClothes.Where(x=>x.KeyAdd == true).ToList();
+        List<CustomizationSettings> spriteIndexesSwimsuits = settingsSwimsuits.Where(x=>x.KeyAdd == true).ToList();
         return new SelectedCustomizationContentIndexes(
             spriteIndexesBodies, 
             spriteIndexesHairstyles,
@@ -76,29 +75,8 @@ public class CustomizationNodeInitializer : MyNodeInitializer
             customizableCharacter);
     }
 
-    private static List<CustomizationSettings> GetRenamedFieldsToView(
-        IReadOnlyList<CustomizationSettings> customizationSettings, IReadOnlyList<MySprite> mySprites)
+    private CustomizationSettings GetNewCustomizationSettings(string spriteName, string localizationNameToGame, int index, int price, int priceAdditional)
     {
-        List<CustomizationSettings> spriteIndexesClothes = new List<CustomizationSettings>();
-        for (int i = 0; i < customizationSettings.Count; i++)
-        {
-            if (customizationSettings[i].KeyAdd == true)
-            {
-                spriteIndexesClothes.Add(new CustomizationSettings(
-                    customizationSettings[i].GameStats.ToList(),
-                    mySprites[i].Name.MyCutString(2, separator: '_'),
-                    customizationSettings[i].Index,
-                    customizationSettings[i].Price,
-                    customizationSettings[i].PriceAdditional,
-                    customizationSettings[i].KeyShowStats));
-            }
-        }
-
-        return spriteIndexesClothes;
-    }
-
-    private CustomizationSettings GetNewCustomizationSettings(string name, int index, int price, int priceAdditional)
-    {
-        return new CustomizationSettings(GameStatsHandlerNodeInitializer.GetCustomizationStatsForm(), name, index, price, priceAdditional);
+        return new CustomizationSettings(GameStatsHandlerNodeInitializer.GetCustomizationStatsForm(), spriteName, localizationNameToGame, index, price, priceAdditional);
     }
 }

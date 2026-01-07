@@ -75,10 +75,14 @@ public class BackgroundContent : MonoBehaviour
         _setLighting.SetLightingColor(_colorLighting);
     }
 
+    public void ActivateOnSmoothChangeBackground(float duration, CancellationToken cancellationToken)
+    {
+        gameObject.SetActive(true);
+        _setLighting.SetLightingColorOnSmoothChangeBackground(_colorLighting, duration, cancellationToken);
+    }
     public void Diactivate()
     {
         gameObject.SetActive(false);
-        _setLighting.SetLightingColor(Color.white);
     }
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition)
     {

@@ -71,5 +71,6 @@ public class LevelUIProviderEditMode
     {
         NarrativePanelUIHandler.Dispose();
         _compositeDisposable?.Clear();
+        PanelResourceHandler.Shutdown();
     }
 }

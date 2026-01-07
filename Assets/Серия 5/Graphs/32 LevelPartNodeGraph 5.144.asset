@@ -286,49 +286,6 @@ MonoBehaviour:
   _showEffectsKey: 0
   _audioEffects: 
   _effectKeys: 
---- !u!114 &-8108891135645481093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
-  m_Name: Switch To Another Node Graph
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 129876.07, y: 12596.245}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: -8108891135645481093}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: -2779939682511248428}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: -8108891135645481093}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _seriaPartNodeGraph: {fileID: 0}
-  _putOnSwimsuit: 0
 --- !u!114 &-7415502282109074917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,7 +1021,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -3534475993719155258}
+        node: {fileID: 9011445606761041898}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1681,74 +1638,6 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
---- !u!114 &-3534475993719155258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
-  m_Name: Merger
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 110264, y: 11112}
-  ports:
-    keys:
-    - Input
-    - Output
-    - Port 0
-    - Port 1
-    values:
-    - _fieldName: Input
-      _node: {fileID: -3534475993719155258}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: -6481726838788718709}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: -3534475993719155258}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Port 0
-      _node: {fileID: -3534475993719155258}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 4493316429103765661}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 1
-      _node: {fileID: -3534475993719155258}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 5890152673541981956}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-  namenode: 
-  _autoSwitchToNextSlide: 1
 --- !u!114 &-3397089016275183722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1972,7 +1861,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -8108891135645481093}
+        node: {fileID: 5510055636666096620}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -2176,7 +2065,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   namenode: 
-  _autoSwitchToNextSlide: 0
+  _autoSwitchToNextSlide: 1
 --- !u!114 &-1026732693510623740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3838,9 +3727,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: -6481726838788718709}
-  - {fileID: -3534475993719155258}
-  - {fileID: 4493316429103765661}
-  - {fileID: 5890152673541981956}
   - {fileID: 9011445606761041898}
   - {fileID: -8870967058807545360}
   - {fileID: 1952565013999205151}
@@ -3897,7 +3783,7 @@ MonoBehaviour:
   - {fileID: -2779939682511248428}
   - {fileID: -1173942885274322178}
   - {fileID: -8238974348284060942}
-  - {fileID: -8108891135645481093}
+  - {fileID: 5510055636666096620}
 --- !u!114 &206317841375311218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4678,6 +4564,15 @@ MonoBehaviour:
       _includeKey: 0
     - _colorField: {r: 1, g: 1, b: 1, a: 1}
       _name:
+        <DefaultText>k__BackingField: "\u0412\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0430
+          \u0422\u043E\u043C\u0430 \u043D\u0430 \u043F\u043B\u044F\u0436\u0435"
+        <Key>k__BackingField: str_DCABDD16
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
         <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
           \u0441 \u041E\u0444\u0438\u0446\u0435\u0440\u043E\u043C"
         <Key>k__BackingField: str_12429A7B
@@ -4741,6 +4636,15 @@ MonoBehaviour:
         <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
           \u043E \u043F\u0435\u043D\u0442\u0430\u0433\u0440\u0430\u043C\u043C\u0435"
         <Key>k__BackingField: str_36BB2E73
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+          \u043E \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u0435"
+        <Key>k__BackingField: str_9BC26669
       _value: 0
       _notificationKey: 0
       _indexCurrentOperator: 0
@@ -4956,6 +4860,15 @@ MonoBehaviour:
       _includeKey: 0
     - _colorField: {r: 1, g: 1, b: 1, a: 1}
       _name:
+        <DefaultText>k__BackingField: "\u0412\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0430
+          \u0422\u043E\u043C\u0430 \u043D\u0430 \u043F\u043B\u044F\u0436\u0435"
+        <Key>k__BackingField: str_DCABDD16
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
         <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
           \u0441 \u041E\u0444\u0438\u0446\u0435\u0440\u043E\u043C"
         <Key>k__BackingField: str_12429A7B
@@ -5019,6 +4932,15 @@ MonoBehaviour:
         <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
           \u043E \u043F\u0435\u043D\u0442\u0430\u0433\u0440\u0430\u043C\u043C\u0435"
         <Key>k__BackingField: str_36BB2E73
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+          \u043E \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u0435"
+        <Key>k__BackingField: str_9BC26669
       _value: 0
       _notificationKey: 0
       _indexCurrentOperator: 0
@@ -5234,6 +5156,15 @@ MonoBehaviour:
       _includeKey: 0
     - _colorField: {r: 1, g: 1, b: 1, a: 1}
       _name:
+        <DefaultText>k__BackingField: "\u0412\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0430
+          \u0422\u043E\u043C\u0430 \u043D\u0430 \u043F\u043B\u044F\u0436\u0435"
+        <Key>k__BackingField: str_DCABDD16
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
         <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
           \u0441 \u041E\u0444\u0438\u0446\u0435\u0440\u043E\u043C"
         <Key>k__BackingField: str_12429A7B
@@ -5297,6 +5228,15 @@ MonoBehaviour:
         <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
           \u043E \u043F\u0435\u043D\u0442\u0430\u0433\u0440\u0430\u043C\u043C\u0435"
         <Key>k__BackingField: str_36BB2E73
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+          \u043E \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u0435"
+        <Key>k__BackingField: str_9BC26669
       _value: 0
       _notificationKey: 0
       _indexCurrentOperator: 0
@@ -5390,7 +5330,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 118248, y: 11688}
+  position: {x: 118296, y: 11608}
   ports:
     keys:
     - Input
@@ -5447,62 +5387,6 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
---- !u!114 &4493316429103765661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
-  m_Name: Background
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 110632, y: 11080}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 4493316429103765661}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Port 0
-        node: {fileID: -3534475993719155258}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 4493316429103765661}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _backgroundNodeMode: 0
-  _index: 0
-  _indexTo: 0
-  _key: "\u0413\u043E\u0440\u044B \u0438 \u043F\u043B\u044F\u0436 (\u0437\u0430\u043A\u0430\u0442)"
-  _changeColorDuration: 0
-  _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 0
-  _awaitedSetColorOverlayBackground: 0
-  _awaited: 0
-  _isSmoothCurtain: 0
-  _mode3Enable: 0
-  _backgroundPosition: 0
-  _backgroundPositionMode2: 0
-  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &4693914117304978265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6668,6 +6552,49 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
+--- !u!114 &5510055636666096620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f92d39ce5345649c87aadd3fba5cad, type: 3}
+  m_Name: Switch To Another Node Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 129896, y: 12616}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 5510055636666096620}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -2779939682511248428}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 5510055636666096620}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _seriaPartNodeGraph: {fileID: 11400000, guid: d8f878623f698264db360fcb8564c692, type: 2}
+  _putOnSwimsuit: 0
 --- !u!114 &5854311438845980136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6728,56 +6655,6 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
---- !u!114 &5890152673541981956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
-  m_Name: Smooth Transition
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 110568, y: 11432}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 5890152673541981956}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Port 1
-        node: {fileID: -3534475993719155258}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 5890152673541981956}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 9011445606761041898}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _isStartImmediatlyCurtain: 0
-  _isEndImmediatlyCurtain: 0
-  _isStartCurtain: 1
-  _isEndCurtain: 0
-  _customDelay: 1
-  _delay: 0.7
 --- !u!114 &6154069035972187107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7382,6 +7259,15 @@ MonoBehaviour:
       _notificationKey: 0
       _indexCurrentOperator: 0
       _includeKey: 0
+    - _colorField: {r: 1, g: 1, b: 1, a: 1}
+      _name:
+        <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+          \u043E \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u0435"
+        <Key>k__BackingField: str_9BC26669
+      _value: 0
+      _notificationKey: 0
+      _indexCurrentOperator: 0
+      _includeKey: 0
     _additionalCaseStats: []
     _foldoutKey: 0
     _name: Port 0
@@ -7641,7 +7527,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 5890152673541981956}
+        node: {fileID: -6481726838788718709}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

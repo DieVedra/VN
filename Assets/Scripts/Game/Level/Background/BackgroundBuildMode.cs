@@ -69,6 +69,7 @@ public class BackgroundBuildMode : Background
             _backgroundDataProvider.GetWardrobeBackgroundData.GetSprite(_backgroundDataProvider.GetWardrobeBackgroundData.BackgroundContentValues[0].NameSprite),
         _backgroundDataProvider.GetWardrobeBackgroundData.BackgroundContentValues[0]);
         WardrobeBackground = _backgroundContentCreator.WardrobeBackground;
+        WardrobeBackground.SpriteRenderer.sortingOrder = WardrobeSortOrder;
     }
 
     private void InitLocations(BackgroundData backgroundData)

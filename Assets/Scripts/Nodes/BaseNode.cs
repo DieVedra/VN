@@ -33,6 +33,10 @@ public class BaseNode : Node
     public virtual void Shutdown()
     {
         CancellationTokenSource?.Cancel();
+        ButtonSwitchSlideUIHandler = null;
+        DisableNodesContentEvent = null;
+        SwitchToNextNodeEvent = null;
+        SetLocalizationChangeEvent = null;
     }
 
     protected void SetNextNode(BaseNode nextNode)

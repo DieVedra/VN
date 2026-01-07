@@ -159,6 +159,14 @@ public class NotificationPanelUIHandler : PanelUIHandler
         _imageRectTransform.sizeDelta = Size;
     }
 
+    public string GetMergedText(string part1, string part2)
+    {
+        _stringBuilder.Clear();
+        _stringBuilder.Append(part1);
+        _stringBuilder.Append(_transfer);
+        _stringBuilder.Append(part2);
+        return _stringBuilder.ToString();
+    }
     public string GetTextStats<T>(IEnumerable<T> stats, IGameStatsProvider gameStatsProvider) where T : BaseStat
     {
         bool isFirstStat = true;
@@ -175,7 +183,7 @@ public class NotificationPanelUIHandler : PanelUIHandler
                 {
                     _stringBuilder.Append(_transfer);
                 }
-                var hexColor = GetColor(gameStatsProvider, stat.LocalizationName.Key);
+                var hexColor = GetColor(gameStatsProvider, stat.LocalizationNameToGame.Key);
                 _stringBuilder.Append(_spaceColorPart1);
                 _stringBuilder.Append(hexColor);
                 _stringBuilder.Append(_spaceColorPart2);
@@ -185,7 +193,7 @@ public class NotificationPanelUIHandler : PanelUIHandler
                 }
                 _stringBuilder.Append(stat.Value.ToString());
                 _stringBuilder.Append(_space);
-                _stringBuilder.Append(stat.LocalizationName);
+                _stringBuilder.Append(stat.LocalizationNameToGame);
                 _stringBuilder.Append(_endSpaceColor);
             }
         }
@@ -196,7 +204,7 @@ public class NotificationPanelUIHandler : PanelUIHandler
     {
         foreach (var stat in gameStatsProvider.GameStatsHandler.Stats)
         {
-            if (stat.LocalizationName.Key == key)
+            if (stat.LocalizationNameToGame.Key == key)
             {
                 return ColorUtility.ToHtmlStringRGB(stat.ColorField);
             }

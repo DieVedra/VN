@@ -1,3 +1,6 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
@@ -43,6 +46,10 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
         SpriteViewer1.SpriteRenderer.color = color;
     }
 
+    public void SetLightingColorOnSmoothChangeBackground(Color color, float time, CancellationToken cancellationToken)
+    {
+        SpriteViewer1.SpriteRenderer.DOColor(color, time).WithCancellation(cancellationToken).Forget();
+    }
     protected override void TryInitViewer(SpriteViewer spriteViewer)
     {
         SpriteRenderer spriteRenderer = spriteViewer.GetComponent<SpriteRenderer>();

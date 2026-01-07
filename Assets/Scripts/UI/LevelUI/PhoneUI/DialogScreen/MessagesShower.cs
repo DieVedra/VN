@@ -83,12 +83,10 @@ public class MessagesShower
 
         if (contactNodeCase.IsReaded == true)
         {
-            Debug.Log(1);
             _onMessagesIsOut.Invoke();
         }
         else
         {
-            Debug.Log(2);
             _phoneMessagesExtractor.Init(nodePort);
         }
         
@@ -244,12 +242,8 @@ public class MessagesShower
     {
         if (_readDialogButton.IsActive == false)
         {
-            Debug.Log($"SubscribeReadButton");
-
             _readDialogButton.Enable(() =>
             {
-                Debug.Log($"_readDialogButton Press");
-
                 _readDialogButton.Disable();
                 _tryShowReactiveCommand.Execute();
             });

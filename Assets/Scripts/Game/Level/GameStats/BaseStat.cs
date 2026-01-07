@@ -14,7 +14,7 @@ public class BaseStat : ILocalizationString
     public string NameKey => _name.Key;
     public int Value => _value;
     public bool NotificationKey => _notificationKey;
-    public LocalizationString LocalizationName => _name;
+    public LocalizationString LocalizationNameToGame => _name;
     public Color ColorField => _colorField;
 
     public BaseStat(string name, int value)

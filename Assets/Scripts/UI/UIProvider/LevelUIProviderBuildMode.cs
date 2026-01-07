@@ -37,7 +37,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     {
         base.Shutdown();
         GameControlPanelUIHandler.Dispose();
-        ChoicePanelUIHandler.Dispose();
+        ChoicePanelUIHandler.Shutdown();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

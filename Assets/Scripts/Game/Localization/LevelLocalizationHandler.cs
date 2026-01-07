@@ -98,7 +98,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     {
         foreach (var stat in gameStatsHandler.Stats)
         {
-            SetText(stat.LocalizationName);
+            SetText(stat.LocalizationNameToGame);
         }
     }
 

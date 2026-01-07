@@ -7,20 +7,19 @@ using UnityEngine;
 [NodeWidth(450),NodeTint("#6C0054")]
 public class CustomizationNode : BaseNode, ILocalizable
 {
-    [SerializeField, HideInInspector] private bool _showFoldoutSettingsHairstyles;
-    [SerializeField, HideInInspector] private bool _showFoldoutSettingsClothes;
-    [SerializeField, HideInInspector] private bool _showFoldoutSettingsBodies;
-    [SerializeField, HideInInspector] private bool _showFoldoutSettingsSwimsuits;
-    [SerializeField] private int _customizationCharacterIndex;
-    
     [SerializeField] private List<CustomizationSettings> _settingsBodies;
     [SerializeField] private List<CustomizationSettings> _settingsHairstyles;
     [SerializeField] private List<CustomizationSettings> _settingsClothes;
-    [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;  
+    [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;
 
+    [SerializeField] private int _customizationCharacterIndex;
+    [SerializeField] private bool _addNotificationKey;
+    [SerializeField] private LocalizationString _notificationText;
     private const int SmileEmotionIndex = 2;
     private IBackgroundProviderToCustomizationNode _background;
+    
     private SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
+    
     private GameStatsHandler _gameStatsHandler;
     private CustomizationCharacterPanelUIHandler _customizationCharacterPanelUIHandler;
     private IGameStatsProvider _gameStatsProvider;
@@ -33,10 +32,13 @@ public class CustomizationNode : BaseNode, ILocalizable
     private CompositeDisposable _compositeDisposable;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
     private CustomizableCharacter _customizableCharacter => CustomizableCharacters[_customizationCharacterIndex];
+
+#if UNITY_EDITOR
     public IReadOnlyList<ICustomizationSettings> SettingsBodies => _settingsBodies;
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
     public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
     public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
+#endif
     public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; private set; }
 
 
@@ -58,6 +60,8 @@ public class CustomizationNode : BaseNode, ILocalizable
         _customizationEndEvent = new CustomizationEndEvent<CustomizationResult>();
         _gameStatsHandler = new GameStatsHandler(_gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex));
         _gameStatsProvider.GetEmptyStatsFromCurrentSeria(seriaIndex);
+        
+#if UNITY_EDITOR
         if (IsPlayMode() == false)
         {
             _customizationNodeInitializer = new CustomizationNodeInitializer(_gameStatsHandler);
@@ -69,6 +73,8 @@ public class CustomizationNode : BaseNode, ILocalizable
                 ReinitSwimsuitsCustomizationSettings();
             }
         }
+#endif
+
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -94,12 +100,13 @@ public class CustomizationNode : BaseNode, ILocalizable
         _customizationCharacterPanelUIHandler.ShutDown();
         _wardrobeCharacterViewer.ResetCharacterView();
         _wardrobeCharacterViewer.gameObject.SetActive(false);
+        _background.DisableWardrobeBackground();
     }
 
     protected override void SetInfoToView()
     {
         _wardrobeCharacterViewer.gameObject.SetActive(true);
-        _background.SetWardrobeBackground();
+        _background.EnableWardrobeBackground();
         _selectedCustomizationContentIndexes = CreateCustomizationContent();
         _customizableCharacter.SetIndexes(
             GetIndex(_selectedCustomizationContentIndexes.SpriteIndexesBodies, _customizableCharacter.BodyIndex),
@@ -147,24 +154,38 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     private void TryShowNotification(List<CustomizationStat> stats)
     {
-        string text = _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider);
+        string text = GetAllTextNotification();
         if (string.IsNullOrWhiteSpace(text) == false)
         {
             CompositeDisposable compositeDisposable = SetLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
             {
-                _notificationPanelUIHandler.SetText(_notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
+                _notificationPanelUIHandler.SetText(GetAllTextNotification());
             });
             _notificationPanelUIHandler.EmergenceNotificationPanelInPlayMode(text, CancellationTokenSource.Token, true, compositeDisposable).Forget();
+        }
+
+        string GetAllTextNotification()
+        {
+            if (_addNotificationKey)
+            {
+                return _notificationPanelUIHandler.GetMergedText(_notificationText,
+                    _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider));
+            }
+            else
+            {
+                return _notificationPanelUIHandler.GetTextStats(stats, _gameStatsProvider);
+            }
         }
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return CreateLocalizationArray(_settingsBodies, _settingsClothes, _settingsHairstyles, _settingsSwimsuits);
     }
+#if UNITY_EDITOR
 
     private void ResetBodiesCustomizationSettings()
     {
-        _customizationNodeInitializer.InitCustomizationSettings(_settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
+        _customizationNodeInitializer.InitCustomizationSettings(_settingsBodies, _customizableCharacter.GetBodiesSprites());
     }
 
     private void ResetHairstylesCustomizationSettings()
@@ -174,39 +195,30 @@ public class CustomizationNode : BaseNode, ILocalizable
 
     private void ResetClothesCustomizationSettings()
     {
-        _customizationNodeInitializer.InitCustomizationSettings(_settingsClothes, _customizableCharacter.ClothesData, 1);
+        _customizationNodeInitializer.InitCustomizationSettings(_settingsClothes, _customizableCharacter.ClothesData);
     }
 
     private void ResetSwimsuitsCustomizationSettings()
     {
-        _customizationNodeInitializer.InitCustomizationSettings(_settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
+        _customizationNodeInitializer.InitCustomizationSettings(_settingsSwimsuits, _customizableCharacter.SwimsuitsData);
     }
 
     private void ReInitBodiesCustomizationSettings()
     {
-        if (_settingsBodies == null)
-        {
-            _settingsBodies = new List<CustomizationSettings>();
-        }
-        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsBodies, _customizableCharacter.GetBodiesSprites(), 1,1);
+        _settingsBodies ??= new List<CustomizationSettings>();
+        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsBodies, _customizableCharacter.GetBodiesSprites());
     }
 
     private void ReinitHairstylesCustomizationSettings()
     {
-        if (_settingsHairstyles == null)
-        {
-            _settingsHairstyles = new List<CustomizationSettings>();
-        }
+        _settingsHairstyles ??= new List<CustomizationSettings>();
         _customizationNodeInitializer.ReInitCustomizationSettings(_settingsHairstyles, _customizableCharacter.HairstylesData);
     }
 
     private void ReinitClothesCustomizationSettings()
     {
-        if (_settingsClothes == null)
-        {
-            _settingsClothes = new List<CustomizationSettings>();
-        }
-        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsClothes, _customizableCharacter.ClothesData, 1);
+        _settingsClothes ??= new List<CustomizationSettings>();
+        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsClothes, _customizableCharacter.ClothesData);
     }
 
     private void ReinitSwimsuitsCustomizationSettings()
@@ -215,8 +227,9 @@ public class CustomizationNode : BaseNode, ILocalizable
         {
             _settingsSwimsuits = new List<CustomizationSettings>();
         }
-        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsSwimsuits, _customizableCharacter.SwimsuitsData, 1);
+        _customizationNodeInitializer.ReInitCustomizationSettings(_settingsSwimsuits, _customizableCharacter.SwimsuitsData);
     }
+#endif
 
     private SelectedCustomizationContentIndexes CreateCustomizationContent()
     {
@@ -244,10 +257,10 @@ public class CustomizationNode : BaseNode, ILocalizable
             {
                 foreach (var variable in lists[i])
                 {
-                    strings.Add(variable.LocalizationName);
+                    strings.Add(variable.LocalizationNameToGame);
                     foreach (var t in variable.GameStatsLocalizationStrings)
                     {
-                        strings.Add(t.LocalizationName);
+                        strings.Add(t.LocalizationNameToGame);
                     }
                 }
             }

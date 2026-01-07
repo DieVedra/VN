@@ -42,7 +42,7 @@ public class PanelResourceHandler
         _heartsResourcePanelWithCanvasGroupView.Text.text = _wallet.GetHeartsCount.ToString();
         TryShowAndHidePanelOnButtonsSwitch();
     }
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
         _compositeDisposable?.Clear();

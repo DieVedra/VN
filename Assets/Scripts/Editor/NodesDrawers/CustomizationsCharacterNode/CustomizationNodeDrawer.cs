@@ -11,10 +11,6 @@ public class CustomizationNodeDrawer : NodeEditor
     private PopupDrawer _popupDrawer;
     private LineDrawer _lineDrawer;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
-    private SerializedProperty _foldoutHairstyleIsOpenProperty;
-    private SerializedProperty _foldoutClothesIsOpenProperty;
-    private SerializedProperty _foldoutBodiesIsOpenProperty;
-    private SerializedProperty _foldoutSwimsuitsIsOpenProperty;
     private SerializedProperty _customizationCharacterIndexProperty;
 
     private SerializedProperty _listSettingsBodyProperty;
@@ -24,67 +20,87 @@ public class CustomizationNodeDrawer : NodeEditor
     
     private SerializedProperty _inputSerializedProperty;
     private SerializedProperty _outputSerializedProperty;
+    
+    private SerializedProperty _addNotificationKeySerializedProperty;
+    private SerializedProperty _notificationTextSerializedProperty;
+    
+    SerializedProperty _customizationSettingsSerializedProperty;
+    SerializedProperty _priceSerializedProperty;
+    SerializedProperty _keyAddSerializedProperty;
+    SerializedProperty _showParamsKeySerializedProperty;
+    SerializedProperty _showStatKeySerializedProperty;
+    SerializedProperty _nameSprite;
+    string _nameToGame;
+
     private Vector2 pos;
     private string[] _namesCharactersToPopup;
+    
+    private bool _foldoutHairstyle;
+    private bool _foldoutClothes;
+    private bool _foldoutBodies;
+    private bool _foldoutSwimsuits;
 
     public override void OnBodyGUI()
     {
         if (_customizationNode == null)
         {
             _customizationNode = target as CustomizationNode;
+            _popupDrawer = new PopupDrawer();
+            _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
+            
+            _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
+            _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
+            _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
+            _listSettingsSwimsuitsProperty = serializedObject.FindProperty("_settingsSwimsuits");
+            
+            _inputSerializedProperty = serializedObject.FindProperty("Input");
+            _outputSerializedProperty = serializedObject.FindProperty("Output");
+            _addNotificationKeySerializedProperty = serializedObject.FindProperty("_addNotificationKey");
+            _notificationTextSerializedProperty = serializedObject.FindProperty("_notificationText");
+            _localizationStringTextDrawer = new LocalizationStringTextDrawer();
+            _lineDrawer = new LineDrawer();
+            InitCharactersNames();
         }
         else
         {
             serializedObject.Update();
-            if (_popupDrawer == null)
-            {
-                _popupDrawer = new PopupDrawer();
-            }
-
-            if (_foldoutHairstyleIsOpenProperty == null)
-            {
-                _foldoutHairstyleIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsHairstyles");
-                _foldoutClothesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsClothes");
-                _foldoutBodiesIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsBodies");
-                _foldoutSwimsuitsIsOpenProperty = serializedObject.FindProperty("_showFoldoutSettingsSwimsuits");
-                _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
-            
-                _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
-                _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
-                _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
-                _listSettingsSwimsuitsProperty = serializedObject.FindProperty("_settingsSwimsuits");
-            
-                _inputSerializedProperty = serializedObject.FindProperty("Input");
-                _outputSerializedProperty = serializedObject.FindProperty("Output");
-                _localizationStringTextDrawer = new LocalizationStringTextDrawer();
-                _lineDrawer = new LineDrawer();
-                InitCharactersNames();
-            }
-
             NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
             NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Add Notification: ", GUILayout.Width(120f));
+
+            _addNotificationKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_addNotificationKeySerializedProperty.boolValue, GUILayout.Width(50f));
+            EditorGUILayout.EndHorizontal();
+            if (_addNotificationKeySerializedProperty.boolValue)
+            {
+                _localizationStringTextDrawer.DrawTextField(
+                    _localizationStringTextDrawer.GetLocalizationStringFromProperty(_notificationTextSerializedProperty),
+                    "Notification: ", false, false);
+                
+            }
             _popupDrawer.DrawPopup(_namesCharactersToPopup, _customizationCharacterIndexProperty);
             if (_listSettingsBodyProperty != null)
             {
-                DrawCustomizationFields(_customizationNode.SettingsBodies,_listSettingsBodyProperty, _foldoutBodiesIsOpenProperty,
+                DrawCustomizationFields(ref _foldoutBodies, _customizationNode.SettingsBodies,_listSettingsBodyProperty,
                     "Choice Bodies","ResetBodiesCustomizationSettings", "ReinitBodiesCustomizationSettings");
             }
 
             if (_listSettingsHairstylesProperty != null)
             {
-                DrawCustomizationFields(_customizationNode.SettingsHairstyles, _listSettingsHairstylesProperty, _foldoutHairstyleIsOpenProperty,
+                DrawCustomizationFields(ref _foldoutHairstyle, _customizationNode.SettingsHairstyles, _listSettingsHairstylesProperty,
                     "Choice Hairstyles","ResetHairstylesCustomizationSettings", "ReinitHairstylesCustomizationSettings");
             }
 
             if (_listSettingsClothesProperty != null)
             {
-                DrawCustomizationFields(_customizationNode.SettingsClothes, _listSettingsClothesProperty, _foldoutClothesIsOpenProperty,
+                DrawCustomizationFields(ref _foldoutClothes, _customizationNode.SettingsClothes, _listSettingsClothesProperty,
                     "Choice Clothes","ResetClothesCustomizationSettings", "ReinitClothesCustomizationSettings");
             }
 
             if (_listSettingsSwimsuitsProperty != null)
             {
-                DrawCustomizationFields(_customizationNode.SettingsSwimsuits, _listSettingsSwimsuitsProperty, _foldoutSwimsuitsIsOpenProperty,
+                DrawCustomizationFields(ref _foldoutSwimsuits, _customizationNode.SettingsSwimsuits, _listSettingsSwimsuitsProperty,
                     "Choice Swimsuits","ResetSwimsuitsCustomizationSettings", "ReinitSwimsuitsCustomizationSettings");
             }
 
@@ -92,9 +108,9 @@ public class CustomizationNodeDrawer : NodeEditor
         }
     }
 
-    private void DrawCustomizationFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
+    private void DrawCustomizationFields(ref bool foldOutKey, IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, string label,string nameResetMethod, string nameReinitMethod)
     {
-        DrawCustomizationSettingsFields(settings, listSerializedProperty, foldoutSerializedProperty, label);
+        DrawCustomizationSettingsFields(ref foldOutKey, settings, listSerializedProperty, label);
         EditorGUILayout.Space(5f);
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Reset", GUILayout.Width(50f), GUILayout.Height(20f)))
@@ -104,54 +120,59 @@ public class CustomizationNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         _lineDrawer.DrawHorizontalLine(Color.black);
     }
-    private void DrawCustomizationSettingsFields(IReadOnlyList<ICustomizationSettings> settings, SerializedProperty listSerializedProperty, SerializedProperty foldoutSerializedProperty, string label)
+    private void DrawCustomizationSettingsFields(ref bool foldOutKey, IReadOnlyList<ICustomizationSettings> settings,
+        SerializedProperty listSerializedProperty, string label)
     {
-        foldoutSerializedProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(foldoutSerializedProperty.boolValue,  label);
-        if (foldoutSerializedProperty.boolValue)
+        foldOutKey = EditorGUILayout.BeginFoldoutHeaderGroup(foldOutKey,  label);
+        if (foldOutKey)
         {
             pos = EditorGUILayout.BeginScrollView(pos, GUILayout.Height(400f));
-            SerializedProperty customizationSettingsSerializedProperty;
-            SerializedProperty priceSerializedProperty;
-            SerializedProperty keyAddSerializedProperty;
-            SerializedProperty showParamsKeySerializedProperty;
-            SerializedProperty showStatKeySerializedProperty;
-            LocalizationString nameLabel;
             for (int i = 0; i < listSerializedProperty.arraySize; i++)
             {
-                customizationSettingsSerializedProperty = listSerializedProperty.GetArrayElementAtIndex(i);
-                nameLabel = settings[i].LocalizationName;
-                keyAddSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyAdd");
-                showParamsKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowParams");
-                showStatKeySerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowStats");
+                _customizationSettingsSerializedProperty = listSerializedProperty.GetArrayElementAtIndex(i);
+                
+                _nameToGame = settings[i].LocalizationNameToGame;
+                
+                _keyAddSerializedProperty = _customizationSettingsSerializedProperty.FindPropertyRelative("_keyAdd");
+                _showParamsKeySerializedProperty = _customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowParams");
+                _showStatKeySerializedProperty = _customizationSettingsSerializedProperty.FindPropertyRelative("_keyShowStats");
+                _nameSprite = _customizationSettingsSerializedProperty.FindPropertyRelative("_spriteName");
                 _lineDrawer.DrawHorizontalLine(Color.green);
-                EditorGUILayout.LabelField(nameLabel.DefaultText, GUILayout.Width(300f));
+                EditorGUILayout.LabelField(_nameSprite.stringValue, GUILayout.Width(300f));
+                
                 EditorGUILayout.Space(5f);
-                EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Add: ", GUILayout.Width(30f));
-                keyAddSerializedProperty.boolValue = EditorGUILayout.Toggle(keyAddSerializedProperty.boolValue, GUILayout.Width(30f));
+                _keyAddSerializedProperty.boolValue = EditorGUILayout.Toggle(_keyAddSerializedProperty.boolValue, GUILayout.Width(30f));
 
-                if (keyAddSerializedProperty.boolValue)
+                if (_keyAddSerializedProperty.boolValue)
                 {
-                    EditorGUILayout.LabelField("Show Params: ", GUILayout.Width(90f));
-                    showParamsKeySerializedProperty.boolValue = EditorGUILayout.Toggle(showParamsKeySerializedProperty.boolValue, GUILayout.Width(30f));
-                    if (showParamsKeySerializedProperty.boolValue)
+                    EditorGUILayout.LabelField("Name to game: ", GUILayout.Width(100f));
+                    EditorGUI.BeginChangeCheck();
+                    _nameToGame = EditorGUILayout.TextField(_nameToGame, GUILayout.Width(450f));
+                    if (EditorGUI.EndChangeCheck())
                     {
-                        priceSerializedProperty = customizationSettingsSerializedProperty.FindPropertyRelative("_price");
-                        EditorGUILayout.LabelField($"Price: {priceSerializedProperty.intValue}", GUILayout.Width(80f));
+                        settings[i].LocalizationNameToGame.SetText(_nameToGame);
+                        settings[i].LocalizationNameToGame.TryRegenerateKey();
+                    }
+                    EditorGUILayout.LabelField("Show Params: ", GUILayout.Width(90f));
+                    _showParamsKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_showParamsKeySerializedProperty.boolValue, GUILayout.Width(30f));
+                    if (_showParamsKeySerializedProperty.boolValue)
+                    {
+                        _priceSerializedProperty = _customizationSettingsSerializedProperty.FindPropertyRelative("_price");
+                        EditorGUILayout.LabelField($"Price: {_priceSerializedProperty.intValue}", GUILayout.Width(80f));
                     }
                 }
-                EditorGUILayout.EndHorizontal();
                 
                 
-                if (showParamsKeySerializedProperty.boolValue)
+                if (_showParamsKeySerializedProperty.boolValue)
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Show stat in game: ", GUILayout.Width(120f));
 
-                    showStatKeySerializedProperty.boolValue = EditorGUILayout.Toggle(showStatKeySerializedProperty.boolValue, GUILayout.Width(50f));
+                    _showStatKeySerializedProperty.boolValue = EditorGUILayout.Toggle(_showStatKeySerializedProperty.boolValue, GUILayout.Width(50f));
                     EditorGUILayout.EndHorizontal();
 
-                    DrawStats(settings[i].GameStatsLocalizationStrings, customizationSettingsSerializedProperty.FindPropertyRelative("_gameStats"));
+                    DrawStats(settings[i].GameStatsLocalizationStrings, _customizationSettingsSerializedProperty.FindPropertyRelative("_gameStats"));
                 }
             }
             EditorGUILayout.EndScrollView();
@@ -169,7 +190,7 @@ public class CustomizationNodeDrawer : NodeEditor
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
             EditorGUILayout.BeginHorizontal();
 
-            DrawIntField(statFormSerializedProperty.FindPropertyRelative("_value"), gameStatsLocalizationStrings[i].LocalizationName.DefaultText);
+            DrawIntField(statFormSerializedProperty.FindPropertyRelative("_value"), gameStatsLocalizationStrings[i].LocalizationNameToGame.DefaultText);
             DrawBoolField(statFormSerializedProperty.FindPropertyRelative("_showKey"), "ShowKey: ");
             DrawBoolField(statFormSerializedProperty.FindPropertyRelative("_notificationKey"), "ShowNotification: ");
 

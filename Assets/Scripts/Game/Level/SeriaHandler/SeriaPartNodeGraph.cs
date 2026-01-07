@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using XNode;
 
@@ -12,6 +13,8 @@ public class SeriaPartNodeGraph : NodeGraph
 	private int _currentSeriaIndex;
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
+	private CompositeDisposable _switchToNextNodeEventСompositeDisposable;
+
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
 	public int NodeIndexToSave => nodes.IndexOf(_toSaveNode);
 	public bool PutOnSwimsuitKey { get; private set; }
@@ -21,6 +24,12 @@ public class SeriaPartNodeGraph : NodeGraph
 		_nodeGraphInitializer = nodeGraphInitializer;
 		_currentNodeIndex = currentNodeIndex;
 		_currentSeriaIndex = currentSeriaIndex;
+		_switchToNextNodeEventСompositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(
+			() =>
+			{
+				MoveNext().Forget();
+			});
+
 		PutOnSwimsuit();
 		TryInitNodes();
 
@@ -36,16 +45,17 @@ public class SeriaPartNodeGraph : NodeGraph
 
 	public void Shutdown()
 	{
+		_switchToNextNodeEventСompositeDisposable?.Clear();
 		if (_baseNodes != null && _baseNodes.Count > 0)
 		{
 			foreach (var baseNodes in _baseNodes)
 			{
-				baseNodes.Shutdown();
+				baseNodes?.Shutdown();
 			}
 		}
 	}
 
-	public async UniTaskVoid MoveNext()
+	private async UniTaskVoid MoveNext()
 	{
 		_toSaveNode = _currentNode.GetNextNode();
 		await _currentNode.Exit();

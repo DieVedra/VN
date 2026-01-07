@@ -1,5 +1,5 @@
 ﻿
 public interface ILocalizationString
 {
-    public LocalizationString LocalizationName {get; }
+    public LocalizationString LocalizationNameToGame {get; }
 }

@@ -58,6 +58,7 @@ public class SoundNode : BaseNode
         ChangeSound(_smoothTransitionKeyAmbientSound, _isSmoothVolumeIncreaseAmbientSound, _isSmoothVolumeDecreaseAmbientSound,
             _currentAmbientSoundKey, AudioSourceType.Ambient);
         TryPushEffects();
+        
         if (_isInstantNodeTransition == false)
         {
             await _taskRunner.TryRunTasks();

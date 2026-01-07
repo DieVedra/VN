@@ -145,7 +145,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 8999781969884531776}
+        node: {fileID: -1811310451924514382}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 8999781969884531776}
+        node: {fileID: -7885085035639852083}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -523,7 +523,6 @@ MonoBehaviour:
   - {fileID: -8872353804249503991}
   - {fileID: 172937613148903281}
   - {fileID: -7885085035639852083}
-  - {fileID: 8999781969884531776}
   - {fileID: -1811310451924514382}
   - {fileID: 9134037029194713378}
 --- !u!114 &172937613148903281
@@ -809,56 +808,6 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
---- !u!114 &8999781969884531776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
-  m_Name: Smooth Transition
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 67508.125, y: 6918.2656}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _fieldName: Input
-      _node: {fileID: 8999781969884531776}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: -7885085035639852083}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: 8999781969884531776}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -1811310451924514382}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  namenode: 
-  _isStartImmediatlyCurtain: 0
-  _isEndImmediatlyCurtain: 0
-  _isStartCurtain: 0
-  _isEndCurtain: 1
-  _customDelay: 0
-  _delay: 0.7
 --- !u!114 &9134037029194713378
 MonoBehaviour:
   m_ObjectHideFlags: 0

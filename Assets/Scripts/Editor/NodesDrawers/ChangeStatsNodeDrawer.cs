@@ -46,7 +46,7 @@ public class ChangeStatsNodeDrawer : NodeEditor
         {
             EditorGUILayout.BeginHorizontal();
             _statProperty = _statsProperty.GetArrayElementAtIndex(i);
-            EditorGUILayout.LabelField($"{baseStatsChoiceLocalizations[i].LocalizationName.DefaultText}: ", GUILayout.Width(200f));
+            EditorGUILayout.LabelField($"{baseStatsChoiceLocalizations[i].LocalizationNameToGame.DefaultText}: ", GUILayout.Width(200f));
             _valueProperty = _statProperty.FindPropertyRelative("_value");
             _valueProperty.intValue = EditorGUILayout.IntField(_valueProperty.intValue, GUILayout.Width(30f));
             EditorGUILayout.LabelField($"Notification: ", GUILayout.Width(80f));

@@ -124,6 +124,8 @@ public class PhoneUIHandler : ILocalizable
         _curtainImage = phoneUIView.CurtainImage;
         _handImage = phoneUIView.HandImage;
         _frameImage = phoneUIView.FrameImage;
+        _handImage.gameObject.SetActive(true);
+        _frameImage.gameObject.SetActive(true);
         _cancellationTokenSource = new CancellationTokenSource();
         _initOperation = null;
         _onGetNodePort = onGetNodePort;

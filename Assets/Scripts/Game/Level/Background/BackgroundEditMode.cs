@@ -49,6 +49,7 @@ public class BackgroundEditMode : Background
         {
             WardrobeBackground = wardrobeBackgroundContentTransform.GetComponent<BackgroundContent>();
         }
+        WardrobeBackground.SpriteRenderer.sortingOrder = WardrobeSortOrder;
     }
     private void ConstructBackgroundContent()
     {

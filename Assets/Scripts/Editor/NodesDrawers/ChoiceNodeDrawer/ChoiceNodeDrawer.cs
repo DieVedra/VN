@@ -129,7 +129,7 @@ public class ChoiceNodeDrawer : NodeEditor
             statFormSerializedProperty = gameStatsFormsSerializedProperty.GetArrayElementAtIndex(i);
             DrawField(statFormSerializedProperty.FindPropertyRelative("_value"),
                 statFormSerializedProperty.FindPropertyRelative("_notificationKey"),
-                baseStatsChoiceLocalizations[i].LocalizationName.DefaultText);
+                baseStatsChoiceLocalizations[i].LocalizationNameToGame.DefaultText);
         }
         EditorGUILayout.EndVertical();
     }
