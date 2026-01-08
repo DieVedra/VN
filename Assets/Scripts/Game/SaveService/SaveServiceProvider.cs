@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveServiceProvider
@@ -6,7 +7,8 @@ public class SaveServiceProvider
     public readonly SaveService SaveService;
     private SaveData _saveData;
     
-    public int CurrentStoryIndex;
+    // public int CurrentStoryIndex;
+    public string CurrentStoryKey;
     
     public SaveData SaveData => _saveData;
     public bool SaveHasBeenLoaded { get; private set; }
@@ -15,7 +17,6 @@ public class SaveServiceProvider
     {
         SaveHasBeenLoaded = false;
         SaveService = new SaveService(new JSonSave());
-        SetSaveDataDefault();
     }
 
     public void SaveLevelProgress()
@@ -56,6 +57,7 @@ public class SaveServiceProvider
         else
         {
             SaveHasBeenLoaded = false;
+            SetSaveDataDefault();
             Debug.Log($"SaveData: false");
         }
 
@@ -84,11 +86,14 @@ public class SaveServiceProvider
             _saveData.NameStartStory = nameStartStory;
         }
     }
-    private void SetSaveDataDefault()
+    public void SetSaveDataDefault()
     {
-        _saveData = new SaveData();
-        _saveData.Monets = 50;
-        _saveData.Hearts = 5;
-        _saveData.SoundStatus = true;
+        _saveData = new SaveData
+        {
+            Monets = 50,
+            Hearts = 5,
+            SoundStatus = true,
+            StoryDatas = new Dictionary<string, StoryData>()
+        };
     }
 }

@@ -15,6 +15,10 @@ public class BackgroundBuildMode : Background
         _backgroundContentCreator = backgroundContentCreator;
         SetLighting = setLighting;
         BackgroundContentAdditionalSpriteRendererCreator = spriteRendererCreatorBuild;
+        ColorOverlay.color = Color.clear;
+        BackgroundContentDictionary = new Dictionary<string, BackgroundContent>();
+        AdditionalImagesToBackgroundDictionary = new Dictionary<string, Sprite>();
+        ArtsSpritesDictionary = new Dictionary<string, Sprite>();
         SetArtShower();
         InitWardrobeBackground();
         
@@ -95,6 +99,7 @@ public class BackgroundBuildMode : Background
 
     private void InitAdditionalImages(BackgroundData backgroundData)
     {
+        Debug.Log($"InitAdditionalImages  090909090909090909090909090909090");
         AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, backgroundData);
     }
     

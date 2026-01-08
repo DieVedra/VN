@@ -53,7 +53,7 @@ public class Story  : ILocalizable
     {
         return _storyName;
     }
-    public void Dispose()
+    public void ShutDown()
     {
         _compositeDisposable?.Clear();
     }

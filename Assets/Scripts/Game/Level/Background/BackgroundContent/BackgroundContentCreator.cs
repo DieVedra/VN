@@ -62,12 +62,17 @@ public class BackgroundContentCreator : IParticipiteInLoad
     }
     public async UniTask TryCreateBackgroundContent()
     {
+        Debug.Log($"TryCreateBackgroundContent()0");
+
         if (ParticipiteInLoad == true)
         {
+            Debug.Log($"TryCreateBackgroundContent()1");
+
             if (_backgroundData == null)
             {
                 return;
             }
+            Debug.Log($"TryCreateBackgroundContent()2");
 
             if (WardrobeBackground == null)
             {
@@ -82,9 +87,11 @@ public class BackgroundContentCreator : IParticipiteInLoad
                 _percentsNumbers[j] = _maxPercent;
                 UpdatePercentComplete();
             }
+            Debug.Log($"ArtShower 0");
 
             if (ArtShower == null)
             {
+                Debug.Log($"ArtShower 1");
                 ArtShower = await _spriteRendererAssetProvider.CreateSpriteRendererAsync(_parent);
                 _percentsNumbers[_percentsNumbers.Count - 1] = _maxPercent;
                 UpdatePercentComplete();

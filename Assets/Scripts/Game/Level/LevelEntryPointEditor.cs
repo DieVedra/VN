@@ -21,6 +21,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private PhoneProviderInEditMode _phoneProviderInEditMode;
     [SerializeField] private Wallet _wallet;
 
+    [SerializeField] private string _storyKey;
     [SerializeField, Space(10f)] private int _testMonets;
     [SerializeField, Space(10f)] private int _testHearts;
     [Space]
@@ -28,7 +29,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
     [SerializeField, HideInInspector] private TestModeEditor _testModeEditor;
 
-    private const int _currentStoryIndex = 0;
+    // private const int _currentStoryIndex = 0;
     private LevelUIProviderEditMode _levelUIProviderEditMode;
     private SaveData _saveData;
     private ICharacterProvider _characterProvider => _characterProviderEditMode.CharacterProvider;
@@ -62,25 +63,28 @@ public class LevelEntryPointEditor : LevelEntryPoint
                 _testMonets = _saveData.Monets;
                 _testHearts = _saveData.Hearts;
                 _wallet = new Wallet(_saveData);
-                StoryData = _saveData.StoryDatas[_currentStoryIndex];
-                if (StoryData.PhoneSaveDatas.Count > 0)
+                if (_saveData.StoryDatas.TryGetValue(_storyKey, out StoryData))
                 {
-                    phoneSaveHandler.SetPhoneInfoFromSaveData(StoryData);
-                }
+                    // StoryData = _saveData.StoryDatas[_currentStoryIndex];
+                    if (StoryData.PhoneSaveDatas.Count > 0)
+                    {
+                        phoneSaveHandler.SetPhoneInfoFromSaveData(StoryData);
+                    }
 
-                if (StoryData.Stats.Count > 0)
-                {
-                    _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
-                }
+                    if (StoryData.Stats.Count > 0)
+                    {
+                        _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
+                    }
 
-                if (StoryData.WardrobeSaveDatas.Count > 0)
-                {
-                    _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
-                }
-                else
-                {
-                    _characterProviderEditMode.Construct();
+                    if (StoryData.WardrobeSaveDatas.Count > 0)
+                    {
+                        _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
+                    }
+                    else
+                    {
+                        _characterProviderEditMode.Construct();
 
+                    }
                 }
             }
             else
@@ -139,6 +143,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
         void ConstructSave()
         {
+            SaveServiceProvider.SetSaveDataDefault();
             _saveData = SaveServiceProvider.SaveData;
             _characterProviderEditMode.Construct();
             _wallet = new Wallet(_testMonets, _testHearts);
@@ -165,7 +170,18 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             if (StoryData == null)
             {
-                StoryData = new StoryData();
+                StoryData = new StoryData
+                {
+                    StoryName = _storyKey
+                };
+            }
+            if (_saveData.StoryDatas == null)
+            {
+                _saveData.StoryDatas = new Dictionary<string, StoryData>();
+            }
+            else
+            {
+                _saveData.StoryDatas.Clear();
             }
             StoryData.PutOnSwimsuitKey = _gameSeriesHandlerEditorMode.PutOnSwimsuitKeyProperty;
             _gameSeriesHandlerEditorMode.GetInfoToSave(StoryData);
@@ -182,16 +198,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_characterProviderEditMode.CustomizableCharacterIndexesCustodians));
 
-            if (_saveData.StoryDatas == null)
-            {
-                _saveData.StoryDatas = new List<StoryData>();
-            }
-            else
-            {
-                _saveData.StoryDatas.Clear();
-            }
 
-            _saveData.StoryDatas.Add(StoryData);
+            _saveData.StoryDatas.Add(_storyKey, StoryData);
             SaveServiceProvider.SaveService.Save(_saveData);
         }
     }

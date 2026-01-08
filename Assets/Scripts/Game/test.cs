@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -12,28 +13,28 @@ using UnityEngine.U2D;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] private bool a;
-    [SerializeField] private bool b;
-    [Button()]
-    private void test1()
+
+    private async void Awake()
     {
-        var res = a && b;
-        Debug.Log($"{res}");
     }
-    
-    [Button()]
-    private void test2()
-    {
-        
-    }
-    [Button()]
-    private void test3()
-    {
-        
-    }
-    [Button()]
-    private void test4()
-    {
-        
-    }
+
+    // private void test1()
+    // {
+    // }
+    //
+    // [Button()]
+    // private void test2()
+    // {
+    //     
+    // }
+    // [Button()]
+    // private void test3()
+    // {
+    //     
+    // }
+    // [Button()]
+    // private void test4()
+    // {
+    //     
+    // }
 }

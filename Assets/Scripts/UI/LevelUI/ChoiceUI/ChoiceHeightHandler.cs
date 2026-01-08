@@ -1,13 +1,14 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ChoiceHeightHandler : PanelUIHandler
 {
     private const int _centralButtonIndex = 1;
-    private readonly ChoiceCaseView[] _choiseCasesViews;
+    private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
     private Vector2 Size;
-    public ChoiceHeightHandler(ChoiceCaseView[] choiseCasesViews, ChoicePanelUI choicePanelUI)
+    public ChoiceHeightHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, ChoicePanelUI choicePanelUI)
     {
         _choiseCasesViews = choiseCasesViews;
         _choicePanelUI = choicePanelUI;

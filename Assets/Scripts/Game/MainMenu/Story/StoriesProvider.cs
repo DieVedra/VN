@@ -12,27 +12,35 @@ public class StoriesProvider : ScriptableObject
 
     public void Init(SaveData saveData)
     {
-        if (saveData.StoryDatas != null)
+        if (saveData.StoryDatas.Count > 0)
         {
             foreach (var story in _stories)
             {
-                foreach (var data in saveData.StoryDatas)
+                if (saveData.StoryDatas.TryGetValue(story.StoryName, out StoryData storyData))
                 {
-                    if (story.StoryName == data.StoryName)
-                    {
-                        story.Init(data);
-                        break;
-                    }
+                    story.Init(storyData);
                 }
+            }
+        }
+        else
+        {
+            foreach (var story in _stories)
+            {
+                var newStory = new StoryData
+                {
+                    StoryName = story.StoryName, CurrentNodeGraphIndex = 0, CurrentNodeIndex = 0, PutOnSwimsuitKey = false
+                };
+                
+                saveData.StoryDatas.Add(story.StoryName, newStory);
             }
         }
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         foreach (var story in _stories)
         {
-            story.Dispose();
+            story.ShutDown();
         }
         
     }
@@ -50,18 +58,18 @@ public class StoriesProvider : ScriptableObject
         }
         return result;
     }
-    public void TryUpdateStoryDatas(IReadOnlyList<StoryData> datas)
+    public void TryUpdateStoryDatas(IReadOnlyDictionary<string, StoryData> datas)
     {
-        foreach (var storyData in datas)
+        foreach (var pair in datas)
         {
             foreach (var story in _stories)
             {
-                if (storyData.StoryName == story.StoryName)
+                if (pair.Value.StoryName == story.StoryName)
                 {
-                    storyData.IsLiked = story.IsLiked;
-                    storyData.MyIndex = story.MyIndex;
-                    storyData.StoryName = story.StoryName;
-                    storyData.StoryStarted = story.StoryStarted;
+                    pair.Value.IsLiked = story.IsLiked;
+                    pair.Value.MyIndex = story.MyIndex;
+                    pair.Value.StoryName = story.StoryName;
+                    pair.Value.StoryStarted = story.StoryStarted;
                     break;
                 }
             }

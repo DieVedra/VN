@@ -12,7 +12,6 @@ public class NodeGraphInitializer
 
     private readonly IGameStatsProvider _gameStatsProvider;
     private readonly IPhoneProvider _phoneProvider;
-    private readonly List<BackgroundContent> _backgrounds;
     private readonly IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> _customizableCharacterIndexesCustodians;
     private readonly ICharacterProvider _characterProvider;
     private readonly Background _background;

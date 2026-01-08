@@ -9,10 +9,6 @@ public class SaveData
     public bool SoundStatus;
     public string NameStartStory;
     public string LanguageLocalizationKey;
-    public List<StoryData> StoryDatas;
-
-    public SaveData()
-    {
-        StoryDatas = new List<StoryData>();
-    }
+    // public List<StoryData> StoryDatas;
+    public Dictionary<string, StoryData> StoryDatas;
 }

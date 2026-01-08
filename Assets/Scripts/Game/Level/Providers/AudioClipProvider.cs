@@ -9,6 +9,8 @@ public class AudioClipProvider
     private const string _nameAmbientAsset = "AmbientAudioDataSeria";
     private readonly DataProvider<AudioData> _musicAudioDataProvider;
     private readonly DataProvider<AudioData> _ambientAudioDataProvider;
+    public DataProvider<AudioData> MusicDataProvider => _musicAudioDataProvider;
+
     public IParticipiteInLoad MusicAudioDataProviderParticipiteInLoad => _musicAudioDataProvider;
     public IParticipiteInLoad AmbientAudioDataProviderParticipiteInLoad => _ambientAudioDataProvider;
     public event Action<AudioSourceType, IReadOnlyList<AudioClip>> OnLoadData;
@@ -30,7 +32,11 @@ public class AudioClipProvider
     }
     public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
+        Debug.Log($"++++++++++++");
+
         _musicAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        Debug.Log($"----------------");
+
         _ambientAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
     }
     // public AudioClip GetClip(AudioSourceType audioSourceType, int secondAudioClipIndex)

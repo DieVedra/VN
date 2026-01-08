@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public interface IChoicePanelInitializer
 {
-    public ChoiceCaseView[] GetChoiceCaseViews(Transform parent);
+    public IReadOnlyList<ChoiceCaseView> GetChoiceCaseViews(Transform parent);
 }

@@ -94,12 +94,20 @@ public class AppStarter
         }
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
-        globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
+        int startIndexStory = 0;
+        if (saveServiceProvider.SaveHasBeenLoaded)
+        {
+            globalSound.Construct(saveServiceProvider.SaveData.SoundStatus);
+            startIndexStory = storiesProvider.GetIndexByName(saveServiceProvider.SaveData.NameStartStory);
+        }
+        else
+        {
+            globalSound.Construct(true);
+        }
 
         var levelLoader = LevelLoaderCreate(mainMenuUIProvider, onSceneTransition, saveServiceProvider, tr, storiesProvider);
 
 
-        var startIndexStory = storiesProvider.GetIndexByName(saveServiceProvider.SaveData.NameStartStory);
 
 
         await prefabsProvider.Init();

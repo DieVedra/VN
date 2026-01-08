@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class ChoicePanelUIHandler
 {
     private readonly int _siblingIndex;
-    private readonly ChoiceCaseView[] _choiseCasesViews;
+    private readonly IReadOnlyList<ChoiceCaseView> _choiceCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
     private readonly Wallet _wallet;
     private readonly PanelResourceHandler _panelResourceHandler;
@@ -27,15 +28,15 @@ public class ChoicePanelUIHandler
         _choicePanelUI = choicePanelUI;
         _wallet = wallet;
         _panelResourceHandler = panelResourceHandler;
-        _choiseCasesViews = choicePanelInitializer.GetChoiceCaseViews(choicePanelUI.transform);
+        _choiceCasesViews = choicePanelInitializer.GetChoiceCaseViews(choicePanelUI.transform);
         _rectTransform = choicePanelUI.transform as RectTransform;
         _choiceNodeTimer = new ChoiceNodeTimer(choicePanelUI.TimerPanelText, choicePanelUI. TimerPanelCanvasGroup, choicePanelUI.TimerImageRectTransform);
-        _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiseCasesViews, wallet);
+        _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiceCasesViews, wallet);
         
         _choiceActive = new ReactiveProperty<bool>(false);
-        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiseCasesViews, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
+        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceCasesViews, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
 
-        _choiceHeightHandler = new ChoiceHeightHandler(_choiseCasesViews, choicePanelUI);
+        _choiceHeightHandler = new ChoiceHeightHandler(_choiceCasesViews, choicePanelUI);
         _siblingIndex = _rectTransform.GetSiblingIndex();
     }
 
@@ -61,7 +62,7 @@ public class ChoicePanelUIHandler
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            SetCanvasGroupStartValue(_choiseCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
+            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
         }
     }
 
@@ -124,7 +125,7 @@ public class ChoicePanelUIHandler
         ResetTexts();
         for (int i = 0; i < data.ButtonsCount; i++)
         {
-            SetTextButton(_choiseCasesViews[i].ButtonChoice, _choiseCasesViews[i].TextButtonChoice, data.ChoiceCases[i].GetLocalizationString(), true);
+            SetTextButton(_choiceCasesViews[i].ButtonChoice, _choiceCasesViews[i].TextButtonChoice, data.ChoiceCases[i].GetLocalizationString(), true);
         }
     }
 
@@ -139,9 +140,9 @@ public class ChoicePanelUIHandler
     }
     private void ResetTexts()
     {
-        for (int i = 0; i < _choiseCasesViews.Length; i++)
+        for (int i = 0; i < _choiceCasesViews.Count; i++)
         {
-            SetTextButton(_choiseCasesViews[i].ButtonChoice, _choiseCasesViews[i].TextButtonChoice);
+            SetTextButton(_choiceCasesViews[i].ButtonChoice, _choiceCasesViews[i].TextButtonChoice);
         }
     }
 
@@ -160,9 +161,9 @@ public class ChoicePanelUIHandler
 
     private void SetZeroAlphaToCanvasGroups()
     {
-        for (int i = 0; i < _choiseCasesViews.Length; i++)
+        for (int i = 0; i < _choiceCasesViews.Count; i++)
         {
-            _choiseCasesViews[i].CanvasGroupChoice.alpha = ChoicePanelUIValues.MinValue;
+            _choiceCasesViews[i].CanvasGroupChoice.alpha = ChoicePanelUIValues.MinValue;
         }
     }
 
@@ -176,7 +177,7 @@ public class ChoicePanelUIHandler
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            SetCanvasGroupStartValue(_choiseCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
+            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
         }
         if (_choiceActive.Value == true)
         {

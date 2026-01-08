@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class BackgroundDataProvider
 {
@@ -58,6 +59,7 @@ public class BackgroundDataProvider
     }
     public void CheckMatchNumbersSeriaWithNumberAssets(int seriaNumber, int seriaNameAssetIndex)
     {
+
         _locationDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
         _additionalImagesDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
         _artsDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);

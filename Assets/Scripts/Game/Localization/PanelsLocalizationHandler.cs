@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PanelsLocalizationHandler : ILocalizationChanger
 {
-    private const string _defaultLanguageKey = "en";
+    public const string DefaultLanguageKey = "en";
     // private const string DefaultLanguageKey = "ru";
     private readonly LocalizationFileProvider _loader;
     private LocalizationInfoHolder _localizationInfoHolder;
@@ -131,7 +131,7 @@ public class PanelsLocalizationHandler : ILocalizationChanger
 
             if (string.IsNullOrEmpty(systemLanguageKey) == true)
             {
-                systemLanguageKey = _defaultLanguageKey;
+                systemLanguageKey = DefaultLanguageKey;
             }
         }
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)

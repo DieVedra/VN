@@ -20,8 +20,11 @@ public class MatchNumbersHandler
                     stringBuilder.Append(digits[i].Value);
                 }
 
+                Debug.Log($"MatchNumbersHandler  {stringBuilder.ToString()}");
                 if (int.TryParse(stringBuilder.ToString(), out int resultNumber))
                 {
+                    Debug.Log($"resultNumber {resultNumber}      number {number}");
+
                     if (resultNumber == number)
                     {
                         result = true;

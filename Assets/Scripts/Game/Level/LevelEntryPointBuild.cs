@@ -65,17 +65,29 @@ public class LevelEntryPointBuild : LevelEntryPoint
         PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, _phoneNodeIsActive);
         if (LoadSaveData == true)
         {
-            StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
-            _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex;
+            // Debug.Log($"SaveServiceProvider.SaveData.StoryDatas {SaveServiceProvider.SaveData.StoryDatas.Count}");
+            // Debug.Log($"SaveServiceProvider.CurrentStoryIndex {SaveServiceProvider.CurrentStoryIndex}");
+            if (SaveServiceProvider.SaveData.StoryDatas.TryGetValue(SaveServiceProvider.CurrentStoryKey, out StoryData))
+            {
+                // StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
+                _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex; 
+                _currentSeriaLoadedNumberProperty.SetValue(StoryData.CurrentSeriaIndex);//!!!!!!!
+
+            }
+
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty);
         }
         else
         {
+            _currentSeriaLoadedNumberProperty.SetValue(0);
+
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
+        InitGlobalSound();
+
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
@@ -105,7 +117,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }
-        InitGlobalSound();
+        // InitGlobalSound();
         InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(viewerCreatorBuildMode);
@@ -143,7 +155,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     protected override void InitBackground()
     {
-        if (LoadSaveData == true)
+        if (LoadSaveData == true && StoryData.BackgroundSaveData != null)
         {
             _backgroundBuildMode.InitSaveData(StoryData.BackgroundSaveData);
         }
@@ -180,7 +192,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
 
-            SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
+            // SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex] = StoryData;
             SaveServiceProvider.SaveLevelProgress();
         }
     }
@@ -196,7 +208,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await TryCreateBlackFrameUIHandler();
         
         ChoicePanelInitializerBuildMode choicePanelInitializerBuildMode = new ChoicePanelInitializerBuildMode();
-        await choicePanelInitializerBuildMode.ChoicePanelCaseAssetProvider.LoadAsset();
+        await choicePanelInitializerBuildMode.ChoicePanelCasePrefabProvider.LoadPrefab();
         
         
         CustomizationCharacterPanelUI customizationCharacterPanelUI =

@@ -26,7 +26,8 @@ public class LevelLoader
 
     public async UniTask StartLoadPart1(Story story)
     {
-        _saveServiceProvider.CurrentStoryIndex = story.MyIndex;
+        // _saveServiceProvider.CurrentStoryIndex = story.MyIndex;
+        _saveServiceProvider.CurrentStoryKey = story.StoryName;
         await _loadScreenUIHandler.ShowToLevelMove(story.SpriteStorySkin, story.SpriteLogo);
         Camera.main.gameObject.SetActive(false);
         EventSystem.current.gameObject.SetActive(false);

@@ -15,7 +15,7 @@ public class ContactPrintStatusHandler
     private const float _maxSymbol = 150f;
     private const float _indicateDelay = 0.2f;
     private const float _delayMultiply = 2f;
-    public readonly LocalizationString PrintLocalizationString = "печатает";
+    private readonly LocalizationString _printLocalizationString;
     private readonly IReadOnlyList<Image> _printIndicator;
     private readonly GameObject _onlineStatus;
     private readonly GameObject _printStatus;
@@ -24,7 +24,7 @@ public class ContactPrintStatusHandler
     private CompositeDisposable _compositeDisposable;
     private bool _isRun;
 
-    public ContactPrintStatusHandler(IReadOnlyList<Image> printIndicator, GameObject onlineStatus, TextMeshProUGUI text)
+    public ContactPrintStatusHandler(IReadOnlyList<Image> printIndicator, GameObject onlineStatus, TextMeshProUGUI text, LocalizationString printLocalizationString)
     {
         _printIndicator = printIndicator;
         _onlineStatus = onlineStatus;
@@ -33,6 +33,7 @@ public class ContactPrintStatusHandler
         IndicatorOff();
         _isRun = false;
         _cancellationTokenSource = new CancellationTokenSource();
+        _printLocalizationString = printLocalizationString;
     }
 
     public void Shutdown()
@@ -50,7 +51,7 @@ public class ContactPrintStatusHandler
     {
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
-            _text.text = PrintLocalizationString;
+            _text.text = _printLocalizationString;
         });
 
         bool onlineStatus = _onlineStatus.activeSelf;

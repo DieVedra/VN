@@ -7,7 +7,7 @@ using UnityEngine;
 public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, IAdditionalSpritesProviderToNode,
     IBackgroundsProviderToHeaderNode, IBackgroundProviderToShowArtNode, IBackgroundProviderToCustomizationNode
 {
-    [SerializeField] private SpriteRenderer _colorOverlay;
+    [SerializeField] protected SpriteRenderer ColorOverlay;
 
     [SerializeField] protected float DurationMovementDuringDialogue = 0.2f;
 
@@ -221,12 +221,12 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     {
         if (enable == true)
         {
-            _colorOverlay.gameObject.SetActive(true);
+            ColorOverlay.gameObject.SetActive(true);
         }
-        await _colorOverlay.DOColor(color, duration).WithCancellation(cancellationToken);
+        await ColorOverlay.DOColor(color, duration).WithCancellation(cancellationToken);
         if (enable == false)
         {
-            _colorOverlay.gameObject.SetActive(false);
+            ColorOverlay.gameObject.SetActive(false);
         }
     }
 
@@ -234,12 +234,12 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     {
         if (enable == true)
         {
-            _colorOverlay.gameObject.SetActive(true);
+            ColorOverlay.gameObject.SetActive(true);
         }
-        _colorOverlay.color = color;
+        ColorOverlay.color = color;
         if (enable == false)
         {
-            _colorOverlay.gameObject.SetActive(false);
+            ColorOverlay.gameObject.SetActive(false);
         }
     }
 
@@ -293,7 +293,10 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     {
         foreach (var t in backgroundData.BackgroundContentValues)
         {
-            sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
+            if (sprites.ContainsKey(t.NameSprite) == false)
+            {
+                sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
+            }
         }
     }
 }

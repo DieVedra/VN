@@ -21,6 +21,7 @@ public class BackgroundEditMode : Background
     {
         DisableNodesContentEvent = disableNodesContentEvent;
         SetLighting = setLighting;
+        ColorOverlay.color = Color.clear;
         BackgroundContentAdditionalSpriteRendererCreator = new SpriteRendererCreatorEditor(_spriteRendererPrefab);
         CreateWardrobeBackground();
         CreateArtShower();

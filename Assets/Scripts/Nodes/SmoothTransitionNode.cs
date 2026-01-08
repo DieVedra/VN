@@ -33,14 +33,9 @@ public class SmoothTransitionNode : BaseNode
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
-        Debug.Log($"11111");
-
         await Do();
-        Debug.Log($"2222");
-
         if (isMerged == false)
         {
-            Debug.Log($"SmoothTransitionNode SwitchToNextNodeEvent.Execute();");
             SwitchToNextNodeEvent.Execute();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class LevelLoadDataHandler
 {
@@ -21,7 +22,6 @@ public class LevelLoadDataHandler
     private readonly OnContentIsLoadProperty<bool> _onContentIsLoadProperty;
     private readonly LoadAssetsPercentHandler _loadAssetsPercentHandler;
     private int _seriesCount;
-    private int _currentSeriaLoadedNumber => _currentSeriaLoadedNumberProperty.GetValue;
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
@@ -35,7 +35,7 @@ public class LevelLoadDataHandler
         _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
-        _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
+        // _currentSeriaLoadedNumberProperty.SetValue(_indexFirstName);
         _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
@@ -80,12 +80,14 @@ public class LevelLoadDataHandler
             _backgroundContentCreator.SetCurrentBackgroundData(_);
         });
         await InitLoaders();
-        CheckMatchNumbersSeriaWithNumberAssets(_currentSeriaLoadedNumber, _indexFirstName);
+        CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName); //!!!
         _loadAssetsPercentHandler.StartCalculatePercent();
-        await LoadCurrentLocalization(_currentSeriaLoadedNumber);
+        await LoadCurrentLocalization(_currentSeriaLoadedNumberProperty.GetValue);
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
+        
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
+        
         await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
@@ -103,12 +105,12 @@ public class LevelLoadDataHandler
 
     public async UniTask LoadNextSeriesContent()
     {
-        if (_currentSeriaLoadedNumber < _seriesCount)
+        if (_currentSeriaLoadedNumberProperty.GetValue < _seriesCount)
         {
             _onContentIsLoadProperty.SetValue(true);
             _loadAssetsPercentHandler.SetDefault();
-            int nextSeriaNumber = _currentSeriaLoadedNumber;
-            int nextSeriaIndex = _currentSeriaLoadedNumber;
+            int nextSeriaNumber = _currentSeriaLoadedNumberProperty.GetValue;
+            int nextSeriaIndex = _currentSeriaLoadedNumberProperty.GetValue;
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
@@ -123,7 +125,7 @@ public class LevelLoadDataHandler
 
             await PhoneProviderInBuildMode.TryLoadDatas(nextSeriaIndex);
             
-            _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber);
+            _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!
             _onContentIsLoadProperty.SetValue(false);
         }
     }
@@ -143,7 +145,17 @@ public class LevelLoadDataHandler
     {
         CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        Debug.Log($"Pre CheckMatchNumbersSeriaWithNumberAssets {nextSeriaNumber}   {nextSeriaNameAssetIndex}");
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
+
+
+        Debug.Log($"MusicDataProvider.Names");
+        foreach (var VARIABLE in AudioClipProvider.MusicDataProvider.Names)
+        {
+            Debug.Log($"{VARIABLE}");
+
+        }
+
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         PhoneProviderInBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);

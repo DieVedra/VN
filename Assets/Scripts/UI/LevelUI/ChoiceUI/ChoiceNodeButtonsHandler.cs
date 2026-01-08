@@ -13,14 +13,14 @@ public class ChoiceNodeButtonsHandler
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
     private readonly ReactiveProperty<bool> _choiceActive;
     private readonly Wallet _wallet;
-    private readonly ChoiceCaseView[] _choiseCasesViews;
+    private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
     private readonly bool[] _choiseButtonsCanPress;
     private readonly Vector2[] _choicePositions;
     private ChoiceData _data;
     private Vector2 _offset = new Vector2(ChoicePanelUIValues.OffsetX, ChoicePanelUIValues.OffsetY);
     public IReadOnlyList<bool> ChoiseButtonsCanPress => _choiseButtonsCanPress;
 
-    public ChoiceNodeButtonsHandler(ChoiceCaseView[] choiseCasesViews, ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
+    public ChoiceNodeButtonsHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
         ReactiveProperty<bool> choiceActive)
     {
         _choiceNodePriceHandler = choiceNodePriceHandler;

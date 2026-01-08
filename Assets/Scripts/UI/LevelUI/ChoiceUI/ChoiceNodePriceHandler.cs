@@ -5,11 +5,11 @@ using UnityEngine;
 public class ChoiceNodePriceHandler
 {
     private readonly Wallet _wallet;
-    private readonly ChoiceCaseView[] _choiseCasesViews;
+    private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
     private List<(int, int)> _prices;
     public bool PriceExists { get; private set; }
 
-    public ChoiceNodePriceHandler(ChoiceCaseView[] choiseCasesViews, Wallet wallet)
+    public ChoiceNodePriceHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, Wallet wallet)
     {
         _choiseCasesViews = choiseCasesViews;
         _wallet = wallet;
@@ -50,10 +50,10 @@ public class ChoiceNodePriceHandler
     {
         PriceExists = false;
         _prices.Clear();
-        for (int i = 0; i < _choiseCasesViews.Length; i++)
+        foreach (var t in _choiseCasesViews)
         {
-            _choiseCasesViews[i].PriceRectTransformChoice.gameObject.SetActive(false);
-            _choiseCasesViews[i].AdditionaryPriceRectTransformChoice.gameObject.SetActive(false);
+            t.PriceRectTransformChoice.gameObject.SetActive(false);
+            t.AdditionaryPriceRectTransformChoice.gameObject.SetActive(false);
         }
     }
 }

@@ -647,7 +647,10 @@ MonoBehaviour:
       _node: {fileID: -5825614837275973836}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -3784406973114413698}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1875,6 +1878,9 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Port 0
+        node: {fileID: -5825614837275973836}
+        reroutePoints: []
+      - fieldName: Output
         node: {fileID: -5825614837275973836}
         reroutePoints: []
       _direction: 0

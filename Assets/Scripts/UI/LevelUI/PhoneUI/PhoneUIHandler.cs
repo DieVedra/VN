@@ -28,6 +28,8 @@ public class PhoneUIHandler : ILocalizable
     private readonly ReactiveCommand _tryShowReactiveCommand;
 
     private LocalizationString _notificationTextLocalizationString = "Получено новое сообщение!";
+    private LocalizationString _printLocalizationString = "печатает";
+
     private List<ContactNodeCase> _sortedPhoneNodeCases;
     private Dictionary<string, OnlineContactInfo> _sortedOnlineContacts;
     private Dictionary<string, NotificationContactInfo> _sortedNotifications;
@@ -74,7 +76,7 @@ public class PhoneUIHandler : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {_notificationTextLocalizationString, _contactPrintStatusHandler.PrintLocalizationString };
+        return new[] {_notificationTextLocalizationString, _printLocalizationString };
     }
 
     public void Init(PhoneUIView phoneUIView, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<int, NodePort> onGetNodePort)
@@ -107,7 +109,7 @@ public class PhoneUIHandler : ILocalizable
         var contactsShower = new ContactsShower(phoneUIView.ContactsScreenViewBackground.ContactsTransform, GetOnlineStatus);
         _contactPrintStatusHandler = new ContactPrintStatusHandler(phoneUIView.DialogScreenViewBackground.PrintsImages,
             phoneUIView.DialogScreenViewBackground.ContactOnlineStatus.transform.parent.gameObject,
-            phoneUIView.DialogScreenViewBackground.PrintsText);
+            phoneUIView.DialogScreenViewBackground.PrintsText, _printLocalizationString);
         var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.DialogTransform, _contactPrintStatusHandler, _phoneMessagesExtractor,
             phoneMessagesCustodian, _pressDetector, _tryShowReactiveCommand);
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,

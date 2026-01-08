@@ -1,22 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ChoicePanelInitializerBuildMode : IChoicePanelInitializer
 {
-    public readonly ChoicePanelCaseAssetProvider ChoicePanelCaseAssetProvider;
+    public readonly ChoicePanelCasePrefabProvider ChoicePanelCasePrefabProvider;
     public ChoicePanelInitializerBuildMode()
     {
-        ChoicePanelCaseAssetProvider = new ChoicePanelCaseAssetProvider();
+        ChoicePanelCasePrefabProvider = new ChoicePanelCasePrefabProvider();
     }
 
-    public ChoiceCaseView[] GetChoiceCaseViews(Transform parent)
+    public IReadOnlyList<ChoiceCaseView> GetChoiceCaseViews(Transform parent)
     {
-        ChoiceCaseView[] choiceCaseView = new ChoiceCaseView[ChoiceNode.MaxCaseCount];
-        var prefab = ChoicePanelCaseAssetProvider.GetAsset;
+        List<ChoiceCaseView> choiceCaseView = new List<ChoiceCaseView>(ChoiceNode.MaxCaseCount);
         for (int i = 0; i <= ChoiceNode.MaxCaseCount; i++)
         {
-            choiceCaseView[i] = Object.Instantiate(prefab, parent);
+            choiceCaseView.Add(Object.Instantiate(ChoicePanelCasePrefabProvider.GetPrefab, parent).GetComponent<ChoiceCaseView>());
         }
-        ChoicePanelCaseAssetProvider.Unload();
+        ChoicePanelCasePrefabProvider.Unload();
         return choiceCaseView;
     }
 }

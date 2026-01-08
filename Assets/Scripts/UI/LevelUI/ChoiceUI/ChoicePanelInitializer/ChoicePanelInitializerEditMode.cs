@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class ChoicePanelInitializerEditMode : IChoicePanelInitializer
 {
@@ -8,7 +9,8 @@ public class ChoicePanelInitializerEditMode : IChoicePanelInitializer
     {
         _choiceCases = choiceCases;
     }
-    public ChoiceCaseView[] GetChoiceCaseViews(Transform parent)
+
+    public IReadOnlyList<ChoiceCaseView> GetChoiceCaseViews(Transform parent)
     {
         return _choiceCases;
     }
