@@ -35,6 +35,7 @@ public class SmoothAudio
         SetClip(secondAudioClipKey, audioSourceType);
         _audioSources[audioSourceType].Play();
         await Fade(cancellationToken, _playEndValue, _duration, audioSourceType);
+
     }
     public async UniTask SmoothStopAudio(CancellationToken cancellationToken, AudioSourceType audioSourceType)
     {

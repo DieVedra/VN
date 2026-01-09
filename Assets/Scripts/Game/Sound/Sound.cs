@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
@@ -94,7 +93,7 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
         }
     }
 
-    public void PlayAudioByIndex(string audioClipKey, AudioSourceType audioSourceType)
+    public void PlayAudioByKey(string audioClipKey, AudioSourceType audioSourceType)
     {
         switch (audioSourceType)
         {

@@ -80,14 +80,13 @@ public class LevelLoadDataHandler
             _backgroundContentCreator.SetCurrentBackgroundData(_);
         });
         await InitLoaders();
+        Debug.Log($"LoadStartSeriaContent 0  _numberFirstSeria: {_numberFirstSeria}  _indexFirstName: {_indexFirstName}");
         CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName); //!!!
         _loadAssetsPercentHandler.StartCalculatePercent();
-        await LoadCurrentLocalization(_currentSeriaLoadedNumberProperty.GetValue);
+        await LoadCurrentLocalization(_numberFirstSeria);
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
-        
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
-        
         await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
@@ -100,6 +99,7 @@ public class LevelLoadDataHandler
                 await LoadNextSeriesContent();
             }
         }
+        _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 
@@ -114,7 +114,8 @@ public class LevelLoadDataHandler
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
-            
+            Debug.Log($"LoadNextSeriesContent 1  nextSeriaNumber: {nextSeriaNumber}  nextSeriaIndex: {nextSeriaIndex}");
+
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
@@ -145,16 +146,7 @@ public class LevelLoadDataHandler
     {
         CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        Debug.Log($"Pre CheckMatchNumbersSeriaWithNumberAssets {nextSeriaNumber}   {nextSeriaNameAssetIndex}");
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
-
-
-        Debug.Log($"MusicDataProvider.Names");
-        foreach (var VARIABLE in AudioClipProvider.MusicDataProvider.Names)
-        {
-            Debug.Log($"{VARIABLE}");
-
-        }
 
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);

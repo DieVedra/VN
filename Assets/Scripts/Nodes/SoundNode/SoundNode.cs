@@ -81,13 +81,13 @@ public class SoundNode : BaseNode
     private void PlayMusicAudio()
     {
         _startedPlayMusicPlayMusic = true;
-        _sound.PlayAudioByIndex(_currentMusicSoundKey, AudioSourceType.Music);
+        _sound.PlayAudioByKey(_currentMusicSoundKey, AudioSourceType.Music);
     }
 
     private void PlayAmbientAudio()
     {
         _startedPlayAmbient = true;
-        _sound.PlayAudioByIndex(_currentAmbientSoundKey, AudioSourceType.Ambient);
+        _sound.PlayAudioByKey(_currentAmbientSoundKey, AudioSourceType.Ambient);
     }
 
     private void StopMusicAudio()

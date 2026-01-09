@@ -251,16 +251,19 @@ public class CustomizationNode : BaseNode, ILocalizable
     private IReadOnlyList<LocalizationString> CreateLocalizationArray(params List<CustomizationSettings>[] lists)
     {
         List<LocalizationString> strings = new List<LocalizationString>();
-        for (int i = 0; i < lists.Length; i++)
+        foreach (var t1 in lists)
         {
-            if (lists[i] != null)
+            if (t1 != null)
             {
-                foreach (var variable in lists[i])
+                foreach (var cs in t1)
                 {
-                    strings.Add(variable.LocalizationNameToGame);
-                    foreach (var t in variable.GameStatsLocalizationStrings)
+                    if (cs.KeyAdd == true)
                     {
-                        strings.Add(t.LocalizationNameToGame);
+                        strings.Add(cs.LocalizationNameToGame);
+                        foreach (var ls in cs.GameStatsLocalizationStrings)
+                        {
+                            strings.Add(ls.LocalizationNameToGame);
+                        }
                     }
                 }
             }

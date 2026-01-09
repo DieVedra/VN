@@ -117,7 +117,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameStatsHandler.UpdateStatFromSave(StoryData.Stats);
             StoryData.StoryStarted = true;
         }
-        // InitGlobalSound();
         InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(viewerCreatorBuildMode);
@@ -143,7 +142,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent,
-                StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
+                StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
             _levelUIProviderBuildMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
         }
     }

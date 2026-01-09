@@ -99,7 +99,6 @@ public class BackgroundBuildMode : Background
 
     private void InitAdditionalImages(BackgroundData backgroundData)
     {
-        Debug.Log($"InitAdditionalImages  090909090909090909090909090909090");
         AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, backgroundData);
     }
     

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ISoundProviderToSoundNode
 {
-    public void PlayAudioByIndex(string audioClipKey, AudioSourceType audioSourceType);
+    public void PlayAudioByKey(string audioClipKey, AudioSourceType audioSourceType);
     public void StopAudio(AudioSourceType audioSourceType);
     public void SetVolume(float volume, AudioSourceType audioSourceType);
     public void SetPlayTime(float time, AudioSourceType audioSourceType);
