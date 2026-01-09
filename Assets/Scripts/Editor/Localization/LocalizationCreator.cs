@@ -23,6 +23,8 @@ public class LocalizationCreator : ScriptableObject
         
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
     [SerializeField] private PhoneContactsProvider _phoneContactsProvider;
+    [SerializeField] private CharactersProvider _charactersProvider;
+    [SerializeField] private SeriaStatProvider _seriaStatProvider;
     [SerializeField, Space(30f)] private string _text;
     [SerializeField] private string _key;
     [Button()]
@@ -43,6 +45,21 @@ public class LocalizationCreator : ScriptableObject
             }
         }
 
+        if (_charactersProvider != null)
+        {
+            foreach (var ci in _charactersProvider.CharactersInfo)
+            {
+                seriaStrings.Add(ci.LocalizationString);
+            }
+        }
+
+        if (_seriaStatProvider != null)
+        {
+            foreach (var ls in _seriaStatProvider.StatsLocalizationStrings)
+            {
+                seriaStrings.Add(ls.LocalizationNameToGame);
+            }
+        }
         if (_phoneContactsProvider != null)
         {
             foreach (var t in _phoneContactsProvider.PhoneContacts)
@@ -61,106 +78,6 @@ public class LocalizationCreator : ScriptableObject
         Debug.Log($"Localization File Created: {newPath}");
         AssetDatabase.Refresh();
     }
-
-    // [Button()]
-    // private void Remove()
-    // {
-    //     Dictionary<string, string> result = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonFile.text);
-    //     Debug.Log($"{result.Count}");
-    //     foreach (var VARIABLE in result)
-    //     {
-    //         Debug.Log($"{VARIABLE.Key}   {VARIABLE.Value}");
-    //
-    //     }
-    //     Debug.Log($"-------------");
-    //
-    //     foreach (var graph in _seriaForCreateFileLocalization.SeriaPartNodeGraphs)
-    //     {
-    //         foreach (var node in graph.nodes)
-    //         {
-    //             if (node is ChoiceNode choiceNode)
-    //             {
-    //                 Debug.Log($"index: {graph.nodes.IndexOf(node)}");
-    //                 var a = choiceNode.GetLocalizableContent();
-    //                 foreach (var LS in choiceNode.GetLocalizableContent())
-    //                 {
-    //                     if (string.IsNullOrEmpty(LS.Key) == false)
-    //                     {
-    //                         if (string.IsNullOrEmpty(LS.DefaultText))
-    //                         {
-    //                             Debug.Log($"LS.DefaultText Empty   Key{LS.Key}");
-    //                             if (result.TryGetValue(LS.Key, out string txt))
-    //                             {
-    //                                 LS.SetText(txt);
-    //                                 Debug.Log($"{LS.DefaultText}");
-    //
-    //                             }
-    //                             EditorUtility.SetDirty(choiceNode);
-    //                         }
-    //                     }
-    //                     else
-    //                     {
-    //                         Debug.Log($"LS.Key Empty");
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    // [Button()]
-    // private void FindAttributes()
-    // {
-    //     // MonoBehaviour[] allBehaviours = GameObject.FindObjectsOfType<MonoBehaviour>();
-    //     Object[] allBehaviours = GameObject.FindObjectsOfType<Object>();
-    //     var result = new Dictionary<string, List<string>>();
-    //     foreach (var behaviour in allBehaviours)
-    //     {
-    //         // Получаем все поля класса
-    //         FieldInfo[] fields = behaviour.GetType().GetFields(
-    //             BindingFlags.Public |
-    //             BindingFlags.NonPublic |
-    //             BindingFlags.Instance);
-    //
-    //         foreach (FieldInfo field in fields)
-    //         {
-    //             // Проверяем наличие нашего атрибута
-    //             LocalizationAttribute attribute =
-    //                 Attribute.GetCustomAttribute(
-    //                         field,
-    //                         typeof(LocalizationAttribute))
-    //                     as LocalizationAttribute;
-    //
-    //             if (attribute != null && field.FieldType == typeof(string))
-    //             {
-    //                 string fieldValue = (string) field.GetValue(behaviour);
-    //
-    //                 if (!string.IsNullOrEmpty(fieldValue))
-    //                 {
-    //                     Debug.Log($"fieldValue {fieldValue}");
-    //                 }
-    //                 else
-    //                 {
-    //                     Debug.Log($"false");
-    //
-    //                 }
-    //                 field.SetValue(behaviour, "test2");
-    //                 
-    //             }
-    //         }
-    //     }
-    // }
-
-    // [Button()]
-    // private void Show()
-    // {
-    //     
-    //     foreach (var VARIABLE in CreateDictionary(LocalizationString.LocalizationStrings))
-    //     {
-    //         Debug.Log($"{VARIABLE.NameKey} {VARIABLE.Value}");
-    //     }
-    // }
-
-
     private Dictionary<string,string> CreateDictionary(List<LocalizationString> seriaStrings)
     {
         var dict = new Dictionary<string, string>();

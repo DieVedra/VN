@@ -46,12 +46,12 @@ public class CharacterProviderEditMode : MonoBehaviour, ILocalizable
     {
         List<LocalizationString> strings = new List<LocalizationString>();
         int count;
-        for (int i = 0; i < _charactersProvider.Count; i++)
+        foreach (var cp in _charactersProvider)
         {
-            count = _charactersProvider[i].CharactersInfo.Count;
+            count = cp.CharactersInfo.Count;
             for (int j = 0; j < count; j++)
             {
-                strings.Add(_charactersProvider[i].CharactersInfo[j].LocalizationString);
+                strings.Add(cp.CharactersInfo[j].LocalizationString);
             }
         }
         return strings;

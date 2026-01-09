@@ -34,6 +34,7 @@ public class BackgroundNode : BaseNode
     public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
+        Debug.Log($"ConstructBackgroundNode");
         _background = background;
         if (Math.Abs(_changeMode2Duration - _minValue) < 0.05f)
         {

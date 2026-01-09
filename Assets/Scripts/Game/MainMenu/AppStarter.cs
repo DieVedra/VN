@@ -7,7 +7,7 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, GlobalUIHandler globalUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler)
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig)
     {
         await Addressables.InitializeAsync();
 
@@ -84,7 +84,7 @@ public class AppStarter
                 storiesProvider.GetLocalizableContent()));
         if (loadScreenUIHandler.IsStarted == false)
         {
-            await panelsLocalizationHandler.Init(saveServiceProvider.SaveData);
+            await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, startConfig.DefaultLanguageLocalizationKey);
         }
         panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
         panelsLocalizationHandler.SubscribeChangeLanguage();
@@ -114,8 +114,6 @@ public class AppStarter
         mainMenuUIView.gameObject.SetActive(true);
         await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, mainMenuUIView, tr,
             storiesProvider, startIndexStory);
-        await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
-            levelLoader, startIndexStory);
 
 
         loadScreenUIHandler.HideOnMainMenuMove().Forget();

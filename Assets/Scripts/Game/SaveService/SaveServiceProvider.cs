@@ -7,7 +7,6 @@ public class SaveServiceProvider
     public readonly SaveService SaveService;
     private SaveData _saveData;
     
-    // public int CurrentStoryIndex;
     public string CurrentStoryKey;
     
     public SaveData SaveData => _saveData;
@@ -39,7 +38,7 @@ public class SaveServiceProvider
 
         SaveService.Save(_saveData);
     }
-    public bool LoadSaveData()
+    public bool LoadSaveData(StartConfig sc)
     {
         if (SaveService.LoadData(out _saveData) == true)
         {
@@ -57,7 +56,7 @@ public class SaveServiceProvider
         else
         {
             SaveHasBeenLoaded = false;
-            SetSaveDataDefault();
+            SetSaveDataDefault(sc);
             Debug.Log($"SaveData: false");
         }
 
@@ -86,13 +85,14 @@ public class SaveServiceProvider
             _saveData.NameStartStory = nameStartStory;
         }
     }
-    public void SetSaveDataDefault()
+
+    private void SetSaveDataDefault(StartConfig sc)
     {
         _saveData = new SaveData
         {
-            Monets = 50,
-            Hearts = 5,
-            SoundStatus = true,
+            Monets = sc.Monets,
+            Hearts = sc.Hearts,
+            SoundStatus = sc.SoundStatus,
             StoryDatas = new Dictionary<string, StoryData>()
         };
     }

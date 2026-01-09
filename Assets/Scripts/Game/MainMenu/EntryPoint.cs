@@ -1,5 +1,4 @@
-﻿
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -26,13 +25,7 @@ public class EntryPoint: MonoBehaviour
         _globalSound = globalSound;
         _prefabsProvider = prefabsProvider;
         _onSceneTransition = new ReactiveCommand();
-        _saveServiceProvider.LoadSaveData();
-        if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
-        {
-            _wallet = new Wallet(_saveServiceProvider.SaveData);
-            ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
-        }
-        else
+        if (ProjectContext.Instance.Container.HasBinding<Wallet>())
         {
             _wallet = ProjectContext.Instance.Container.Resolve<Wallet>();
         }
@@ -44,9 +37,19 @@ public class EntryPoint: MonoBehaviour
 
     private async void Awake()
     {
+        StartConfigAssetProvider startConfigAssetProvider = new StartConfigAssetProvider();
+        StartConfig sc = await startConfigAssetProvider.Load();
+        _saveServiceProvider.LoadSaveData(sc);
+        if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
+        {
+            _wallet = new Wallet(_saveServiceProvider.SaveData);
+            ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
+        }
+
+
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
-                _saveServiceProvider, _globalSound, _panelsLocalizationHandler);
+                _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;

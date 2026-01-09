@@ -14,15 +14,6 @@ public class GameStatsHandler
     public GameStatsHandler(List<Stat> stats)
     {
         _stats = stats;
-        Debug.Log($"+++++++++++");
-        foreach (var VARIABLE in stats)
-        {
-            Debug.Log($" {VARIABLE.NameText}");
-        }
-        Debug.Log($"-----------");
-        
-        
-        
         _statsDictionary = stats.ToDictionary(x => x.NameKey);
     }
 

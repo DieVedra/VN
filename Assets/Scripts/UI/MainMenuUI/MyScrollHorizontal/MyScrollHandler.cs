@@ -105,7 +105,6 @@ public class MyScrollHandler : ILocalizable
                 _swipeIndicatorFill = null;
             }
             await TryCreateContentIndicator();
-
             _changeEffectHandler = new ChangeEffectHandler(_contentChilds, _currentIndex);
             ReactiveProperty<bool> outsideLeftBorder = new ReactiveProperty<bool>();
             ReactiveProperty<bool> outsideRightBorder = new ReactiveProperty<bool>();
@@ -140,7 +139,6 @@ public class MyScrollHandler : ILocalizable
                 }
             });
             _contentSizeFitter.enabled = false;
-
             _contentLayoutGroup.enabled = false;
         }
     }
@@ -221,10 +219,13 @@ public class MyScrollHandler : ILocalizable
 
     private async UniTask TryCreateContentIndicator()
     {
+        HorizontalLayoutGroup horizontalLayoutGroup = _swipeProgressIndicatorsParent.GetComponent<HorizontalLayoutGroup>();
+        ContentSizeFitter contentSizeFitter = _swipeProgressIndicatorsParent.GetComponent<ContentSizeFitter>();
+        horizontalLayoutGroup.enabled = true;
+        contentSizeFitter.enabled = true;
         CircleIndicatorAssetProvider circleIndicatorAssetProvider = new CircleIndicatorAssetProvider();
         TryClearContent(_swipeProgressIndicatorsParent);
         _swipeIndicatorFill = await circleIndicatorAssetProvider.CreateLoadCircleIndicatorFill(_transform);
-        
         _swipeIndicatorFill.SetAsFirstSibling();
         _swipeIndicatorFill.gameObject.SetActive(true);
         for (int i = 0; i < _contentCount; i++)
@@ -236,6 +237,9 @@ public class MyScrollHandler : ILocalizable
             _content, _swipeProgressIndicatorsParent, CalculateAddValueToPositionXContentToFirstContentElement,
             _contentCount, _moveStepIndicator, _moveStep);
         _swipeProgressIndicatorsParent.transform.gameObject.SetActive(true);
+        await UniTask.Yield();
+        horizontalLayoutGroup.enabled = false;
+        contentSizeFitter.enabled = false;
     }
 
     private float CalculateAddValueToPositionXContentToFirstContentElement(float moveStep, int contentCount)

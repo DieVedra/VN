@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PanelsLocalizationHandler : ILocalizationChanger
 {
-    public const string DefaultLanguageKey = "en";
+    private string _defaultLanguageKey;
     // private const string DefaultLanguageKey = "ru";
     private readonly LocalizationFileProvider _loader;
     private LocalizationInfoHolder _localizationInfoHolder;
@@ -36,8 +36,9 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         _inMainMenu = true;
     }
 
-    public async UniTask Init(SaveData saveData)
+    public async UniTask Init(SaveData saveData, string defaultLanguageKey)
     {
+        _defaultLanguageKey = defaultLanguageKey;
         _saveData = saveData;
         _localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
         TryDefineLanguageKey();
@@ -127,11 +128,11 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         }
         else
         {
-            // systemLanguageKey = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            systemLanguageKey = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
             if (string.IsNullOrEmpty(systemLanguageKey) == true)
             {
-                systemLanguageKey = DefaultLanguageKey;
+                systemLanguageKey = _defaultLanguageKey;
             }
         }
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)

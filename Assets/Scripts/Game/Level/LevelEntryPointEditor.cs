@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
@@ -20,18 +21,16 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private GameStatsViewer _gameStatsViewer;
     [SerializeField] private PhoneProviderInEditMode _phoneProviderInEditMode;
     [SerializeField] private Wallet _wallet;
-
+    [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
-    [SerializeField, Space(10f)] private int _testMonets;
-    [SerializeField, Space(10f)] private int _testHearts;
     [Space]
     [SerializeField] private bool _initializeInEditMode;
 
     [SerializeField, HideInInspector] private TestModeEditor _testModeEditor;
 
-    // private const int _currentStoryIndex = 0;
     private LevelUIProviderEditMode _levelUIProviderEditMode;
     private SaveData _saveData;
+    private PhoneSaveHandler _phoneSaveHandler;
     private ICharacterProvider _characterProvider => _characterProviderEditMode.CharacterProvider;
     public bool IsInitializing { get; private set; }
     public bool InitializeInEditMode => _initializeInEditMode;
@@ -53,50 +52,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         SaveServiceProvider = new SaveServiceProvider();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
         ReactiveProperty<bool> phoneNodeIsActive = new ReactiveProperty<bool>();
-        PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
-
-        if (Application.isPlaying &&  LoadSaveData == true)
-        {
-            if (SaveServiceProvider.LoadSaveData() == true)
-            {
-                _saveData = SaveServiceProvider.SaveData;
-                _testMonets = _saveData.Monets;
-                _testHearts = _saveData.Hearts;
-                _wallet = new Wallet(_saveData);
-                if (_saveData.StoryDatas.TryGetValue(_storyKey, out StoryData))
-                {
-                    // StoryData = _saveData.StoryDatas[_currentStoryIndex];
-                    if (StoryData.PhoneSaveDatas.Count > 0)
-                    {
-                        phoneSaveHandler.SetPhoneInfoFromSaveData(StoryData);
-                    }
-
-                    if (StoryData.Stats.Count > 0)
-                    {
-                        _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
-                    }
-
-                    if (StoryData.WardrobeSaveDatas.Count > 0)
-                    {
-                        _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas);//?
-                    }
-                    else
-                    {
-                        _characterProviderEditMode.Construct();
-
-                    }
-                }
-            }
-            else
-            {
-                ConstructSave();
-            }
-        }
-        else
-        {
-            ConstructSave();
-        }
-
+        _phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
+        Load();
         InitGlobalSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
@@ -108,8 +65,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         InitWardrobeCharacterViewer(viewerCreatorEditMode);
         InitBackground();
-        _phoneProviderInEditMode.Construct(phoneMessagesCustodian, phoneSaveHandler);
-        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, phoneSaveHandler);
+        _phoneProviderInEditMode.Construct(phoneMessagesCustodian, _phoneSaveHandler);
+        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, _phoneSaveHandler);
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
             CharacterViewer, _wardrobeCharacterViewer, _levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), phoneNodeIsActive);
@@ -140,14 +97,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
-
-        void ConstructSave()
-        {
-            SaveServiceProvider.SetSaveDataDefault();
-            _saveData = SaveServiceProvider.SaveData;
-            _characterProviderEditMode.Construct();
-            _wallet = new Wallet(_testMonets, _testHearts);
-        }
         IsInitializing = false;
     }
 
@@ -163,6 +112,54 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _wardrobeCharacterViewer.Dispose();
         _levelSoundEditMode.Shutdown();
         base.Shutdown();
+    }
+
+    private void Load()
+    {
+        if (Application.isPlaying && LoadSaveData == true)
+        {
+            if (SaveServiceProvider.LoadSaveData(_startConfig) == true)
+            {
+                _saveData = SaveServiceProvider.SaveData;
+                _wallet = new Wallet(_saveData);
+                if (_saveData.StoryDatas.TryGetValue(_storyKey, out StoryData))
+                {
+                    if (StoryData.PhoneSaveDatas.Count > 0)
+                    {
+                        _phoneSaveHandler.SetPhoneInfoFromSaveData(StoryData);
+                    }
+
+                    if (StoryData.Stats.Count > 0)
+                    {
+                        _seriaGameStatsProviderEditor.UpdateAllStatsFromSave(StoryData.Stats);
+                    }
+
+                    if (StoryData.WardrobeSaveDatas.Count > 0)
+                    {
+                        _characterProviderEditMode.Construct(StoryData.WardrobeSaveDatas); //?
+                    }
+                    else
+                    {
+                        _characterProviderEditMode.Construct();
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            _saveData = new SaveData()
+            {
+                Monets = _startConfig.Monets,
+                Hearts = _startConfig.Hearts,
+                SoundStatus = _startConfig.SoundStatus,
+                NameStartStory = _storyKey,
+                LanguageLocalizationKey = _startConfig.DefaultLanguageLocalizationKey,
+                StoryDatas = new Dictionary<string, StoryData>()
+            };
+            _characterProviderEditMode.Construct();
+            _wallet = new Wallet(_saveData.Monets, _saveData.Hearts);
+        }
     }
     private void Save()
     {
