@@ -25,7 +25,6 @@ public class LocalizationCreator : ScriptableObject
     [SerializeField] private PhoneContactsProvider _phoneContactsProvider;
     [SerializeField, Space(30f)] private string _text;
     [SerializeField] private string _key;
-    // [SerializeField] private TextAsset jsonFile;
     [Button()]
     private void CreateSeriaFileLocalization()
     {
