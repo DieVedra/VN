@@ -12,7 +12,6 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     private const float _wardrobePositionZ = 0f;
     private readonly Vector3 _wardrobePosition = new Vector3(_wardrobePositionX, _wardrobePositionY, _wardrobePositionZ);
     private readonly Vector2 _viewerPosition = new Vector2(_viewerPositionX, _viewerPositionY);
-    private SpriteViewer _spriteViewer2;
     private ParticleSystem _particleSystem;
     public int CustomizableCharacterIndex { get; private set; }
 
@@ -22,8 +21,8 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         TryDestroy();
         SpriteViewer1 = CreateViewer();
         TryInitViewer(SpriteViewer1);
-        _spriteViewer2 = CreateViewer();
-        TryInitViewer(_spriteViewer2);
+        SpriteViewer2 = CreateViewer();
+        TryInitViewer(SpriteViewer2);
         transform.position = _wardrobePosition;
     }
     public void Construct(DisableNodesContentEvent disableNodesContentEvent, ViewerCreator viewerCreator)
@@ -31,11 +30,11 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         CompositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(ResetCharacterView);
         Construct(viewerCreator);
     }
-    public override void Dispose()
+    public override void Shutdown()
     {
-        base.Dispose();
-        SpriteViewer1.Dispose();
-        _spriteViewer2.Dispose();
+        base.Shutdown();
+        SpriteViewer1.Shutdown();
+        SpriteViewer2.Shutdown();
     }
 
     public async UniTask SetCharacterCustomizationFromRightArrow(CustomizationData newCustomizationData)
@@ -43,7 +42,7 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         SetCharacterCustomization(newCustomizationData);
         await UniTask.WhenAll(
             SpriteViewer1.DisappearanceCharacterOnCustomization(DirectionType.Left),
-            _spriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Left));
+            SpriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Left));
         SpriteViewer1.SetCharacterView(newCustomizationData);
     }
 
@@ -52,13 +51,13 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
         SetCharacterCustomization(newCustomizationData);
         await UniTask.WhenAll(
             SpriteViewer1.DisappearanceCharacterOnCustomization(DirectionType.Right),
-            _spriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Right));
+            SpriteViewer2.EmergenceCharacterOnCustomization(DirectionType.Right));
         SpriteViewer1.SetCharacterView(newCustomizationData);
     }
 
     public void SetCharacterCustomization(CustomizationData newCustomizationData)
     {
-        _spriteViewer2.SetCharacterView(newCustomizationData);
+        SpriteViewer2.SetCharacterView(newCustomizationData);
     }
 
     public void InitParticleSystem(ParticleSystem particleSystem)

@@ -117,12 +117,12 @@ public class HeaderNodeDrawer : NodeEditor
             {
                 if (pair.Value != null)
                 {
-                    if (pair.Value?.name == _keyBackgroundSerializedProperty.stringValue)
+                    if (pair.Value?.NameBackground == _keyBackgroundSerializedProperty.stringValue)
                     {
                         _currentIndex = _index;
                     }
 
-                    _namesToPopup.Add(pair.Value.name);
+                    _namesToPopup.Add(pair.Value.NameBackground);
                     _index++;
                 }
             }

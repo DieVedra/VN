@@ -15,7 +15,7 @@ public class LevelLoadDataHandler
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
     public readonly PhoneProviderInBuildMode PhoneProviderInBuildMode;
-    private readonly BackgroundContentCreator _backgroundContentCreator;
+    // private readonly BackgroundContentCreator _backgroundContentCreator;
     
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
@@ -25,14 +25,14 @@ public class LevelLoadDataHandler
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
-    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,  BackgroundContentCreator backgroundContentCreator,
+    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,
         LevelLocalizationProvider levelLocalizationProvider, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView,
         SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty)
     {
         _panelsLocalizationHandler = panelsLocalizationHandler;
-        _backgroundContentCreator = backgroundContentCreator;
+        // _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
         // _currentSeriaLoadedNumberProperty.SetValue(_indexFirstName);
@@ -50,7 +50,6 @@ public class LevelLoadDataHandler
             BackgroundDataProvider.LocationDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad,
             BackgroundDataProvider.WardrobeBackgroundDataLoadProviderParticipiteInLoad,
-            _backgroundContentCreator,
             CharacterProviderBuildMode.CharactersDataProviderParticipiteInLoad,
             CharacterProviderBuildMode.CharactersProviderParticipiteInLoad,
             AudioClipProvider.AmbientAudioDataProviderParticipiteInLoad,
@@ -70,15 +69,11 @@ public class LevelLoadDataHandler
         AudioClipProvider.Shutdown();
         BackgroundDataProvider.Shutdown();
         SeriaGameStatsProviderBuild.Shutdown();
-        _backgroundContentCreator.Shutdown();
+        // _backgroundContentCreator.Shutdown();
         PhoneProviderInBuildMode.Shutdown();
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
-        BackgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
-        {
-            _backgroundContentCreator.SetCurrentBackgroundData(_);
-        });
         await InitLoaders();
         Debug.Log($"LoadStartSeriaContent 0  _numberFirstSeria: {_numberFirstSeria}  _indexFirstName: {_indexFirstName}");
         CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName); //!!!
@@ -87,7 +82,7 @@ public class LevelLoadDataHandler
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
-        await _backgroundContentCreator.TryCreateBackgroundContent();
+        // await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
@@ -122,7 +117,7 @@ public class LevelLoadDataHandler
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
             await SeriaGameStatsProviderBuild.TryLoadData(nextSeriaIndex);
-            await _backgroundContentCreator.TryCreateBackgroundContent();
+            // await _backgroundContentCreator.TryCreateBackgroundContent();
 
             await PhoneProviderInBuildMode.TryLoadDatas(nextSeriaIndex);
             

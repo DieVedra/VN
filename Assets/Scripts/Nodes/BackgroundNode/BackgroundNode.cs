@@ -30,11 +30,10 @@ public class BackgroundNode : BaseNode
     private const float _minValue = 0f;
     private const float _defaultDuration = 0.7f;
     private IBackgroundsProviderToBackgroundNode _background;
-    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary => _background?.GetBackgroundContentDictionary;
+    public IReadOnlyDictionary<string, BackgroundContentValues> BackgroundsDictionary => _background?.GetBackgroundContentDictionary;
     public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
-        Debug.Log($"ConstructBackgroundNode");
         _background = background;
         if (Math.Abs(_changeMode2Duration - _minValue) < 0.05f)
         {
@@ -128,6 +127,7 @@ public class BackgroundNode : BaseNode
         switch (_backgroundNodeMode)
         {
             case BackgroundNodeMode.Mode1:
+                
                 _background.SetBackgroundPosition(_backgroundPosition, _key);
                 break;
             case BackgroundNodeMode.Mode2:

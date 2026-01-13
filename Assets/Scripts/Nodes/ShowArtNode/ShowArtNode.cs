@@ -13,7 +13,7 @@ public class ShowArtNode : BaseNode
     [SerializeField] private string _spriteKey;
 
     private IBackgroundProviderToShowArtNode _background;
-    public IReadOnlyDictionary<string, Sprite> GetArtsSpritesDictionary => _background?.GetArtsSpritesDictionary;
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetArtsSpritesDictionary => _background?.GetArtsSpritesDictionary;
 
     public void Construct(Background background)
     {

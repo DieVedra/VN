@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public interface IBackgroundsProviderToHeaderNode
 {
-    public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary { get; }
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetBackgroundContentDictionary { get; }
     public BackgroundPosition CurrentBackgroundPosition { get; }
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition, string key);
 

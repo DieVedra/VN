@@ -19,8 +19,7 @@ public class LocalizationCreator : ScriptableObject
     private const string _path = "/Localization";
     private const string _fileName = "/JsonFile.json";
     private const string _seriaFileLocalizationFileName = "/FileLocalizationSeria.json";
-
-        
+    
     [SerializeField] private SeriaNodeGraphsHandler _seriaForCreateFileLocalization;
     [SerializeField] private PhoneContactsProvider _phoneContactsProvider;
     [SerializeField] private CharactersProvider _charactersProvider;

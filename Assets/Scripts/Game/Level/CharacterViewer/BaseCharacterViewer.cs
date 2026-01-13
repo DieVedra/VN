@@ -7,11 +7,12 @@ public abstract class BaseCharacterViewer : MonoBehaviour
     [SerializeField] protected float _timeDisappearance = 0.2f;
     protected ViewerCreator ViewerCreator;
     protected SpriteViewer SpriteViewer1;
+    protected SpriteViewer SpriteViewer2;
     protected CompositeDisposable CompositeDisposable;
     protected abstract void TryInitViewer(SpriteViewer spriteViewer);
     public abstract void Construct(ViewerCreator viewerCreator);
 
-    public virtual void Dispose()
+    public virtual void Shutdown()
     {
         CompositeDisposable?.Clear();
     }

@@ -1,8 +1,9 @@
 ﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public interface ISetLighting
 {
-    public void SetLightingColor(Color color);
-    public void SetLightingColorOnSmoothChangeBackground(Color color, float time, CancellationToken cancellationToken);
+    public void ChangeLightingColorOfTheCharacter(Color color);
+    public UniTask SmoothChangeLightingColorOfTheCharacter(Color color, float time, CancellationToken cancellationToken);
 }

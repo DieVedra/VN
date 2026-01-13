@@ -27,10 +27,10 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
         CompositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(ResetCharacterView);
         Construct(viewerCreator);
     }
-    public override void Dispose()
+    public override void Shutdown()
     {
-        base.Dispose();
-        SpriteViewer1?.Dispose();
+        base.Shutdown();
+        SpriteViewer1?.Shutdown();
     }
     public void SetDirection(DirectionType directionType)
     {
@@ -41,14 +41,18 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
     {
         SpriteViewer1.SetColorCharacter(color);
     }
-    public void SetLightingColor(Color color)
+    public void ChangeLightingColorOfTheCharacter(Color color)
     {
         SpriteViewer1.SpriteRenderer.color = color;
+        if (SpriteViewer2 != null)
+        {
+            SpriteViewer2.SpriteRenderer.color = color;
+        }
     }
 
-    public void SetLightingColorOnSmoothChangeBackground(Color color, float time, CancellationToken cancellationToken)
+    public async UniTask SmoothChangeLightingColorOfTheCharacter(Color color, float time, CancellationToken cancellationToken)
     {
-        SpriteViewer1.SpriteRenderer.DOColor(color, time).WithCancellation(cancellationToken).Forget();
+        await SpriteViewer1.SpriteRenderer.DOColor(color, time).WithCancellation(cancellationToken);
     }
     protected override void TryInitViewer(SpriteViewer spriteViewer)
     {

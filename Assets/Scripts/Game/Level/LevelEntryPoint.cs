@@ -25,6 +25,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
 
     protected virtual void Shutdown()
     {
-        CharacterViewer.Dispose();
+        CharacterViewer.Shutdown();
     }
 }

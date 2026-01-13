@@ -22,7 +22,7 @@ public class BackgroundDataProvider
     public IParticipiteInLoad ArtsDataLoadProviderParticipiteInLoad => _artsDataProvider;
     public IParticipiteInLoad WardrobeBackgroundDataLoadProviderParticipiteInLoad => _wardrobeBackgroundDataProvider;
 
-    public BackgroundData GetWardrobeBackgroundData => _wardrobeBackgroundDataProvider.GetDatas[0];
+    public BackgroundData GetWardrobeBackgroundData => _wardrobeBackgroundDataProvider.GetDatas[Background.WardrobeContentValuesIndex];
     
     public IReadOnlyList<BackgroundData> GetLocationDatas => _locationDataProvider.GetDatas;
     public IReadOnlyList<BackgroundData> GetAdditionalImagesDatas => _additionalImagesDataProvider.GetDatas;

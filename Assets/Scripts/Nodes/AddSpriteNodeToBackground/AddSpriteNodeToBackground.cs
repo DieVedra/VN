@@ -22,10 +22,10 @@ public class AddSpriteNodeToBackground : BaseNode
 
     private IAdditionalSpritesProviderToNode _background;
 
-    public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary =>
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetBackgroundContentDictionary =>
         _background?.GetBackgroundContentDictionary;
 
-    public IReadOnlyDictionary<string, Sprite> GetAdditionalImagesToBackgroundDictionary =>
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetAdditionalImagesToBackgroundDictionary =>
         _background?.GetAdditionalImagesToBackgroundDictionary;
 
     public void ConstructMyAddSpriteNode(IAdditionalSpritesProviderToNode background)

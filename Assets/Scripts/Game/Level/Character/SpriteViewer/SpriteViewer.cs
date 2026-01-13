@@ -37,7 +37,7 @@ public class SpriteViewer : MonoBehaviour
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
     }

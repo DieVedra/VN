@@ -14,7 +14,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private GlobalSound _globalSound;
     private PanelsLocalizationHandler _panelsLocalizationHandler;
     private LevelLoadDataHandler _levelLoadDataHandler;
-    private BackgroundContentCreator _backgroundContentCreator;
+    // private BackgroundContentCreator _backgroundContentCreator;
     private GlobalUIHandler _globalUIHandler;
     private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
@@ -51,7 +51,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
         _levelLocalizationProvider = new LevelLocalizationProvider(_panelsLocalizationHandler, _currentSeriaIndexReactiveProperty);
-        _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
+        // _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -65,8 +65,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, _phoneNodeIsActive);
         if (LoadSaveData == true)
         {
-            // Debug.Log($"SaveServiceProvider.SaveData.StoryDatas {SaveServiceProvider.SaveData.StoryDatas.Count}");
-            // Debug.Log($"SaveServiceProvider.CurrentStoryIndex {SaveServiceProvider.CurrentStoryIndex}");
             if (SaveServiceProvider.SaveData.StoryDatas.TryGetValue(SaveServiceProvider.CurrentStoryKey, out StoryData))
             {
                 // StoryData = SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryIndex];
@@ -75,7 +73,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
             }
 
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                 _onContentIsLoadProperty);
         }
@@ -83,7 +81,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             _currentSeriaLoadedNumberProperty.SetValue(0);
 
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian, _backgroundContentCreator,
+            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         InitGlobalSound();
@@ -159,7 +157,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _backgroundBuildMode.InitSaveData(StoryData.BackgroundSaveData);
         }
 
-        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, _backgroundContentCreator, CharacterViewer, _spriteRendererCreator);
+        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, CharacterViewer, _spriteRendererCreator);
     }
     protected override void Shutdown()
     {

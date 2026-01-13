@@ -58,7 +58,7 @@ public class BackgroundNodeDrawer : NodeEditor
             {
                 foreach (var pair in _backgroundNode.BackgroundsDictionary)
                 {
-                    _keySerializedProperty.stringValue = pair.Value.name;
+                    _keySerializedProperty.stringValue = pair.Value.NameBackground;
                     serializedObject.ApplyModifiedProperties();
                     break;
                 }
@@ -164,11 +164,11 @@ public class BackgroundNodeDrawer : NodeEditor
             _currentIndex = 0;
             foreach (var pair in _backgroundNode.BackgroundsDictionary)
             {
-                if (pair.Value.name == serializedPropertyKey.stringValue)
+                if (pair.Value.NameBackground == serializedPropertyKey.stringValue)
                 {
                     _currentIndex = _index;
                 }
-                _namesToPopup.Add(pair.Value.name);
+                _namesToPopup.Add(pair.Value.NameBackground);
                 _index++;
             }
 

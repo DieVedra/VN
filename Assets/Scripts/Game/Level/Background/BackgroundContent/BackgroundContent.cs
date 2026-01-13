@@ -26,6 +26,10 @@ public class BackgroundContent : MonoBehaviour
 
     private Vector3 _movementDuringDialogueAddend;
     private Vector3 _currentPos;
+    private Vector3 _leftPosition;
+    private Vector3 _centralPosition;
+    private Vector3 _rightPosition;
+    
     private Dictionary<string, SpriteRenderer> _addContent;
 
 
@@ -51,34 +55,52 @@ public class BackgroundContent : MonoBehaviour
     public void Construct(ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator,
         Sprite sprite, BackgroundContentValues backgroundContentValues)
     {
-        gameObject.name = backgroundContentValues.NameBackground;
-        _spriteRenderer.sprite = sprite;
+        // gameObject.name = backgroundContentValues.NameBackground;
+        // _spriteRenderer.sprite = sprite;
         _movementDuringDialogueAddend = new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
-        _colorLighting = backgroundContentValues.ColorLighting;
-        _spriteRenderer.color = backgroundContentValues.Color;
-        _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
-        _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
-        SetPositionBorders(_leftBordTransform, new Vector3(backgroundContentValues.LeftPosition, _defaultPosValue,_defaultPosValue));
-        SetPositionBorders(_centralTransform, new Vector3(backgroundContentValues.CentralPosition,_defaultPosValue, _defaultPosValue));
-        SetPositionBorders(_rightBordTransform, new Vector3(backgroundContentValues.RightPosition,_defaultPosValue, _defaultPosValue));
+        // _colorLighting = backgroundContentValues.ColorLighting;
+        // _spriteRenderer.color = backgroundContentValues.Color;
+        // _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
+        // _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
+        
+        _leftPosition = new Vector3(_defaultPosValue, _defaultPosValue,_defaultPosValue);
+        _centralPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
+        _rightPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
+        
+        // SetPositionBorders(_leftBordTransform, new Vector3(backgroundContentValues.LeftPosition, _defaultPosValue,_defaultPosValue));
+        // SetPositionBorders(_centralTransform, new Vector3(backgroundContentValues.CentralPosition,_defaultPosValue, _defaultPosValue));
+        // SetPositionBorders(_rightBordTransform, new Vector3(backgroundContentValues.RightPosition,_defaultPosValue, _defaultPosValue));
+        
         _spriteRendererCreator = spriteRendererCreator;
         _transformSprite = _spriteRenderer.transform;
         _setLighting = setLighting;
-        _currentBackgroundPosition = BackgroundPosition.Central;
+        // _currentBackgroundPosition = BackgroundPosition.Central;
         _addContent = null;
         _keysAdditionalImage = new Dictionary<string, AdditionalImageData>();
         gameObject.SetActive(false);
     }
-    public void Activate()
+    public void Activate(BackgroundContentValues backgroundContentValues)
     {
+        _spriteRenderer.sprite = backgroundContentValues.GetSprite();
+        _colorLighting = backgroundContentValues.ColorLighting;
+        _spriteRenderer.color = backgroundContentValues.Color;
+        _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
+        _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
+        _leftPosition.x = backgroundContentValues.LeftPosition;
+        _centralPosition.x = backgroundContentValues.CentralPosition;
+        _rightPosition.x = backgroundContentValues.RightPosition;
+        SetPositionBorders(_leftBordTransform, _leftPosition);
+        SetPositionBorders(_centralTransform, _centralPosition);
+        SetPositionBorders(_rightBordTransform, _rightPosition);
         gameObject.SetActive(true);
-        _setLighting.SetLightingColor(_colorLighting);
     }
-
-    public void ActivateOnSmoothChangeBackground(float duration, CancellationToken cancellationToken)
+    public void ChangeLightingColorOfTheCharacter()
     {
-        gameObject.SetActive(true);
-        _setLighting.SetLightingColorOnSmoothChangeBackground(_colorLighting, duration, cancellationToken);
+        _setLighting.ChangeLightingColorOfTheCharacter(_colorLighting);
+    }
+    public async UniTask SmoothChangeLightingColorOfTheCharacter(float duration, CancellationToken cancellationToken)
+    {
+        await _setLighting.SmoothChangeLightingColorOfTheCharacter(_colorLighting, duration, cancellationToken);
     }
     public void Diactivate()
     {

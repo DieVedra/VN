@@ -24,6 +24,7 @@ public class BackgroundDataCreatorWindow : EditorWindow
     private LineDrawer _lineDrawer;
     private SerializedObject _thisSerializedObject;
     private SerializedProperty _spritesSerializedProperty;
+    private SpriteAtlas _spriteAtlas;
     [SerializeField] private List<Sprite> _sprites;
     [SerializeField] private List<BackgroundContentValues> _backgroundContentValues;
     private Vector2 position;
@@ -134,14 +135,14 @@ public class BackgroundDataCreatorWindow : EditorWindow
                 
                 _spriteAtlasPackingSettings.padding = _paddingValues[_paddingIndex];
                 _spriteAtlasPackingSettings.enableRotation = false;
-                SpriteAtlas spriteAtlas =
+                _spriteAtlas =
                     _spriteAtlasCreator.CreateAtlas(_sprites, _spriteAtlasPackingSettings, GetAtlasBackgroundDataName(), _keyCrunchedCompression);
-                _backgroundDataSpriteAtlasSerializedProperty.objectReferenceValue = spriteAtlas;
+                _backgroundDataSpriteAtlasSerializedProperty.objectReferenceValue = _spriteAtlas;
                 _backgroundDataValuesListSerializedProperty.ClearArray();
                 TransferListToList();
                 _backgroundDataSerializedObject.ApplyModifiedProperties();
                 TryMakeAssetAddresables(backgroundData, nameData);
-                SpriteAtlasUtility.PackAtlases(new SpriteAtlas[] {spriteAtlas}, EditorUserBuildSettings.activeBuildTarget);
+                SpriteAtlasUtility.PackAtlases(new SpriteAtlas[] {_spriteAtlas}, EditorUserBuildSettings.activeBuildTarget);
             }
         }
 
@@ -293,7 +294,7 @@ public class BackgroundDataCreatorWindow : EditorWindow
             {
                 if (_sprites[i] != null && TryRewritingElement(newBackgroundContentValues, _sprites[i].name) == false)
                 {
-                    newBackgroundContentValues.Add(new BackgroundContentValues(_sprites[i].name, _sprites[i].name, Vector2.one, Color.white, Color.white));
+                    newBackgroundContentValues.Add(new BackgroundContentValues( _spriteAtlas, _sprites[i].name, _sprites[i].name, Vector2.one, Color.white, Color.white));
                 }
             }
             _backgroundContentValues = newBackgroundContentValues;
@@ -311,6 +312,7 @@ public class BackgroundDataCreatorWindow : EditorWindow
                 {
                     newBackgroundContentValues.Add(
                         new BackgroundContentValues(
+                            _backgroundContentValues[j].SpriteAtlas,
                             _backgroundContentValues[j].NameSprite,
                             _backgroundContentValues[j].NameBackground,
                             _backgroundContentValues[j].Scale,

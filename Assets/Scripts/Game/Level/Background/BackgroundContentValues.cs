@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.U2D;
 
 [System.Serializable]
 public class BackgroundContentValues
@@ -18,6 +19,8 @@ public class BackgroundContentValues
     [SerializeField] private Vector2 _scale = Vector2.one;
     [SerializeField] private Color _colorLighting = Color.white;
     [SerializeField] private Color _color = Color.white;
+    [SerializeField] private SpriteAtlas _spriteAtlas;
+
     public string NameSprite => _nameSprite;
     public string NameBackground => _nameBackground;
     public Vector2 Scale => _scale;
@@ -27,10 +30,12 @@ public class BackgroundContentValues
     public float RightPosition => _rightPosition;
     public Color ColorLighting => _colorLighting;
     public Color Color => _color;
+    public SpriteAtlas SpriteAtlas => _spriteAtlas;
 
-    public BackgroundContentValues(string nameSprite, string nameBackground, Vector2 scale, Color colorLighting, Color color,
+    public BackgroundContentValues(SpriteAtlas spriteAtlas, string nameSprite, string nameBackground, Vector2 scale, Color colorLighting, Color color,
         float movementDuringDialogueValue = 0.25f, float leftPosition = 5.94f, float rightPosition = -5.94f)
     {
+        _spriteAtlas = spriteAtlas;
         _nameSprite = nameSprite;
         _nameBackground = nameBackground;
         _scale = scale;
@@ -40,4 +45,5 @@ public class BackgroundContentValues
         _leftPosition = leftPosition;
         _rightPosition = rightPosition;
     }
+    public Sprite GetSprite() => _spriteAtlas.GetSprite(_nameSprite);
 }

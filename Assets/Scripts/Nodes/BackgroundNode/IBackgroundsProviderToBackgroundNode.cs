@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IBackgroundsProviderToBackgroundNode
 {
-    public IReadOnlyDictionary<string, BackgroundContent> GetBackgroundContentDictionary { get; }
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetBackgroundContentDictionary { get; }
     public UniTask SmoothBackgroundChangePosition(CancellationToken cancellationToken, BackgroundPosition backgroundPosition, string key);
 
     public UniTask SmoothChangeBackground(string keyTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken);

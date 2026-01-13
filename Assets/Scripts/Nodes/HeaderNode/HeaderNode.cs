@@ -26,7 +26,7 @@ public class HeaderNode : BaseNode, ILocalizable
     private IBackgroundsProviderToHeaderNode _background;
     private CompositeDisposable _compositeDisposable;
     public ISoundProviderToHeaderNode Sound { get; private set; }
-    public IReadOnlyDictionary<string, BackgroundContent> BackgroundsDictionary =>
+    public IReadOnlyDictionary<string, BackgroundContentValues> BackgroundsDictionary =>
         _background?.GetBackgroundContentDictionary;
 
     public void Construct(IBackgroundsProviderToHeaderNode provider, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,

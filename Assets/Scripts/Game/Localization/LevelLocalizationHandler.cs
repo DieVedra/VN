@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 
 public class LevelLocalizationHandler : ILevelLocalizationHandler
@@ -14,7 +13,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly ReactiveCommand _onEndSwitchLocalization;
     private CompositeDisposable _compositeDisposable;
-    private IReadOnlyDictionary<string, string> _currentLocalization;
     public ReactiveCommand OnEndSwitchLocalization => _onEndSwitchLocalization;
 
     public LevelLocalizationHandler(ICurrentSeriaNodeGraphsProvider currentSeriaNodeGraphsProvider,
@@ -41,16 +39,12 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     }
     public void TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
-        _currentLocalization = _levelLocalizationProvider.GetCurrentLocalization();
-        if (_currentLocalization != null)
-        {
-            SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
-            SetLocalizationToStats(_gameStatsHandler);
-            SetLocalizationToCharacters();
-            SetLocalizationToPhoneData();
-            _setLocalizationChangeEvent.Execute();
-            _currentLocalization = null;
-        }
+        SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
+        SetLocalizationToStats(_gameStatsHandler);
+        SetLocalizationToCharacters();
+        SetLocalizationToPhoneData();
+        _setLocalizationChangeEvent.Execute();
+        _levelLocalizationProvider.DeleteUncessaryStrings();
     }
 
     private void SetLocalizationToPhoneData()
@@ -68,13 +62,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
         foreach (var localizationString in _phoneMessagesCustodian.GetLocalizableContent())
         {
-            foreach (var localization in _levelLocalizationProvider.Localizations)
-            {
-                if (localization.Value.TryGetValue(localizationString.Key, out string value))
-                {
-                    localizationString.SetText(value);
-                }
-            }
+            SetText(localizationString);
         }
     }
     private void SetLocalizationToSeriaTexts(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
@@ -87,7 +75,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
                 {
                     foreach (var localizationString in localizable.GetLocalizableContent())
                     {
-                        SetText(localizationString);
+                        SetText(localizationString, true);
                     }
                 }
             }
@@ -110,13 +98,17 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
         }
     }
 
-    private void SetText(LocalizationString localizationString)
+    private void SetText(LocalizationString localizationString, bool addToDelete = false)
     {
         if (localizationString.Key != null)
         {
-            if (_currentLocalization.TryGetValue(localizationString.Key, out string text))
+            if (_levelLocalizationProvider.Localization.TryGetValue(localizationString.Key, out string text))
             {
                 localizationString.SetText(text);
+                if (addToDelete == true)
+                {
+                    _levelLocalizationProvider.AddToDelete(localizationString.Key);
+                }
             }
         }
     }

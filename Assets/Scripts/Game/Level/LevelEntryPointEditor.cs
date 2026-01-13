@@ -109,7 +109,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         Save();
         _gameSeriesHandlerEditorMode.Shutdown();
         _levelUIProviderEditMode.Shutdown();
-        _wardrobeCharacterViewer.Dispose();
+        _wardrobeCharacterViewer.Shutdown();
         _levelSoundEditMode.Shutdown();
         base.Shutdown();
     }
