@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 public class PoolBase<T>
 {
     private readonly Func<T> _preloadFunc;
@@ -9,7 +10,8 @@ public class PoolBase<T>
     private Queue<T> _pool = new Queue<T>();
     private List<T> _activeContent = new List<T>();
     public IReadOnlyList<T> ActiveContent => _activeContent;
-    public IReadOnlyList<T> Pool => _pool.ToList();
+    // public IReadOnlyList<T> Pool => _pool.ToList();
+    public IReadOnlyCollection<T> Pool =>_pool;
     public PoolBase(Func<T> preloadFunc, Action<T> getAction, Action<T> returnAction, int preloadCount)
     {
         _preloadFunc = preloadFunc;

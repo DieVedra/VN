@@ -5,37 +5,48 @@ using UnityEngine.Rendering;
 
 public class BackgroundEditMode : Background
 {
+    [SerializeField] private GameObject _prefabSpriteRenderer;
     [SerializeField, HorizontalLine(color:EColor.Blue), Expandable] private List<BackgroundData> _locationsDatas;
     
-    [SerializeField, Expandable] private BackgroundData _wardrobeBackgroundData;
+    [SerializeField, Expandable] private List<BackgroundData> _wardrobeBackgroundData;
     [SerializeField, Expandable] private List<BackgroundData> _additionalImagesDatas;
     [SerializeField, Expandable] private List<BackgroundData> _artsDatas;
     
     [SerializeField] private SerializedDictionary<string, BackgroundContentValues> _backgroundContentDictionary;
     [SerializeField] private SerializedDictionary<string, BackgroundContentValues> _additionalImagesToBackgroundDictionary;
     [SerializeField] private SerializedDictionary<string, BackgroundContentValues> _artsSpritesDictionary;
-
-    // [SerializeField, HorizontalLine(color:EColor.Blue)] private SpriteRenderer _spriteRendererPrefab;
-
-    // [SerializeField] private BackgroundContent _backgroundContentPrefab;
-    // private const int _wardrobeBackgroundContentIndex = 0;
+    [SerializeField] private SerializedDictionary<string, BackgroundContentValues> _wardrobeSpritesDictionary;
     public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting)
     {
-        // DisableNodesContentEvent = disableNodesContentEvent;
-        SetLighting = setLighting;
+        disableNodesContentEvent.Subscribe(() =>
+        {
+            BackgroundContent1.gameObject.SetActive(false);
+            BackgroundContent2.gameObject.SetActive(false);
+            ColorOverlay.gameObject.SetActive(false);
+            ArtShower.gameObject.SetActive(false);
+        });
+        if (_poolParent.childCount > 0)
+        {
+            for (int i = _poolParent.childCount - 1; i >= 0; i--)
+            {
+                var child = _poolParent.GetChild(i);
+                DestroyImmediate(child.gameObject);
+            }
+        }
+        BackgroundPool = new BackgroundPool(_prefabSpriteRenderer, _poolParent);
+        BackgroundContent1.Construct(disableNodesContentEvent, setLighting, BackgroundPool);
+        BackgroundContent2.Construct(disableNodesContentEvent, setLighting, BackgroundPool);
         ColorOverlay.color = Color.clear;
-
         ConstructDictionary(ref _backgroundContentDictionary, ref BackgroundContentValuesDictionary, _locationsDatas);
         ConstructDictionary(ref _additionalImagesToBackgroundDictionary, ref AdditionalImagesToBackgroundDictionary, _additionalImagesDatas);
         ConstructDictionary(ref _artsSpritesDictionary, ref ArtsSpritesDictionary, _artsDatas);
-        WardrobeBackgroundContentValues = _wardrobeBackgroundData.BackgroundContentValues[WardrobeContentValuesIndex];
-
-        // if (BackgroundSaveData != null)
-        // {
-        //     TryAddAddebleContentToBackgroundContent(BackgroundSaveData.BackgroundContentWithAdditionalImage);
-        // }
+        ConstructDictionary(ref _wardrobeSpritesDictionary, ref WardrobeBackgroundContentValuesDictionary, _wardrobeBackgroundData);
+        
+        if (Application.isPlaying && BackgroundSaveData != null)
+        {
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo);
+        }
     }
-
     private void ConstructDictionary(ref SerializedDictionary<string, BackgroundContentValues> contentDictionary,
         ref Dictionary<string, BackgroundContentValues> baseContentDictionary, List<BackgroundData> locationsDatas)
     {
@@ -57,164 +68,12 @@ public class BackgroundEditMode : Background
                 }
             }
         }
-        baseContentDictionary = _backgroundContentDictionary;
-    }
-    // private void CreateWardrobeBackground()
-    // {
-    //     Transform wardrobeBackgroundContentTransform = GetTransformOnExistingByName(_wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex].NameBackground);
-    //     if (wardrobeBackgroundContentTransform == null)
-    //     {
-    //         WardrobeBackground = InstantiateBackgroundContent(
-    //             _wardrobeBackgroundData.GetSprite(_wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex].NameSprite),
-    //             _wardrobeBackgroundData.BackgroundContentValues[_wardrobeBackgroundContentIndex]);
-    //     }
-    //     else
-    //     {
-    //         WardrobeBackground = wardrobeBackgroundContentTransform.GetComponent<BackgroundContent>();
-    //     }
-    //     WardrobeBackground.SpriteRenderer.sortingOrder = WardrobeSortOrder;
-    // }
-    // private void ConstructBackgroundContent()
-    // {
-    //     foreach (var t in _locationsDatas)
-    //     {
-    //         CreateBackgroundContent(t);
-    //     }
-    // }
-
-    // private void ClearBackgroundContent()
-    // {
-    //     if (BackgroundContentDictionary != null)
-    //     {
-    //         foreach (var pair in BackgroundContentDictionary)
-    //         {
-    //             pair.Value.Shutdown();
-    //             DestroyGameObject(pair.Value.gameObject);
-    //         }
-    //         BackgroundContentDictionary.Clear();
-    //     }
-    //     else
-    //     {
-    //         BackgroundContentDictionary = new Dictionary<string, BackgroundContent>();
-    //     }
-    //     
-    //     if (BackgroundContent != null)
-    //     {
-    //         foreach (var t in BackgroundContent)
-    //         {
-    //             if (t != null)
-    //             {
-    //                 t.Shutdown();
-    //                 DestroyGameObject(t.gameObject);
-    //             }
-    //         }
-    //         BackgroundContent.Clear();
-    //     }
-    //     else
-    //     {
-    //         BackgroundContent = new List<BackgroundContent>();
-    //     }
-    // }
-    // private void CreateBackgroundContent(BackgroundData backgroundData)
-    // {
-    //     foreach (var valuese in backgroundData.BackgroundContentValues)
-    //     {
-    //         var sprt = backgroundData.GetSprite(valuese.NameSprite);
-    //         var bc = InstantiateBackgroundContent(backgroundData.GetSprite(valuese.NameSprite),
-    //             valuese);
-    //         BackgroundContentDictionary.Add(valuese.NameSprite, bc);
-    //         BackgroundContent.Add(bc);
-    //     }
-    // }
-
-    // private BackgroundContent InstantiateBackgroundContent(Sprite sprite, BackgroundContentValues backgroundContentValues)
-    // {
-    //     BackgroundContent backgroundContent = Instantiate(_backgroundContentPrefab, parent: transform);
-    //     backgroundContent.Construct(DisableNodesContentEvent, SetLighting, BackgroundContentAdditionalSpriteRendererCreator,
-    //         sprite, backgroundContentValues);
-    //     return backgroundContent;
-    // }
-    // private void CreateArtShower()
-    // {
-    //     Transform artShowerTransform = GetTransformOnExistingByName(ArtShowerName);
-    //     if (artShowerTransform == null)
-    //     {
-    //         ArtShower = Instantiate(_spriteRendererPrefab, parent: transform);
-    //         InitArtShower();
-    //     }
-    //     else
-    //     {
-    //         ArtShower = artShowerTransform.GetComponent<SpriteRenderer>();
-    //     }
-    // }
-
-    // private void AddAdditionalSprites()
-    // {
-    //     AdditionalImagesToBackground = new List<Sprite>();
-    //     if (AdditionalImagesToBackgroundDictionary == null)
-    //     {
-    //         AdditionalImagesToBackgroundDictionary = new Dictionary<string, Sprite>();
-    //     }
-    //     else
-    //     {
-    //         AdditionalImagesToBackgroundDictionary.Clear();
-    //     }
-    //     
-    //     foreach (var data in _additionalImagesDatas)
-    //     {
-    //         AddBackgroundDataContent(AdditionalImagesToBackground, data);
-    //         AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, data);
-    //     }
-    // }
-
-    // private void AddArtsSprites()
-    // {
-    //     ArtsSprites = new List<Sprite>();
-    //     if (ArtsSpritesDictionary == null)
-    //     {
-    //         ArtsSpritesDictionary = new Dictionary<string, Sprite>();
-    //     }
-    //     else
-    //     {
-    //         ArtsSpritesDictionary.Clear();
-    //     }
-    //
-    //     foreach (var t in _artsDatas)
-    //     {
-    //         AddBackgroundDataContent(ArtsSprites, t);
-    //         AddBackgroundDataContent(ArtsSpritesDictionary, t);
-    //     }
-    // }
-    private void AddBackgroundDataContent(List<Sprite> sprites, BackgroundData backgroundData)
-    {
-        foreach (var t in backgroundData.BackgroundContentValues)
-        {
-            sprites.Add(backgroundData.GetSprite(t.NameSprite));
-        }
-    }
-    private void DestroyGameObject(GameObject transferredGameObject)
-    {
-        if (Application.isPlaying)
-        {
-            Destroy(transferredGameObject);
-        }
-        else
-        {
-            DestroyImmediate(transferredGameObject);
-        }
+        baseContentDictionary = contentDictionary;
     }
 
-    private Transform GetTransformOnExistingByName(string name)
+    private void OnDestroy()
     {
-        Transform returnTransform = null;
-        foreach (Transform childTransform in transform)
-        {
-            if (childTransform.name == name)
-            {
-                returnTransform = childTransform;
-                break;
-            }
-        }
-        return returnTransform;
+        BackgroundContent1.Shutdown();
+        BackgroundContent2.Shutdown();
     }
 }

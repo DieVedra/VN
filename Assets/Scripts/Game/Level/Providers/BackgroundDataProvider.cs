@@ -21,17 +21,16 @@ public class BackgroundDataProvider
     public IParticipiteInLoad AdditionalImagesDataLoadProviderParticipiteInLoad => _additionalImagesDataProvider;
     public IParticipiteInLoad ArtsDataLoadProviderParticipiteInLoad => _artsDataProvider;
     public IParticipiteInLoad WardrobeBackgroundDataLoadProviderParticipiteInLoad => _wardrobeBackgroundDataProvider;
-
-    public BackgroundData GetWardrobeBackgroundData => _wardrobeBackgroundDataProvider.GetDatas[Background.WardrobeContentValuesIndex];
     
-    public IReadOnlyList<BackgroundData> GetLocationDatas => _locationDataProvider.GetDatas;
-    public IReadOnlyList<BackgroundData> GetAdditionalImagesDatas => _additionalImagesDataProvider.GetDatas;
-    public IReadOnlyList<BackgroundData> GetArtsDatas => _artsDataProvider.GetDatas;
+    // public IReadOnlyList<BackgroundData> GetLocationDatas => _locationDataProvider.GetDatas;
+    // public IReadOnlyList<BackgroundData> GetAdditionalImagesDatas => _additionalImagesDataProvider.GetDatas;
+    // public IReadOnlyList<BackgroundData> GetArtsDatas => _artsDataProvider.GetDatas;
     
     
     public IReactiveCommand<BackgroundData> OnLoadLocationData => _locationDataProvider.OnLoad;
     public IReactiveCommand<BackgroundData> OnLoadAdditionalImagesData => _additionalImagesDataProvider.OnLoad;
     public IReactiveCommand<BackgroundData> OnLoadArtsData => _artsDataProvider.OnLoad;
+    public IReactiveCommand<BackgroundData> OnLoadWardrobeData => _wardrobeBackgroundDataProvider.OnLoad;
 
 
     public BackgroundDataProvider()

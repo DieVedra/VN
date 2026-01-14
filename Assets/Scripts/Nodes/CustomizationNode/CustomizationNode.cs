@@ -13,6 +13,8 @@ public class CustomizationNode : BaseNode, ILocalizable
     [SerializeField] private List<CustomizationSettings> _settingsSwimsuits;
 
     [SerializeField] private int _customizationCharacterIndex;
+    [SerializeField] private string _backgroundKey;
+    [SerializeField] private float _positionValue;
     [SerializeField] private bool _addNotificationKey;
     [SerializeField] private LocalizationString _notificationText;
     private const int SmileEmotionIndex = 2;
@@ -38,13 +40,17 @@ public class CustomizationNode : BaseNode, ILocalizable
     public IReadOnlyList<ICustomizationSettings> SettingsHairstyles => _settingsHairstyles;
     public IReadOnlyList<ICustomizationSettings> SettingsClothes => _settingsClothes;
     public IReadOnlyList<ICustomizationSettings> SettingsSwimsuits => _settingsSwimsuits;
+
+    public IReadOnlyDictionary<string, BackgroundContentValues> GetWardrobeBackgroundContentValuesDictionary =>
+        _background?.GetWardrobeBackgroundContentValuesDictionary;
+
 #endif
     public IReadOnlyList<CustomizableCharacter> CustomizableCharacters { get; private set; }
 
 
     public void ConstructMyCustomizationNode(CustomizationCharacterPanelUIHandler customizationCharacterPanelUIHandler,
         CustomizationCurtainUIHandler customizationCurtainUIHandler,
-        IReadOnlyList<CustomizableCharacter> customizableCharacters, Background background, Sound sound,
+        IReadOnlyList<CustomizableCharacter> customizableCharacters, IBackgroundProviderToCustomizationNode background, Sound sound,
         IGameStatsProvider gameStatsProvider, Wallet wallet,
         WardrobeCharacterViewer wardrobeCharacterViewer, NotificationPanelUIHandler notificationPanelUIHandler, int seriaIndex)
     {
@@ -106,7 +112,7 @@ public class CustomizationNode : BaseNode, ILocalizable
     protected override void SetInfoToView()
     {
         _wardrobeCharacterViewer.gameObject.SetActive(true);
-        _background.EnableWardrobeBackground();
+        EnableWardrobeBackground();
         _selectedCustomizationContentIndexes = CreateCustomizationContent();
         _customizableCharacter.SetIndexes(
             GetIndex(_selectedCustomizationContentIndexes.SpriteIndexesBodies, _customizableCharacter.BodyIndex),
@@ -140,6 +146,11 @@ public class CustomizationNode : BaseNode, ILocalizable
         {
             _customizationCharacterPanelUIHandler.SetContentInEditMode();
         }
+    }
+
+    private void EnableWardrobeBackground()
+    {
+        _background.EnableWardrobeBackground(_positionValue, _backgroundKey);
     }
 
     private void CustomizationEnd(CustomizationResult customizationResult)

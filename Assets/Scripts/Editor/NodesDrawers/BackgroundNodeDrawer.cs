@@ -22,9 +22,7 @@ public class BackgroundNodeDrawer : NodeEditor
     private SerializedProperty _mode3EnableSerializedProperty;
     private SerializedProperty _changeMode2DurationSerializedProperty;
     private SerializedProperty _backgroundPositionMode2SerializedProperty;
-    private SerializedProperty _awaitedSmoothChangeBackgroundSerializedProperty;
-    private SerializedProperty _awaitedSmoothBackgroundChangePositionSerializedProperty;
-    private SerializedProperty _awaitedSetColorOverlayBackgroundSerializedProperty;
+    private SerializedProperty _awaited;
     private MyProject.EnumPopupDrawer _enumPopupDrawer;
     private LineDrawer _lineDrawer;
     private int _currentIndex;
@@ -49,9 +47,9 @@ public class BackgroundNodeDrawer : NodeEditor
             _changeMode2DurationSerializedProperty = serializedObject.FindProperty("_changeMode2Duration");
             _backgroundPositionMode2SerializedProperty = serializedObject.FindProperty("_backgroundPositionMode2");
             _keySerializedProperty = serializedObject.FindProperty("_key");
-            _awaitedSmoothChangeBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSmoothChangeBackground");
-            _awaitedSmoothBackgroundChangePositionSerializedProperty = serializedObject.FindProperty("_awaitedSmoothBackgroundChangePosition");
-            _awaitedSetColorOverlayBackgroundSerializedProperty = serializedObject.FindProperty("_awaitedSetColorOverlayBackground");
+            
+            _awaited = serializedObject.FindProperty("_awaited");
+            
             _enumPopupDrawer = new EnumPopupDrawer();
             _lineDrawer = new LineDrawer();
             if (string.IsNullOrEmpty(_keySerializedProperty.stringValue))
@@ -104,8 +102,8 @@ public class BackgroundNodeDrawer : NodeEditor
             EditorGUI.BeginChangeCheck();
             DrawPopup(_keySerializedProperty, "Current: ");
             _enumPopupDrawer.DrawEnumPopup<BackgroundPosition>(_backgroundPositionSerializedProperty, "Current Pos: ");
-            _awaitedSmoothBackgroundChangePositionSerializedProperty.boolValue =
-                EditorGUILayout.Toggle("Awaited: ", _awaitedSmoothBackgroundChangePositionSerializedProperty.boolValue);
+            _awaited.boolValue =
+                EditorGUILayout.Toggle("Awaited: ", _awaited.boolValue);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("IsSmoothCurtain: ");
             _isSmoothCurtainSerializedProperty.boolValue =
@@ -123,8 +121,8 @@ public class BackgroundNodeDrawer : NodeEditor
     {
         EditorGUILayout.LabelField("SmoothSwitchBackgrounds");
         EditorGUI.BeginChangeCheck();
-        _awaitedSmoothChangeBackgroundSerializedProperty.boolValue =
-            EditorGUILayout.Toggle("Awaited: ", _awaitedSmoothChangeBackgroundSerializedProperty.boolValue);
+        _awaited.boolValue =
+            EditorGUILayout.Toggle("Awaited: ", _awaited.boolValue);
         _changeMode2DurationSerializedProperty.floatValue = EditorGUILayout.FloatField("Duration: ", _changeMode2DurationSerializedProperty.floatValue);
         DrawPopup(_keySerializedProperty, "To: ");
         _enumPopupDrawer.DrawEnumPopup<BackgroundPosition>(_backgroundPositionMode2SerializedProperty, "To End Pos: ");
@@ -138,7 +136,7 @@ public class BackgroundNodeDrawer : NodeEditor
     {
         EditorGUILayout.LabelField("SmoothChangeOverlayColor");
         EditorGUI.BeginChangeCheck();
-        _awaitedSetColorOverlayBackgroundSerializedProperty.boolValue = EditorGUILayout.Toggle("Awaited: ", _awaitedSetColorOverlayBackgroundSerializedProperty.boolValue);
+        _awaited.boolValue = EditorGUILayout.Toggle("Awaited: ", _awaited.boolValue);
         _mode3EnableSerializedProperty.boolValue = EditorGUILayout.Toggle("Enabled:  ", _mode3EnableSerializedProperty.boolValue);
         _changeColorDurationSerializedProperty.floatValue = EditorGUILayout.FloatField("Duration: ", _changeColorDurationSerializedProperty.floatValue);
         _colorSerializedProperty.colorValue = EditorGUILayout.ColorField("Target color: ", _colorSerializedProperty.colorValue);

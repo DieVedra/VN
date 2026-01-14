@@ -24,17 +24,23 @@ public class CustomizationNodeDrawer : NodeEditor
     private SerializedProperty _addNotificationKeySerializedProperty;
     private SerializedProperty _notificationTextSerializedProperty;
     
-    SerializedProperty _customizationSettingsSerializedProperty;
-    SerializedProperty _priceSerializedProperty;
-    SerializedProperty _keyAddSerializedProperty;
-    SerializedProperty _showParamsKeySerializedProperty;
-    SerializedProperty _showStatKeySerializedProperty;
-    SerializedProperty _nameSprite;
+    private SerializedProperty _backgroundKeySerializedProperty;
+    private SerializedProperty _positionValueSerializedProperty;
+    
+    private SerializedProperty _customizationSettingsSerializedProperty;
+    private SerializedProperty _priceSerializedProperty;
+    private SerializedProperty _keyAddSerializedProperty;
+    private SerializedProperty _showParamsKeySerializedProperty;
+    private SerializedProperty _showStatKeySerializedProperty;
+    private SerializedProperty _nameSprite;
     string _nameToGame;
+    private MethodInfo _privateMethodEnableWardrobeBackground;
 
     private Vector2 pos;
     private string[] _namesCharactersToPopup;
-    
+    private List<string> _namesBackgrounds;
+    private int _currentBackgroundIndex;
+    private int _index;
     private bool _foldoutHairstyle;
     private bool _foldoutClothes;
     private bool _foldoutBodies;
@@ -47,7 +53,7 @@ public class CustomizationNodeDrawer : NodeEditor
             _customizationNode = target as CustomizationNode;
             _popupDrawer = new PopupDrawer();
             _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
-            
+            _namesBackgrounds = new List<string>();
             _listSettingsHairstylesProperty = serializedObject.FindProperty("_settingsHairstyles");
             _listSettingsClothesProperty = serializedObject.FindProperty("_settingsClothes");
             _listSettingsBodyProperty = serializedObject.FindProperty("_settingsBodies");
@@ -57,6 +63,18 @@ public class CustomizationNodeDrawer : NodeEditor
             _outputSerializedProperty = serializedObject.FindProperty("Output");
             _addNotificationKeySerializedProperty = serializedObject.FindProperty("_addNotificationKey");
             _notificationTextSerializedProperty = serializedObject.FindProperty("_notificationText");
+            
+            _backgroundKeySerializedProperty = serializedObject.FindProperty("_backgroundKey");
+            _positionValueSerializedProperty = serializedObject.FindProperty("_positionValue");
+            if (_customizationNode != null && string.IsNullOrEmpty(_backgroundKeySerializedProperty.stringValue))
+            {
+                foreach (var pair in _customizationNode.GetWardrobeBackgroundContentValuesDictionary)
+                {
+                    _backgroundKeySerializedProperty.stringValue = pair.Value.NameBackground;
+                    serializedObject.ApplyModifiedProperties();
+                    break;
+                }
+            }
             _localizationStringTextDrawer = new LocalizationStringTextDrawer();
             _lineDrawer = new LineDrawer();
             InitCharactersNames();
@@ -66,7 +84,9 @@ public class CustomizationNodeDrawer : NodeEditor
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputSerializedProperty);
             NodeEditorGUILayout.PropertyField(_outputSerializedProperty);
-            
+            EditorGUILayout.LabelField("WardrobeBackground: ", GUILayout.Width(120f));
+            DrawPopup(_backgroundKeySerializedProperty);
+            DrawSlider();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Add Notification: ", GUILayout.Width(120f));
 
@@ -231,5 +251,58 @@ public class CustomizationNodeDrawer : NodeEditor
 
             _namesCharactersToPopup = namesCharactersToPopup.ToArray();
         }
+    }
+    private void DrawPopup(SerializedProperty serializedPropertyKey)
+    {
+        if (_customizationNode.GetWardrobeBackgroundContentValuesDictionary != null)
+        {
+            _namesBackgrounds.Clear();
+
+            _index = 0;
+            _currentBackgroundIndex = 0;
+            foreach (var pair in _customizationNode.GetWardrobeBackgroundContentValuesDictionary)
+            {
+                if (pair.Value.NameBackground == serializedPropertyKey.stringValue)
+                {
+                    _currentBackgroundIndex = _index;
+                }
+                _namesBackgrounds.Add(pair.Value.NameBackground);
+                _index++;
+            }
+
+            EditorGUI.BeginChangeCheck();
+            _currentBackgroundIndex = EditorGUILayout.Popup(_currentBackgroundIndex,  _namesBackgrounds.ToArray());
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (_namesBackgrounds.Count > _currentBackgroundIndex)
+                {
+                    serializedPropertyKey.stringValue = _namesBackgrounds[_currentBackgroundIndex];
+                    serializedObject.ApplyModifiedProperties();
+                    SetBackground();
+                }
+            }
+        }
+    }
+    private void DrawSlider()
+    {
+        EditorGUILayout.Space(10f);
+        EditorGUILayout.LabelField("PositionBackground: ");
+        EditorGUI.BeginChangeCheck();
+        _positionValueSerializedProperty.floatValue 
+            = GUILayout.HorizontalSlider(_positionValueSerializedProperty.floatValue, 0f, 1f, GUILayout.Width(170f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            SetBackground();
+        }
+        EditorGUILayout.Space(30f);
+    }
+    private void SetBackground()
+    {
+        if (_privateMethodEnableWardrobeBackground == null)
+        {
+            _privateMethodEnableWardrobeBackground = _customizationNode.GetType().GetMethod("EnableWardrobeBackground", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        _privateMethodEnableWardrobeBackground?.Invoke(_customizationNode, null);
     }
 }

@@ -18,8 +18,8 @@ public class BackgroundContent : MonoBehaviour
     private const float _multiplier = 2f;
     private const float _defaultPosValue = 0f;
 
-    private Dictionary<string, AdditionalImageData> _keysAdditionalImage;
-    private SpriteRendererCreator _spriteRendererCreator;
+    private Dictionary<string, Dictionary<string, SpriteRenderer>> _additionalImages;
+    private BackgroundPool _backgroundPool;
     private Transform _transformSprite;
     private ISetLighting _setLighting;
     private BackgroundPosition _currentBackgroundPosition;
@@ -29,54 +29,34 @@ public class BackgroundContent : MonoBehaviour
     private Vector3 _leftPosition;
     private Vector3 _centralPosition;
     private Vector3 _rightPosition;
-    
-    private Dictionary<string, SpriteRenderer> _addContent;
-
-
     public Transform LeftBordTransform => _leftBordTransform;
     public Transform CentralBordTransform => _centralTransform;
     public Transform RightBordTransform => _rightBordTransform;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
-    public IReadOnlyDictionary<string, AdditionalImageData> GetKeysAdditionalImage => _keysAdditionalImage;
+    public IReadOnlyDictionary<string, Dictionary<string, SpriteRenderer>> GetAdditionalImages => _additionalImages;
 
 #if UNITY_EDITOR
     private CompositeDisposable _compositeDisposable;
-    public void Construct(DisableNodesContentEvent disableNodesContentEvent,
-        ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator, Sprite sprite, BackgroundContentValues backgroundContentValues)
+    public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting, BackgroundPool backgroundPool)
     {
-        Construct(setLighting, spriteRendererCreator, sprite, backgroundContentValues);
+        Construct(setLighting, backgroundPool);
         _compositeDisposable = disableNodesContentEvent.SubscribeWithCompositeDisposable(DestroyAllAddContent);
     }
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
     }
 #endif
-    public void Construct(ISetLighting setLighting, SpriteRendererCreator spriteRendererCreator,
-        Sprite sprite, BackgroundContentValues backgroundContentValues)
+    public void Construct(ISetLighting setLighting, BackgroundPool backgroundPool)
     {
-        // gameObject.name = backgroundContentValues.NameBackground;
-        // _spriteRenderer.sprite = sprite;
         _movementDuringDialogueAddend = new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
-        // _colorLighting = backgroundContentValues.ColorLighting;
-        // _spriteRenderer.color = backgroundContentValues.Color;
-        // _movementDuringDialogueValue = backgroundContentValues.MovementDuringDialogueValue;
-        // _spriteRenderer.transform.localScale = backgroundContentValues.Scale;
-        
         _leftPosition = new Vector3(_defaultPosValue, _defaultPosValue,_defaultPosValue);
         _centralPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
         _rightPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
-        
-        // SetPositionBorders(_leftBordTransform, new Vector3(backgroundContentValues.LeftPosition, _defaultPosValue,_defaultPosValue));
-        // SetPositionBorders(_centralTransform, new Vector3(backgroundContentValues.CentralPosition,_defaultPosValue, _defaultPosValue));
-        // SetPositionBorders(_rightBordTransform, new Vector3(backgroundContentValues.RightPosition,_defaultPosValue, _defaultPosValue));
-        
-        _spriteRendererCreator = spriteRendererCreator;
+        _backgroundPool = backgroundPool;
         _transformSprite = _spriteRenderer.transform;
         _setLighting = setLighting;
-        // _currentBackgroundPosition = BackgroundPosition.Central;
-        _addContent = null;
-        _keysAdditionalImage = new Dictionary<string, AdditionalImageData>();
+        _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
         gameObject.SetActive(false);
     }
     public void Activate(BackgroundContentValues backgroundContentValues)
@@ -148,84 +128,60 @@ public class BackgroundContent : MonoBehaviour
                 break;
         }
     }
-    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage)
+    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage, string keyBackground)
     {
-        if (_keysAdditionalImage.ContainsKey(keyAdditionalImage) == false)
+        if (string.IsNullOrEmpty(keyBackground) == false)
         {
-            if (_addContent == null)
+            if (_additionalImages.TryGetValue(keyBackground, out var value1) == true)
             {
-                _addContent = new Dictionary<string, SpriteRenderer>();
-            }
+                if (value1.TryGetValue(keyAdditionalImage, out var value2))
+                {
+                    value2.transform.localPosition = localPosition;
+                    value2.color = color;
+                    value2.sprite = sprite;
+                }
+                else
+                {
+                    SpriteRenderer spriteRenderer = _backgroundPool.GetRenderer();
 
-            AdditionalImageData additionalImageData = new AdditionalImageData
+                    value1.Add(keyAdditionalImage, spriteRenderer);
+                    FillSpriteRenderer(value1.Count, spriteRenderer);
+                }
+            }
+            else
             {
-                LocalPosition = localPosition, Color = color
-            };
-            _keysAdditionalImage.Add(keyAdditionalImage, additionalImageData);
-            SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
+                Dictionary<string, SpriteRenderer> dictionary = new Dictionary<string, SpriteRenderer>();
+                SpriteRenderer spriteRenderer = _backgroundPool.GetRenderer();
+                dictionary.Add(keyAdditionalImage, spriteRenderer);
+                FillSpriteRenderer(dictionary.Count, spriteRenderer);
+                _additionalImages.Add(keyBackground, dictionary);
+            }
+        }
+        void FillSpriteRenderer(int dictionaryCount, SpriteRenderer spriteRenderer)
+        {
+            Transform transform1;
+            (transform1 = spriteRenderer.transform).SetParent(_spriteRenderer.transform);
             spriteRenderer.sprite = sprite;
             spriteRenderer.color = color;
-            spriteRenderer.transform.localPosition = localPosition;
-            spriteRenderer.sortingOrder = _addContent.Count + 1;
-            _addContent.Add(sprite.name, spriteRenderer);
+            transform1.localPosition = localPosition;
+            spriteRenderer.sortingOrder = dictionaryCount;
+            spriteRenderer.gameObject.SetActive(true);
         }
     }
-    public void RemoveAdditionalSprite(string nameSprite, string keyAdditionalImage)
+    public void RemoveAdditionalSprite(string keyAdditionalImage, string keyBackground)
     {
-        if (_keysAdditionalImage != null && _keysAdditionalImage.Count > 0)
+        if (string.IsNullOrEmpty(keyBackground) == false && string.IsNullOrEmpty(keyAdditionalImage) == false)
         {
-            _keysAdditionalImage.Remove(keyAdditionalImage);
-        }
-        if (_addContent != null && _addContent.Count > 0)
-        {
-            if (_addContent.TryGetValue(nameSprite, out SpriteRenderer renderer))
+            if (_additionalImages.TryGetValue(keyBackground, out var dictionary))
             {
-                Destroy(renderer.gameObject);
-                _addContent.Remove(nameSprite);
+                if (dictionary.TryGetValue(keyAdditionalImage, out var value))
+                {
+                    Destroy(value.gameObject);
+                    dictionary.Remove(keyAdditionalImage);
+                }
             }
         }
     }
-    // public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, int indexAdditionalImage)
-    // {
-    //     if (_addContent == null)
-    //     {
-    //         _addContent = new Dictionary<string, SpriteRenderer>();
-    //     }
-    //
-    //     AdditionalImageData additionalImageData = new AdditionalImageData
-    //     {
-    //         LocalPosition = localPosition, Color = color
-    //     };
-    //     _indexesAdditionalImage.Add(additionalImageData);
-    //     SpriteRenderer spriteRenderer = _spriteRendererCreator.CreateAddContent(_spriteRenderer.transform);
-    //     spriteRenderer.sprite = sprite;
-    //     spriteRenderer.color = color;
-    //     spriteRenderer.transform.localPosition = localPosition;
-    //     spriteRenderer.sortingOrder = _addContent.Count + 1;
-    //     _addContent.Add(sprite.name, spriteRenderer);
-    // }
-    // public void RemoveAdditionalSprite(string nameSprite, int indexAdditionalImage)
-    // {
-    //     if (_indexesAdditionalImage != null && _indexesAdditionalImage.Count > 0)
-    //     {
-    //         for (int i = 0; i < _indexesAdditionalImage.Count; i++)
-    //         {
-    //             // if (_indexesAdditionalImage[i].IndexAdditionalImage == indexAdditionalImage)
-    //             // {
-    //             //     _indexesAdditionalImage.Remove(_indexesAdditionalImage[i]);
-    //             // }
-    //             
-    //         }
-    //     }
-    //     if (_addContent != null && _addContent.Count > 0)
-    //     {
-    //         if (_addContent.TryGetValue(nameSprite, out SpriteRenderer renderer))
-    //         {
-    //             Destroy(renderer.gameObject);
-    //             _addContent.Remove(nameSprite);
-    //         }
-    //     }
-    // }
     public async UniTask MovementDuringDialogueInPlayMode(CancellationToken cancellationToken, DirectionType directionType)
     {
         switch (directionType)
@@ -293,14 +249,16 @@ public class BackgroundContent : MonoBehaviour
     {
         if (Application.isPlaying == false)
         {
-            if (_addContent != null)
+            if (_additionalImages != null)
             {
-                foreach (var renderer in _addContent.Values)
+                foreach (var pair1 in _additionalImages)
                 {
-                    DestroyImmediate(renderer.gameObject);
-
+                    foreach (var pair2 in pair1.Value)
+                    {
+                        DestroyImmediate(pair2.Value.gameObject);
+                    }
                 }
-                _addContent = null;
+                _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
             }
         }
     }

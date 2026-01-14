@@ -14,9 +14,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private GlobalSound _globalSound;
     private PanelsLocalizationHandler _panelsLocalizationHandler;
     private LevelLoadDataHandler _levelLoadDataHandler;
-    // private BackgroundContentCreator _backgroundContentCreator;
+    private BackgroundPool _backgroundPool;
     private GlobalUIHandler _globalUIHandler;
-    private SpriteRendererCreatorBuild _spriteRendererCreator;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LevelLocalizationProvider _levelLocalizationProvider;
     private LevelLocalizationHandler _levelLocalizationHandler;
@@ -51,7 +50,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
         _levelLocalizationProvider = new LevelLocalizationProvider(_panelsLocalizationHandler, _currentSeriaIndexReactiveProperty);
-        // _backgroundContentCreator = new BackgroundContentCreator(_backgroundBuildMode.transform, PrefabsProvider.SpriteRendererAssetProvider);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -80,19 +78,19 @@ public class LevelEntryPointBuild : LevelEntryPoint
         else
         {
             _currentSeriaLoadedNumberProperty.SetValue(0);
-
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
         InitGlobalSound();
-
+        await CreateBackgroundPool();
+        InitBackground();
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
             phoneMessagesCustodian, _setLocalizationChangeEvent);
-        
+
         Init();
         OnSceneTransitionEvent.Subscribe(() =>
         {
@@ -102,6 +100,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+    }
+
+    private async UniTask CreateBackgroundPool()
+    {
+        SpriteRendererAssetProvider spriteRendererAssetProvider = new SpriteRendererAssetProvider();
+        var prefab = await spriteRendererAssetProvider.LoadSpriteRendererPrefab();
+        _backgroundPool = new BackgroundPool(prefab, _backgroundBuildMode.PoolParent);
     }
 
     private async UniTask CreatePhoneView()
@@ -119,10 +124,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(viewerCreatorBuildMode);
         InitWardrobeCharacterViewer(viewerCreatorBuildMode);
-
-        _spriteRendererCreator = new SpriteRendererCreatorBuild(PrefabsProvider.SpriteRendererAssetProvider);
-        InitBackground();
-        
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
             _characterProvider, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
@@ -156,8 +157,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         {
             _backgroundBuildMode.InitSaveData(StoryData.BackgroundSaveData);
         }
-
-        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, CharacterViewer, _spriteRendererCreator);
+        _backgroundBuildMode.Construct(_levelLoadDataHandler.BackgroundDataProvider, CharacterViewer, _backgroundPool);
     }
     protected override void Shutdown()
     {
@@ -168,7 +168,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelLoadDataHandler.Shutdown();
         _levelUIProviderBuildMode.Shutdown();
         _globalSound.Shutdown();
-        _backgroundBuildMode.Shutdown();
         base.Shutdown();
     }
     private void Save()

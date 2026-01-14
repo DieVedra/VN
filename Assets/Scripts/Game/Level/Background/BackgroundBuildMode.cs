@@ -1,137 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
 public class BackgroundBuildMode : Background
 {
     private BackgroundDataProvider _backgroundDataProvider;
-    // private BackgroundContentCreator _backgroundContentCreator;
 
-    public void Construct(BackgroundDataProvider backgroundDataProvider,
- ISetLighting setLighting, SpriteRendererCreatorBuild spriteRendererCreatorBuild)
+    public void Construct(BackgroundDataProvider backgroundDataProvider, ISetLighting setLighting, BackgroundPool backgroundPool)
     {
         _backgroundDataProvider = backgroundDataProvider;
-        // _backgroundContentCreator = backgroundContentCreator;
-        SetLighting = setLighting;
-        // BackgroundContentAdditionalSpriteRendererCreator = spriteRendererCreatorBuild;
+        BackgroundPool = backgroundPool;
+        BackgroundContent1.Construct(setLighting, BackgroundPool);
+        BackgroundContent2.Construct(setLighting, BackgroundPool);
         ColorOverlay.color = Color.clear;
-        BackgroundContentValuesDictionary = new Dictionary<string, BackgroundContentValues>();
-        AdditionalImagesToBackgroundDictionary = new Dictionary<string, BackgroundContentValues>();
-        ArtsSpritesDictionary = new Dictionary<string, BackgroundContentValues>();
         
-        WardrobeBackgroundContentValues = backgroundDataProvider.GetWardrobeBackgroundData.BackgroundContentValues[WardrobeContentValuesIndex];
-
-        
-        
-        
-        
-        
-        // SetArtShower();
-        InitWardrobeBackground();
-        
-        InitContent(backgroundDataProvider);
-        // _backgroundContentCreator.OnCreateContent += InitLocations;
-        _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(AddAdditionalImagesToBackground);
-        _backgroundDataProvider.OnLoadArtsData.Subscribe(AddArtsSpritesDictionary);
-        _backgroundDataProvider.OnLoadLocationData.Subscribe(AddBackgroundContentValues);
+        _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(_ =>
+        {
+            AddContent(ref AdditionalImagesToBackgroundDictionary, _);
+        });
+        _backgroundDataProvider.OnLoadArtsData.Subscribe(_ =>
+        {
+            AddContent(ref ArtsSpritesDictionary, _);
+        });
+        _backgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
+        {
+            AddContent(ref BackgroundContentValuesDictionary, _);
+        });
+        _backgroundDataProvider.OnLoadWardrobeData.Subscribe(_ =>
+        {
+            AddContent(ref WardrobeBackgroundContentValuesDictionary, _);
+        });
 
         if (BackgroundSaveData != null)
         {
-            // TryAddAddebleContentToBackgroundContent(BackgroundSaveData.BackgroundContentWithAdditionalImage);
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo);
         }
     }
 
-    public void Shutdown()
+    private void AddContent(ref Dictionary<string, BackgroundContentValues> dictionary, BackgroundData backgroundData)
     {
-        // _backgroundContentCreator.OnCreateContent -= InitLocations;
-    }
-    private void InitContent(BackgroundDataProvider backgroundDataProvider)
-    {
-        if (backgroundDataProvider.LocationDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
+        if (dictionary == null)
         {
-            Foo(backgroundDataProvider.GetLocationDatas, InitLocations);
+            dictionary = new Dictionary<string, BackgroundContentValues>();
         }
 
-        if (backgroundDataProvider.AdditionalImagesDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
+        foreach (var bcv in backgroundData.BackgroundContentValues)
         {
-            Foo(backgroundDataProvider.GetAdditionalImagesDatas, InitAdditionalImages);
+            dictionary.Add(bcv.NameBackground, bcv);
         }
-
-        if (backgroundDataProvider.ArtsDataLoadProviderParticipiteInLoad.ParticipiteInLoad == true)
-        {
-            Foo(backgroundDataProvider.GetArtsDatas, InitArts);
-        }
-        void Foo(IReadOnlyList<BackgroundData> datas, Action<BackgroundData> operation)
-        {
-            foreach (var data in datas)
-            {
-                operation.Invoke(data);
-            }
-        }
-    }
-
-    private void SetArtShower()
-    {
-        // ArtShower = _backgroundContentCreator.ArtShower;
-        // InitArtShower();
-    }
-    private void InitWardrobeBackground()
-    {
-        // InitBackgroundContent(_backgroundContentCreator.WardrobeBackground,
-        //     _backgroundDataProvider.GetWardrobeBackgroundData.GetSprite(_backgroundDataProvider.GetWardrobeBackgroundData.BackgroundContentValues[0].NameSprite),
-        // _backgroundDataProvider.GetWardrobeBackgroundData.BackgroundContentValues[0]);
-        // WardrobeBackground = _backgroundContentCreator.WardrobeBackground;
-        // WardrobeBackground.SpriteRenderer.sortingOrder = WardrobeSortOrder;
-    }
-
-    private void InitLocations(BackgroundData backgroundData)
-    {
-        BackgroundContent content = null;
-        foreach (var contentValue in backgroundData.BackgroundContentValues)
-        {
-            // content = _backgroundContentCreator.TryGetInstantiatedBackgroundContent();
-            // if (BackgroundContentDictionary.ContainsKey(contentValue.NameSprite) == false && content != null)
-            // {
-            //     InitBackgroundContent(
-            //         content,
-            //         backgroundData.GetSprite(contentValue.NameSprite), contentValue);
-            //     BackgroundContentDictionary.Add(contentValue.NameSprite, content);
-            // }
-        }
-    }
-    private void InitBackgroundContent(BackgroundContent backgroundContent, Sprite sprite, BackgroundContentValues backgroundContentValues)
-    {
-        // backgroundContent.Construct(SetLighting, BackgroundContentAdditionalSpriteRendererCreator,
-        // sprite, backgroundContentValues);
-    }
-
-    private void InitAdditionalImages(BackgroundData backgroundData)
-    {
-        // AddBackgroundDataContent(AdditionalImagesToBackgroundDictionary, backgroundData);
-    }
-    
-    private void InitArts(BackgroundData backgroundData)
-    {
-        // AddBackgroundDataContent(ArtsSpritesDictionary, backgroundData);
-    }
-    private void AddBackgroundContentValues(BackgroundData backgroundData)
-    {
-        // foreach (var t in backgroundData.BackgroundContentValues)
-        // {
-        //     if (sprites.ContainsKey(t.NameSprite) == false)
-        //     {
-        //         sprites.Add(t.NameSprite, backgroundData.GetSprite(t.NameSprite));
-        //     }
-        // }
-    }
-
-    private void AddAdditionalImagesToBackground(BackgroundData backgroundData)
-    {
-        
-    }
-    private void AddArtsSpritesDictionary(BackgroundData backgroundData)
-    {
-        
     }
 }

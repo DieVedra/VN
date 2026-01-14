@@ -8,16 +8,11 @@ using UnityEngine;
 public class BackgroundNode : BaseNode
 {
     [SerializeField] private BackgroundNodeMode _backgroundNodeMode;
-    [SerializeField] private int _index;
-    [SerializeField] private int _indexTo;
     [SerializeField] private string _key;
     
     [SerializeField] private float _changeColorDuration;
     [SerializeField] private float _changeMode2Duration;
     
-    [SerializeField] private bool _awaitedSmoothChangeBackground;
-    [SerializeField] private bool _awaitedSmoothBackgroundChangePosition;
-    [SerializeField] private bool _awaitedSetColorOverlayBackground;
     [SerializeField] private bool _awaited;
     
     [SerializeField] private bool _isSmoothCurtain;
