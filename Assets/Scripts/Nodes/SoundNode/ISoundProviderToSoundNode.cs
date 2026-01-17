@@ -16,8 +16,6 @@ public interface ISoundProviderToSoundNode
     public float CurrentMusicClipTime { get; }
     public float CurrentAmbientClipTime { get; }
     public float PlayTimeAmbient { get; }
-    public IReadOnlyList<AudioClip> Clips { get; }
-    public IReadOnlyList<AudioClip> AmbientClips { get; }
     public IReadOnlyDictionary<string, AudioClip> GetMusicDictionary { get; }
     public IReadOnlyDictionary<string, AudioClip> GetAmbientDictionary { get; }
 }

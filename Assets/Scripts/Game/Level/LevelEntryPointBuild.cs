@@ -81,9 +81,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
-        InitGlobalSound();
+        ConstructSound();
         await CreateBackgroundPool();
-        InitBackground();
+        ConstructBackground();
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
@@ -123,7 +123,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         InitLocalization();
         ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
         CharacterViewer.Construct(viewerCreatorBuildMode);
-        InitWardrobeCharacterViewer(viewerCreatorBuildMode);
+        ConstructWardrobeCharacterViewer(viewerCreatorBuildMode);
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
             _characterProvider, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
@@ -151,7 +151,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         Shutdown();
     }
 
-    protected override void InitBackground()
+    protected override void ConstructBackground()
     {
         if (LoadSaveData == true && StoryData.BackgroundSaveData != null)
         {
@@ -167,7 +167,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _gameSeriesHandlerBuildMode.Shutdown();
         _levelLoadDataHandler.Shutdown();
         _levelUIProviderBuildMode.Shutdown();
-        _globalSound.Shutdown();
+        _globalSound.ShutdownFromLevel();
         base.Shutdown();
     }
     private void Save()
@@ -182,8 +182,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.BackgroundSaveData = _backgroundBuildMode.GetBackgroundSaveData();
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
-            StoryData.CurrentAudioClipIndex = _globalSound.CurrentMusicClipIndex;
-            StoryData.LowPassEffectIsOn = _globalSound.AudioEffectsCustodian.LowPassEffectIsOn;
+            StoryData.CurrentAudioMusicKey = _globalSound.CurrentMusicClipKey;
+            StoryData.CurrentAudioAmbientKey = _globalSound.CurrentAdditionalClipKey;
+            
+            StoryData.AudioEffectsIsOn.Clear();
+            var effects = _globalSound.AudioEffectsCustodian.GetEnableEffectsToSave();
+            if (effects != null)
+            {
+                StoryData.AudioEffectsIsOn.AddRange(effects);
+            }
+            
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
@@ -241,21 +249,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _darkeningBackgroundFrameUIHandler.BlackFrameView.Image.color = Color.clear;
         }
     }
-    protected override void InitGlobalSound()
+    protected override void ConstructSound()
     {
+        _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
         if (LoadSaveData == true)
         {
-            _globalSound.Construct(SaveServiceProvider.SaveData.SoundStatus);
+            _globalSound.Init(StoryData.AudioEffectsIsOn ,StoryData.CurrentAudioMusicKey, StoryData.CurrentAudioAmbientKey);
+            _globalSound.TryPlayOnLoadSave().Forget();
         }
         else
         {
-            _globalSound.Construct(true);
+            _globalSound.Init();
         }
-
-        _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
     }
 
-    protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreator)
+    protected override void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreator)
     {
         _wardrobeCharacterViewer =
             PrefabsProvider.WardrobeCharacterViewerAssetProvider.CreateWardrobeCharacterViewer(transform);

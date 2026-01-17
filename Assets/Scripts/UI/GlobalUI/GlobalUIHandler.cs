@@ -49,7 +49,7 @@ public class GlobalUIHandler
             await blackFrameUIHandler.Init(_canvasTransform);
         }
     }
-    public void Dispose()
+    public void Shutdown()
     {
          _loadScreenUIHandler.Dispose();
          _blackFrameUIHandler.Dispose();

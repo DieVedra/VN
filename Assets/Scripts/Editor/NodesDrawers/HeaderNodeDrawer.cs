@@ -18,7 +18,6 @@ public class HeaderNodeDrawer : NodeEditor
     private SerializedProperty _keyBackgroundSerializedProperty;
     private SerializedProperty _keyAudioSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
-    private SerializedProperty _indexHeaderAudioSerializedProperty;
     private SerializedProperty _playHeaderAudioSerializedProperty;
     private SerializedProperty _inputPortSerializedProperty;
     private SerializedProperty _outputPortSerializedProperty;
@@ -28,8 +27,6 @@ public class HeaderNodeDrawer : NodeEditor
     private MethodInfo _privateMethod;
 
     private List<string> _namesToPopup;
-
-    // private string[] _audioNames;
     private List<string> _audioNames;
     private int _currentIndex;
     private int _index;
@@ -51,7 +48,6 @@ public class HeaderNodeDrawer : NodeEditor
             _keyAudioSerializedProperty = serializedObject.FindProperty("_headerAudioKey");
             _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
             _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");
-            _indexHeaderAudioSerializedProperty = serializedObject.FindProperty("_indexHeaderAudio");
             _inputPortSerializedProperty = serializedObject.FindProperty("Input");
             _outputPortSerializedProperty = serializedObject.FindProperty("Output");
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
@@ -160,7 +156,7 @@ public class HeaderNodeDrawer : NodeEditor
         EditorGUILayout.EndHorizontal();
         if (_playHeaderAudioSerializedProperty.boolValue)
         {
-            if (_headerNode.Sound?.GetMusicDictionary.Count > 0)
+            if (_headerNode.Sound?.GetMusicDictionary?.Count > 0)
             {
                 _audioNames.Clear();
                 _indexAudio = 0;
@@ -188,18 +184,6 @@ public class HeaderNodeDrawer : NodeEditor
             }
         }
     }
-
-    // private void InitAudioNames()
-    // {
-    //     if (_headerNode.Sound?.GetMusicDictionary.Count > 0)
-    //     {
-    //         _audioNames.Clear();
-    //         foreach (var pair in _headerNode.Sound.GetMusicDictionary)
-    //         {
-    //             _audioNames.Add(pair.Value.name);
-    //         }
-    //     }
-    // }
     private void SetInfoToView()
     {
         if (_privateMethod == null)

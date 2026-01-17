@@ -59,7 +59,7 @@ public class BackgroundContent : MonoBehaviour
         _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
         gameObject.SetActive(false);
     }
-    public void Activate(BackgroundContentValues backgroundContentValues)
+    public void Activate(BackgroundContentValues backgroundContentValues, bool enable = true)
     {
         _spriteRenderer.sprite = backgroundContentValues.GetSprite();
         _colorLighting = backgroundContentValues.ColorLighting;
@@ -72,7 +72,7 @@ public class BackgroundContent : MonoBehaviour
         SetPositionBorders(_leftBordTransform, _leftPosition);
         SetPositionBorders(_centralTransform, _centralPosition);
         SetPositionBorders(_rightBordTransform, _rightPosition);
-        gameObject.SetActive(true);
+        gameObject.SetActive(enable);
     }
     public void ChangeLightingColorOfTheCharacter()
     {

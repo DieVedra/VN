@@ -30,9 +30,9 @@ public class BackgroundBuildMode : Background
         {
             AddContent(ref WardrobeBackgroundContentValuesDictionary, _);
         });
-
         if (BackgroundSaveData != null)
         {
+            SetBackgroundPosition((BackgroundPosition)BackgroundSaveData.CurrentBackgroundPosition, BackgroundSaveData.CurrentKeyBackgroundContent);
             TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo);
         }
     }

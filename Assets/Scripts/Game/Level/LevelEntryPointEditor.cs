@@ -54,7 +54,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         ReactiveProperty<bool> phoneNodeIsActive = new ReactiveProperty<bool>();
         _phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
         Load();
-        InitGlobalSound();
+        ConstructSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -63,8 +63,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
         DisableNodesContentEvent = new DisableNodesContentEvent();
         ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
-        InitWardrobeCharacterViewer(viewerCreatorEditMode);
-        InitBackground();
+        ConstructWardrobeCharacterViewer(viewerCreatorEditMode);
+        ConstructBackground();
         _phoneProviderInEditMode.Construct(phoneMessagesCustodian, _phoneSaveHandler);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, _phoneSaveHandler);
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
@@ -110,7 +110,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         _gameSeriesHandlerEditorMode.Shutdown();
         _levelUIProviderEditMode.Shutdown();
         _wardrobeCharacterViewer.Shutdown();
-        _levelSoundEditMode.Shutdown();
+        _levelSoundEditMode.ShutdownFromLevel();
         base.Shutdown();
     }
 
@@ -185,8 +185,16 @@ public class LevelEntryPointEditor : LevelEntryPoint
             
             StoryData.Stats.Clear();
             StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
-            StoryData.CurrentAudioClipIndex = _levelSoundEditMode.CurrentMusicClipIndex;
-            StoryData.LowPassEffectIsOn = _levelSoundEditMode.AudioEffectsCustodian.LowPassEffectIsOn;
+            StoryData.CurrentAudioMusicKey = _levelSoundEditMode.CurrentMusicClipKey;
+            StoryData.CurrentAudioAmbientKey = _levelSoundEditMode.CurrentAdditionalClipKey;
+
+            StoryData.AudioEffectsIsOn.Clear();
+            var effects = _levelSoundEditMode.AudioEffectsCustodian.GetEnableEffectsToSave();
+            if (effects != null)
+            {
+                StoryData.AudioEffectsIsOn.AddRange(effects);
+            }
+            
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
 
@@ -209,7 +217,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
             ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);});
     }
-    protected override void InitWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
+    protected override void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {
         _wardrobeCharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         if (Application.isPlaying)
@@ -219,18 +227,20 @@ public class LevelEntryPointEditor : LevelEntryPoint
         }
     }
 
-    protected override void InitGlobalSound()
+    protected override void ConstructSound()
     {
         if (_saveData != null && LoadSaveData == true)
         {
             _levelSoundEditMode.Construct(_saveData.SoundStatus);
+            _levelSoundEditMode.Init(StoryData.AudioEffectsIsOn, StoryData.CurrentAudioMusicKey, StoryData.CurrentAudioAmbientKey);
         }
         else
         {
-            _levelSoundEditMode.Construct(true);
+            _levelSoundEditMode.Construct(soundOn: true);
+            _levelSoundEditMode.Init();
         }
     }
-    protected override void InitBackground()
+    protected override void ConstructBackground()
     {
         if (StoryData != null && LoadSaveData == true)
         {

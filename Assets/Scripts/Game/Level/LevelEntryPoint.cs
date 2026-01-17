@@ -18,10 +18,10 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected PrefabsProvider PrefabsProvider;
     protected SaveServiceProvider SaveServiceProvider;
 
-    protected abstract void InitWardrobeCharacterViewer(ViewerCreator viewerCreator);
-    protected abstract void InitGlobalSound();
+    protected abstract void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreator);
+    protected abstract void ConstructSound();
 
-    protected abstract void InitBackground();
+    protected abstract void ConstructBackground();
 
     protected virtual void Shutdown()
     {

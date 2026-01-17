@@ -64,23 +64,24 @@ public class EntryPoint: MonoBehaviour
             _saveServiceProvider.TrySetStartStory(storyName);
             // _saveServiceProvider.CurrentStoryIndex = _storiesProvider.GetIndexByName(storyName);
             _saveServiceProvider.CurrentStoryKey = storyName;
-            Dispose();
+            Shutdown();
         });
     }
 
-    private void Dispose()
+    private void Shutdown()
     {
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
         _saveServiceProvider.SaveProgress(_wallet, _globalSound, _storiesProvider,
             _panelsLocalizationHandler, _mainMenuUIProvider);
-        _wallet.Dispose();
+        _wallet.Shutdown();
         _storiesProvider?.Shutdown();
-        _mainMenuUIProvider?.Dispose();
+        _mainMenuUIProvider?.Shutdown();
     }
 
     private void OnApplicationQuit()
     {
-        Dispose();
-        _globalUIHandler.Dispose();
+        Shutdown();
+        _globalSound.ShutdownFromMenu();
+        _globalUIHandler.Shutdown();
     }
 }

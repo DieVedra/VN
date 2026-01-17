@@ -12,17 +12,18 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
     [SerializeField] private AudioSource _audioSourceAmbient;
 
     [SerializeField] protected AudioMixer _mixer;
-
-    [SerializeField, ReadOnly] protected List<AudioClip> MusicAudioData;
-    [SerializeField, ReadOnly] protected List<AudioClip> AmbientAudioData;
-
     [SerializeField, Expandable] protected GlobalAudioData GlobalAudioData;
 
     private AudioEffectsCustodian _audioEffectsCustodian;
     private ReactiveProperty<bool> _soundStatus;
+    private ReactiveProperty<string> _currentMusicClipKeyRP;
+    private ReactiveProperty<string> _currentAdditionalClipKeyRP;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
     protected Dictionary<string, AudioClip> MusicDictionary;
     protected Dictionary<string, AudioClip> AmbientDictionary;
+    private CompositeDisposable _compositeDisposableClipsKeysRP;
+    private CompositeDisposable _compositeDisposableSoundStatusRP;
+    private CancellationTokenSource _cancellationTokenSource;
     public float PlayTimeMusic => _audioSourceMusic.time;
     public float PlayTimeAmbient => _audioSourceAmbient.time;
     public float VolumeMusic => _audioSourceMusic.volume;
@@ -30,19 +31,16 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
 
     public float CurrentMusicClipTime => _audioSourceMusic.clip == null ? 0f : _audioSourceMusic.clip.length;
     public float CurrentAmbientClipTime => _audioSourceAmbient.clip == null ? 0f : _audioSourceAmbient.clip.length;
-    public int CurrentMusicClipIndex { get; private set; }
-    public string CurrentMusicClipKey { get; private set; }
-    public string CurrentAdditionalClipKey { get; private set; }
+    public string CurrentMusicClipKey => _currentMusicClipKeyRP.Value;
+    public string CurrentAdditionalClipKey => _currentAdditionalClipKeyRP.Value;
     public SmoothAudio SmoothAudio { get; private set; }
 
     public AudioEffectsCustodian AudioEffectsCustodian => _audioEffectsCustodian;
-    public IReadOnlyList<AudioClip> Clips => MusicAudioData;
-    public IReadOnlyList<AudioClip> AmbientClips => AmbientAudioData;
     public IReadOnlyDictionary<string, AudioClip> GetMusicDictionary => MusicDictionary;
     public IReadOnlyDictionary<string, AudioClip> GetAmbientDictionary => AmbientDictionary;
     public IReactiveProperty<bool> SoundStatus => _soundStatus;
 
-    protected void Init(bool soundOn = true)
+    public virtual void Construct(bool soundOn = true)
     {
         MusicDictionary = new Dictionary<string, AudioClip>();
         AmbientDictionary = new Dictionary<string, AudioClip>();
@@ -51,13 +49,35 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
             {AudioSourceType.Music, _audioSourceMusic},
             {AudioSourceType.Ambient, _audioSourceAmbient}
         };
-        
-        _soundStatus = new ReactiveProperty<bool>();
+        _compositeDisposableSoundStatusRP = new CompositeDisposable();
+        _soundStatus = new ReactiveProperty<bool>().AddTo(_compositeDisposableSoundStatusRP);
         _soundStatus.Subscribe(ChangeSound);
         _soundStatus.Value = soundOn;
-        
-        SmoothAudio = new SmoothAudio(_audioSources, MusicDictionary, AmbientDictionary);
         _audioEffectsCustodian = new AudioEffectsCustodian(_mixer);
+    }
+
+    public void Init(List<AudioEffect> enabledEffects = null, string currentMusicClipKey = null, string currentAdditionalClipKey = null)
+    {
+        _compositeDisposableClipsKeysRP = new CompositeDisposable();
+        _cancellationTokenSource = new CancellationTokenSource();
+        _currentMusicClipKeyRP = new ReactiveProperty<string>().AddTo(_compositeDisposableClipsKeysRP);
+        _currentAdditionalClipKeyRP = new ReactiveProperty<string>().AddTo(_compositeDisposableClipsKeysRP);
+        SmoothAudio = new SmoothAudio(_currentMusicClipKeyRP, _currentAdditionalClipKeyRP,
+            _audioSources, MusicDictionary, AmbientDictionary);
+        
+        _currentMusicClipKeyRP.Value = currentMusicClipKey;
+        if (currentMusicClipKey != null)
+        {
+            SmoothAudio.AddToQueueSmoothPlayAudio(_cancellationTokenSource.Token, currentMusicClipKey, AudioSourceType.Music);
+        }
+        
+        _currentAdditionalClipKeyRP.Value = currentAdditionalClipKey;
+        if (currentAdditionalClipKey != null)
+        {
+            SmoothAudio.AddToQueueSmoothPlayAudio(_cancellationTokenSource.Token, currentAdditionalClipKey, AudioSourceType.Ambient);
+        }
+
+        _audioEffectsCustodian.TryEnableEffectsFromSave(enabledEffects);
     }
     private void ChangeSound(bool key)
     {
@@ -72,13 +92,16 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
             _audioSourceAmbient.mute = true;
         }
     }
-    public virtual void Shutdown()
+    public void ShutdownFromLevel()
     {
-        MusicAudioData = null;
-        AmbientAudioData = null;
-        
-        MusicDictionary = null;
-        AmbientDictionary = null;
+        _compositeDisposableClipsKeysRP?.Clear();
+        _cancellationTokenSource?.Cancel();
+        MusicDictionary.Clear();
+        AmbientDictionary.Clear();
+    }
+    public void ShutdownFromMenu()
+    {
+        _compositeDisposableSoundStatusRP?.Clear();
     }
     public void SetPlayTime(float time, AudioSourceType audioSourceType)
     {
@@ -100,14 +123,14 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
             case AudioSourceType.Music:
                 if (MusicDictionary.TryGetValue(audioClipKey, out var clipMusic))
                 {
-                    CurrentMusicClipKey = audioClipKey;
+                    _currentMusicClipKeyRP.Value = audioClipKey;
                     PlayAudioByClip(clipMusic, audioSourceType);
                 }
                 break;
             case AudioSourceType.Ambient:
                 if (AmbientDictionary.TryGetValue(audioClipKey, out var clipAmbient))
                 {
-                    CurrentAdditionalClipKey = audioClipKey;
+                    _currentAdditionalClipKeyRP.Value = audioClipKey;
                     PlayAudioByClip(clipAmbient, audioSourceType);
                 }
                 break;

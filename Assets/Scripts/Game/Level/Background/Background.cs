@@ -70,13 +70,18 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     protected void TryAddAddebleContentToBackgroundContent(Dictionary<string, List<AdditionalImageData>> additionalImagesInfo)
     {
+        Debug.Log($"additionalImagesInfo1 {additionalImagesInfo.Count}");
         foreach (var pair1 in additionalImagesInfo)
         {
-            foreach (var data in pair1.Value)
+            Debug.Log($"additionalImagesInfo2 {additionalImagesInfo.Count}  {pair1.Value.Count}");
+            if (pair1.Value?.Count > 0)
             {
-                if (AdditionalImagesToBackgroundDictionary.TryGetValue(data.Key, out var value))
+                foreach (var data in pair1.Value)
                 {
-                    AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, data.Position, data.Color);
+                    if (AdditionalImagesToBackgroundDictionary.TryGetValue(data.Key, out var value))
+                    {
+                        AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, data.Position, data.Color);
+                    }
                 }
             }
         }
@@ -136,6 +141,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         if (string.IsNullOrEmpty(key) == false && BackgroundContentValuesDictionary.TryGetValue(key, out var value))
         {
             BackgroundContent1.Activate(value);
+            CurrentKeyBackgroundContent = key;
             CurrentBackgroundPosition = backgroundPosition;
             BackgroundContent1.SetBackgroundPosition(backgroundPosition);
         }
@@ -173,18 +179,19 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             BackgroundContent2.Diactivate();
             BackgroundContent1.Activate(value);
             CurrentKeyBackgroundContent = key;
+
             await BackgroundContent1.MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
         }
     }
     public async UniTask SmoothChangeBackground(string keyTo, float duration, BackgroundPosition toBackgroundPosition, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value)
-                                                 && BackgroundContentValuesDictionary.ContainsKey(CurrentKeyBackgroundContent))
+        if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value))
         {
             SetAlphaAndOrder(BackgroundContent1, _maxAlpha);
+            BackgroundContent2.Activate(value, false);
             SetAlphaAndOrder(BackgroundContent2, _minAlpha);
-            BackgroundContent2.Activate(value);
             BackgroundContent2.SetBackgroundPosition(toBackgroundPosition);
+            BackgroundContent2.gameObject.SetActive(true);
             await UniTask.WhenAll(
                 BackgroundContent2.SmoothChangeLightingColorOfTheCharacter(duration, cancellationToken),
                 BackgroundContent2.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken));
@@ -198,8 +205,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public void SmoothChangeBackgroundEmmidiately(string keyTo, BackgroundPosition toBackgroundPosition)
     {
-        if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value)
-                                                 && BackgroundContentValuesDictionary.ContainsKey(CurrentKeyBackgroundContent))
+        if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value))
         {
             SetAlphaAndOrder(BackgroundContent1, _maxAlpha);
             SetAlphaAndOrder(BackgroundContent2, _minAlpha);

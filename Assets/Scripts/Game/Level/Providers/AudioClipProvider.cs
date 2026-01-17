@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 public class AudioClipProvider
@@ -11,7 +12,9 @@ public class AudioClipProvider
     private readonly DataProvider<AudioData> _ambientAudioDataProvider;
     public IParticipiteInLoad MusicAudioDataProviderParticipiteInLoad => _musicAudioDataProvider;
     public IParticipiteInLoad AmbientAudioDataProviderParticipiteInLoad => _ambientAudioDataProvider;
-    public event Action<AudioSourceType, IReadOnlyList<AudioClip>> OnLoadData;
+    public IReactiveCommand<AudioData> OnLoadMusicAudioData => _musicAudioDataProvider.OnLoad;
+    public IReactiveCommand<AudioData> OnLoadAmbientAudioData => _ambientAudioDataProvider.OnLoad;
+
     public AudioClipProvider()
     {
         _musicAudioDataProvider = new DataProvider<AudioData>();
@@ -35,13 +38,7 @@ public class AudioClipProvider
     }
     public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
     {
-        if (await _musicAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
-        {
-            OnLoadData?.Invoke(AudioSourceType.Music, _musicAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips);
-        }
-        if (await _ambientAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex))
-        {
-            OnLoadData?.Invoke(AudioSourceType.Ambient, _ambientAudioDataProvider.GetDatas[nextSeriaNameAssetIndex].Clips);
-        }
+        await _musicAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        await _ambientAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex);
     }
 }

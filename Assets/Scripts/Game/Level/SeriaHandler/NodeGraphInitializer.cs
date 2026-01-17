@@ -20,6 +20,7 @@ public class NodeGraphInitializer
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
     private readonly Sound _sound;
     private readonly Wallet _wallet;
+    private readonly TaskRunner _taskRunner;
 
     public NodeGraphInitializer(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
@@ -44,6 +45,7 @@ public class NodeGraphInitializer
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
         _phoneNodeIsActive = phoneNodeIsActive;
+        _taskRunner = new TaskRunner();
     }
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
@@ -103,7 +105,7 @@ public class NodeGraphInitializer
                 return;
             
             case SoundNode soundNode:
-                soundNode.ConstructMySoundNode(_sound);
+                soundNode.ConstructMySoundNode(_taskRunner, _sound);
                 return;
             
             case ChoicePhoneNode choicePhoneNode:

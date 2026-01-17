@@ -65,7 +65,7 @@ public class Wallet
         });
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         TryAbortGraduallyResourceManipulation();
     }

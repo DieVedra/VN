@@ -8,9 +8,10 @@ public class StoryData
     public int CurrentNodeGraphIndex;
     public int CurrentNodeIndex;
     public int CurrentProgressPercent;
-    public int CurrentAudioClipIndex;
+    public string CurrentAudioMusicKey;
+    public string CurrentAudioAmbientKey;
     public bool IsLiked;
-    public bool LowPassEffectIsOn;
+    public List<AudioEffect> AudioEffectsIsOn;
     public bool StoryStarted;
     public bool PutOnSwimsuitKey;
     
@@ -39,5 +40,6 @@ public class StoryData
         Stats = new List<SaveStat>();
         WardrobeSaveDatas = new List<WardrobeSaveData>();
         PhoneSaveDatas = new List<PhoneSaveData>();
+        AudioEffectsIsOn = new List<AudioEffect>();
     }
 }

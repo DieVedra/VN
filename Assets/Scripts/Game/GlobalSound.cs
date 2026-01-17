@@ -1,49 +1,38 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 public class GlobalSound : Sound
 {
-    private AudioClipProvider _audioClipProvider;
-    public void Construct(bool soundOn)
-    {
-        Init(soundOn);
-    }
-
     public void SetAudioClipProvider(AudioClipProvider audioClipProvider)
     {
-        _audioClipProvider = audioClipProvider;
-        audioClipProvider.OnLoadData += AddContentToDictionary;
+        audioClipProvider.OnLoadMusicAudioData.Subscribe(_ =>
+        {
+            Add(_.Clips, MusicDictionary);
+        });
+        audioClipProvider.OnLoadAmbientAudioData.Subscribe(_ =>
+        {
+            Add(_.Clips, AmbientDictionary);
+        });
     }
-    public override void Shutdown()
+
+    public async UniTask TryPlayOnLoadSave()
     {
-        _audioClipProvider.OnLoadData -= AddContentToDictionary;
-        base.Shutdown();
+        await SmoothAudio.TryDoQueue();
+        
     }
     public void SetGlobalSoundData(GlobalAudioData globalAudioData)
     {
         GlobalAudioData = globalAudioData;
     }
-
-    private void AddContentToDictionary(AudioSourceType type, IReadOnlyList<AudioClip> clips)
+    private void Add(IReadOnlyList<AudioClip> fromClips, Dictionary<string, AudioClip> targetDictionary)
     {
-        switch (type)
+        foreach (var clip in fromClips)
         {
-            case AudioSourceType.Music:
-                Add(clips, MusicDictionary);
-                break;
-            case AudioSourceType.Ambient:
-                Add(clips, AmbientDictionary);
-                break;
-        }
-
-        void Add(IReadOnlyList<AudioClip> fromClips, Dictionary<string, AudioClip> targetDictionary)
-        {
-            foreach (var clip in fromClips)
+            if (targetDictionary.ContainsKey(clip.name) == false)
             {
-                if (targetDictionary.ContainsKey(clip.name) == false)
-                {
-                    targetDictionary.Add(clip.name, clip);
-                }
+                targetDictionary.Add(clip.name, clip);
             }
         }
     }

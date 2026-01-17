@@ -43,7 +43,7 @@ public class MainMenuUIProvider : ILocalizable
         MyScrollHandler = myScrollHandler;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         DarkeningBackgroundFrameUIHandler.Dispose();
         PlayStoryPanelHandler.Dispose();
