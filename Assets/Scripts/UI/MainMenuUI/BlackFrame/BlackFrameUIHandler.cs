@@ -42,7 +42,7 @@ public class BlackFrameUIHandler
         _transform = _blackFrameView.transform;
         _assetLoaded = true;
     }
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
         Addressables.ReleaseInstance(_blackFrameView.gameObject);

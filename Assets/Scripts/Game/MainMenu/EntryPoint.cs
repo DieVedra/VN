@@ -71,8 +71,8 @@ public class EntryPoint: MonoBehaviour
     private void Shutdown()
     {
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
-        _saveServiceProvider.SaveProgress(_wallet, _globalSound, _storiesProvider,
-            _panelsLocalizationHandler, _mainMenuUIProvider);
+        // _saveServiceProvider.SaveFromMainMenu(_wallet, _globalSound, _storiesProvider,
+        //     _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Shutdown();
         _storiesProvider?.Shutdown();
         _mainMenuUIProvider?.Shutdown();

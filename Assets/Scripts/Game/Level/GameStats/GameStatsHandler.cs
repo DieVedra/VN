@@ -22,15 +22,15 @@ public class GameStatsHandler
         _stats = new List<Stat>();
         _statsDictionary = new Dictionary<string, Stat>();
     }
-    public IReadOnlyList<SaveStat> GetStatsToSave()
+    public void FillSaveStats(StoryData storyData)
     {
         List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
         for (int i = 0; i < _stats.Count; i++)
         {
             baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value));
         }
-    
-        return baseStats;
+        storyData.Stats.Clear();
+        storyData.Stats.AddRange(baseStats);
     }
     public List<Stat> GetGameStatsForm()
     {
@@ -162,7 +162,6 @@ public class GameStatsHandler
     }
     public void AddNextSeriaStats(IReadOnlyList<Stat> stats)
     {
-        Debug.Log($"AddNextSeriaStats {stats.Count}");
         if (stats != null && stats.Count > 0)
         {
             _stats.AddRange(stats);

@@ -42,7 +42,6 @@ public class GameSeriesHandler : MonoBehaviour
 
     public void GetInfoToSave(StoryData data)
     {
-        Debug.Log($"CurrentSeriaIndex {CurrentSeriaIndex}   CurrentNodeGraphIndex {CurrentNodeGraphIndex}  3: {SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].NodeIndexToSave}");
         data.CurrentSeriaIndex = CurrentSeriaIndex;
         data.CurrentNodeGraphIndex = CurrentNodeGraphIndex;
         data.CurrentNodeIndex = SeriaNodeGraphsHandlers[CurrentSeriaIndex].SeriaPartNodeGraphs[CurrentNodeGraphIndex].NodeIndexToSave;

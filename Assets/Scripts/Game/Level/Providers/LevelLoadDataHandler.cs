@@ -32,10 +32,8 @@ public class LevelLoadDataHandler
         OnContentIsLoadProperty<bool> onContentIsLoadProperty)
     {
         _panelsLocalizationHandler = panelsLocalizationHandler;
-        // _backgroundContentCreator = backgroundContentCreator;
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
-        // _currentSeriaLoadedNumberProperty.SetValue(_indexFirstName);
         _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
         CharacterProviderBuildMode = new CharacterProviderBuildMode();
@@ -69,20 +67,17 @@ public class LevelLoadDataHandler
         AudioClipProvider.Shutdown();
         BackgroundDataProvider.Shutdown();
         SeriaGameStatsProviderBuild.Shutdown();
-        // _backgroundContentCreator.Shutdown();
         PhoneProviderInBuildMode.Shutdown();
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
         await InitLoaders();
-        Debug.Log($"LoadStartSeriaContent 0  _numberFirstSeria: {_numberFirstSeria}  _indexFirstName: {_indexFirstName}");
-        CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName); //!!!
+        CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
         await LoadCurrentLocalization(_numberFirstSeria);
         await GameSeriesProvider.TryLoadData(_indexFirstName);
         await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
         await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
-        // await _backgroundContentCreator.TryCreateBackgroundContent();
         await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
         await AudioClipProvider.TryLoadDatas(_indexFirstName);
         await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
@@ -109,16 +104,12 @@ public class LevelLoadDataHandler
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
-            Debug.Log($"LoadNextSeriesContent 1  nextSeriaNumber: {nextSeriaNumber}  nextSeriaIndex: {nextSeriaIndex}");
-
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
             await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
             await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
             await SeriaGameStatsProviderBuild.TryLoadData(nextSeriaIndex);
-            // await _backgroundContentCreator.TryCreateBackgroundContent();
-
             await PhoneProviderInBuildMode.TryLoadDatas(nextSeriaIndex);
             
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!

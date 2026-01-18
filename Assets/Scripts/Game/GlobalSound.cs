@@ -17,6 +17,20 @@ public class GlobalSound : Sound
         });
     }
 
+    public void FillStoryDataToSave(StoryData storyData)
+    {
+        storyData.AudioEffectsIsOn.Clear();
+        storyData.CurrentAudioMusicKey = CurrentMusicClipKey;
+        storyData.CurrentAudioAmbientKey = CurrentAdditionalClipKey;
+        
+        Debug.Log($"2552535  {CurrentMusicClipKey}   {CurrentAdditionalClipKey}");
+
+        var effects = AudioEffectsCustodian.GetEnableEffectsToSave();
+        if (effects != null)
+        {
+            storyData.AudioEffectsIsOn.AddRange(effects);
+        }
+    }
     public async UniTask TryPlayOnLoadSave()
     {
         await SmoothAudio.TryDoQueue();

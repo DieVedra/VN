@@ -10,7 +10,6 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected const int DefaultSeriaIndex = 0;
     protected StoryData StoryData;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
-    protected OnSceneTransitionEvent OnSceneTransitionEvent;
     protected NodeGraphInitializer NodeGraphInitializer;
     protected DisableNodesContentEvent DisableNodesContentEvent;
     protected SwitchToNextNodeEvent SwitchToNextNodeEvent;

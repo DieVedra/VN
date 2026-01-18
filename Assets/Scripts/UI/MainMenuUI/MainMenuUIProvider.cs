@@ -45,7 +45,7 @@ public class MainMenuUIProvider : ILocalizable
 
     public void Shutdown()
     {
-        DarkeningBackgroundFrameUIHandler.Dispose();
+        DarkeningBackgroundFrameUIHandler.Shutdown();
         PlayStoryPanelHandler.Dispose();
         ConfirmedPanelUIHandler.Dispose();
         BottomPanelUIHandler.Dispose();

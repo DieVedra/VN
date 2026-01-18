@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class BackgroundBuildMode : Background
 {
-    private BackgroundDataProvider _backgroundDataProvider;
-
-    public void Construct(BackgroundDataProvider backgroundDataProvider, ISetLighting setLighting, BackgroundPool backgroundPool)
+    public void SubscribeProviders(BackgroundDataProvider backgroundDataProvider)
     {
-        _backgroundDataProvider = backgroundDataProvider;
+        backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(_ =>
+        {
+            AddContent(ref AdditionalImagesToBackgroundDictionary, _);
+        });
+        backgroundDataProvider.OnLoadArtsData.Subscribe(_ =>
+        {
+            AddContent(ref ArtsSpritesDictionary, _);
+        });
+        backgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
+        {
+            AddContent(ref BackgroundContentValuesDictionary, _);
+        });
+        backgroundDataProvider.OnLoadWardrobeData.Subscribe(_ =>
+        {
+            AddContent(ref WardrobeBackgroundContentValuesDictionary, _);
+        });
+    }
+    public void Construct(ISetLighting setLighting, BackgroundPool backgroundPool)
+    {
         BackgroundPool = backgroundPool;
         BackgroundContent1.Construct(setLighting, BackgroundPool);
         BackgroundContent2.Construct(setLighting, BackgroundPool);
         ColorOverlay.color = Color.clear;
         
-        _backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(_ =>
-        {
-            AddContent(ref AdditionalImagesToBackgroundDictionary, _);
-        });
-        _backgroundDataProvider.OnLoadArtsData.Subscribe(_ =>
-        {
-            AddContent(ref ArtsSpritesDictionary, _);
-        });
-        _backgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
-        {
-            AddContent(ref BackgroundContentValuesDictionary, _);
-        });
-        _backgroundDataProvider.OnLoadWardrobeData.Subscribe(_ =>
-        {
-            AddContent(ref WardrobeBackgroundContentValuesDictionary, _);
-        });
         if (BackgroundSaveData != null)
         {
             SetBackgroundPosition((BackgroundPosition)BackgroundSaveData.CurrentBackgroundPosition, BackgroundSaveData.CurrentKeyBackgroundContent);

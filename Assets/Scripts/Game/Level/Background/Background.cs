@@ -47,12 +47,13 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         CurrentKeyBackgroundContent = backgroundSaveData.CurrentKeyBackgroundContent;
     }
 
-    public BackgroundSaveData GetBackgroundSaveData()
+    public void FillSaveData(StoryData storyData)
     {
         BackgroundSaveData = new BackgroundSaveData
         {
             ArtOpenedKeys = ArtOpenedKeys,
             CurrentKeyBackgroundContent = CurrentKeyBackgroundContent,
+            CurrentBackgroundPosition = (int)CurrentBackgroundPosition,
             AdditionalImagesInfo = new Dictionary<string, List<AdditionalImageData>>()
         };
         foreach (var pair1 in BackgroundContent1.GetAdditionalImages)
@@ -65,15 +66,13 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             }
             BackgroundSaveData.AdditionalImagesInfo.Add(pair1.Key, dataAdditionalImages);
         }
-        return BackgroundSaveData;
+        storyData.BackgroundSaveData = BackgroundSaveData;
     }
 
     protected void TryAddAddebleContentToBackgroundContent(Dictionary<string, List<AdditionalImageData>> additionalImagesInfo)
     {
-        Debug.Log($"additionalImagesInfo1 {additionalImagesInfo.Count}");
         foreach (var pair1 in additionalImagesInfo)
         {
-            Debug.Log($"additionalImagesInfo2 {additionalImagesInfo.Count}  {pair1.Value.Count}");
             if (pair1.Value?.Count > 0)
             {
                 foreach (var data in pair1.Value)

@@ -52,7 +52,7 @@ public class GlobalUIHandler
     public void Shutdown()
     {
          _loadScreenUIHandler.Dispose();
-         _blackFrameUIHandler.Dispose();
+         _blackFrameUIHandler.Shutdown();
          _loadIndicatorUIHandler.Dispose();
          _settingsPanelUIHandler.Dispose();
          _shopMoneyPanelUIHandler.Dispose();

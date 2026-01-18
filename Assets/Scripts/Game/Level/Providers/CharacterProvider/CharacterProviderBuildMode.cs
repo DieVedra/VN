@@ -66,38 +66,5 @@ public class CharacterProviderBuildMode : ILocalizable
     {
         await _charactersProvider.TryLoadData(nextSeriaNameAssetIndex);
         await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex);
-        
-        
-        // if (await _charactersProvider.TryLoadData(nextSeriaNameAssetIndex))
-        // {
-        //     var customizableCharacter = _customizableCharacterDataProvider.GetDatas[nextSeriaNameAssetIndex];
-        // }
-        // if (await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex))
-        // {
-        //     // List<SimpleCharacter> newSimpleCharacters = _charactersDataProvider.GetDatas[nextSeriaNameAssetIndex].SimpleCharacters;
-        //     // if (_allCharacters.Count > 0)
-        //     // {
-        //     //     Dictionary<string, Character> dictionaryAllCharacters = _allCharacters.ToDictionary(
-        //     //         x => x.Name.Key, x=> x);
-        //     //     for (int i = 0; i < newSimpleCharacters.Count; i++)
-        //     //     {
-        //     //         if (dictionaryAllCharacters.TryGetValue(newSimpleCharacters[i].Name.Key, out Character character))
-        //     //         {
-        //     //             if (character is SimpleCharacter simpleCharacter)
-        //     //             {
-        //     //                 simpleCharacter.TryMerge(newSimpleCharacters[i]);
-        //     //             }
-        //     //         }
-        //     //         else
-        //     //         {
-        //     //             _allCharacters.Add(newSimpleCharacters[i]);
-        //     //         }
-        //     //     }
-        //     // }
-        //     // else
-        //     // {
-        //     //     _allCharacters.AddRange(newSimpleCharacters);
-        //     // }
-        // }
     }
 }

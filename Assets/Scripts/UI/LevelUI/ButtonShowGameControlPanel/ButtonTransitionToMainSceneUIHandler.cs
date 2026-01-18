@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -15,27 +16,20 @@ public class ButtonTransitionToMainSceneUIHandler : ILocalizable
     public readonly LocalizationString ButtonText = "Да";
 
     private readonly LoadScreenUIHandler _loadScreenUIHandler;
-    private readonly OnSceneTransitionEvent _onSceneTransition;
-    private readonly SmoothAudio _smoothAudio;
+    private readonly Func<UniTask> _preSceneTransitionOperation;
 
-    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, OnSceneTransitionEvent onSceneTransition,
-        SmoothAudio smoothAudio)
+    public ButtonTransitionToMainSceneUIHandler(LoadScreenUIHandler loadScreenUIHandler, Func<UniTask> preSceneTransitionOperation)
     {
         _loadScreenUIHandler = loadScreenUIHandler;
-        _onSceneTransition = onSceneTransition;
-        _smoothAudio = smoothAudio;
+        _preSceneTransitionOperation = preSceneTransitionOperation;
     }
 
     public async UniTask Press()
     {
-        var token = new CancellationTokenSource();
-        await UniTask.WhenAll(_loadScreenUIHandler.BlackFrameUIHandler.Close(),
-            _smoothAudio.SmoothStopAudio(token.Token, AudioSourceType.Music),
-            _smoothAudio.SmoothStopAudio(token.Token, AudioSourceType.Ambient));
-        Camera.main.gameObject.SetActive(false);
+        await UniTask.WhenAll(_loadScreenUIHandler.BlackFrameUIHandler.Close(), _preSceneTransitionOperation.Invoke());
         await _loadScreenUIHandler.ShowToMainMenuMove();
+        Camera.main.gameObject.SetActive(false);
         await SceneManager.LoadSceneAsync(_mainSceneIndex, LoadSceneMode.Single);
-        _onSceneTransition.Execute();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

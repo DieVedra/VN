@@ -40,7 +40,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
         PrefabsProvider = new PrefabsProvider();
         await PrefabsProvider.Init();
         Init();
-        OnSceneTransitionEvent.Subscribe(Shutdown);
     }
     
     public void Init()
@@ -56,7 +55,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
         Load();
         ConstructSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-        OnSceneTransitionEvent = new OnSceneTransitionEvent();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
         
@@ -183,8 +181,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
             StoryData.PutOnSwimsuitKey = _gameSeriesHandlerEditorMode.PutOnSwimsuitKeyProperty;
             _gameSeriesHandlerEditorMode.GetInfoToSave(StoryData);
             
-            StoryData.Stats.Clear();
-            StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
+            // StoryData.Stats.Clear();
+            // StoryData.Stats.AddRange(_seriaGameStatsProviderEditor.GetAllStatsToSave());
+            _seriaGameStatsProviderEditor.GameStatsHandler.FillSaveStats(StoryData);
             StoryData.CurrentAudioMusicKey = _levelSoundEditMode.CurrentMusicClipKey;
             StoryData.CurrentAudioAmbientKey = _levelSoundEditMode.CurrentAdditionalClipKey;
 
@@ -196,7 +195,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             }
             
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
-            StoryData.BackgroundSaveData = _backgroundEditMode.GetBackgroundSaveData();
+            _backgroundEditMode.FillSaveData(StoryData);
 
             _phoneProviderInEditMode.FillPhoneSaveInfo(StoryData);
             

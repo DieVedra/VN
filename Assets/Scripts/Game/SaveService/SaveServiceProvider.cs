@@ -22,15 +22,26 @@ public class SaveServiceProvider
     {
         SaveService.Save(_saveData);
     }
-    public void SaveProgress(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
+
+    // public void SaveFromMainMenu(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
+    //     PanelsLocalizationHandler panelsLocalizationHandler)
+    // {
+    //     _saveData.Monets = wallet.GetMonetsCount;
+    //     _saveData.Hearts = wallet.GetHeartsCount;
+    //     _saveData.SoundStatus = globalSound.SoundStatus.Value;
+    //     storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
+    //     _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
+    //
+    // }
+    public void SaveFromMainMenu(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
         PanelsLocalizationHandler panelsLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
     {
         _saveData.Monets = wallet.GetMonetsCount;
         _saveData.Hearts = wallet.GetHeartsCount;
         _saveData.SoundStatus = globalSound.SoundStatus.Value;
         storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
-        
         _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
+        
         if (mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName != String.Empty)
         {
             _saveData.NameStartStory = mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;

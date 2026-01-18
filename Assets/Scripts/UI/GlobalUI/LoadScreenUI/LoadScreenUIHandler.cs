@@ -32,7 +32,7 @@ public class LoadScreenUIHandler : ILocalizable
     {
         _cancellationTokenSource?.Cancel();
         _indicatorUIHandler.Dispose();
-        _blackFrameUIHandler.Dispose();
+        _blackFrameUIHandler.Shutdown();
         _loadWordsHandler.StopSubstitutingWords();
     }
 

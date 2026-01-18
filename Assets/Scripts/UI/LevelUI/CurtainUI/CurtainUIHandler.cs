@@ -18,15 +18,15 @@ public class CurtainUIHandler
         BlackFrameView = blackFrameView;
         BlockGameControlPanelUI = blockGameControlPanelUI;
         CurtainImage = BlackFrameView.Image;
-        if (Application.isPlaying == true)
-        {
-            BlackFrameView.gameObject.SetActive(true);
-            SkipAtCloses();
-        }
-        else
-        {
-            BlackFrameView.gameObject.SetActive(false);
-        }
+        // if (Application.isPlaying == true)
+        // {
+        //     BlackFrameView.gameObject.SetActive(true);
+        //     SkipAtCloses();
+        // }
+        // else
+        // {
+        //     BlackFrameView.gameObject.SetActive(false);
+        // }
     }
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
