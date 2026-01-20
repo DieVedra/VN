@@ -62,7 +62,7 @@ public class SettingsPanelUIHandler : ILocalizable
     {
         IsInLevel = false;
     }
-    public void Dispose()
+    public void Shutdown()
     {
         _hideOnSwitchLevelLocalizationCompositeDisposable?.Clear();
         _settingsPanelView?.SoundField.Toggle.onValueChanged.RemoveAllListeners();

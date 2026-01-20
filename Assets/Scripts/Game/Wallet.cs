@@ -13,7 +13,6 @@ public class Wallet
     private readonly ReactiveCommand<int> _heartsCountChanged;
     
     private CancellationTokenSource _cancellationTokenSource;
-    
     private int _lastMonetAddValue = 0;
     private int _lastHeartsAddValue = 0;
     private int _lastMonetRemoveValue = 0;

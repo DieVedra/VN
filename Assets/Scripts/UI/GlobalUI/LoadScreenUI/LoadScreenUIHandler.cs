@@ -28,10 +28,10 @@ public class LoadScreenUIHandler : ILocalizable
         _loadWordsHandler = new LoadWordsHandler();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
-        _indicatorUIHandler.Dispose();
+        _indicatorUIHandler.Shutdown();
         _blackFrameUIHandler.Shutdown();
         _loadWordsHandler.StopSubstitutingWords();
     }

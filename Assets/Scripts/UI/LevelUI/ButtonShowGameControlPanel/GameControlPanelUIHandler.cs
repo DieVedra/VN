@@ -60,7 +60,7 @@ public class GameControlPanelUIHandler : ILocalizable
         _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
-        _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ShopMoneyButtonView);
+        _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler/*, gameControlPanelView.ShopMoneyButtonView*/);
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         {
             if (_panelIsBlocked == false)

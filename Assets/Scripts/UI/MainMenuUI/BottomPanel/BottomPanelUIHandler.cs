@@ -25,7 +25,7 @@ public class BottomPanelUIHandler : ILocalizable
         _languageChanged = languageChanged;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
         _advertisingButtonUIHandler.Dispose();

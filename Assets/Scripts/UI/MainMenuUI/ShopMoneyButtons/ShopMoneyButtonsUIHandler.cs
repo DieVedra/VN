@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
 public class ShopMoneyButtonsUIHandler
 {
-    private const int _sublingIndexMonet = 2;
-    private const int _sublingIndexHearts = 3;
-    private const int _monetIndex = 0;
-    private const int _heartsIndex = 1;
 
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly Wallet _wallet;
     private readonly ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     private readonly Transform _parent;
-    private ResourcePanelButtonView _monetPanel, _heartsPanel;
+    private ResourcePanelHandler _monetPanelHandler, _heartsPanelHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     public bool IsInited { get; private set; }
 
@@ -27,71 +22,52 @@ public class ShopMoneyButtonsUIHandler
         IsInited = false;
     }
 
-    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, ResourcePanelButtonView shopButtonOnGameControlPanel)
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler/*, ResourcePanelButtonView shopButtonOnGameControlPanel*/)
     {
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
 
         if (IsInited == false)
         {
-            shopButtonOnGameControlPanel.Button.onClick.AddListener(() =>
-            {
-                _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent).Forget();
-            });
+            // shopButtonOnGameControlPanel.Button.onClick.AddListener(() =>
+            // {
+            //     _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent, ShopMoneyMode.Monets).Forget();
+            // });
             IsInited = true;
         }
     }
-    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, ResourcePanelButtonView monetPanel, ResourcePanelButtonView heartsPanel)
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, ResourcePanelHandler monetPanelHandler, ResourcePanelHandler heartsPanelHandler)
     {
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         if (IsInited == false)
         {
-            _monetPanel = monetPanel;
-            _heartsPanel = heartsPanel;
-            _monetPanel.transform.SetSiblingIndex(_sublingIndexMonet);
-            _heartsPanel.transform.SetSiblingIndex(_sublingIndexHearts);
-
-            _wallet.MonetsCountChanged.Subscribe(_ =>
-            {
-                _monetPanel.Text.text = _.ToString();
-            });
-            _wallet.HeartsCountChanged.Subscribe(_ =>
-            {
-                _heartsPanel.Text.text = _.ToString();
-            });
-            
+            _monetPanelHandler = monetPanelHandler;
+            _heartsPanelHandler = heartsPanelHandler;
             IsInited = true;
+            SubscribeButtons();
         }
-
-        SubscribeButtonsAndSetResourcesIndicate();
     }
 
-    private void SubscribeButtonsAndSetResourcesIndicate()
+    private void SubscribeButtons()
     {
-        _monetPanel.Text.text = _wallet.GetMonetsCount.ToString();
-        _heartsPanel.Text.text = _wallet.GetHeartsCount.ToString();
-        _monetPanel.gameObject.SetActive(true);
-        _heartsPanel.gameObject.SetActive(true);
-        _shopMoneyPanelUIHandler.OnHide -= SubscribeButtonsAndSetResourcesIndicate;
-        
-        _heartsPanel.Button.onClick.AddListener(()=>
+        _monetPanelHandler.SubscribeButton(() =>
         {
-            _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent, _heartsIndex).Forget();
-            OffPanels();
+            _shopMoneyPanelUIHandler.Show(ShopMoneyMode.Monets, ShowOperation, HideOperation).Forget();
         });
-        _monetPanel.Button.onClick.AddListener(()=>
+        _heartsPanelHandler.SubscribeButton(() =>
         {
-            _shopMoneyPanelUIHandler.OnHide += SubscribeButtonsAndSetResourcesIndicate;
-            _shopMoneyPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _parent, _monetIndex).Forget();
-            OffPanels();
+            _shopMoneyPanelUIHandler.Show(ShopMoneyMode.Hearts, ShowOperation, HideOperation).Forget();
         });
     }
 
-    private void OffPanels()
+    private void ShowOperation()
     {
-        _monetPanel.gameObject.SetActive(false);
-        _heartsPanel.gameObject.SetActive(false);
-        _monetPanel.Button.onClick.RemoveAllListeners();
-        _heartsPanel.Button.onClick.RemoveAllListeners();
+        _monetPanelHandler.SetParent(_shopMoneyPanelUIHandler.MonetPanel);
+        _heartsPanelHandler.SetParent(_shopMoneyPanelUIHandler.HeartsPanel);
+    }
+    private void HideOperation()
+    {
+        _monetPanelHandler.SetParentDefault();
+        _heartsPanelHandler.SetParentDefault();
+        SubscribeButtons();
     }
 }

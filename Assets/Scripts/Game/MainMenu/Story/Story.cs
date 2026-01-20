@@ -12,11 +12,13 @@ public class Story  : ILocalizable
     [SerializeField, ShowAssetPreview()] private Sprite _spriteStorySkin;
     [SerializeField] private LocalizationString _description;
     [SerializeField] private string _nameSceneAsset;
+    [SerializeField] private string _nameUISpriteAtlas;
     [SerializeField] private int _progressPercent;
     [SerializeField] private int _currentSeriaIndex;
     [SerializeField] private ReactiveProperty<bool> _isLiked;
     [SerializeField, NaughtyAttributes.ReadOnly] private int _myIndex;
     [SerializeField, NaughtyAttributes.ReadOnly] private bool _storyStarted;
+    
     // private StoryData _storyData;
     private CompositeDisposable _compositeDisposable;
     public Sprite SpriteLogo => _spriteLogo;

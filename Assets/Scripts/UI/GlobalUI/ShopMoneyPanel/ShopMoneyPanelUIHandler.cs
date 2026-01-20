@@ -8,18 +8,19 @@ using UnityEngine.UI;
 
 public class ShopMoneyPanelUIHandler : ILocalizable
 {
-    private const int _monetIndex = 0;
     private readonly LocalizationString _monetButtonText = "Монеты";
     private readonly LocalizationString _heartsButtonText = "Сердца";
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly Wallet _wallet;
+    private Transform _parent;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
-    private CompositeDisposable _compositeDisposable;
-    public event Action OnHide;
+    private Action _hideOperation;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
+    public RectTransform MonetPanel => _shopMoneyPanelView.MonetIndicatorPanel;
+    public RectTransform HeartsPanel => _shopMoneyPanelView.HeartsIndicatorPanel;
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
     {
@@ -30,7 +31,12 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         SwipeDetectorOff = swipeDetectorOff;
     }
 
-    public void Dispose()
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent)
+    {
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        _parent = parent;
+    }
+    public void Shutdown()
     {
         if (_shopMoneyPanelView != null)
         {
@@ -41,43 +47,27 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     {
         return new LocalizationString[] {_monetButtonText, _heartsButtonText};
     }
-    public async UniTask Show(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent, int index = 0)
+    public async UniTask Show(ShopMoneyMode mode, Action showOperation, Action hideOperation)
     {
         SwipeDetectorOff?.Execute(true);
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
         if (PanelIsLoaded == false)
         {
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
-            await LoadPanel(parent);
+            await LoadPanel(_parent);
             _loadIndicatorUIHandler.StopIndicate();
         }
-        else
-        {
-            _shopMoneyPanelView.transform.SetAsLastSibling();
-        }
-        _shopMoneyPanelView.TextMoney.text = _wallet.GetMonetsCount.ToString();
-        _shopMoneyPanelView.TextHearts.text = _wallet.GetHeartsCount.ToString();
-        
-        _compositeDisposable = new CompositeDisposable();
-        _wallet.MonetsCountChanged.Subscribe(_ =>
-        {
-            _shopMoneyPanelView.TextMoney.text = _.ToString();
-        }).AddTo(_compositeDisposable);
-        
-        _wallet.HeartsCountChanged.Subscribe(_ =>
-        {
-            _shopMoneyPanelView.TextHearts.text = _.ToString();
-        }).AddTo(_compositeDisposable);
-        
+        _shopMoneyPanelView.transform.SetAsLastSibling();
+        _hideOperation = hideOperation;
         _shopMoneyPanelView.transform.parent.gameObject.SetActive(true);
         _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
         _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
         
         
-        InitPanel(index);
+        InitPanel(mode);
         _shopMoneyPanelView.gameObject.SetActive(true);
+        showOperation.Invoke();
     }
 
     private async UniTask Hide()
@@ -86,23 +76,21 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _shopMoneyPanelView.gameObject.SetActive(false);
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
+        _hideOperation?.Invoke();
         await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
-        _compositeDisposable?.Clear();
-        _shopMoneyPanelView.transform.parent.gameObject.SetActive(false);
+        _shopMoneyPanelView./*transform.parent.*/gameObject.SetActive(false); //??
     }
 
     private async UniTask LoadPanel(Transform parent)
     {
         _shopMoneyPanelView = await _shopMoneyAssetLoader.CreateShopMoneyPanel(parent);
-        _shopMoneyPanelView.transform.SetAsLastSibling();
         PanelIsLoaded = true;
     }
 
-    private void InitPanel(int index)
+    private void InitPanel(ShopMoneyMode mode)
     {
         _shopMoneyPanelView.ExitButton.onClick.AddListener(() =>
         {
-            OnHide?.Invoke();
             Hide().Forget();
             _shopMoneyPanelView.ExitButton.onClick.RemoveAllListeners();
         });
@@ -110,11 +98,11 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _shopMoneyPanelView.ButtonMonet.onClick.AddListener(SwitchToMonetPanel);
         _shopMoneyPanelView.ButtonHearts.onClick.AddListener(SwitchToHeartsPanel);
         
-        if (index == _monetIndex)
+        if (mode == ShopMoneyMode.Monets)
         {
             SwitchToMonetPanel();
         }
-        else
+        else if(mode == ShopMoneyMode.Hearts)
         {
             SwitchToHeartsPanel();
         }

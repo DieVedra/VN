@@ -16,11 +16,14 @@ public class AudioEffectsCustodian
 
     public void TryEnableEffectsFromSave(List<AudioEffect> enabledEffects)
     {
-        foreach (var effect in enabledEffects)
+        if (enabledEffects != null)
         {
-            if (_dictionaryEffects.TryGetValue(effect, out var value))
+            foreach (var effect in enabledEffects)
             {
-                value.SetEffect(true);
+                if (_dictionaryEffects.TryGetValue(effect, out var value))
+                {
+                    value.SetEffect(true);
+                }
             }
         }
     }

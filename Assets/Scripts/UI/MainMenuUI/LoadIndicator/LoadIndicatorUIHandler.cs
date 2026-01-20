@@ -40,7 +40,7 @@ public class LoadIndicatorUIHandler : ILocalizable
         _startRotationValue = new Vector3(_minRotationValue, _minRotationValue, _minRotationValue);
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         StopIndicate();
         _assetLoaded = false;

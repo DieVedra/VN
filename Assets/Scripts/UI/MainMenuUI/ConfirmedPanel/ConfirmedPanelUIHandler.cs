@@ -22,7 +22,7 @@ public class ConfirmedPanelUIHandler
         _confirmedPanelAssetProvider = new ConfirmedPanelAssetProvider();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         if (_confirmedPanelView != null)
         {

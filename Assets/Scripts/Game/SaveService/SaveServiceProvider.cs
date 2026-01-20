@@ -55,14 +55,6 @@ public class SaveServiceProvider
         {
             Debug.Log($"SaveData: true");
             SaveHasBeenLoaded = true;
-            // _saveData.SoundStatus = loadedSave.SoundStatus;
-            // _saveData.Monets = loadedSave.Monets;
-            // _saveData.Hearts = loadedSave.Hearts;
-            // _saveData.NameStartStory = loadedSave.NameStartStory;
-            // _saveData.StoryDatas = loadedSave.StoryDatas;
-            
-
-            // _saveData.LanguageLocalizationKey = loadedSave.LanguageLocalizationKey;
         }
         else
         {

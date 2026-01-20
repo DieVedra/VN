@@ -20,7 +20,7 @@ public class BackgroundContent : MonoBehaviour
 
     private Dictionary<string, Dictionary<string, SpriteRenderer>> _additionalImages;
     private BackgroundPool _backgroundPool;
-    private Transform _transformSprite;
+    private Transform _transformSpriteRenderer;
     private ISetLighting _setLighting;
     private BackgroundPosition _currentBackgroundPosition;
 
@@ -49,12 +49,21 @@ public class BackgroundContent : MonoBehaviour
 #endif
     public void Construct(ISetLighting setLighting, BackgroundPool backgroundPool)
     {
+#if UNITY_EDITOR
+        if (Application.isPlaying == false)
+        {
+            for (int i = 0; i < _transformSpriteRenderer.childCount; i++)
+            {
+                DestroyImmediate(_transformSpriteRenderer.GetChild(i).gameObject);
+            }
+        }
+#endif
         _movementDuringDialogueAddend = new Vector3(_movementDuringDialogueValue, _defaultPosValue,_defaultPosValue);
         _leftPosition = new Vector3(_defaultPosValue, _defaultPosValue,_defaultPosValue);
         _centralPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
         _rightPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
         _backgroundPool = backgroundPool;
-        _transformSprite = _spriteRenderer.transform;
+        _transformSpriteRenderer = _spriteRenderer.transform;
         _setLighting = setLighting;
         _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
         gameObject.SetActive(false);
@@ -72,20 +81,33 @@ public class BackgroundContent : MonoBehaviour
         SetPositionBorders(_leftBordTransform, _leftPosition);
         SetPositionBorders(_centralTransform, _centralPosition);
         SetPositionBorders(_rightBordTransform, _rightPosition);
+        DisableAllAdditionalSprite();
+        if (_additionalImages.TryGetValue(backgroundContentValues.NameBackground, out var value))
+        {
+            foreach (var pair in value)
+            {
+                pair.Value.gameObject.SetActive(true);
+            }
+        }
         gameObject.SetActive(enable);
     }
+
+    public void Diactivate()
+    {
+        gameObject.SetActive(false);
+        DisableAllAdditionalSprite();
+    }
+
     public void ChangeLightingColorOfTheCharacter()
     {
         _setLighting.ChangeLightingColorOfTheCharacter(_colorLighting);
     }
+
     public async UniTask SmoothChangeLightingColorOfTheCharacter(float duration, CancellationToken cancellationToken)
     {
         await _setLighting.SmoothChangeLightingColorOfTheCharacter(_colorLighting, duration, cancellationToken);
     }
-    public void Diactivate()
-    {
-        gameObject.SetActive(false);
-    }
+
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition)
     {
         _currentBackgroundPosition = backgroundPosition;
@@ -143,7 +165,6 @@ public class BackgroundContent : MonoBehaviour
                 else
                 {
                     SpriteRenderer spriteRenderer = _backgroundPool.GetRenderer();
-
                     value1.Add(keyAdditionalImage, spriteRenderer);
                     FillSpriteRenderer(value1.Count, spriteRenderer);
                 }
@@ -212,12 +233,12 @@ public class BackgroundContent : MonoBehaviour
     }
     private async UniTask SmoothMovement(CancellationToken cancellationToken, Vector3 endPos, Ease ease, float duration)
     {
-        await _transformSprite.DOMove(endPos, duration).SetEase(Ease.OutSine).WithCancellation(cancellationToken);
+        await _transformSpriteRenderer.DOMove(endPos, duration).SetEase(Ease.OutSine).WithCancellation(cancellationToken);
     }
     
     private void MovementDuringDialogue(Vector3 endPos)
     {
-        _transformSprite.position = endPos;
+        _transformSpriteRenderer.position = endPos;
     }
     private void MovementBord(Transform bordTransform)
     {
@@ -243,6 +264,14 @@ public class BackgroundContent : MonoBehaviour
     {
         position.localPosition = value;
     }
+
+    private void DisableAllAdditionalSprite()
+    {
+        for (int i = 0; i < _transformSpriteRenderer.childCount; i++)
+        {
+            _transformSpriteRenderer.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     
 #if UNITY_EDITOR
     private void DestroyAllAddContent()
@@ -258,7 +287,7 @@ public class BackgroundContent : MonoBehaviour
                         DestroyImmediate(pair2.Value.gameObject);
                     }
                 }
-                _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
+                _additionalImages.Clear();
             }
         }
     }

@@ -148,7 +148,7 @@ public class MyScrollHandler : ILocalizable
         return new [] {_buttonOpenText, _buttonContinueText };
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         if (_contentCount == 1)
         {

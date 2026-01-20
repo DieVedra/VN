@@ -64,7 +64,7 @@ public class PlayStoryPanelHandler : ILocalizable
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         Addressables.ReleaseInstance(_playStoryPanel.gameObject);
     }
