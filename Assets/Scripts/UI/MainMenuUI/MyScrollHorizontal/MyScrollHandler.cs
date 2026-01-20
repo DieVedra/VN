@@ -160,11 +160,10 @@ public class MyScrollHandler : ILocalizable
             _swipeDetector.OnUnpress -= _myScrollMover.StartPanelCloser;
             _swipeDetector.OnSwipeDirection -= _myScrollMover.MoveFromSwipe;
         }
-        
-        
+
         _swipeDetector.OnPress -= _myScrollMover.OnPress;
         _swipeDetector.Disable();
-        _changeEffectHandler.Dispose();
+        _changeEffectHandler.Shutdown();
         _currentIndex.Dispose();
         _compositeDisposableLanguageChanged.Clear();
         for (int i = 0; i < _contentChilds.Count; i++)
@@ -202,11 +201,8 @@ public class MyScrollHandler : ILocalizable
             {
                 panel.ImageBackground.sprite = _stories[i].SpriteStorySkin;
                 panel.ImageLabel.sprite = _stories[i].SpriteLogo;
-
-
                 InitContinueButton(panel, _stories[i], levelLoader);
                 InitOpenButton(panel, _stories[i], playStoryPanelHandler);
-                // panel.TextDescription.text = _stories[i].Description;
                 panel.gameObject.SetActive(true);
                 _descriptionCutter.TryCutAndSet(panel.TextDescription, _stories[i].Description);
             }

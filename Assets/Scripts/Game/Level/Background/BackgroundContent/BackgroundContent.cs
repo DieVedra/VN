@@ -49,6 +49,7 @@ public class BackgroundContent : MonoBehaviour
 #endif
     public void Construct(ISetLighting setLighting, BackgroundPool backgroundPool)
     {
+        _transformSpriteRenderer = _spriteRenderer.transform;
 #if UNITY_EDITOR
         if (Application.isPlaying == false)
         {
@@ -63,7 +64,6 @@ public class BackgroundContent : MonoBehaviour
         _centralPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
         _rightPosition = new Vector3(_defaultPosValue,_defaultPosValue, _defaultPosValue);
         _backgroundPool = backgroundPool;
-        _transformSpriteRenderer = _spriteRenderer.transform;
         _setLighting = setLighting;
         _additionalImages = new Dictionary<string, Dictionary<string, SpriteRenderer>>();
         gameObject.SetActive(false);

@@ -19,7 +19,7 @@ public class ChangeEffectHandler
         _currentIndex = currentIndex;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource?.Dispose();

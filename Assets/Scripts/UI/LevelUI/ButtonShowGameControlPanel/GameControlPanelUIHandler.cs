@@ -22,7 +22,11 @@ public class GameControlPanelUIHandler : ILocalizable
     private ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
     
     private SettingsPanelUIHandler _settingsPanelUIHandler;
+    
+    
     private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
+    
+    
     private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
     
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
@@ -60,7 +64,11 @@ public class GameControlPanelUIHandler : ILocalizable
         _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
-        _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler/*, gameControlPanelView.ShopMoneyButtonView*/);
+        
+        
+        // _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ButtonShowPanel, ,);
+        
+        
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         {
             if (_panelIsBlocked == false)

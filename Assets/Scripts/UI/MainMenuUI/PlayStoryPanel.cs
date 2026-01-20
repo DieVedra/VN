@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PlayStoryPanel : StoryPanel
 {
-    [SerializeField] private Button _wardressButton;
+    [SerializeField] private Button _wardrobeButton;
     [SerializeField] private Button _resetProgressButton;
     [SerializeField] private Button _likeButton;
     [SerializeField] private Button _exitButton;
@@ -17,7 +17,7 @@ public class PlayStoryPanel : StoryPanel
     [SerializeField] private int _hierarchyIndex;
     [SerializeField] private float _hideScaleValue;
     
-    public Button WardressButton => _wardressButton;
+    public Button WardrobeButton => _wardrobeButton;
     public Button ResetProgressButton => _resetProgressButton;
     public Button LikeButton => _likeButton;
     public Button ExitButton => _exitButton;

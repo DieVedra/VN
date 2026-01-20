@@ -35,7 +35,8 @@ public class LevelUIProviderEditMode
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
-        PanelResourceHandler = new PanelResourceHandler(wallet, levelUIView.MonetPanel, levelUIView.HeartsPanel);
+        // PanelResourceHandler = new PanelResourceHandler(wallet, levelUIView.MonetPanel, levelUIView.HeartsPanel);
+        
         ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet, PanelResourceHandler, choicePanelInitializer);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
@@ -53,8 +54,8 @@ public class LevelUIProviderEditMode
                 choicePanelUI.gameObject.SetActive(false);
                 customizationCharacterPanelUI.gameObject.SetActive(false);
                 headerSeriesPanelUI.gameObject.SetActive(false);
-                levelUIView.MonetPanel.gameObject.SetActive(false);
-                levelUIView.HeartsPanel.gameObject.SetActive(false);
+                levelUIView.MonetPanelRectTransform.gameObject.SetActive(false);
+                levelUIView.HeartsPanelRectTransform.gameObject.SetActive(false);
                 levelUIView.PhoneUIView.gameObject.SetActive(false);
             });
         }

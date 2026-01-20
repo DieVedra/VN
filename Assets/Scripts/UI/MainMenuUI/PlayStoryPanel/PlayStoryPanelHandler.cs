@@ -1,10 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -75,7 +73,6 @@ public class PlayStoryPanelHandler : ILocalizable
 
     public async UniTaskVoid Show(Story story)
     {
-        
         _playStoryPanel.CanvasGroup.alpha = AnimationValuesProvider.MinValue;
         _currentStory = story;
         InitLikeButton();
@@ -85,8 +82,11 @@ public class PlayStoryPanelHandler : ILocalizable
         _contentHeightCalculator.UpdateTextSize(story.Description);
         _playStoryPanel.gameObject.SetActive(true);
         _playStoryPanel.PlayButtonText.text = _playButtonText;
+        Transform tr = _playStoryPanel.transform;
+        _blackFrameUIHandler.Transform.SetAsLastSibling();
+        tr.SetAsLastSibling();
         await UniTask.WhenAll(
-            _blackFrameUIHandler.CloseTranslucent(_playStoryPanel.HierarchyIndex),
+            _blackFrameUIHandler.CloseTranslucent(false),
             _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
             _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MaxValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token));
         

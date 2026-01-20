@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopMoneyButtonsUIHandler
 {
@@ -22,7 +22,7 @@ public class ShopMoneyButtonsUIHandler
         IsInited = false;
     }
 
-    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler/*, ResourcePanelButtonView shopButtonOnGameControlPanel*/)
+    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Button shopButtonOnGameControlPanel, ResourcePanelHandler monetPanelHandler, ResourcePanelHandler heartsPanelHandler)
     {
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
 
@@ -61,8 +61,8 @@ public class ShopMoneyButtonsUIHandler
 
     private void ShowOperation()
     {
-        _monetPanelHandler.SetParent(_shopMoneyPanelUIHandler.MonetPanel);
-        _heartsPanelHandler.SetParent(_shopMoneyPanelUIHandler.HeartsPanel);
+        _monetPanelHandler.SetParent(_shopMoneyPanelUIHandler.MonetIndicatorPanel);
+        _heartsPanelHandler.SetParent(_shopMoneyPanelUIHandler.HeartsIndicatorPanel);
     }
     private void HideOperation()
     {

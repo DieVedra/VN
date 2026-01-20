@@ -9,10 +9,12 @@ public class BottomPanelView : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _gameExitButtonText;
     [SerializeField] private TextMeshProUGUI _showAdvertisingButtonText;
-    
+
+    [SerializeField] private Image _advertisingIcon;
     public Button GameExitButton => _gameExitButton;
     public Button ShowAdvertisingButton => _showAdvertisingButton;
     
     public TextMeshProUGUI GameExitButtonText => _gameExitButtonText;
     public TextMeshProUGUI ShowAdvertisingButtonText => _showAdvertisingButtonText;
+    public Image AdvertisingIcon => _advertisingIcon;
 }

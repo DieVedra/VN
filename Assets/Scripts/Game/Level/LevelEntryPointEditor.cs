@@ -23,7 +23,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private Wallet _wallet;
     [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
-    [SerializeField] private bool _isInitializing;
+    [SerializeField, NaughtyAttributes.ReadOnly] private bool _isInitializing;
 
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -251,5 +251,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         }
         _backgroundEditMode.Construct(DisableNodesContentEvent, CharacterViewer);
     }
-    
+
+    [Button()]
+    private void SkipInitKey()
+    {
+        _isInitializing = false;
+    }
 }

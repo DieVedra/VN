@@ -17,6 +17,7 @@ public class SettingsPanelButtonUIHandler
     private ILevelLocalizationHandler _levelLocalizationHandler;
     private bool _isInLevel;
     public bool IsInited { get; private set; }
+    public RectTransform SettingsButtonRectTransform => _settingsButtonView.transform as RectTransform;
     public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, 
         LoadIndicatorUIHandler loadIndicatorUIHandler)
     {

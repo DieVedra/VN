@@ -23,6 +23,7 @@ public class MainMenuUIProvider : ILocalizable
     public readonly MyScrollHandler MyScrollHandler;
 
     public readonly ResourcePanelHandler MonetResourcePanelHandler, HeartsResourcePanelHandler;
+    public readonly ResourcesPanelsPositionHandlerMainMenu ResourcesPanelsPositionHandlerMainMenu;
 
     private List<LocalizationString> _localizableContent;
     public MainMenuUIProvider(BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
@@ -30,8 +31,8 @@ public class MainMenuUIProvider : ILocalizable
         SettingsPanelUIHandler settingsPanelUIHandler, ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,
         ShopMoneyButtonsUIHandler shopButtonsUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler,
         GlobalUIHandler globalUIHandler, BottomPanelUIHandler bottomPanelUIHandler, MyScrollHandler myScrollHandler,
-        ResourcePanelHandler monetResourcePanelHandler, ResourcePanelHandler heartsResourcePanelHandler
-        )
+        ResourcePanelHandler monetResourcePanelHandler, ResourcePanelHandler heartsResourcePanelHandler,
+        ResourcesPanelsPositionHandlerMainMenu resourcesPanelsPositionHandlerMainMenu)
     {
         BlackFrameUIHandler = globalUIHandler.BlackFrameUIHandler;
         DarkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
@@ -47,6 +48,7 @@ public class MainMenuUIProvider : ILocalizable
         MyScrollHandler = myScrollHandler;
         MonetResourcePanelHandler = monetResourcePanelHandler;
         HeartsResourcePanelHandler = heartsResourcePanelHandler;
+        ResourcesPanelsPositionHandlerMainMenu = resourcesPanelsPositionHandlerMainMenu;
     }
 
     public void Shutdown()
@@ -58,6 +60,7 @@ public class MainMenuUIProvider : ILocalizable
         MyScrollHandler.Shutdown();
         MonetResourcePanelHandler.Shutdown();
         HeartsResourcePanelHandler.Shutdown();
+        ResourcesPanelsPositionHandlerMainMenu.Shutdown();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

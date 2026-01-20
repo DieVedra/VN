@@ -19,8 +19,8 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private Action _hideOperation;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
-    public RectTransform MonetPanel => _shopMoneyPanelView.MonetIndicatorPanel;
-    public RectTransform HeartsPanel => _shopMoneyPanelView.HeartsIndicatorPanel;
+    public RectTransform MonetIndicatorPanel => _shopMoneyPanelView.MonetIndicatorPanel;
+    public RectTransform HeartsIndicatorPanel => _shopMoneyPanelView.HeartsIndicatorPanel;
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
     {
@@ -78,7 +78,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
         _hideOperation?.Invoke();
         await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
-        _shopMoneyPanelView./*transform.parent.*/gameObject.SetActive(false); //??
+        _shopMoneyPanelView.gameObject.SetActive(false);
     }
 
     private async UniTask LoadPanel(Transform parent)

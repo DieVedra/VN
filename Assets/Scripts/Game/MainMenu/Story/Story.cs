@@ -18,7 +18,6 @@ public class Story  : ILocalizable
     [SerializeField] private ReactiveProperty<bool> _isLiked;
     [SerializeField, NaughtyAttributes.ReadOnly] private int _myIndex;
     [SerializeField, NaughtyAttributes.ReadOnly] private bool _storyStarted;
-    
     // private StoryData _storyData;
     private CompositeDisposable _compositeDisposable;
     public Sprite SpriteLogo => _spriteLogo;
@@ -29,6 +28,7 @@ public class Story  : ILocalizable
     public int MyIndex => _myIndex;
 
     public string NameSceneAsset => _nameSceneAsset;
+    public string NameUISpriteAtlas => _nameUISpriteAtlas;
     public string StoryName => _storyName;
     public int ProgressPercent => _progressPercent;
     public int CurrentSeriaIndex => _currentSeriaIndex;

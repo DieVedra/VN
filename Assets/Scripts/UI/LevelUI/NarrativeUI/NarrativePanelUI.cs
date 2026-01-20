@@ -1,11 +1,13 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NarrativePanelUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _textComponent;
     [SerializeField] private RectTransform _panelRectTransform;
     [SerializeField] private RectTransform _imageRectTransform;
+    [SerializeField] private Image _image;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private float _durationAnim = 0.2f;
     [SerializeField] private float _heightOffset;
@@ -20,4 +22,5 @@ public class NarrativePanelUI : MonoBehaviour
     public float HeightOffset => _heightOffset;
     public bool FirstLineOffsetKey => _firstLineOffsetKey;
     public AnimationCurve AnimationCurve => _animationCurve;
+    public Image Image => _image;
 }

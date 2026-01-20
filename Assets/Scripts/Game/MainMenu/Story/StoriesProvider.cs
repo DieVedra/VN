@@ -28,7 +28,8 @@ public class StoriesProvider : ScriptableObject
             {
                 var newStory = new StoryData
                 {
-                    StoryName = story.StoryName, CurrentNodeGraphIndex = 0, CurrentNodeIndex = 0, PutOnSwimsuitKey = false
+                    StoryName = story.StoryName, NameUISpriteAtlas = story.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
+                    CurrentNodeIndex = 0, PutOnSwimsuitKey = false
                 };
                 
                 saveData.StoryDatas.Add(story.StoryName, newStory);

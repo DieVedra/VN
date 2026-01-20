@@ -193,7 +193,26 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
+        LevelUISpriteAtlasAssetProvider levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
+        await levelUISpriteAtlasAssetProvider.LoadSpriteAtlas(StoryData.NameUISpriteAtlas);
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
+        LevelUIView.NarrativePanelUI.Image.sprite =
+            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+        LevelUIView.NotificationPanelUI.Image.sprite = 
+            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NotificationPanelName);
+        LevelUIView.CharacterPanelUI.Image.sprite = 
+            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.DialogPanelName);
+        levelUISpriteAtlasAssetProvider.Release();
+        
+        
+        ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
+        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
+        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
+
+        // monetResourcePanelHandler.Init(LevelUIView.MonetPanelRectTransform, _wallet.MonetsCountChanged, _wallet.GetMonetsCount,);
+        // heartsResourcePanelHandler.Init(LevelUIView.HeartsPanelRectTransform, _wallet.HeartsCountChanged, _wallet.GetHeartsCount, );
+        
+        
         if (LevelUIView.TryGetComponent(out Canvas canvas))
         {
             canvas.worldCamera = Camera.main;
@@ -207,11 +226,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
+        
+        
+        
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         _cancellationTokenSource = new CancellationTokenSource();
+        
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler =
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, PreSceneTransition);
+        
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, choicePanelInitializerBuildMode, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _panelsLocalizationHandler, _globalUIHandler, buttonTransitionToMainSceneUIHandler,

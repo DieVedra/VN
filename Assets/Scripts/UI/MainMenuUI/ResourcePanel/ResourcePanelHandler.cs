@@ -14,7 +14,9 @@ public class ResourcePanelHandler
     private ResourcePanelView _panelView;
     private CompositeDisposable _compositeDisposable;
     private ResourcePanelMode _currentMode;
+    public RectTransform PanelTransform => _panelTransform;
     public bool IsInited { get; private set; }
+    public event Action<ResourcePanelMode, int> OnResize;
 
     public ResourcePanelHandler(ResourcePanelPrefabProvider resourcePanelPrefabProvider)
     {
@@ -46,6 +48,10 @@ public class ResourcePanelHandler
         }
     }
 
+    public void SetSprite(Sprite icon)
+    {
+        _panelView.Icon.sprite = icon;
+    }
     public void SetParent(Transform parent)
     {
         _panelView.transform.SetParent(parent);
@@ -76,6 +82,7 @@ public class ResourcePanelHandler
                 break;
         }
         _panelTransform.sizeDelta = vector;
+        OnResize?.Invoke(_currentMode, _panelView.Text.text.Length);
     }
 
     private void SetValue(int value)

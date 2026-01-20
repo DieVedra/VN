@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7544203090013941634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   _textComponent: {fileID: 8716418722359194125}
   _panelRectTransform: {fileID: 7544203090013941634}
   _imageRectTransform: {fileID: 202708305381746188}
+  _image: {fileID: 302901116114892025}
   _canvasGroup: {fileID: 928964675062854930}
   _durationAnim: 0.2
   _heightOffset: 70
@@ -669,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2438462525184581146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -822,7 +823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2438462525907553418
 RectTransform:
   m_ObjectHideFlags: 0
@@ -838,10 +839,10 @@ RectTransform:
   m_Father: {fileID: 4546768142861481944}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.017592592, y: 0.91300005}
-  m_AnchorMax: {x: 0.35500002, y: 0.9725209}
-  m_AnchoredPosition: {x: -0.5, y: 0.29614258}
-  m_SizeDelta: {x: -13, y: -14.456421}
+  m_AnchorMin: {x: 0.05955612, y: 0.91300005}
+  m_AnchorMax: {x: 0.384577, y: 0.9725209}
+  m_AnchoredPosition: {x: -18, y: 0.29614258}
+  m_SizeDelta: {x: -36, y: -14.456421}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2438462525907553416
 CanvasRenderer:
@@ -864,6 +865,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 2438462525135600122}
+  _icon: {fileID: 0}
+  _panel: {fileID: 0}
+  _parent: {fileID: 0}
+  _button: {fileID: 0}
+  _canvasGroup: {fileID: 2438462525907553460}
+  _curveWithAddButton:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _curveWithoutAddButton:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _canvasGroup: {fileID: 2438462525907553460}
   _rectTransform: {fileID: 2438462525907553418}
 --- !u!225 &2438462525907553460
@@ -1251,6 +1269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 4546768142020589952}
+  _parent: {fileID: 0}
 --- !u!1 &4546768142155660400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,7 +1747,6 @@ GameObject:
   - component: {fileID: 4546768142574473268}
   - component: {fileID: 4546768142574473270}
   - component: {fileID: 4546768142574473269}
-  - component: {fileID: 112086116637576172}
   m_Layer: 5
   m_Name: ButtonShop
   m_TagString: Untagged
@@ -1809,20 +1827,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &112086116637576172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4546768142574473227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953188cadf744535993845144370e935, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 0}
-  _button: {fileID: 4546768142574473269}
 --- !u!1 &4546768142861481939
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,8 +1958,8 @@ MonoBehaviour:
   _customizationCharacterPanelUI: {fileID: 0}
   _headerSeriesPanelUI: {fileID: 4546768143586319223}
   _gameControlPanelView: {fileID: 4546768143682183710}
-  _monetPanel: {fileID: 2438462525907553461}
-  _heartsPanel: {fileID: 9093177061703032218}
+  _monetPanel: {fileID: 2438462525907553418}
+  _heartsPanel: {fileID: 9093177061703032215}
 --- !u!1 &4546768142990852426
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2369,7 @@ MonoBehaviour:
   _buttonShowPanel: {fileID: 4546768143682183709}
   _settingsButtonView: {fileID: 3828988257649804992}
   _buttonGoToMainMenu: {fileID: 4546768142438149401}
-  _shopMoneyButtonView: {fileID: 112086116637576172}
+  _shopMoneyButtonView: {fileID: 4546768142574473269}
   _buttonWardrobe: {fileID: 4546768142170607249}
 --- !u!225 &4546768143682183705
 CanvasGroup:
@@ -3072,6 +3076,7 @@ MonoBehaviour:
   _panelTransform: {fileID: 4911094653050023184}
   _nameTextTransform: {fileID: 3840820077802245062}
   _talkTextTransform: {fileID: 3530178389777974496}
+  _image: {fileID: 3900118471206375509}
   _nameTextComponent: {fileID: 3212492041631676242}
   _talkTextComponent: {fileID: 6551868771677879126}
   _canvasGroup: {fileID: 5681569015756258107}
@@ -3440,6 +3445,7 @@ MonoBehaviour:
   _imageRectTransform: {fileID: 5601049057769838986}
   _text: {fileID: 3106329784535060435}
   _canvasGroup: {fileID: 200692188999888609}
+  _image: {fileID: 1623028045854087227}
   _durationAnim: 0.2
   _heightOffset: 70
 --- !u!1 &8753048243695502420
@@ -3594,7 +3600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &9093177061703032215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3610,10 +3616,10 @@ RectTransform:
   m_Father: {fileID: 4546768142861481944}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.418, y: 0.91300005}
-  m_AnchorMax: {x: 0.76900005, y: 0.9725209}
-  m_AnchoredPosition: {x: 5.25, y: 0.29614258}
-  m_SizeDelta: {x: -21.5, y: -14.4564}
+  m_AnchorMin: {x: 0.58075345, y: 0.91300005}
+  m_AnchorMax: {x: 0.9427324, y: 0.9725209}
+  m_AnchoredPosition: {x: -87.75, y: 0.29614258}
+  m_SizeDelta: {x: -175.5, y: -14.4564}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9093177061703032214
 CanvasRenderer:
@@ -3636,6 +3642,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 9093177062157257976}
+  _icon: {fileID: 0}
+  _panel: {fileID: 0}
+  _parent: {fileID: 0}
+  _button: {fileID: 0}
+  _canvasGroup: {fileID: 9093177061703032217}
+  _curveWithAddButton:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _curveWithoutAddButton:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _canvasGroup: {fileID: 9093177061703032217}
   _rectTransform: {fileID: 9093177061703032215}
 --- !u!225 &9093177061703032217
@@ -3876,7 +3899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9093177063150857064
 RectTransform:
   m_ObjectHideFlags: 0

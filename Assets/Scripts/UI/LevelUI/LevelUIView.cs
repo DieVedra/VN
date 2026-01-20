@@ -12,8 +12,8 @@ public class LevelUIView : MonoBehaviour
     [SerializeField] private CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     [SerializeField] private HeaderSeriesPanelUI _headerSeriesPanelUI;
     [SerializeField] private GameControlPanelView _gameControlPanelView;
-    [SerializeField] private ResourcePanelWithCanvasGroupView _monetPanel;
-    [SerializeField] private ResourcePanelWithCanvasGroupView _heartsPanel;
+    [SerializeField] private RectTransform _monetPanel;
+    [SerializeField] private RectTransform _heartsPanel;
     public PhoneUIView PhoneUIView
     {
         get => _phoneUIView;
@@ -27,6 +27,6 @@ public class LevelUIView : MonoBehaviour
     public CustomizationCharacterPanelUI CustomizationCharacterPanelUI => _customizationCharacterPanelUI;
     public HeaderSeriesPanelUI HeaderSeriesPanelUI => _headerSeriesPanelUI;
     public GameControlPanelView GameControlPanelView => _gameControlPanelView;
-    public ResourcePanelWithCanvasGroupView MonetPanel => _monetPanel;
-    public ResourcePanelWithCanvasGroupView HeartsPanel => _heartsPanel;
+    public RectTransform MonetPanelRectTransform => _monetPanel;
+    public RectTransform HeartsPanelRectTransform => _heartsPanel;
 }

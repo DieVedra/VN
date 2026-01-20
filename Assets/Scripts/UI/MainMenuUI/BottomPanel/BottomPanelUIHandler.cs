@@ -31,6 +31,10 @@ public class BottomPanelUIHandler : ILocalizable
         _advertisingButtonUIHandler.Dispose();
     }
 
+    public void SetSprite(Sprite icon)
+    {
+        _bottomPanelView.AdvertisingIcon.sprite = icon;
+    }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
         return new[]

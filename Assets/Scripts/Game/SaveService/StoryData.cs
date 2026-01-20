@@ -4,6 +4,7 @@
 public class StoryData
 {
     public string StoryName;
+    public string NameUISpriteAtlas;
     public int CurrentSeriaIndex;
     public int CurrentNodeGraphIndex;
     public int CurrentNodeIndex;
@@ -22,6 +23,7 @@ public class StoryData
     public string NotificationsInBlockScreenKey;
     public int CurrentPhoneMinute = -1;
     public string DialogContactKey;
+    
     public List<int> ReadedContactNodeCaseIndexes;
     public List<string> OnlineContactsKeys;
     public List<string> NotificationsKeys;

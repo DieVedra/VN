@@ -20,13 +20,14 @@ public class AppStarter
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, ref swipeDetectorOff);
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler, loadIndicatorUIHandler, blackFrameUIHandler);
 
+
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandler, panelsLocalizationHandler.LanguageChanged,
                 swipeDetectorOff);
         MainMenuUIProvider mainMenuUIProvider = result.Item1;
         MainMenuUIView mainMenuUIView = result.Item2;
         Transform tr = result.Item3;
-        
+
         panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(
             ListExtensions.MergeIReadOnlyLists(mainMenuUIProvider.GetLocalizableContent(), storiesProvider.GetLocalizableContent())
             );
@@ -34,6 +35,7 @@ public class AppStarter
         {
             await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, startConfig.DefaultLanguageLocalizationKey);
         }
+
         panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
         panelsLocalizationHandler.SubscribeChangeLanguage();
         if (loadScreenUIHandler.IsStarted == false)
@@ -54,7 +56,7 @@ public class AppStarter
         }
 
         var levelLoader = LevelLoaderCreate(mainMenuUIProvider, onSceneTransition, saveServiceProvider, tr, storiesProvider);
-        
+
         await prefabsProvider.Init();
         mainMenuUIView.gameObject.SetActive(true);
         await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, wallet, shopMoneyPanelUIHandler, mainMenuUIView, tr,
@@ -158,23 +160,21 @@ public class AppStarter
         ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
         ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
         ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
-        
+
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
             globalUIHandler.LoadIndicatorUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet, globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
-        var resourcesPanelsPositionHandlerMainMenu = new ResourcesPanelsPositionHandlerMainMenu();
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
         var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
         var bottomPanelUIHandler = new BottomPanelUIHandler(confirmedPanelUIHandler,
             new AdvertisingButtonUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet, mainMenuUIViewTransform),
             mainMenuUIViewTransform, languageChanged);
-        
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(darkeningBackgroundFrameUIHandler,
             playStoryPanelHandler, settingsPanelButtonUIHandler, globalUIHandler.SettingsPanelUIHandler, globalUIHandler.ShopMoneyPanelUIHandler,
             shopMoneyButtonsUIHandler, confirmedPanelUIHandler, globalUIHandler,bottomPanelUIHandler, myScrollHandler,
-            monetResourcePanelHandler, heartsResourcePanelHandler);
+            monetResourcePanelHandler, heartsResourcePanelHandler, new ResourcesPanelsPositionHandlerMainMenu());
         return (mainMenuUIProvider, mainMenuUIView, mainMenuUIViewTransform);
     }
 
@@ -190,14 +190,26 @@ public class AppStarter
             soundStatus, localizationChanger);
         mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();
         shopMoneyPanelUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, mainMenuUIView.transform);
-        await mainMenuUIProvider.MonetResourcePanelHandler.Init(mainMenuUIView.MonetPanelTransform, wallet.MonetsCountChanged, wallet.GetMonetsCount,
-            mainMenuUIView.MonetPanelColor, mainMenuUIView.MonetPanelButtonColor);
-        await mainMenuUIProvider.HeartsResourcePanelHandler.Init(mainMenuUIView.HeartsPanelTransform, wallet.HeartsCountChanged, wallet.GetHeartsCount,
-            mainMenuUIView.HeartsPanelColor, mainMenuUIView.HeartsPanelButtonColor);
         
+        ResourcePanelsSettingsAssetProvider resourcePanelsSettingsAssetProvider = new ResourcePanelsSettingsAssetProvider();
+        ResourcePanelsSettingsProvider resourcePanelsSettingsProvider = await resourcePanelsSettingsAssetProvider.LoadLocalizationHandlerAsset();
+        
+        await mainMenuUIProvider.MonetResourcePanelHandler.Init(mainMenuUIView.MonetPanelTransform, wallet.MonetsCountChanged, wallet.GetMonetsCount,
+            resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor);
+        await mainMenuUIProvider.HeartsResourcePanelHandler.Init(mainMenuUIView.HeartsPanelTransform, wallet.HeartsCountChanged, wallet.GetHeartsCount,
+            resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor);
+
+        mainMenuUIProvider.MonetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
+        mainMenuUIProvider.HeartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);
+        
+        mainMenuUIProvider.ResourcesPanelsPositionHandlerMainMenu.Init(
+            mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler,
+            resourcePanelsSettingsProvider.HeartPositionXWithAddButtonAnimationCurve, resourcePanelsSettingsProvider.HeartPositionYWithAddButtonAnimationCurve);
         mainMenuUIProvider.ShopButtonsUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler,
             mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler);
         mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler);
+        
+        mainMenuUIProvider.BottomPanelUIHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
     }
     private LevelLoader LevelLoaderCreate(MainMenuUIProvider mainMenuUIProvider, ReactiveCommand onSceneTransition,
         SaveServiceProvider saveServiceProvider, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider)
