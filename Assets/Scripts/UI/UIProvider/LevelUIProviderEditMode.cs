@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -18,10 +19,10 @@ public class LevelUIProviderEditMode
     private CompositeDisposable _compositeDisposable;
 
     public LevelUIProviderEditMode(
-        LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, IChoicePanelInitializer choicePanelInitializer,
+        LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, IReadOnlyList<ChoiceCaseView> choiceCasesViews,
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider,
-        Action phoneInitOperation)
+        PanelResourceHandler panelResourceHandler, Action phoneInitOperation)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -35,9 +36,8 @@ public class LevelUIProviderEditMode
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
-        // PanelResourceHandler = new PanelResourceHandler(wallet, levelUIView.MonetPanel, levelUIView.HeartsPanel);
-        
-        ChoicePanelUIHandler = new ChoicePanelUIHandler(choicePanelUI, wallet, PanelResourceHandler, choicePanelInitializer);
+        PanelResourceHandler = panelResourceHandler;
+        ChoicePanelUIHandler = new ChoicePanelUIHandler(choiceCasesViews, choicePanelUI, wallet, PanelResourceHandler);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);

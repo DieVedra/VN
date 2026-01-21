@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
@@ -7,7 +9,6 @@ public class ResourcePanelHandler
 {
     private const float _posXValueWithAddButtonMode = -112f;
     private const float _posXValueWithoutAddButtonMode = -29f;
-    private readonly ResourcePanelPrefabProvider _resourcePanelPrefabProvider;
     private Transform _parentDefault;
     private RectTransform _panelTransform;
     private RectTransform _textTransform;
@@ -18,18 +19,13 @@ public class ResourcePanelHandler
     public bool IsInited { get; private set; }
     public event Action<ResourcePanelMode, int> OnResize;
 
-    public ResourcePanelHandler(ResourcePanelPrefabProvider resourcePanelPrefabProvider)
-    {
-        _resourcePanelPrefabProvider = resourcePanelPrefabProvider;
-    }
-
-    public async UniTask Init(Transform parentDefault, IReactiveCommand<int> resourceChanged, int value, Color panelColor, Color panelButtonColor)
+    public void Init(ResourcePanelView panelView, int value, Color panelColor, Color panelButtonColor, IReactiveCommand<int> resourceChanged = null)
     {
         if (IsInited == false)
         {
             IsInited = true;
-            _parentDefault = parentDefault;
-            _panelView = await _resourcePanelPrefabProvider.CreateAsset(parentDefault);
+            _parentDefault = panelView.transform.parent;
+            _panelView = panelView;
             _panelTransform = _panelView.transform as RectTransform;
             _textTransform = _panelView.Text.transform as RectTransform;
             _panelView.Button.image.color = panelButtonColor;
@@ -40,7 +36,7 @@ public class ResourcePanelHandler
             _compositeDisposable = new CompositeDisposable();
             _panelView.gameObject.SetActive(true);
             _parentDefault.gameObject.SetActive(true);
-            resourceChanged.Subscribe(_=>
+            resourceChanged?.Subscribe(_=>
             {
                 SetValue(_);
                 Resize();
@@ -110,5 +106,17 @@ public class ResourcePanelHandler
         SwitchMode(ResourcePanelMode.WithAddButton);
         Resize();
         _panelView.Button.onClick.AddListener(onPress.Invoke);
+    }
+    public async UniTask DoAnimPanel(CancellationToken cancellationToken, 
+        float duration, float alpha, float endValue)
+    {
+        _panelView.CanvasGroup.alpha = alpha;
+        await _panelView.CanvasGroup.DOFade(endValue, duration)
+            .WithCancellation(cancellationToken);
+    }
+    public void DoPanel(float alpha, bool key)
+    {
+        _panelView.CanvasGroup.alpha = alpha;
+        _panelView.gameObject.SetActive(key);
     }
 }

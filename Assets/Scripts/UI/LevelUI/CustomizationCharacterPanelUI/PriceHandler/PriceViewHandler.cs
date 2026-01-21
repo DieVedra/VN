@@ -1,14 +1,20 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UnityEngine;
 
 public class PriceViewHandler
 {
+    private const float _height1ImagePanel = 230;
+    private const float _height2ImagePanel = 330;
+    private const float _posYMonetBlock = -156;
+    private const float _posYHeartsBlock = -258;
+    private const float _minValue = 0f;
+    private const float _maxValue = 1f;
     private readonly float _duration;
-    private readonly PriceViewHandlerValues _values;
     private readonly PriceUIView _priceUIView;
     private readonly ResourcesViewMode _resourcesViewMode;
-
+    private Vector2 _values = new Vector2();
     private CancellationTokenSource _cancellationTokenSource;
 
     private bool _panelIsShowed;
@@ -19,7 +25,6 @@ public class PriceViewHandler
         _resourcesViewMode = resourcesViewMode;
         _panelIsShowed = false;
         _duration = duration;
-        _values = new PriceViewHandlerValues();
     }
 
     public void Dispose()
@@ -36,7 +41,7 @@ public class PriceViewHandler
         if (_panelIsShowed == true)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            await _priceUIView.CanvasGroup.DOFade(PriceViewHandlerValues.MinValue, _duration)
+            await _priceUIView.CanvasGroup.DOFade(_minValue, _duration)
                 .WithCancellation(_cancellationTokenSource.Token);
             PanelOff();
         }
@@ -44,21 +49,21 @@ public class PriceViewHandler
 
     public async UniTask ShowAnim(int price, int additionalPrice)
     {
-        _priceUIView.CanvasGroup.alpha = PriceViewHandlerValues.MinValue;
+        _priceUIView.CanvasGroup.alpha = _minValue;
         PanelOn(price, additionalPrice);
         _cancellationTokenSource = new CancellationTokenSource();
-        await _priceUIView.CanvasGroup.DOFade(PriceViewHandlerValues.MaxValue, _duration)
+        await _priceUIView.CanvasGroup.DOFade(_maxValue, _duration)
             .WithCancellation(_cancellationTokenSource.Token);
     }
     public void Show(int price, int additionalPrice)
     {
-        _priceUIView.CanvasGroup.alpha = PriceViewHandlerValues.MaxValue;
+        _priceUIView.CanvasGroup.alpha = _maxValue;
         PanelOn(price, additionalPrice);
     }
 
     public void Hide()
     {
-        _priceUIView.CanvasGroup.alpha = PriceViewHandlerValues.MinValue;
+        _priceUIView.CanvasGroup.alpha = _minValue;
         PanelOff();
     }
     private void PanelOff()
@@ -88,10 +93,12 @@ public class PriceViewHandler
     {
         _priceUIView.MonetsBlock.gameObject.SetActive(true);
         _priceUIView.HeartsBlock.gameObject.SetActive(false);
-        _priceUIView.RectTransform.anchoredPosition = _values.Mode1PosPricePanel;
-        _priceUIView.BackgroundRectTransform.anchoredPosition = _values.Mode1PosImageBackground;
-        _priceUIView.BackgroundRectTransform.sizeDelta = _values.Mode1SizeImageBackground;
-        _priceUIView.MonetsBlock.anchoredPosition = _values.PosMonetBlock;
+        _values.x = _priceUIView.ImageBackgroundRectTransform.sizeDelta.x;
+        _values.y = _height1ImagePanel;
+        _priceUIView.ImageBackgroundRectTransform.sizeDelta = _values;
+        _values.x = _priceUIView.MonetsBlock.anchoredPosition.x;
+        _values.y = _posYMonetBlock;
+        _priceUIView.MonetsBlock.anchoredPosition = _values;
         _priceUIView.MonetsPriceText.text = price.ToString();
     }
 
@@ -99,10 +106,13 @@ public class PriceViewHandler
     {
         _priceUIView.MonetsBlock.gameObject.SetActive(false);
         _priceUIView.HeartsBlock.gameObject.SetActive(true);
-        _priceUIView.RectTransform.anchoredPosition = _values.Mode1PosPricePanel;
-        _priceUIView.BackgroundRectTransform.anchoredPosition = _values.Mode1PosImageBackground;
-        _priceUIView.BackgroundRectTransform.sizeDelta = _values.Mode1SizeImageBackground;
-        _priceUIView.HeartsBlock.anchoredPosition = _values.PosMonetBlock;
+        _values.x = _priceUIView.ImageBackgroundRectTransform.sizeDelta.x;
+        _values.y = _height1ImagePanel;
+        _priceUIView.ImageBackgroundRectTransform.sizeDelta = _values;
+        
+        _values.x = _priceUIView.MonetsBlock.anchoredPosition.x;
+        _values.y = _posYMonetBlock;
+        _priceUIView.HeartsBlock.anchoredPosition = _values;
         _priceUIView.HeartsPriceText.text = additionalPrice.ToString();
     }
 
@@ -110,11 +120,18 @@ public class PriceViewHandler
     {
         _priceUIView.MonetsBlock.gameObject.SetActive(true);
         _priceUIView.HeartsBlock.gameObject.SetActive(true);
-        _priceUIView.RectTransform.anchoredPosition = _values.Mode2PosPricePanel;
-        _priceUIView.BackgroundRectTransform.anchoredPosition = _values.Mode2PosImageBackground;
-        _priceUIView.BackgroundRectTransform.sizeDelta = _values.Mode2SizeImageBackground;
-        _priceUIView.MonetsBlock.anchoredPosition = _values.PosMonetBlock;
-        _priceUIView.HeartsBlock.anchoredPosition = _values.PosHeartsBlock;
+        _values.x = _priceUIView.ImageBackgroundRectTransform.sizeDelta.x;
+        _values.y = _height2ImagePanel;
+        _priceUIView.ImageBackgroundRectTransform.anchoredPosition = _values;
+
+        _values.x = _priceUIView.MonetsBlock.anchoredPosition.x;
+        _values.y = _posYMonetBlock;
+        _priceUIView.MonetsBlock.anchoredPosition = _values;
+        
+        _values.x = _priceUIView.HeartsBlock.anchoredPosition.x;
+        _values.y = _posYHeartsBlock;
+        _priceUIView.HeartsBlock.anchoredPosition = _values;
+        
         _priceUIView.MonetsPriceText.text = price.ToString();
         _priceUIView.HeartsPriceText.text = additionalPrice.ToString();
     }

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class ChoiceCaseView : MonoBehaviour
@@ -23,4 +24,8 @@ public class ChoiceCaseView : MonoBehaviour
     public RectTransform AdditionaryPriceRectTransformChoice => _additionaryPriceRectTransformChoice;
     public CanvasGroup CanvasGroupChoice => _canvasGroupChoice;
 
+    private void OnDestroy()
+    {
+        Addressables.ReleaseInstance(gameObject);
+    }
 }

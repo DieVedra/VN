@@ -20,5 +20,4 @@ public class ChoicePanelUI : MonoBehaviour
     public float OffsetBetweenPanels => _offsetBetweenPanels;
     public float ImageHeightDefault => _imageHeightDefault;
     public float DefaultPosYCentralButtonChoice2 => _defaultPosYCentralButtonChoice2;
-
 }

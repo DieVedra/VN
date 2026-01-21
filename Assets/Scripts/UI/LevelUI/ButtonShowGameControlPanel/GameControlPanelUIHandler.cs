@@ -62,6 +62,7 @@ public class GameControlPanelUIHandler : ILocalizable
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
             globalSound.SoundStatus, _localizationChanger, false);
         _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
+        
         _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
             globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
         
@@ -83,7 +84,7 @@ public class GameControlPanelUIHandler : ILocalizable
         blockGameControlPanelUI.Subscribe(BlockPanel);
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
     }

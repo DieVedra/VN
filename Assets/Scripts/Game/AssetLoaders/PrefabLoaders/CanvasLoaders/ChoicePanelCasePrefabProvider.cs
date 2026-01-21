@@ -6,14 +6,8 @@ public class ChoicePanelCasePrefabProvider : PrefabLoader
     private const string _name = "ChoiceCase";
     public GameObject GetPrefab => CashedPrefab;
 
-    
-    public async UniTask LoadPrefab()
+    public async UniTask<GameObject> InstantiatePrefab(Transform parent)
     {
-        await Load(_name);
-    }
-
-    public void Unload()
-    {
-        base.Unload();
+        return await InstantiatePrefab(_name, parent);
     }
 }

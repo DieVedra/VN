@@ -8,15 +8,15 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     public readonly GameEndPanelHandler GameEndPanelHandler;
     public readonly AwaitLoadContentPanelHandler AwaitLoadContentPanelHandler;
 
-    public LevelUIProviderBuildMode(LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet, IChoicePanelInitializer choicePanelInitializer,
+    public LevelUIProviderBuildMode(LevelUIView levelUIView, IReadOnlyList<ChoiceCaseView> choiceCasesViews, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
         ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler,
         GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
-        OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, Action phoneInitOperation)
-        : base(levelUIView, blackFrameUIHandler, choicePanelInitializer, wallet, disableNodesContentEvent, switchToNextNodeEvent,
-            customizationCharacterPanelUI, phoneContentProvider, phoneInitOperation)
+        OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, PanelResourceHandler panelResourceHandler, Action phoneInitOperation)
+        : base(levelUIView, blackFrameUIHandler, choiceCasesViews, wallet, disableNodesContentEvent, switchToNextNodeEvent,
+            customizationCharacterPanelUI, phoneContentProvider, panelResourceHandler, phoneInitOperation)
     {
         if (Application.isPlaying)
         {
@@ -36,7 +36,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     public override void Shutdown()
     {
         base.Shutdown();
-        GameControlPanelUIHandler.Dispose();
+        GameControlPanelUIHandler.Shutdown();
         ChoicePanelUIHandler.Shutdown();
     }
 

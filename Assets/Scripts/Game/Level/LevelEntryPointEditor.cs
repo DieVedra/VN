@@ -10,9 +10,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
 {
     [SerializeField] private LevelSoundEditMode _levelSoundEditMode;
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
-    [Space]
+    [Space] 
+    [SerializeField] private ResourcePanelsSettingsProvider _resourcePanelsSettingsProvider;
     [SerializeField] private SpriteViewer _spriteViewerPrefab;
-    [SerializeField] private ChoiceCaseView[] _choiceCases;
     [SerializeField] private WardrobeCharacterViewer _wardrobeCharacterViewer;
     [SerializeField] private BlackFrameView _blackFrameView;
     [SerializeField] private CharacterProviderEditMode _characterProviderEditMode;
@@ -214,10 +214,22 @@ public class LevelEntryPointEditor : LevelEntryPoint
     private void InitLevelUIProvider(PhoneContentProvider phoneContentProvider, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         var customizationCharacterPanelUI = LevelUIView.CustomizationCharacterPanelUI;
+        
+        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler();
+        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
+        monetResourcePanelHandler.Init(LevelUIView.MonetPanelRectTransform.GetComponentInChildren<ResourcePanelView>(),
+            _wallet.GetMonetsCount, _resourcePanelsSettingsProvider.MonetPanelColor,
+            _resourcePanelsSettingsProvider.MonetPanelButtonColor, Application.isPlaying == false ? null : _wallet.MonetsCountChanged);
+        heartsResourcePanelHandler.Init(LevelUIView.HeartsPanelRectTransform.GetComponentInChildren<ResourcePanelView>(),
+            _wallet.GetHeartsCount, _resourcePanelsSettingsProvider.HeartsPanelColor,
+            _resourcePanelsSettingsProvider.HeartsPanelButtonColor, Application.isPlaying == false ? null : _wallet.HeartsCountChanged);
+        PanelResourceHandler panelResourceHandler = new PanelResourceHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
+        
+        
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
-            new ChoicePanelInitializerEditMode(_choiceCases),
-            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider,
+            LevelUIView.ChoicePanelUI.transform.GetComponentsInChildren<ChoiceCaseView>(), _wallet, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceHandler,
             ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);});
     }
     protected override void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)

@@ -16,6 +16,8 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     [SerializeField] private RectTransform _skinButtonTransform;
     [SerializeField] private RectTransform _hairstyleButtonTransform;
     [SerializeField] private RectTransform _clothesButtonTransform;
+    [SerializeField] private RectTransform _monetResourcePanel;
+    [SerializeField] private RectTransform _heartResourcePanel;
     
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _skinColorButtonText;
@@ -29,10 +31,19 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     [SerializeField] private CanvasGroup _clothesModeCanvasGroup;
     [SerializeField] private CanvasGroup _statPanelCanvasGroup;
     [SerializeField] private CanvasGroup _playButtonCanvasGroup;
+    
+    [SerializeField] private Image _panelImage;
+    [SerializeField] private Image _leftArrowImage;
+    [SerializeField] private Image _rightArrowImage;
+    [SerializeField] private Image _skinImage;
+    [SerializeField] private Image _hairImage;
+    [SerializeField] private Image _clothImage;
+    [SerializeField] private Image _playButtonImage;
+
     [SerializeField] private float _durationAnimPriceView = 0.2f;
     [SerializeField] private float _durationAnimStatView = 0.2f;
     [SerializeField] private float _durationButtonPlay = 0.5f;
-    [SerializeField] private int _sublingIndex = 6;
+    [SerializeField] private int _siblingIndex = 6;
     
     public PriceUIView PriceUIView => _priceUIView;
     public Button LeftArrow =>_leftArrow;
@@ -52,10 +63,20 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     public CanvasGroup ClothesModeCanvasGroup => _clothesModeCanvasGroup;
     public CanvasGroup StatPanelCanvasGroup => _statPanelCanvasGroup;
     public CanvasGroup PlayButtonCanvasGroup => _playButtonCanvasGroup;
+    public RectTransform MonetResourcePanel => _monetResourcePanel;
+    public RectTransform HeartResourcePanel => _heartResourcePanel;
+    public Image PanelImage => _panelImage;
+    public Image LeftArrowImage => _leftArrowImage;
+    public Image RightArrowImage => _rightArrowImage;
+    public Image SkinImage => _skinImage;
+    public Image HairImage => _hairImage;
+    public Image ClothImage => _clothImage;
+    public Image PlayButtonImage => _playButtonImage;
+
     public float DurationAnimPriceView => _durationAnimPriceView;
     public float DurationAnimStatView => _durationAnimStatView;
     public float DurationButtonPlay => _durationButtonPlay;
-    public int SublingIndex => _sublingIndex;
+    public int SiblingIndex => _siblingIndex;
     public Dictionary<ArrowSwitchMode, (Button, TextMeshProUGUI, RectTransform)> CustomizationButtons => new Dictionary<ArrowSwitchMode, (Button, TextMeshProUGUI, RectTransform)>()
     {
         {ArrowSwitchMode.SkinColor, (_skinColorButton, _skinColorButtonText, _skinButtonTransform)},

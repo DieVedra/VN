@@ -157,9 +157,8 @@ public class AppStarter
         MainMenuUIView mainMenuUIView = await menuCanvasAssetProvider.CreateAsset();
         mainMenuUIView.GetComponent<Canvas>().worldCamera = Camera.main;
         
-        ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
-        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
-        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
+        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler();
+        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
 
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
@@ -191,13 +190,18 @@ public class AppStarter
         mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();
         shopMoneyPanelUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, mainMenuUIView.transform);
         
+        
+        
         ResourcePanelsSettingsAssetProvider resourcePanelsSettingsAssetProvider = new ResourcePanelsSettingsAssetProvider();
         ResourcePanelsSettingsProvider resourcePanelsSettingsProvider = await resourcePanelsSettingsAssetProvider.LoadLocalizationHandlerAsset();
         
-        await mainMenuUIProvider.MonetResourcePanelHandler.Init(mainMenuUIView.MonetPanelTransform, wallet.MonetsCountChanged, wallet.GetMonetsCount,
-            resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor);
-        await mainMenuUIProvider.HeartsResourcePanelHandler.Init(mainMenuUIView.HeartsPanelTransform, wallet.HeartsCountChanged, wallet.GetHeartsCount,
-            resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor);
+        
+        ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
+        mainMenuUIProvider.MonetResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.MonetPanelTransform), wallet.GetMonetsCount,
+            resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor, wallet.MonetsCountChanged);
+        
+        mainMenuUIProvider.HeartsResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.HeartsPanelTransform), wallet.GetHeartsCount,
+            resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor, wallet.HeartsCountChanged);
 
         mainMenuUIProvider.MonetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
         mainMenuUIProvider.HeartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);

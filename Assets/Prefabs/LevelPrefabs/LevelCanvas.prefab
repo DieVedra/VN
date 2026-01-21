@@ -815,8 +815,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2438462525907553418}
   - component: {fileID: 2438462525907553416}
-  - component: {fileID: 2438462525907553461}
-  - component: {fileID: 2438462525907553460}
   m_Layer: 5
   m_Name: MonetPanelButton
   m_TagString: Untagged
@@ -852,50 +850,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2438462525907553419}
   m_CullTransparentMesh: 1
---- !u!114 &2438462525907553461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2438462525907553419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23fd1490f2834cf4b87cad759bb20ea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 2438462525135600122}
-  _icon: {fileID: 0}
-  _panel: {fileID: 0}
-  _parent: {fileID: 0}
-  _button: {fileID: 0}
-  _canvasGroup: {fileID: 2438462525907553460}
-  _curveWithAddButton:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _curveWithoutAddButton:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _canvasGroup: {fileID: 2438462525907553460}
-  _rectTransform: {fileID: 2438462525907553418}
---- !u!225 &2438462525907553460
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2438462525907553419}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &4411297475688836447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,7 +1930,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4546768142990852427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3592,8 +3546,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9093177061703032215}
   - component: {fileID: 9093177061703032214}
-  - component: {fileID: 9093177061703032218}
-  - component: {fileID: 9093177061703032217}
   m_Layer: 5
   m_Name: HeartsPanelButton
   m_TagString: Untagged
@@ -3629,50 +3581,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9093177061703032216}
   m_CullTransparentMesh: 1
---- !u!114 &9093177061703032218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9093177061703032216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23fd1490f2834cf4b87cad759bb20ea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 9093177062157257976}
-  _icon: {fileID: 0}
-  _panel: {fileID: 0}
-  _parent: {fileID: 0}
-  _button: {fileID: 0}
-  _canvasGroup: {fileID: 9093177061703032217}
-  _curveWithAddButton:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _curveWithoutAddButton:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _canvasGroup: {fileID: 9093177061703032217}
-  _rectTransform: {fileID: 9093177061703032215}
---- !u!225 &9093177061703032217
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9093177061703032216}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &9093177062157257978
 GameObject:
   m_ObjectHideFlags: 0

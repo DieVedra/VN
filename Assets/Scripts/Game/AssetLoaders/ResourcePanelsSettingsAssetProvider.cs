@@ -2,7 +2,7 @@
 
 public class ResourcePanelsSettingsAssetProvider : ScriptableObjectAssetLoader
 {
-    public const string _name = "ResourcePanelsSettingsProvider";
+    private const string _name = "ResourcePanelsSettingsProvider";
 
     public async UniTask<ResourcePanelsSettingsProvider> LoadLocalizationHandlerAsset()
     {

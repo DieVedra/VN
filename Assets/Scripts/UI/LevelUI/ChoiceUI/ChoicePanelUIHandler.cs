@@ -23,12 +23,12 @@ public class ChoicePanelUIHandler
     public ChoiceNodeButtonsHandler ChoiceNodeButtonsHandler => _choiceNodeButtonsHandler;
     public RectTransform RectTransform => _rectTransform;
 
-    public ChoicePanelUIHandler(ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceHandler panelResourceHandler, IChoicePanelInitializer choicePanelInitializer)
+    public ChoicePanelUIHandler(IReadOnlyList<ChoiceCaseView> choiceCasesViews, ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceHandler panelResourceHandler)
     {
         _choicePanelUI = choicePanelUI;
         _wallet = wallet;
         _panelResourceHandler = panelResourceHandler;
-        _choiceCasesViews = choicePanelInitializer.GetChoiceCaseViews(choicePanelUI.transform);
+        _choiceCasesViews = choiceCasesViews;
         _rectTransform = choicePanelUI.transform as RectTransform;
         _choiceNodeTimer = new ChoiceNodeTimer(choicePanelUI.TimerPanelText, choicePanelUI. TimerPanelCanvasGroup, choicePanelUI.TimerImageRectTransform);
         _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiceCasesViews, wallet);

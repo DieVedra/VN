@@ -10,42 +10,24 @@ public class PanelResourceHandler
     private const float _duration = 0.2f;
     private const float _delayDefault = 0f;
     private readonly LevelResourceHandlerValues _levelResourceHandlerValues;
-    private readonly Wallet _wallet;
-    private readonly ResourcePanelWithCanvasGroupView _monetResourcePanelWithCanvasGroupView;
-    private readonly ResourcePanelWithCanvasGroupView _heartsResourcePanelWithCanvasGroupView;
+    private readonly ResourcePanelHandler _monetResourcePanelHandler, _heartsResourcePanelHandler;
+    
     private ResourcesViewMode _resourcesViewMode;
     private CancellationTokenSource _cancellationTokenSource;
-    private CompositeDisposable _compositeDisposable;
-    public PanelResourceHandler(Wallet wallet,
-        ResourcePanelWithCanvasGroupView monetResourcePanelWithCanvasGroupView, ResourcePanelWithCanvasGroupView heartsResourcePanelWithCanvasGroupView)
+    public PanelResourceHandler(ResourcePanelHandler monetResourcePanelHandler, ResourcePanelHandler heartsResourcePanelHandler)
     {
-        _wallet = wallet;
-        _monetResourcePanelWithCanvasGroupView = monetResourcePanelWithCanvasGroupView;
-        _heartsResourcePanelWithCanvasGroupView = heartsResourcePanelWithCanvasGroupView;
-        _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelWithCanvasGroupView.RectTransform, heartsResourcePanelWithCanvasGroupView.RectTransform);
-        _compositeDisposable = new CompositeDisposable();
-        _wallet.MonetsCountChanged.Subscribe(_ =>
-        {
-            _monetResourcePanelWithCanvasGroupView.Text.text = _.ToString();
-        }).AddTo(_compositeDisposable);
-
-        _wallet.HeartsCountChanged.Subscribe(_ =>
-        {
-            _heartsResourcePanelWithCanvasGroupView.Text.text = _.ToString();;
-        }).AddTo(_compositeDisposable);
+        _levelResourceHandlerValues = new LevelResourceHandlerValues(monetResourcePanelHandler.PanelTransform, heartsResourcePanelHandler.PanelTransform);
+        _monetResourcePanelHandler = monetResourcePanelHandler;
+        _heartsResourcePanelHandler = heartsResourcePanelHandler;
     }
-
     public void Init(ResourcesViewMode resourcesViewMode)
     {
         _resourcesViewMode = resourcesViewMode;
-        _monetResourcePanelWithCanvasGroupView.Text.text = _wallet.GetMonetsCount.ToString();
-        _heartsResourcePanelWithCanvasGroupView.Text.text = _wallet.GetHeartsCount.ToString();
         TryShowAndHidePanelOnButtonsSwitch();
     }
     public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
-        _compositeDisposable?.Clear();
     }
 
     public async UniTask TryHidePanel(float delay = _delayDefault, float duration = _duration)
@@ -59,18 +41,16 @@ public class PanelResourceHandler
         {
             case ResourcesViewMode.MonetMode:
                 await AnimHidePanelMonets(duration);
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
-
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
                 break;
             case ResourcesViewMode.HeartsMode:
                 await AnimHidePanelHearts(duration);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
-
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
                 break;
             case ResourcesViewMode.MonetsAndHeartsMode:
                 await UniTask.WhenAll(AnimHidePanelMonets(duration), AnimHidePanelHearts(duration));
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
                 break;
         }
     }
@@ -78,24 +58,24 @@ public class PanelResourceHandler
     public async UniTask Show(float duration = _duration)
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
-        DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+        _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
+        _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
         switch (_resourcesViewMode)
         {
             case ResourcesViewMode.MonetMode:
                 SetMonetsMode();
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
                 await AnimShowPanelMonets(duration);
                 break;
             case ResourcesViewMode.HeartsMode:
                 SetHeartsMode();
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
                 await AnimShowPanelHearts(duration);
                 break;
             case ResourcesViewMode.MonetsAndHeartsMode:
                 SetMonetsAndHeartsMode();
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, true);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, true);
                 await UniTask.WhenAll(AnimShowPanelMonets(duration), AnimShowPanelHearts(duration));
                 break;
         }
@@ -107,29 +87,29 @@ public class PanelResourceHandler
         {
             case ResourcesViewMode.MonetMode:
                 SetMonetsMode();
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MaxValue, true);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MaxValue, true);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
                 break;
             case ResourcesViewMode.HeartsMode:
                 SetHeartsMode();
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MaxValue, true);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MaxValue, true);
                 break;
             case ResourcesViewMode.MonetsAndHeartsMode:
                 SetMonetsAndHeartsMode();
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MaxValue, true);
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MaxValue, true);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MaxValue, true);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MaxValue, true);
                 break;
             case ResourcesViewMode.Hide:
-                DoPanel(_heartsResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
-                DoPanel(_monetResourcePanelWithCanvasGroupView, LevelResourceHandlerValues.MinValue, false);
+                _heartsResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
+                _monetResourcePanelHandler.DoPanel(LevelResourceHandlerValues.MinValue, false);
                 break;
         }
     }
 
     private void SetHeartsMode()
     {
-        var rectTransform = _heartsResourcePanelWithCanvasGroupView.RectTransform;
+        var rectTransform = _heartsResourcePanelHandler.PanelTransform;
         rectTransform.anchorMin = _levelResourceHandlerValues.MonetAnchorsMin;
         rectTransform.anchorMax = _levelResourceHandlerValues.MonetAnchorsMax;
         rectTransform.offsetMin = _levelResourceHandlerValues.MonetOffsetMin;
@@ -138,7 +118,7 @@ public class PanelResourceHandler
 
     private void SetMonetsMode()
     {
-        var monetsRectTransform = _monetResourcePanelWithCanvasGroupView.RectTransform;
+        var monetsRectTransform = _monetResourcePanelHandler.PanelTransform;
         monetsRectTransform.anchorMin = _levelResourceHandlerValues.MonetAnchorsMin;
         monetsRectTransform.anchorMax = _levelResourceHandlerValues.MonetAnchorsMax;
         monetsRectTransform.offsetMin = _levelResourceHandlerValues.MonetOffsetMin;
@@ -147,50 +127,36 @@ public class PanelResourceHandler
 
     private void SetMonetsAndHeartsMode()
     {
-        var heartsRectTransform = _heartsResourcePanelWithCanvasGroupView.RectTransform;
+        var heartsRectTransform = _heartsResourcePanelHandler.PanelTransform;
         heartsRectTransform.anchorMin = _levelResourceHandlerValues.HeartsAnchorsMin;
         heartsRectTransform.anchorMax = _levelResourceHandlerValues.HeartsAnchorsMax;
         heartsRectTransform.offsetMin = _levelResourceHandlerValues.HeartsOffsetMin;
         heartsRectTransform.offsetMax = _levelResourceHandlerValues.HeartsOffsetMax;
         
-        var monetsRectTransform = _monetResourcePanelWithCanvasGroupView.RectTransform;
+        var monetsRectTransform = _monetResourcePanelHandler.PanelTransform;;
         monetsRectTransform.anchorMin = _levelResourceHandlerValues.MonetAnchorsMin;
         monetsRectTransform.anchorMax = _levelResourceHandlerValues.MonetAnchorsMax;
         monetsRectTransform.offsetMin = _levelResourceHandlerValues.MonetOffsetMin;
         monetsRectTransform.offsetMax = _levelResourceHandlerValues.MonetOffsetMax;
     }
 
-    private void DoPanel(ResourcePanelWithCanvasGroupView view, float alpha, bool key)
-    {
-        view.CanvasGroup.alpha = alpha;
-        view.gameObject.SetActive(key);
-    }
-
-    private async UniTask DoAnimPanel(ResourcePanelWithCanvasGroupView view, CancellationToken cancellationToken, 
-        float duration, float alpha, float endValue)
-    {
-        view.CanvasGroup.alpha = alpha;
-        await view.CanvasGroup.DOFade(endValue, duration)
-            .WithCancellation(cancellationToken);
-    }
-
     private async UniTask AnimShowPanelMonets(float duration)
     {
-        await DoAnimPanel(_monetResourcePanelWithCanvasGroupView, _cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MinValue, LevelResourceHandlerValues.MaxValue);
+        await _monetResourcePanelHandler.DoAnimPanel( _cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MinValue, LevelResourceHandlerValues.MaxValue);
     }
 
     private async UniTask AnimHidePanelMonets(float duration)
     {
-        await DoAnimPanel(_monetResourcePanelWithCanvasGroupView, _cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MaxValue, LevelResourceHandlerValues.MinValue);
+        await _monetResourcePanelHandler.DoAnimPanel(_cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MaxValue, LevelResourceHandlerValues.MinValue);
     }
 
     private async UniTask AnimShowPanelHearts(float duration)
     {
-        await DoAnimPanel(_heartsResourcePanelWithCanvasGroupView, _cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MinValue, LevelResourceHandlerValues.MaxValue);
+        await _heartsResourcePanelHandler.DoAnimPanel(_cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MinValue, LevelResourceHandlerValues.MaxValue);
     }
 
     private async UniTask AnimHidePanelHearts(float duration)
     {
-        await DoAnimPanel(_heartsResourcePanelWithCanvasGroupView, _cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MaxValue, LevelResourceHandlerValues.MinValue);
+        await _heartsResourcePanelHandler.DoAnimPanel(_cancellationTokenSource.Token, duration, LevelResourceHandlerValues.MaxValue, LevelResourceHandlerValues.MinValue);
     }
 }

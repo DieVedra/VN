@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
     private OnEndGameEvent _onEndGameEvent;
     private CancellationTokenSource _cancellationTokenSource;
+    private LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
 
@@ -164,6 +166,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelLoadDataHandler.Shutdown();
         _levelUIProviderBuildMode.Shutdown();
         _globalSound.ShutdownFromLevel();
+        _levelUISpriteAtlasAssetProvider.Release();
         base.Shutdown();
     }
     private void Save()
@@ -193,24 +196,30 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
-        LevelUISpriteAtlasAssetProvider levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
-        await levelUISpriteAtlasAssetProvider.LoadSpriteAtlas(StoryData.NameUISpriteAtlas);
+        _levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
+        await _levelUISpriteAtlasAssetProvider.LoadSpriteAtlas(StoryData.NameUISpriteAtlas);
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
         LevelUIView.NarrativePanelUI.Image.sprite =
-            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+            _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
         LevelUIView.NotificationPanelUI.Image.sprite = 
-            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NotificationPanelName);
+            _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NotificationPanelName);
         LevelUIView.CharacterPanelUI.Image.sprite = 
-            levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.DialogPanelName);
-        levelUISpriteAtlasAssetProvider.Release();
+            _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.DialogPanelName);
         
-        
+        ResourcePanelsSettingsAssetProvider resourcePanelsSettingsAssetProvider = new ResourcePanelsSettingsAssetProvider();
+        ResourcePanelsSettingsProvider resourcePanelsSettingsProvider = await resourcePanelsSettingsAssetProvider.LoadLocalizationHandlerAsset();
         ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
-        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
-        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler(resourcePanelPrefabProvider);
+        ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler();
+        ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
 
-        // monetResourcePanelHandler.Init(LevelUIView.MonetPanelRectTransform, _wallet.MonetsCountChanged, _wallet.GetMonetsCount,);
-        // heartsResourcePanelHandler.Init(LevelUIView.HeartsPanelRectTransform, _wallet.HeartsCountChanged, _wallet.GetHeartsCount, );
+        monetResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(LevelUIView.MonetPanelRectTransform), _wallet.GetMonetsCount,
+            resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor, _wallet.MonetsCountChanged);
+        heartsResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(LevelUIView.HeartsPanelRectTransform), _wallet.GetHeartsCount,
+            resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor, _wallet.HeartsCountChanged);
+        monetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
+        heartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);
+
+        PanelResourceHandler panelResourceHandler = new PanelResourceHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
         
         
         if (LevelUIView.TryGetComponent(out Canvas canvas))
@@ -219,27 +228,44 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
         await TryCreateBlackFrameUIHandler();
         
-        ChoicePanelInitializerBuildMode choicePanelInitializerBuildMode = new ChoicePanelInitializerBuildMode();
-        await choicePanelInitializerBuildMode.ChoicePanelCasePrefabProvider.LoadPrefab();
+        ChoicePanelCasePrefabProvider choicePanelCasePrefabProvider = new ChoicePanelCasePrefabProvider();
+        List<ChoiceCaseView> choiceCasesViews = new List<ChoiceCaseView>(ChoiceNode.MaxCaseCount);
+        for (int i = 0; i <= ChoiceNode.MaxCaseCount; i++)
+        {
+            Debug.Log($"GetChoiceCaseViews {i}");
+            var caseChoice = await choicePanelCasePrefabProvider.InstantiatePrefab(LevelUIView.ChoicePanelUI.transform);
+            ChoiceCaseView choiceCaseView = caseChoice.GetComponent<ChoiceCaseView>();
+            choiceCaseView.ButtonChoice.image.sprite =
+                _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+            choiceCasesViews.Add(choiceCaseView);
+        }
         
         
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
+        customizationCharacterPanelUI.PanelImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.PanelWardrobeName);
+        customizationCharacterPanelUI.LeftArrowImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ArrowName);
+        customizationCharacterPanelUI.RightArrowImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ArrowName);
+        customizationCharacterPanelUI.SkinImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.BodyIconName);
+        customizationCharacterPanelUI.HairImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.HairstyleIconName);
+        customizationCharacterPanelUI.ClothImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ClothesIconName);
+        customizationCharacterPanelUI.PlayButtonImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
         
-        
-        
-        customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SublingIndex);
+        customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SiblingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         _cancellationTokenSource = new CancellationTokenSource();
         
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler =
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, PreSceneTransition);
         
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, _darkeningBackgroundFrameUIHandler, _wallet, choicePanelInitializerBuildMode, DisableNodesContentEvent,
+        LevelUIView.GameControlPanelView.ButtonGoToMainMenu.image.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ArrowName);
+        
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, choiceCasesViews,_darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
             _panelsLocalizationHandler, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
-            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent, _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider,
+            _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent,
+            _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider, panelResourceHandler,
             () =>
             {
                 LevelUIView.PhoneUIView = _phoneView;
