@@ -43,7 +43,7 @@ public class GlobalUIHandler
                 _canvasTransform = canvas.transform;
                 _canvasTransform.gameObject.SetActive(true);
             }
-
+            shopMoneyPanelUIHandler.Init(_canvasTransform);
             await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler);
             await loadIndicatorUIHandler.Init(_canvasTransform);
             await blackFrameUIHandler.Init(_canvasTransform);

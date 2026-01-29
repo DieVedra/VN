@@ -18,6 +18,7 @@ public class LoadScreenUIHandler : ILocalizable
     private CancellationTokenSource _cancellationTokenSource;
     private Sprite _backgrountSpriteDefault;
     private Sprite _logoSpriteDefault;
+    private RectTransform _rectTransformLogoImage;
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
     public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
     public bool IsStarted { get; private set; }
@@ -52,6 +53,7 @@ public class LoadScreenUIHandler : ILocalizable
         _logoSpriteDefault = _loadScreenUIView.LogoImage.sprite;
         _indicatorUIHandler = loadIndicatorUIHandler;
         _blackFrameUIHandler = blackFrameUIHandler;
+        _rectTransformLogoImage = _loadScreenUIView.LogoImage.transform as RectTransform;
         _loadScreenUIView.LoadScreenImage.raycastTarget = true;
         _loadScreenUIView.LoadScreenMaskImage.raycastTarget = true;
     }
@@ -68,6 +70,7 @@ public class LoadScreenUIHandler : ILocalizable
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
         _loadScreenUIView.LoadScreenImage.gameObject.SetActive(true);
+        _rectTransformLogoImage.sizeDelta = new Vector2(_logoSpriteDefault.rect.width, _logoSpriteDefault.rect.height);
         _loadScreenUIView.LogoImage.sprite = _logoSpriteDefault;
         _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         SetDisclaimerText();
@@ -79,6 +82,7 @@ public class LoadScreenUIHandler : ILocalizable
     {
         _loadScreenUIView.LoadScreenImage.sprite = loadScreenSprite;
         _loadScreenUIView.LoadScreenImage.gameObject.SetActive(true);
+        _rectTransformLogoImage.sizeDelta = new Vector2(logoImage.rect.width, logoImage.rect.height);
         _loadScreenUIView.LogoImage.sprite = logoImage;
         _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         _loadScreenUIView.DisclaimerText.text = string.Empty;

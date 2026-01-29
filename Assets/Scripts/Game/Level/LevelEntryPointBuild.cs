@@ -94,6 +94,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
             phoneMessagesCustodian, _setLocalizationChangeEvent);
+        _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         Init();
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
@@ -230,9 +231,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         
         ChoicePanelCasePrefabProvider choicePanelCasePrefabProvider = new ChoicePanelCasePrefabProvider();
         List<ChoiceCaseView> choiceCasesViews = new List<ChoiceCaseView>(ChoiceNode.MaxCaseCount);
-        for (int i = 0; i <= ChoiceNode.MaxCaseCount; i++)
+        for (int i = 0; i < ChoiceNode.MaxCaseCount; i++)
         {
-            Debug.Log($"GetChoiceCaseViews {i}");
             var caseChoice = await choicePanelCasePrefabProvider.InstantiatePrefab(LevelUIView.ChoicePanelUI.transform);
             ChoiceCaseView choiceCaseView = caseChoice.GetComponent<ChoiceCaseView>();
             choiceCaseView.ButtonChoice.image.sprite =
@@ -260,10 +260,19 @@ public class LevelEntryPointBuild : LevelEntryPoint
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, PreSceneTransition);
         
         LevelUIView.GameControlPanelView.ButtonGoToMainMenu.image.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ArrowName);
-        
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, choiceCasesViews,_darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _blockGameControlPanelUIEvent, _levelLocalizationHandler, _globalSound,
-            _panelsLocalizationHandler, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
+
+
+        var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(_globalUIHandler.ShopMoneyPanelUIHandler);
+        shopMoneyButtonsUIHandler.InitFromGameControlPanel(LevelUIView.GameControlPanelView.ShopMoneyButtonView, monetResourcePanelHandler, heartsResourcePanelHandler);
+
+
+        var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
+            _globalSound, _wallet, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler, buttonTransitionToMainSceneUIHandler,
+            /*_levelLocalizationHandler,*/ _blockGameControlPanelUIEvent);
+
+
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent,
             _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider, panelResourceHandler,
             () =>

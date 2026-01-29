@@ -9,12 +9,16 @@ public class ResourcePanelHandler
 {
     private const float _posXValueWithAddButtonMode = -112f;
     private const float _posXValueWithoutAddButtonMode = -29f;
+    private const float _showAlphaValue = 1f;
     private Transform _parentDefault;
     private RectTransform _panelTransform;
     private RectTransform _textTransform;
     private ResourcePanelView _panelView;
     private CompositeDisposable _compositeDisposable;
     private ResourcePanelMode _currentMode;
+    private Vector3 _defaultPosition;
+    private float _buferAlpha = _showAlphaValue; 
+    private bool _buferActiveKey;
     public RectTransform PanelTransform => _panelTransform;
     public bool IsInited { get; private set; }
     public event Action<ResourcePanelMode, int> OnResize;
@@ -24,13 +28,13 @@ public class ResourcePanelHandler
         if (IsInited == false)
         {
             IsInited = true;
-            _parentDefault = panelView.transform.parent;
             _panelView = panelView;
             _panelTransform = _panelView.transform as RectTransform;
+            _defaultPosition = _panelTransform.localPosition;
+            _parentDefault = _panelTransform.parent;
             _textTransform = _panelView.Text.transform as RectTransform;
             _panelView.Button.image.color = panelButtonColor;
             _panelView.Panel.color = panelColor;
-            
             SetParentDefault();
             SetValue(value);
             _compositeDisposable = new CompositeDisposable();
@@ -53,12 +57,17 @@ public class ResourcePanelHandler
         _panelView.transform.SetParent(parent);
         SwitchMode(ResourcePanelMode.WithoutAddButton);
         Resize();
+        _buferAlpha = _panelView.CanvasGroup.alpha;
+        _buferActiveKey = _panelView.gameObject.activeSelf;
+        DoPanel(_showAlphaValue, true);
     }
     public void SetParentDefault()
     {
         _panelView.transform.SetParent(_parentDefault);
+        
         SwitchMode(ResourcePanelMode.WithAddButton);
         Resize();
+        DoPanel(_buferAlpha, _buferActiveKey);
     }
     public void Shutdown()
     {
@@ -78,6 +87,8 @@ public class ResourcePanelHandler
                 break;
         }
         _panelTransform.sizeDelta = vector;
+        _panelTransform.localPosition = _defaultPosition;
+        _panelTransform.localScale = Vector3.one;
         OnResize?.Invoke(_currentMode, _panelView.Text.text.Length);
     }
 
@@ -105,7 +116,11 @@ public class ResourcePanelHandler
     {
         SwitchMode(ResourcePanelMode.WithAddButton);
         Resize();
-        _panelView.Button.onClick.AddListener(onPress.Invoke);
+        _panelView.Button.onClick.AddListener(()=>
+        {
+            _panelView.Button.onClick.RemoveAllListeners();
+            onPress.Invoke();
+        });
     }
     public async UniTask DoAnimPanel(CancellationToken cancellationToken, 
         float duration, float alpha, float endValue)

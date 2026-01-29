@@ -21,8 +21,10 @@ public class SettingsPanelUIHandler : ILocalizable
     public bool PanelOpen { get; private set; }
     public bool IsInLevel { get; private set; }
 
-    public SettingsPanelUIHandler(ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOffReactiveCommand)
+    public SettingsPanelUIHandler(BlackFrameUIHandler blackFrameUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler, ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOffReactiveCommand)
     {
+        _blackFrameUIHandler = blackFrameUIHandler;
+        _loadIndicatorUIHandle = loadIndicatorUIHandler;
         SwipeDetectorOffReactiveCommand = swipeDetectorOffReactiveCommand;
         LanguageChangedReactiveCommand = languageChanged;
         languageChanged.Subscribe(_ =>
@@ -67,10 +69,8 @@ public class SettingsPanelUIHandler : ILocalizable
         _hideOnSwitchLevelLocalizationCompositeDisposable?.Clear();
         _settingsPanelView?.SoundField.Toggle.onValueChanged.RemoveAllListeners();
     }
-    public void Show(BlackFrameUIHandler blackFrameUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler)
+    public void Show()
     {
-        _blackFrameUIHandler = blackFrameUIHandler;
-        _loadIndicatorUIHandle = loadIndicatorUIHandler;
         PanelOpen = true;
         SwipeDetectorOffReactiveCommand?.Execute(true);
         _settingsPanelView.transform.SetAsLastSibling();

@@ -19,18 +19,18 @@ public class SettingsPanelButtonUIHandler
     public bool IsInited { get; private set; }
     public RectTransform SettingsButtonRectTransform => _settingsButtonView.transform as RectTransform;
     public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, 
-        LoadIndicatorUIHandler loadIndicatorUIHandler)
+        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _parent = parent;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _settingsPanelUIHandler = settingsPanelUIHandler;
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         IsInited = false;
     }
 
-    public void BaseInit(SettingsButtonView settingsButtonView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+    public void BaseInit(SettingsButtonView settingsButtonView, 
         IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, bool activeKey = true)
     {
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         if (IsInited == false)
         {
             _settingsButtonView = settingsButtonView;
@@ -74,15 +74,12 @@ public class SettingsPanelButtonUIHandler
             await UniTask.WaitUntil(() => _settingsPanelUIHandler.AssetIsLoaded == true);
 
             _loadIndicatorUIHandler.StopIndicate();
-            // _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
         else
         {
             _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-            // _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
         }
         await _localizationChanger.LoadAllLanguagesForPanels();
-        _settingsPanelUIHandler.Show(_darkeningBackgroundFrameUIHandler, _loadIndicatorUIHandler);
-
+        _settingsPanelUIHandler.Show();
     }
 }

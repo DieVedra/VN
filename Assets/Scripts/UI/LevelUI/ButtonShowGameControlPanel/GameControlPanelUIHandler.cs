@@ -12,8 +12,8 @@ public class GameControlPanelUIHandler : ILocalizable
     private readonly GameControlPanelView _gameControlPanelView;
     private readonly GlobalSound _globalSound;
     private readonly ILocalizationChanger _localizationChanger;
-    private readonly Transform _parent;
-    private readonly ILevelLocalizationHandler _levelLocalizationHandler;
+    private readonly Transform _parentGlobalUITransforn;
+    // private readonly ILevelLocalizationHandler _levelLocalizationHandler;
     private readonly BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
@@ -32,24 +32,24 @@ public class GameControlPanelUIHandler : ILocalizable
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     
     private ReactiveProperty<bool> _anyWindowIsOpen;
+    public SettingsPanelButtonUIHandler SettingsPanelButtonUIHandler => _settingsPanelButtonUIHandler;
     private bool _panelIsVisible;
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         GlobalSound globalSound, Wallet wallet,
         PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
-        ILevelLocalizationHandler localizationHandler, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
+        BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         _gameControlPanelView = gameControlPanelView;
         _settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
-        _parent = globalUIHandler.GlobalUITransforn;
+        _parentGlobalUITransforn = globalUIHandler.GlobalUITransforn;
         _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         _globalSound = globalSound;
         _localizationChanger = panelsLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
-        _levelLocalizationHandler = localizationHandler;
         _blockGameControlPanelUI = blockGameControlPanelUI;
         _panelIsVisible = false;
         _panelIsBlocked = false;
@@ -58,18 +58,11 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
-            globalUIHandler.LoadIndicatorUIHandler);
-        _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView, _darkeningBackgroundFrameUIHandler,
+            globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
+        _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView,
             globalSound.SoundStatus, _localizationChanger, false);
-        _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
-        
-        _shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.LoadIndicatorUIHandler, wallet,
-            globalUIHandler.ShopMoneyPanelUIHandler, globalUIHandler.GlobalUITransforn);
-        
-        
-        // _shopMoneyButtonsUIHandler.Init(_darkeningBackgroundFrameUIHandler, gameControlPanelView.ButtonShowPanel, ,);
-        
-        
+        // _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
+
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         {
             if (_panelIsBlocked == false)

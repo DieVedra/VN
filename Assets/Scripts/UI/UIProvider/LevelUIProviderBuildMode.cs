@@ -7,37 +7,35 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
     public readonly GameEndPanelHandler GameEndPanelHandler;
     public readonly AwaitLoadContentPanelHandler AwaitLoadContentPanelHandler;
+    public readonly ShopMoneyButtonsUIHandler ShopMoneyButtonsUIHandler;
 
-    public LevelUIProviderBuildMode(LevelUIView levelUIView, IReadOnlyList<ChoiceCaseView> choiceCasesViews, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
+    public LevelUIProviderBuildMode(LevelUIView levelUIView, GameControlPanelUIHandler gameControlPanelUIHandler,
+        ShopMoneyButtonsUIHandler shopMoneyButtonsUIHandler, IReadOnlyList<ChoiceCaseView> choiceCasesViews, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI, 
-        ILevelLocalizationHandler localizationHandler, GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler,
-        GlobalUIHandler globalUIHandler, ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, GlobalUIHandler globalUIHandler, 
+        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, PanelResourceHandler panelResourceHandler, Action phoneInitOperation)
         : base(levelUIView, blackFrameUIHandler, choiceCasesViews, wallet, disableNodesContentEvent, switchToNextNodeEvent,
             customizationCharacterPanelUI, phoneContentProvider, panelResourceHandler, phoneInitOperation)
     {
-        if (Application.isPlaying)
+        GameControlPanelUIHandler = gameControlPanelUIHandler;
+        GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
+            buttonTransitionToMainSceneUIHandler, levelUIView.transform);
+        ShopMoneyButtonsUIHandler = shopMoneyButtonsUIHandler;
+        AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadScreenUIHandler,
+            loadAssetsPercentHandler, onAwaitLoadContentEvent);
+        onEndGameEvent.Subscribe(()=>
         {
-            GameControlPanelUIHandler = new GameControlPanelUIHandler(levelUIView.GameControlPanelView, globalUIHandler,
-                globalSound, wallet, panelsLocalizationHandler, blackFrameUIHandler, buttonTransitionToMainSceneUIHandler,
-                localizationHandler, blockGameControlPanelUI);
-            GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
-                buttonTransitionToMainSceneUIHandler, levelUIView.transform);
-            AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadScreenUIHandler,
-                loadAssetsPercentHandler, onAwaitLoadContentEvent);
-            onEndGameEvent.Subscribe(()=>
-            {
-                GameEndPanelHandler.ShowPanel().Forget();
-            });
-        }
+            GameEndPanelHandler.ShowPanel().Forget();
+        });
     }
     public override void Shutdown()
     {
         base.Shutdown();
         GameControlPanelUIHandler.Shutdown();
         ChoicePanelUIHandler.Shutdown();
+        ShopMoneyButtonsUIHandler.Shutdown();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

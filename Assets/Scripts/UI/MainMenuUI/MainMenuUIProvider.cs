@@ -61,6 +61,7 @@ public class MainMenuUIProvider : ILocalizable
         MonetResourcePanelHandler.Shutdown();
         HeartsResourcePanelHandler.Shutdown();
         ResourcesPanelsPositionHandlerMainMenu.Shutdown();
+        ShopButtonsUIHandler.Shutdown();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

@@ -16,24 +16,27 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private Transform _parent;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
+    private ShopMoneyMode _lastShopMode;
     private Action _hideOperation;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
     public RectTransform MonetIndicatorPanel => _shopMoneyPanelView.MonetIndicatorPanel;
     public RectTransform HeartsIndicatorPanel => _shopMoneyPanelView.HeartsIndicatorPanel;
     public bool PanelIsLoaded { get; private set; }
-    public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
+    public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
         SwipeDetectorOff = swipeDetectorOff;
+        _lastShopMode = ShopMoneyMode.Monets;
     }
 
-    public void Init(BlackFrameUIHandler darkeningBackgroundFrameUIHandler, Transform parent)
+    public void Init(Transform parent)
     {
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _parent = parent;
     }
     public void Shutdown()
@@ -50,7 +53,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     public async UniTask Show(ShopMoneyMode mode, Action showOperation, Action hideOperation)
     {
         SwipeDetectorOff?.Execute(true);
-        _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
+        _darkeningBackgroundFrameUIHandler.CloseTranslucent(false).Forget();
         if (PanelIsLoaded == false)
         {
             _loadIndicatorUIHandler.SetClearIndicateMode();
@@ -97,17 +100,27 @@ public class ShopMoneyPanelUIHandler : ILocalizable
 
         _shopMoneyPanelView.ButtonMonet.onClick.AddListener(SwitchToMonetPanel);
         _shopMoneyPanelView.ButtonHearts.onClick.AddListener(SwitchToHeartsPanel);
-        
-        if (mode == ShopMoneyMode.Monets)
+        if (TrySwitchMode(mode) == false)
         {
-            SwitchToMonetPanel();
-        }
-        else if(mode == ShopMoneyMode.Hearts)
-        {
-            SwitchToHeartsPanel();
+            TrySwitchMode(_lastShopMode);
         }
     }
-
+    private bool TrySwitchMode(ShopMoneyMode mode)
+    {
+        bool result = false;
+        switch (mode)
+        {
+            case ShopMoneyMode.Monets:
+                SwitchToMonetPanel();
+                result = true;
+                break;
+            case ShopMoneyMode.Hearts:
+                SwitchToHeartsPanel();
+                result = true;
+                break;
+        }
+        return result;
+    }
     private void SwitchToMonetPanel()
     {
         _shopMoneyPanelView.ButtonMonet.gameObject.SetActive(false);
@@ -117,6 +130,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         DisposeLots(_shopMoneyPanelView.MonetLots);
         DisposeLots(_shopMoneyPanelView.HeartLots);
         InitLots(_shopMoneyPanelView.MonetLots, AddMonet);
+        _lastShopMode = ShopMoneyMode.Monets;
     }
     private void SwitchToHeartsPanel()
     {
@@ -127,17 +141,18 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         DisposeLots(_shopMoneyPanelView.MonetLots);
         DisposeLots(_shopMoneyPanelView.HeartLots);
         InitLots(_shopMoneyPanelView.HeartLots, AddHearts);
+        _lastShopMode = ShopMoneyMode.Hearts;
     }
 
     private void InitLots(IReadOnlyList<LotView> lots, Action<int> operation)
     {
         for (int i = 0; i < lots.Count; i++)
         {
-            SubscribeButton(lots[i].Button, operation, i);
+            SubscribeLotButton(lots[i].Button, operation, i);
         }
     }
 
-    private void SubscribeButton(Button button, Action<int> operation, int i)
+    private void SubscribeLotButton(Button button, Action<int> operation, int i)
     {
         button.onClick.AddListener(()=>
         {
