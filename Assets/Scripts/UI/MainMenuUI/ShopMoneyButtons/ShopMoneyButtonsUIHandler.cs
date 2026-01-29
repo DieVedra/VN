@@ -40,6 +40,8 @@ public class ShopMoneyButtonsUIHandler
 
     public void Shutdown()
     {
+        _monetPanelHandler.Shutdown();
+        _heartsPanelHandler.Shutdown();
         IsInited = false;
     }
     private void SubscribeButtons()

@@ -220,7 +220,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         monetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
         heartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);
 
-        PanelResourceHandler panelResourceHandler = new PanelResourceHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
+        PanelResourceVisionHandler panelResourceVisionHandler = new PanelResourceVisionHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
         
         
         if (LevelUIView.TryGetComponent(out Canvas canvas))
@@ -263,18 +263,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
 
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(_globalUIHandler.ShopMoneyPanelUIHandler);
-        shopMoneyButtonsUIHandler.InitFromGameControlPanel(LevelUIView.GameControlPanelView.ShopMoneyButtonView, monetResourcePanelHandler, heartsResourcePanelHandler);
+        shopMoneyButtonsUIHandler.InitFromGameControlPanel(LevelUIView.GameControlPanelView.ShopMoneyButtonView,
+            monetResourcePanelHandler, heartsResourcePanelHandler);
 
 
         var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
-            _globalSound, _wallet, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler, buttonTransitionToMainSceneUIHandler,
-            /*_levelLocalizationHandler,*/ _blockGameControlPanelUIEvent);
+            _globalSound, _wallet, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
+            buttonTransitionToMainSceneUIHandler, _blockGameControlPanelUIEvent);
 
 
-        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews, _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
+        _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews,
+            _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent,
+            customizationCharacterPanelUI, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent,
-            _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider, panelResourceHandler,
+            _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider, panelResourceVisionHandler,
             () =>
             {
                 LevelUIView.PhoneUIView = _phoneView;

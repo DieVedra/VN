@@ -15,6 +15,7 @@ public class ResourcePanelHandler
     private RectTransform _textTransform;
     private ResourcePanelView _panelView;
     private CompositeDisposable _compositeDisposable;
+    private CancellationTokenSource _cancellationTokenSource;
     private ResourcePanelMode _currentMode;
     private Vector3 _defaultPosition;
     private float _buferAlpha = _showAlphaValue; 
@@ -38,6 +39,7 @@ public class ResourcePanelHandler
             SetParentDefault();
             SetValue(value);
             _compositeDisposable = new CompositeDisposable();
+            _cancellationTokenSource = new CancellationTokenSource();
             _panelView.gameObject.SetActive(true);
             _parentDefault.gameObject.SetActive(true);
             resourceChanged?.Subscribe(_=>
@@ -72,6 +74,7 @@ public class ResourcePanelHandler
     public void Shutdown()
     {
         _compositeDisposable?.Clear();
+        _cancellationTokenSource?.Cancel();
         _panelView.Button.onClick.RemoveAllListeners();
     }
     private void Resize()
@@ -122,16 +125,32 @@ public class ResourcePanelHandler
             onPress.Invoke();
         });
     }
-    public async UniTask DoAnimPanel(CancellationToken cancellationToken, 
-        float duration, float alpha, float endValue)
+    public async UniTask DoAnimPanel(float duration, float startAlpha, float endValue, bool keyActive)
     {
-        _panelView.CanvasGroup.alpha = alpha;
-        await _panelView.CanvasGroup.DOFade(endValue, duration)
-            .WithCancellation(cancellationToken);
+        _panelView.CanvasGroup.alpha = startAlpha;
+        if (keyActive == true)
+        {
+            _panelView.gameObject.SetActive(keyActive);
+            _panelView.CanvasGroup.blocksRaycasts = true;
+        }
+        await _panelView.CanvasGroup.DOFade(endValue, duration).WithCancellation(_cancellationTokenSource.Token);
+        if (keyActive == false)
+        {
+            _panelView.gameObject.SetActive(keyActive);
+            _panelView.CanvasGroup.blocksRaycasts = false;
+        }
     }
-    public void DoPanel(float alpha, bool key)
+    public void DoPanel(float alpha, bool keyActive)
     {
         _panelView.CanvasGroup.alpha = alpha;
-        _panelView.gameObject.SetActive(key);
+        if (keyActive == true)
+        {
+            _panelView.CanvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            _panelView.CanvasGroup.blocksRaycasts = false;
+        }
+        _panelView.gameObject.SetActive(keyActive);
     }
 }

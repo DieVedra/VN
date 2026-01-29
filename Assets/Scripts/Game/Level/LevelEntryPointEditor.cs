@@ -223,13 +223,13 @@ public class LevelEntryPointEditor : LevelEntryPoint
         heartsResourcePanelHandler.Init(LevelUIView.HeartsPanelRectTransform.GetComponentInChildren<ResourcePanelView>(),
             _wallet.GetHeartsCount, _resourcePanelsSettingsProvider.HeartsPanelColor,
             _resourcePanelsSettingsProvider.HeartsPanelButtonColor, Application.isPlaying == false ? null : _wallet.HeartsCountChanged);
-        PanelResourceHandler panelResourceHandler = new PanelResourceHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
+        PanelResourceVisionHandler panelResourceVisionHandler = new PanelResourceVisionHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
         
         
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
             LevelUIView.ChoicePanelUI.transform.GetComponentsInChildren<ChoiceCaseView>(), _wallet, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceHandler,
+            SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler,
             ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);});
     }
     protected override void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)

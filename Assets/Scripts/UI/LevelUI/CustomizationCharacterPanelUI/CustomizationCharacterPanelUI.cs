@@ -16,8 +16,8 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     [SerializeField] private RectTransform _skinButtonTransform;
     [SerializeField] private RectTransform _hairstyleButtonTransform;
     [SerializeField] private RectTransform _clothesButtonTransform;
-    [SerializeField] private RectTransform _monetResourcePanel;
-    [SerializeField] private RectTransform _heartResourcePanel;
+    [SerializeField] private RectTransform _monetResourceParent;
+    [SerializeField] private RectTransform _heartResourceParent;
     
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _skinColorButtonText;
@@ -63,8 +63,8 @@ public class CustomizationCharacterPanelUI : MonoBehaviour
     public CanvasGroup ClothesModeCanvasGroup => _clothesModeCanvasGroup;
     public CanvasGroup StatPanelCanvasGroup => _statPanelCanvasGroup;
     public CanvasGroup PlayButtonCanvasGroup => _playButtonCanvasGroup;
-    public RectTransform MonetResourcePanel => _monetResourcePanel;
-    public RectTransform HeartResourcePanel => _heartResourcePanel;
+    public RectTransform MonetResourceParent => _monetResourceParent;
+    public RectTransform HeartResourceParent => _heartResourceParent;
     public Image PanelImage => _panelImage;
     public Image LeftArrowImage => _leftArrowImage;
     public Image RightArrowImage => _rightArrowImage;

@@ -13,14 +13,14 @@ public class GameControlPanelUIHandler : ILocalizable
     private readonly GlobalSound _globalSound;
     private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parentGlobalUITransforn;
-    // private readonly ILevelLocalizationHandler _levelLocalizationHandler;
     private readonly BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private CancellationTokenSource _cancellationTokenSource;
     private ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
-    
+    private Transform _transformControlPanel;
+    private int _siblingIndexBufer;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     
     
@@ -41,6 +41,7 @@ public class GameControlPanelUIHandler : ILocalizable
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
+        _transformControlPanel = gameControlPanelView.transform;
         _gameControlPanelView = gameControlPanelView;
         _settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
@@ -61,7 +62,6 @@ public class GameControlPanelUIHandler : ILocalizable
             globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView,
             globalSound.SoundStatus, _localizationChanger, false);
-        // _settingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
 
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         {
@@ -110,7 +110,8 @@ public class GameControlPanelUIHandler : ILocalizable
     private async UniTask SetPanelVisible()
     {
         _panelIsVisible = true;
-
+        _siblingIndexBufer = _gameControlPanelView.transform.GetSiblingIndex();
+        _transformControlPanel.SetAsLastSibling();
         ReInitCancellationSource();
             
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(true);
@@ -124,11 +125,11 @@ public class GameControlPanelUIHandler : ILocalizable
         _panelIsVisible = false;
         ReInitCancellationSource();
         await DoFade(AnimationValuesProvider.MinValue, GetCurrentDuration());
-
-        OffButtonsOnPanel();
+        _transformControlPanel.SetSiblingIndex(_siblingIndexBufer);
+        OffButtonsPanel();
     }
 
-    private void OffButtonsOnPanel()
+    private void OffButtonsPanel()
     {
         _gameControlPanelView.SettingsButtonView.Button.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);

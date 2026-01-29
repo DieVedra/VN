@@ -12,22 +12,26 @@ public class ChoicePanelUIHandler
     private readonly IReadOnlyList<ChoiceCaseView> _choiceCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
     private readonly Wallet _wallet;
-    private readonly PanelResourceHandler _panelResourceHandler;
+    private readonly PanelResourceVisionHandler _panelResourceVisionHandler;
     private readonly ChoiceHeightHandler _choiceHeightHandler;
     private readonly ChoiceNodeTimer _choiceNodeTimer;
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
     private readonly ChoiceNodeButtonsHandler _choiceNodeButtonsHandler;
     private readonly RectTransform _rectTransform; 
+    private RectTransform _monetResourceParent;
+    private RectTransform _heartResourceParent;
     private CompositeDisposable _compositeDisposableOnUpdateWallet;
     private ReactiveProperty<bool> _choiceActive;
     public ChoiceNodeButtonsHandler ChoiceNodeButtonsHandler => _choiceNodeButtonsHandler;
     public RectTransform RectTransform => _rectTransform;
 
-    public ChoicePanelUIHandler(IReadOnlyList<ChoiceCaseView> choiceCasesViews, ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceHandler panelResourceHandler)
+    public ChoicePanelUIHandler(IReadOnlyList<ChoiceCaseView> choiceCasesViews, ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceVisionHandler panelResourceVisionHandler)
     {
         _choicePanelUI = choicePanelUI;
+        _monetResourceParent = choicePanelUI.MonetResourceParent;
+        _heartResourceParent = choicePanelUI.HeartResourceParent;
         _wallet = wallet;
-        _panelResourceHandler = panelResourceHandler;
+        _panelResourceVisionHandler = panelResourceVisionHandler;
         _choiceCasesViews = choiceCasesViews;
         _rectTransform = choicePanelUI.transform as RectTransform;
         _choiceNodeTimer = new ChoiceNodeTimer(choicePanelUI.TimerPanelText, choicePanelUI. TimerPanelCanvasGroup, choicePanelUI.TimerImageRectTransform);
@@ -77,7 +81,8 @@ public class ChoicePanelUIHandler
     public async UniTask ShowChoiceVariantsInPlayMode(CancellationToken cancellationToken, ChoiceData data,
         ChoiceResultEvent<ChoiceCase> choiceResultEvent)
     {
-        _panelResourceHandler.Init(CalculateResourceViewMode(data));
+        // _panelResourceVisionHandler.Init(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data));
+        // _panelResourceVisionHandler.TryShow(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data));
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         OnUpdateWallet(data, choiceResultEvent);
@@ -88,7 +93,7 @@ public class ChoicePanelUIHandler
         _choiceHeightHandler.UpdateHeights(data);
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
         _choiceNodeTimer.TryShowTimerPanelAnim(cancellationToken).Forget();
-        _panelResourceHandler.Show().Forget();
+        _panelResourceVisionHandler.Show(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data)).Forget();
         SetZeroAlphaToCanvasGroups();
         await _choiceNodeButtonsHandler.ShowButtons(data, cancellationToken);
     }
@@ -100,11 +105,11 @@ public class ChoicePanelUIHandler
         await _choiceNodeButtonsHandler.HideButtons(cancellationToken);
         if (_choiceNodePriceHandler.PriceExists == true)
         {
-            _panelResourceHandler.TryHidePanel(delay:ChoicePanelUIValues.PriceExistsDurationValue).Forget();
+            _panelResourceVisionHandler.TryHidePanel(delay:ChoicePanelUIValues.PriceExistsDurationValue).Forget();
         }
         else
         {
-            _panelResourceHandler.TryHidePanel().Forget();
+            _panelResourceVisionHandler.TryHidePanel().Forget();
         }
         _choicePanelUI.gameObject.SetActive(false);
     }

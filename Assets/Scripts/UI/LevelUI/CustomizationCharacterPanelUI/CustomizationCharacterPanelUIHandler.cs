@@ -9,17 +9,17 @@ public class CustomizationCharacterPanelUIHandler
     private readonly CustomizationCharacterPanelUI _customizationCharacterPanelUI;
     private readonly StatViewHandler _statViewHandler;
     private readonly ButtonPlayHandler _buttonPlayHandler;
-    private readonly PanelResourceHandler _panelResourceHandler;
+    private readonly PanelResourceVisionHandler _panelResourceVisionHandler;
     private ButtonsCustomizationHandler _buttonsCustomizationHandler;
     private ArrowSwitch _arrowSwitch;
     private ButtonsModeSwitch _buttonsModeSwitch;
     private PriceViewHandler _priceViewHandler;
     private CancellationTokenSource _cancellationTokenSource;
     
-    public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, PanelResourceHandler panelResourceHandler)
+    public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, PanelResourceVisionHandler panelResourceVisionHandler)
     {
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
-        _panelResourceHandler = panelResourceHandler;
+        _panelResourceVisionHandler = panelResourceVisionHandler;
         _buttonPlayHandler = new ButtonPlayHandler(customizationCharacterPanelUI.PlayButtonCanvasGroup, customizationCharacterPanelUI.DurationButtonPlay);
         _statViewHandler = new StatViewHandler(customizationCharacterPanelUI.StatPanelCanvasGroup, customizationCharacterPanelUI.StatPanelText,
             customizationCharacterPanelUI.DurationAnimStatView);
@@ -60,7 +60,7 @@ public class CustomizationCharacterPanelUIHandler
         ReactiveCommand<bool> offArrows = new ReactiveCommand<bool>();
         PreliminaryBalanceCalculator preliminaryBalanceCalculator = new PreliminaryBalanceCalculator(wallet);
         
-        _panelResourceHandler.Init(resourcesViewMode);
+        _panelResourceVisionHandler.Init(resourcesViewMode);
 
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(
             selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
@@ -94,7 +94,7 @@ public class CustomizationCharacterPanelUIHandler
         await _buttonPlayHandler.OffAnim();
         await _priceViewHandler.HideAnim();
         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
-        await _panelResourceHandler.TryHidePanel();
+        await _panelResourceVisionHandler.TryHidePanel();
         _buttonsCustomizationHandler.Dispose();
     }
 

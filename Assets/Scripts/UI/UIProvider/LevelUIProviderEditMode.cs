@@ -15,14 +15,14 @@ public class LevelUIProviderEditMode
     public readonly ButtonSwitchSlideUIHandler ButtonSwitchSlideUIHandler;
     public readonly CustomizationCharacterPanelUIHandler CustomizationCharacterPanelUIHandler;
     public readonly HeaderSeriesPanelHandlerUI HeaderSeriesPanelHandlerUI;
-    public readonly PanelResourceHandler PanelResourceHandler;
+    public readonly PanelResourceVisionHandler PanelResourceVisionHandler;
     private CompositeDisposable _compositeDisposable;
 
     public LevelUIProviderEditMode(
         LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, IReadOnlyList<ChoiceCaseView> choiceCasesViews,
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider,
-        PanelResourceHandler panelResourceHandler, Action phoneInitOperation)
+        PanelResourceVisionHandler panelResourceVisionHandler, Action phoneInitOperation)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -36,10 +36,10 @@ public class LevelUIProviderEditMode
         NotificationPanelUIHandler = new NotificationPanelUIHandler(notificationPanelUI);
         CharacterPanelUIHandler = new CharacterPanelUIHandler(characterPanelUI);
 
-        PanelResourceHandler = panelResourceHandler;
-        ChoicePanelUIHandler = new ChoicePanelUIHandler(choiceCasesViews, choicePanelUI, wallet, PanelResourceHandler);
+        PanelResourceVisionHandler = panelResourceVisionHandler;
+        ChoicePanelUIHandler = new ChoicePanelUIHandler(choiceCasesViews, choicePanelUI, wallet, PanelResourceVisionHandler);
         ButtonSwitchSlideUIHandler = new ButtonSwitchSlideUIHandler(buttonSwitchSlideUI, switchToNextNodeEvent);
-        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceHandler);
+        CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceVisionHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView);
         CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
@@ -72,6 +72,6 @@ public class LevelUIProviderEditMode
     {
         NarrativePanelUIHandler.Dispose();
         _compositeDisposable?.Clear();
-        PanelResourceHandler.Shutdown();
+        PanelResourceVisionHandler.Shutdown();
     }
 }
