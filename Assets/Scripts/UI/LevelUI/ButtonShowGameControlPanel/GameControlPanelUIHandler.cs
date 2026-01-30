@@ -36,8 +36,7 @@ public class GameControlPanelUIHandler : ILocalizable
     private bool _panelIsVisible;
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
-        GlobalSound globalSound, Wallet wallet,
-        PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
@@ -58,8 +57,8 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.CanvasGroup.alpha = 0f;
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
-        _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
-            globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
+        _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser, 
+            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView,
             globalSound.SoundStatus, _localizationChanger, false);
 

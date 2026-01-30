@@ -259,8 +259,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler =
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, PreSceneTransition);
         
-        LevelUIView.GameControlPanelView.ButtonGoToMainMenu.image.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ArrowName);
-
 
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(_globalUIHandler.ShopMoneyPanelUIHandler);
         shopMoneyButtonsUIHandler.InitFromGameControlPanel(LevelUIView.GameControlPanelView.ShopMoneyButtonView,
@@ -268,7 +266,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
 
         var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
-            _globalSound, _wallet, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
+            _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
             buttonTransitionToMainSceneUIHandler, _blockGameControlPanelUIEvent);
 
 

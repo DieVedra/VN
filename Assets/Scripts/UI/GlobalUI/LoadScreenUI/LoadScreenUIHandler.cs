@@ -19,6 +19,7 @@ public class LoadScreenUIHandler : ILocalizable
     private Sprite _backgrountSpriteDefault;
     private Sprite _logoSpriteDefault;
     private RectTransform _rectTransformLogoImage;
+    private GlobalCanvasCloser _globalCanvasCloser;
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
     public BlackFrameUIHandler BlackFrameUIHandler => _blackFrameUIHandler;
     public bool IsStarted { get; private set; }
@@ -45,9 +46,10 @@ public class LoadScreenUIHandler : ILocalizable
         return content;
     }
 
-    public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
+    public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, GlobalCanvasCloser globalCanvasCloser)
     {
         _loadScreenUIView = await _loadScreenAssetProvider.LoadAsset(parent);
+        _globalCanvasCloser = globalCanvasCloser;
         _loadScreenUIView.RectMask2D.padding = Vector4.zero;
         _backgrountSpriteDefault = _loadScreenUIView.LoadScreenImage.sprite;
         _logoSpriteDefault = _loadScreenUIView.LogoImage.sprite;
@@ -58,14 +60,6 @@ public class LoadScreenUIHandler : ILocalizable
         _loadScreenUIView.LoadScreenMaskImage.raycastTarget = true;
     }
 
-    private async UniTask Show()
-    {
-        _loadScreenUIView.gameObject.SetActive(true);
-        _indicatorUIHandler.SetTextIndicateMode();
-        _indicatorUIHandler.StartIndicate();
-        await _blackFrameUIHandler.Open();
-    }
-
     public async UniTask ShowToMainMenuMove()
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
@@ -74,7 +68,11 @@ public class LoadScreenUIHandler : ILocalizable
         _loadScreenUIView.LogoImage.sprite = _logoSpriteDefault;
         _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         SetDisclaimerText();
-        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        
+        _globalCanvasCloser.TryEnable();
+        // _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        
+        
         await Show();
     }
 
@@ -87,7 +85,11 @@ public class LoadScreenUIHandler : ILocalizable
         _loadScreenUIView.LogoImage.gameObject.SetActive(true);
         _loadScreenUIView.DisclaimerText.text = string.Empty;
         _loadScreenUIView.gameObject.SetActive(false);
-        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        
+        _globalCanvasCloser.TryEnable();
+        // _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        
+        
         await _blackFrameUIHandler.Close();
         await Show();
         _loadWordsHandler.StartSubstitutingWords(_loadScreenUIView.DisclaimerText).Forget();
@@ -96,6 +98,7 @@ public class LoadScreenUIHandler : ILocalizable
 
     public void ShowToAwaitLoadContent(LoadAssetsPercentHandler loadAssetsPercentHandler, string awaitText)
     {
+        
         _loadScreenUIView.LoadScreenImage.sprite = null;
         _loadScreenUIView.LoadScreenImage.gameObject.SetActive(false);
         _loadScreenUIView.LogoImage.sprite = null;
@@ -111,7 +114,8 @@ public class LoadScreenUIHandler : ILocalizable
     public void ShowOnStart()
     {
         SetDisclaimerText();
-        _loadScreenUIView.transform.parent.gameObject.SetActive(true);
+        _globalCanvasCloser.TryEnable();
+        // _loadScreenUIView.transform.parent.gameObject.SetActive(true);
         _blackFrameUIHandler.On();
         _loadScreenUIView.gameObject.SetActive(true);
         _indicatorUIHandler.StartIndicate();
@@ -140,17 +144,23 @@ public class LoadScreenUIHandler : ILocalizable
     {
         _cancellationTokenSource = new CancellationTokenSource();
         Vector4 padding = Vector4.zero;
-        _loadScreenUIView.LoadScreenImage.raycastTarget = false;
-        _loadScreenUIView.LoadScreenMaskImage.raycastTarget = false;
-
         _indicatorUIHandler.StopIndicate();
-        
         float paddingValue = Screen.width;
         await DOTween.To(() => padding.z, x => padding.z = x, paddingValue, _loadScreenUIView.MaskHideDuration)
             .OnUpdate(() => _loadScreenUIView.RectMask2D.padding = padding).WithCancellation(_cancellationTokenSource.Token);
         _loadScreenUIView.gameObject.SetActive(false);
         _loadScreenUIView.RectMask2D.padding = Vector4.zero;
-        _loadScreenUIView.transform.parent.gameObject.SetActive(false);
+        
+        _globalCanvasCloser.TryDisable();
+        // _loadScreenUIView.transform.parent.gameObject.SetActive(false);
+    }
+
+    private async UniTask Show()
+    {
+        _loadScreenUIView.gameObject.SetActive(true);
+        _indicatorUIHandler.SetTextIndicateMode();
+        _indicatorUIHandler.StartIndicate();
+        await _blackFrameUIHandler.Open();
     }
 
     private void SetDisclaimerText()

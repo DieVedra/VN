@@ -16,6 +16,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private Transform _parent;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
+    private GlobalCanvasCloser _globalCanvasCloser;
     private ShopMoneyMode _lastShopMode;
     private Action _hideOperation;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
@@ -35,9 +36,10 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _lastShopMode = ShopMoneyMode.Monets;
     }
 
-    public void Init(Transform parent)
+    public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser)
     {
         _parent = parent;
+        _globalCanvasCloser = globalCanvasCloser;
     }
     public void Shutdown()
     {
@@ -63,11 +65,11 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         }
         _shopMoneyPanelView.transform.SetAsLastSibling();
         _hideOperation = hideOperation;
-        _shopMoneyPanelView.transform.parent.gameObject.SetActive(true);
+        _globalCanvasCloser.TryEnable();
         _shopMoneyPanelView.MonetButtonText.text = _monetButtonText;
         _shopMoneyPanelView.HeartsButtonText.text = _heartsButtonText;
-        
-        
+
+
         InitPanel(mode);
         _shopMoneyPanelView.gameObject.SetActive(true);
         showOperation.Invoke();
@@ -82,6 +84,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _hideOperation?.Invoke();
         await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
         _shopMoneyPanelView.gameObject.SetActive(false);
+        _globalCanvasCloser.TryDisable();
     }
 
     private async UniTask LoadPanel(Transform parent)

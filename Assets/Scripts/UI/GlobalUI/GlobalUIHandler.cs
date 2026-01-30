@@ -10,6 +10,7 @@ public class GlobalUIHandler
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     private Transform _canvasTransform;
+    private GlobalCanvasCloser _globalCanvasCloser;
     private bool _isCreatedOneInstance;
 
     public Transform GlobalUITransforn => _canvasTransform;
@@ -18,11 +19,13 @@ public class GlobalUIHandler
     public LoadIndicatorUIHandler LoadIndicatorUIHandler => _loadIndicatorUIHandler;
     public SettingsPanelUIHandler SettingsPanelUIHandler => _settingsPanelUIHandler;
     public ShopMoneyPanelUIHandler ShopMoneyPanelUIHandler => _shopMoneyPanelUIHandler;
+    public GlobalCanvasCloser GlobalCanvasCloser => _globalCanvasCloser;
 
     public GlobalUIHandler(Transform projectContextParent)
     {
         _projectContextParent = projectContextParent;
         _isCreatedOneInstance = false;
+        _globalCanvasCloser = new GlobalCanvasCloser();
     }
 
     public async UniTask Init(LoadScreenUIHandler loadScreenUIHandler, SettingsPanelUIHandler settingsPanelUIHandler,
@@ -40,11 +43,13 @@ public class GlobalUIHandler
             {
                 var projectContextCanvasAssetProvider = new ProjectContextCanvasAssetProvider();
                 Canvas canvas = await projectContextCanvasAssetProvider.LoadAsset(_projectContextParent);
+                _globalCanvasCloser.Init(canvas.gameObject);
+
                 _canvasTransform = canvas.transform;
                 _canvasTransform.gameObject.SetActive(true);
             }
-            shopMoneyPanelUIHandler.Init(_canvasTransform);
-            await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler);
+            shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser);
+            await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler, _globalCanvasCloser);
             await loadIndicatorUIHandler.Init(_canvasTransform);
             await blackFrameUIHandler.Init(_canvasTransform);
         }

@@ -62,13 +62,15 @@ public class ShopMoneyButtonsUIHandler
     }
     private void ShowShopMoneyPanelOperation()
     {
-        _monetPanelHandler.SetParent(_shopMoneyPanelUIHandler.MonetIndicatorPanel);
-        _heartsPanelHandler.SetParent(_shopMoneyPanelUIHandler.HeartsIndicatorPanel);
+        _monetPanelHandler.TransferToTargetPanel(_shopMoneyPanelUIHandler.MonetIndicatorPanel, ResourcePanelMode.WithoutAddButton);
+        _monetPanelHandler.DoPanel(ResourcePanelHandler.VisibleAlphaValue, true);
+        _heartsPanelHandler.TransferToTargetPanel(_shopMoneyPanelUIHandler.HeartsIndicatorPanel, ResourcePanelMode.WithoutAddButton);
+        _heartsPanelHandler.DoPanel(ResourcePanelHandler.VisibleAlphaValue, true);
     }
     private void HideShopMoneyPanelOperation()
     {
-        _monetPanelHandler.SetParentDefault();
-        _heartsPanelHandler.SetParentDefault();
+        _monetPanelHandler.TransferToDefault(ResourcePanelMode.WithAddButton);
+        _heartsPanelHandler.TransferToDefault(ResourcePanelMode.WithAddButton);
         SubscribeButtons();
     }
 }

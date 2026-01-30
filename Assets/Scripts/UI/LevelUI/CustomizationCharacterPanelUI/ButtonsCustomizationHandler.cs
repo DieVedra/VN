@@ -37,7 +37,7 @@ public class ButtonsCustomizationHandler
         _offArrows = offArrows;
     }
 
-    public void Dispose()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
     }

@@ -162,8 +162,8 @@ public class AppStarter
 
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
-        var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.SettingsPanelUIHandler,
-            globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
+        var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser,
+            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
         var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
@@ -178,7 +178,7 @@ public class AppStarter
     }
 
     private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, 
-        MainMenuUIProvider mainMenuUIProvider, Wallet wallet, /*ShopMoneyPanelUIHandler shopMoneyPanelUIHandler,*/
+        MainMenuUIProvider mainMenuUIProvider, Wallet wallet,
         MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider, int startIndexStory)
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
@@ -187,22 +187,25 @@ public class AppStarter
             levelLoader, startIndexStory);
         mainMenuUIProvider.SettingsButtonUIHandler.BaseInit(mainMenuUIView.SettingsButtonView, soundStatus, localizationChanger);
         mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();
-        // shopMoneyPanelUIHandler.Init(mainMenuUIProvider.DarkeningBackgroundFrameUIHandler, mainMenuUIView.transform);
-        
-        
         
         ResourcePanelsSettingsAssetProvider resourcePanelsSettingsAssetProvider = new ResourcePanelsSettingsAssetProvider();
         ResourcePanelsSettingsProvider resourcePanelsSettingsProvider = await resourcePanelsSettingsAssetProvider.LoadLocalizationHandlerAsset();
         
         
         ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
-        mainMenuUIProvider.MonetResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.MonetPanelTransform),
-            wallet.GetMonetsCount, resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor,
-            wallet.MonetsCountChanged);
         
-        mainMenuUIProvider.HeartsResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.HeartsPanelTransform),
-            wallet.GetHeartsCount, resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor,
-            wallet.HeartsCountChanged);
+        ResourcePanelView asset = await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.MonetPanelTransform);
+        mainMenuUIProvider.MonetResourcePanelHandler.Init(asset, wallet.GetMonetsCount, resourcePanelsSettingsProvider.MonetPanelColor,
+            resourcePanelsSettingsProvider.MonetPanelButtonColor, wallet.MonetsCountChanged);
+        asset.gameObject.SetActive(true);
+        asset.transform.parent.gameObject.SetActive(true);
+        asset.CanvasGroup.blocksRaycasts = true;
+        asset = await resourcePanelPrefabProvider.CreateAsset(mainMenuUIView.HeartsPanelTransform);
+        mainMenuUIProvider.HeartsResourcePanelHandler.Init(asset, wallet.GetHeartsCount, resourcePanelsSettingsProvider.HeartsPanelColor,
+            resourcePanelsSettingsProvider.HeartsPanelButtonColor, wallet.HeartsCountChanged);
+        asset.gameObject.SetActive(true);
+        asset.transform.parent.gameObject.SetActive(true);
+        asset.CanvasGroup.blocksRaycasts = true;
 
         mainMenuUIProvider.MonetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
         mainMenuUIProvider.HeartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);

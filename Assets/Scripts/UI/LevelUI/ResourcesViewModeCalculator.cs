@@ -17,34 +17,22 @@ public class ResourcesViewModeCalculator
                 resourcesViewMode2 = ResourcesViewMode.HeartsMode;
             }
         }
-
-        if (resourcesViewMode1 == resourcesViewMode2)
-        {
-            return resourcesViewMode1;
-        }
-        if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.HeartsMode)
-        {
-            resourcesViewMode1 = ResourcesViewMode.HeartsMode;
-        }
-        if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.MonetMode)
-        {
-            resourcesViewMode1 = ResourcesViewMode.MonetMode;
-        }
-        if (resourcesViewMode1 == ResourcesViewMode.HeartsMode && resourcesViewMode2 == ResourcesViewMode.Hide)
-        {
-            resourcesViewMode1 = ResourcesViewMode.HeartsMode;
-        }
-        if (resourcesViewMode1 == ResourcesViewMode.HeartsMode && resourcesViewMode2 == ResourcesViewMode.MonetMode)
-        {
-            resourcesViewMode1 = ResourcesViewMode.MonetsAndHeartsMode;
-        }
-        if (resourcesViewMode1 == ResourcesViewMode.MonetMode && resourcesViewMode2 == ResourcesViewMode.Hide)
-        {
-            resourcesViewMode1 = ResourcesViewMode.MonetMode;
-        }
+        
         if (resourcesViewMode1 == ResourcesViewMode.MonetMode && resourcesViewMode2 == ResourcesViewMode.HeartsMode)
         {
             resourcesViewMode1 = ResourcesViewMode.MonetsAndHeartsMode;
+        }
+        else if (resourcesViewMode1 == ResourcesViewMode.MonetMode && resourcesViewMode2 == ResourcesViewMode.Hide)
+        {
+            resourcesViewMode1 = ResourcesViewMode.MonetMode;
+        }
+        else if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.HeartsMode)
+        {
+            resourcesViewMode1 = ResourcesViewMode.HeartsMode;
+        }
+        else if (resourcesViewMode1 == ResourcesViewMode.Hide && resourcesViewMode2 == ResourcesViewMode.Hide)
+        {
+            resourcesViewMode1 = ResourcesViewMode.Hide;
         }
         return resourcesViewMode1;
     }

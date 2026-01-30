@@ -12,6 +12,7 @@ public class SettingsPanelUIHandler : ILocalizable
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandle;
+    private GlobalCanvasCloser _globalCanvasCloser;
     private ILevelLocalizationHandler _levelLocalizationHandler;
     private CompositeDisposable _hideOnSwitchLevelLocalizationCompositeDisposable;
     public Transform Transform => _settingsPanelView.transform;
@@ -32,12 +33,13 @@ public class SettingsPanelUIHandler : ILocalizable
             LanguageChanged();
         });
     }
-    public async UniTask Init(Transform parent, IReactiveProperty<bool> soundStatus,
+    public async UniTask Init(Transform parent, GlobalCanvasCloser globalCanvasCloser, IReactiveProperty<bool> soundStatus,
         ILocalizationChanger localizationChanger)
     {
         if (AssetIsLoaded == false)
         {
             _settingsPanelView = await new SettingsPanelAssetProvider().CreateSettingsPanel(parent);
+            _globalCanvasCloser = globalCanvasCloser;
             _settingsPanelView.SoundField.Toggle.isOn = soundStatus.Value;
             _settingsPanelView.SoundField.Toggle.onValueChanged.AddListener(_ =>
             {
@@ -82,6 +84,7 @@ public class SettingsPanelUIHandler : ILocalizable
         });
         _settingsPanelView.transform.parent.gameObject.SetActive(true);
         _settingsPanelView.gameObject.SetActive(true);
+        _globalCanvasCloser.TryEnable();
     }
 
     private void LanguageChanged()
@@ -102,6 +105,7 @@ public class SettingsPanelUIHandler : ILocalizable
         {
             HideOnSwitchLevelLocalizationPart1();
         }
+        _globalCanvasCloser.TryDisable();
     }
 
     private void HideDefault()

@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class CustomizationCharacterPanelUIHandler
 {
@@ -15,7 +16,7 @@ public class CustomizationCharacterPanelUIHandler
     private ButtonsModeSwitch _buttonsModeSwitch;
     private PriceViewHandler _priceViewHandler;
     private CancellationTokenSource _cancellationTokenSource;
-    
+    private RectTransform _monetResourceParent, _heartResourceParent;
     public CustomizationCharacterPanelUIHandler(CustomizationCharacterPanelUI customizationCharacterPanelUI, PanelResourceVisionHandler panelResourceVisionHandler)
     {
         _customizationCharacterPanelUI = customizationCharacterPanelUI;
@@ -23,6 +24,8 @@ public class CustomizationCharacterPanelUIHandler
         _buttonPlayHandler = new ButtonPlayHandler(customizationCharacterPanelUI.PlayButtonCanvasGroup, customizationCharacterPanelUI.DurationButtonPlay);
         _statViewHandler = new StatViewHandler(customizationCharacterPanelUI.StatPanelCanvasGroup, customizationCharacterPanelUI.StatPanelText,
             customizationCharacterPanelUI.DurationAnimStatView);
+        _monetResourceParent = customizationCharacterPanelUI.MonetResourceParent;
+        _heartResourceParent = customizationCharacterPanelUI.HeartResourceParent;
     }
 
     public void ShutDown()
@@ -60,7 +63,7 @@ public class CustomizationCharacterPanelUIHandler
         ReactiveCommand<bool> offArrows = new ReactiveCommand<bool>();
         PreliminaryBalanceCalculator preliminaryBalanceCalculator = new PreliminaryBalanceCalculator(wallet);
         
-        _panelResourceVisionHandler.Init(resourcesViewMode);
+        _panelResourceVisionHandler.Show(_monetResourceParent, _heartResourceParent, resourcesViewMode).Forget();
 
         CustomizationDataProvider customizationDataProvider = new CustomizationDataProvider(
             selectedCustomizationContentIndexes, customizationSettingsCustodian, isNuClothesReactiveProperty);
@@ -93,9 +96,9 @@ public class CustomizationCharacterPanelUIHandler
     {
         await _buttonPlayHandler.OffAnim();
         await _priceViewHandler.HideAnim();
-        await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
-        await _panelResourceVisionHandler.TryHidePanel();
-        _buttonsCustomizationHandler.Dispose();
+        // await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
+        await _panelResourceVisionHandler.TryHidePanel(delay: _delay);
+        _buttonsCustomizationHandler.Shutdown();
     }
 
     private ResourcesViewMode CalculateResourcesViewMode(SelectedCustomizationContentIndexes selectedCustomizationContentIndexes)

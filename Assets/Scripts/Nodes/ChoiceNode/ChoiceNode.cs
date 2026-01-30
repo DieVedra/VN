@@ -28,6 +28,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     protected CancellationTokenSource TimerCancellationTokenSource;
     protected CompositeDisposable CompositeDisposable;
     protected ChoiceData ChoiceData;
+    protected int PressedPortIndex;
     
     public void ConstructMyChoiceNode(IGameStatsProvider gameStatsProvider, ChoicePanelUIHandler choicePanelUIHandler,
         NotificationPanelUIHandler notificationPanelUIHandler, int seriaIndex)
@@ -82,7 +83,7 @@ public class ChoiceNode : BaseNode, ILocalizable
             TimerCancellationTokenSource.Cancel();
         }
         CancellationTokenSource = new CancellationTokenSource();
-        await ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token);
+        await ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(PressedPortIndex, CancellationTokenSource.Token);
         CompositeDisposable.Dispose();
         ChoiceData = null;
     }
@@ -130,8 +131,8 @@ public class ChoiceNode : BaseNode, ILocalizable
         }
         else
         {
-            int portIndex = _choiceCases.IndexOf(choiceCaseResult);
-            TryFindConnectedPorts(GetOutputPort(GetPortName(portIndex)));
+            PressedPortIndex = _choiceCases.IndexOf(choiceCaseResult);
+            TryFindConnectedPorts(GetOutputPort(GetPortName(PressedPortIndex)));
         }
         
         

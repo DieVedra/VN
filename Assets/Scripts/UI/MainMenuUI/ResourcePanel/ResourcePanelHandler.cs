@@ -9,8 +9,9 @@ public class ResourcePanelHandler
 {
     private const float _posXValueWithAddButtonMode = -112f;
     private const float _posXValueWithoutAddButtonMode = -29f;
-    private const float _showAlphaValue = 1f;
+    public const float VisibleAlphaValue = 1f;
     private Transform _parentDefault;
+    // private Transform _targetParentTransform;
     private RectTransform _panelTransform;
     private RectTransform _textTransform;
     private ResourcePanelView _panelView;
@@ -18,10 +19,12 @@ public class ResourcePanelHandler
     private CancellationTokenSource _cancellationTokenSource;
     private ResourcePanelMode _currentMode;
     private Vector3 _defaultPosition;
-    private float _buferAlpha = _showAlphaValue; 
-    private bool _buferActiveKey;
+    // private float _buferAlpha = VisibleAlphaValue; 
+    // private bool _buferActiveKey;
+    private bool _animKey;
     public RectTransform PanelTransform => _panelTransform;
     public bool IsInited { get; private set; }
+    public Transform ParentDefault => _parentDefault;
     public event Action<ResourcePanelMode, int> OnResize;
 
     public void Init(ResourcePanelView panelView, int value, Color panelColor, Color panelButtonColor, IReactiveCommand<int> resourceChanged = null)
@@ -32,16 +35,15 @@ public class ResourcePanelHandler
             _panelView = panelView;
             _panelTransform = _panelView.transform as RectTransform;
             _defaultPosition = _panelTransform.localPosition;
-            _parentDefault = _panelTransform.parent;
             _textTransform = _panelView.Text.transform as RectTransform;
             _panelView.Button.image.color = panelButtonColor;
             _panelView.Panel.color = panelColor;
-            SetParentDefault();
+            SetDefaultParent(_panelTransform.parent);
+            SwitchMode(ResourcePanelMode.WithAddButton);
+            Resize();
             SetValue(value);
             _compositeDisposable = new CompositeDisposable();
             _cancellationTokenSource = new CancellationTokenSource();
-            _panelView.gameObject.SetActive(true);
-            _parentDefault.gameObject.SetActive(true);
             resourceChanged?.Subscribe(_=>
             {
                 SetValue(_);
@@ -54,22 +56,21 @@ public class ResourcePanelHandler
     {
         _panelView.Icon.sprite = icon;
     }
-    public void SetParent(Transform parent)
+
+    public void TransferToTargetPanel(Transform targetParent, ResourcePanelMode panelMode)
     {
-        _panelView.transform.SetParent(parent);
-        SwitchMode(ResourcePanelMode.WithoutAddButton);
+        TrySkipAnim();
+        _panelView.transform.SetParent(targetParent);
+        SwitchMode(panelMode);
         Resize();
-        _buferAlpha = _panelView.CanvasGroup.alpha;
-        _buferActiveKey = _panelView.gameObject.activeSelf;
-        DoPanel(_showAlphaValue, true);
     }
-    public void SetParentDefault()
+    public void TransferToDefault(ResourcePanelMode panelMode)
     {
-        _panelView.transform.SetParent(_parentDefault);
-        
-        SwitchMode(ResourcePanelMode.WithAddButton);
-        Resize();
-        DoPanel(_buferAlpha, _buferActiveKey);
+        TransferToTargetPanel(_parentDefault, panelMode);
+    }
+    public void SetDefaultParent(Transform parent)
+    {
+        _parentDefault = parent;
     }
     public void Shutdown()
     {
@@ -127,17 +128,33 @@ public class ResourcePanelHandler
     }
     public async UniTask DoAnimPanel(float duration, float startAlpha, float endValue, bool keyActive)
     {
-        _panelView.CanvasGroup.alpha = startAlpha;
-        if (keyActive == true)
+        if (_animKey == false)
         {
-            _panelView.gameObject.SetActive(keyActive);
-            _panelView.CanvasGroup.blocksRaycasts = true;
+            _animKey = true;
+            _cancellationTokenSource = new CancellationTokenSource();
+            _panelView.CanvasGroup.alpha = startAlpha;
+            if (keyActive == true)
+            {
+                _panelView.gameObject.SetActive(keyActive);
+                _panelView.CanvasGroup.blocksRaycasts = true;
+            }
+
+            await _panelView.CanvasGroup.DOFade(endValue, duration).WithCancellation(_cancellationTokenSource.Token);
+            if (keyActive == false)
+            {
+                _panelView.gameObject.SetActive(keyActive);
+                _panelView.CanvasGroup.blocksRaycasts = false;
+            }
+            _animKey = false;
         }
-        await _panelView.CanvasGroup.DOFade(endValue, duration).WithCancellation(_cancellationTokenSource.Token);
-        if (keyActive == false)
+    }
+
+    public void TrySkipAnim()
+    {
+        if (_animKey == true)
         {
-            _panelView.gameObject.SetActive(keyActive);
-            _panelView.CanvasGroup.blocksRaycasts = false;
+            _cancellationTokenSource.Cancel();
+            _animKey = false;
         }
     }
     public void DoPanel(float alpha, bool keyActive)

@@ -13,6 +13,7 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private float _offsetBetweenPanels;
     [SerializeField] private float _imageHeightDefault;
     [SerializeField] private float _defaultPosYCentralButtonChoice2;
+    [SerializeField] private Color _blinkColor;
     public TextMeshProUGUI TimerPanelText => _timerPanelText;
     public RectTransform TimerImageRectTransform => _timerImageRectTransform;
     public CanvasGroup TimerPanelCanvasGroup => _timerPanelCanvasGroup;
@@ -23,4 +24,5 @@ public class ChoicePanelUI : MonoBehaviour
     public float OffsetBetweenPanels => _offsetBetweenPanels;
     public float ImageHeightDefault => _imageHeightDefault;
     public float DefaultPosYCentralButtonChoice2 => _defaultPosYCentralButtonChoice2;
+    public Color BlinkColor => _blinkColor;
 }

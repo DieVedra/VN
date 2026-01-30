@@ -22,9 +22,6 @@ public class GlobalSound : Sound
         storyData.AudioEffectsIsOn.Clear();
         storyData.CurrentAudioMusicKey = CurrentMusicClipKey;
         storyData.CurrentAudioAmbientKey = CurrentAdditionalClipKey;
-        
-        Debug.Log($"2552535  {CurrentMusicClipKey}   {CurrentAdditionalClipKey}");
-
         var effects = AudioEffectsCustodian.GetEnableEffectsToSave();
         if (effects != null)
         {

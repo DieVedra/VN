@@ -19,10 +19,6 @@ public class ChoicePhoneNode : ChoiceNode
         ChoicePanelUIHandler = choicePanelUIHandler;
         GameStatsProvider = gameStatsProvider;
         _curtainUIHandler = curtainUIHandler;
-        // for (int i = 0; i < _choiceCases.Count; i++)
-        // {
-        //     _choiceCases[i].InitLocalizationString();
-        // }
         if (IsPlayMode() == false)
         {
             ChoiceNodeInitializer.TryInitReInitStatsInCases(_choiceCases);
@@ -68,7 +64,7 @@ public class ChoicePhoneNode : ChoiceNode
         IsOver = true;
         await UniTask.WhenAll(
             _curtainUIHandler.CurtainImage.DOFade(PhoneAnimValues.UnfadeEndValue, PhoneAnimValues.Duration).WithCancellation(CancellationTokenSource.Token),
-            ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(CancellationTokenSource.Token));
+            ChoicePanelUIHandler.DisappearanceChoiceVariantsInPlayMode(PressedPortIndex, CancellationTokenSource.Token));
         _curtainUIHandler.CurtainImage.raycastTarget = false;
         _curtainUIHandler.Transform.gameObject.SetActive(false);
         CompositeDisposable.Dispose();

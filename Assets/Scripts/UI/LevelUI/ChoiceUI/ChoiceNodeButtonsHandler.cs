@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class ChoiceNodeButtonsHandler
 {
+    private const float _changeColorDuration = 0.5f;
+    private const float _fadeValue = 0f;
+    private readonly Color _blinkColor;
     private readonly float _duration;
     private readonly ChoiceNodePriceHandler _choiceNodePriceHandler;
     private readonly ReactiveProperty<bool> _choiceActive;
@@ -20,7 +23,7 @@ public class ChoiceNodeButtonsHandler
     private Vector2 _offset = new Vector2(ChoicePanelUIValues.OffsetX, ChoicePanelUIValues.OffsetY);
     public IReadOnlyList<bool> ChoiseButtonsCanPress => _choiseButtonsCanPress;
 
-    public ChoiceNodeButtonsHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
+    public ChoiceNodeButtonsHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, Color blinkColor, ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
         ReactiveProperty<bool> choiceActive)
     {
         _choiceNodePriceHandler = choiceNodePriceHandler;
@@ -30,6 +33,7 @@ public class ChoiceNodeButtonsHandler
         _choiceActive = choiceActive;
         _choiseButtonsCanPress = new[] {true, true, true, true};
         _choicePositions = new[] {new Vector2(), new Vector2(), new Vector2(), new Vector2()};
+        _blinkColor = blinkColor;
     }
 
     public async UniTask ShowButtons(ChoiceData data, CancellationToken cancellationToken)
@@ -44,15 +48,31 @@ public class ChoiceNodeButtonsHandler
         }
     }
 
-    public async UniTask HideButtons(CancellationToken cancellationToken)
+    public async UniTask HideButtons(int pressedCaseIndex, CancellationToken cancellationToken)
     {
-        ChoiceCaseView choiceCaseView;
+        ChoiceCaseView choiceCaseView = null;
+        ChoiceCaseView pressedChoiceCaseView = null;
+        Color originalColor = Color.white;
+
         for (int i = _data.ChoiceCases.Count - 1; i >= 0; i--)
         {
-            choiceCaseView = _choiseCasesViews[i];
-            DisappearanceChoiceVariant(cancellationToken, choiceCaseView.ButtonChoice, choiceCaseView.RectTransformChoice, choiceCaseView.CanvasGroupChoice, _choicePositions[i]).Forget();
-            await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
+            if (pressedCaseIndex == i)
+            {
+                pressedChoiceCaseView = _choiseCasesViews[i];
+                originalColor = pressedChoiceCaseView.ButtonChoice.image.color;
+                await pressedChoiceCaseView.ButtonChoice.image.DOColor(_blinkColor, _changeColorDuration).WithCancellation(cancellationToken);
+            }
+            else
+            {
+                choiceCaseView = _choiseCasesViews[i];
+                DisappearanceChoiceVariant(cancellationToken, choiceCaseView.ButtonChoice, choiceCaseView.RectTransformChoice, choiceCaseView.CanvasGroupChoice, _choicePositions[i]).Forget();
+                await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
+            }
         }
+        await pressedChoiceCaseView.CanvasGroupChoice.DOFade(_fadeValue,_duration).WithCancellation(cancellationToken);
+        pressedChoiceCaseView.ButtonChoice.image.color = originalColor;
+        pressedChoiceCaseView.ButtonChoice.gameObject.SetActive(false);
+
     }
 
     public void TryActivateButtonsChoice(ChoiceData data, ChoiceResultEvent<ChoiceCase> choiceResultEvent)

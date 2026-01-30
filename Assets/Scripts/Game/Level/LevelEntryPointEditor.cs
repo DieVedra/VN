@@ -217,10 +217,15 @@ public class LevelEntryPointEditor : LevelEntryPoint
         
         ResourcePanelHandler monetResourcePanelHandler = new ResourcePanelHandler();
         ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
-        monetResourcePanelHandler.Init(LevelUIView.MonetPanelRectTransform.GetComponentInChildren<ResourcePanelView>(),
+        ResourcePanelView panelView = LevelUIView.MonetPanelRectTransform.GetComponentInChildren<ResourcePanelView>(includeInactive: true);
+        panelView.gameObject.SetActive(false);
+        monetResourcePanelHandler.Init(panelView,
             _wallet.GetMonetsCount, _resourcePanelsSettingsProvider.MonetPanelColor,
             _resourcePanelsSettingsProvider.MonetPanelButtonColor, Application.isPlaying == false ? null : _wallet.MonetsCountChanged);
-        heartsResourcePanelHandler.Init(LevelUIView.HeartsPanelRectTransform.GetComponentInChildren<ResourcePanelView>(),
+        
+        panelView = LevelUIView.HeartsPanelRectTransform.GetComponentInChildren<ResourcePanelView>(includeInactive: true);
+        panelView.gameObject.SetActive(false);
+        heartsResourcePanelHandler.Init(panelView,
             _wallet.GetHeartsCount, _resourcePanelsSettingsProvider.HeartsPanelColor,
             _resourcePanelsSettingsProvider.HeartsPanelButtonColor, Application.isPlaying == false ? null : _wallet.HeartsCountChanged);
         PanelResourceVisionHandler panelResourceVisionHandler = new PanelResourceVisionHandler(monetResourcePanelHandler, heartsResourcePanelHandler);

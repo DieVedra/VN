@@ -45,6 +45,8 @@ public class MyScrollHandler : ILocalizable
     private ChangeEffectHandler _changeEffectHandler;
     private RectTransform _swipeIndicatorFill;
     private MyScrollMover _myScrollMover;
+    private LevelLoader _levelLoader;
+    private PlayStoryPanelHandler _playStoryPanelHandler;
     private CompositeDisposable _compositeDisposablePlayStoryPanelHandler;
     private IReadOnlyList<Story> _stories;
     private CompositeDisposable _compositeDisposableLanguageChanged;
@@ -93,7 +95,11 @@ public class MyScrollHandler : ILocalizable
             _contentLayoutGroup.enabled = true;
             _contentSizeFitter.enabled = true;
             _swipeDetector = new SwipeDetector(_pressInputAction, _positionInputAction, _swipeAreaRect, _contentCount == 1 ? _sensitivitySlider * _halfMultiplier : _sensitivitySlider);
-            await CreateContent(playStoryPanelHandler, levelLoader);
+
+            _playStoryPanelHandler = playStoryPanelHandler;
+            _levelLoader = levelLoader;
+            await CreateContent();
+            SubscribeScrollContentButtons();
             _content.anchoredPosition = Vector2.zero;
             _content.anchoredPosition = new Vector2(
                 _content.anchoredPosition.x + CalculateAddValueToPositionXContentToFirstContentElement(_moveStep, _contentCount), AnimationValuesProvider.MinValue);
@@ -166,6 +172,8 @@ public class MyScrollHandler : ILocalizable
         _changeEffectHandler.Shutdown();
         _currentIndex.Dispose();
         _compositeDisposableLanguageChanged.Clear();
+        _compositeDisposablePlayStoryPanelHandler?.Clear();
+
         for (int i = 0; i < _contentChilds.Count; i++)
         {
             Addressables.ReleaseInstance(_contentChilds[i].gameObject);
@@ -182,7 +190,7 @@ public class MyScrollHandler : ILocalizable
         _currentIndex.Value = _startIndex;
     }
 
-    private async UniTask CreateContent(PlayStoryPanelHandler playStoryPanelHandler, LevelLoader levelLoader)
+    private async UniTask CreateContent()
     {
         TryClearContent(_content);
         _contentChilds = null;
@@ -193,7 +201,6 @@ public class MyScrollHandler : ILocalizable
 
         for (int i = 0; i < _contentCount; i++)
         {
-
             StoryPanel panel = await storyPanelAssetProvider.CreateStoryPanel(_content);
             _contentChilds.Add(panel);
             _transformsContentChilds.Add(panel.transform);
@@ -201,8 +208,10 @@ public class MyScrollHandler : ILocalizable
             {
                 panel.ImageBackground.sprite = _stories[i].SpriteStorySkin;
                 panel.ImageLabel.sprite = _stories[i].SpriteLogo;
-                InitContinueButton(panel, _stories[i], levelLoader);
-                InitOpenButton(panel, _stories[i], playStoryPanelHandler);
+                
+                InitContinueButton(panel, _stories[i]);
+                panel.TextButtonOpen.text = _buttonOpenText;
+
                 panel.gameObject.SetActive(true);
                 _descriptionCutter.TryCutAndSet(panel.TextDescription, _stories[i].Description);
             }
@@ -210,6 +219,83 @@ public class MyScrollHandler : ILocalizable
             {
                 panel.gameObject.SetActive(true);
             }
+        }
+    }
+    
+    private void SubscribeScrollContentButtons()
+    {
+        StoryPanel storyPanel = null;
+        Story story = null;
+        for (int i = 0; i < _contentChilds.Count; i++)
+        {
+            storyPanel = _contentChilds[i];
+            story = _stories[i];
+            if (story.StoryStarted)
+            {
+                storyPanel.TextButtonContinue.text = _buttonContinueText;
+                var story1 = story;
+                storyPanel.ButtonContinue.onClick.AddListener(() =>
+                {
+                    if (_myScrollMover.IsMove == false)
+                    {
+                        UnsubscribeScrollContentButtons();
+                        _levelLoader.StartLoadPart1(story1).Forget();
+                    }
+                });
+                storyPanel.ButtonContinue.gameObject.SetActive(true);
+            }
+            else
+            {
+                storyPanel.ButtonContinue.gameObject.SetActive(false);
+            }
+
+            var story2 = story;
+            storyPanel.ButtonOpen.onClick.AddListener(() =>
+            {
+                if (_myScrollMover.IsMove == false)
+                {
+                    UnsubscribeScrollContentButtons();
+                    _swipeDetector.Disable();
+                    _playStoryPanelHandler.Show(story2).Forget();
+                    _compositeDisposablePlayStoryPanelHandler = new CompositeDisposable();
+                    _playStoryPanelHandler.OnExitEndRC.Subscribe(_=>
+                    {
+                        _swipeDetector.Enable();
+                        SubscribeScrollContentButtons();
+                        _compositeDisposablePlayStoryPanelHandler.Clear();
+                    }).AddTo(_compositeDisposablePlayStoryPanelHandler);
+                }
+            });
+        }
+    }
+    private void UnsubscribeScrollContentButtons()
+    {
+        foreach (var storyPanel in _contentChilds)
+        {
+            storyPanel.ButtonOpen.onClick.RemoveAllListeners();
+            storyPanel.ButtonContinue.onClick.RemoveAllListeners();
+        }
+    }
+
+    private void InitContinueButton(StoryPanel panel, Story story)
+    {
+        if (story.StoryStarted)
+        {
+            panel.TextButtonContinue.text = _buttonContinueText;
+            panel.ButtonContinue.onClick.AddListener(() =>
+            {
+                if (_myScrollMover.IsMove == false)
+                {
+                    UnsubscribeScrollContentButtons();
+                    
+                    _levelLoader.StartLoadPart1(story).Forget();
+                }
+            });
+            panel.ButtonContinue.gameObject.SetActive(true);
+        }
+        else
+        {
+            panel.ButtonContinue.gameObject.SetActive(false);
         }
     }
 
@@ -298,47 +384,6 @@ public class MyScrollHandler : ILocalizable
         {
             Object.DestroyImmediate(trash);
         }
-    }
-
-    private void InitContinueButton(StoryPanel panel, Story story, LevelLoader levelLoader)
-    {
-        if (story.StoryStarted)
-        {
-            panel.TextButtonContinue.text = _buttonContinueText;
-            panel.ButtonContinue.onClick.AddListener(() =>
-            {
-                if (_myScrollMover.IsMove == false)
-                {
-                    levelLoader.StartLoadPart1(story).Forget();
-                    panel.ButtonContinue.onClick.RemoveAllListeners();
-                    panel.ButtonOpen.onClick.RemoveAllListeners();
-                }
-            });
-            panel.ButtonContinue.gameObject.SetActive(true);
-        }
-        else
-        {
-            panel.ButtonContinue.gameObject.SetActive(false);
-        }
-    }
-
-    private void InitOpenButton(StoryPanel panel, Story story, PlayStoryPanelHandler playStoryPanelHandler)
-    {
-        panel.TextButtonOpen.text = _buttonOpenText;
-        panel.ButtonOpen.onClick.AddListener(() =>
-        {
-            if (_myScrollMover.IsMove == false)
-            {
-                _swipeDetector.Disable();
-                playStoryPanelHandler.Show(story).Forget();
-                _compositeDisposablePlayStoryPanelHandler = new CompositeDisposable();
-                playStoryPanelHandler.OnEndExit.Subscribe(_=>
-                {
-                    _swipeDetector.Enable();
-                    _compositeDisposablePlayStoryPanelHandler.Clear();
-                }).AddTo(_compositeDisposablePlayStoryPanelHandler);
-            }
-        });
     }
 
     private void LanguageChanged()

@@ -12,16 +12,18 @@ public class SettingsPanelButtonUIHandler
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private SettingsButtonView _settingsButtonView;
     private Transform _parent;
+    private GlobalCanvasCloser _globalCanvasCloser;
     private IReactiveProperty<bool> _soundStatus;
     private ILocalizationChanger _localizationChanger;
     private ILevelLocalizationHandler _levelLocalizationHandler;
     private bool _isInLevel;
     public bool IsInited { get; private set; }
     public RectTransform SettingsButtonRectTransform => _settingsButtonView.transform as RectTransform;
-    public SettingsPanelButtonUIHandler(Transform parent, SettingsPanelUIHandler settingsPanelUIHandler, 
+    public SettingsPanelButtonUIHandler(Transform parent, GlobalCanvasCloser globalCanvasCloser, SettingsPanelUIHandler settingsPanelUIHandler, 
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
         _parent = parent;
+        _globalCanvasCloser = globalCanvasCloser;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _settingsPanelUIHandler = settingsPanelUIHandler;
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
@@ -66,7 +68,7 @@ public class SettingsPanelButtonUIHandler
         }
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
-            _settingsPanelUIHandler.Init(_parent, _soundStatus, _localizationChanger).Forget();
+            _settingsPanelUIHandler.Init(_parent, _globalCanvasCloser, _soundStatus, _localizationChanger).Forget();
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             

@@ -17,13 +17,14 @@ public class PlayStoryPanelHandler : ILocalizable
     private PlayStoryPanel _playStoryPanel;
     private RectTransform _rectTransformPanel;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly ReactiveCommand _onExitEndRC;
     private Story _currentStory;
 
     private Vector2 _hideScale;
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
 
-    public ReactiveCommand OnEndExit { get; private set; }
+    public ReactiveCommand OnExitEndRC => _onExitEndRC;
 
     public string GetCurrentStoryName
     {
@@ -43,12 +44,12 @@ public class PlayStoryPanelHandler : ILocalizable
     public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
+        _onExitEndRC = new ReactiveCommand();
     }
 
     public async UniTask Init(LevelLoader levelLoader, Transform parent)
     {
         _levelLoader = levelLoader;
-        OnEndExit = new ReactiveCommand();
         PlayStoryPanelAssetProvider storyPanelAssetProvider = new PlayStoryPanelAssetProvider();
         _playStoryPanel = await storyPanelAssetProvider.CreatePlayStoryPanel(parent);
         _playStoryPanel.gameObject.SetActive(false);
@@ -87,17 +88,15 @@ public class PlayStoryPanelHandler : ILocalizable
         tr.SetAsLastSibling();
         await UniTask.WhenAll(
             _blackFrameUIHandler.CloseTranslucent(false),
-            _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
+            _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).SetEase(Ease.OutQuart).WithCancellation(_cancellationTokenSource.Token),
             _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MaxValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token));
         
         _playStoryPanel.ResetProgressButton.onClick.AddListener(story.ResetProgress);
         _playStoryPanel.ButtonOpen.onClick.AddListener(PlayChangedStory);
-
-
+        
         _playStoryPanel.ExitButton.onClick.AddListener(() =>
         {
             Hide().Forget();
-            
         });
     }
     private async UniTaskVoid Hide()
@@ -108,15 +107,16 @@ public class PlayStoryPanelHandler : ILocalizable
             _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
             _blackFrameUIHandler.OpenTranslucent()
             );
-        await  _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
+        // await  _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
 
         
         _playStoryPanel.gameObject.SetActive(false);
-        OnEndExit.Execute();
+        _onExitEndRC.Execute();
     }
 
     private void UnsubscrimeAllButtons()
     {
+        _playStoryPanel.ExitButton.onClick.RemoveAllListeners();
         _playStoryPanel.LikeButton.onClick.RemoveAllListeners();
         _playStoryPanel.ResetProgressButton.onClick.RemoveAllListeners();
         _playStoryPanel.ButtonOpen.onClick.RemoveAllListeners();

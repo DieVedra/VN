@@ -7,7 +7,6 @@ public class ChoiceNodePriceHandler
     private readonly Wallet _wallet;
     private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
     private List<(int, int)> _prices;
-    public bool PriceExists { get; private set; }
 
     public ChoiceNodePriceHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, Wallet wallet)
     {
@@ -43,12 +42,10 @@ public class ChoiceNodePriceHandler
         {
             priceRectTransformChoice.gameObject.SetActive(true);
             priceText.text = price.ToString();
-            PriceExists = true;
         }
     }
     private void ResetPrices()
     {
-        PriceExists = false;
         _prices.Clear();
         foreach (var t in _choiseCasesViews)
         {

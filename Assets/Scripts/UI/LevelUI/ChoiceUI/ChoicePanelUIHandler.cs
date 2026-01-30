@@ -38,7 +38,7 @@ public class ChoicePanelUIHandler
         _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiceCasesViews, wallet);
         
         _choiceActive = new ReactiveProperty<bool>(false);
-        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceCasesViews, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
+        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceCasesViews, choicePanelUI.BlinkColor, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
 
         _choiceHeightHandler = new ChoiceHeightHandler(_choiceCasesViews, choicePanelUI);
         _siblingIndex = _rectTransform.GetSiblingIndex();
@@ -81,8 +81,6 @@ public class ChoicePanelUIHandler
     public async UniTask ShowChoiceVariantsInPlayMode(CancellationToken cancellationToken, ChoiceData data,
         ChoiceResultEvent<ChoiceCase> choiceResultEvent)
     {
-        // _panelResourceVisionHandler.Init(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data));
-        // _panelResourceVisionHandler.TryShow(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data));
         _choiceNodeButtonsHandler.Reset();
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         OnUpdateWallet(data, choiceResultEvent);
@@ -93,24 +91,20 @@ public class ChoicePanelUIHandler
         _choiceHeightHandler.UpdateHeights(data);
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
         _choiceNodeTimer.TryShowTimerPanelAnim(cancellationToken).Forget();
+        
         _panelResourceVisionHandler.Show(_monetResourceParent, _heartResourceParent, CalculateResourceViewMode(data)).Forget();
+        
         SetZeroAlphaToCanvasGroups();
         await _choiceNodeButtonsHandler.ShowButtons(data, cancellationToken);
     }
 
-    public async UniTask DisappearanceChoiceVariantsInPlayMode(CancellationToken cancellationToken)
+    public async UniTask DisappearanceChoiceVariantsInPlayMode(int pressedPortIndex, CancellationToken cancellationToken)
     {
         _compositeDisposableOnUpdateWallet.Clear();
         _choiceNodeTimer.TryHideTimerPanelAnim(cancellationToken);
-        await _choiceNodeButtonsHandler.HideButtons(cancellationToken);
-        if (_choiceNodePriceHandler.PriceExists == true)
-        {
-            _panelResourceVisionHandler.TryHidePanel(delay:ChoicePanelUIValues.PriceExistsDurationValue).Forget();
-        }
-        else
-        {
-            _panelResourceVisionHandler.TryHidePanel().Forget();
-        }
+        await _choiceNodeButtonsHandler.HideButtons(pressedPortIndex, cancellationToken);
+        _panelResourceVisionHandler.TryHidePanel().Forget();
+
         _choicePanelUI.gameObject.SetActive(false);
     }
 
