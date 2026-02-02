@@ -9,4 +9,9 @@ public class StoriesProviderAssetProvider : AssetLoader<StoriesProvider>
     {
         return await Load(_name);
     }
+
+    public void Release()
+    {
+        base.Unload();
+    }
 }

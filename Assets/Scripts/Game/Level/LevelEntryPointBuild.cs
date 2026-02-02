@@ -83,6 +83,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
 
+
         await CreateBackgroundPool();
         _backgroundBuildMode.SubscribeProviders(_levelLoadDataHandler.BackgroundDataProvider);
         _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
@@ -96,6 +97,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         Init();
+        
+        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        StoriesProvider sp = await storiesProviderAssetProvider.Load();
+        int allSeriesCount = 0;
+        foreach (var story in sp.Stories)
+        {
+            if (story.StoryName == StoryData.StoryName)
+            {
+                allSeriesCount = story.AllSeriesCount;
+            }
+        }
+        storiesProviderAssetProvider.Release();
+        LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
+        
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
@@ -186,7 +201,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
             _globalSound.FillStoryDataToSave(StoryData);
-            
+            StoryData.CurrentProgressPercent = LevelCompletePercentCalculator.GetLevelProgressPercent();
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
             SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryKey] = StoryData;

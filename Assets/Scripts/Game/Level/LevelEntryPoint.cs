@@ -15,6 +15,7 @@ public abstract class LevelEntryPoint : MonoBehaviour
     protected SwitchToNextNodeEvent SwitchToNextNodeEvent;
     protected SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph> SwitchToAnotherNodeGraphEvent;
     protected PrefabsProvider PrefabsProvider;
+    protected LevelCompletePercentCalculator LevelCompletePercentCalculator;
     protected SaveServiceProvider SaveServiceProvider;
 
     protected abstract void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreator);

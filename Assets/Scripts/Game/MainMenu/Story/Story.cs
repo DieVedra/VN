@@ -15,6 +15,7 @@ public class Story  : ILocalizable
     [SerializeField] private string _nameUISpriteAtlas;
     [SerializeField] private int _progressPercent;
     [SerializeField] private int _currentSeriaIndex;
+    [SerializeField] private int _allSeriesCount;
     [SerializeField] private ReactiveProperty<bool> _isLiked;
     [SerializeField, NaughtyAttributes.ReadOnly] private int _myIndex;
     [SerializeField, NaughtyAttributes.ReadOnly] private bool _storyStarted;
@@ -33,6 +34,7 @@ public class Story  : ILocalizable
     public int ProgressPercent => _progressPercent;
     public int CurrentSeriaIndex => _currentSeriaIndex;
     public int CurrentSeriaNumber => _currentSeriaIndex + 1;
+    public int AllSeriesCount => _allSeriesCount;
     public bool StoryStarted => _storyStarted;
 
     public void Init(StoryData storyData)
@@ -55,7 +57,7 @@ public class Story  : ILocalizable
     {
         return _storyName;
     }
-    public void ShutDown()
+    public void Shutdown()
     {
         _compositeDisposable?.Clear();
     }

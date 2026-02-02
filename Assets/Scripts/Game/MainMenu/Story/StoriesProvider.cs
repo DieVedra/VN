@@ -41,7 +41,7 @@ public class StoriesProvider : ScriptableObject
     {
         foreach (var story in _stories)
         {
-            story.ShutDown();
+            story.Shutdown();
         }
         
     }

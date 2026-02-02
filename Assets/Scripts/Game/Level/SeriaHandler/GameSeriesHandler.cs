@@ -16,9 +16,12 @@ public class GameSeriesHandler : MonoBehaviour
     public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
     
     public int CurrentNodeGraphIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value].CurrentNodeGraphIndex;
-    // public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value].CurrentNodeIndex;
+    public int CurrentNodeIndex => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value].CurrentNodeIndex;
     public bool PutOnSwimsuitKeyProperty => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value].SeriaPartNodeGraphs[CurrentNodeGraphIndex].PutOnSwimsuitKey;
 
+    public IReadOnlyList<SeriaPartNodeGraph> GetCurrentSeriaNodeGraphs =>
+        SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value].SeriaPartNodeGraphs;
+    public IReadOnlyList<SeriaNodeGraphsHandler> GetSeriaNodeGraphsHandlers => SeriaNodeGraphsHandlers;
     public virtual void Shutdown()
     {
         foreach (var handler in SeriaNodeGraphsHandlers)

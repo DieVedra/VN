@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class LevelEntryPointEditor : LevelEntryPoint
 {
+    [SerializeField] private int _allSeriesCount;
     [SerializeField] private LevelSoundEditMode _levelSoundEditMode;
     [SerializeField] private BackgroundEditMode _backgroundEditMode;
     [Space] 
@@ -50,6 +51,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         {
             Debug.Log(22);
             _isInitializing = true;
+            LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerEditorMode, _allSeriesCount);
             DisableNodesContentEvent?.Execute();
             _seriaGameStatsProviderEditor.Init();
             _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
