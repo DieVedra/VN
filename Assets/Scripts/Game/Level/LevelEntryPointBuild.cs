@@ -111,6 +111,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         storiesProviderAssetProvider.Release();
         LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
         
+        
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
@@ -201,7 +202,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.WardrobeSaveDatas.Clear();
             StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
             _globalSound.FillStoryDataToSave(StoryData);
-            StoryData.CurrentProgressPercent = LevelCompletePercentCalculator.GetLevelProgressPercent();
+            StoryData.CurrentProgressPercent = LevelCompletePercentCalculator.GetCalculateLevelProgressPercent();
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
             SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryKey] = StoryData;
@@ -282,7 +283,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
             _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
-            buttonTransitionToMainSceneUIHandler, _blockGameControlPanelUIEvent);
+            buttonTransitionToMainSceneUIHandler, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);
 
 
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews,

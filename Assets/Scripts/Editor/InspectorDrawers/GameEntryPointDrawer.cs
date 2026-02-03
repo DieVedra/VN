@@ -75,6 +75,7 @@ public class GameEntryPointDrawer : Editor
 
             if (GUILayout.Button("Initialize"))
             {
+                _gameEntryPoint.IsInitializing = false;
                 _gameEntryPoint.Init();
             }
             serializedObject.ApplyModifiedProperties();

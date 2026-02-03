@@ -24,7 +24,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private Wallet _wallet;
     [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
-    [SerializeField, NaughtyAttributes.ReadOnly] private bool _isInitializing;
+    [NaughtyAttributes.ReadOnly] public bool IsInitializing;
 
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -47,11 +47,13 @@ public class LevelEntryPointEditor : LevelEntryPoint
     public void Init()
     {
         Debug.Log(11);
-        if (_isInitializing == false)
+        if (IsInitializing == false)
         {
             Debug.Log(22);
-            _isInitializing = true;
+            IsInitializing = true;
             LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerEditorMode, _allSeriesCount);
+            
+            
             DisableNodesContentEvent?.Execute();
             _seriaGameStatsProviderEditor.Init();
             _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
@@ -102,7 +104,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
                 _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
             }
 
-            _isInitializing = false;
+            IsInitializing = false;
         }
     }
 
@@ -192,6 +194,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _seriaGameStatsProviderEditor.GameStatsHandler.FillSaveStats(StoryData);
             StoryData.CurrentAudioMusicKey = _levelSoundEditMode.CurrentMusicClipKey;
             StoryData.CurrentAudioAmbientKey = _levelSoundEditMode.CurrentAdditionalClipKey;
+            StoryData.CurrentProgressPercent = LevelCompletePercentCalculator.GetCalculateLevelProgressPercent();
 
             StoryData.AudioEffectsIsOn.Clear();
             var effects = _levelSoundEditMode.AudioEffectsCustodian.GetEnableEffectsToSave();
@@ -274,6 +277,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [Button()]
     private void SkipInitKey()
     {
-        _isInitializing = false;
+        IsInitializing = false;
     }
 }

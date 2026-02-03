@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameControlPanelView : MonoBehaviour
@@ -9,6 +10,7 @@ public class GameControlPanelView : MonoBehaviour
     [SerializeField] private Button _buttonGoToMainMenu;
     [SerializeField] private Button _shopMoneyButtonView;
     [SerializeField] private Button _buttonWardrobe;
+    [SerializeField] private TextMeshProUGUI _percentText;
 
     public CanvasGroup CanvasGroup => _canvasGroup;
     public Button ButtonShowPanel => _buttonShowPanel;
@@ -16,4 +18,5 @@ public class GameControlPanelView : MonoBehaviour
     public Button ButtonGoToMainMenu => _buttonGoToMainMenu;
     public Button ShopMoneyButtonView => _shopMoneyButtonView;
     public Button ButtonWardrobe => _buttonWardrobe;
+    public TextMeshProUGUI PercentText => _percentText;
 }

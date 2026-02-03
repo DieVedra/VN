@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class LevelCompletePercentCalculator
+public class LevelCompletePercentCalculator: ILevelPercentProvider
 {
     private const int _maxPercentValue = 100;
     private const int _minPercentValue = 0;
@@ -13,9 +13,9 @@ public class LevelCompletePercentCalculator
         _allSeriesCount = allSeriesCount;
     }
 
-    public int GetLevelProgressPercent()
+    public int GetCalculateLevelProgressPercent()
     {
-         return CalculateLevelProgressPercent(
+        return CalculateLevelProgressPercent(
              _gameSeriesHandler.GetCurrentSeriaNodeGraphs, 
              _gameSeriesHandler.CurrentNodeIndex,
              _gameSeriesHandler.CurrentNodeGraphIndex,

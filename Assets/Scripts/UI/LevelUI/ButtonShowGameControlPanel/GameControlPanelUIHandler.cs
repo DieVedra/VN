@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class GameControlPanelUIHandler : ILocalizable
 {
+    private const char _percentSymbol = '%';
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
     private readonly GlobalSound _globalSound;
@@ -19,6 +20,7 @@ public class GameControlPanelUIHandler : ILocalizable
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private CancellationTokenSource _cancellationTokenSource;
     private ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
+    private readonly ILevelPercentProvider _levelPercentProvider;
     private Transform _transformControlPanel;
     private int _siblingIndexBufer;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
@@ -37,7 +39,7 @@ public class GameControlPanelUIHandler : ILocalizable
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
+        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler, ILevelPercentProvider levelPercentProvider,
         BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         _transformControlPanel = gameControlPanelView.transform;
@@ -50,6 +52,7 @@ public class GameControlPanelUIHandler : ILocalizable
         _localizationChanger = panelsLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
+        _levelPercentProvider = levelPercentProvider;
         _blockGameControlPanelUI = blockGameControlPanelUI;
         _panelIsVisible = false;
         _panelIsBlocked = false;
@@ -116,6 +119,9 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(true);
         _gameControlPanelView.ShopMoneyButtonView.gameObject.SetActive(true);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(true);
+        _gameControlPanelView.PercentText.text = $"{_levelPercentProvider.GetCalculateLevelProgressPercent()}{_percentSymbol}";
+        _gameControlPanelView.PercentText.transform.parent.gameObject.SetActive(true);
+
         await DoFade(AnimationValuesProvider.MaxValue, GetCurrentDuration());
     }
 
@@ -133,6 +139,7 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.SettingsButtonView.Button.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
         _gameControlPanelView.ShopMoneyButtonView.gameObject.SetActive(false);
+        _gameControlPanelView.PercentText.transform.parent.gameObject.SetActive(false);
     }
 
     private async UniTask PrepareTransitionToMainScene()
