@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -90,6 +91,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         ConstructSound();
         ConstructBackground();
+        await InitLevelCompletePercentCalculator();
         await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
@@ -97,7 +99,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         Init();
-        
+
+
+        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
+        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+    }
+
+    private async UniTask InitLevelCompletePercentCalculator()
+    {
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
         StoriesProvider sp = await storiesProviderAssetProvider.Load();
         int allSeriesCount = 0;
@@ -108,12 +117,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 allSeriesCount = story.AllSeriesCount;
             }
         }
+
         storiesProviderAssetProvider.Release();
-        LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
-        
-        
-        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+        base.LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
     }
 
     private async UniTask CreateBackgroundPool()

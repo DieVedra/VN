@@ -14,7 +14,6 @@ public class MergerNode : BaseNode
     private TaskRunner _taskRunner;
     private MergedNodesDeterminator _mergedNodesDeterminator;
     private List<string> _names;
-    private List<Func<UniTask>> _tasks;
     private Dictionary<Type, Node> _mergerObjects;
 
     private bool _choiceNodeConnected => _mergerObjects.ContainsKey(typeof(ChoiceNode));
@@ -24,9 +23,9 @@ public class MergerNode : BaseNode
 
     
 
-    public void ConstructMyMergerNode()
+    public void ConstructMyMergerNode(TaskRunner taskRunner)
     {
-        _taskRunner = new TaskRunner();
+        _taskRunner = taskRunner;
     }
 
     public override async UniTask Enter(bool isMerged = false)
@@ -65,7 +64,8 @@ public class MergerNode : BaseNode
             });
         }
 
-        await _taskRunner.TryRunTasks(CreateTasksEnteredList());
+        CreateTasksEnteredList();
+        await _taskRunner.TryRunTasksWhenAll();
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         TryActivateButtonSwitchToNextSlide();
     }
@@ -90,35 +90,24 @@ public class MergerNode : BaseNode
 
     public override async UniTask Exit()
     {
-        await _taskRunner.TryRunTasks(CreateTasksExitedList());
-        _tasks = null;
+        CreateTasksExitedList();
+        await _taskRunner.TryRunTasksWhenAny();
     }
 
-    private List<Func<UniTask>> CreateTasksExitedList()
+    private void CreateTasksExitedList()
     {
-        if (_tasks == null)
-        {
-            _tasks = new List<Func<UniTask>>(_maxDynamicPortsCount);
-        }
-        else
-        {
-            _tasks.Clear();
-        }
         foreach (var mergerObject in _mergerObjects)
         {
-            _tasks.Add(() => GetBaseNode(mergerObject.Value).Exit());
+            _taskRunner.AddOperationToList(() => GetBaseNode(mergerObject.Value).Exit());
         }
-        return _tasks;
     }
 
-    private List<Func<UniTask>> CreateTasksEnteredList()
+    private void CreateTasksEnteredList()
     {
-        _tasks = new List<Func<UniTask>>(_maxDynamicPortsCount);
         foreach (var mergerObject in _mergerObjects)
         {
-            _tasks.Add(() => GetBaseNode(mergerObject.Value).Enter(true));
+            _taskRunner.AddOperationToList(() => GetBaseNode(mergerObject.Value).Enter(true));
         }
-        return _tasks;
     }
     public override void SkipEnterTransition()
     {

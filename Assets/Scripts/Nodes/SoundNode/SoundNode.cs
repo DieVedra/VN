@@ -61,11 +61,11 @@ public class SoundNode : BaseNode
         _taskRunner.AddOperationToList(()=> _sound.SmoothAudio.TryDoQueue());
         if (_isInstantNodeTransition == false)
         {
-            await _taskRunner.TryRunTasks();
+            await _taskRunner.TryRunTasksWhenAll();
         }
         else
         {
-            _taskRunner.TryRunTasks().Forget();
+            _taskRunner.TryRunTasksWhenAll().Forget();
         }
         if (isMerged == false)
         {

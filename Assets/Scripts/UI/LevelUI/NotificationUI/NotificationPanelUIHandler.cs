@@ -89,7 +89,7 @@ public class NotificationPanelUIHandler : PanelUIHandler
             while (IsShowing == true)
             {
                 var task = _taskRunnerQueue.Dequeue();
-                await task.TryRunTasks();
+                await task.TryRunTasksWhenAll();
                 _taskPool.Return(task);
                 if (_taskRunnerQueue.Count == 0)
                 {

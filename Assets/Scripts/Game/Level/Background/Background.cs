@@ -56,13 +56,15 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             CurrentBackgroundPosition = (int)CurrentBackgroundPosition,
             AdditionalImagesInfo = new Dictionary<string, List<AdditionalImageData>>()
         };
+        Vector2 posToSave = new Vector2();
         foreach (var pair1 in BackgroundContent1.GetAdditionalImages)
         {
             var dataAdditionalImages = new List<AdditionalImageData>();
             
             foreach (var pair2 in pair1.Value)
             {
-                dataAdditionalImages.Add(new AdditionalImageData(pair2.Key, pair2.Value.transform.localPosition, pair2.Value.color));
+                posToSave = pair2.Value.transform.localPosition;
+                dataAdditionalImages.Add(new AdditionalImageData(pair2.Key, posToSave.x, posToSave.y, pair2.Value.color));
             }
             BackgroundSaveData.AdditionalImagesInfo.Add(pair1.Key, dataAdditionalImages);
         }
@@ -79,7 +81,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
                 {
                     if (AdditionalImagesToBackgroundDictionary.TryGetValue(data.Key, out var value))
                     {
-                        AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, data.Position, data.Color);
+                        AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, new Vector2(data.PosX, data.PosY), data.Color);
                     }
                 }
             }

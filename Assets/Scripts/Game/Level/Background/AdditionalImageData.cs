@@ -3,13 +3,14 @@
 public struct AdditionalImageData
 {
     public string Key;
-    public Vector2 Position;
+    public float PosX, PosY;
     public Color Color;
 
-    public AdditionalImageData(string key, Vector2 position, Color color)
+    public AdditionalImageData(string key, float posX, float posY, Color color)
     {
         Key = key;
-        Position = position;
+        PosX = posX;
+        PosY = posY;
         Color = color;
     }
 }

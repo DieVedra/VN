@@ -221,7 +221,7 @@ public class ArrowSwitch
             while (_isSwitched == true)
             {
                 var task = _tasksQueue.Dequeue();
-                await task.TryRunTasks();
+                await task.TryRunTasksWhenAll();
                 _poolBase.Return(task);
                 if (_tasksQueue.Count == 0)
                 {

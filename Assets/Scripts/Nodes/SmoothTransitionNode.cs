@@ -59,7 +59,16 @@ public class SmoothTransitionNode : BaseNode
     {
         if (_isStartCurtain)
         {
-            await WithDelayCheck(()=> _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token));
+            if (_customDelay == true)
+            {
+                _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token).Forget();
+                await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
+
+            }
+            else
+            {
+                await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+            }
             return;
         }
         if (_isStartImmediatlyCurtain)
@@ -69,7 +78,16 @@ public class SmoothTransitionNode : BaseNode
         }
         if(_isEndCurtain)
         {
-            await WithDelayCheck(()=> _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token));
+            if (_customDelay == true)
+            {
+                _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token).Forget();
+                await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
+
+            }
+            else
+            {
+                await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+            }
             return;
         }
         if(_isEndImmediatlyCurtain)

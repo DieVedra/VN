@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UniRx;
 
 public class NodeGraphInitializer
@@ -20,7 +22,8 @@ public class NodeGraphInitializer
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
     private readonly Sound _sound;
     private readonly Wallet _wallet;
-    private readonly TaskRunner _taskRunner;
+    private readonly TaskRunner _taskRunnerBySoundNode;
+    private readonly TaskRunner _taskRunnerByMergeNode;
 
     public NodeGraphInitializer(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
@@ -45,7 +48,8 @@ public class NodeGraphInitializer
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
         _phoneNodeIsActive = phoneNodeIsActive;
-        _taskRunner = new TaskRunner();
+        _taskRunnerBySoundNode = new TaskRunner();
+        _taskRunnerByMergeNode = new TaskRunner();
     }
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
@@ -101,11 +105,11 @@ public class NodeGraphInitializer
                 return;
             
             case MergerNode mergerNode:
-                mergerNode.ConstructMyMergerNode();
+                mergerNode.ConstructMyMergerNode(_taskRunnerByMergeNode);
                 return;
             
             case SoundNode soundNode:
-                soundNode.ConstructMySoundNode(_taskRunner, _sound);
+                soundNode.ConstructMySoundNode(_taskRunnerBySoundNode, _sound);
                 return;
             
             case ChoicePhoneNode choicePhoneNode:
