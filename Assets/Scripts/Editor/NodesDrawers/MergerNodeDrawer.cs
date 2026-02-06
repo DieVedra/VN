@@ -1,6 +1,7 @@
 ﻿
 using System.Linq;
 using System.Reflection;
+using MyProject;
 using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
@@ -12,54 +13,61 @@ public class MergerNodeDrawer : NodeEditor
     private MethodInfo _addPortMethod;
     private MethodInfo _removePortMethod;
     private SerializedProperty _showNeedClickToSwitchNextSlideSerializedProperty;
+    private SerializedProperty _enterAsyncModeSerializedProperty;
+    private SerializedProperty _exitAsyncModeSerializedProperty;
+    
+    private MyProject.EnumPopupDrawer _enumPopupDrawer;
 
     public override void OnBodyGUI()
     {
         if (_mergerNode == null)
         {
             _mergerNode = target as MergerNode;
-        }
-        serializedObject.Update();
-
-        if (_showNeedClickToSwitchNextSlideSerializedProperty == null)
-        {
             _showNeedClickToSwitchNextSlideSerializedProperty = serializedObject.FindProperty("_autoSwitchToNextSlide");
+            _enterAsyncModeSerializedProperty = serializedObject.FindProperty("_enterAsyncMode");
+            _exitAsyncModeSerializedProperty = serializedObject.FindProperty("_exitAsyncMode");
+            _enumPopupDrawer = new EnumPopupDrawer();
         }
-        NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
-        EditorGUI.BeginChangeCheck();
-        
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("AutoSwitchToNextSlide: ");
-        _showNeedClickToSwitchNextSlideSerializedProperty.boolValue = EditorGUILayout.Toggle(_showNeedClickToSwitchNextSlideSerializedProperty.boolValue);
-        EditorGUILayout.EndHorizontal();
-        
-        EditorGUILayout.Space(10f);
-        EditorGUILayout.LabelField($"Dynamic ports count: {_mergerNode.DynamicOutputs.Count()}");
-        EditorGUILayout.Space(10f);
-        
-        EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Add Output"))
+        else
         {
-            AddPort();
-        }
-
-        if (GUILayout.Button("Remove"))
-        {
-            RemovePort();
-        }
-        EditorGUILayout.EndHorizontal();
-
-        if (_mergerNode.DynamicOutputs.Count() > 0)
-        {
-            foreach (var port in _mergerNode.DynamicOutputs)
+            serializedObject.Update();
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("AutoSwitchToNextSlide: ");
+            _showNeedClickToSwitchNextSlideSerializedProperty.boolValue = EditorGUILayout.Toggle(_showNeedClickToSwitchNextSlideSerializedProperty.boolValue);
+            EditorGUILayout.EndHorizontal();
+            
+            _enumPopupDrawer.DrawEnumPopup<AsyncMode>(_enterAsyncModeSerializedProperty, "EnterAsyncMode");
+            _enumPopupDrawer.DrawEnumPopup<AsyncMode>(_exitAsyncModeSerializedProperty, "ExitAsyncMode");
+            
+            EditorGUILayout.Space(10f);
+            EditorGUILayout.LabelField($"Dynamic ports count: {_mergerNode.DynamicOutputs.Count()}");
+            EditorGUILayout.Space(10f);
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Add Output"))
             {
-                DrawPort(port.fieldName);
+                AddPort();
             }
-        }
 
-        if (EditorGUI.EndChangeCheck())
-        {
-            serializedObject.ApplyModifiedProperties();
+            if (GUILayout.Button("Remove"))
+            {
+                RemovePort();
+            }
+
+            EditorGUILayout.EndHorizontal();
+            if (_mergerNode.DynamicOutputs.Count() > 0)
+            {
+                foreach (var port in _mergerNode.DynamicOutputs)
+                {
+                    DrawPort(port.fieldName);
+                }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
         }
     }
     private void AddPort()

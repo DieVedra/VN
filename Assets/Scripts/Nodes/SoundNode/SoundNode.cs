@@ -34,7 +34,7 @@ public class SoundNode : BaseNode
     [SerializeField] private List<bool> _effectKeys;
 
     private ISoundProviderToSoundNode _sound;
-    private TaskRunner _taskRunner;
+    private List<UniTask> _taskList;
     private bool _startedPlayMusicPlayMusic;
     private bool _startedPlayAmbient;
     public ISoundProviderToSoundNode Sound => _sound;
@@ -42,40 +42,37 @@ public class SoundNode : BaseNode
     public bool StartedPlayMusic => _startedPlayMusicPlayMusic;
     public bool StartedPlayAmbient => _startedPlayAmbient;
 
-    public void ConstructMySoundNode(TaskRunner taskRunner, ISoundProviderToSoundNode sound)
+    public void ConstructMySoundNode(List<UniTask> taskList, ISoundProviderToSoundNode sound)
     {
         _sound = sound;
         _startedPlayMusicPlayMusic = false;
         _startedPlayAmbient = false;
-        _taskRunner = taskRunner;
+        _taskList = taskList;
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
+        _taskList.Clear();
         CancellationTokenSource = new CancellationTokenSource();
         ChangeSound(_smoothMusicTransitionKey, _isMusicSmoothVolumeIncrease, _isMusicSmoothVolumeDecrease, _currentMusicSoundKey,
             AudioSourceType.Music);
         ChangeSound(_smoothTransitionKeyAmbientSound, _isSmoothVolumeIncreaseAmbientSound, _isSmoothVolumeDecreaseAmbientSound,
             _currentAmbientSoundKey, AudioSourceType.Ambient);
         TryPushEffects();
-        _taskRunner.AddOperationToList(()=> _sound.SmoothAudio.TryDoQueue());
+        _taskList.Add(_sound.SmoothAudio.TryDoQueue());
         if (_isInstantNodeTransition == false)
         {
-            await _taskRunner.TryRunTasksWhenAll();
+            await UniTask.WhenAll(_taskList);
         }
-        else
-        {
-            _taskRunner.TryRunTasksWhenAll().Forget();
-        }
+        // else
+        // {
+        //     _taskRunner.TryRunTasksWhenAll().Forget();
+        // }
+        _taskList.Clear();
         if (isMerged == false)
         {
             SwitchToNextNodeEvent.Execute();
         }
-    }
-
-    public override async UniTask Exit()
-    {
-        _taskRunner = null;
     }
 
     private void TryPushEffects()
@@ -88,14 +85,14 @@ public class SoundNode : BaseNode
             {
                 if (handler.EffectIsOn == false)
                 {
-                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, true));
+                    _taskList.Add(handler.SetEffectSmooth(CancellationTokenSource.Token, true));
                 }
             }
             else
             {
                 if (handler.EffectIsOn == true)
                 {
-                    _taskRunner.AddOperationToList(() => handler.SetEffectSmooth(CancellationTokenSource.Token, false));
+                    _taskList.Add(handler.SetEffectSmooth(CancellationTokenSource.Token, false));
                 }
             }
         }
@@ -119,13 +116,11 @@ public class SoundNode : BaseNode
 
         if (CheckVolume(_sound.VolumeMusic, _volumeMusicSound))
         {
-            _taskRunner.AddOperationToList(
-                ()=> _sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeMusicSound, AudioSourceType.Music));
+            _taskList.Add(_sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeMusicSound, AudioSourceType.Music));
         }
         if (CheckVolume(_sound.VolumeAmbient, _volumeAmbientSound))
         {
-            _taskRunner.AddOperationToList(
-                ()=> _sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeAmbientSound, AudioSourceType.Ambient));
+            _taskList.Add(_sound.SmoothAudio.SmoothVolumeChange(CancellationTokenSource.Token, _volumeAmbientSound, AudioSourceType.Ambient));
         }
     }
 

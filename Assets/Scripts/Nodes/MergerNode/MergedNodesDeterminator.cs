@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using XNode;
 
 public class MergedNodesDeterminator
 {
-    private Dictionary<Type, Node> _mergerObjects;
-
-    public MergedNodesDeterminator(ref Dictionary<Type, Node> mergerObjects)
+    private readonly MergedNodeSharedStorage _mergedNodeSharedStorage;
+    private Dictionary<Type, Node> _newDic;
+    public MergedNodesDeterminator(MergedNodeSharedStorage mergedNodeSharedStorage)
     {
-        _mergerObjects = mergerObjects;
+        _mergedNodeSharedStorage = mergedNodeSharedStorage;
+        _newDic = new Dictionary<Type, Node>();
     }
 
     public KeyValuePair<Type, Node> TryDetermineNode(NodePort port)
@@ -47,16 +49,20 @@ public class MergedNodesDeterminator
     }
     private void SetNodeFirstItem(Type type)
     {
-        var newDic = new Dictionary<Type, Node>();
-        if (_mergerObjects.TryGetValue(type, out Node baseNode))
+        if (_mergedNodeSharedStorage.MergerObjects.TryGetValue(type, out Node baseNode))
         {
-            newDic.Add(type, baseNode);
-            _mergerObjects.Remove(type);
+            _newDic.Add(type, baseNode);
+            _mergedNodeSharedStorage.MergerObjects.Remove(type);
         }
-        foreach (var obj in _mergerObjects)
+        foreach (var obj in _mergedNodeSharedStorage.MergerObjects)
         {
-            newDic.Add(obj.Key, obj.Value);
+            _newDic.Add(obj.Key, obj.Value);
         }
-        _mergerObjects = newDic;
+        _mergedNodeSharedStorage.MergerObjects.Clear();
+        foreach (var pair in _newDic)
+        {
+            _mergedNodeSharedStorage.MergerObjects.Add(pair.Key, pair.Value);
+        }
+        _newDic.Clear();
     }
 }

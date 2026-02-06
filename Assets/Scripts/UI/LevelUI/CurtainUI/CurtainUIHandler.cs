@@ -26,9 +26,6 @@ public class CurtainUIHandler
         BlockGameControlPanelUI?.Execute(false);
         BlackFrameView.gameObject.SetActive(true);
         SkipAtCloses();
-        // await UniTask.WhenAny(CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken),
-        //     UniTask.Delay(TimeSpan.FromSeconds(AnimationValuesProvider.MaxValue - _unfadeSkipValue), cancellationToken: cancellationToken));
-        
         await CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
         BlackFrameView.gameObject.SetActive(false);
     }

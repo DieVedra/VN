@@ -172,6 +172,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 2
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-6428830586398229788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1183,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -5192, y: -2856}
+  position: {x: -5912, y: -2632}
   ports:
     keys:
     - Input
@@ -1192,8 +1194,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 1
-        node: {fileID: 8515844753307068145}
+      - fieldName: Output
+        node: {fileID: 8033070752538020735}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1203,7 +1205,10 @@ MonoBehaviour:
       _node: {fileID: 884473085011245558}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 8515844753307068145}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1480,7 +1485,7 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 2
+      - fieldName: Port 1
         node: {fileID: 8515844753307068145}
         reroutePoints: []
       _direction: 0
@@ -1505,7 +1510,7 @@ MonoBehaviour:
   _isStartCurtain: 1
   _isEndCurtain: 0
   _customDelay: 1
-  _delay: 0.5
+  _delay: 0.7
 --- !u!114 &3066338660540489285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,7 +1614,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -5240, y: -3672}
+  position: {x: -5176, y: -3448}
   ports:
     keys:
     - Input
@@ -1796,6 +1801,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &5696381020786621533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5451,7 +5458,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 8515844753307068145}
+        node: {fileID: 884473085011245558}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -5556,7 +5563,6 @@ MonoBehaviour:
     - Output
     - Port 0
     - Port 1
-    - Port 2
     values:
     - _fieldName: Input
       _node: {fileID: 8515844753307068145}
@@ -5564,7 +5570,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 8033070752538020735}
+        node: {fileID: 884473085011245558}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -5597,18 +5603,6 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 884473085011245558}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 2
-      _node: {fileID: 8515844753307068145}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
         node: {fileID: 2680676369619458406}
         reroutePoints: []
       _direction: 1
@@ -5617,6 +5611,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 2
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 1
+  _exitAsyncMode: 0
 --- !u!114 &8524908385115253876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5685,6 +5681,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &8786028823054290981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5753,6 +5751,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &8916808100373716575
 MonoBehaviour:
   m_ObjectHideFlags: 0

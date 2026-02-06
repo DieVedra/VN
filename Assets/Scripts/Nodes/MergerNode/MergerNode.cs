@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -7,45 +6,43 @@ using XNode;
 
 public class MergerNode : BaseNode
 {
-    [SerializeField, HideInInspector] private bool _autoSwitchToNextSlide;
+    [SerializeField] private bool _autoSwitchToNextSlide;
+    [SerializeField] private AsyncMode _enterAsyncMode;
+    [SerializeField] private AsyncMode _exitAsyncMode;
     
     private const int _maxDynamicPortsCount = 4;
     private const string _port = "Port ";
-    private TaskRunner _taskRunner;
+    private MergedNodeSharedStorage _mergedNodeSharedStorage;
     private MergedNodesDeterminator _mergedNodesDeterminator;
     private List<string> _names;
-    private Dictionary<Type, Node> _mergerObjects;
-
-    private bool _choiceNodeConnected => _mergerObjects.ContainsKey(typeof(ChoiceNode));
-    private bool _customizationNodeConnected => _mergerObjects.ContainsKey(typeof(CustomizationNode));
-    private bool _switchNodeConnected => _mergerObjects.ContainsKey(typeof(SwitchNode));
-    private bool _smoothTransitionNodeConnected => _mergerObjects.ContainsKey(typeof(SmoothTransitionNode));
+    private bool _choiceNodeConnected => _mergedNodeSharedStorage.MergerObjects.ContainsKey(typeof(ChoiceNode));
+    private bool _customizationNodeConnected => _mergedNodeSharedStorage.MergerObjects.ContainsKey(typeof(CustomizationNode));
+    private bool _switchNodeConnected => _mergedNodeSharedStorage.MergerObjects.ContainsKey(typeof(SwitchNode));
+    private bool _smoothTransitionNodeConnected => _mergedNodeSharedStorage.MergerObjects.ContainsKey(typeof(SmoothTransitionNode));
 
     
 
-    public void ConstructMyMergerNode(TaskRunner taskRunner)
+    public void ConstructMyMergerNode(MergedNodeSharedStorage mergedNodeSharedStorage, MergedNodesDeterminator mergedNodesDeterminator)
     {
-        _taskRunner = taskRunner;
+        _mergedNodeSharedStorage = mergedNodeSharedStorage;
+        _mergedNodesDeterminator = mergedNodesDeterminator;
     }
 
     public override async UniTask Enter(bool isMerged = false)
     {
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
-        _mergerObjects = new Dictionary<Type, Node>();
-        _mergedNodesDeterminator = new MergedNodesDeterminator(ref _mergerObjects);
+        _mergedNodeSharedStorage.Clear();
         foreach (NodePort port in DynamicOutputs)
         {
             if (port.IsConnected)
             {
                 var keyValue = _mergedNodesDeterminator.TryDetermineNode(port);
-                if (_mergerObjects.ContainsKey(keyValue.Key) == false)
+                if (_mergedNodeSharedStorage.MergerObjects.ContainsKey(keyValue.Key) == false)
                 {
-                    _mergerObjects.Add(keyValue.Key, keyValue.Value);
+                    _mergedNodeSharedStorage.MergerObjects.Add(keyValue.Key, keyValue.Value);
                 }
             }
         }
-
-
         if (_choiceNodeConnected == true)
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
@@ -64,8 +61,7 @@ public class MergerNode : BaseNode
             });
         }
 
-        CreateTasksEnteredList();
-        await _taskRunner.TryRunTasksWhenAll();
+        await RunTasksEntered();
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         TryActivateButtonSwitchToNextSlide();
     }
@@ -90,28 +86,40 @@ public class MergerNode : BaseNode
 
     public override async UniTask Exit()
     {
-        CreateTasksExitedList();
-        await _taskRunner.TryRunTasksWhenAny();
+        foreach (var mergerObject in _mergedNodeSharedStorage.MergerObjects)
+        {
+            _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Exit());
+        }
+        await RunTasks(_exitAsyncMode);
+        _mergedNodeSharedStorage.TaskList.Clear();
     }
 
-    private void CreateTasksExitedList()
+    private async UniTask RunTasksEntered()
     {
-        foreach (var mergerObject in _mergerObjects)
+        foreach (var mergerObject in _mergedNodeSharedStorage.MergerObjects)
         {
-            _taskRunner.AddOperationToList(() => GetBaseNode(mergerObject.Value).Exit());
+            _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Enter(true));
+        }
+        await RunTasks(_enterAsyncMode);
+        _mergedNodeSharedStorage.TaskList.Clear();
+    }
+
+    private async UniTask RunTasks(AsyncMode asyncMode)
+    {
+        switch (asyncMode)
+        {
+            case AsyncMode.WhenAll:
+                await UniTask.WhenAll(_mergedNodeSharedStorage.TaskList);
+                break;
+            case AsyncMode.WhenAny:
+                await UniTask.WhenAny(_mergedNodeSharedStorage.TaskList);
+                break;
         }
     }
 
-    private void CreateTasksEnteredList()
-    {
-        foreach (var mergerObject in _mergerObjects)
-        {
-            _taskRunner.AddOperationToList(() => GetBaseNode(mergerObject.Value).Enter(true));
-        }
-    }
     public override void SkipEnterTransition()
     {
-        foreach (var mergerObject in _mergerObjects)
+        foreach (var mergerObject in _mergedNodeSharedStorage.MergerObjects)
         {
             GetBaseNode(mergerObject.Value).SkipEnterTransition();
         }
@@ -146,7 +154,7 @@ public class MergerNode : BaseNode
     private void TrySetNextNodeFromFirstConnectedPort()
     {
         NodePort portOutputNextNode = null;
-        foreach (var mergerObject in _mergerObjects)
+        foreach (var mergerObject in _mergedNodeSharedStorage.MergerObjects)
         {
             portOutputNextNode = GetBaseNode(mergerObject.Value).OutputPortBaseNode;
             if (portOutputNextNode != null && portOutputNextNode.IsConnected == true)
@@ -159,7 +167,7 @@ public class MergerNode : BaseNode
     private bool GetKeySmoothTransitionBackgroundNode()
     {
         bool result = false;
-        if (_mergerObjects.TryGetValue(typeof(BackgroundNode), out Node baseNode))
+        if (_mergedNodeSharedStorage.MergerObjects.TryGetValue(typeof(BackgroundNode), out Node baseNode))
         {
             if (baseNode is BackgroundNode backgroundNode)
             {
@@ -172,7 +180,7 @@ public class MergerNode : BaseNode
 
     private BaseNode GetNextNodeFrom<T>()
     {
-        if (_mergerObjects.TryGetValue(typeof(T), out Node baseNode))
+        if (_mergedNodeSharedStorage.MergerObjects.TryGetValue(typeof(T), out Node baseNode))
         {
             return GetBaseNode(baseNode).GetNextNode();
         }

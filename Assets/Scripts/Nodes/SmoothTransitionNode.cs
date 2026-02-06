@@ -28,14 +28,12 @@ public class SmoothTransitionNode : BaseNode
     public override async UniTask Enter(bool isMerged = false)
     {
         CancellationTokenSource = new CancellationTokenSource();
-        Debug.Log($"SmoothTransitionNode1  {_delay}");
         IsMerged = isMerged;
         if (isMerged == false)
         {
             ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
         await Do();
-        Debug.Log($"SmoothTransitionNode2");
         if (isMerged == false)
         {
             SwitchToNextNodeEvent.Execute();
@@ -96,17 +94,17 @@ public class SmoothTransitionNode : BaseNode
         }
     }
 
-    private async UniTask WithDelayCheck(Func<UniTask> operation)
-    {
-        if (_customDelay == true)
-        {
-            Debug.Log($"WithDelayCheck");
-            operation.Invoke().Forget();
-            await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
-        }
-        else
-        {
-            await operation.Invoke();
-        }
-    }
+    // private async UniTask WithDelayCheck(Func<UniTask> operation)
+    // {
+    //     if (_customDelay == true)
+    //     {
+    //         Debug.Log($"WithDelayCheck");
+    //         operation.Invoke().Forget();
+    //         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
+    //     }
+    //     else
+    //     {
+    //         await operation.Invoke();
+    //     }
+    // }
 }

@@ -22,8 +22,10 @@ public class NodeGraphInitializer
     private readonly WardrobeCharacterViewer _wardrobeCharacterViewer;
     private readonly Sound _sound;
     private readonly Wallet _wallet;
-    private readonly TaskRunner _taskRunnerBySoundNode;
-    private readonly TaskRunner _taskRunnerByMergeNode;
+    private readonly MergedNodeSharedStorage _mergedNodeSharedStorage;
+    private readonly MergedNodesDeterminator _mergedNodesDeterminator;
+    private readonly List<UniTask> _taskList;
+
 
     public NodeGraphInitializer(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
@@ -48,8 +50,9 @@ public class NodeGraphInitializer
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
         _phoneNodeIsActive = phoneNodeIsActive;
-        _taskRunnerBySoundNode = new TaskRunner();
-        _taskRunnerByMergeNode = new TaskRunner();
+        _taskList = new List<UniTask>();
+        _mergedNodeSharedStorage = new MergedNodeSharedStorage();
+        _mergedNodesDeterminator = new MergedNodesDeterminator(_mergedNodeSharedStorage);
     }
 
     public void Init(List<BaseNode> nodes, int seriaIndex)
@@ -105,11 +108,11 @@ public class NodeGraphInitializer
                 return;
             
             case MergerNode mergerNode:
-                mergerNode.ConstructMyMergerNode(_taskRunnerByMergeNode);
+                mergerNode.ConstructMyMergerNode(_mergedNodeSharedStorage, _mergedNodesDeterminator);
                 return;
             
             case SoundNode soundNode:
-                soundNode.ConstructMySoundNode(_taskRunnerBySoundNode, _sound);
+                soundNode.ConstructMySoundNode(_taskList, _sound);
                 return;
             
             case ChoicePhoneNode choicePhoneNode:
