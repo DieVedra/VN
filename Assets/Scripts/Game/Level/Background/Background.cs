@@ -81,7 +81,8 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
                 {
                     if (AdditionalImagesToBackgroundDictionary.TryGetValue(data.Key, out var value))
                     {
-                        AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, new Vector2(data.PosX, data.PosY), data.Color);
+                        AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, new Vector2(data.PosX, data.PosY),
+                            new Color(data.ColorR, data.ColorG, data.ColorB, data.ColorA));
                     }
                 }
             }

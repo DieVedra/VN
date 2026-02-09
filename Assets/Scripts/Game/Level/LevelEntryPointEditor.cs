@@ -238,7 +238,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
-            LevelUIView.ChoicePanelUI.transform.GetComponentsInChildren<ChoiceCaseView>(), _wallet, DisableNodesContentEvent,
+            LevelUIView.ChoicePanelUI.transform.GetComponentsInChildren<ChoiceCaseView>(true), _wallet, DisableNodesContentEvent,
             SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler,
             ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);});
     }

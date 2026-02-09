@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 66344, y: 7656}
+  position: {x: 66440, y: 7592}
   ports:
     keys:
     - Input
@@ -24,7 +24,7 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 2
+      - fieldName: Port 1
         node: {fileID: 6044857662933503540}
         reroutePoints: []
       _direction: 0
@@ -431,7 +431,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 6044857662933503540}
+        node: {fileID: 7939540484211388077}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -498,7 +498,7 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 1
+      - fieldName: Port 0
         node: {fileID: 6044857662933503540}
         reroutePoints: []
       _direction: 0
@@ -597,14 +597,13 @@ MonoBehaviour:
   m_Name: Merger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 65969.234, y: 7046.572}
+  position: {x: 66040, y: 7160}
   ports:
     keys:
     - Input
     - Output
     - Port 0
     - Port 1
-    - Port 2
     values:
     - _fieldName: Input
       _node: {fileID: 6044857662933503540}
@@ -612,7 +611,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: -2007418862762866358}
+        node: {fileID: 7939540484211388077}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -633,25 +632,13 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7939540484211388077}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 1
-      _node: {fileID: 6044857662933503540}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
         node: {fileID: 2251282039857578616}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
-    - _fieldName: Port 2
+    - _fieldName: Port 1
       _node: {fileID: 6044857662933503540}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -665,6 +652,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 1
+  _exitAsyncMode: 0
 --- !u!114 &6727428609138133670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,7 +809,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 66303.9, y: 7048.1953}
+  position: {x: 65896, y: 6712}
   ports:
     keys:
     - Input
@@ -831,8 +820,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 0
-        node: {fileID: 6044857662933503540}
+      - fieldName: Output
+        node: {fileID: -2007418862762866358}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -842,23 +831,21 @@ MonoBehaviour:
       _node: {fileID: 7939540484211388077}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 6044857662933503540}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 0
-  _indexTo: 0
   _key: "\u0447\u0438\u0441\u0442\u044B\u0439 \u043A\u043B\u043E\u043F\u043E\u0432\u043D\u0438\u043A
     \u2013 \u0434\u0435\u0448\u0435\u0432\u0430\u044F \u0441\u044A\u0435\u043C\u043D\u0430\u044F
     \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0430 (\u0434\u0435\u043D\u044C)."
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 0
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 0
   _mode3Enable: 0

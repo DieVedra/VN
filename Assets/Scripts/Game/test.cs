@@ -1,34 +1,36 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using Cysharp.Threading.Tasks;
-using NaughtyAttributes;
-using TMPro;
-using UniRx;
-using UnityEditor;
+﻿using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class test : MonoBehaviour
 {
-    private const float _panelWidthMin = 350f;
-    private const float _panelWidthMax = 500f;
-    [SerializeField] private RectTransform _rectTransform;
+    [SerializeField] private SeriaPartNodeGraph _seriaPartNodeGraph;
     [Button()]
     private void test1()
     {
-        Debug.Log($"test1: {_rectTransform.anchorMax} {_rectTransform.anchorMin} {_rectTransform.offsetMax} {_rectTransform.offsetMin}");
+        foreach (var node in _seriaPartNodeGraph.nodes)
+        {
+            if (node is MergerNode mergerNode)
+            {
+                foreach (var port in mergerNode.DynamicOutputs)
+                {
+                    if (port.Connection == null)
+                    {
+                        Debug.Log($"port.Connection == null   Index MergerNode: {_seriaPartNodeGraph.nodes.IndexOf(mergerNode)}");
+
+                    }
+                    else if(port.Connection.node is SmoothTransitionNode stn)
+                    {
+                        Debug.Log($"Index MergerNode: {_seriaPartNodeGraph.nodes.IndexOf(mergerNode)}");
+                    }
+                }
+            }
+        }
+        
     }
+    
     [Button()]
     private void test2()
     {
-        Debug.Log($"test2: {_rectTransform.anchoredPosition}");
-        Debug.Log($"test2: {_rectTransform.sizeDelta.x}   {_rectTransform.sizeDelta.y}");
         
-        // var a = Mathf.InverseLerp()
-        // var b = Mathf.Lerp(_panelWidthMin, _panelWidthMax, 0f);
-
     }
 }

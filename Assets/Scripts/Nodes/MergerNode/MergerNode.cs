@@ -90,7 +90,7 @@ public class MergerNode : BaseNode
         {
             _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Exit());
         }
-        await RunTasks(_exitAsyncMode);
+        await KeepTasks(_exitAsyncMode);
         _mergedNodeSharedStorage.TaskList.Clear();
     }
 
@@ -100,11 +100,11 @@ public class MergerNode : BaseNode
         {
             _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Enter(true));
         }
-        await RunTasks(_enterAsyncMode);
+        await KeepTasks(_enterAsyncMode);
         _mergedNodeSharedStorage.TaskList.Clear();
     }
 
-    private async UniTask RunTasks(AsyncMode asyncMode)
+    private async UniTask KeepTasks(AsyncMode asyncMode)
     {
         switch (asyncMode)
         {

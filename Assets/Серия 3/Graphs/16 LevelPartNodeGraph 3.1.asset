@@ -241,7 +241,6 @@ MonoBehaviour:
     - Output
     - Port 0
     - Port 1
-    - Port 2
     values:
     - _fieldName: Input
       _node: {fileID: -6724229121022350072}
@@ -249,7 +248,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 7321956435226182879}
+        node: {fileID: 8917468583376931330}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -282,18 +281,6 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 8917468583376931330}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 2
-      _node: {fileID: -6724229121022350072}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
         node: {fileID: -4609466283524548404}
         reroutePoints: []
       _direction: 1
@@ -302,6 +289,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 1
+  _exitAsyncMode: 0
 --- !u!114 &-6571411185188013877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,16 +1509,11 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 15
-  _indexTo: 0
   _key: "\u043A\u0430\u043C\u0435\u043D\u0438\u0441\u0442\u044B\u0439 \u043F\u043B\u044F\u0436
     (\u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442_\u0441\u043A\u0430\u043B\u044B,
     \u0432\u0440\u0435\u043C\u044F_\u0443\u0442\u0440\u043E)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 1
   _isSmoothCurtain: 1
   _mode3Enable: 0
@@ -1598,7 +1582,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -616, y: 760}
+  position: {x: -696, y: 424}
   ports:
     keys:
     - Input
@@ -1609,7 +1593,7 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 2
+      - fieldName: Port 1
         node: {fileID: -6724229121022350072}
         reroutePoints: []
       _direction: 0
@@ -1703,6 +1687,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-4246266000994507436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2166,15 +2152,10 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 1
-  _index: 16
-  _indexTo: 16
   _key: "\u043A\u0430\u043C\u0435\u043D\u0438\u0441\u0442\u044B\u0439 \u043F\u043B\u044F\u0436
     (\u044D\u0444\u0444\u0435\u043A\u0442 \u043F\u044C\u044F\u043D\u044B\u0445 \u0433\u043B\u0430\u0437)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.5
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 0
   _mode3Enable: 0
@@ -3185,6 +3166,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &2251109041135519446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4457,16 +4440,11 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 1
-  _index: 0
-  _indexTo: 15
   _key: "\u043A\u0430\u043C\u0435\u043D\u0438\u0441\u0442\u044B\u0439 \u043F\u043B\u044F\u0436
     (\u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442_\u0441\u043A\u0430\u043B\u044B,
     \u0432\u0440\u0435\u043C\u044F_\u0443\u0442\u0440\u043E)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.5
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 0
   _mode3Enable: 0
@@ -4745,6 +4723,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &6601813919935770770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4996,7 +4976,7 @@ MonoBehaviour:
   m_Name: Header
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1416, y: 104}
+  position: {x: -1736, y: 152}
   ports:
     keys:
     - Input
@@ -5020,7 +5000,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -6724229121022350072}
+        node: {fileID: 8917468583376931330}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -5276,7 +5256,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -680, y: 376}
+  position: {x: -1432, y: 40}
   ports:
     keys:
     - Input
@@ -5287,8 +5267,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 1
-        node: {fileID: -6724229121022350072}
+      - fieldName: Output
+        node: {fileID: 7321956435226182879}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -5298,23 +5278,21 @@ MonoBehaviour:
       _node: {fileID: 8917468583376931330}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -6724229121022350072}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 15
-  _indexTo: 0
   _key: "\u043A\u0430\u043C\u0435\u043D\u0438\u0441\u0442\u044B\u0439 \u043F\u043B\u044F\u0436
     (\u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442_\u0441\u043A\u0430\u043B\u044B,
     \u0432\u0440\u0435\u043C\u044F_\u0443\u0442\u0440\u043E)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 1
   _isSmoothCurtain: 0
   _mode3Enable: 0

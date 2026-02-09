@@ -78,13 +78,13 @@ public class SmoothTransitionNode : BaseNode
         {
             if (_customDelay == true)
             {
-                _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token).Forget();
+                _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token).Forget();
                 await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
 
             }
             else
             {
-                await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+                await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
             }
             return;
         }

@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1048, y: -1384}
+  position: {x: -1592, y: -2136}
   ports:
     keys:
     - Input
@@ -138,8 +138,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 1
-        node: {fileID: 9110343830210059558}
+      - fieldName: Output
+        node: {fileID: -3108428198711839700}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -149,21 +149,19 @@ MonoBehaviour:
       _node: {fileID: -7997719000846625117}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 9110343830210059558}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 18
-  _indexTo: 0
   _key: "\u0423\u0447\u0430\u0441\u0442\u043E\u043A"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 0
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 0
   _mode3Enable: 0
@@ -235,74 +233,6 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
---- !u!114 &-7559993152195410159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44573c1340d542ca952a6c286c5d5bb5, type: 3}
-  m_Name: Merger
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -5262.515, y: -2871.8794}
-  ports:
-    keys:
-    - Input
-    - Output
-    - Port 0
-    - Port 1
-    values:
-    - _fieldName: Input
-      _node: {fileID: -7559993152195410159}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 937943142737642884}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Output
-      _node: {fileID: -7559993152195410159}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: Port 0
-      _node: {fileID: -7559993152195410159}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: -7388725645278915736}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 1
-      _node: {fileID: -7559993152195410159}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 7785825818814246573}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-  namenode: 
-  _autoSwitchToNextSlide: 0
 --- !u!114 &-7388725645278915736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +246,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -4984, y: -3048}
+  position: {x: -5352, y: -3032}
   ports:
     keys:
     - Input
@@ -327,8 +257,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 0
-        node: {fileID: -7559993152195410159}
+      - fieldName: Output
+        node: {fileID: 937943142737642884}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -338,21 +268,19 @@ MonoBehaviour:
       _node: {fileID: -7388725645278915736}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 7785825818814246573}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 0
-  _indexTo: 0
   _key: "\u0411\u0435\u043B\u044B\u0439 \u0444\u043E\u043D"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 0
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 0
   _mode3Enable: 0
@@ -798,7 +726,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 9110343830210059558}
+        node: {fileID: -7997719000846625117}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -7839,7 +7767,7 @@ MonoBehaviour:
       _notificationKey: 0
       _showKey: 0
   _customizationCharacterIndex: 0
-  _backgroundKey: 
+  _backgroundKey: WardrobeBackground
   _positionValue: 0.752867
   _addNotificationKey: 0
   _notificationText:
@@ -8973,7 +8901,6 @@ MonoBehaviour:
   - {fileID: 5549091555961781687}
   - {fileID: -2983978533079034802}
   - {fileID: -7388725645278915736}
-  - {fileID: -7559993152195410159}
 --- !u!114 &6143408897806946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9276,7 +9203,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1080, y: -1064}
+  position: {x: -1048, y: -1336}
   ports:
     keys:
     - Input
@@ -9287,7 +9214,7 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 2
+      - fieldName: Port 1
         node: {fileID: 9110343830210059558}
         reroutePoints: []
       _direction: 0
@@ -9311,7 +9238,7 @@ MonoBehaviour:
   _isEndImmediatlyCurtain: 0
   _isStartCurtain: 1
   _isEndCurtain: 0
-  _customDelay: 0
+  _customDelay: 1
   _delay: 0.7
 --- !u!114 &937943142737642884
 MonoBehaviour:
@@ -9350,7 +9277,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -7559993152195410159}
+        node: {fileID: -7388725645278915736}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -9442,6 +9369,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &1786209922804123710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10881,14 +10810,9 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 18
-  _indexTo: 0
   _key: "\u0423\u0447\u0430\u0441\u0442\u043E\u043A"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 0
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 0
   _isSmoothCurtain: 1
   _mode3Enable: 0
@@ -11248,6 +11172,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &6379344575489090068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11624,8 +11550,8 @@ MonoBehaviour:
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: Port 1
-        node: {fileID: -7559993152195410159}
+      - fieldName: Output
+        node: {fileID: -7388725645278915736}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -11768,6 +11694,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &8298619241326377300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11849,7 +11777,6 @@ MonoBehaviour:
     - Output
     - Port 0
     - Port 1
-    - Port 2
     values:
     - _fieldName: Input
       _node: {fileID: 9110343830210059558}
@@ -11857,7 +11784,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: -3108428198711839700}
+        node: {fileID: -7997719000846625117}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -11890,18 +11817,6 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -7997719000846625117}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-    - _fieldName: Port 2
-      _node: {fileID: 9110343830210059558}
-      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Input
         node: {fileID: 924001962977174804}
         reroutePoints: []
       _direction: 1
@@ -11910,3 +11825,5 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 1
+  _exitAsyncMode: 0
