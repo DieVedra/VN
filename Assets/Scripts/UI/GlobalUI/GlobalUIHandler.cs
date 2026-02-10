@@ -9,6 +9,8 @@ public class GlobalUIHandler
     private BlackFrameUIHandler _blackFrameUIHandler;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
+    private AdvertisingButtonUIHandler _advertisingButtonUIHandler;
+    private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private Transform _canvasTransform;
     private GlobalCanvasCloser _globalCanvasCloser;
     private bool _isCreatedOneInstance;
@@ -19,6 +21,9 @@ public class GlobalUIHandler
     public LoadIndicatorUIHandler LoadIndicatorUIHandler => _loadIndicatorUIHandler;
     public SettingsPanelUIHandler SettingsPanelUIHandler => _settingsPanelUIHandler;
     public ShopMoneyPanelUIHandler ShopMoneyPanelUIHandler => _shopMoneyPanelUIHandler;
+    public AdvertisingButtonUIHandler AdvertisingButtonUIHandler => _advertisingButtonUIHandler;
+    public ConfirmedPanelUIHandler ConfirmedPanelUIHandler => _confirmedPanelUIHandler;
+
     public GlobalCanvasCloser GlobalCanvasCloser => _globalCanvasCloser;
 
     public GlobalUIHandler(Transform projectContextParent)
@@ -29,7 +34,9 @@ public class GlobalUIHandler
     }
 
     public async UniTask Init(LoadScreenUIHandler loadScreenUIHandler, SettingsPanelUIHandler settingsPanelUIHandler,
-        ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
+        ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler,
+        ConfirmedPanelUIHandler confirmedPanelUIHandler,
+        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
     {
         if (_isCreatedOneInstance == false)
         {
@@ -39,6 +46,8 @@ public class GlobalUIHandler
             _blackFrameUIHandler = blackFrameUIHandler;
             _settingsPanelUIHandler = settingsPanelUIHandler;
             _shopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
+            _advertisingButtonUIHandler = advertisingButtonUIHandler;
+            _confirmedPanelUIHandler = confirmedPanelUIHandler;
             if (_canvasTransform == null)
             {
                 var projectContextCanvasAssetProvider = new ProjectContextCanvasAssetProvider();
@@ -48,10 +57,13 @@ public class GlobalUIHandler
                 _canvasTransform = canvas.transform;
                 _canvasTransform.gameObject.SetActive(true);
             }
-            shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser);
-            await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler, _globalCanvasCloser);
+
             await loadIndicatorUIHandler.Init(_canvasTransform);
             await blackFrameUIHandler.Init(_canvasTransform);
+            confirmedPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
+            advertisingButtonUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
+            shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, advertisingButtonUIHandler, confirmedPanelUIHandler);
+            await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler, _globalCanvasCloser);
         }
     }
     public void Shutdown()

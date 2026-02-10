@@ -11,8 +11,8 @@ public class GameControlPanelUIHandler : ILocalizable
     private const char _percentSymbol = '%';
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
-    private readonly GlobalSound _globalSound;
-    private readonly ILocalizationChanger _localizationChanger;
+    // private readonly GlobalSound _globalSound;
+    // private readonly ILocalizationChanger _localizationChanger;
     private readonly Transform _parentGlobalUITransforn;
     private readonly BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
@@ -29,7 +29,7 @@ public class GameControlPanelUIHandler : ILocalizable
     private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
     
     
-    private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
+    // private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
     
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
     
@@ -48,8 +48,9 @@ public class GameControlPanelUIHandler : ILocalizable
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
         _parentGlobalUITransforn = globalUIHandler.GlobalUITransforn;
         _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
-        _globalSound = globalSound;
-        _localizationChanger = panelsLocalizationHandler;
+        _confirmedPanelUIHandler = globalUIHandler.ConfirmedPanelUIHandler;
+        // _globalSound = globalSound;
+        // _localizationChanger = panelsLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
         _levelPercentProvider = levelPercentProvider;
@@ -63,7 +64,7 @@ public class GameControlPanelUIHandler : ILocalizable
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser, 
             globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView,
-            globalSound.SoundStatus, _localizationChanger, false);
+            globalSound.SoundStatus, panelsLocalizationHandler, false);
 
         _gameControlPanelView.ButtonShowPanel.onClick.AddListener(() =>
         {
@@ -72,11 +73,25 @@ public class GameControlPanelUIHandler : ILocalizable
                 ShowGameControlPanel().Forget();
             }
         });
+        SubscribeButtonGoToMainMenu();
+        blockGameControlPanelUI.Subscribe(BlockPanel);
+    }
+
+    private void SubscribeButtonGoToMainMenu()
+    {
         _gameControlPanelView.ButtonGoToMainMenu.onClick.AddListener(() =>
         {
-            PrepareTransitionToMainScene().Forget();
+            _gameControlPanelView.ButtonGoToMainMenu.onClick.RemoveAllListeners();
+            _confirmedPanelUIHandler.Show(
+                _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
+                _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
+                ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
+                {
+                    _buttonTransitionToMainSceneUIHandler.Press().Forget();
+                    ReInitCancellationSource();
+                },
+                SubscribeButtonGoToMainMenu,true).Forget();
         });
-        blockGameControlPanelUI.Subscribe(BlockPanel);
     }
 
     public void Shutdown()
@@ -140,29 +155,6 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
         _gameControlPanelView.ShopMoneyButtonView.gameObject.SetActive(false);
         _gameControlPanelView.PercentText.transform.parent.gameObject.SetActive(false);
-    }
-
-    private async UniTask PrepareTransitionToMainScene()
-    {
-        _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
-        await TryCreateAndShowConfirmedPanel();
-    }
-
-    private async UniTask TryCreateAndShowConfirmedPanel()
-    {
-        if (_confirmedPanelUIHandler == null)
-        {
-            _confirmedPanelUIHandler = new ConfirmedPanelUIHandler(_loadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler, _darkeningBackgroundFrameUIHandler.Transform);
-        }
-
-        await _confirmedPanelUIHandler.Show(
-            _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
-            _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
-            ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
-            {
-                _buttonTransitionToMainSceneUIHandler.Press().Forget();
-                ReInitCancellationSource();
-            }, true);
     }
 
     private void ReInitCancellationSource()

@@ -18,7 +18,11 @@ public class AppStarter
         var storiesProvider = await CreateStoriesProvider();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
-        await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI);
+        var advertisingButtonUIHandler = new AdvertisingButtonUIHandler(wallet);
+        var confirmedPanelUIHandler = new ConfirmedPanelUIHandler();
+        await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
+            advertisingButtonUIHandler, confirmedPanelUIHandler,
+            loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI);
 
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
@@ -60,7 +64,7 @@ public class AppStarter
         await prefabsProvider.Init();
         mainMenuUIView.gameObject.SetActive(true);
         await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, wallet,
-            /*shopMoneyPanelUIHandler,*/ mainMenuUIView, tr, storiesProvider, startIndexStory);
+            mainMenuUIView, tr, storiesProvider, startIndexStory);
 
 
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
@@ -166,13 +170,11 @@ public class AppStarter
             globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
-        var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
-        var bottomPanelUIHandler = new BottomPanelUIHandler(confirmedPanelUIHandler,
-            new AdvertisingButtonUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, wallet, mainMenuUIViewTransform),
-            mainMenuUIViewTransform, languageChanged);
+        // var confirmedPanelUIHandler = new ConfirmedPanelUIHandler(globalUIHandler.LoadIndicatorUIHandler, darkeningBackgroundFrameUIHandler, mainMenuUIViewTransform);
+        var bottomPanelUIHandler = new BottomPanelUIHandler(globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler.AdvertisingButtonUIHandler, languageChanged);
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(darkeningBackgroundFrameUIHandler,
             playStoryPanelHandler, settingsPanelButtonUIHandler, globalUIHandler.SettingsPanelUIHandler, globalUIHandler.ShopMoneyPanelUIHandler,
-            shopMoneyButtonsUIHandler, confirmedPanelUIHandler, globalUIHandler,bottomPanelUIHandler, myScrollHandler,
+            shopMoneyButtonsUIHandler, globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler, bottomPanelUIHandler, myScrollHandler,
             monetResourcePanelHandler, heartsResourcePanelHandler, new ResourcesPanelsPositionHandlerMainMenu());
         return (mainMenuUIProvider, mainMenuUIView, mainMenuUIViewTransform);
     }
@@ -214,7 +216,7 @@ public class AppStarter
             mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler,
             resourcePanelsSettingsProvider.HeartPositionXWithAddButtonAnimationCurve, resourcePanelsSettingsProvider.HeartPositionYWithAddButtonAnimationCurve);
         mainMenuUIProvider.ShopButtonsUIHandler.InitFromAppStarter(mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler);
-        mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView, mainMenuUIProvider.DarkeningBackgroundFrameUIHandler);
+        mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView);
         
         mainMenuUIProvider.BottomPanelUIHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
     }

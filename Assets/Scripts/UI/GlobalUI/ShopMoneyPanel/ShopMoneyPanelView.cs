@@ -8,6 +8,7 @@ public class ShopMoneyPanelView : MonoBehaviour
     [SerializeField] private Button _buttonMonet;
     [SerializeField] private Button _buttonHearts;
     [SerializeField] private Button _exitButton;
+    [SerializeField] private Button _advertisingButton;
     [SerializeField] private RectTransform _heartsPanel;
     [SerializeField] private RectTransform _monetPanel;
     
@@ -24,6 +25,7 @@ public class ShopMoneyPanelView : MonoBehaviour
     public Button ButtonMonet => _buttonMonet;
     public Button ButtonHearts => _buttonHearts;
     public Button ExitButton => _exitButton;
+    public Button AdvertisingButton => _advertisingButton;
     public RectTransform HeartsPanel => _heartsPanel;
     public RectTransform MonetPanel => _monetPanel;
     public RectTransform HeartsIndicatorPanel => _heartsIndicatorPanel;

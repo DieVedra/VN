@@ -7,28 +7,25 @@ public class BottomPanelUIHandler : ILocalizable
 {
     private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
-    private readonly Transform _parent;
     private readonly ReactiveCommand _languageChanged;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
-    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private BottomPanelView _bottomPanelView;
     private CompositeDisposable _compositeDisposable;
     
     public BottomPanelUIHandler(ConfirmedPanelUIHandler confirmedPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler,
-        Transform parent, ReactiveCommand languageChanged)
+        ReactiveCommand languageChanged)
     {
         _confirmedPanelUIHandler = confirmedPanelUIHandler;
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
-        _parent = parent;
         _languageChanged = languageChanged;
     }
 
     public void Shutdown()
     {
         _compositeDisposable?.Clear();
-        _advertisingButtonUIHandler.Dispose();
+        _advertisingButtonUIHandler.Shutdown();
     }
 
     public void SetSprite(Sprite icon)
@@ -46,7 +43,7 @@ public class BottomPanelUIHandler : ILocalizable
         };
     }
 
-    public void Init(BottomPanelView bottomPanelView, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
+    public void Init(BottomPanelView bottomPanelView)
     {
         _compositeDisposable = new CompositeDisposable();
         _languageChanged.Subscribe(_=>
@@ -58,7 +55,6 @@ public class BottomPanelUIHandler : ILocalizable
 
 
         ChangedLanguage();
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         SubscribeButtons();
     }
 
@@ -70,25 +66,40 @@ public class BottomPanelUIHandler : ILocalizable
 
     private void SubscribeButtons()
     {
+        SubscribeGameExitButton();
+        SubscribeAdvertisingButton();
+        _bottomPanelView.transform.SetSiblingIndex(_sublingIndex);
+        _bottomPanelView.gameObject.SetActive(true);
+    }
+
+    private void SubscribeAdvertisingButton()
+    {
+        _bottomPanelView.ShowAdvertisingButton.onClick.AddListener(() =>
+        {
+            _bottomPanelView.ShowAdvertisingButton.onClick.RemoveAllListeners();
+            _confirmedPanelUIHandler.Show(
+                _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+                _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
+                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
+                AdvertisingButtonUIHandler.FontSizeValue,
+                () => { _advertisingButtonUIHandler.Show(SubscribeAdvertisingButton).Forget(); },
+                SubscribeAdvertisingButton,
+                true).Forget();
+        });
+    }
+
+    private void SubscribeGameExitButton()
+    {
         _bottomPanelView.GameExitButton.onClick.AddListener(() =>
         {
+            _bottomPanelView.GameExitButton.onClick.RemoveAllListeners();
             _confirmedPanelUIHandler.Show(
                 _exitButtonUIHandler.LabelTextToConfirmedPanel, _exitButtonUIHandler.TranscriptionTextToConfirmedPanel,
                 _exitButtonUIHandler.ButtonText, ExitButtonUIHandler.HeightPanel,
                 ExitButtonUIHandler.FontSizeValue,
-                _exitButtonUIHandler.Press).Forget();
+                _exitButtonUIHandler.Press,
+                SubscribeGameExitButton
+            ).Forget();
         });
-        _bottomPanelView.ShowAdvertisingButton.onClick.AddListener(() =>
-        {
-            
-            _confirmedPanelUIHandler.Show(
-                _advertisingButtonUIHandler.LabelTextToConfirmedPanel, _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
-                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
-                AdvertisingButtonUIHandler.FontSizeValue,
-                () => { _advertisingButtonUIHandler.Press().Forget();},
-                true).Forget();
-        });
-        _bottomPanelView.transform.SetSiblingIndex(_sublingIndex);
-        _bottomPanelView.gameObject.SetActive(true);
     }
 }

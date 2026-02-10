@@ -17,6 +17,8 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
     private GlobalCanvasCloser _globalCanvasCloser;
+    private AdvertisingButtonUIHandler _advertisingButtonUIHandler;
+    private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private ShopMoneyMode _lastShopMode;
     private Action _hideOperation;
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
@@ -36,10 +38,13 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _lastShopMode = ShopMoneyMode.Monets;
     }
 
-    public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser)
+    public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser,
+        AdvertisingButtonUIHandler advertisingButtonUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler)
     {
         _parent = parent;
         _globalCanvasCloser = globalCanvasCloser;
+        _advertisingButtonUIHandler = advertisingButtonUIHandler;
+        _confirmedPanelUIHandler = confirmedPanelUIHandler;
     }
     public void Shutdown()
     {
@@ -95,12 +100,15 @@ public class ShopMoneyPanelUIHandler : ILocalizable
 
     private void InitPanel(ShopMoneyMode mode)
     {
+        SubscribeAdvertisingButton();
         _shopMoneyPanelView.ExitButton.onClick.AddListener(() =>
         {
-            Hide().Forget();
             _shopMoneyPanelView.ExitButton.onClick.RemoveAllListeners();
+            _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
+            _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
+            _shopMoneyPanelView.AdvertisingButton.onClick.RemoveAllListeners();
+            Hide().Forget();
         });
-
         _shopMoneyPanelView.ButtonMonet.onClick.AddListener(SwitchToMonetPanel);
         _shopMoneyPanelView.ButtonHearts.onClick.AddListener(SwitchToHeartsPanel);
         if (TrySwitchMode(mode) == false)
@@ -108,6 +116,23 @@ public class ShopMoneyPanelUIHandler : ILocalizable
             TrySwitchMode(_lastShopMode);
         }
     }
+
+    private void SubscribeAdvertisingButton()
+    {
+        _shopMoneyPanelView.AdvertisingButton.onClick.AddListener(() =>
+        {
+            _shopMoneyPanelView.AdvertisingButton.onClick.RemoveAllListeners();
+            _confirmedPanelUIHandler.Show(
+                _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+                _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
+                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
+                AdvertisingButtonUIHandler.FontSizeValue,
+                () => { _advertisingButtonUIHandler.Show(SubscribeAdvertisingButton).Forget(); },
+                SubscribeAdvertisingButton,
+                true).Forget();
+        });
+    }
+
     private bool TrySwitchMode(ShopMoneyMode mode)
     {
         bool result = false;

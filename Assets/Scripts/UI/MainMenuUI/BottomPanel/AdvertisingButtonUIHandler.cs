@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,32 +12,38 @@ public class AdvertisingButtonUIHandler
     public readonly LocalizationString ButtonText = "Смотреть рекламу";
     public readonly LocalizationString AdvertisingButtonText  = "Реклама";
 
-    private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
-    private readonly BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
-    private readonly Transform _parent;
+    private LoadIndicatorUIHandler _loadIndicatorUIHandler;
+    private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
+    private Transform _parent;
+    private GlobalCanvasCloser _globalCanvasCloser;
+
     private readonly Wallet _wallet;
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
     public bool AssetIsLoad { get; private set; }
-    public AdvertisingButtonUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        Wallet wallet, Transform parent)
+    public AdvertisingButtonUIHandler(Wallet wallet)
     {
-        _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
-        _parent = parent;
         _advertisingPanelPrefabProvider = new AdvertisingPanelPrefabProvider();
         AssetIsLoad = false;
     }
 
-    public void Dispose()
+    public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser,
+        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
+    {
+        _parent = parent;
+        _globalCanvasCloser = globalCanvasCloser;
+        _loadIndicatorUIHandler = loadIndicatorUIHandler;
+        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+    }
+    public void Shutdown()
     {
         if (_advertisingPanelView != null)
         {
             Addressables.ReleaseInstance(_advertisingPanelView.gameObject);
         }
     }
-    public async UniTask Press()
+    public async UniTask Show(Action operationPutExitButton)
     {
         if (AssetIsLoad == false)
         {
@@ -51,17 +57,20 @@ public class AdvertisingButtonUIHandler
         
         //какая то логика показа рекламы
         
-        
+        _globalCanvasCloser.TryEnable();
+
         _advertisingPanelView.ButtonExit.gameObject.SetActive(false);
         _advertisingPanelView.gameObject.SetActive(true);
         await UniTask.Delay(2000);
         _advertisingPanelView.ButtonExit.onClick.AddListener(() =>
         {
+            _advertisingPanelView.ButtonExit.onClick.RemoveAllListeners();
             _darkeningBackgroundFrameUIHandler.OpenTranslucent().Forget();
             _advertisingPanelView.gameObject.SetActive(false);
+            _globalCanvasCloser.TryDisable();
             _wallet.AddCash(_advertisingPanelView.MonetReward, false);
             _wallet.AddHearts(_advertisingPanelView.HeartsReward, false);
-            _advertisingPanelView.ButtonExit.onClick.RemoveAllListeners();
+            operationPutExitButton?.Invoke();
         });
         _advertisingPanelView.ButtonExit.gameObject.SetActive(true);
     }
