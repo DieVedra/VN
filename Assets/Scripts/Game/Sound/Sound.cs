@@ -16,6 +16,7 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
 
     private AudioEffectsCustodian _audioEffectsCustodian;
     private ReactiveProperty<bool> _soundStatus;
+    private ReactiveProperty<bool> _soundPause;
     private ReactiveProperty<string> _currentMusicClipKeyRP;
     private ReactiveProperty<string> _currentAdditionalClipKeyRP;
     private Dictionary <AudioSourceType, AudioSource>  _audioSources;
@@ -39,6 +40,29 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
     public IReadOnlyDictionary<string, AudioClip> GetMusicDictionary => MusicDictionary;
     public IReadOnlyDictionary<string, AudioClip> GetAmbientDictionary => AmbientDictionary;
     public IReactiveProperty<bool> SoundStatus => _soundStatus;
+
+    public IReactiveProperty<bool> GetSoundPause()
+    {
+        if (_soundPause == null)
+        {
+            _soundPause = new ReactiveProperty<bool>(false);
+            _soundPause.Subscribe(_ =>
+                {
+                    if (_ == true)
+                    {
+                        _audioSourceMusic.Pause();
+                        _audioSourceAmbient.Pause();
+                    }
+                    else
+                    {
+                        _audioSourceMusic.Play();
+                        _audioSourceAmbient.Play();
+                    }
+                }
+                );
+        }
+        return _soundPause;
+    }
 
     public virtual void Construct(bool soundOn = true)
     {

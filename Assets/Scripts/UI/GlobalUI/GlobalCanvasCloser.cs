@@ -32,7 +32,7 @@ public class GlobalCanvasCloser
         }
     }
 
-    private void Remove()
+    public void Remove()
     {
         if (_count > 0)
         {

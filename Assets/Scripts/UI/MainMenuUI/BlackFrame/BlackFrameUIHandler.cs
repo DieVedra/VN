@@ -94,6 +94,11 @@ public class BlackFrameUIHandler
         await DoAnimation(_cancellationTokenSource, AnimationValuesProvider.MinValue, AnimationValuesProvider.HalfValue);
         _transform.gameObject.SetActive(false);
     }
+    public async UniTask OpenTranslucent(Action onEnd, float delay = 0f)
+    {
+        await OpenTranslucent(delay);
+        onEnd?.Invoke();
+    }
     public async UniTask CloseTranslucent(bool setAsLastSibling = true)
     {
         if (setAsLastSibling)

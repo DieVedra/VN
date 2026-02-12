@@ -49,6 +49,7 @@ public class LoadScreenUIHandler : ILocalizable
     public async UniTask Init(Transform parent, LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, GlobalCanvasCloser globalCanvasCloser)
     {
         _loadScreenUIView = await _loadScreenAssetProvider.LoadAsset(parent);
+        _loadScreenUIView.transform.SetAsFirstSibling();
         _globalCanvasCloser = globalCanvasCloser;
         _loadScreenUIView.RectMask2D.padding = Vector4.zero;
         _backgrountSpriteDefault = _loadScreenUIView.LoadScreenImage.sprite;

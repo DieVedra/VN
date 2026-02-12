@@ -87,9 +87,11 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         _shopMoneyPanelView.ButtonMonet.onClick.RemoveAllListeners();
         _shopMoneyPanelView.ButtonHearts.onClick.RemoveAllListeners();
         _hideOperation?.Invoke();
-        await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
+        await _darkeningBackgroundFrameUIHandler.OpenTranslucent(() =>
+        {
+            _globalCanvasCloser.TryDisable();
+        });
         _shopMoneyPanelView.gameObject.SetActive(false);
-        _globalCanvasCloser.TryDisable();
     }
 
     private async UniTask LoadPanel(Transform parent)

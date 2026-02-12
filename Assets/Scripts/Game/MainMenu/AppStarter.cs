@@ -13,12 +13,15 @@ public class AppStarter
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandler = new BlackFrameUIHandler();
+        
+        
+        
         var loadScreenUIHandler = TryInitLoadScreenUIHandler(globalUIHandler);
         ReactiveCommand<bool> swipeDetectorOff = null;
         var storiesProvider = await CreateStoriesProvider();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
-        var advertisingButtonUIHandler = new AdvertisingButtonUIHandler(wallet);
+        var advertisingButtonUIHandler = new AdvertisingButtonUIHandler(wallet, globalSound.GetSoundPause());
         var confirmedPanelUIHandler = new ConfirmedPanelUIHandler();
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
             advertisingButtonUIHandler, confirmedPanelUIHandler,

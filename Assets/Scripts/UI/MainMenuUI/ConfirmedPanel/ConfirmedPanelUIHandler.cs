@@ -63,14 +63,12 @@ public class ConfirmedPanelUIHandler
         {
             UnsubscribeButtons();
             Hide(operationPutFalse, false).Forget();
-            _globalCanvasCloser.TryDisable();
         });
         
         _confirmedPanelView.ConfirmedButton.onClick.AddListener(() =>
         {
             UnsubscribeButtons();
             Hide(operationPutTrue, blackFrameNotOpen).Forget();
-            _globalCanvasCloser.TryDisable();
         });
         _confirmedPanelView.gameObject.SetActive(true);
         _loadIndicatorUIHandler.StopIndicate();
@@ -83,6 +81,11 @@ public class ConfirmedPanelUIHandler
         if (blackFrameNotOpen == false)
         {
             await _darkeningBackgroundFrameUIHandler.OpenTranslucent();
+            _globalCanvasCloser.TryDisable();
+        }
+        else
+        {
+            _globalCanvasCloser.Remove();
         }
     }
 

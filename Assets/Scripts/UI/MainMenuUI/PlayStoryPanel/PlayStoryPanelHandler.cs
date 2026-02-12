@@ -107,9 +107,6 @@ public class PlayStoryPanelHandler : ILocalizable
             _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
             _blackFrameUIHandler.OpenTranslucent()
             );
-        // await  _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token);
-
-        
         _playStoryPanel.gameObject.SetActive(false);
         _onExitEndRC.Execute();
     }

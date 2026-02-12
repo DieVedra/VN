@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -18,12 +19,14 @@ public class AdvertisingButtonUIHandler
     private GlobalCanvasCloser _globalCanvasCloser;
 
     private readonly Wallet _wallet;
+    private readonly IReactiveProperty<bool> _soundPause;
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
     public bool AssetIsLoad { get; private set; }
-    public AdvertisingButtonUIHandler(Wallet wallet)
+    public AdvertisingButtonUIHandler(Wallet wallet, IReactiveProperty<bool> soundPause)
     {
         _wallet = wallet;
+        _soundPause = soundPause;
         _advertisingPanelPrefabProvider = new AdvertisingPanelPrefabProvider();
         AssetIsLoad = false;
     }
@@ -45,6 +48,8 @@ public class AdvertisingButtonUIHandler
     }
     public async UniTask Show(Action operationPutExitButton)
     {
+        _darkeningBackgroundFrameUIHandler.CloseTranslucent().Forget();
+
         if (AssetIsLoad == false)
         {
             _loadIndicatorUIHandler.SetClearIndicateMode();
@@ -53,13 +58,15 @@ public class AdvertisingButtonUIHandler
             _loadIndicatorUIHandler.StopIndicate();
             AssetIsLoad = true;
         }
+
         _advertisingPanelView.transform.SetAsLastSibling();
-        
-        //какая то логика показа рекламы
-        
         _globalCanvasCloser.TryEnable();
 
+        //какая то логика показа рекламы
+
+
         _advertisingPanelView.ButtonExit.gameObject.SetActive(false);
+        _soundPause.Value = true;
         _advertisingPanelView.gameObject.SetActive(true);
         await UniTask.Delay(2000);
         _advertisingPanelView.ButtonExit.onClick.AddListener(() =>
@@ -67,10 +74,14 @@ public class AdvertisingButtonUIHandler
             _advertisingPanelView.ButtonExit.onClick.RemoveAllListeners();
             _darkeningBackgroundFrameUIHandler.OpenTranslucent().Forget();
             _advertisingPanelView.gameObject.SetActive(false);
-            _globalCanvasCloser.TryDisable();
             _wallet.AddCash(_advertisingPanelView.MonetReward, false);
             _wallet.AddHearts(_advertisingPanelView.HeartsReward, false);
             operationPutExitButton?.Invoke();
+            _soundPause.Value = false;
+            _darkeningBackgroundFrameUIHandler.OpenTranslucent(() =>
+            {
+                _globalCanvasCloser.TryDisable();
+            }).Forget();
         });
         _advertisingPanelView.ButtonExit.gameObject.SetActive(true);
     }
