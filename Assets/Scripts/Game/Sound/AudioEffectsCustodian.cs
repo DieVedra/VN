@@ -3,8 +3,6 @@ using UnityEngine.Audio;
 
 public class AudioEffectsCustodian
 {
-    private readonly string LowPassEffectName = "LevelCutoff";
-    private readonly AudioMixer _mixer;
     private Dictionary<AudioEffect, IAudioEffectHandler> _dictionaryEffects;
     public AudioEffectsCustodian(AudioMixer mixer)
     {

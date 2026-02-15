@@ -31,7 +31,6 @@ public class EntryPoint: MonoBehaviour
         }
 
         _globalUIHandler = globalUIHandler;
-        _appStarter = new AppStarter();
         _panelsLocalizationHandler = panelsLocalizationHandler;
     }
 
@@ -46,7 +45,7 @@ public class EntryPoint: MonoBehaviour
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
 
-
+        _appStarter = new AppStarter();
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
                 _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc);
@@ -71,10 +70,9 @@ public class EntryPoint: MonoBehaviour
     private void Shutdown()
     {
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
-        // _saveServiceProvider.SaveFromMainMenu(_wallet, _globalSound, _storiesProvider,
-        //     _panelsLocalizationHandler, _mainMenuUIProvider);
+        _saveServiceProvider.SaveFromMainMenu(_wallet, _globalSound, _storiesProvider,
+            _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Shutdown();
-        _storiesProvider?.Shutdown();
         _mainMenuUIProvider?.Shutdown();
     }
 

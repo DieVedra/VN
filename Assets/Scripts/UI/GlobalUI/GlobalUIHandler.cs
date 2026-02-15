@@ -35,7 +35,6 @@ public class GlobalUIHandler
 
     public async UniTask Init(LoadScreenUIHandler loadScreenUIHandler, SettingsPanelUIHandler settingsPanelUIHandler,
         ShopMoneyPanelUIHandler shopMoneyPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler,
-        ConfirmedPanelUIHandler confirmedPanelUIHandler,
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler)
     {
         if (_isCreatedOneInstance == false)
@@ -47,7 +46,7 @@ public class GlobalUIHandler
             _settingsPanelUIHandler = settingsPanelUIHandler;
             _shopMoneyPanelUIHandler = shopMoneyPanelUIHandler;
             _advertisingButtonUIHandler = advertisingButtonUIHandler;
-            _confirmedPanelUIHandler = confirmedPanelUIHandler;
+            _confirmedPanelUIHandler = new ConfirmedPanelUIHandler();
             if (_canvasTransform == null)
             {
                 var projectContextCanvasAssetProvider = new ProjectContextCanvasAssetProvider();
@@ -60,9 +59,9 @@ public class GlobalUIHandler
 
             await loadIndicatorUIHandler.Init(_canvasTransform);
             await blackFrameUIHandler.Init(_canvasTransform);
-            confirmedPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
+            _confirmedPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
             advertisingButtonUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
-            shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, advertisingButtonUIHandler, confirmedPanelUIHandler);
+            shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, advertisingButtonUIHandler, _confirmedPanelUIHandler);
             await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler, _globalCanvasCloser);
         }
     }

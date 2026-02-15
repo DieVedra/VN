@@ -19,11 +19,23 @@ public class CharacterProviderBuildMode : ILocalizable
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
 
 
-    public CharacterProviderBuildMode()
+    public CharacterProviderBuildMode(IReadOnlyList<WardrobeSaveData> wardrobeSaveDatas = null)
     {
         _charactersProvider = new DataProvider<CharactersProvider>();
         _charactersDataProvider = new DataProvider<CharactersDataProvider>();
+        
         _customizableCharacterIndexesCustodians = new Dictionary<string, CustomizableCharacterIndexesCustodian>();
+        
+        if (wardrobeSaveDatas != null)
+        {
+            foreach (var t in wardrobeSaveDatas)
+            {
+                _customizableCharacterIndexesCustodians.Add(
+                    t.NameKey, 
+                    new CustomizableCharacterIndexesCustodian(t, t.NameKey));
+            }
+        }
+        
         _charactersCreator = new CharactersCreator(
             _charactersDataProvider.GetDatas, _charactersProvider.GetDatas,
             _customizableCharacterIndexesCustodians);

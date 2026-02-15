@@ -32,12 +32,13 @@ public class ChangeStatsNode : BaseNode
         }
     }
 
-    public async override UniTask Enter(bool isMerged = false)
+    public override UniTask Enter(bool isMerged = false)
     {
         _gameStatsProvider.GameStatsHandler.UpdateStats(_stats);
         ShowNotification(_notificationPanelUIHandler.GetTextStats(_stats, _gameStatsProvider));
 
         SwitchToNextNodeEvent.Execute();
+        return default;
     }
     private void ShowNotification(string text)
     {

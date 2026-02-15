@@ -78,7 +78,7 @@ public class BlackFrameUIHandler
     public async UniTask Close()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        _image.color = Color.clear;
+        // _image.color = Color.clear;
         On();
         await DoAnimation(_cancellationTokenSource, AnimationValuesProvider.MaxValue, AnimationValuesProvider.MaxValue);
         IsOpen = false;

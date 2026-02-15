@@ -40,6 +40,7 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     }
     public void TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
+        Debug.Log($"TrySetLocalizationToCurrentLevelContent {seriaNodeGraphsHandler.name}");
         SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
         SetLocalizationToStats(_gameStatsHandler);
         SetLocalizationToCharacters();
@@ -74,6 +75,8 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
             {
                 if (node is ILocalizable localizable)
                 {
+                    Debug.Log($"SetLocalizationToSeriaTexts: {node.name}");
+
                     foreach (var localizationString in localizable.GetLocalizableContent())
                     {
                         SetText(localizationString, true);
@@ -101,7 +104,11 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     private void SetText(LocalizationString localizationString, bool addToDelete = false)
     {
-        if (localizationString.Key != null)
+        if (localizationString == null)
+        {
+            Debug.Log($"localizationString == null");
+        }
+        if (localizationString?.Key != null)
         {
             if (_levelLocalizationProvider.Localization.TryGetValue(localizationString.Key, out string text))
             {

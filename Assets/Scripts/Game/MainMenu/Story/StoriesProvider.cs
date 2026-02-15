@@ -37,15 +37,6 @@ public class StoriesProvider : ScriptableObject
         }
     }
 
-    public void Shutdown()
-    {
-        foreach (var story in _stories)
-        {
-            story.Shutdown();
-        }
-        
-    }
-
     public int GetIndexByName(string storyName)
     {
         int result = _defaultIndex;

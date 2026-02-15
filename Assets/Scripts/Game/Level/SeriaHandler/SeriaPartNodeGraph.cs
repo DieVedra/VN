@@ -22,7 +22,15 @@ public class SeriaPartNodeGraph : NodeGraph
 	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
 		_nodeGraphInitializer = nodeGraphInitializer;
-		_currentNodeIndex = currentNodeIndex;
+		if (currentNodeIndex > 0)
+		{
+			_currentNodeIndex = currentNodeIndex;
+		}
+		else
+		{
+			_currentNodeIndex = 0;
+		}
+
 		_currentSeriaIndex = currentSeriaIndex;
 		_switchToNextNodeEventСompositeDisposable = _nodeGraphInitializer.SwitchToNextNodeEvent.SubscribeWithCompositeDisposable(
 			() =>
@@ -94,7 +102,6 @@ public class SeriaPartNodeGraph : NodeGraph
 				{
 					_baseNodes.Add(baseNodes);
 				}
-
 				if (_currentNodeIndex == 0)
 				{
 					if (t is StartNode startNode)

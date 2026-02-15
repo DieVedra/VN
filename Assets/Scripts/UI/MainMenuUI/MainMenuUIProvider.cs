@@ -55,7 +55,6 @@ public class MainMenuUIProvider : ILocalizable
     {
         DarkeningBackgroundFrameUIHandler.Shutdown();
         PlayStoryPanelHandler.Shutdown();
-        ConfirmedPanelUIHandler.Shutdown();
         BottomPanelUIHandler.Shutdown();
         MyScrollHandler.Shutdown();
         MonetResourcePanelHandler.Shutdown();

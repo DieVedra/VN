@@ -22,6 +22,8 @@ public class AdvertisingButtonUIHandler
     private readonly IReactiveProperty<bool> _soundPause;
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
+    private bool _isInited;
+
     public bool AssetIsLoad { get; private set; }
     public AdvertisingButtonUIHandler(Wallet wallet, IReactiveProperty<bool> soundPause)
     {
@@ -29,21 +31,20 @@ public class AdvertisingButtonUIHandler
         _soundPause = soundPause;
         _advertisingPanelPrefabProvider = new AdvertisingPanelPrefabProvider();
         AssetIsLoad = false;
+        _isInited = false;
     }
 
     public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser,
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
-        _parent = parent;
-        _globalCanvasCloser = globalCanvasCloser;
-        _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
-    }
-    public void Shutdown()
-    {
-        if (_advertisingPanelView != null)
+        if (_isInited == false)
         {
-            Addressables.ReleaseInstance(_advertisingPanelView.gameObject);
+            _isInited = true;
+
+            _parent = parent;
+            _globalCanvasCloser = globalCanvasCloser;
+            _loadIndicatorUIHandler = loadIndicatorUIHandler;
+            _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         }
     }
     public async UniTask Show(Action operationPutExitButton)

@@ -42,7 +42,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
         return new[] { _localizationString};
     }
 
-    public override async UniTask Enter(bool isMerged = false)
+    public override UniTask Enter(bool isMerged = false)
     {
         ButtonSwitchSlideUIHandler.DeactivatePushOption();
         if (_addContact == true)
@@ -58,6 +58,7 @@ public class AddContactToPhoneNode : BaseNode, ILocalizable
         }
         SwitchToNextNodeEvent.Execute();
         ButtonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
+        return default;
     }
     protected override void SetInfoToView()
     {

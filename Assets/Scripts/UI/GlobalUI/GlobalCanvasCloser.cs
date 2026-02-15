@@ -4,6 +4,7 @@ public class GlobalCanvasCloser
 {
     private GameObject _targetGameObject;
     private int _count;
+    public int Count => _count;
 
     public void Init(GameObject targetGameObject)
     {
@@ -17,6 +18,8 @@ public class GlobalCanvasCloser
             _targetGameObject.SetActive(true);
         }
         _count++;
+        Debug.Log($" TryEnable() {_count}");
+
     }
 
     public void TryDisable()
@@ -38,5 +41,6 @@ public class GlobalCanvasCloser
         {
             _count--;
         }
+        Debug.Log($"Remove() _count {_count}");
     }
 }

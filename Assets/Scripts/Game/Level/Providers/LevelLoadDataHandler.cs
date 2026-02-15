@@ -15,7 +15,6 @@ public class LevelLoadDataHandler
     public readonly AudioClipProvider AudioClipProvider;
     public readonly BackgroundDataProvider BackgroundDataProvider;
     public readonly PhoneProviderInBuildMode PhoneProviderInBuildMode;
-    // private readonly BackgroundContentCreator _backgroundContentCreator;
     
     private readonly LevelLocalizationProvider _levelLocalizationProvider;
     private readonly CurrentSeriaLoadedNumberProperty<int> _currentSeriaLoadedNumberProperty;
@@ -26,8 +25,8 @@ public class LevelLoadDataHandler
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
     public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,
-        LevelLocalizationProvider levelLocalizationProvider, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView,
-        SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
+        LevelLocalizationProvider levelLocalizationProvider, PhoneSaveHandler phoneSaveHandler, CharacterProviderBuildMode characterProviderBuildMode,
+        Func<UniTask> createPhoneView, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty)
     {
@@ -36,7 +35,7 @@ public class LevelLoadDataHandler
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
         _onContentIsLoadProperty = onContentIsLoadProperty;
         SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
-        CharacterProviderBuildMode = new CharacterProviderBuildMode();
+        CharacterProviderBuildMode = characterProviderBuildMode;
         GameSeriesProvider = new GameSeriesProvider();
         AudioClipProvider = new AudioClipProvider();
         BackgroundDataProvider = new BackgroundDataProvider();

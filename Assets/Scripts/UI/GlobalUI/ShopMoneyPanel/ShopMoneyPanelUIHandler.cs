@@ -21,6 +21,8 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private ShopMoneyMode _lastShopMode;
     private Action _hideOperation;
+    private bool _isInited;
+
     public ReactiveCommand<bool> SwipeDetectorOff { get; private set; }
 
     public RectTransform MonetIndicatorPanel => _shopMoneyPanelView.MonetIndicatorPanel;
@@ -41,10 +43,14 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser,
         AdvertisingButtonUIHandler advertisingButtonUIHandler, ConfirmedPanelUIHandler confirmedPanelUIHandler)
     {
-        _parent = parent;
-        _globalCanvasCloser = globalCanvasCloser;
-        _advertisingButtonUIHandler = advertisingButtonUIHandler;
-        _confirmedPanelUIHandler = confirmedPanelUIHandler;
+        if (_isInited == false)
+        {
+            _isInited = true;
+            _parent = parent;
+            _globalCanvasCloser = globalCanvasCloser;
+            _advertisingButtonUIHandler = advertisingButtonUIHandler;
+            _confirmedPanelUIHandler = confirmedPanelUIHandler;
+        }
     }
     public void Shutdown()
     {

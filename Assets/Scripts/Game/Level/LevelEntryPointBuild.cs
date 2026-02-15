@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -63,7 +62,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
         _phoneNodeIsActive = new ReactiveProperty<bool>();
-
         PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, _phoneNodeIsActive);
         if (LoadSaveData == true)
         {
@@ -72,16 +70,16 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex; 
                 _currentSeriaLoadedNumberProperty.SetValue(StoryData.CurrentSeriaIndex);
 
+                _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
+                    _levelLocalizationProvider, phoneSaveHandler, new CharacterProviderBuildMode(StoryData.WardrobeSaveDatas), CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
+                    _onContentIsLoadProperty);
             }
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
-                _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
-                _onContentIsLoadProperty);
         }
         else
         {
             _currentSeriaLoadedNumberProperty.SetValue(0);
             _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
-                _levelLocalizationProvider, phoneSaveHandler, CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
+                _levelLocalizationProvider, phoneSaveHandler, new CharacterProviderBuildMode(), CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
 
 
@@ -206,7 +204,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameStatsHandler.FillSaveStats(StoryData);
             _backgroundBuildMode.FillSaveData(StoryData);
             StoryData.WardrobeSaveDatas.Clear();
-            StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
+            StoryData.WardrobeSaveDatas.AddRange(SaveService.CreateWardrobeSaveDatas(
+                _levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians));
             _globalSound.FillStoryDataToSave(StoryData);
             StoryData.CurrentProgressPercent = LevelCompletePercentCalculator.GetCalculateLevelProgressPercent();
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;

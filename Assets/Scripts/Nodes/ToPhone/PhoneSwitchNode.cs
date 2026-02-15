@@ -10,7 +10,7 @@ public class PhoneSwitchNode : SwitchNode
         IsOver = false;
         ConstructMySwitchNode(gameStatsProvider, seriaIndex);
     }
-    public override async UniTask Enter(bool isMerged = false)
+    public override UniTask Enter(bool isMerged = false)
     {
         var result = SwitchNodeLogic.GetPortIndexOnSwitchResult(_casesForStats);
         bool caseFoundSuccessfuly = result.Item1;
@@ -24,5 +24,6 @@ public class PhoneSwitchNode : SwitchNode
             TryFindDefaultNextNodeAndSet();
         }
         IsOver = true;
+        return default;
     }
 }

@@ -11,9 +11,6 @@ public class GameControlPanelUIHandler : ILocalizable
     private const char _percentSymbol = '%';
     private const float _timeDelay = 3f;
     private readonly GameControlPanelView _gameControlPanelView;
-    // private readonly GlobalSound _globalSound;
-    // private readonly ILocalizationChanger _localizationChanger;
-    private readonly Transform _parentGlobalUITransforn;
     private readonly BlockGameControlPanelUIEvent<bool> _blockGameControlPanelUI;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
@@ -24,15 +21,8 @@ public class GameControlPanelUIHandler : ILocalizable
     private Transform _transformControlPanel;
     private int _siblingIndexBufer;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
-    
-    
     private SettingsPanelButtonUIHandler _settingsPanelButtonUIHandler;
-    
-    
-    // private ShopMoneyButtonsUIHandler _shopMoneyButtonsUIHandler;
-    
     private ShopMoneyPanelUIHandler _shopMoneyPanelUIHandler;
-    
     private ReactiveProperty<bool> _anyWindowIsOpen;
     public SettingsPanelButtonUIHandler SettingsPanelButtonUIHandler => _settingsPanelButtonUIHandler;
     private bool _panelIsVisible;
@@ -46,11 +36,8 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView = gameControlPanelView;
         _settingsPanelUIHandler = globalUIHandler.SettingsPanelUIHandler;
         _shopMoneyPanelUIHandler = globalUIHandler.ShopMoneyPanelUIHandler;
-        _parentGlobalUITransforn = globalUIHandler.GlobalUITransforn;
         _loadIndicatorUIHandler = globalUIHandler.LoadIndicatorUIHandler;
         _confirmedPanelUIHandler = globalUIHandler.ConfirmedPanelUIHandler;
-        // _globalSound = globalSound;
-        // _localizationChanger = panelsLocalizationHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
         _levelPercentProvider = levelPercentProvider;
@@ -85,8 +72,8 @@ public class GameControlPanelUIHandler : ILocalizable
             _confirmedPanelUIHandler.Show(
                 _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
                 _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
-                ButtonTransitionToMainSceneUIHandler.FontSizeValue, ()=>
-                {
+                ButtonTransitionToMainSceneUIHandler.FontSizeValue, 
+                ()=> {
                     _buttonTransitionToMainSceneUIHandler.Press().Forget();
                     ReInitCancellationSource();
                 },

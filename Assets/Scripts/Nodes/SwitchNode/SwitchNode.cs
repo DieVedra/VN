@@ -34,7 +34,7 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
             _switchNodeInitializer.TryReinitAllCases(_casesForStats);
         }
     }
-    public async override UniTask Enter(bool isMerged = false)
+    public override UniTask Enter(bool isMerged = false)
     {
         if (_isNodeForStats)
         {
@@ -67,6 +67,7 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
         {
             SwitchToNextNodeEvent.Execute();
         }
+        return default;
     }
     private void AddDynamicPort()
     {

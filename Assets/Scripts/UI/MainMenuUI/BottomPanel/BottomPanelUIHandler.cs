@@ -25,7 +25,7 @@ public class BottomPanelUIHandler : ILocalizable
     public void Shutdown()
     {
         _compositeDisposable?.Clear();
-        _advertisingButtonUIHandler.Shutdown();
+        _bottomPanelView.ShowAdvertisingButton.onClick.RemoveAllListeners();
     }
 
     public void SetSprite(Sprite icon)

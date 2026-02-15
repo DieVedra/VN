@@ -11,27 +11,27 @@ public class ConfirmedPanelUIHandler
     private Transform _parent;
     private GlobalCanvasCloser _globalCanvasCloser;
     private ConfirmedPanelView _confirmedPanelView;
+    private bool _isInited;
     public bool AssetIsLoaded { get; private set; }
-    
+
     public ConfirmedPanelUIHandler()
     {
         AssetIsLoaded = false;
+        _isInited = false;
         _confirmedPanelAssetProvider = new ConfirmedPanelAssetProvider();
     }
 
     public void Init(Transform parent, GlobalCanvasCloser globalCanvasCloser,
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
     {
-        _parent = parent;
-        _globalCanvasCloser = globalCanvasCloser;
-        _loadIndicatorUIHandler = loadIndicatorUIHandler;
-        _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
-    }
-    public void Shutdown()
-    {
-        if (_confirmedPanelView != null)
+        if (_isInited == false)
         {
-            Addressables.ReleaseInstance(_confirmedPanelView.gameObject);
+            _isInited = true;
+
+            _parent = parent;
+            _globalCanvasCloser = globalCanvasCloser;
+            _loadIndicatorUIHandler = loadIndicatorUIHandler;
+            _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         }
     }
     public async UniTask Show(string labelText, string transcriptionText, string buttonText, float heightPanel, int fontSizeValue,
