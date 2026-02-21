@@ -24,13 +24,19 @@ public class GameStatsHandler
     }
     public void FillSaveStats(StoryData storyData)
     {
-        List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
-        {
-            baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value));
-        }
         storyData.Stats.Clear();
-        storyData.Stats.AddRange(baseStats);
+
+        foreach (var stat in _stats)
+        {
+            storyData.Stats.Add(new SaveStat(stat.NameKey, stat.Value));
+        }
+        // List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
+        // for (int i = 0; i < _stats.Count; i++)
+        // {
+        //     baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value));
+        // }
+        // storyData.Stats.Clear();
+        // storyData.Stats.AddRange(baseStats);
     }
     public List<Stat> GetGameStatsForm()
     {

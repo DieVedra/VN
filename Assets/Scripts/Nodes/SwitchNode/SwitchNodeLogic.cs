@@ -37,8 +37,8 @@ public class SwitchNodeLogic
                 if (cases[i].CaseStats[j].IncludeKey == true)
                 {
                     CaseBaseStat caseBaseStat = cases[i].CaseStats[j];
-                    int value = _statsDictionary[GameStatsCopied[j].NameKey].Value;
-                    _toSwitch.Add(() => Comparison(caseBaseStat.IndexCurrentOperator, value, caseBaseStat.Value));
+                    Stat stat = _statsDictionary[GameStatsCopied[j].NameKey];
+                    _toSwitch.Add(() => Comparison(caseBaseStat.IndexCurrentOperator, stat, caseBaseStat.Value));
                 }
             }
 
@@ -46,9 +46,9 @@ public class SwitchNodeLogic
             for (int j = 0; j < count2; j++)
             {
                 AdditionalCaseStats additionalCaseStats = caseForStats.AdditionalCaseStats[i];
-                int value1 = _statsDictionary[additionalCaseStats.Stat1Key].Value;
+                Stat stat = _statsDictionary[additionalCaseStats.Stat1Key];
                 int value2 = _statsDictionary[additionalCaseStats.Stat2Key].Value;
-                _toSwitch.Add(() => Comparison(additionalCaseStats.IndexCurrentOperator, value1, value2));
+                _toSwitch.Add(() => Comparison(additionalCaseStats.IndexCurrentOperator, stat, value2));
             }
             if (GroupProcessing() == true)
             {
@@ -57,6 +57,8 @@ public class SwitchNodeLogic
                 break;
             }
         }
+        Debug.Log($"result {caseFoundSuccessfuly} {indexCase}");
+
         return (caseFoundSuccessfuly, indexCase);
     }
 
@@ -71,37 +73,39 @@ public class SwitchNodeLogic
         _toSwitch.Clear();
         return result;
     }
-    private bool Comparison(int operatorIndex, int gameStatValue, int switchNodeStatValue)
+    private bool Comparison(int operatorIndex, Stat gameStat, int switchNodeStatValue)
     {
         bool result = false;
+        Debug.Log($"Operators[operatorIndex] {Operators[operatorIndex]}");
+        Debug.Log($"gameStat {gameStat.NameText} {gameStat.Value}");
         switch (Operators[operatorIndex])
         {
             case _equalSymbol:
-                if (gameStatValue == switchNodeStatValue)
+                if (gameStat.Value == switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
             case _greatSymbol:
-                if (gameStatValue > switchNodeStatValue)
+                if (gameStat.Value > switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
             case _lessSymbol:
-                if (gameStatValue < switchNodeStatValue)
+                if (gameStat.Value < switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
             case _greatEqualSymbol:
-                if (gameStatValue >= switchNodeStatValue)
+                if (gameStat.Value >= switchNodeStatValue)
                 {
                     result = true;
                 }
                 break;
             case _lessEqualSymbol:
-                if (gameStatValue <= switchNodeStatValue)
+                if (gameStat.Value <= switchNodeStatValue)
                 {
                     result = true;
                 }

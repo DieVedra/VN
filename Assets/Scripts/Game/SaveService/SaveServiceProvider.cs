@@ -42,7 +42,10 @@ public class SaveServiceProvider
         storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
         _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
         
-        if (mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName != String.Empty)
+        
+        
+        
+        if (mainMenuUIProvider.PlayStoryPanelHandler?.GetCurrentStoryName != String.Empty)
         {
             _saveData.NameStartStory = mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
         }

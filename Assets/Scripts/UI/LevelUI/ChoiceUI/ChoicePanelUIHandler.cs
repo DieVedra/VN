@@ -25,7 +25,8 @@ public class ChoicePanelUIHandler
     public ChoiceNodeButtonsHandler ChoiceNodeButtonsHandler => _choiceNodeButtonsHandler;
     public RectTransform RectTransform => _rectTransform;
 
-    public ChoicePanelUIHandler(IReadOnlyList<ChoiceCaseView> choiceCasesViews, ChoicePanelUI choicePanelUI, Wallet wallet, PanelResourceVisionHandler panelResourceVisionHandler)
+    public ChoicePanelUIHandler(IReadOnlyList<ChoiceCaseView> choiceCasesViews, ChoicePanelUI choicePanelUI, Wallet wallet,
+        PanelResourceVisionHandler panelResourceVisionHandler)
     {
         _choicePanelUI = choicePanelUI;
         _monetResourceParent = choicePanelUI.MonetResourceParent;
@@ -38,7 +39,8 @@ public class ChoicePanelUIHandler
         _choiceNodePriceHandler = new ChoiceNodePriceHandler(_choiceCasesViews, wallet);
         
         _choiceActive = new ReactiveProperty<bool>(false);
-        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceCasesViews, choicePanelUI.BlinkColor, _choiceNodePriceHandler, wallet, choicePanelUI, _choiceActive);
+        _choiceNodeButtonsHandler = new ChoiceNodeButtonsHandler(_choiceCasesViews, choicePanelUI.BlinkColor, _choiceNodePriceHandler,
+            wallet, choicePanelUI, _choiceActive);
 
         _choiceHeightHandler = new ChoiceHeightHandler(_choiceCasesViews, choicePanelUI);
         _siblingIndex = _rectTransform.GetSiblingIndex();

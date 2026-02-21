@@ -10,6 +10,9 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     private readonly MatchNumbersHandler _matchNumbersHandler;
     private readonly List<T> _datas;
     private List<string> _names;
+    public List<string> Names => _names;
+    public MatchNumbersHandler MatchNumbersHandler => _matchNumbersHandler;
+
     public bool AssetsFinded { get; private set; }
     public bool ParticipiteInLoad { get; private set; }
     public int PercentComplete => _scriptableObjectAssetLoader.GetPercentComplete();

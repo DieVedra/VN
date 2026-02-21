@@ -130,6 +130,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 1
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-8555006001022485740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +257,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-7269499112509529075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +327,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-6928164185564033080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,7 +676,7 @@ MonoBehaviour:
   m_Name: Add Sprite Node To Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 18408, y: -1096}
+  position: {x: 18376, y: -1416}
   ports:
     keys:
     - Input
@@ -977,7 +983,7 @@ MonoBehaviour:
   m_Name: Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 17688, y: -984}
+  position: {x: 17272, y: -1464}
   ports:
     keys:
     - Input
@@ -1009,14 +1015,9 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 0
-  _indexTo: 0
   _key: "\u0413\u043E\u0440\u044B \u0438 \u043F\u043B\u044F\u0436 (\u0437\u0430\u043A\u0430\u0442)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 1
   _isSmoothCurtain: 0
   _mode3Enable: 0
@@ -1884,6 +1885,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &-170828948520574406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3023,7 +3026,15 @@ MonoBehaviour:
     - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
     - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
     - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
-    _phoneContactDatas: []
+    _phoneContactDatas:
+    - <NameLocalizationString>k__BackingField:
+        <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D"
+        <Key>k__BackingField: str_F71AE2E8
+      <ToPhoneKey>k__BackingField: str_F62CA740
+      <Icon>k__BackingField: {fileID: 21300000, guid: 6b2762db6f3f8a04ca6d4d5d9eee5de5, type: 3}
+      <IsEmptyIconKey>k__BackingField: 0
+      <AddInPlot>k__BackingField: 1
+      <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   _contacts:
   - <NameLocalizationString>k__BackingField:
       <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D"
@@ -3211,7 +3222,7 @@ MonoBehaviour:
   m_Name: Add Sprite Node To Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 18488, y: -1512}
+  position: {x: 18504, y: -1736}
   ports:
     keys:
     - Input
@@ -3618,6 +3629,8 @@ MonoBehaviour:
       _dynamic: 1
   namenode: 
   _autoSwitchToNextSlide: 0
+  _enterAsyncMode: 0
+  _exitAsyncMode: 0
 --- !u!114 &4998307932971619182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4310,14 +4323,9 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _backgroundNodeMode: 0
-  _index: 0
-  _indexTo: 0
   _key: "\u0413\u043E\u0440\u044B \u0438 \u043F\u043B\u044F\u0436 (\u0437\u0430\u043A\u0430\u0442)"
   _changeColorDuration: 0
   _changeMode2Duration: 0.7
-  _awaitedSmoothChangeBackground: 0
-  _awaitedSmoothBackgroundChangePosition: 1
-  _awaitedSetColorOverlayBackground: 0
   _awaited: 1
   _isSmoothCurtain: 1
   _mode3Enable: 0
@@ -4925,7 +4933,7 @@ MonoBehaviour:
   m_Name: Add Sprite Node To Background
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 18392.986, y: -1916.9813}
+  position: {x: 19032, y: -2088}
   ports:
     keys:
     - Input

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -7320, y: -1496}
+  position: {x: -7224, y: -1624}
   ports:
     keys:
     - Input
@@ -524,6 +524,59 @@ MonoBehaviour:
   _isEndCurtain: 1
   _customDelay: 0
   _delay: 0.7
+--- !u!114 &-5579228284896767304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14004533954097ad0ddb523b4a28db, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -7960, y: -3496}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -5579228284896767304}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -5579228284896767304}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6128612635627064532}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _backgroundNodeMode: 0
+  _key: "\u041F\u043B\u044F\u0436 \u0438 \u0433\u043E\u0440\u044B(\u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442
+    - \u0433\u043E\u0440\u044B, \u0441\u043A\u0430\u043B\u044B_ \u0441\u043E\u043B\u043D\u0446\u0435
+    \u0432 \u0437\u0435\u043D\u0438\u0442\u0435)"
+  _changeColorDuration: 0
+  _changeMode2Duration: 0.7
+  _awaited: 0
+  _isSmoothCurtain: 0
+  _mode3Enable: 0
+  _backgroundPosition: 1
+  _backgroundPositionMode2: 0
+  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &-4925142805470070532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,6 +1066,9 @@ MonoBehaviour:
   - {fileID: 1449984686727735866}
   - {fileID: 5712739522091788798}
   - {fileID: 8302261360956621105}
+  - {fileID: 7202129152180284942}
+  - {fileID: -5579228284896767304}
+  - {fileID: 6128612635627064532}
 --- !u!114 &275873268973309984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,7 +1461,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1592, y: -1544}
+  position: {x: -1160, y: -1864}
   ports:
     keys:
     - Input
@@ -1619,6 +1675,57 @@ MonoBehaviour:
     _showTime: 1.5
     _delayDisplayTime: 0
     _color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &6128612635627064532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557f85b7b384d0e8cb7d78bdb836921, type: 3}
+  m_Name: Add Sprite Node To Background
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -7437.6875, y: -3450.7131}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 6128612635627064532}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -5579228284896767304}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 6128612635627064532}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _localPosition: {x: 0, y: 0}
+  _color: {r: 1, g: 1, b: 1, a: 1}
+  _addToBackground: 0
+  _indexSprite: 0
+  _indexBackground: 0
+  _keySprite: 
+  _keyBackground: 
+  _removeFromBackground: 0
+  _indexRemoveSprite: 0
+  _indexBackgroundToRemove: 0
 --- !u!114 &6926429815875457501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1680,6 +1787,50 @@ MonoBehaviour:
   _overridedNameLocalization:
     <DefaultText>k__BackingField: 
     <Key>k__BackingField: 
+--- !u!114 &7202129152180284942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b85e0474cd84b2c8232dc18c16d247a, type: 3}
+  m_Name: Smooth Transition
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -6744, y: -3480}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 7202129152180284942}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 7202129152180284942}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _isStartImmediatlyCurtain: 0
+  _isEndImmediatlyCurtain: 0
+  _isStartCurtain: 1
+  _isEndCurtain: 0
+  _customDelay: 0
+  _delay: 0.7
 --- !u!114 &8002110192135223643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,7 +1844,7 @@ MonoBehaviour:
   m_Name: Customization
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -5016, y: -2984}
+  position: {x: -5128, y: -2312}
   ports:
     keys:
     - Input
@@ -4618,7 +4769,7 @@ MonoBehaviour:
   m_Name: Header
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -6248, y: -1752}
+  position: {x: -6712, y: -1608}
   ports:
     keys:
     - Input

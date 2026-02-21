@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
 {
     private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly Func<UniTask> _createPhoneView;
-    private const string _nameDataProviderAsset = "PhoneDataProviderSeria";
+    private const string _nameDataProviderAsset = "PhoneProviderSeria";
     private const string _nameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
 
     private NotificationViewPrefabAssetProvider _notificationViewPrefabAssetProvider;
@@ -56,7 +57,6 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders.GetDatas, checkMathSeriaIndex);
         _phoneCreator = new PhoneCreator(_dataProviders.GetDatas, _phoneMessagesCustodian, checkMathSeriaIndex);
-        
         await UniTask.WhenAll(_dataProviders.CreateNames(_nameDataProviderAsset),
             _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
     }
@@ -98,7 +98,8 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     public IReadOnlyList<PhoneContact> GetContactsToAddInPhoneInPlot(int seriaIndex)
     {
         _phoneContactsHandler.TryCollectAllContactsBySeriaIndexOfMath(seriaIndex);
-        return _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
+        var a = _phoneContactsHandler.GetContactsAddebleToPhoneBySeriaIndexInPlot(seriaIndex);
+        return a;
     }
 
 
@@ -109,7 +110,6 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     }
     public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
     {
-        
         if (await _dataProviders.TryLoadData(nextSeriaNameAssetIndex))
         {
             if (_phoneSystemInitilized == false)

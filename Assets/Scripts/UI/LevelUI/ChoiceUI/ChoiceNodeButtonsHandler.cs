@@ -50,12 +50,22 @@ public class ChoiceNodeButtonsHandler
 
     public async UniTask HideButtons(int pressedCaseIndex, CancellationToken cancellationToken)
     {
+        await UniTask.WhenAll(FadePressedButton(_choiseCasesViews[pressedCaseIndex], cancellationToken),
+            HideUnpressedButtons(pressedCaseIndex, cancellationToken));
+    }
+
+    private async UniTask FadePressedButton(ChoiceCaseView pressedChoiceCaseView, CancellationToken cancellationToken)
+    {
+        Button pressedButton = pressedChoiceCaseView.ButtonChoice;
+        Color originalColor = pressedButton.image.color;
+        await pressedButton.image.DOColor(_blinkColor, _changeColorDuration).WithCancellation(cancellationToken);
+        await pressedChoiceCaseView.CanvasGroupChoice.DOFade(_fadeValue, _duration).WithCancellation(cancellationToken);
+        pressedButton.gameObject.SetActive(false);
+        pressedButton.image.color = originalColor;
+    }
+    private async UniTask HideUnpressedButtons(int pressedCaseIndex, CancellationToken cancellationToken)
+    {
         ChoiceCaseView choiceCaseView = null;
-        ChoiceCaseView pressedChoiceCaseView = _choiseCasesViews[pressedCaseIndex];
-        Button button = pressedChoiceCaseView.ButtonChoice;
-        Color originalColor = button.image.color;
-        button.image.DOColor(_blinkColor, _changeColorDuration).WithCancellation(cancellationToken).Forget();
-        
         for (int i = _data.ChoiceCases.Count - 1; i >= 0; i--)
         {
             if (pressedCaseIndex != i)
@@ -63,14 +73,10 @@ public class ChoiceNodeButtonsHandler
                 choiceCaseView = _choiseCasesViews[i];
                 DisappearanceChoiceVariant(cancellationToken, choiceCaseView.ButtonChoice, choiceCaseView.RectTransformChoice, choiceCaseView.CanvasGroupChoice, _choicePositions[i]).Forget();
                 await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
-                choiceCaseView.ButtonChoice.image.color = originalColor;
+                choiceCaseView.gameObject.SetActive(false);
             }
         }
-        await pressedChoiceCaseView.CanvasGroupChoice.DOFade(_fadeValue, _duration).WithCancellation(cancellationToken);
-        button.image.color = originalColor;
-        button.gameObject.SetActive(false);
     }
-
     public void TryActivateButtonsChoice(ChoiceData data, ChoiceResultEvent<ChoiceCase> choiceResultEvent)
     {
         for (int i = 0; i < data.ChoiceCases.Count; i++)

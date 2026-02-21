@@ -125,13 +125,13 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         ChoiceResultEvent.Shutdown();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
+        PressedPortIndex = _choiceCases.IndexOf(choiceCaseResult);
         if (_showOutput == true)
         {
             TryFindConnectedPorts(OutputPortBaseNode);
         }
         else
         {
-            PressedPortIndex = _choiceCases.IndexOf(choiceCaseResult);
             TryFindConnectedPorts(GetOutputPort(GetPortName(PressedPortIndex)));
         }
         
