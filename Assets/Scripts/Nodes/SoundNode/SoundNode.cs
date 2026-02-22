@@ -64,10 +64,6 @@ public class SoundNode : BaseNode
         {
             await UniTask.WhenAll(_taskList);
         }
-        // else
-        // {
-        //     _taskRunner.TryRunTasksWhenAll().Forget();
-        // }
         _taskList.Clear();
         if (isMerged == false)
         {

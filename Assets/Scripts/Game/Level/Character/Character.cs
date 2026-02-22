@@ -9,6 +9,7 @@ public abstract class Character
     }
 
     public string MyNameText => _name.DefaultText;
+    public string MyNameKey => _name.Key;
 
     public LocalizationString Name => _name;
 

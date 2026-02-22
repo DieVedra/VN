@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using MyProject;
 using UnityEditor;
 using UnityEngine;
@@ -61,20 +63,22 @@ public class CharacterNodeDrawer : NodeEditor
     private CharacterNode _characterNode;
     private PopupDrawer _popupDrawer;
     private LineDrawer _lineDrawer;
-    private List<string> _namesCharactersToPopup;
+    private StringBuilder _stringBuilder;
+    private Character _character;
+    private string[] _namesCharactersToPopupArray;
     private string[] _namesLookCharactersToPopup;
     private string[] _namesEmotionsCharactersToPopup;
+    private string _name;
+    private int _numberCoincidences = 0;
     public override void OnBodyGUI()
     {
         if (_characterNode == null)
         {
             _characterNode = target as CharacterNode;
-        }
-
-        if (_indexLookProperty == null)
-        {
             _lineDrawer = new LineDrawer();
+            _popupDrawer = new PopupDrawer();
             _enumPopupDrawer = new EnumPopupDrawer();
+            _stringBuilder = new StringBuilder();
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_symbolMaxCount));
             serializedObject.Update();
             TryInitProperty(ref _indexLookProperty, _indexLookNameProperty);
@@ -94,32 +98,30 @@ public class CharacterNodeDrawer : NodeEditor
             _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
             _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
         }
-
-        serializedObject.Update();
-        NodeEditorGUILayout.PropertyField(_inputPortProperty);
-        NodeEditorGUILayout.PropertyField(_outputPortProperty);
-        EditorGUI.BeginChangeCheck();
-        _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel, validateText: false);
-        _lineDrawer.DrawHorizontalLine(Color.green);
-        DrawPopupCharacters();
-        if (EditorGUI.EndChangeCheck())
+        else
         {
-            serializedObject.ApplyModifiedProperties();
-            SetInfoToView();
+            serializedObject.Update();
+            NodeEditorGUILayout.PropertyField(_inputPortProperty);
+            NodeEditorGUILayout.PropertyField(_outputPortProperty);
+            EditorGUI.BeginChangeCheck();
+            _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel, validateText: false);
+            _lineDrawer.DrawHorizontalLine(Color.green);
+            DrawPopupCharacters();
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                SetInfoToView();
+            }
         }
     }
 
     private void DrawPopupCharacters()
     {
-        if (_popupDrawer == null)
-        {
-            _popupDrawer = new PopupDrawer();
-        }
         if (_characterNode.Characters != null && _characterNode.Characters.Count > 0)
         {
             SetCharactersNames();
             EditorGUILayout.LabelField(_currentCharacterLabel);
-            _popupDrawer.DrawPopup(_namesCharactersToPopup.ToArray(), _indexCharacterProperty);
+            _popupDrawer.DrawPopup(_namesCharactersToPopupArray, _indexCharacterProperty);
             
             if (_previousIndexCharacterProperty.intValue != _indexCharacterProperty.intValue)
             {
@@ -211,7 +213,7 @@ public class CharacterNodeDrawer : NodeEditor
             InitCharactersNames();
             _previousCharactersCountProperty.intValue = _characterNode.Characters.Count;
         }
-        else if(_namesCharactersToPopup == null)
+        else if(_namesCharactersToPopupArray == null)
         {
             InitCharactersNames();
         }
@@ -219,12 +221,44 @@ public class CharacterNodeDrawer : NodeEditor
 
     private void InitCharactersNames()
     {
-        _namesCharactersToPopup = new List<string>();
-        foreach (var t in _characterNode.Characters)
+        if (_namesCharactersToPopupArray == null)
         {
-            if (t != null)
+            _namesCharactersToPopupArray = new string[_characterNode.Characters.Count];
+        }
+        else if (_namesCharactersToPopupArray.Length != _characterNode.Characters.Count)
+        {
+            _namesCharactersToPopupArray = new string[_characterNode.Characters.Count];
+        }
+        else
+        {
+            for (int i = 0; i < _namesCharactersToPopupArray.Length; i++)
             {
-                _namesCharactersToPopup.Add(t.MyNameText);
+                _namesCharactersToPopupArray[i] = String.Empty;
+            }
+        }
+
+        for (int i = 0; i < _characterNode.Characters.Count; i++)
+        {
+            _character = _characterNode.Characters[i];
+            _numberCoincidences = 0;
+            _name = _characterNode.Characters[i].MyNameText;
+            _stringBuilder.Clear();
+            if (_character != null)
+            {
+                for (int j = 0; j < _namesCharactersToPopupArray.Length; j++)
+                {
+                    if (_namesCharactersToPopupArray[j] != null)
+                    {
+                        if (_name == _namesCharactersToPopupArray[j])
+                        {
+                            _stringBuilder.Append(_name);
+                            _stringBuilder.Append(' ');
+                            _stringBuilder.Append(++_numberCoincidences);
+                            _name = _stringBuilder.ToString();
+                        }
+                    }
+                }
+                _namesCharactersToPopupArray[i] = _name;
             }
         }
     }

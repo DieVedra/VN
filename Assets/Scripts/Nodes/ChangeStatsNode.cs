@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class ChangeStatsNode : BaseNode
     {
         _gameStatsProvider = gameStatsProvider;
         _notificationPanelUIHandler = notificationPanelUIHandler;
+
         if (IsPlayMode() == false)
         {
             List<BaseStat> newStats = gameStatsProvider.GetEmptyTStat<BaseStat>(seriaIndex);
@@ -35,6 +37,7 @@ public class ChangeStatsNode : BaseNode
     public override UniTask Enter(bool isMerged = false)
     {
         _gameStatsProvider.GameStatsHandler.UpdateStats(_stats);
+        CancellationTokenSource = new CancellationTokenSource();
         ShowNotification(_notificationPanelUIHandler.GetTextStats(_stats, _gameStatsProvider));
 
         SwitchToNextNodeEvent.Execute();

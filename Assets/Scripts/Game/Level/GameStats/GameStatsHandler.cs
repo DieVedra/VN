@@ -25,34 +25,17 @@ public class GameStatsHandler
     public void FillSaveStats(StoryData storyData)
     {
         storyData.Stats.Clear();
-
         foreach (var stat in _stats)
         {
             storyData.Stats.Add(new SaveStat(stat.NameKey, stat.Value));
         }
-        // List<SaveStat> baseStats = new List<SaveStat>(_stats.Count);
-        // for (int i = 0; i < _stats.Count; i++)
-        // {
-        //     baseStats.Add(new SaveStat(_stats[i].NameKey, _stats[i].Value));
-        // }
-        // storyData.Stats.Clear();
-        // storyData.Stats.AddRange(baseStats);
-    }
-    public List<Stat> GetGameStatsForm()
-    {
-        List<Stat> stats = new List<Stat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
-        {
-            stats.Add(new Stat(_stats[i].NameText, _stats[i].NameKey, _defaultValue, _stats[i].ColorField));
-        }
-        return stats;
     }
     public List<CustomizationStat> GetGameCustomizationStatsForm()
     {
         List<CustomizationStat> stats = new List<CustomizationStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
+        foreach (var t in _stats)
         {
-            stats.Add(new CustomizationStat(_stats[i].NameText, _stats[i].NameKey, _defaultValue, false, _stats[i].ColorField));
+            stats.Add(new CustomizationStat(t.NameText, t.NameKey, _defaultValue, false, t.ColorField));
         }
         return stats;
     }
@@ -60,18 +43,18 @@ public class GameStatsHandler
     public List<CustomizationStat> GetCustomizationStatsForm()
     {
         List<CustomizationStat> stats = new List<CustomizationStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
+        foreach (var t in _stats)
         {
-            stats.Add(new CustomizationStat(_stats[i].NameText, _stats[i].NameKey, _defaultValue, _stats[i].NotificationKey, _stats[i].ColorField));
+            stats.Add(new CustomizationStat(t.NameText, t.NameKey, _defaultValue, t.NotificationKey, t.ColorField));
         }
         return stats;
     }
     public List<BaseStat> GetGameBaseStatsForm()
     {
         List<BaseStat> stats = new List<BaseStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
+        foreach (var t in _stats)
         {
-            stats.Add(new BaseStat(_stats[i].NameText, _stats[i].NameKey, _defaultValue, _stats[i].ColorField));
+            stats.Add(new BaseStat(t.NameText, t.NameKey, _defaultValue, t.ColorField));
         }
     
         return stats;
@@ -79,18 +62,9 @@ public class GameStatsHandler
     public List<CaseBaseStat> CreateCaseBaseStatForm()
     {
         List<CaseBaseStat> caseStats = new List<CaseBaseStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
+        foreach (var t in _stats)
         {
-            caseStats.Add(new CaseBaseStat(_stats[i].NameText, _stats[i].Value, _defaultValue, false));
-        }
-        return caseStats;
-    }
-    public Dictionary<string, CaseBaseStat> CreateCaseBaseStatFormDictionary()
-    {
-        Dictionary<string, CaseBaseStat> caseStats = new Dictionary<string, CaseBaseStat>(_stats.Count);
-        for (int i = 0; i < _stats.Count; i++)
-        {
-            caseStats.Add(_stats[i].NameKey , new CaseBaseStat(_stats[i].NameText, _stats[i].Value, _defaultValue, false));
+            caseStats.Add(new CaseBaseStat(t.NameText, t.Value, _defaultValue, false));
         }
         return caseStats;
     }
@@ -98,12 +72,12 @@ public class GameStatsHandler
     {
         for (int i = 0; i < _stats.Count; i++)
         {
-            for (int j = 0; j < saveStats.Count; j++)
+            foreach (var ss in saveStats)
             {
-                if (_stats[i].NameKey == saveStats[j].NameKey && (saveStats[j].Value != _stats[i].Value) == false)
+                if (_stats[i].NameKey == ss.NameKey && ss.Value != _stats[i].Value)
                 {
-                    _stats[i] = new Stat(_stats[i].NameKey, _stats[i].NameKey, saveStats[j].Value, _stats[i].ColorField);
-                    _statsDictionary[_stats[i].NameKey] = _stats[i];
+                    _stats[i] = new Stat(_stats[i].NameText, _stats[i].NameKey, ss.Value, _stats[i].ColorField);
+                    TryAddToDictionary(_stats[i].NameKey, _stats[i]);
                 }
             }
         }
@@ -118,7 +92,7 @@ public class GameStatsHandler
             {
                 _stats[i] = new Stat(_stats[i].NameText, _stats[i].NameKey, _stats[i].Value + stat.Value,
                     _stats[i].ColorField);
-                _statsDictionary[_stats[i].NameKey] = _stats[i];
+                TryAddToDictionary(_stats[i].NameKey, _stats[i]);
             }
         }
     }
@@ -132,7 +106,7 @@ public class GameStatsHandler
             {
                 _stats[i] = new Stat(_stats[i].NameText, _stats[i].NameKey,_stats[i].Value + stat.Value,
                     _stats[i].ColorField);
-                _statsDictionary[_stats[i].NameKey] = _stats[i];
+                TryAddToDictionary(_stats[i].NameKey, _stats[i]);
             }
         }
     }
@@ -172,6 +146,18 @@ public class GameStatsHandler
         {
             _stats.AddRange(stats);
             _statsDictionary.AddRange(stats.ToDictionary(x=>x.NameKey));
+        }
+    }
+
+    private void TryAddToDictionary(string key, Stat stat)
+    {
+        if (_statsDictionary.ContainsKey(key))
+        {
+            _statsDictionary[key] = stat;
+        }
+        else
+        {
+            _statsDictionary.Add(key, stat);
         }
     }
 }

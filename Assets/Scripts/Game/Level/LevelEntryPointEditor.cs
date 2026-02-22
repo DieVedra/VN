@@ -152,6 +152,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
 
                     }
                 }
+                else
+                {
+                    StoryData = new StoryData();
+                }
             }
         }
         else
@@ -257,7 +261,14 @@ public class LevelEntryPointEditor : LevelEntryPoint
         if (_saveData != null && LoadSaveData == true)
         {
             _levelSoundEditMode.Construct(_saveData.SoundStatus);
-            _levelSoundEditMode.Init(StoryData.AudioEffectsIsOn, StoryData.CurrentAudioMusicKey, StoryData.CurrentAudioAmbientKey);
+            if (Application.isPlaying)
+            {
+                _levelSoundEditMode.Init(StoryData.AudioEffectsIsOn, StoryData.CurrentAudioMusicKey, StoryData.CurrentAudioAmbientKey);
+            }
+            else
+            {
+                _levelSoundEditMode.Init();
+            }
         }
         else
         {

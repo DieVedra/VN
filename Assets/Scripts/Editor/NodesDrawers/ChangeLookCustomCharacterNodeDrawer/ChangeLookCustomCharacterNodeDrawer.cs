@@ -39,28 +39,23 @@ public class ChangeLookCustomCharacterNodeDrawer : NodeEditor
         if (_changeLookCustomCharacterNode == null)
         {
             _changeLookCustomCharacterNode = target as ChangeLookCustomCharacterNode;
+            _skipToWardrobeVariantProperty = serializedObject.FindProperty("_skipToWardrobeVariant");
+            _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
+            _hairstyleIndexProperty = serializedObject.FindProperty("_hairstyleIndex");
+            _clothesIndexProperty = serializedObject.FindProperty("_clothesIndex");
+            _swimsuitIndexProperty = serializedObject.FindProperty("_swimsuitIndex");
+            _putHairstyleProperty = serializedObject.FindProperty("_putHairstyle");
+            _putClothesProperty = serializedObject.FindProperty("_putClothes");
+            _putSwimsuitProperty = serializedObject.FindProperty("_putSwimsuit");
+            _inputProperty = serializedObject.FindProperty("Input");
+            _outputProperty = serializedObject.FindProperty("Output");
+            _popupDrawer = new PopupDrawer();
         }
         else
         {
             if (_changeLookCustomCharacterNode.CustomizableCharacters != null)
             {
                 serializedObject.Update();
-                if (_skipToWardrobeVariantProperty == null)
-                {
-                    _skipToWardrobeVariantProperty = serializedObject.FindProperty("_skipToWardrobeVariant");
-                    _customizationCharacterIndexProperty = serializedObject.FindProperty("_customizationCharacterIndex");
-                    _hairstyleIndexProperty = serializedObject.FindProperty("_hairstyleIndex");
-                    _clothesIndexProperty = serializedObject.FindProperty("_clothesIndex");
-                    _swimsuitIndexProperty = serializedObject.FindProperty("_swimsuitIndex");
-                    
-                    _putHairstyleProperty = serializedObject.FindProperty("_putHairstyle");
-                    _putClothesProperty = serializedObject.FindProperty("_putClothes");
-                    _putSwimsuitProperty = serializedObject.FindProperty("_putSwimsuit");
-                    
-                    _inputProperty = serializedObject.FindProperty("Input");
-                    _outputProperty = serializedObject.FindProperty("Output");
-                    _popupDrawer = new PopupDrawer();
-                }
                 NodeEditorGUILayout.PropertyField(_inputProperty);
                 if (_customizableCharacterNonWardrobeIndexesDictionary != null)
                 {

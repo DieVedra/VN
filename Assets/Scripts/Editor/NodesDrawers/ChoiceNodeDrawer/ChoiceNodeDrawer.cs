@@ -61,6 +61,20 @@ public class ChoiceNodeDrawer : NodeEditor
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
             EditorGUILayout.LabelField($"Max cases: {ChoiceNode.MaxCaseCount}");
             EditorGUI.BeginChangeCheck();
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Add Case"))
+            {
+                CallMethodAddCase();
+                CreatePortIndexes();
+            }
+
+            if (GUILayout.Button("Remove Case"))
+            {
+                CallMethodRemoveCase();
+                CreatePortIndexes();
+            }
+            EditorGUILayout.EndHorizontal();
             _showOutputProperty.boolValue = EditorGUILayout.Toggle("Show Output: ", _showOutputProperty.boolValue);
 
             if (_showOutputProperty.boolValue)
@@ -75,8 +89,8 @@ public class ChoiceNodeDrawer : NodeEditor
             {
                 _timerValueProperty.intValue= EditorGUILayout.IntField("Timer Value: ", _timerValueProperty.intValue, GUILayout.Width(120f));
             }
-            EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.EndHorizontal();
             if (_addTimerProperty.boolValue)
             {
                 if (_timerPortIndexes != null && _timerPortIndexes.Length > 0)
@@ -92,30 +106,17 @@ public class ChoiceNodeDrawer : NodeEditor
 
             _lineDrawer.DrawHorizontalLine(Color.cyan);
             EditorGUILayout.Space(20f);
-            
+
             for (int i = 0; i < _choiceCasesProperty.arraySize; i++)
             {
                 DrawChoiceCase(_choiceCasesProperty.GetArrayElementAtIndex(i), i);
             }
+
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
                 CallMethodSetInfoToView();
             }
-            EditorGUILayout.BeginHorizontal();
-
-            if (GUILayout.Button("Add Case"))
-            {
-                CallMethodAddCase();
-                CreatePortIndexes();
-            }
-
-            if (GUILayout.Button("Remove Case"))
-            {
-                CallMethodRemoveCase();
-                CreatePortIndexes();
-            }
-            EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
         }
     }

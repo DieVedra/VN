@@ -110,7 +110,6 @@ public class SoundNodeDrawer : NodeEditor
                 if (_smoothMusicTransitionKeySerializedProperty.boolValue == true ||
                     _smoothMusicVolumeIncreaseSerializedProperty.boolValue == true)
                 {
-                    // InitMusicNames();
                     if (_soundNode.Sound?.GetMusicDictionary != null && _soundNode.Sound.GetMusicDictionary.Count > 0)
                     {
                         DrawPopupClips(_namesMusic, _soundNode.Sound.GetMusicDictionary, _currenMusicSoundKeySerializedProperty, "Audio Clips: ");
@@ -297,7 +296,6 @@ public class SoundNodeDrawer : NodeEditor
                 _indexAudio++;
             }
         }
-
         EditorGUI.BeginChangeCheck();
         GUILayout.Label(label);
         _currentAudioIndex = EditorGUILayout.Popup(_currentAudioIndex,  names.ToArray());
