@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using XNode;
 
-[CreateAssetMenu(fileName = "SeriaPartNodeGraph", menuName = "NodeGraphs/SeriaPartNodeGraph", order = 51)]
+[CreateAssetMenu(fileName = "LevelPartNodeGraph", menuName = "NodeGraphs/LevelPartNodeGraph", order = 51)]
 public class SeriaPartNodeGraph : NodeGraph
 {
 	private BaseNode _currentNode;

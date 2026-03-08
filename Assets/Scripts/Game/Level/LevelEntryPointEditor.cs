@@ -24,7 +24,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private Wallet _wallet;
     [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
-    [NaughtyAttributes.ReadOnly] public bool IsInitializing;
 
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -46,65 +45,55 @@ public class LevelEntryPointEditor : LevelEntryPoint
     
     public void Init()
     {
-        Debug.Log(11);
-        if (IsInitializing == false)
+        LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerEditorMode, _allSeriesCount);
+        DisableNodesContentEvent?.Execute();
+        _seriaGameStatsProviderEditor.Init();
+        _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
+        SaveServiceProvider = new SaveServiceProvider();
+        var phoneMessagesCustodian = new PhoneMessagesCustodian();
+        ReactiveProperty<bool> phoneNodeIsActive = new ReactiveProperty<bool>();
+        _phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
+        Load();
+        ConstructSound();
+        SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
+        SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
+        SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
+        DisableNodesContentEvent = new DisableNodesContentEvent();
+        ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
+        CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
+        ConstructWardrobeCharacterViewer(viewerCreatorEditMode);
+        ConstructBackground();
+        _phoneProviderInEditMode.Construct(phoneMessagesCustodian, _phoneSaveHandler);
+        InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, _phoneSaveHandler);
+        NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
+            CharacterViewer, _wardrobeCharacterViewer, _levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
+            SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), phoneNodeIsActive);
+        DisableNodesContentEvent.Execute();
+        if (Application.isPlaying)
         {
-            Debug.Log(22);
-            IsInitializing = true;
-            LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerEditorMode, _allSeriesCount);
-            
-            
-            DisableNodesContentEvent?.Execute();
-            _seriaGameStatsProviderEditor.Init();
-            _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
-            SaveServiceProvider = new SaveServiceProvider();
-            var phoneMessagesCustodian = new PhoneMessagesCustodian();
-            ReactiveProperty<bool> phoneNodeIsActive = new ReactiveProperty<bool>();
-            _phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
-            Load();
-            ConstructSound();
-            SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
-            SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
-            SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
-            DisableNodesContentEvent = new DisableNodesContentEvent();
-            ViewerCreatorEditMode viewerCreatorEditMode = new ViewerCreatorEditMode(_spriteViewerPrefab);
-            CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
-            ConstructWardrobeCharacterViewer(viewerCreatorEditMode);
-            ConstructBackground();
-            _phoneProviderInEditMode.Construct(phoneMessagesCustodian, _phoneSaveHandler);
-            InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, _phoneSaveHandler);
-            NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,
-                CharacterViewer, _wardrobeCharacterViewer, _levelSoundEditMode, _wallet, _seriaGameStatsProviderEditor, _phoneProviderInEditMode,
-                SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, new SetLocalizationChangeEvent(), phoneNodeIsActive);
-            DisableNodesContentEvent.Execute();
-            if (Application.isPlaying)
+            if (StoryData != null)
             {
-                if (StoryData != null)
-                {
-                    _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
-                        StoryData. CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
-                    _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
-                    _levelUIProviderEditMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
-                }
-                else if (_testModeEditor.IsTestMode == true)
-                {
-                    _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
-                    _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
-                        _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(StoryData.CurrentSeriaIndex),
+                    StoryData. CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
+                _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
+                _levelUIProviderEditMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
+            }
+            else if (_testModeEditor.IsTestMode == true)
+            {
+                _seriaGameStatsProviderEditor.GameStatsHandler.UpdateStats(_testModeEditor.Stats.ToList());
+                _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(_testModeEditor.SeriaIndex),
+                    _testModeEditor.GraphIndex, _testModeEditor.NodeIndex);
 
-                    _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
-                }
-                else
-                {
-                    _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
-                }
+                _levelUIProviderEditMode.CurtainUIHandler.CurtainOpens(new CancellationToken()).Forget();
             }
             else
             {
                 _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
             }
-
-            IsInitializing = false;
+        }
+        else
+        {
+            _gameSeriesHandlerEditorMode.Construct(NodeGraphInitializer, SwitchToNextSeriaEvent, new ReactiveProperty<int>(DefaultSeriaIndex));
         }
     }
 
@@ -283,11 +272,5 @@ public class LevelEntryPointEditor : LevelEntryPoint
             _backgroundEditMode.InitSaveData(StoryData.BackgroundSaveData);
         }
         _backgroundEditMode.Construct(DisableNodesContentEvent, CharacterViewer);
-    }
-
-    [Button()]
-    private void SkipInitKey()
-    {
-        IsInitializing = false;
     }
 }

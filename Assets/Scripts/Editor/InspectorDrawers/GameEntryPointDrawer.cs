@@ -21,6 +21,7 @@ public class GameEntryPointDrawer : Editor
     private SeriaGameStatsProviderEditor _seriaGameStatsProviderEditor;
     private TestModeEditor _testModeEditor;
     private Wallet _wallet;
+    private bool _isInitializing;
     private void OnEnable()
     {
         _gameEntryPoint = target as LevelEntryPointEditor;
@@ -73,10 +74,11 @@ public class GameEntryPointDrawer : Editor
 
             EditorGUILayout.Space(30f);
 
-            if (GUILayout.Button("Initialize"))
+            if (GUILayout.Button("Initialize") && _isInitializing == false)
             {
-                _gameEntryPoint.IsInitializing = false;
+                _isInitializing = true;
                 _gameEntryPoint.Init();
+                _isInitializing = false;
             }
             serializedObject.ApplyModifiedProperties();
         }

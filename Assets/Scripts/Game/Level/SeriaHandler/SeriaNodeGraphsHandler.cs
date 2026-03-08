@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SeriaNodeGraphsHandler", menuName = "NodeGraphs/SeriaNodeGraphsHandler", order = 51)]
+[CreateAssetMenu(fileName = "NodeGraphsHandlerSeria", menuName = "NodeGraphs/NodeGraphsHandlerSeria", order = 51)]
 public class SeriaNodeGraphsHandler : ScriptableObject
 {
     [SerializeField, Expandable] private List<SeriaPartNodeGraph> _seriaPartNodeGraphs;
