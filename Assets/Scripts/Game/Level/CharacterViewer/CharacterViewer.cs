@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CharacterViewer : BaseCharacterViewer, ISetLighting
 {
-    private readonly Vector2 _leftPosition = new Vector2(-0.89f, -0.6f);
-    private readonly Vector2 _rightPosition = new Vector2(0.89f, -0.6f);
+    private readonly Vector2 _leftPosition = new Vector2(-0.89f, -1.51f);
+    private readonly Vector2 _rightPosition = new Vector2(0.89f, -1.51f);
     private CharacterDirectionView _characterDirectionView;
     public SpriteViewer SpriteViewer => SpriteViewer1;
     public override void Construct(ViewerCreator viewerCreator)
