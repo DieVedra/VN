@@ -254,7 +254,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         List<ChoiceCaseView> choiceCasesViews = new List<ChoiceCaseView>(ChoiceNode.MaxCaseCount);
         for (int i = 0; i < ChoiceNode.MaxCaseCount; i++)
         {
-            var caseChoice = await choicePanelCasePrefabProvider.InstantiatePrefab(LevelUIView.ChoicePanelUI.transform);
+            var caseChoice = await choicePanelCasePrefabProvider.InstantiatePrefab(LevelUIView.ChoicePanelUI.ChoicesParent);
             ChoiceCaseView choiceCaseView = caseChoice.GetComponent<ChoiceCaseView>();
             choiceCaseView.ButtonChoice.image.sprite =
                 _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);

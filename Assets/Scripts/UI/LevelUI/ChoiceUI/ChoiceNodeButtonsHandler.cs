@@ -17,11 +17,11 @@ public class ChoiceNodeButtonsHandler
     private readonly ReactiveProperty<bool> _choiceActive;
     private readonly Wallet _wallet;
     private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
-    private readonly bool[] _choiseButtonsCanPress;
+    private readonly bool[] _choiceButtonsCanPress;
     private readonly Vector2[] _choicePositions;
     private ChoiceData _data;
     private Vector2 _offset = new Vector2(ChoicePanelUIValues.OffsetX, ChoicePanelUIValues.OffsetY);
-    public IReadOnlyList<bool> ChoiseButtonsCanPress => _choiseButtonsCanPress;
+    public IReadOnlyList<bool> ChoiceButtonsCanPress => _choiceButtonsCanPress;
 
     public ChoiceNodeButtonsHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, Color blinkColor, ChoiceNodePriceHandler choiceNodePriceHandler, Wallet wallet, ChoicePanelUI choicePanelUI,
         ReactiveProperty<bool> choiceActive)
@@ -31,7 +31,7 @@ public class ChoiceNodeButtonsHandler
         _duration = choicePanelUI.DurationAnim;
         _choiseCasesViews = choiseCasesViews;
         _choiceActive = choiceActive;
-        _choiseButtonsCanPress = new[] {true, true, true, true};
+        _choiceButtonsCanPress = new[] {true, true, true, true,true, true};
         _choicePositions = new[] {new Vector2(), new Vector2(), new Vector2(), new Vector2()};
         _blinkColor = blinkColor;
     }
@@ -43,7 +43,7 @@ public class ChoiceNodeButtonsHandler
         {
             _choicePositions[i] = _choiseCasesViews[i].RectTransformChoice.anchoredPosition;
             ShowChoiceVariant(cancellationToken, _choiseCasesViews[i].ButtonChoice, _choiseCasesViews[i].RectTransformChoice,
-                _choiseCasesViews[i].CanvasGroupChoice, _choicePositions[i] - _offset, _choiseButtonsCanPress[i]).Forget();
+                _choiseCasesViews[i].CanvasGroupChoice, _choicePositions[i] - _offset, _choiceButtonsCanPress[i]).Forget();
             await UniTask.Delay(TimeSpan.FromSeconds(_duration * ChoicePanelUIValues.HalfValue), cancellationToken: cancellationToken);
         }
     }
@@ -81,7 +81,7 @@ public class ChoiceNodeButtonsHandler
     {
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            ActivateButtonChoice(_choiseCasesViews[i].ButtonChoice, choiceResultEvent, data.ChoiceCases[i], i, _choiseButtonsCanPress[i]);
+            ActivateButtonChoice(_choiseCasesViews[i].ButtonChoice, choiceResultEvent, data.ChoiceCases[i], i, _choiceButtonsCanPress[i]);
         }
     }
 
@@ -108,16 +108,16 @@ public class ChoiceNodeButtonsHandler
     }
     public void Reset()
     {
-        for (int i = 0; i < _choiseButtonsCanPress.Length; i++)
+        for (int i = 0; i < _choiceButtonsCanPress.Length; i++)
         {
-            _choiseButtonsCanPress[i] = true;
+            _choiceButtonsCanPress[i] = true;
         }
     }
     public void CheckChoiceButtonsCanPress(ChoiceData data)
     {
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            _choiseButtonsCanPress[i] = CheckChoiceButtonCanPress(data.ChoiceCases[i].ChoicePrice, data.ChoiceCases[i].ChoiceAdditionaryPrice);
+            _choiceButtonsCanPress[i] = CheckChoiceButtonCanPress(data.ChoiceCases[i].ChoicePrice, data.ChoiceCases[i].ChoiceAdditionaryPrice);
         }
     }
     

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ChoiceHeightHandler : PanelUIHandler
 {
-    private const int _centralButtonIndex = 1;
+    private const float _multiplier = 0.5f;
+    private const float _defaultPosY = 0f;
     private readonly IReadOnlyList<ChoiceCaseView> _choiseCasesViews;
     private readonly ChoicePanelUI _choicePanelUI;
-    private Vector2 Size;
     public ChoiceHeightHandler(IReadOnlyList<ChoiceCaseView> choiseCasesViews, ChoicePanelUI choicePanelUI)
     {
         _choiseCasesViews = choiseCasesViews;
@@ -16,32 +16,29 @@ public class ChoiceHeightHandler : PanelUIHandler
 
     public void UpdateHeights(ChoiceData data)
     {
-        ChoiceCaseView choiceCaseView = _choiseCasesViews[_centralButtonIndex];
-        UpdateHeight(choiceCaseView.TextButtonChoice, choiceCaseView.RectTransformChoice);
-        SetPosPanel(choiceCaseView.RectTransformChoice, _choicePanelUI.DefaultPosYCentralButtonChoice2);
-        float y = 0f;
+        _choicePanelUI.ChoicesParent.anchoredPosition = Vector2.zero;
+        ChoiceCaseView choiceCaseView = null;
+        float allSize = 0f;
         for (int i = 0; i < data.ButtonsCount; i++)
-        {
-            if (i == _centralButtonIndex)
-            {
-                continue;
-            }
+        {            
             choiceCaseView = _choiseCasesViews[i];
             UpdateHeight(choiceCaseView.TextButtonChoice, choiceCaseView.RectTransformChoice);
-            if (i < _centralButtonIndex)
+
+            if (i > 0)
             {
-                y = _choiseCasesViews[_centralButtonIndex].RectTransformChoice.anchoredPosition.y + 
-                    _choiseCasesViews[i].RectTransformChoice.sizeDelta.y +
-                    _choicePanelUI.OffsetBetweenPanels;
+                choiceCaseView = _choiseCasesViews[i - 1];
+                SetPosPanel(_choiseCasesViews[i].RectTransformChoice,
+                    -(Mathf.Abs(choiceCaseView.RectTransformChoice.anchoredPosition.y) +
+                      choiceCaseView.RectTransformChoice.sizeDelta.y));
             }
-            else if (i > _centralButtonIndex)
+            else
             {
-                y = -(Mathf.Abs(_choiseCasesViews[i - 1].RectTransformChoice.anchoredPosition.y) +
-                      _choiseCasesViews[i - 1].RectTransformChoice.sizeDelta.y + 
-                      _choicePanelUI.OffsetBetweenPanels);
+                SetPosPanel(choiceCaseView.RectTransformChoice, _defaultPosY);
             }
-            SetPosPanel(_choiseCasesViews[i].RectTransformChoice, y);
+            allSize += choiceCaseView.RectTransformChoice.sizeDelta.y;
+
         }
+        SetPosPanel(_choicePanelUI.ChoicesParent, allSize * _multiplier);
     }
 
     private void UpdateHeight(TextMeshProUGUI textButtonChoice, RectTransform buttonTransform)

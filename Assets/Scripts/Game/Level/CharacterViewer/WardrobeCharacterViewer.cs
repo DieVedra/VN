@@ -8,7 +8,7 @@ public class WardrobeCharacterViewer : BaseCharacterViewer, ICharacterCustomizat
     private const float _viewerPositionX = 0f;
     private const float _viewerPositionY = -0.6f;
     private const float _wardrobePositionX = -0.58f;
-    private const float _wardrobePositionY = 3.12f;
+    private const float _wardrobePositionY = 2.09f;
     private const float _wardrobePositionZ = 0f;
     private readonly Vector3 _wardrobePosition = new Vector3(_wardrobePositionX, _wardrobePositionY, _wardrobePositionZ);
     private readonly Vector2 _viewerPosition = new Vector2(_viewerPositionX, _viewerPositionY);

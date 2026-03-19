@@ -16,7 +16,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     [SerializeField] protected bool _showOutput;
     [SerializeField] private bool _addTimer;
     
-    public const int MaxCaseCount = 4;
+    public const int MaxCaseCount = 6;
     public const string PortNamePart1 = "_choice";
     public const string PortNamePart2 = "Output";
 

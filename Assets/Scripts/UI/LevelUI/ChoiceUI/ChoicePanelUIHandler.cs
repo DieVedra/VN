@@ -68,7 +68,7 @@ public class ChoicePanelUIHandler
         _choiceNodeTimer.TrySetTimerValue(data.TimerValue);
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
+            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiceButtonsCanPress[i]);
         }
     }
 
@@ -178,7 +178,7 @@ public class ChoicePanelUIHandler
         _choiceNodeButtonsHandler.CheckChoiceButtonsCanPress(data);
         for (int i = 0; i < data.ChoiceCases.Count; i++)
         {
-            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiseButtonsCanPress[i]);
+            SetCanvasGroupStartValue(_choiceCasesViews[i].CanvasGroupChoice, _choiceNodeButtonsHandler.ChoiceButtonsCanPress[i]);
         }
         if (_choiceActive.Value == true)
         {

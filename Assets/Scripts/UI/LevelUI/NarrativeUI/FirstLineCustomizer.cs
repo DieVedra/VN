@@ -23,7 +23,7 @@ public class FirstLineCustomizer
 
     public bool CheckChangeFirstLineLength(out string result, TextMeshProUGUI textComponent, string text)
     {
-        if (_firstLineOffset == false)
+        if (string.IsNullOrEmpty(text) || _firstLineOffset == false)
         {
             result = null;
             return false;
