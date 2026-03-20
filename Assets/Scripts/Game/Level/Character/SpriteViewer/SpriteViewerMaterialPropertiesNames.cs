@@ -11,6 +11,10 @@ public class SpriteViewerMaterialPropertiesNames
     public readonly string NameAddHairstyleFloatProperty = "_AddHairstyle";
     public readonly string NameAddClothesFloatProperty = "_AddClothes";
     
+    public readonly string NameLookPositionXFloatProperty = "_LookPositionX";
+    public readonly string NameLookPositionYFloatProperty = "_LookPositionY";
+    public readonly string NameLookScaleFloatProperty = "_LookScale";
+    
     public readonly string NameEmotionPositionXFloatProperty = "_EmotionPositionX";
     public readonly string NameEmotionPositionYFloatProperty = "_EmotionPositionY";
     public readonly string NameEmotionScaleFloatProperty = "_EmotionScale";

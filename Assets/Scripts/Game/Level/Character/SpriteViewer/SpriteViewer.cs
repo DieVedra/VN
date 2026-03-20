@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -10,8 +11,6 @@ public class SpriteViewer : MonoBehaviour
     private SpriteViewerMaterialPropertiesNames _spriteViewerMaterialPropertiesNames;
     private SpriteRenderer _spriteRenderer;
     private Material _material;
-    
-    
     private CharacterAnimations _characterAnimations;
     private CancellationTokenSource _cancellationTokenSource;
     public CharacterAnimations CharacterAnimations => _characterAnimations;
@@ -78,6 +77,9 @@ public class SpriteViewer : MonoBehaviour
     {
         _material.SetTexture(_spriteViewerMaterialPropertiesNames.NameLookTextureProperty, mySprite.texture);
         _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameAddLookFloatProperty, 1f);
+        _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameLookPositionXFloatProperty, mySprite.OffsetXValue);
+        _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameLookPositionYFloatProperty, mySprite.OffsetYValue);
+        _material.SetFloat(_spriteViewerMaterialPropertiesNames.NameLookScaleFloatProperty, mySprite.ScaleValue);
     }
     public void SetEmotionTexture(MySprite mySprite)
     {

@@ -42,7 +42,6 @@ public abstract class BaseCharacterViewer : MonoBehaviour
     {
         SpriteViewer1.SetEmotionTexture(emotion);
     }
-
     protected SpriteViewer CreateViewer()
     {
         return ViewerCreator.CreateViewer(transform);
