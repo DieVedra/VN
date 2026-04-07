@@ -114,6 +114,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             ArtShower.color = new Color(1f,1f,1f,1f);
             ArtShower.gameObject.SetActive(true);
             ArtShower.sprite = value.GetSprite();
+            ArtShower.transform.localPosition = new Vector3(value.CentralPosition, 0f, 0f);
         }
     }
 
@@ -123,6 +124,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         {
             ArtShower.color = new Color(1f,1f,1f,0f);
             ArtShower.sprite = value.GetSprite();
+            ArtShower.transform.localPosition = new Vector3(value.CentralPosition, 0f, 0f);
             ArtOpenedKeys ??= new List<string>();
             ArtOpenedKeys.Add(keyArt);
             ArtShower.transform.localScale = new Vector2(_startValueScale,_startValueScale);
