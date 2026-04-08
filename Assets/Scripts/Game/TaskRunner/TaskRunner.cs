@@ -4,23 +4,23 @@ using Cysharp.Threading.Tasks;
 
 public class TaskRunner
 {
-    private const int TaskCountMax = 10;
-    private List<Func<UniTask>> _operation;
-    public bool IsRun { get; private set; }
-    public bool WaitToBeRunned { get; private set; }
+    protected const int TaskCountMax = 10;
+    protected List<Func<UniTask>> Operations;
+    public bool IsRun { get; protected set; }
+    public bool WaitToBeRunned { get; protected set; }
     
     public void AddOperationToList(Func<UniTask> operation)
     {
         WaitToBeRunned = true;
         if (IsRun == false)
         {
-            if (_operation == null)
+            if (Operations == null)
             {
-                _operation = new List<Func<UniTask>>();
+                Operations = new List<Func<UniTask>>();
             }
-            if (_operation.Count < TaskCountMax)
+            if (Operations.Count < TaskCountMax)
             {
-                _operation.Add(operation);
+                Operations.Add(operation);
             }
         }
     }
@@ -30,8 +30,8 @@ public class TaskRunner
         if (IsRun == false)
         {
             IsRun = true;
-            await TryRunTasksWhenAll(_operation);
-            _operation?.Clear();
+            await TryRunTasksWhenAll(Operations);
+            Operations?.Clear();
             IsRun = false;
             WaitToBeRunned = false;
         }
@@ -41,8 +41,8 @@ public class TaskRunner
         if (IsRun == false)
         {
             IsRun = true;
-            await TryRunTasksWhenAny(_operation);
-            _operation?.Clear();
+            await TryRunTasksWhenAny(Operations);
+            Operations?.Clear();
             IsRun = false;
             WaitToBeRunned = false;
         }

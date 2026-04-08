@@ -347,8 +347,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         Save();
         Shutdown();
-        await UniTask.WhenAll(
-            _globalSound.SmoothAudio.SmoothStopAudio(_cancellationTokenSource.Token, AudioSourceType.Music),
-            _globalSound.SmoothAudio.SmoothStopAudio(_cancellationTokenSource.Token, AudioSourceType.Ambient));
+        await _globalSound.SmoothAudio.StopSoundsOnPreSceneTransition(_cancellationTokenSource.Token);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
@@ -90,18 +91,22 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
             _audioSources, MusicDictionary, AmbientDictionary);
         
         _currentMusicClipKeyRP.Value = currentMusicClipKey;
+        List<Func<UniTask>> operations = SmoothAudio.SoundTaskRunner.GetFreeList();
+
         if (currentMusicClipKey != null)
         {
-            SmoothAudio.AddToQueueSmoothPlayAudio(_cancellationTokenSource.Token, currentMusicClipKey, AudioSourceType.Music);
+            operations.Add(()=> SmoothAudio.SmoothPlayAudio(_cancellationTokenSource.Token, currentMusicClipKey, AudioSourceType.Music));
         }
         
         _currentAdditionalClipKeyRP.Value = currentAdditionalClipKey;
         if (currentAdditionalClipKey != null)
         {
-            SmoothAudio.AddToQueueSmoothPlayAudio(_cancellationTokenSource.Token, currentAdditionalClipKey, AudioSourceType.Ambient);
+            operations.Add(()=> SmoothAudio.SmoothPlayAudio(_cancellationTokenSource.Token, currentAdditionalClipKey, AudioSourceType.Ambient));
         }
 
         _audioEffectsCustodian.TryEnableEffectsFromSave(enabledEffects);
+        
+        SmoothAudio.SoundTaskRunner.AddToQueue(operations, _cancellationTokenSource);
     }
     private void ChangeSound(bool key)
     {

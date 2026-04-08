@@ -16,8 +16,8 @@ public class SmoothAudio
     private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
     private readonly IReadOnlyDictionary<string, AudioClip> _musicAudioDictionary;
     private readonly IReadOnlyDictionary<string, AudioClip> _ambientAudioDictionary;
-    private readonly Queue<Func<UniTask>> _queue;
-    private bool _isRun;
+    private readonly SoundTaskRunner _soundTaskRunner;
+    public SoundTaskRunner SoundTaskRunner => _soundTaskRunner;
     public SmoothAudio(ReactiveProperty<string> currentMusicClipKeyRP, ReactiveProperty<string> currentAdditionalClipKeyRP,
         Dictionary<AudioSourceType, AudioSource> audioSources,
         IReadOnlyDictionary<string, AudioClip> musicAudioDictionary,
@@ -28,33 +28,7 @@ public class SmoothAudio
         _audioSources = audioSources;
         _musicAudioDictionary = musicAudioDictionary;
         _ambientAudioDictionary = ambientAudioDictionary;
-        _queue = new Queue<Func<UniTask>>();
-        _isRun = false;
-    }
-
-    public async UniTask TryDoQueue()
-    {
-        if (_isRun == false)
-        {
-            _isRun = true;
-            while (_queue.Count > 0)
-            {
-                await _queue.Dequeue().Invoke();
-            }
-            _isRun = false;
-        }
-    }
-    public void AddToQueueSmoothReplacementAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
-    {
-        _queue.Enqueue(()=> SmoothReplacementAudio(cancellationToken, secondAudioClipKey, audioSourceType));
-    }
-    public void AddToQueueSmoothPlayAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
-    {
-        _queue.Enqueue(()=> SmoothPlayAudio(cancellationToken, secondAudioClipKey, audioSourceType));
-    }
-    public void AddToQueueSmoothStopAudio(CancellationToken cancellationToken, AudioSourceType audioSourceType, string audioClipKey = null)
-    {
-        _queue.Enqueue(()=> SmoothStopAudio(cancellationToken, audioSourceType, audioClipKey));
+        _soundTaskRunner = new SoundTaskRunner();
     }
     public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
     {
@@ -98,6 +72,13 @@ public class SmoothAudio
         }
     }
 
+    public async UniTask StopSoundsOnPreSceneTransition(CancellationToken token)
+    {
+        _soundTaskRunner.ForceStop();
+        await UniTask.WhenAll(
+            SmoothStopAudio(token, AudioSourceType.Music),
+            SmoothStopAudio(token, AudioSourceType.Ambient));
+    }
     private bool CheckVolume(AudioSource audioSource, float volume)
     {
         if ((Math.Abs(audioSource.volume - volume) > 0.05f) == false)

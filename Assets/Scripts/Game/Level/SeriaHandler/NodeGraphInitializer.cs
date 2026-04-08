@@ -24,8 +24,6 @@ public class NodeGraphInitializer
     private readonly Wallet _wallet;
     private readonly MergedNodeSharedStorage _mergedNodeSharedStorage;
     private readonly MergedNodesDeterminator _mergedNodesDeterminator;
-    private readonly List<UniTask> _taskList;
-
 
     public NodeGraphInitializer(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians,
         ICharacterProvider characterProvider, Background background, LevelUIProviderEditMode levelUIProvider, CharacterViewer characterViewer,
@@ -50,7 +48,6 @@ public class NodeGraphInitializer
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         SetLocalizationChangeEvent = setLocalizationChangeEvent;
         _phoneNodeIsActive = phoneNodeIsActive;
-        _taskList = new List<UniTask>();
         _mergedNodeSharedStorage = new MergedNodeSharedStorage();
         _mergedNodesDeterminator = new MergedNodesDeterminator(_mergedNodeSharedStorage);
     }
@@ -112,7 +109,7 @@ public class NodeGraphInitializer
                 return;
             
             case SoundNode soundNode:
-                soundNode.ConstructMySoundNode(_taskList, _sound);
+                soundNode.ConstructMySoundNode(_sound);
                 return;
             
             case ChoicePhoneNode choicePhoneNode:
