@@ -25,11 +25,13 @@ public class BackgroundNode : BaseNode
     private const float _minValue = 0f;
     private const float _defaultDuration = 0.7f;
     private IBackgroundsProviderToBackgroundNode _background;
+    private NewTaskRunner _taskRunner;
     public IReadOnlyDictionary<string, BackgroundContentValues> BackgroundsDictionary => _background?.GetBackgroundContentDictionary;
     public bool IsSmoothCurtain => _isSmoothCurtain;
     public void ConstructBackgroundNode(IBackgroundsProviderToBackgroundNode background)
     {
         _background = background;
+        _taskRunner = background.BackgroundTaskRunner;
         if (Math.Abs(_changeMode2Duration - _minValue) < 0.05f)
         {
             _changeMode2Duration = _defaultDuration;
@@ -59,17 +61,19 @@ public class BackgroundNode : BaseNode
     {
         if (_isSmoothCurtain == true)
         {
+            AddOperation(()=>_background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key));
             if (_awaited)
             {
                 if (isMerged == false)
                 {
                     ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
                 }
-                await _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key);
+
+                await _taskRunner.TryRun();
             }
             else
             {
-                _background.SmoothBackgroundChangePosition(CancellationTokenSource.Token, _backgroundPosition, _key).Forget();
+                _taskRunner.TryRun().Forget();
             }
         }
         else
@@ -80,33 +84,42 @@ public class BackgroundNode : BaseNode
 
     private async UniTask Mode2(bool isMerged)
     {
+        AddOperation(()=>_background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token));
         if (_awaited)
         {
             if (isMerged == false)
             {
                 ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
             }
-            await _background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token);
+            await _taskRunner.TryRun();
         }
         else
         {
-            _background.SmoothChangeBackground(_key,  _changeMode2Duration, _backgroundPositionMode2, CancellationTokenSource.Token).Forget();
+            _taskRunner.TryRun().Forget();
         }
     }
     private async UniTask Mode3(bool isMerged)
     {
+        AddOperation(()=>_background.SetColorOverlayBackground(_color, CancellationTokenSource.Token, _changeColorDuration, _mode3Enable));
         if (_awaited)
         {
             if (isMerged == false)
             {
                 ButtonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
             }
-            await _background.SetColorOverlayBackground(_color, CancellationTokenSource.Token, _changeColorDuration, _mode3Enable);
+            await _taskRunner.TryRun();
         }
         else
         {
-            _background.SetColorOverlayBackground(_color, CancellationTokenSource.Token, _changeColorDuration, _mode3Enable).Forget();
+            _taskRunner.TryRun().Forget();
         }
+    }
+
+    private void AddOperation(Func<UniTask> operation)
+    {
+        var list = _taskRunner.GetFreeList();
+        list.Add(operation);
+        _taskRunner.AddToQueue(list);
     }
     public override void SkipEnterTransition()
     {

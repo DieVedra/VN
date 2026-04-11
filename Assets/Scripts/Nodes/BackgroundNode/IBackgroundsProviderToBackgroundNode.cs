@@ -14,4 +14,5 @@ public interface IBackgroundsProviderToBackgroundNode
     public void SmoothChangeBackgroundEmmidiately(string keyTo, BackgroundPosition toBackgroundPosition);
     public void SetBackgroundPosition(BackgroundPosition backgroundPosition, string key);
     public void SetColorOverlayBackground(Color color, bool enable);
+    public NewTaskRunner BackgroundTaskRunner { get;}
 }

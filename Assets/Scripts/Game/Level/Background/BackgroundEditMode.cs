@@ -18,6 +18,7 @@ public class BackgroundEditMode : Background
     [SerializeField] private SerializedDictionary<string, BackgroundContentValues> _wardrobeSpritesDictionary;
     public void Construct(DisableNodesContentEvent disableNodesContentEvent, ISetLighting setLighting)
     {
+        BackgroundTaskRunner = new NewTaskRunner();
         disableNodesContentEvent.Subscribe(() =>
         {
             BackgroundContent1.gameObject.SetActive(false);

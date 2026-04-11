@@ -25,6 +25,7 @@ public class BackgroundBuildMode : Background
     }
     public void Construct(ISetLighting setLighting, BackgroundPool backgroundPool)
     {
+        BackgroundTaskRunner = new NewTaskRunner();
         BackgroundPool = backgroundPool;
         BackgroundContent1.Construct(setLighting, BackgroundPool);
         BackgroundContent2.Construct(setLighting, BackgroundPool);

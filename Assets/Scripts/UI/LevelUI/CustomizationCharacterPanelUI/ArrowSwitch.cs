@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 
 public class ArrowSwitch
 {
-    private const int _taskRunCount = 3;
     private readonly ICharacterCustomizationView _characterCustomizationView;
     private readonly SelectedCustomizationContentIndexes _selectedCustomizationContentIndexes;
     private readonly TextMeshProUGUI _titleTextComponent;
@@ -18,11 +19,8 @@ public class ArrowSwitch
     private readonly ReactiveProperty<bool> _isNuClothesReactiveProperty;
     private readonly StatViewHandler _statViewHandler;
     private readonly PriceViewHandler _priceViewHandler;
-    private readonly PoolBase<TaskRunner> _poolBase;
     private CompositeDisposable _compositeDisposable;
-    private bool _isSwitched;
-
-    private Queue<TaskRunner> _tasksQueue;
+    private NewTaskRunner _newTaskRunner;
     public int CurrentSwitchIndex => _switchInfoCustodian.CurrentSwitchInfo.Index;
     public int CurrentCustomizationSettingsesCount => _customizationSettingsCustodian.CurrentCustomizationSettings.Count;
     public ArrowSwitch(ICharacterCustomizationView characterCustomizationView, SelectedCustomizationContentIndexes selectedCustomizationContentIndexes,
@@ -45,16 +43,14 @@ public class ArrowSwitch
         _customizationDataProvider = customizationDataProvider;
         _preliminaryBalanceCalculator = preliminaryBalanceCalculator;
         _isNuClothesReactiveProperty = isNuClothesReactiveProperty;
-        _isSwitched = false;
-        _tasksQueue = new Queue<TaskRunner>();
-        _poolBase = new PoolBase<TaskRunner>(() => new TaskRunner(), null, null, _taskRunCount);
+        _newTaskRunner = new NewTaskRunner();
         _compositeDisposable = setLocalizationChangeEvent.SubscribeWithCompositeDisposable(SetTitle);
     }
 
-    public void Dispose()
+    public void ShutDown()
     {
-        _isSwitched = false;
         _compositeDisposable?.Clear();
+        _newTaskRunner.ForceStop();
     }
     public bool PressLeftArrow()
     {
@@ -108,8 +104,10 @@ public class ArrowSwitch
         _switchInfoCustodian.SetAdditionalPriceToCurrentSwitchInfo();
 
         SetTitle();
-        _tasksQueue.Enqueue(CreateOperationToQueue(customizationSettings, customizationData, directionType, price, additionalPrice));
-        TrySwitch().Forget();
+        var list = _newTaskRunner.GetFreeList();
+        CreateOperationToQueue(list, customizationSettings, customizationData, directionType, price, additionalPrice);
+        _newTaskRunner.AddToQueue(list);
+        _newTaskRunner.TryRun().Forget();
     }
 
     private void SetTitle()
@@ -117,19 +115,17 @@ public class ArrowSwitch
         _titleTextComponent.text = _customizationSettingsCustodian.CurrentCustomizationSettings[CurrentSwitchIndex].Name;
     }
 
-    private TaskRunner CreateOperationToQueue(ICustomizationSettings customizationSettings, CustomizationData customizationData,
+    private void CreateOperationToQueue(List<Func<UniTask>> list, ICustomizationSettings customizationSettings, CustomizationData customizationData,
         DirectionType directionType, int price, int additionalPrice)
     {
-        TaskRunner taskRunner = _poolBase.Get();
         switch (directionType)
         {
             case DirectionType.Right:
-                
-                taskRunner.AddOperationToList(() => _characterCustomizationView.SetCharacterCustomizationFromRightArrow(customizationData));
+                list.Add(() => _characterCustomizationView.SetCharacterCustomizationFromRightArrow(customizationData));
                 break;
             
             case DirectionType.Left:
-                taskRunner.AddOperationToList(() => _characterCustomizationView.SetCharacterCustomizationFromLeftArrow(customizationData));
+                list.Add(() => _characterCustomizationView.SetCharacterCustomizationFromLeftArrow(customizationData));
                 break;
         }
         
@@ -138,18 +134,18 @@ public class ArrowSwitch
             CustomizationStat stat = _statViewHandler.GetStatInfo(customizationSettings.GameStats);
             if (_statViewHandler.IsShowed == true)
             {
-                taskRunner.AddOperationToList(() => _statViewHandler.HideToShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
+                list.Add(() => _statViewHandler.HideToShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
             }
             else
             {
-                taskRunner.AddOperationToList(() => _statViewHandler.ShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
+                list.Add(() => _statViewHandler.ShowAnim(stat.ColorField, _statViewHandler.CreateLabel(stat)));
             }
         }
         else
         {
             if (_statViewHandler.IsShowed == true)
             {
-                taskRunner.AddOperationToList(() => _statViewHandler.HideAnim());
+                list.Add(() => _statViewHandler.HideAnim());
             }
         }
 
@@ -157,18 +153,18 @@ public class ArrowSwitch
         {
             if (_priceViewHandler.PanelIsShowed == true)
             {
-                taskRunner.AddOperationToList(() => _priceViewHandler.HideToShowAnim(price, additionalPrice));
+                list.Add(() => _priceViewHandler.HideToShowAnim(price, additionalPrice));
             }
             else
             {
-                taskRunner.AddOperationToList(() => _priceViewHandler.ShowAnim(price, additionalPrice));
+                list.Add(() => _priceViewHandler.ShowAnim(price, additionalPrice));
             }
         }
         else
         {
             if (_priceViewHandler.PanelIsShowed == true)
             {
-                taskRunner.AddOperationToList(() => _priceViewHandler.HideAnim());
+                list.Add(() => _priceViewHandler.HideAnim());
             }
         }
 
@@ -176,17 +172,16 @@ public class ArrowSwitch
         {
             if (_buttonPlayHandler.IsActive == false)
             {
-                taskRunner.AddOperationToList(() => _buttonPlayHandler.TryOnAnim());
+                list.Add(() => _buttonPlayHandler.TryOnAnim());
             }
         }
         else
         {
             if (_buttonPlayHandler.IsActive == true)
             {
-                taskRunner.AddOperationToList(() => _buttonPlayHandler.OffAnim());
+                list.Add(() => _buttonPlayHandler.OffAnim());
             }
         }
-        return taskRunner;
     }
     private void SetChangedCustomizationIndexes()
     {
@@ -211,23 +206,6 @@ public class ArrowSwitch
                 }
                 _switchInfoCustodian.SetToClothesInfoCurrentSwitchInfo();
                 break;
-        }
-    }
-    private async UniTask TrySwitch()
-    {
-        if (_isSwitched == false)
-        {
-            _isSwitched = true;
-            while (_isSwitched == true)
-            {
-                var task = _tasksQueue.Dequeue();
-                await task.TryRunTasksWhenAll();
-                _poolBase.Return(task);
-                if (_tasksQueue.Count == 0)
-                {
-                    _isSwitched = false;
-                }
-            }
         }
     }
 

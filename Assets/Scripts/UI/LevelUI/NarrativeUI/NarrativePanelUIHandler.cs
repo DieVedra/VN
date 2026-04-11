@@ -36,7 +36,7 @@ public class NarrativePanelUIHandler : PanelUIHandler
             _fadePosition, _unfadePosition, narrativePanelUI.DurationAnim);
     }
 
-    public void Dispose()
+    public void ShutDown()
     {
         TextConsistentlyViewer.TryStop();
     }

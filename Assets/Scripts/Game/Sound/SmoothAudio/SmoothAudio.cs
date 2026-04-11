@@ -16,8 +16,8 @@ public class SmoothAudio
     private readonly Dictionary<AudioSourceType, AudioSource> _audioSources;
     private readonly IReadOnlyDictionary<string, AudioClip> _musicAudioDictionary;
     private readonly IReadOnlyDictionary<string, AudioClip> _ambientAudioDictionary;
-    private readonly SoundTaskRunner _soundTaskRunner;
-    public SoundTaskRunner SoundTaskRunner => _soundTaskRunner;
+    private readonly NewTaskRunner _soundTaskRunner;
+    public NewTaskRunner SoundTaskRunner => _soundTaskRunner;
     public SmoothAudio(ReactiveProperty<string> currentMusicClipKeyRP, ReactiveProperty<string> currentAdditionalClipKeyRP,
         Dictionary<AudioSourceType, AudioSource> audioSources,
         IReadOnlyDictionary<string, AudioClip> musicAudioDictionary,
@@ -28,7 +28,7 @@ public class SmoothAudio
         _audioSources = audioSources;
         _musicAudioDictionary = musicAudioDictionary;
         _ambientAudioDictionary = ambientAudioDictionary;
-        _soundTaskRunner = new SoundTaskRunner();
+        _soundTaskRunner = new NewTaskRunner();
     }
     public async UniTask SmoothReplacementAudio(CancellationToken cancellationToken, string secondAudioClipKey, AudioSourceType audioSourceType)
     {

@@ -30,7 +30,7 @@ public class GlobalSound : Sound
     }
     public async UniTask TryPlayOnLoadSave()
     {
-        await SmoothAudio.SoundTaskRunner.TryRunSound();
+        await SmoothAudio.SoundTaskRunner.TryRun();
     }
     public void SetGlobalSoundData(GlobalAudioData globalAudioData)
     {

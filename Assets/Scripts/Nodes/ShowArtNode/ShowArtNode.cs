@@ -8,7 +8,6 @@ using UnityEngine;
 public class ShowArtNode : BaseNode
 {
     [SerializeField] private ShowArtMode _artMode;
-    [SerializeField] private int _spriteIndex;
     [SerializeField] private string _spriteKey;
 
     private IBackgroundProviderToShowArtNode _background;

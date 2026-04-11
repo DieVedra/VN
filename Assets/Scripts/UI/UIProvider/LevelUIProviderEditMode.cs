@@ -70,7 +70,9 @@ public class LevelUIProviderEditMode
 
     public virtual void Shutdown()
     {
-        NarrativePanelUIHandler.Dispose();
+        NotificationPanelUIHandler.ShutDown();
+        CustomizationCharacterPanelUIHandler.ShutDown();
+        NarrativePanelUIHandler.ShutDown();
         _compositeDisposable?.Clear();
         PanelResourceVisionHandler.Shutdown();
     }

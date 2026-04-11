@@ -34,7 +34,7 @@ public class SoundNode : BaseNode
     [SerializeField] private List<bool> _effectKeys;
 
     private ISoundProviderToSoundNode _sound;
-    private SoundTaskRunner _taskRunner;
+    private NewTaskRunner _taskRunner;
     private bool _startedPlayMusicPlayMusic;
     private bool _startedPlayAmbient;
     public ISoundProviderToSoundNode Sound => _sound;
@@ -62,11 +62,11 @@ public class SoundNode : BaseNode
         _taskRunner.AddToQueue(operations, CancellationTokenSource);
         if (_isInstantNodeTransition == false)
         {
-            await _taskRunner.TryRunSound();
+            await _taskRunner.TryRun();
         }
         else
         {
-            _taskRunner.TryRunSound().Forget();
+            _taskRunner.TryRun().Forget();
         }
         
         

@@ -186,6 +186,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _gameSeriesHandlerBuildMode.Shutdown();
         _levelLoadDataHandler.Shutdown();
         _levelUIProviderBuildMode.Shutdown();
+        _wardrobeCharacterViewer.Shutdown();
         _globalSound.ShutdownFromLevel();
         _levelUISpriteAtlasAssetProvider.Release();
         base.Shutdown();

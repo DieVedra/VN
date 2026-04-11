@@ -29,14 +29,11 @@ public class NotificationPanelUIHandler : PanelUIHandler
     private readonly NotificationPanelUI _notificationPanelUI;
     private readonly TextMeshProUGUI _textComponent;
 
-    private readonly PoolBase<TaskRunner> _taskPool;
-    private readonly Queue<TaskRunner> _taskRunnerQueue;
+    private readonly NewTaskRunner _newTaskRunner;
     private readonly Vector3 _unfadePosition;
     private readonly Vector3 _fadePosition;
     private readonly Color _defaultColorText;
     private AnimationPanel AnimationPanel => _panelAnimation;
-
-    public bool IsShowing { get; private set; }
 
     public NotificationPanelUIHandler(NotificationPanelUI notificationPanelUI)
     {
@@ -50,10 +47,14 @@ public class NotificationPanelUIHandler : PanelUIHandler
             _fadePosition, _unfadePosition, notificationPanelUI.DurationAnim);
         _defaultColorText = _textComponent.color;
         _stringBuilder = new StringBuilder();
-        _taskPool = new PoolBase<TaskRunner>(() => new TaskRunner(), null, null, _defaultPoolCount);
-        _taskRunnerQueue = new Queue<TaskRunner>(_defaultPoolCount);
+        _newTaskRunner = new NewTaskRunner();
         _transform = notificationPanelUI.transform;
         _sublingIndex = _transform.GetSiblingIndex();
+    }
+
+    public void ShutDown()
+    {
+        _newTaskRunner.ForceStop();
     }
     public void ShowNotificationInEditMode(string text, NotificationNodeData notificationNodeData = null)
     {
@@ -73,30 +74,10 @@ public class NotificationPanelUIHandler : PanelUIHandler
     public async UniTask EmergenceNotificationPanelInPlayMode(string text, CancellationToken token, bool overFrame = false,
         CompositeDisposable compositeDisposable = null, NotificationNodeData notificationNodeData = null)
     {
-        var taskRunner = _taskPool.Get();
-        taskRunner.AddOperationToList(() => Notification(text, token, overFrame, compositeDisposable, notificationNodeData));
-        _taskRunnerQueue.Enqueue(taskRunner);
-        TryRunNotification().Forget();
-
-        await UniTask.WaitUntil(() => taskRunner.WaitToBeRunned == false, cancellationToken: token);
-    }
-
-    private async UniTask TryRunNotification()
-    {
-        if (IsShowing == false)
-        {
-            IsShowing = true;
-            while (IsShowing == true)
-            {
-                var task = _taskRunnerQueue.Dequeue();
-                await task.TryRunTasksWhenAll();
-                _taskPool.Return(task);
-                if (_taskRunnerQueue.Count == 0)
-                {
-                    IsShowing = false;
-                }
-            }
-        }
+        var list = _newTaskRunner.GetFreeList();
+        list.Add(() => Notification(text, token, overFrame, compositeDisposable, notificationNodeData));
+        _newTaskRunner.AddToQueue(list);
+        await _newTaskRunner.TryRun();
     }
     private async UniTask Notification(string text, CancellationToken token, bool overFrame, CompositeDisposable compositeDisposable, NotificationNodeData notificationNodeData)
     {

@@ -31,7 +31,7 @@ public class CustomizationCharacterPanelUIHandler
     public void ShutDown()
     {
         _buttonsCustomizationHandler?.DeactivateButtonsCustomization(_customizationCharacterPanelUI);
-        _arrowSwitch?.Dispose();
+        _arrowSwitch?.ShutDown();
         _buttonPlayHandler?.Dispose();
         _statViewHandler?.Dispose();
         _buttonsCustomizationHandler = null;

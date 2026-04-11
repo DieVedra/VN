@@ -34,6 +34,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     protected BackgroundPool BackgroundPool;
     public string CurrentKeyBackgroundContent { get; private set; } = Space;
     public BackgroundPosition CurrentBackgroundPosition { get; private set; }
+    public NewTaskRunner BackgroundTaskRunner { get; protected set; }
     public Transform PoolParent => _poolParent;
     public IReadOnlyDictionary<string, BackgroundContentValues> GetBackgroundContentDictionary => BackgroundContentValuesDictionary;
     public IReadOnlyDictionary<string, BackgroundContentValues> GetAdditionalImagesToBackgroundDictionary => AdditionalImagesToBackgroundDictionary;
