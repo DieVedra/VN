@@ -8,9 +8,6 @@ using UnityEngine;
 public class BackgroundContent : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Transform _leftBordTransform;
-    [SerializeField] private Transform _centralTransform;
-    [SerializeField] private Transform _rightBordTransform;
     [SerializeField] private float _movementDuringDialogueValue = 0.25f;
     [SerializeField] private Color _colorLighting = Color.white;
 
@@ -29,9 +26,6 @@ public class BackgroundContent : MonoBehaviour
     private Vector3 _leftPosition;
     private Vector3 _centralPosition;
     private Vector3 _rightPosition;
-    public Transform LeftBordTransform => _leftBordTransform;
-    public Transform CentralBordTransform => _centralTransform;
-    public Transform RightBordTransform => _rightBordTransform;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
     public IReadOnlyDictionary<string, Dictionary<string, SpriteRenderer>> GetAdditionalImages => _additionalImages;
 
@@ -78,9 +72,6 @@ public class BackgroundContent : MonoBehaviour
         _leftPosition.x = backgroundContentValues.LeftPosition;
         _centralPosition.x = backgroundContentValues.CentralPosition;
         _rightPosition.x = backgroundContentValues.RightPosition;
-        SetPositionBorders(_leftBordTransform, _leftPosition);
-        SetPositionBorders(_centralTransform, _centralPosition);
-        SetPositionBorders(_rightBordTransform, _rightPosition);
         DisableAllAdditionalSprite();
         if (_additionalImages.TryGetValue(backgroundContentValues.NameBackground, out var value))
         {
@@ -115,7 +106,7 @@ public class BackgroundContent : MonoBehaviour
     }
     public void SetBackgroundPositionFromSlider(float position)
     {
-        var newPos = Mathf.Lerp( _leftBordTransform.localPosition.x, _rightBordTransform.localPosition.x,position);
+        var newPos = Mathf.Lerp( _leftPosition.x, _rightPosition.x,position);
         var myTransform = _spriteRenderer.transform;
         var position1 = myTransform.localPosition;
         position1 = new Vector3(newPos, position1.y, position1.z);
@@ -126,13 +117,13 @@ public class BackgroundContent : MonoBehaviour
         switch (backgroundPosition)
         {
             case BackgroundPosition.Left:
-                await SmoothMovementBord(cancellationToken, _leftBordTransform, backgroundPosition);
+                await SmoothMovementBord(cancellationToken, _leftPosition, backgroundPosition);
                 break;
             case BackgroundPosition.Central:
-                await SmoothMovementBord(cancellationToken, _centralTransform, backgroundPosition);
+                await SmoothMovementBord(cancellationToken, _centralPosition, backgroundPosition);
                 break;
             case BackgroundPosition.Right:
-                await SmoothMovementBord(cancellationToken, _rightBordTransform, backgroundPosition);
+                await SmoothMovementBord(cancellationToken, _rightPosition, backgroundPosition);
                 break;
         }
         SetBackgroundPosition(backgroundPosition);
@@ -221,13 +212,13 @@ public class BackgroundContent : MonoBehaviour
         switch (_currentBackgroundPosition)
         {
             case BackgroundPosition.Left:
-                MovementBord(_leftBordTransform);
+                MovementBord(_leftPosition);
                 break;
             case BackgroundPosition.Central:
-                MovementBord(_centralTransform);
+                MovementBord(_centralPosition);
                 break;
             case BackgroundPosition.Right:
-                MovementBord(_rightBordTransform);
+                MovementBord(_rightPosition);
                 break;
         }
     }
@@ -240,12 +231,12 @@ public class BackgroundContent : MonoBehaviour
     {
         _transformSpriteRenderer.position = endPos;
     }
-    private void MovementBord(Transform bordTransform)
+    private void MovementBord(Vector3 position)
     {
-        _spriteRenderer.transform.position = bordTransform.position;;
-        _currentPos = bordTransform.position;
+        _spriteRenderer.transform.position = position;;
+        _currentPos = position;
     }
-    private async UniTask SmoothMovementBord(CancellationToken cancellationToken, Transform bordTransform, BackgroundPosition newBackgroundPosition)
+    private async UniTask SmoothMovementBord(CancellationToken cancellationToken, Vector3 position, BackgroundPosition newBackgroundPosition)
     {
         float duration = _durationMovementSmoothBackgroundChangePosition;
         
@@ -257,13 +248,13 @@ public class BackgroundContent : MonoBehaviour
         {
             duration *= _multiplier;
         }
-        await SmoothMovement(cancellationToken, bordTransform.position, Ease.InOutSine, duration);
+        await SmoothMovement(cancellationToken, position, Ease.InOutSine, duration);
     }
 
-    private void SetPositionBorders(Transform position, Vector3 value)
-    {
-        position.localPosition = value;
-    }
+    // private void SetPositionBorders(Transform position, Vector3 value)
+    // {
+    //     position.localPosition = value;
+    // }
 
     private void DisableAllAdditionalSprite()
     {

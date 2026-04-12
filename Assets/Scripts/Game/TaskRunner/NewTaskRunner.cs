@@ -6,8 +6,10 @@ using Cysharp.Threading.Tasks;
 
 public class NewTaskRunner
 {
+    private const int _taskCountMax = 10;
     private readonly Queue<(List<Func<UniTask>>, CancellationTokenSource)> _operationsQueue = new Queue<(List<Func<UniTask>>, CancellationTokenSource)>();
     private readonly List<List<Func<UniTask>>> _operations = new List<List<Func<UniTask>>>();
+    private readonly List<UniTask> _tasksEntered = new List<UniTask>();
     public bool IsRun { get; protected set; }
 
     public List<Func<UniTask>> GetFreeList()
@@ -58,49 +60,18 @@ public class NewTaskRunner
         }
         _operationsQueue.Clear();
     }
-    protected async UniTask TryRunTasksWhenAll(List<Func<UniTask>> tasksEntered)
+
+    private async UniTask TryRunTasksWhenAll(List<Func<UniTask>> tasksEntered)
     {
         if (tasksEntered != null && tasksEntered.Count > 0)
         {
-            switch (tasksEntered.Count)
+            _tasksEntered.Clear();
+            foreach (var task in tasksEntered)
             {
-                case 1:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke());
-                    break;
-                case 2:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke());
-                    break;
-                case 3:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke());
-                    break;
-                case 4:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke());
-                    break;
-                case 5:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke());
-                    break;
-                case 6:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke(),tasksEntered[5].Invoke());
-                    break;
-                case 7:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke(),tasksEntered[5].Invoke(),tasksEntered[6].Invoke());
-                    break;
-                case 8:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke(),tasksEntered[5].Invoke(),tasksEntered[6].Invoke(),tasksEntered[7].Invoke());
-                    break;
-                case 9:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke(),tasksEntered[5].Invoke(),tasksEntered[6].Invoke(),tasksEntered[7].Invoke(),tasksEntered[8].Invoke());
-                    break;
-                case 10:
-                    await UniTask.WhenAll(tasksEntered[0].Invoke(),tasksEntered[1].Invoke(),tasksEntered[2].Invoke(),tasksEntered[3].Invoke(),
-                        tasksEntered[4].Invoke(),tasksEntered[5].Invoke(),tasksEntered[6].Invoke(),tasksEntered[7].Invoke(),tasksEntered[8].Invoke(),tasksEntered[9].Invoke());
-                    break;
+                _tasksEntered.Add(task.Invoke());
             }
+            await UniTask.WhenAll(_tasksEntered);
+            _tasksEntered.Clear();
         }
     }
 }

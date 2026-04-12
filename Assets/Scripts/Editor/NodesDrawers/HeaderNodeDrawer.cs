@@ -17,8 +17,10 @@ public class HeaderNodeDrawer : NodeEditor
     private SerializedProperty _textSize2SerializedProperty;
     private SerializedProperty _keyBackgroundSerializedProperty;
     private SerializedProperty _keyAudioSerializedProperty;
+    private SerializedProperty _keyAmbientAudioSerializedProperty;
     private SerializedProperty _backgroundPositionValueSerializedProperty;
     private SerializedProperty _playHeaderAudioSerializedProperty;
+    private SerializedProperty _playHeaderAmbientAudioSerializedProperty;
     private SerializedProperty _inputPortSerializedProperty;
     private SerializedProperty _outputPortSerializedProperty;
     private LocalizationStringTextDrawer _localizationStringTextDrawer;
@@ -45,9 +47,14 @@ public class HeaderNodeDrawer : NodeEditor
             _textSize1SerializedProperty = serializedObject.FindProperty("_textSize1");
             _textSize2SerializedProperty = serializedObject.FindProperty("_textSize2");
             _keyBackgroundSerializedProperty = serializedObject.FindProperty("_keyBackground");
+            
             _keyAudioSerializedProperty = serializedObject.FindProperty("_headerAudioKey");
-            _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
+            _keyAmbientAudioSerializedProperty = serializedObject.FindProperty("_headerAmbientAudioKey");
+            
             _playHeaderAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAudio");
+            _playHeaderAmbientAudioSerializedProperty = serializedObject.FindProperty("_playHeaderAmbientAudio");
+
+            _backgroundPositionValueSerializedProperty = serializedObject.FindProperty("_backgroundPositionValue");
             _inputPortSerializedProperty = serializedObject.FindProperty("Input");
             _outputPortSerializedProperty = serializedObject.FindProperty("Output");
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_maxCountSymbols));
@@ -65,7 +72,14 @@ public class HeaderNodeDrawer : NodeEditor
             DrawTextArea(_localizationText2, _color2SerializedProperty, _textSize2SerializedProperty,"Text Title:");
             DrawPopup();
             DrawSlider();
-            DrawAudio();
+            if (_headerNode.Sound != null)
+            {
+                DrawAudio(_headerNode.Sound.GetMusicDictionary, "PlayHeaderAudio: ",
+                    _playHeaderAudioSerializedProperty, _keyAudioSerializedProperty);
+                DrawAudio(_headerNode.Sound.GetAmbientDictionary, "PlayHeaderAmbient: ",
+                    _playHeaderAmbientAudioSerializedProperty, _keyAmbientAudioSerializedProperty);
+            }
+
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
@@ -148,22 +162,23 @@ public class HeaderNodeDrawer : NodeEditor
 
     }
 
-    private void DrawAudio()
+    private void DrawAudio(IReadOnlyDictionary<string, AudioClip> musicDictionary, string label,
+        SerializedProperty playHeaderAudioSerializedProperty, SerializedProperty keyAudioSerializedProperty)
     {
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("PlayHeaderAudio: ", GUILayout.Width(120f));
-        _playHeaderAudioSerializedProperty.boolValue = EditorGUILayout.Toggle( _playHeaderAudioSerializedProperty.boolValue);
+        EditorGUILayout.LabelField(/*"PlayHeaderAudio: "*/label, GUILayout.Width(120f));
+        playHeaderAudioSerializedProperty.boolValue = EditorGUILayout.Toggle(playHeaderAudioSerializedProperty.boolValue);
         EditorGUILayout.EndHorizontal();
-        if (_playHeaderAudioSerializedProperty.boolValue)
+        if (playHeaderAudioSerializedProperty.boolValue)
         {
-            if (_headerNode.Sound?.GetMusicDictionary?.Count > 0)
+            if (/*_headerNode.Sound?.GetMusicDictionary?*/musicDictionary.Count > 0)
             {
                 _audioNames.Clear();
                 _indexAudio = 0;
                 _currentAudioIndex = 0;
-                foreach (var pair in _headerNode.Sound.GetMusicDictionary)
+                foreach (var pair in musicDictionary)
                 {
-                    if (pair.Value?.name == _keyAudioSerializedProperty.stringValue)
+                    if (pair.Value?.name == keyAudioSerializedProperty.stringValue)
                     {
                         _currentAudioIndex = _indexAudio;
                     }
@@ -177,12 +192,48 @@ public class HeaderNodeDrawer : NodeEditor
                 {
                     if (_audioNames.Count > _currentAudioIndex)
                     {
-                        _keyBackgroundSerializedProperty.stringValue = _namesToPopup[_currentIndex];
+                        keyAudioSerializedProperty.stringValue = _audioNames[_currentAudioIndex];
                         serializedObject.ApplyModifiedProperties();
                     }
                 }
             }
         }
+        
+        
+        
+        // EditorGUILayout.BeginHorizontal();
+        // EditorGUILayout.LabelField("PlayHeaderAudio: ", GUILayout.Width(120f));
+        // _playHeaderAudioSerializedProperty.boolValue = EditorGUILayout.Toggle( _playHeaderAudioSerializedProperty.boolValue);
+        // EditorGUILayout.EndHorizontal();
+        // if (_playHeaderAudioSerializedProperty.boolValue)
+        // {
+        //     if (_headerNode.Sound?.GetMusicDictionary?.Count > 0)
+        //     {
+        //         _audioNames.Clear();
+        //         _indexAudio = 0;
+        //         _currentAudioIndex = 0;
+        //         foreach (var pair in _headerNode.Sound.GetMusicDictionary)
+        //         {
+        //             if (pair.Value?.name == _keyAudioSerializedProperty.stringValue)
+        //             {
+        //                 _currentAudioIndex = _indexAudio;
+        //             }
+        //             _audioNames.Add(pair.Value.name);
+        //             _indexAudio++;
+        //         }
+        //
+        //         EditorGUI.BeginChangeCheck();
+        //         _currentAudioIndex = EditorGUILayout.Popup(_currentAudioIndex, _audioNames.ToArray());
+        //         if (EditorGUI.EndChangeCheck())
+        //         {
+        //             if (_audioNames.Count > _currentAudioIndex)
+        //             {
+        //                 _keyBackgroundSerializedProperty.stringValue = _namesToPopup[_currentIndex];
+        //                 serializedObject.ApplyModifiedProperties();
+        //             }
+        //         }
+        //     }
+        // }
     }
     private void SetInfoToView()
     {

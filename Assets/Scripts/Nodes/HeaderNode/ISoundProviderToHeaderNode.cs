@@ -7,6 +7,7 @@ public interface ISoundProviderToHeaderNode
 {
     public SmoothAudio SmoothAudio { get;}
     public IReadOnlyDictionary<string, AudioClip> GetMusicDictionary { get;}
+    public IReadOnlyDictionary<string, AudioClip> GetAmbientDictionary { get;}
 
     public UniTask SmoothPlayHeaderAudio(string audioClipKey, CancellationToken cancellationToken);
 }

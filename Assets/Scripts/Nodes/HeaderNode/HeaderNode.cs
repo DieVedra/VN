@@ -15,9 +15,10 @@ public class HeaderNode : BaseNode, ILocalizable
     [SerializeField] private int _textSize2 = 80;
     [SerializeField] private string _keyBackground;
     [SerializeField] private float _backgroundPositionValue;
-    [SerializeField] private int _indexHeaderAudio;
     [SerializeField] private string _headerAudioKey;
+    [SerializeField] private string _headerAmbientAudioKey;
     [SerializeField] private bool _playHeaderAudio;
+    [SerializeField] private bool _playHeaderAmbientAudio;
     
     private string _previousKeyBackground;
     private HeaderSeriesPanelHandlerUI _headerSeriesPanelHandlerUI;
@@ -25,6 +26,7 @@ public class HeaderNode : BaseNode, ILocalizable
     private ButtonSwitchSlideUIHandler _buttonSwitchSlideUIHandler;
     private IBackgroundsProviderToHeaderNode _background;
     private CompositeDisposable _compositeDisposable;
+    private NewTaskRunner _soundTaskRunner;
     public ISoundProviderToHeaderNode Sound { get; private set; }
     public IReadOnlyDictionary<string, BackgroundContentValues> BackgroundsDictionary =>
         _background?.GetBackgroundContentDictionary;
@@ -32,6 +34,7 @@ public class HeaderNode : BaseNode, ILocalizable
     public void Construct(IBackgroundsProviderToHeaderNode provider, HeaderSeriesPanelHandlerUI headerSeriesPanelHandlerUI,
         CurtainUIHandler curtainUIHandler,ButtonSwitchSlideUIHandler buttonSwitchSlideUIHandler, ISoundProviderToHeaderNode sound)
     {
+        _soundTaskRunner = sound.SmoothAudio.SoundTaskRunner;
         _background = provider;
         _headerSeriesPanelHandlerUI = headerSeriesPanelHandlerUI;
         _curtainUIHandler = curtainUIHandler;
@@ -52,31 +55,39 @@ public class HeaderNode : BaseNode, ILocalizable
             _buttonSwitchSlideUIHandler.ActivateSkipTransition(SkipEnterTransition);
         }
 
+        var list = _soundTaskRunner.GetFreeList();
+        list.Add(()=> _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token));
         if (_playHeaderAudio)
         {
-            await UniTask.WhenAll(
-                _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token),
-                Sound.SmoothPlayHeaderAudio(_headerAudioKey, CancellationTokenSource.Token));
+            list.Add(()=> Sound.SmoothPlayHeaderAudio(_headerAudioKey, CancellationTokenSource.Token));
         }
-        else
+
+        if (_playHeaderAmbientAudio)
         {
-            await _curtainUIHandler.CurtainOpens(CancellationTokenSource.Token);
+            list.Add(()=> Sound.SmoothPlayHeaderAudio(_headerAmbientAudioKey, CancellationTokenSource.Token));
         }
+        _soundTaskRunner.AddToQueue(list);
+        await _soundTaskRunner.TryRun();
         _buttonSwitchSlideUIHandler.ActivateButtonSwitchToNextNode();
     }
 
     public override async UniTask Exit()
     {
         CancellationTokenSource = new CancellationTokenSource();
+        var list = _soundTaskRunner.GetFreeList();
+        list.Add(()=> _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token));
+
         if (_playHeaderAudio)
         {
-            await UniTask.WhenAll(_curtainUIHandler.CurtainCloses(CancellationTokenSource.Token),
-                Sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music));
+            list.Add(()=> Sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Music));
         }
-        else
+
+        if (_playHeaderAmbientAudio)
         {
-            await _curtainUIHandler.CurtainCloses(CancellationTokenSource.Token);
+            list.Add(()=> Sound.SmoothAudio.SmoothStopAudio(CancellationTokenSource.Token, AudioSourceType.Ambient));
         }
+        _soundTaskRunner.AddToQueue(list);
+        await _soundTaskRunner.TryRun();
         _background.SetBackgroundPosition(_background.CurrentBackgroundPosition, _previousKeyBackground);
         _headerSeriesPanelHandlerUI.OffHeader();
         _compositeDisposable.Dispose();

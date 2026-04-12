@@ -187,6 +187,10 @@ public class Sound : MonoBehaviour, ISoundProviderToHeaderNode, ISoundProviderTo
     }
     public async UniTask SmoothPlayHeaderAudio(string audioClipKey, CancellationToken cancellationToken)
     {
-        await SmoothAudio.SmoothPlayAudio(MusicDictionary[audioClipKey], cancellationToken);
+        if (MusicDictionary.TryGetValue(audioClipKey, out AudioClip value))
+        {
+            await SmoothAudio.SmoothPlayAudio(value, cancellationToken);
+        }
+
     }
 }

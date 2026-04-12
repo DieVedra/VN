@@ -192,18 +192,17 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     {
         if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value))
         {
-            SetAlphaAndOrder(BackgroundContent1, _maxAlpha);
+            SetAlpha(BackgroundContent1, _maxAlpha);
             BackgroundContent2.Activate(value, false);
-            SetAlphaAndOrder(BackgroundContent2, _minAlpha);
+            SetAlpha(BackgroundContent2, _minAlpha);
             BackgroundContent2.SetBackgroundPosition(toBackgroundPosition);
             BackgroundContent2.gameObject.SetActive(true);
             await UniTask.WhenAll(
                 BackgroundContent2.SmoothChangeLightingColorOfTheCharacter(duration, cancellationToken),
                 BackgroundContent2.SpriteRenderer.DOFade(_maxAlpha, duration).WithCancellation(cancellationToken));
-            BackgroundContent1.SetBackgroundPosition(toBackgroundPosition);
             BackgroundContent1.Activate(value);
+            BackgroundContent1.SetBackgroundPosition(toBackgroundPosition);
             BackgroundContent2.Diactivate();
-            SetAlphaAndOrder(BackgroundContent2, _maxAlpha);
             CurrentKeyBackgroundContent = keyTo;
         }
     }
@@ -212,17 +211,18 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
     {
         if (string.IsNullOrEmpty(keyTo) == false && BackgroundContentValuesDictionary.TryGetValue(keyTo, out var value))
         {
-            SetAlphaAndOrder(BackgroundContent1, _maxAlpha);
-            SetAlphaAndOrder(BackgroundContent2, _minAlpha);
+            SetAlpha(BackgroundContent1, _maxAlpha);
+            SetAlpha(BackgroundContent2, _minAlpha);
             BackgroundContent2.SetBackgroundPosition(toBackgroundPosition);
             BackgroundContent2.Activate(value);
+            Debug.Log($"value {value.CentralPosition}");
             BackgroundContent1.Diactivate();
-            SetAlphaAndOrder(BackgroundContent2, _maxAlpha);
+            SetAlpha(BackgroundContent2, _maxAlpha);
             CurrentKeyBackgroundContent = keyTo;
         }
     }
 
-    private void SetAlphaAndOrder(BackgroundContent content, float alpha)
+    private void SetAlpha(BackgroundContent content, float alpha)
     {
         Color color = content.SpriteRenderer.color;
         color.a = alpha;
