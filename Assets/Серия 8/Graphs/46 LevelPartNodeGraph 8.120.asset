@@ -342,7 +342,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 2023492920793213687}
+        node: {fileID: -8416941813728438361}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -478,6 +478,331 @@ MonoBehaviour:
     <Key>k__BackingField: str_5A666F8A
   _type: 0
   _isReaded: 0
+--- !u!114 &-8416941813728438361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12959488825a4965b70961368c38469d, type: 3}
+  m_Name: Change Stats
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 61296.848, y: 9824.595}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -8416941813728438361}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2023492920793213687}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -8416941813728438361}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -8813269657216685139}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _stats:
+  - _colorField: {r: 0.8745098, g: 0.14117648, b: 0.14117648, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u0442\u0440\u0430\u0441\u0442\u044C"
+      <Key>k__BackingField: str_4F394F1E
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 0.9607843, b: 0.18431373, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0412\u0435\u0441\u0435\u043B\u044C\u0435"
+      <Key>k__BackingField: str_5D13A7F1
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 0.33333334, g: 0.40392157, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E\u0441\u0442\u044C"
+      <Key>k__BackingField: str_FEBA0FC4
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0420\u0435\u043F\u0443\u0442\u0430\u0446\u0438\u044F"
+      <Key>k__BackingField: str_AEF9B513
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_65738CDB
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_28D170F4
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_3976D156
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 0, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0436\u0435\u043B\u0442\u0430\u044F "
+      <Key>k__BackingField: str_54BC83C2
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 0.9411765, g: 0.015686275, b: 0.015686275, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u043A\u0440\u0430\u0441\u043D\u0430\u044F"
+      <Key>k__BackingField: str_4A239BE1
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 0.043137256, g: 0.043137256, b: 0.84705883, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041F\u0430\u043B\u0430\u0442\u043A\u0430 \u0441\u0438\u043D\u044F\u044F"
+      <Key>k__BackingField: str_436CD854
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0431\u0438\u0434\u0430 \u041C\u0438\u0440\u0430\u043D\u0434\u044B"
+      <Key>k__BackingField: str_98F415A5
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0434\u0435\u0436\u0434\u0430 \u0434\u043B\u044F
+        \u04213"
+      <Key>k__BackingField: str_23A1C1A5
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_D8536408
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A \u0432 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u0445"
+      <Key>k__BackingField: str_2C3D4123
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
+        \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_235CB289
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0431\u0449\u0435\u043D\u0438\u0435 \u0441
+        \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_95058592
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0430
+        \u043F\u0430\u043B\u0430\u0442\u043A\u0430"
+      <Key>k__BackingField: str_57E3DD98
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0426\u0432\u0435\u0442 \u043A\u043E\u0436\u0438
+        \u0442\u0435\u043C\u043D\u044B\u0439"
+      <Key>k__BackingField: str_CB63C5A8
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041F\u0435\u043D\u0442\u0430 \u0432 \u043A\u0443\u0441\u0442\u0430\u0445"
+      <Key>k__BackingField: str_EBE1B5CB
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_8725AFEE
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0423\u0448\u043B\u0430 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C"
+      <Key>k__BackingField: str_0C66266D
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0441\u0442\u0430\u043B\u0430\u0441\u044C
+        \u0441 \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_9DF0B694
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0422\u043E\u043C \u0437\u043D\u0430\u0435\u0442
+        \u0433\u0434\u0435 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C"
+      <Key>k__BackingField: str_6AF6EAC0
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0414\u0440\u0443\u0436\u0431\u0430 \u0441
+        \u041C\u0438\u0440\u0430\u043D\u0434\u043E\u0439"
+      <Key>k__BackingField: str_0B6495F5
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u0442\u0430\u0440\u0438\u043A \u0437\u0430\u043F\u043E\u043C\u043D\u0438\u043B!"
+      <Key>k__BackingField: str_76BFF3C3
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0412\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0430
+        \u0422\u043E\u043C\u0430 \u043D\u0430 \u043F\u043B\u044F\u0436\u0435"
+      <Key>k__BackingField: str_DCABDD16
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F
+        \u0441 \u041E\u0444\u0438\u0446\u0435\u0440\u043E\u043C"
+      <Key>k__BackingField: str_12429A7B
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 0.06341223, g: 0.7075472, b: 0.16615123, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0412\u044B\u0436\u0438\u0432\u0430\u0439!"
+      <Key>k__BackingField: str_84BFD23F
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0416\u0438\u0432\u0435\u0442 \u0441 \u042D\u0434\u0432\u0438\u043D\u043E\u043C"
+      <Key>k__BackingField: str_E43F2892
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0416\u0438\u0432\u0435\u0442 \u0441 \u041C\u0430\u0440\u043A\u043E\u043C\r"
+      <Key>k__BackingField: str_3617DC5C
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u041C\u043E\u0436\u0435\u0442 \u043F\u043E\u0437\u0432\u043E\u043B\u0438\u0442\u044C
+        \u0441\u0435\u0431\u0435 \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0443"
+      <Key>k__BackingField: str_CC8CDF07
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+        \u043E \u0441\u0442\u0430\u0440\u0438\u043A\u0435"
+      <Key>k__BackingField: str_A3D1CAFC
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+        \u043E \u0422\u043E\u043C\u0435"
+      <Key>k__BackingField: str_06B73222
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+        \u043E \u043F\u0435\u043D\u0442\u0430\u0433\u0440\u0430\u043C\u043C\u0435"
+      <Key>k__BackingField: str_36BB2E73
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "\u0421\u043E\u043E\u0431\u0449\u0438\u043B\u0430
+        \u043E \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u0435"
+      <Key>k__BackingField: str_9BC26669
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "5.67.2 \u041D\u0435\u0442, \u043D\u0435 \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0439
+        \u043C\u0435\u043D\u044F \u043E\u0434\u043D\u0443"
+      <Key>k__BackingField: str_107087F2
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "5.132.2 \u0420\u0430\u0441\u0441\u043A\u0430\u0436\u0438\u0442\u0435
+        \u043C\u043D\u0435 \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435"
+      <Key>k__BackingField: str_8818139D
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "6.50.2 \u042F \u0431\u044B \u0445\u043E\u0442\u0435\u043B\u0430
+        \u0443\u0437\u043D\u0430\u0442\u044C"
+      <Key>k__BackingField: str_15A10F13
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "7.75 \u041F\u043E\u043F\u044B\u0442\u0430\u0442\u044C\u0441\u044F
+        \u0443\u0431\u0435\u0434\u0438\u0442\u044C \u0434\u0435\u0442\u0435\u043A\u0442\u0438\u0432\u0430"
+      <Key>k__BackingField: str_2CA94758
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: "7.89 \u041C\u0430\u0440\u043A \u043F\u043E\u0434\u043E\u0437\u0440\u0435\u0432\u0430\u0435\u043C\u044B\u0439"
+      <Key>k__BackingField: str_E4D754D8
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: 7.92
+      <Key>k__BackingField: str_155D82D6
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: 8.166
+      <Key>k__BackingField: str_93ABA7F9
+    _value: 0
+    _notificationKey: 0
+  - _colorField: {r: 1, g: 1, b: 1, a: 1}
+    _name:
+      <DefaultText>k__BackingField: 8.167
+      <Key>k__BackingField: str_D9512ACA
+    _value: 2
+    _notificationKey: 0
 --- !u!114 &-8020043932376492811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1239,7 +1564,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7027784358357171088}
+        node: {fileID: 6422673714113674516}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -2177,7 +2502,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7027784358357171088}
+        node: {fileID: 6422673714113674516}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -2301,7 +2626,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 53544, y: 8408}
+  position: {x: 53928, y: 8776}
   ports:
     keys:
     - Input
@@ -2315,8 +2640,8 @@ MonoBehaviour:
       - fieldName: Output
         node: {fileID: 1322452897149815968}
         reroutePoints: []
-      - fieldName: _choice0Output
-        node: {fileID: -2080454260085666498}
+      - fieldName: Output
+        node: {fileID: 8053974475803492555}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -3689,7 +4014,7 @@ MonoBehaviour:
       _indexCurrentOperator: 0
       _includeKey: 0
     _additionalCaseStats: []
-    _foldoutKey: 1
+    _foldoutKey: 0
     _name: Port 0
   - _caseStats:
     - _colorField: {r: 1, g: 1, b: 1, a: 1}
@@ -5425,7 +5750,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -4068336196925692735}
+        node: {fileID: 8053974475803492555}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -6216,7 +6541,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7027784358357171088}
+        node: {fileID: 6422673714113674516}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -6531,6 +6856,8 @@ MonoBehaviour:
   - {fileID: 9058528520491993825}
   - {fileID: 2023492920793213687}
   - {fileID: -8813269657216685139}
+  - {fileID: 8053974475803492555}
+  - {fileID: -8416941813728438361}
 --- !u!114 &117912560384629387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6944,7 +7271,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7027784358357171088}
+        node: {fileID: 6422673714113674516}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -8574,7 +8901,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -8813269657216685139}
+        node: {fileID: -8416941813728438361}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -8622,7 +8949,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 7027784358357171088}
+        node: {fileID: 6422673714113674516}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -12451,7 +12778,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 51944, y: 8856}
+  position: {x: 51688, y: 9528}
   ports:
     keys:
     - Input
@@ -12560,7 +12887,7 @@ MonoBehaviour:
   m_Name: Choice
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 61384, y: 10072}
+  position: {x: 61256, y: 9224}
   ports:
     keys:
     - Input
@@ -12572,7 +12899,22 @@ MonoBehaviour:
       _node: {fileID: 6422673714113674516}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Output
+        node: {fileID: 2098044419941515133}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -515773161690833974}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -6473999616908366740}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -4535423911768022946}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 389914272177579311}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -13260,7 +13602,7 @@ MonoBehaviour:
   m_Name: Phone Message
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 57207.29, y: 12436.295}
+  position: {x: 57208, y: 12440}
   ports:
     keys:
     - Input
@@ -13458,7 +13800,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 61576, y: 9496}
+  position: {x: 61656, y: 9288}
   ports:
     keys:
     - Input
@@ -13470,22 +13812,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 2098044419941515133}
-        reroutePoints: []
-      - fieldName: Output
         node: {fileID: 6422673714113674516}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: -515773161690833974}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: -6473999616908366740}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: -4535423911768022946}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: 389914272177579311}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -13730,7 +14057,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 51944, y: 8664}
+  position: {x: 51688, y: 9336}
   ports:
     keys:
     - Input
@@ -13765,6 +14092,110 @@ MonoBehaviour:
     <DefaultText>k__BackingField: "\u0411\u0443\u0434\u0443 \u0436\u0434\u0430\u0442\u044C
       \u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430."
     <Key>k__BackingField: str_3F2865DC
+--- !u!114 &8053974475803492555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89adc6593e8e4ed98b8cae043fe5ada8, type: 3}
+  m_Name: Add Contact To Phone
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 53320, y: 8248}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 8053974475803492555}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: _choice0Output
+        node: {fileID: -2080454260085666498}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 8053974475803492555}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -4068336196925692735}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _phoneIndex: 0
+  _contactIndex: 1
+  _addContact: 1
+  _showNotificationKey: 1
+  _phones:
+  - NamePhone:
+      <DefaultText>k__BackingField: EllisPhone
+      <Key>k__BackingField: str_F62CA740
+    <ToCharacterNameKey>k__BackingField: str_EC93720B
+    <PhoneFrame>k__BackingField: {fileID: 21300000, guid: 1cda44bdbde75074bbd54d940dd1ab85, type: 3}
+    <Background>k__BackingField: {fileID: -1955448553306655712, guid: 967af034b8a18ab4b9f2c86db61d2ef3, type: 3}
+    <BlockScreenTopPanelColor>k__BackingField: {r: 0.25490198, g: 0.23137255, b: 0.3529412, a: 1}
+    <DialogScreenTopPanelColor>k__BackingField: {r: 0.25490198, g: 0.23137255, b: 0.3529412, a: 1}
+    <ContactsScreenTopPanelColor>k__BackingField: {r: 0.25490198, g: 0.23137255, b: 0.3529412, a: 1}
+    _hands:
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    - {fileID: 21300000, guid: ae1d049475bea1c4d9b61cfcb4c52896, type: 3}
+    _phoneContactDatas:
+    - <NameLocalizationString>k__BackingField:
+        <DefaultText>k__BackingField: "\u041C\u0430\u043C\u0430"
+        <Key>k__BackingField: str_C23C363D
+      <ToPhoneKey>k__BackingField: str_F62CA740
+      <Icon>k__BackingField: {fileID: 21300000, guid: c62fcf62e1a09d640be846bf5e890c30, type: 3}
+      <IsEmptyIconKey>k__BackingField: 0
+      <AddInPlot>k__BackingField: 0
+      <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <NameLocalizationString>k__BackingField:
+        <DefaultText>k__BackingField: "\u041C\u0438\u0440\u0430\u043D\u0434\u0430"
+        <Key>k__BackingField: str_D5DBBDEB
+      <ToPhoneKey>k__BackingField: str_F62CA740
+      <Icon>k__BackingField: {fileID: 21300000, guid: 5f742fc9c18be46408e12993c76ce51d, type: 3}
+      <IsEmptyIconKey>k__BackingField: 0
+      <AddInPlot>k__BackingField: 0
+      <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  _contacts:
+  - <NameLocalizationString>k__BackingField:
+      <DefaultText>k__BackingField: "\u042D\u0434\u0432\u0438\u043D"
+      <Key>k__BackingField: str_F71AE2E8
+    <ToPhoneKey>k__BackingField: str_F62CA740
+    <Icon>k__BackingField: {fileID: 21300000, guid: 6b2762db6f3f8a04ca6d4d5d9eee5de5, type: 3}
+    <IsEmptyIconKey>k__BackingField: 0
+    <AddInPlot>k__BackingField: 1
+    <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  - <NameLocalizationString>k__BackingField:
+      <DefaultText>k__BackingField: "\u041C\u0430\u0440\u043A"
+      <Key>k__BackingField: str_AC60ADBC
+    <ToPhoneKey>k__BackingField: str_F62CA740
+    <Icon>k__BackingField: {fileID: 21300000, guid: d6aa06c695a1c7d45ba9b7af06a91c2c, type: 3}
+    <IsEmptyIconKey>k__BackingField: 0
+    <AddInPlot>k__BackingField: 1
+    <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  - <NameLocalizationString>k__BackingField:
+      <DefaultText>k__BackingField: "\u041E\u0444\u0438\u0446\u0435\u0440"
+      <Key>k__BackingField: str_E4B41351
+    <ToPhoneKey>k__BackingField: str_F62CA740
+    <Icon>k__BackingField: {fileID: 21300000, guid: 68de34437f7939a4ba97ffe2473bb205, type: 3}
+    <IsEmptyIconKey>k__BackingField: 0
+    <AddInPlot>k__BackingField: 1
+    <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &8170167910855832320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14183,7 +14614,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 59896, y: 10856}
+  position: {x: 60088, y: 11144}
   ports:
     keys:
     - Input
