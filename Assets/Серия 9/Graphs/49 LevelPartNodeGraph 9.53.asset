@@ -10069,7 +10069,7 @@ MonoBehaviour:
   m_Name: Character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 34488, y: 2712}
+  position: {x: 34408, y: 3704}
   ports:
     keys:
     - Input
@@ -10091,7 +10091,10 @@ MonoBehaviour:
       _node: {fileID: -4463227269260481129}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 8317589322337815700}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -15169,7 +15172,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 1096004841230427238}
+        node: {fileID: -684689858394880629}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -16417,7 +16420,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 46616, y: 5480}
+  position: {x: 46152, y: 6120}
   ports:
     keys:
     - Input
@@ -16427,7 +16430,13 @@ MonoBehaviour:
       _node: {fileID: -684689858394880629}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Output
+        node: {fileID: -1023300627354974958}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 140726876694731944}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -16436,7 +16445,10 @@ MonoBehaviour:
       _node: {fileID: -684689858394880629}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 1096004841230427238}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -16444,18 +16456,18 @@ MonoBehaviour:
   namenode: 
   _currentMusicSoundIndex: 0
   _currentAmbientSoundIndex: 0
-  _currentMusicSoundKey: 
+  _currentMusicSoundKey: "n22e1 \u2014 The void"
   _currentAmbientSoundKey: 
-  _isInstantNodeTransition: 0
+  _isInstantNodeTransition: 1
   _volumeMusicSound: 1
   _volumeAmbientSound: 1
   _smoothMusicTransitionKey: 0
-  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeIncrease: 1
   _isMusicSmoothVolumeDecrease: 0
   _smoothTransitionKeyAmbientSound: 0
   _isSmoothVolumeIncreaseAmbientSound: 0
   _isSmoothVolumeDecreaseAmbientSound: 0
-  _showMusicSoundsKey: 0
+  _showMusicSoundsKey: 1
   _showAmbientSoundsKey: 0
   _showEffectsKey: 0
   _audioEffects: 
@@ -18438,7 +18450,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 1096004841230427238}
+        node: {fileID: -684689858394880629}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -18976,7 +18988,7 @@ MonoBehaviour:
   m_Name: Switch
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 46168, y: 6024}
+  position: {x: 46424, y: 6024}
   ports:
     keys:
     - OutputTrueBool
@@ -19000,10 +19012,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: -1023300627354974958}
-        reroutePoints: []
-      - fieldName: Output
-        node: {fileID: 140726876694731944}
+        node: {fileID: -684689858394880629}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -32086,6 +32095,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: Output
         node: {fileID: 10884417032533819}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -4463227269260481129}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

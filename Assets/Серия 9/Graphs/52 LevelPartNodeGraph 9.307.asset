@@ -457,6 +457,9 @@ MonoBehaviour:
       - fieldName: Port 0
         node: {fileID: -4066613488821146691}
         reroutePoints: []
+      - fieldName: Output
+        node: {fileID: -4807410162431215973}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -715,7 +718,7 @@ MonoBehaviour:
   m_Name: Switch To Next Seria
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 32968, y: 6264}
+  position: {x: 27288, y: 4008}
   ports:
     keys:
     - Input
@@ -1007,7 +1010,10 @@ MonoBehaviour:
       _node: {fileID: -4807410162431215973}
       _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: -7474674863182233782}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -4789,7 +4795,7 @@ MonoBehaviour:
   m_Name: Sound
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 32328, y: 6168}
+  position: {x: 26648, y: 3912}
   ports:
     keys:
     - Input
@@ -4824,7 +4830,7 @@ MonoBehaviour:
   _currentAmbientSoundIndex: 0
   _currentMusicSoundKey: 
   _currentAmbientSoundKey: 
-  _isInstantNodeTransition: 0
+  _isInstantNodeTransition: 1
   _volumeMusicSound: 1
   _volumeAmbientSound: 1
   _smoothMusicTransitionKey: 0
@@ -5022,7 +5028,7 @@ MonoBehaviour:
   m_Name: Smooth Transition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 32616, y: 6184}
+  position: {x: 26936, y: 3928}
   ports:
     keys:
     - Input
@@ -5459,7 +5465,7 @@ MonoBehaviour:
   _currentAmbientSoundIndex: 0
   _currentMusicSoundKey: "n22e1 \u2014 The void"
   _currentAmbientSoundKey: 
-  _isInstantNodeTransition: 0
+  _isInstantNodeTransition: 1
   _volumeMusicSound: 1
   _volumeAmbientSound: 1
   _smoothMusicTransitionKey: 0
@@ -7004,7 +7010,7 @@ MonoBehaviour:
   m_Name: Narrative
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 29560, y: 4264}
+  position: {x: 26200, y: 3880}
   ports:
     keys:
     - Input
