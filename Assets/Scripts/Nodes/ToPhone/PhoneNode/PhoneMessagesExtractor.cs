@@ -111,6 +111,10 @@ public class PhoneMessagesExtractor
 				_tryShowNextReactiveCommand.Execute();
 				break;
 			
+			case PhoneBlockContactNode blockContactNode:
+				
+				break;
+			
 			case EndNode endNode:
 				MessagesIsOut = true;
 				break;
