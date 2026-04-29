@@ -175,7 +175,16 @@ public class NodeGraphInitializer
                     _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
                     _levelUIProvider.ChoicePanelUIHandler, _phoneNodeIsActive);
                 return;
-            
+                
+            case PhoneBlockContactNode phoneBlockContactNode:
+                phoneBlockContactNode.ConstructMyPhoneBlockContactNode(_phoneProvider.GetPhones(seriaIndex),
+                    _phoneProvider.GetContactsToAddInPhoneInPlot(seriaIndex)/*,
+                    _customizableCharacterIndexesCustodians,
+                    _levelUIProvider.PhoneUIHandler,
+                    _levelUIProvider.CustomizationCurtainUIHandler, _levelUIProvider.NarrativePanelUIHandler,
+                    _levelUIProvider.ChoicePanelUIHandler, _phoneNodeIsActive*/);
+                return;
+
             case ChangeStatsNode changeStatsNode:
                 changeStatsNode.ConstructMyChangeStatsNode(_gameStatsProvider, _levelUIProvider.NotificationPanelUIHandler,
                     seriaIndex);

@@ -10,6 +10,7 @@ public class PhoneContact
     [field: SerializeField] public Sprite Icon  { get; private set; }
     [field: SerializeField] public bool IsEmptyIconKey  { get; private set; }
     [field: SerializeField] public bool AddInPlot  { get; private set; }
+    [field: SerializeField] public bool ContactBlockedMe  { get; set; }
     [field: SerializeField] public Color Color  { get; private set; }
 
     public void Init()
