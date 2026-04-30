@@ -2,15 +2,16 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class PhoneContentProvider
+public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
 {
     private const int _contactsCount = 7;
     private const int _messagesCount = 5;
     private const int _notificationsCount = 1;
-    private ContactView _contactPrefab;
-    private MessageView _incomingMessagePrefab;
-    private MessageView _outcomingMessagePrefab;
-    private NotificationView _notificationViewPrefab;
+    private readonly ContactView _contactPrefab;
+    private readonly MessageView _incomingMessagePrefab;
+    private readonly MessageView _outcomingMessagePrefab;
+    private readonly MessageView _contactBlockNotificationPrefab;
+    private readonly NotificationView _notificationViewPrefab;
     private PoolBase<ContactView> _contactsPool;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
@@ -20,18 +21,19 @@ public class PhoneContentProvider
     private Vector3 _messageScale;
     private Vector3 _notificationScale;
     private Vector3 _contactScale;
-
+    public MessageView ContactBlockNotificationPrefab => _contactBlockNotificationPrefab;
     public PoolBase<ContactView> ContactsPool => _contactsPool;
     public PoolBase<MessageView> IncomingMessagePool => _incomingMessagePool;
     public PoolBase<MessageView> OutcomingMessagePool => _outcomingMessagePool;
     public PoolBase<NotificationView> NotificationViewPool => _notificationViewPool;
 
     public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab,
-        MessageView outcomingMessagePrefab, NotificationView notificationViewPrefab)
+        MessageView outcomingMessagePrefab, MessageView contactBlockNotificationPrefab, NotificationView notificationViewPrefab)
     {
         _contactPrefab = contactPrefab;
         _incomingMessagePrefab = incomingMessagePrefab;
         _outcomingMessagePrefab = outcomingMessagePrefab;
+        _contactBlockNotificationPrefab = contactBlockNotificationPrefab;
         _notificationViewPrefab = notificationViewPrefab;
     }
     
@@ -39,8 +41,9 @@ public class PhoneContentProvider
     
     private readonly Action<GameObject> _addView;
 
-    public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab, NotificationView notificationViewPrefab,
-        Action<GameObject> addView)
+    public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab, MessageView outcomingMessagePrefab, 
+        MessageView contactBlockNotificationPrefab,
+        NotificationView notificationViewPrefab, Action<GameObject> addView)
     {
         _contactPrefab = contactPrefab;
         _incomingMessagePrefab = incomingMessagePrefab;

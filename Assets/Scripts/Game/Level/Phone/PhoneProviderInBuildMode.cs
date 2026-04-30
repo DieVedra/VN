@@ -13,6 +13,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     private NotificationViewPrefabAssetProvider _notificationViewPrefabAssetProvider;
     private OutcomingMessagePrefabAssetProvider _outcomingMessagePrefabAssetProvider;
     private IncomingMessagePrefabAssetProvider _incomingMessagePrefabAssetProvider;
+    private ContactBlockNotificationViewPrefabAssetProvider _contactBlockNotificationViewPrefabAssetProvider;
     private ContactPrefabAssetProvider _contactPrefabAssetProvider;
     private readonly DataProvider<PhoneProvider> _dataProviders;
     private readonly DataProvider<PhoneContactsProvider> _contactsToSeriaProviders;
@@ -41,6 +42,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         _notificationViewPrefabAssetProvider = new NotificationViewPrefabAssetProvider();
         _outcomingMessagePrefabAssetProvider = new OutcomingMessagePrefabAssetProvider();
         _incomingMessagePrefabAssetProvider = new IncomingMessagePrefabAssetProvider();
+        _contactBlockNotificationViewPrefabAssetProvider = new ContactBlockNotificationViewPrefabAssetProvider();
         _contactPrefabAssetProvider = new ContactPrefabAssetProvider();
         _phoneSaveHandler = phoneSaveHandler;
         _phoneSystemInitilized = false;
@@ -52,7 +54,10 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         var outcomingMessagePrefab = await _outcomingMessagePrefabAssetProvider.LoadOutcomingMessagePrefab();
         var incomingMessagePrefab = await _incomingMessagePrefabAssetProvider.LoadIncomingMessagePrefab();
         var contactPrefab = await _contactPrefabAssetProvider.LoadContactPrefab();
-        _phoneContentProvider = new PhoneContentProvider(contactPrefab, incomingMessagePrefab, outcomingMessagePrefab, notificationViewPrefab);
+        var contactBlockNotificationPrefab = await _contactBlockNotificationViewPrefabAssetProvider.LoadContactBlockNotificationPrefab();
+        
+        _phoneContentProvider = new PhoneContentProvider(contactPrefab, incomingMessagePrefab, outcomingMessagePrefab,
+            contactBlockNotificationPrefab, notificationViewPrefab);
 
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders.GetDatas, checkMathSeriaIndex);

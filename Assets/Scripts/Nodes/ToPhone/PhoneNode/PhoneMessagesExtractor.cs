@@ -96,6 +96,10 @@ public class PhoneMessagesExtractor
 				{
 					_tryShowNextReactiveCommand.Execute();
 				}
+				else if (_nextNode is PhoneBlockContactNode phoneBlockContactNode)
+				{
+					
+				}
 				return GetMessage(phoneMessageNode);
 			
 			case NotificationNode notificationNode:
@@ -112,7 +116,8 @@ public class PhoneMessagesExtractor
 				break;
 			
 			case PhoneBlockContactNode blockContactNode:
-				
+				blockContactNode.Enter().Forget();
+
 				break;
 			
 			case EndNode endNode:

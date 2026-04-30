@@ -12,6 +12,7 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
     [SerializeField] private ContactView _contactPrefab;
     [SerializeField] private MessageView _incomingMessagePrefab;
     [SerializeField] private MessageView _outcomingMessagePrefab;
+    [SerializeField] private MessageView _contactBlockNotificationPrefab;
     [SerializeField] private NotificationView _notificationViewPrefab;
     [SerializeField] private List<ObjectsToDestroy> _views;
     
@@ -39,7 +40,8 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         {
             _views[i].IsNewkey = false;
         }
-        _phoneContentProvider = new PhoneContentProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab, _notificationViewPrefab, AddView);
+        _phoneContentProvider = new PhoneContentProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab,
+            _contactBlockNotificationPrefab, _notificationViewPrefab, AddView);
         TryDestroyOld();
         if (Application.isPlaying)
         {

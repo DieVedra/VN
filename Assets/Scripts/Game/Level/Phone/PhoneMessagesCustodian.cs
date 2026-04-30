@@ -64,10 +64,6 @@ public class PhoneMessagesCustodian : ILocalizable
                     dictionary.Add(pair.Key, list);
                 }
             }
-            else
-            {
-                
-            }
         }
     }
 
@@ -79,7 +75,7 @@ public class PhoneMessagesCustodian : ILocalizable
         }
     }
 
-    public void AddMessageHistory(string phoneKey, string contactKey, PhoneMessage phoneMessage)
+    public void AddMessageToHistory(string phoneKey, string contactKey, PhoneMessage phoneMessage)
     {
         if (_phonesMessageHistory.ContainsKey(phoneKey))
         {

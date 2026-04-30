@@ -15,8 +15,9 @@ public class MessagesShower
     private const float _sizeYDefault = 93.5f;
     private readonly float _contentStartPosY;
     private Vector2 _size;
-    private PoolBase<MessageView> _incomingMessagePool;
-    private PoolBase<MessageView> _outcomingMessagePool;
+    
+    private IPhoneContentProviderToDialogScreen _contentProviderToDialogScreen;
+    
     private readonly PressDetector _readDialogButton;
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
@@ -36,6 +37,9 @@ public class MessagesShower
     private string _keyContact;
     private Action _onMessagesIsOut;
     private bool _inProgress;
+    private PoolBase<MessageView> _incomingMessagePool => _contentProviderToDialogScreen.IncomingMessagePool;
+    private PoolBase<MessageView> _outcomingMessagePool => _contentProviderToDialogScreen.OutcomingMessagePool;
+    private MessageView _contactBlockNotificationPrefab => _contentProviderToDialogScreen.ContactBlockNotificationPrefab;
 
     public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
         PhoneMessagesExtractor phoneMessagesExtractor, PhoneMessagesCustodian phoneMessagesCustodian, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
@@ -65,7 +69,7 @@ public class MessagesShower
         _tryShowReactiveCommand.Execute();
     }
     public void InitFromDialogScreen(string keyPhone, string keyContact, ContactNodeCase contactNodeCase, NodePort nodePort,
-        PoolBase<MessageView> incomingMessagePool, PoolBase<MessageView> outcomingMessagePool,
+        IPhoneContentProviderToDialogScreen contentProviderToDialogScreen,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
     {
         _previousMessageType = PhoneMessageType.None;
@@ -73,8 +77,7 @@ public class MessagesShower
         _keyContact = keyContact;
         _onMessagesIsOut = onMessagesIsOut;
         _compositeDisposable = new CompositeDisposable();
-        _incomingMessagePool = incomingMessagePool;
-        _outcomingMessagePool = outcomingMessagePool;
+        _contentProviderToDialogScreen = contentProviderToDialogScreen;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _inProgress = false;
         SetDialogToDefaultPos();
@@ -148,6 +151,9 @@ public class MessagesShower
                     }
                     SetIncomingMessage(phoneMessage);
                     break;
+                case PhoneMessageType.Block:
+                    
+                    break;
             }
 
             _previousMessageType = phoneMessage.MessageType;
@@ -178,7 +184,10 @@ public class MessagesShower
     {
         SetMessage(_outcomingMessagePool.Get(), phoneMessage, addToMessageHistoryKey);
     }
-
+    private void SetBlockNotification(PhoneMessage phoneMessage, bool addToMessageHistoryKey = true)
+    {
+        // SetMessage(_contactBlockNotificationPrefab, phoneMessage, addToMessageHistoryKey);
+    }
     private void SetMessage(MessageView view, PhoneMessage phoneMessage, bool addToMessageHistoryKey)
     {
         SetDialogToDefaultPos();
@@ -208,7 +217,7 @@ public class MessagesShower
 
         if (addToMessageHistoryKey)
         {
-            _phoneMessagesCustodian.AddMessageHistory(_keyPhone, _keyContact, phoneMessage);
+            _phoneMessagesCustodian.AddMessageToHistory(_keyPhone, _keyContact, phoneMessage);
             IncreaseDialogTransform(offset);
         }
 

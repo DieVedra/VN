@@ -121,7 +121,7 @@ public class PhoneUIHandler : ILocalizable
         _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground.ScrollRect, _unreadebleContacts, phoneUIView.ContactsScreenViewBackground, contactsShower,
             _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
         _dialogScreenHandler = new DialogScreenHandler(_sortedOnlineContacts, _unreadebleContacts, phoneUIView.DialogScreenViewBackground, messagesShower,
-            _phoneContentProvider.IncomingMessagePool, _phoneContentProvider.OutcomingMessagePool, _switchToContactsScreenCommand);
+            _phoneContentProvider, _switchToContactsScreenCommand);
         _phoneSiblingIndex = phoneUIView.transform.GetSiblingIndex();
         _curtainImage = phoneUIView.CurtainImage;
         _handImage = phoneUIView.HandImage;
