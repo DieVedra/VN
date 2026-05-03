@@ -76,8 +76,6 @@ public class SwitchNodeLogic
     private bool Comparison(int operatorIndex, Stat gameStat, int switchNodeStatValue)
     {
         bool result = false;
-        Debug.Log($"Operators[operatorIndex] {Operators[operatorIndex]}");
-        Debug.Log($"gameStat {gameStat.NameText} {gameStat.Value}");
         switch (Operators[operatorIndex])
         {
             case _equalSymbol:

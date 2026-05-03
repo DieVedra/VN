@@ -8,19 +8,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using XNode;
 
-public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
+public class DialogScreenHandler : PhoneScreenBaseHandler
 {
     private const float _duration = 1.1f;
     private const float _alphaMin1 = 0.65f;
     private const float _scaleValueMax = 1.2f;
     private readonly Dictionary<string, OnlineContactInfo> _sortedOnlineContacts;
     private readonly HashSet<string> _unreadebleContacts;
-    private readonly IPhoneContentProviderToDialogScreen _contentProviderToDialogScreen;
 
     private readonly ReactiveCommand _switchToContactsScreenCommand;
     private readonly Color _backArrowImageColor;
-    private LocalizationString _contactStatusLS = "Онлайн";
-    private LocalizationString _textBlockContactLS = "Контакт заблокировал вас";
+    private LocalizationString _contactStatusLS;
     private readonly Image _contactImage;
     private readonly Image _backArrowImage;
     private readonly TextMeshProUGUI _contactName;
@@ -34,15 +32,13 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
     private CancellationTokenSource _cancellationTokenSource;
     public string GetCurrentContactKey => _currentContact.NameLocalizationString.Key;
 
-    public DialogScreenHandler(Dictionary<string, OnlineContactInfo> sortedOnlineContacts, HashSet<string> unreadebleContacts, DialogScreenView dialogScreenView,
-        MessagesShower messagesShower,
-        IPhoneContentProviderToDialogScreen contentProviderToDialogScreen,
-        ReactiveCommand switchToContactsScreenCommand)
+    public DialogScreenHandler(Dictionary<string, OnlineContactInfo> sortedOnlineContacts, HashSet<string> unreadebleContacts,
+        DialogScreenView dialogScreenView, LocalizationString contactStatusLS,
+        MessagesShower messagesShower, ReactiveCommand switchToContactsScreenCommand)
         :base(dialogScreenView.gameObject, dialogScreenView.GradientImage)
     {
         _sortedOnlineContacts = sortedOnlineContacts;
         _unreadebleContacts = unreadebleContacts;
-        _contentProviderToDialogScreen = contentProviderToDialogScreen;
         _switchToContactsScreenCommand = switchToContactsScreenCommand;
         _contactImage = dialogScreenView.ContactImage;
         _contactStatus = dialogScreenView.ContactStatusGameObject;
@@ -53,6 +49,7 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _messagesShower = messagesShower;
         _backArrowImage = dialogScreenView.BackArrowImage;
         _backArrowImageColor = _backArrowImage.color;
+        _contactStatusLS = contactStatusLS;
     }
     public void Enable(PhoneContact contact, ContactNodeCase contactNodeCase, NodePort nodePort,
         OnlineContactInfo onlineContactInfo, SetLocalizationChangeEvent setLocalizationChangeEvent)
@@ -65,8 +62,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _backArrow.interactable = false;
         _backArrowImage.color = new Color(_backArrowImageColor.r, _backArrowImageColor.g, _backArrowImageColor.b, _alphaMin1);
         SetTexts();
-        _messagesShower.InitFromDialogScreen(contact.ToPhoneKey, contact.NameLocalizationString.Key, contactNodeCase, nodePort,
-            _contentProviderToDialogScreen, setLocalizationChangeEvent,
+        _messagesShower.InitFromDialogScreen(contact.ToPhoneKey, contact.NameLocalizationString.Key, contactNodeCase,
+            nodePort, setLocalizationChangeEvent,
             () =>
             {
                 if (onlineContactInfo != null && onlineContactInfo.IsOfflineOnEndKey == true)
@@ -135,8 +132,8 @@ public class DialogScreenHandler : PhoneScreenBaseHandler, ILocalizable
         _contactStatusText.text = _contactStatusLS;
     }
 
-    public IReadOnlyList<LocalizationString> GetLocalizableContent()
-    {
-        return new[] {_contactStatusLS, _textBlockContactLS};
-    }
+    // public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    // {
+    //     return new[] {_contactStatusLS};
+    // }
 }

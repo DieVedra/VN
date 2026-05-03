@@ -60,6 +60,7 @@ public class SpriteViewer : MonoBehaviour
 
     public void SetColorCharacter(Color color)
     {
+        Debug.Log($"{color}");
         _spriteRenderer.color = color;
     }
     public void ResetCharacterView()

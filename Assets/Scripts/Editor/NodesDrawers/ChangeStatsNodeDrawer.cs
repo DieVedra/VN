@@ -11,6 +11,7 @@ public class ChangeStatsNodeDrawer : NodeEditor
     private SerializedProperty _statProperty;
     private SerializedProperty _valueProperty;
     private SerializedProperty _notificationKeyProperty;
+    private SerializedProperty _phoneModeProperty;
     private SerializedProperty _inputPortProperty;
     private SerializedProperty _outputPortProperty;
     private bool _showKey;
@@ -21,6 +22,7 @@ public class ChangeStatsNodeDrawer : NodeEditor
         {
             _changeStatsNode = target as ChangeStatsNode;
             _statsProperty = serializedObject.FindProperty("_stats");
+            _phoneModeProperty = serializedObject.FindProperty("_phoneMode");
             _inputPortProperty = serializedObject.FindProperty("Input");
             _outputPortProperty = serializedObject.FindProperty("Output");
         }
@@ -29,6 +31,11 @@ public class ChangeStatsNodeDrawer : NodeEditor
             serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             NodeEditorGUILayout.PropertyField(_outputPortProperty);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Phone Mode: ");
+            _phoneModeProperty.boolValue = EditorGUILayout.Toggle(_phoneModeProperty.boolValue);
+            EditorGUILayout.EndHorizontal();
+
             _showKey = EditorGUILayout.BeginFoldoutHeaderGroup(_showKey, "Settings");
             if (_showKey)
             {

@@ -29,6 +29,8 @@ public class PhoneUIHandler : ILocalizable
 
     private LocalizationString _notificationTextLocalizationString = "Получено новое сообщение!";
     private LocalizationString _printLocalizationString = "печатает";
+    private LocalizationString _textBlockContactLS = "Контакт заблокировал вас";
+    private LocalizationString _contactStatusLS = "Онлайн";
 
     private List<ContactNodeCase> _sortedPhoneNodeCases;
     private Dictionary<string, OnlineContactInfo> _sortedOnlineContacts;
@@ -76,7 +78,7 @@ public class PhoneUIHandler : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {_notificationTextLocalizationString, _printLocalizationString };
+        return new[] {_notificationTextLocalizationString, _printLocalizationString, _textBlockContactLS, _contactStatusLS};
     }
 
     public void Init(PhoneUIView phoneUIView, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<int, NodePort> onGetNodePort)
@@ -110,18 +112,18 @@ public class PhoneUIHandler : ILocalizable
         _contactPrintStatusHandler = new ContactPrintStatusHandler(phoneUIView.DialogScreenViewBackground.PrintsImages,
             phoneUIView.DialogScreenViewBackground.ContactOnlineStatus.transform.parent.gameObject,
             phoneUIView.DialogScreenViewBackground.PrintsText, _printLocalizationString);
-        var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.DialogTransform, _contactPrintStatusHandler, _phoneMessagesExtractor,
-            phoneMessagesCustodian, _pressDetector, _tryShowReactiveCommand);
         _phoneContentProvider.Init(phoneUIView.DialogScreenViewBackground.DialogTransform, phoneUIView.ContactsScreenViewBackground.transform,
             phoneUIView.BlockScreenViewBackground.transform);
+        var messagesShower = new MessagesShower(phoneUIView.DialogScreenViewBackground.DialogTransform, _contactPrintStatusHandler, _phoneContentProvider,
+            _phoneMessagesExtractor, phoneMessagesCustodian, _pressDetector, _textBlockContactLS, _tryShowReactiveCommand);
         _topPanelHandler = new TopPanelHandler(phoneUIView.SignalIndicatorRectTransform, phoneUIView.SignalIndicatorImage, phoneUIView.TimeText,
             phoneUIView.ButteryText, phoneUIView.ButteryImage, phoneUIView.ButteryIndicatorImage);
         _blockScreenHandler = new BlockScreenHandler(_sortedNotifications, messagesShower, phoneUIView.BlockScreenViewBackground, _phoneContentProvider.NotificationViewPool,
             _switchToDialogScreenCommand, _notificationTextLocalizationString, _switchToContactsScreenCommand, GetOnlineStatus);
         _contactsScreenHandler = new ContactsScreenHandler(phoneUIView.ContactsScreenViewBackground.ScrollRect, _unreadebleContacts, phoneUIView.ContactsScreenViewBackground, contactsShower,
             _switchToDialogScreenCommand, _phoneContentProvider.ContactsPool);
-        _dialogScreenHandler = new DialogScreenHandler(_sortedOnlineContacts, _unreadebleContacts, phoneUIView.DialogScreenViewBackground, messagesShower,
-            _phoneContentProvider, _switchToContactsScreenCommand);
+        _dialogScreenHandler = new DialogScreenHandler(_sortedOnlineContacts, _unreadebleContacts, phoneUIView.DialogScreenViewBackground,
+            _contactStatusLS, messagesShower, _switchToContactsScreenCommand);
         _phoneSiblingIndex = phoneUIView.transform.GetSiblingIndex();
         _curtainImage = phoneUIView.CurtainImage;
         _handImage = phoneUIView.HandImage;

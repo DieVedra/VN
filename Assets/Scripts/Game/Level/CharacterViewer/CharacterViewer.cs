@@ -38,6 +38,7 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
 
     public void SetColorByBackground(Color color)
     {
+        Debug.Log($"222 {color}");
         SpriteViewer1.SetColorCharacter(color);
     }
     public void ChangeLightingColorOfTheCharacter(Color color)

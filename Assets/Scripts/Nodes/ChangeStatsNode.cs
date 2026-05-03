@@ -9,6 +9,7 @@ using UnityEngine;
 public class ChangeStatsNode : BaseNode
 {
     [SerializeField] private List<BaseStat> _stats;
+    [SerializeField] private bool _phoneMode;
     private IGameStatsProvider _gameStatsProvider;
     private NotificationPanelUIHandler _notificationPanelUIHandler;
     public IReadOnlyList<ILocalizationString> BaseStatsLocalizations => _stats;
@@ -39,8 +40,11 @@ public class ChangeStatsNode : BaseNode
         _gameStatsProvider.GameStatsHandler.UpdateStats(_stats);
         CancellationTokenSource = new CancellationTokenSource();
         ShowNotification(_notificationPanelUIHandler.GetTextStats(_stats, _gameStatsProvider));
+        if (_phoneMode == false)
+        {
+            SwitchToNextNodeEvent.Execute();
+        }
 
-        SwitchToNextNodeEvent.Execute();
         return default;
     }
     private void ShowNotification(string text)

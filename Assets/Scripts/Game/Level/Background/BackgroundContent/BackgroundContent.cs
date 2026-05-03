@@ -96,6 +96,7 @@ public class BackgroundContent : MonoBehaviour
 
     public async UniTask SmoothChangeLightingColorOfTheCharacter(float duration, CancellationToken cancellationToken)
     {
+        Debug.Log(12121);
         await _setLighting.SmoothChangeLightingColorOfTheCharacter(_colorLighting, duration, cancellationToken);
     }
 

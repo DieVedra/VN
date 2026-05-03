@@ -10,6 +10,7 @@ public class PhoneMessagesExtractor
 	private Node _nodeToSave;
 	private CancellationTokenSource _cancellationTokenSource;
 	public bool MessagesIsOut { get; private set; }
+	public bool BlockResult { get; private set; }
 
 	public PhoneMessagesExtractor(ReactiveCommand tryShowNextReactiveCommand)
 	{
@@ -98,7 +99,7 @@ public class PhoneMessagesExtractor
 				}
 				else if (_nextNode is PhoneBlockContactNode phoneBlockContactNode)
 				{
-					
+					_tryShowNextReactiveCommand.Execute();
 				}
 				return GetMessage(phoneMessageNode);
 			
@@ -117,9 +118,14 @@ public class PhoneMessagesExtractor
 			
 			case PhoneBlockContactNode blockContactNode:
 				blockContactNode.Enter().Forget();
-
-				break;
-			
+				BlockResult = blockContactNode.Result;
+				_nodeToSave = _nextNode = blockContactNode.GetNextNode();
+				_tryShowNextReactiveCommand.Execute();
+				return new PhoneMessage()
+				{
+					MessageType = PhoneMessageType.Block,
+					IsReaded = true
+				};
 			case EndNode endNode:
 				MessagesIsOut = true;
 				break;

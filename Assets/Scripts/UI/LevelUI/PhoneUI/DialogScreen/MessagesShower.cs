@@ -14,10 +14,9 @@ public class MessagesShower
     private const float _multiplier = 1.6f;
     private const float _sizeYDefault = 93.5f;
     private readonly float _contentStartPosY;
-    private Vector2 _size;
-    
-    private IPhoneContentProviderToDialogScreen _contentProviderToDialogScreen;
-    
+
+    private readonly LocalizationString _textBlockContactLS;
+
     private readonly PressDetector _readDialogButton;
     private readonly RectTransform _dialogTransform;
     private readonly ContactPrintStatusHandler _contactPrintStatusHandler;
@@ -31,24 +30,31 @@ public class MessagesShower
     private readonly Queue<Func<UniTask>> _queueShowMessages;
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private Vector2 _pos = new Vector2();
+    private Vector2 _size;
     private CompositeDisposable _compositeDisposable;
     private PhoneMessageType _previousMessageType;
     private string _keyPhone;
     private string _keyContact;
     private Action _onMessagesIsOut;
     private bool _inProgress;
-    private PoolBase<MessageView> _incomingMessagePool => _contentProviderToDialogScreen.IncomingMessagePool;
-    private PoolBase<MessageView> _outcomingMessagePool => _contentProviderToDialogScreen.OutcomingMessagePool;
-    private MessageView _contactBlockNotificationPrefab => _contentProviderToDialogScreen.ContactBlockNotificationPrefab;
+    private PoolBase<MessageView> _incomingMessagePool;
+    private PoolBase<MessageView> _outcomingMessagePool;
+    private PoolBase<MessageView> _blockMessagePool;
 
-    public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler,
-        PhoneMessagesExtractor phoneMessagesExtractor, PhoneMessagesCustodian phoneMessagesCustodian, PressDetector readDialogButton, ReactiveCommand tryShowReactiveCommand)
+    public MessagesShower(RectTransform dialogTransform, ContactPrintStatusHandler contactPrintStatusHandler, IPhoneContentProviderToDialogScreen contentProviderToDialogScreen,
+        PhoneMessagesExtractor phoneMessagesExtractor,  PhoneMessagesCustodian phoneMessagesCustodian, PressDetector readDialogButton, LocalizationString textBlockContactLS,
+        ReactiveCommand tryShowReactiveCommand)
     {
         _dialogTransform = dialogTransform;
         _contentStartPosY = dialogTransform.anchoredPosition.y;
         _contactPrintStatusHandler = contactPrintStatusHandler;
         _phoneMessagesExtractor = phoneMessagesExtractor;
         _phoneMessagesCustodian = phoneMessagesCustodian;
+        _textBlockContactLS = textBlockContactLS;
+        _incomingMessagePool = contentProviderToDialogScreen.IncomingMessagePool;
+        _outcomingMessagePool = contentProviderToDialogScreen.OutcomingMessagePool;
+        _blockMessagePool = contentProviderToDialogScreen.BlockMessagePool;
+        
         _messageViewed = new List<MessageView>();
         _readDialogButton = readDialogButton;
         _queueShowMessages = new Queue<Func<UniTask>>();
@@ -69,7 +75,6 @@ public class MessagesShower
         _tryShowReactiveCommand.Execute();
     }
     public void InitFromDialogScreen(string keyPhone, string keyContact, ContactNodeCase contactNodeCase, NodePort nodePort,
-        IPhoneContentProviderToDialogScreen contentProviderToDialogScreen,
         SetLocalizationChangeEvent setLocalizationChangeEvent, Action onMessagesIsOut)
     {
         _previousMessageType = PhoneMessageType.None;
@@ -77,7 +82,6 @@ public class MessagesShower
         _keyContact = keyContact;
         _onMessagesIsOut = onMessagesIsOut;
         _compositeDisposable = new CompositeDisposable();
-        _contentProviderToDialogScreen = contentProviderToDialogScreen;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _inProgress = false;
         SetDialogToDefaultPos();
@@ -152,10 +156,19 @@ public class MessagesShower
                     SetIncomingMessage(phoneMessage);
                     break;
                 case PhoneMessageType.Block:
+                    if (_phoneMessagesExtractor.BlockResult)
+                    {
+                        phoneMessage.TextMessage = _textBlockContactLS;
+                        SetBlockNotification(phoneMessage);
+                    }
+                    else
+                    {
+                        _phoneMessagesCustodian.RemoveBlockMessageFromHistory(_keyPhone, _keyContact);
+                        _blockMessagePool.ReturnAll();
+                    }
                     
                     break;
             }
-
             _previousMessageType = phoneMessage.MessageType;
         }
 
@@ -186,7 +199,7 @@ public class MessagesShower
     }
     private void SetBlockNotification(PhoneMessage phoneMessage, bool addToMessageHistoryKey = true)
     {
-        // SetMessage(_contactBlockNotificationPrefab, phoneMessage, addToMessageHistoryKey);
+        SetMessage(_blockMessagePool.Get(), phoneMessage, addToMessageHistoryKey);
     }
     private void SetMessage(MessageView view, PhoneMessage phoneMessage, bool addToMessageHistoryKey)
     {
@@ -220,7 +233,6 @@ public class MessagesShower
             _phoneMessagesCustodian.AddMessageToHistory(_keyPhone, _keyContact, phoneMessage);
             IncreaseDialogTransform(offset);
         }
-
         _messageViewed.Add(view);
     }
 
@@ -272,6 +284,9 @@ public class MessagesShower
                         break;
                     case PhoneMessageType.Incoming:
                         SetIncomingMessage(item, false);
+                        break;
+                    case PhoneMessageType.Block:
+                        SetBlockNotification(item, false);
                         break;
                 }
             }

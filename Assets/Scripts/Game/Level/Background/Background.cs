@@ -151,6 +151,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             CurrentKeyBackgroundContent = key;
             CurrentBackgroundPosition = backgroundPosition;
             BackgroundContent1.SetBackgroundPosition(backgroundPosition);
+            BackgroundContent1.ChangeLightingColorOfTheCharacter();
         }
     }
 
@@ -185,6 +186,8 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         {
             BackgroundContent2.Diactivate();
             BackgroundContent1.Activate(value);
+            BackgroundContent1.ChangeLightingColorOfTheCharacter();
+
             CurrentKeyBackgroundContent = key;
 
             await BackgroundContent1.MovementSmoothBackgroundChangePosition(cancellationToken, backgroundPosition);
@@ -216,8 +219,8 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             SetAlpha(BackgroundContent1, _maxAlpha);
             SetAlpha(BackgroundContent2, _minAlpha);
             BackgroundContent2.SetBackgroundPosition(toBackgroundPosition);
+            BackgroundContent1.ChangeLightingColorOfTheCharacter();
             BackgroundContent2.Activate(value);
-            Debug.Log($"value {value.CentralPosition}");
             BackgroundContent1.Diactivate();
             SetAlpha(BackgroundContent2, _maxAlpha);
             CurrentKeyBackgroundContent = keyTo;

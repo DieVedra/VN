@@ -12,15 +12,12 @@ public class PhoneBlockContactNode : BaseNode
     [SerializeField] private bool _blockContact;
     [SerializeField] private bool _unblockContact;
     
-    
-    
     private List<PhoneContact> _allContacts;
-
+    private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
     public IReadOnlyList<Phone> Phones;
     public Phone CurrentPhone => Phones[_phoneIndex];
     public IReadOnlyList<PhoneContact> AllContacts => _allContacts;
-
-    private IReadOnlyList<PhoneContact> _contactsToAddInPlot;
+    public bool Result { get; private set; }
 
 
     public void ConstructMyPhoneBlockContactNode(IReadOnlyList<Phone> phones, IReadOnlyList<PhoneContact> contactsToAddInPlot)
@@ -32,7 +29,6 @@ public class PhoneBlockContactNode : BaseNode
 
     public override UniTask Enter(bool isMerged = false)
     {
-
         if (CurrentPhone.PhoneContactDictionary.TryGetValue(_contactKey, out var value))
         {
             if (_blockContact == true)
@@ -43,9 +39,10 @@ public class PhoneBlockContactNode : BaseNode
             {
                 value.ContactBlockedMe = false;
             }
+            Result = value.ContactBlockedMe;
         }
         
-        return base.Enter(isMerged);
+        return default;
     }
 
     private void InitAllContacts()

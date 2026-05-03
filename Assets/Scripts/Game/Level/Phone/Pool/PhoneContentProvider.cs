@@ -6,6 +6,7 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
 {
     private const int _contactsCount = 7;
     private const int _messagesCount = 5;
+    private const int _blockMessagesCount = 1;
     private const int _notificationsCount = 1;
     private readonly ContactView _contactPrefab;
     private readonly MessageView _incomingMessagePrefab;
@@ -15,16 +16,17 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
     private PoolBase<ContactView> _contactsPool;
     private PoolBase<MessageView> _incomingMessagePool;
     private PoolBase<MessageView> _outcomingMessagePool;
+    private PoolBase<MessageView> _blockMessagePool;
     private PoolBase<NotificationView> _notificationViewPool;
     private RectTransform _dialogParent;
     private Transform _notificationParent, _contactsParent;
     private Vector3 _messageScale;
     private Vector3 _notificationScale;
     private Vector3 _contactScale;
-    public MessageView ContactBlockNotificationPrefab => _contactBlockNotificationPrefab;
     public PoolBase<ContactView> ContactsPool => _contactsPool;
     public PoolBase<MessageView> IncomingMessagePool => _incomingMessagePool;
     public PoolBase<MessageView> OutcomingMessagePool => _outcomingMessagePool;
+    public PoolBase<MessageView> BlockMessagePool => _blockMessagePool;
     public PoolBase<NotificationView> NotificationViewPool => _notificationViewPool;
 
     public PhoneContentProvider(ContactView contactPrefab, MessageView incomingMessagePrefab,
@@ -49,6 +51,8 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
         _incomingMessagePrefab = incomingMessagePrefab;
         _outcomingMessagePrefab = outcomingMessagePrefab;
         _notificationViewPrefab = notificationViewPrefab;
+        _contactBlockNotificationPrefab = contactBlockNotificationPrefab;
+
         _addView = addView;
         _notificationScale = notificationViewPrefab.transform.localScale;
         _contactScale = _contactPrefab.transform.localScale;
@@ -69,6 +73,11 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
         {
             _addView.Invoke(view.gameObject);
         }
+
+        foreach (var view in _blockMessagePool.Pool)
+        {
+            _addView.Invoke(view.gameObject);
+        }
         foreach (var view in _notificationViewPool.Pool)
         {
             _addView.Invoke(view.gameObject);
@@ -85,6 +94,7 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
         _incomingMessagePool = new PoolBase<MessageView>(CreateIncomingMessage, null, OnReturn, _messagesCount);
         _outcomingMessagePool = new PoolBase<MessageView>(CreateOutcomingMessage, null, OnReturn, _messagesCount);
         _notificationViewPool = new PoolBase<NotificationView>(CreateNotification, null, OnReturn, _notificationsCount);
+        _blockMessagePool = new PoolBase<MessageView>(CreateBlockMessage, null, OnReturn, _blockMessagesCount);
 #if UNITY_EDITOR
 
         if (Application.isPlaying == false)
@@ -108,6 +118,10 @@ public class PhoneContentProvider : IPhoneContentProviderToDialogScreen
     private MessageView CreateOutcomingMessage()
     {
         return Object.Instantiate(_outcomingMessagePrefab, _dialogParent);
+    }
+    private MessageView CreateBlockMessage()
+    {
+        return Object.Instantiate(_contactBlockNotificationPrefab, _dialogParent);
     }
     private NotificationView CreateNotification()
     {

@@ -96,6 +96,24 @@ public class PhoneMessagesCustodian : ILocalizable
         }
     }
 
+    public void RemoveBlockMessageFromHistory(string phoneKey, string contactKey)
+    {
+        if (_phonesMessageHistory.ContainsKey(phoneKey))
+        {
+            if (_phonesMessageHistory[phoneKey].ContainsKey(contactKey))
+            {
+                int count = _phonesMessageHistory[phoneKey][contactKey].Count;
+                var list = _phonesMessageHistory[phoneKey][contactKey];
+                for (int i = count - 1; i >= 0; i--)
+                {
+                    if (list[i].MessageType == PhoneMessageType.Block)
+                    {
+                        list.RemoveAt(i);
+                    }
+                }
+            }
+        }
+    }
     public IReadOnlyList<PhoneMessage> GetMessagesHistory(string phoneKey, string contactKey)
     {
         IReadOnlyList<PhoneMessage> history = null;
