@@ -29,7 +29,7 @@ public class PhoneUIHandler : ILocalizable
 
     private LocalizationString _notificationTextLocalizationString = "Получено новое сообщение!";
     private LocalizationString _printLocalizationString = "печатает";
-    private LocalizationString _textBlockContactLS = "Контакт заблокировал вас";
+    private LocalizationString _textBlockContactLS = "Контакт заблокировал вас.";
     private LocalizationString _contactStatusLS = "Онлайн";
 
     private List<ContactNodeCase> _sortedPhoneNodeCases;

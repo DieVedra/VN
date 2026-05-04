@@ -114,6 +114,7 @@ public class MessagesShower
         _compositeDisposable?.Clear();
         _incomingMessagePool?.ReturnAll();
         _outcomingMessagePool?.ReturnAll();
+        _blockMessagePool?.ReturnAll();
         _readDialogButton.Disable();
     }
 
@@ -163,8 +164,7 @@ public class MessagesShower
                     }
                     else
                     {
-                        _phoneMessagesCustodian.RemoveBlockMessageFromHistory(_keyPhone, _keyContact);
-                        _blockMessagePool.ReturnAll();
+                        RegenerateMessagesHistory();
                     }
                     
                     break;
@@ -186,6 +186,18 @@ public class MessagesShower
         }
 
         _inProgress = false;
+    }
+
+    private void RegenerateMessagesHistory()
+    {
+        _phoneMessagesCustodian.RemoveBlockMessageFromHistory(_keyPhone, _keyContact);
+        _compositeDisposable?.Clear();
+        _incomingMessagePool?.ReturnAll();
+        _outcomingMessagePool?.ReturnAll();
+        _blockMessagePool?.ReturnAll();
+        _messageViewed.Clear();
+        _compositeDisposable = new CompositeDisposable();
+        TryGenerateFromHistory(_phoneMessagesCustodian.GetMessagesHistory(_keyPhone, _keyContact));
     }
 
     private void SetIncomingMessage(PhoneMessage phoneMessage, bool addToMessageHistoryKey = true)
