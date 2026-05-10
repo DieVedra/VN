@@ -9,6 +9,8 @@ public class Story  : ILocalizable
     [SerializeField, ShowAssetPreview()] private Sprite _spriteLogo;
     [SerializeField, ShowAssetPreview()] private Sprite _spriteStorySkin;
     [SerializeField] private LocalizationString _description;
+    [SerializeField] private LocalizationString _textLabelGameEndPanel;
+    [SerializeField] private LocalizationString _textDescriptionGameEndPanel;
     [SerializeField] private string _nameSceneAsset;
     [SerializeField] private string _nameUISpriteAtlas;
     [SerializeField] private int _allSeriesCount;
@@ -18,6 +20,8 @@ public class Story  : ILocalizable
     public Sprite SpriteLogo => _spriteLogo;
     public Sprite SpriteStorySkin => _spriteStorySkin;
     public LocalizationString Description => _description;
+    public LocalizationString TextLabelGameEndPanel => _textLabelGameEndPanel;
+    public LocalizationString TextDescriptionGameEndPanel => _textDescriptionGameEndPanel;
 
     public bool IsLiked => _storyData.IsLiked;
     public int MyIndex => _myIndex;
@@ -86,6 +90,6 @@ public class Story  : ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[] {_description};
+        return new[] {_description, _textLabelGameEndPanel, _textDescriptionGameEndPanel};
     }
 }

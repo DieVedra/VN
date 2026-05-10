@@ -29,7 +29,7 @@ public class StoriesProvider : ScriptableObject
                 var newStory = new StoryData
                 {
                     StoryName = story.StoryName, NameUISpriteAtlas = story.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
-                    CurrentNodeIndex = 0, PutOnSwimsuitKey = false
+                    CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = story.MyIndex
                 };
                 
                 saveData.StoryDatas.Add(story.StoryName, newStory);
@@ -59,7 +59,7 @@ public class StoriesProvider : ScriptableObject
                 if (pair.Value.StoryName == story.StoryName)
                 {
                     pair.Value.IsLiked = story.IsLiked;
-                    pair.Value.MyIndex = story.MyIndex;
+                    pair.Value.StoryIndex = story.MyIndex;
                     pair.Value.StoryName = story.StoryName;
                     pair.Value.StoryStarted = story.StoryStarted;
                     break;

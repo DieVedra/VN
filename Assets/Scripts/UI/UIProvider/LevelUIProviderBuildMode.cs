@@ -12,8 +12,8 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
     public LevelUIProviderBuildMode(LevelUIView levelUIView, GameControlPanelUIHandler gameControlPanelUIHandler,
         ShopMoneyButtonsUIHandler shopMoneyButtonsUIHandler, IReadOnlyList<ChoiceCaseView> choiceCasesViews, BlackFrameUIHandler blackFrameUIHandler, Wallet wallet,
         DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
-        CustomizationCharacterPanelUI customizationCharacterPanelUI, GlobalUIHandler globalUIHandler, 
-        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
+        CustomizationCharacterPanelUI customizationCharacterPanelUI, GlobalUIHandler globalUIHandler,
+        GameEndPanelHandler gameEndPanelHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, PanelResourceVisionHandler panelResourceVisionHandler,
         Action phoneInitOperation)
@@ -21,8 +21,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
             customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler, phoneInitOperation)
     {
         GameControlPanelUIHandler = gameControlPanelUIHandler;
-        GameEndPanelHandler = new GameEndPanelHandler(globalUIHandler.LoadIndicatorUIHandler, blackFrameUIHandler,
-            buttonTransitionToMainSceneUIHandler, levelUIView.transform);
+        GameEndPanelHandler = gameEndPanelHandler;
         ShopMoneyButtonsUIHandler = shopMoneyButtonsUIHandler;
         AwaitLoadContentPanelHandler = new AwaitLoadContentPanelHandler(blackFrameUIHandler, globalUIHandler.LoadScreenUIHandler,
             loadAssetsPercentHandler, onAwaitLoadContentEvent);

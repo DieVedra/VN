@@ -30,7 +30,7 @@ public class StoryData
     public List<PhoneSaveData> PhoneSaveDatas;
 
 
-    public int MyIndex;
+    public int StoryIndex;
     public int CustomizableCharacterIndex;
     public BackgroundSaveData BackgroundSaveData;
 

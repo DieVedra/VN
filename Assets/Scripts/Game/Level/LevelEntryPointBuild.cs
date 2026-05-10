@@ -32,6 +32,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private OnEndGameEvent _onEndGameEvent;
     private CancellationTokenSource _cancellationTokenSource;
     private LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
+    private StoriesProvider _storiesProvider;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
 
@@ -89,7 +90,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         ConstructSound();
         ConstructBackground();
-        await InitLevelCompletePercentCalculator();
+        
+        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        _storiesProvider = await storiesProviderAssetProvider.Load();
+        InitLevelCompletePercentCalculator();
         await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
@@ -103,20 +107,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
-    private async UniTask InitLevelCompletePercentCalculator()
+    private void InitLevelCompletePercentCalculator()
     {
-        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
-        StoriesProvider sp = await storiesProviderAssetProvider.Load();
+        // var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        // _storiesProvider = await storiesProviderAssetProvider.Load();
         int allSeriesCount = 0;
-        foreach (var story in sp.Stories)
+        foreach (var story in _storiesProvider.Stories)
         {
             if (story.StoryName == StoryData.StoryName)
             {
                 allSeriesCount = story.AllSeriesCount;
+                break;
             }
         }
 
-        storiesProviderAssetProvider.Release();
+        // storiesProviderAssetProvider.Release();
         base.LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
     }
 
@@ -291,10 +296,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
             buttonTransitionToMainSceneUIHandler, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);
 
-
+        var story = _storiesProvider.Stories[StoryData.StoryIndex];
+        var gameEndPanelHandler = new GameEndPanelHandler(story.TextLabelGameEndPanel, story.TextDescriptionGameEndPanel, 
+            _globalUIHandler.LoadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler,
+            buttonTransitionToMainSceneUIHandler, _levelUISpriteAtlasAssetProvider, LevelUIView.transform);
+        
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews,
             _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent,
-            customizationCharacterPanelUI, _globalUIHandler, buttonTransitionToMainSceneUIHandler,
+            customizationCharacterPanelUI, _globalUIHandler, gameEndPanelHandler,
             _levelLoadDataHandler.LoadAssetsPercentHandler, _onAwaitLoadContentEvent, _onEndGameEvent,
             _levelLoadDataHandler.PhoneProviderInBuildMode.PhoneContentProvider, panelResourceVisionHandler,
             () =>

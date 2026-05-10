@@ -40,7 +40,6 @@ public class GameSeriesHandlerEditorMode : GameSeriesHandler
         else
         {
             NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
-            NodeGraphInitializer.SwitchToNextNodeEvent.Shutdown();
             NodeGraphInitializer.SwitchToAnotherNodeGraphEvent.Shutdown();
             NodeGraphInitializer.DisableNodesContentEvent.Shutdown();
             NodeGraphInitializer.SwitchToNextSeriaEvent.Shutdown();
