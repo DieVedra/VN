@@ -1,23 +1,28 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class GameEndPanelHandler
 {
-    public readonly LocalizationString TextLabel = "Продолжение следует...";
-    public readonly LocalizationString TextDescription = "Кринж?";
-    
-    
+    public readonly LocalizationString TextLabel;
+    public readonly LocalizationString TextDescription;
     public readonly LocalizationString ButtonBackToMenu = "В меню";
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
     private readonly Transform _parent;
     private readonly ButtonTransitionToMainSceneUIHandler _buttonTransitionToMainSceneUIHandler;
     private readonly LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
+    private readonly GameStatsHandler _gameStatsHandler;
+    private readonly StatCasesSpawner _statCasesSpawner;
+    private readonly GameEndPanelAssetProvider _gameEndPanelAssetProvider;
+    private GameEndPanelView _gameEndPanelView;
 
-    public GameEndPanelHandler(LocalizationString textLabel, LocalizationString textDescription,
+    public GameEndPanelHandler(GameStatsHandler gameStatsHandler, LocalizationString textLabel, LocalizationString textDescription,
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler,
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
-        LevelUISpriteAtlasAssetProvider levelUISpriteAtlasAssetProvider, Transform parent)
+        LevelUISpriteAtlasAssetProvider levelUISpriteAtlasAssetProvider, Transform parent,
+        SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         TextLabel = textLabel;
         TextDescription = textDescription;
@@ -26,6 +31,9 @@ public class GameEndPanelHandler
         _parent = parent;
         _buttonTransitionToMainSceneUIHandler = buttonTransitionToMainSceneUIHandler;
         _levelUISpriteAtlasAssetProvider = levelUISpriteAtlasAssetProvider;
+        _gameStatsHandler = gameStatsHandler;
+        _gameEndPanelAssetProvider = new GameEndPanelAssetProvider();
+        _statCasesSpawner = new StatCasesSpawner(gameStatsHandler, _gameEndPanelAssetProvider, setLocalizationChangeEvent);
     }
 
     public async UniTask ShowPanel()
@@ -33,23 +41,33 @@ public class GameEndPanelHandler
         _blackFrameUIHandler.OpenTranslucent().Forget();
         _loadIndicatorUIHandler.SetClearIndicateMode();
         _loadIndicatorUIHandler.StartIndicate();
-        GameEndPanelView gameEndPanelView = await new GameEndPanelAssetProvider().LoadGameEndPanelPrefab(_parent);
+        _gameEndPanelView = await _gameEndPanelAssetProvider.LoadGameEndPanelPrefab(_parent);
         _loadIndicatorUIHandler.StopIndicate();
         
-        
-        
-        
-        gameEndPanelView.TextLabel.text = TextLabel.DefaultText;
-        gameEndPanelView.TextDescription.text = TextDescription.DefaultText;
+        await _statCasesSpawner.SpawnCases(_gameEndPanelView.StatContentRectTransform);
 
-        gameEndPanelView.TextButton.text = ButtonBackToMenu.DefaultText;
+        _gameEndPanelView.TextLabel.text = TextLabel.DefaultText;
+        _gameEndPanelView.TextDescription.text = TextDescription.DefaultText;
+
+        _gameEndPanelView.TextButton.text = ButtonBackToMenu.DefaultText;
         
-        gameEndPanelView.ButtonBackToMenu.image.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
-        gameEndPanelView.gameObject.SetActive(true);
-        gameEndPanelView.ButtonBackToMenu.onClick.AddListener(() =>
+        _gameEndPanelView.ButtonBackToMenu.image.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+        _gameEndPanelView.gameObject.SetActive(true);
+        _gameEndPanelView.ButtonBackToMenu.onClick.AddListener(() =>
         {
-            gameEndPanelView.ButtonBackToMenu.onClick.RemoveAllListeners();
+            _gameEndPanelView.ButtonBackToMenu.onClick.RemoveAllListeners();
             _buttonTransitionToMainSceneUIHandler.Press().Forget();
         });
+    }
+
+    public void Shutdown()
+    {
+        if (_gameEndPanelView != null)
+        {
+            _statCasesSpawner.Shutdown();
+            GameObject gameObject;
+            (gameObject = _gameEndPanelView.gameObject).SetActive(false);
+            Addressables.ReleaseInstance(gameObject);
+        }
     }
 }

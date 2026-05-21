@@ -75,8 +75,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
             {
                 if (node is ILocalizable localizable)
                 {
-                    // Debug.Log($"SetLocalizationToSeriaTexts: {node.name}");
-
                     foreach (var localizationString in localizable.GetLocalizableContent())
                     {
                         SetText(localizationString, true);

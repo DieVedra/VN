@@ -8,6 +8,8 @@ public class NarrativePanelUI : MonoBehaviour
     [SerializeField] private RectTransform _panelRectTransform;
     [SerializeField] private RectTransform _imageRectTransform;
     [SerializeField] private Image _image;
+    [SerializeField] private Image _additionalImage;
+    [SerializeField] private string _additionalImageName;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private float _durationAnim = 0.2f;
     [SerializeField] private float _heightOffset;
@@ -23,4 +25,6 @@ public class NarrativePanelUI : MonoBehaviour
     public bool FirstLineOffsetKey => _firstLineOffsetKey;
     public AnimationCurve AnimationCurve => _animationCurve;
     public Image Image => _image;
+    public Image AdditionalImage => _additionalImage;
+    public string AdditionalImageName => _additionalImageName;
 }

@@ -11,7 +11,6 @@ public class ResourcePanelHandler
     private const float _posXValueWithoutAddButtonMode = -29f;
     public const float VisibleAlphaValue = 1f;
     private Transform _parentDefault;
-    // private Transform _targetParentTransform;
     private RectTransform _panelTransform;
     private RectTransform _textTransform;
     private ResourcePanelView _panelView;
@@ -19,8 +18,6 @@ public class ResourcePanelHandler
     private CancellationTokenSource _cancellationTokenSource;
     private ResourcePanelMode _currentMode;
     private Vector3 _defaultPosition;
-    // private float _buferAlpha = VisibleAlphaValue; 
-    // private bool _buferActiveKey;
     private bool _animKey;
     public RectTransform PanelTransform => _panelTransform;
     public bool IsInited { get; private set; }

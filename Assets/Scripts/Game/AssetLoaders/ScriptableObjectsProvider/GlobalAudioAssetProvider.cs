@@ -1,6 +1,4 @@
-﻿
-
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 public class GlobalAudioAssetProvider : ScriptableObjectAssetLoader
 {

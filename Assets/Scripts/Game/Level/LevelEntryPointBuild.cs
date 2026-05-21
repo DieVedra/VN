@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 public class LevelEntryPointBuild : LevelEntryPoint
@@ -33,6 +34,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private CancellationTokenSource _cancellationTokenSource;
     private LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
     private StoriesProvider _storiesProvider;
+    private BackgroundData _iconsData;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
 
@@ -109,8 +111,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private void InitLevelCompletePercentCalculator()
     {
-        // var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
-        // _storiesProvider = await storiesProviderAssetProvider.Load();
         int allSeriesCount = 0;
         foreach (var story in _storiesProvider.Stories)
         {
@@ -120,8 +120,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 break;
             }
         }
-
-        // storiesProviderAssetProvider.Release();
         base.LevelCompletePercentCalculator = new LevelCompletePercentCalculator(_gameSeriesHandlerBuildMode, allSeriesCount);
     }
 
@@ -194,6 +192,10 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _wardrobeCharacterViewer.Shutdown();
         _globalSound.ShutdownFromLevel();
         _levelUISpriteAtlasAssetProvider.Release();
+        if (_iconsData != null)
+        {
+            Addressables.Release(_iconsData);
+        }
         base.Shutdown();
     }
     private void Save()
@@ -225,15 +227,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         _levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
+        IconsDataAssetProvider iconsDataAssetProvider = new IconsDataAssetProvider();
+        _iconsData = await iconsDataAssetProvider.LoadIconsDataAsset();
         await _levelUISpriteAtlasAssetProvider.LoadSpriteAtlas(StoryData.NameUISpriteAtlas);
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
         LevelUIView.NarrativePanelUI.Image.sprite =
             _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+        LevelUIView.NarrativePanelUI.AdditionalImage.sprite = _iconsData.GetSprite(LevelUIView.NarrativePanelUI.AdditionalImageName);
+        LevelUIView.ChoicePanelUI.TimerImage.sprite = _iconsData.GetSprite(LevelUIView.ChoicePanelUI.TimerImageName);
+        
         LevelUIView.NotificationPanelUI.Image.sprite = 
             _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NotificationPanelName);
         LevelUIView.CharacterPanelUI.Image.sprite = 
             _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.DialogPanelName);
-        
+
         ResourcePanelsSettingsAssetProvider resourcePanelsSettingsAssetProvider = new ResourcePanelsSettingsAssetProvider();
         ResourcePanelsSettingsProvider resourcePanelsSettingsProvider = await resourcePanelsSettingsAssetProvider.LoadLocalizationHandlerAsset();
         ResourcePanelPrefabProvider resourcePanelPrefabProvider = new ResourcePanelPrefabProvider();
@@ -244,18 +251,18 @@ public class LevelEntryPointBuild : LevelEntryPoint
             resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor, _wallet.MonetsCountChanged);
         heartsResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(LevelUIView.HeartsPanelRectTransform), _wallet.GetHeartsCount,
             resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor, _wallet.HeartsCountChanged);
-        monetResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.MonetSprite);
-        heartsResourcePanelHandler.SetSprite(resourcePanelsSettingsProvider.HeartsSprite);
+        monetResourcePanelHandler.SetSprite(_iconsData.GetSprite(resourcePanelsSettingsProvider.MonetIconName));
+        heartsResourcePanelHandler.SetSprite(_iconsData.GetSprite(resourcePanelsSettingsProvider.HeartIconName));
 
         PanelResourceVisionHandler panelResourceVisionHandler = new PanelResourceVisionHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
-        
-        
+
+
         if (LevelUIView.TryGetComponent(out Canvas canvas))
         {
             canvas.worldCamera = Camera.main;
         }
+
         await TryCreateBlackFrameUIHandler();
-        
         ChoicePanelCasePrefabProvider choicePanelCasePrefabProvider = new ChoicePanelCasePrefabProvider();
         List<ChoiceCaseView> choiceCasesViews = new List<ChoiceCaseView>(ChoiceNode.MaxCaseCount);
         for (int i = 0; i < ChoiceNode.MaxCaseCount; i++)
@@ -266,8 +273,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
             choiceCasesViews.Add(choiceCaseView);
         }
-        
-        
+
         CustomizationCharacterPanelUI customizationCharacterPanelUI =
             PrefabsProvider.CustomizationCharacterPanelAssetProvider.CreateCustomizationCharacterPanelUI(LevelUIView
                 .transform);
@@ -278,11 +284,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.HairImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.HairstyleIconName);
         customizationCharacterPanelUI.ClothImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ClothesIconName);
         customizationCharacterPanelUI.PlayButtonImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
-        
+
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SiblingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);
         _cancellationTokenSource = new CancellationTokenSource();
-        
+
+
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler =
             new ButtonTransitionToMainSceneUIHandler(_globalUIHandler.LoadScreenUIHandler, PreSceneTransition);
         
@@ -297,9 +304,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
             buttonTransitionToMainSceneUIHandler, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);
 
         var story = _storiesProvider.Stories[StoryData.StoryIndex];
-        var gameEndPanelHandler = new GameEndPanelHandler(story.TextLabelGameEndPanel, story.TextDescriptionGameEndPanel, 
+        var gameEndPanelHandler = new GameEndPanelHandler(_levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler, story.TextLabelGameEndPanel, story.TextDescriptionGameEndPanel, 
             _globalUIHandler.LoadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler,
-            buttonTransitionToMainSceneUIHandler, _levelUISpriteAtlasAssetProvider, LevelUIView.transform);
+            buttonTransitionToMainSceneUIHandler, _levelUISpriteAtlasAssetProvider, LevelUIView.transform, _setLocalizationChangeEvent);
         
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews,
             _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent,

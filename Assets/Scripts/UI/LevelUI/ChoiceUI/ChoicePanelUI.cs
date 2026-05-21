@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChoicePanelUI : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class ChoicePanelUI : MonoBehaviour
     [SerializeField] private RectTransform _timerImageRectTransform;
     [SerializeField] private RectTransform _choicesParent;
     [SerializeField] private CanvasGroup _timerPanelCanvasGroup;
+    [SerializeField] private Image _timerImage;
+    [SerializeField] private string _timerImageName;
     [SerializeField] private RectTransform _monetResourceParent;
     [SerializeField] private RectTransform _heartResourceParent;
     [SerializeField] private float _durationAnim = 0.2f;
@@ -19,6 +22,8 @@ public class ChoicePanelUI : MonoBehaviour
     public RectTransform MonetResourceParent => _monetResourceParent;
     public RectTransform HeartResourceParent => _heartResourceParent;
     public RectTransform ChoicesParent => _choicesParent;
+    public Image TimerImage => _timerImage;
+    public string TimerImageName => _timerImageName;
     public float DurationAnim => _durationAnim;
     public float HeightOffset => _heightOffset;
     public float ImageHeightDefault => _imageHeightDefault;
