@@ -7,6 +7,7 @@ using Zenject;
 public class EntryPoint: MonoBehaviour
 {
     [SerializeField, Expandable] private StoriesProvider _storiesProvider;
+    [SerializeField] private int _targetFrameRate = 60;
     private MainMenuUIProvider _mainMenuUIProvider;
     private LevelLoader _levelLoader;
     private AppStarter _appStarter;
@@ -38,6 +39,7 @@ public class EntryPoint: MonoBehaviour
 
     private async void Awake()
     {
+        Application.targetFrameRate = _targetFrameRate;
         StartConfigAssetProvider startConfigAssetProvider = new StartConfigAssetProvider();
         StartConfig sc = await startConfigAssetProvider.Load();
         _saveServiceProvider.LoadSaveData(sc);
