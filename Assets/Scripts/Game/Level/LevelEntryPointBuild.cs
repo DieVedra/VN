@@ -33,8 +33,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private OnEndGameEvent _onEndGameEvent;
     private CancellationTokenSource _cancellationTokenSource;
     private LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
+    private IconsUISpriteAtlasAssetProvider _iconsUISpriteAtlasAssetProvider;
     private StoriesProvider _storiesProvider;
-    private BackgroundData _iconsData;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
 
@@ -191,11 +191,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _levelUIProviderBuildMode.Shutdown();
         _wardrobeCharacterViewer.Shutdown();
         _globalSound.ShutdownFromLevel();
-        _levelUISpriteAtlasAssetProvider.Release();
-        if (_iconsData != null)
-        {
-            Addressables.Release(_iconsData);
-        }
+        _levelUISpriteAtlasAssetProvider?.Release();
+        _iconsUISpriteAtlasAssetProvider?.Release();
         base.Shutdown();
     }
     private void Save()
@@ -227,14 +224,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         _levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
-        IconsDataAssetProvider iconsDataAssetProvider = new IconsDataAssetProvider();
-        _iconsData = await iconsDataAssetProvider.LoadIconsDataAsset();
+        _iconsUISpriteAtlasAssetProvider = new IconsUISpriteAtlasAssetProvider();
+        await _iconsUISpriteAtlasAssetProvider.LoadSpriteAtlas(IconsUISpriteAtlasAssetProvider.Name);
         await _levelUISpriteAtlasAssetProvider.LoadSpriteAtlas(StoryData.NameUISpriteAtlas);
         LevelUIView = await levelCanvasAssetProvider.CreateAsset();
         LevelUIView.NarrativePanelUI.Image.sprite =
             _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
-        LevelUIView.NarrativePanelUI.AdditionalImage.sprite = _iconsData.GetSprite(LevelUIView.NarrativePanelUI.AdditionalImageName);
-        LevelUIView.ChoicePanelUI.TimerImage.sprite = _iconsData.GetSprite(LevelUIView.ChoicePanelUI.TimerImageName);
+        LevelUIView.NarrativePanelUI.AdditionalImage.sprite = _iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.NarrativeIconName);
+        LevelUIView.ChoicePanelUI.TimerImage.sprite = _iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.TimeIconName);
         
         LevelUIView.NotificationPanelUI.Image.sprite = 
             _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NotificationPanelName);
@@ -251,8 +248,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
             resourcePanelsSettingsProvider.MonetPanelColor, resourcePanelsSettingsProvider.MonetPanelButtonColor, _wallet.MonetsCountChanged);
         heartsResourcePanelHandler.Init(await resourcePanelPrefabProvider.CreateAsset(LevelUIView.HeartsPanelRectTransform), _wallet.GetHeartsCount,
             resourcePanelsSettingsProvider.HeartsPanelColor, resourcePanelsSettingsProvider.HeartsPanelButtonColor, _wallet.HeartsCountChanged);
-        monetResourcePanelHandler.SetSprite(_iconsData.GetSprite(resourcePanelsSettingsProvider.MonetIconName));
-        heartsResourcePanelHandler.SetSprite(_iconsData.GetSprite(resourcePanelsSettingsProvider.HeartIconName));
+        monetResourcePanelHandler.SetSprite(_iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.MonetIconName));
+        heartsResourcePanelHandler.SetSprite(_iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.HeartIconName));
 
         PanelResourceVisionHandler panelResourceVisionHandler = new PanelResourceVisionHandler(monetResourcePanelHandler, heartsResourcePanelHandler);
 
@@ -306,7 +303,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         var story = _storiesProvider.Stories[StoryData.StoryIndex];
         var gameEndPanelHandler = new GameEndPanelHandler(_levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler, story.TextLabelGameEndPanel, story.TextDescriptionGameEndPanel, 
             _globalUIHandler.LoadIndicatorUIHandler, _darkeningBackgroundFrameUIHandler,
-            buttonTransitionToMainSceneUIHandler, _levelUISpriteAtlasAssetProvider, LevelUIView.transform, _setLocalizationChangeEvent);
+            buttonTransitionToMainSceneUIHandler, _levelUISpriteAtlasAssetProvider, LevelUIView.transform,
+            _iconsUISpriteAtlasAssetProvider, _setLocalizationChangeEvent);
         
         _levelUIProviderBuildMode = new LevelUIProviderBuildMode(LevelUIView, gameControlPanelUIHandler, shopMoneyButtonsUIHandler, choiceCasesViews,
             _darkeningBackgroundFrameUIHandler, _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent,

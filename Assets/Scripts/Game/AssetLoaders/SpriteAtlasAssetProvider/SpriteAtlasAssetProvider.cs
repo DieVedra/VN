@@ -3,20 +3,10 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class LevelUISpriteAtlasAssetProvider : AssetLoader<SpriteAtlas>
+public class SpriteAtlasAssetProvider : AssetLoader<SpriteAtlas>
 {
-    public const string DialogPanelName = "DialogPanel";
-    public const string NarrativePanelName = "NarrativePanel";
-    public const string NotificationPanelName = "NotificationPanel";
-    
-    
-    public const string BodyIconName = "BodyIcon";
-    public const string ClothesIconName = "ClothesIcon";
-    public const string HairstyleIconName = "HairstyleIcon";
-    public const string PanelWardrobeName = "PanelWardrobe";
-    public const string ArrowName = "Arrow";
-
     private Dictionary<string, Sprite> _spritesCashed;
+
     public async UniTask LoadSpriteAtlas(string name)
     {
         await Load(name);

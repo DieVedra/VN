@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using NaughtyAttributes;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEditor;
-using XNode;
-using Object = UnityEngine.Object;
 
 
 [CreateAssetMenu(fileName = "LocalizationCreator", menuName = "LocalizationCreator", order = 51)]

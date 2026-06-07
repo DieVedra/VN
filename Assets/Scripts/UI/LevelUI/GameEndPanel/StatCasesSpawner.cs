@@ -12,27 +12,26 @@ public class StatCasesSpawner
     private readonly int _casesCount = 10;
     private readonly GameStatsHandler _gameStatsHandler;
     private readonly GameEndPanelAssetProvider _gameEndPanelAssetProvider;
+    private readonly IconsUISpriteAtlasAssetProvider _iconsUISpriteAtlasAssetProvider;
     private readonly SetLocalizationChangeEvent _setLocalizationChangeEvent;
     private readonly Queue<StatCaseView> _cases;
     private readonly List<StatCaseView> _activeContent;
     private Vector2 _startPosition = new Vector2(_startPositionX, _startPositionY);
     private CompositeDisposable _compositeDisposable;
-    private BackgroundData _iconsData;
 
     public StatCasesSpawner(GameStatsHandler gameStatsHandler, GameEndPanelAssetProvider gameEndPanelAssetProvider, 
-        SetLocalizationChangeEvent setLocalizationChangeEvent)
+        IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         _gameStatsHandler = gameStatsHandler;
         _gameEndPanelAssetProvider = gameEndPanelAssetProvider;
         _setLocalizationChangeEvent = setLocalizationChangeEvent;
         _cases = new Queue<StatCaseView>(_casesCount);
         _activeContent = new List<StatCaseView>(_casesCount);
+        _iconsUISpriteAtlasAssetProvider = iconsUISpriteAtlasAssetProvider;
     }
 
     public async UniTask SpawnCases(RectTransform statContentRectTransform)
     {
-        var iconsDataAssetProvider = new IconsDataAssetProvider();
-        _iconsData = await iconsDataAssetProvider.LoadIconsDataAsset();
         foreach (var statCase in _activeContent)
         {
             _cases.Enqueue(statCase);
@@ -54,7 +53,7 @@ public class StatCasesSpawner
                     statCaseView = await _gameEndPanelAssetProvider.LoadStatCasePrefab(statContentRectTransform);
                 }
 
-                var sprite = _iconsData.GetSprite(stat.NameKey);
+                var sprite = _iconsUISpriteAtlasAssetProvider.GetSprite(stat.NameKey);
                 if (sprite != null)
                 {
                     statCaseView.ImageCase.sprite = sprite;
@@ -80,11 +79,6 @@ public class StatCasesSpawner
     public void Shutdown()
     {
         _compositeDisposable?.Clear();
-        if (_iconsData != null)
-        {
-            Addressables.Release(_iconsData);
-
-        }
         foreach (var statCase in _activeContent)
         {
             Addressables.ReleaseInstance(statCase.gameObject);

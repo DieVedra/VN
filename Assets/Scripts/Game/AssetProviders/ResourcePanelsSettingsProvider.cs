@@ -10,9 +10,6 @@ public class ResourcePanelsSettingsProvider : ScriptableObject
 
     [SerializeField] private AnimationCurve _heartPositionXWithAddButtonAnimationCurve;
     [SerializeField] private AnimationCurve _heartPositionYWithAddButtonAnimationCurve;
-    [SerializeField] private string _monetIconName;
-    [SerializeField] private string _heartIconName;
-
     
     public Color MonetPanelColor => _monetPanelColor;
     public Color MonetPanelButtonColor => _monetPanelButtonColor;
@@ -20,6 +17,4 @@ public class ResourcePanelsSettingsProvider : ScriptableObject
     public Color HeartsPanelButtonColor => _heartsPanelButtonColor;
     public AnimationCurve HeartPositionXWithAddButtonAnimationCurve => _heartPositionXWithAddButtonAnimationCurve;
     public AnimationCurve HeartPositionYWithAddButtonAnimationCurve => _heartPositionYWithAddButtonAnimationCurve;
-    public string MonetIconName => _monetIconName;
-    public string HeartIconName => _heartIconName;
 }

@@ -18,7 +18,8 @@ public class EntryPoint: MonoBehaviour
     private PrefabsProvider _prefabsProvider;
     private GlobalUIHandler _globalUIHandler;
     private PanelsLocalizationHandler _panelsLocalizationHandler;
-    private BackgroundData _iconsData;
+    private IconsUISpriteAtlasAssetProvider _iconsUISpriteAtlasAssetProvider;
+
 
     [Inject]
     private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
@@ -48,13 +49,11 @@ public class EntryPoint: MonoBehaviour
             _wallet = new Wallet(_saveServiceProvider.SaveData);
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
-
-        IconsDataAssetProvider iconsDataAssetProvider = new IconsDataAssetProvider();
-        _iconsData = await iconsDataAssetProvider.LoadIconsDataAsset();
+        _iconsUISpriteAtlasAssetProvider = new IconsUISpriteAtlasAssetProvider();
         _appStarter = new AppStarter();
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
-                _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _iconsData);
+                _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _iconsUISpriteAtlasAssetProvider);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
@@ -80,10 +79,7 @@ public class EntryPoint: MonoBehaviour
             _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Shutdown();
         _mainMenuUIProvider?.Shutdown();
-        if (_iconsData != null)
-        {
-            Addressables.Release(_iconsData);
-        }
+        _iconsUISpriteAtlasAssetProvider?.Release();
     }
 
     private void OnApplicationQuit()

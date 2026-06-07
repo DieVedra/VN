@@ -1,5 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UniRx;
+using Unity.Services.Analytics;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,9 +9,15 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, GlobalUIHandler globalUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, BackgroundData iconsData)
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
         await Addressables.InitializeAsync();
+        if (startConfig.AnalyticsStatus)
+        {
+            await UnityServices.InitializeAsync();
+            await AnalyticsService.Instance.SetAnalyticsEnabled(true);
+            AnalyticsService.Instance.OptOut();
+        }
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -63,7 +71,7 @@ public class AppStarter
         await prefabsProvider.Init();
         mainMenuUIView.gameObject.SetActive(true);
         await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, wallet,
-            mainMenuUIView, tr, storiesProvider, iconsData, startIndexStory);
+            mainMenuUIView, tr, storiesProvider, iconsUISpriteAtlasAssetProvider, startIndexStory);
 
 
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
@@ -195,12 +203,13 @@ public class AppStarter
     private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, 
         MainMenuUIProvider mainMenuUIProvider, Wallet wallet,
         MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider,
-        BackgroundData iconsData, int startIndexStory)
+        IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider, int startIndexStory)
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
         await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
         await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
             levelLoader, startIndexStory);
+        await iconsUISpriteAtlasAssetProvider.LoadSpriteAtlas(IconsUISpriteAtlasAssetProvider.Name);
         mainMenuUIProvider.SettingsButtonUIHandler.BaseInit(mainMenuUIView.SettingsButtonView, soundStatus, localizationChanger);
         mainMenuUIProvider.SettingsButtonUIHandler.InitInMenu();
         
@@ -222,9 +231,8 @@ public class AppStarter
         asset.gameObject.SetActive(true);
         asset.transform.parent.gameObject.SetActive(true);
         asset.CanvasGroup.blocksRaycasts = true;
-        var monetSprite = iconsData.GetSprite(resourcePanelsSettingsProvider.MonetIconName);
-        mainMenuUIProvider.MonetResourcePanelHandler.SetSprite(monetSprite);
-        mainMenuUIProvider.HeartsResourcePanelHandler.SetSprite(iconsData.GetSprite(resourcePanelsSettingsProvider.HeartIconName));
+        mainMenuUIProvider.MonetResourcePanelHandler.SetSprite(iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.MonetIconName));
+        mainMenuUIProvider.HeartsResourcePanelHandler.SetSprite(iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.HeartIconName));
         
         mainMenuUIProvider.ResourcesPanelsPositionHandlerMainMenu.Init(
             mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler,
@@ -232,7 +240,7 @@ public class AppStarter
         mainMenuUIProvider.ShopButtonsUIHandler.InitFromAppStarter(mainMenuUIProvider.MonetResourcePanelHandler, mainMenuUIProvider.HeartsResourcePanelHandler);
         mainMenuUIProvider.BottomPanelUIHandler.Init(mainMenuUIView.BottomPanelView);
         
-        mainMenuUIProvider.BottomPanelUIHandler.SetSprite(monetSprite);
+        mainMenuUIProvider.BottomPanelUIHandler.SetSprite(iconsUISpriteAtlasAssetProvider.GetSprite(IconsUISpriteAtlasAssetProvider.MonetIconName));
     }
     private LevelLoader LevelLoaderCreate(MainMenuUIProvider mainMenuUIProvider, ReactiveCommand onSceneTransition,
         SaveServiceProvider saveServiceProvider, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider)

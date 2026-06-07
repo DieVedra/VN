@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -22,7 +21,7 @@ public class GameEndPanelHandler
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler,
         ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler,
         LevelUISpriteAtlasAssetProvider levelUISpriteAtlasAssetProvider, Transform parent,
-        SetLocalizationChangeEvent setLocalizationChangeEvent)
+        IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider, SetLocalizationChangeEvent setLocalizationChangeEvent)
     {
         TextLabel = textLabel;
         TextDescription = textDescription;
@@ -33,7 +32,7 @@ public class GameEndPanelHandler
         _levelUISpriteAtlasAssetProvider = levelUISpriteAtlasAssetProvider;
         _gameStatsHandler = gameStatsHandler;
         _gameEndPanelAssetProvider = new GameEndPanelAssetProvider();
-        _statCasesSpawner = new StatCasesSpawner(gameStatsHandler, _gameEndPanelAssetProvider, setLocalizationChangeEvent);
+        _statCasesSpawner = new StatCasesSpawner(gameStatsHandler, _gameEndPanelAssetProvider, iconsUISpriteAtlasAssetProvider, setLocalizationChangeEvent);
     }
 
     public async UniTask ShowPanel()
