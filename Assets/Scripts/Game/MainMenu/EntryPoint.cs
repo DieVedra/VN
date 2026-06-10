@@ -1,7 +1,9 @@
 ﻿using NaughtyAttributes;
 using UniRx;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Diagnostics;
 using Zenject;
 
 public class EntryPoint: MonoBehaviour
@@ -87,5 +89,11 @@ public class EntryPoint: MonoBehaviour
         Shutdown();
         _globalSound.ShutdownFromMenu();
         _globalUIHandler.Shutdown();
+        AnalyticsService.Instance.Flush();
+    }
+    [Button()]
+    public void TestCrash()
+    {
+        Utils.ForceCrash(ForcedCrashCategory.FatalError);
     }
 }

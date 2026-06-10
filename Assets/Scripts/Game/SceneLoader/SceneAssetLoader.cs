@@ -1,10 +1,6 @@
-﻿
-using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;

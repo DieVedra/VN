@@ -96,7 +96,6 @@ public class CustomizationCharacterPanelUIHandler
     {
         await _buttonPlayHandler.OffAnim();
         await _priceViewHandler.HideAnim();
-        // await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: _cancellationTokenSource.Token);
         await _panelResourceVisionHandler.TryHidePanel(delay: _delay);
         _buttonsCustomizationHandler.Shutdown();
     }

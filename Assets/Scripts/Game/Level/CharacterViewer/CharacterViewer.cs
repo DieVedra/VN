@@ -14,7 +14,7 @@ public class CharacterViewer : BaseCharacterViewer, ISetLighting
         ViewerCreator = viewerCreator;
         TryDestroy();
         SpriteViewer1 = CreateViewer();
-        
+        Debug.Log(4545);
         
         TryInitViewer(SpriteViewer1);
         ResetCharacterView();

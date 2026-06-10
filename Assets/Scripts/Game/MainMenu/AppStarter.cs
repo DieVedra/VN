@@ -1,7 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using UniRx;
-using Unity.Services.Analytics;
-using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,12 +10,9 @@ public class AppStarter
         GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
         await Addressables.InitializeAsync();
-        if (startConfig.AnalyticsStatus)
-        {
-            await UnityServices.InitializeAsync();
-            await AnalyticsService.Instance.SetAnalyticsEnabled(true);
-            AnalyticsService.Instance.OptOut();
-        }
+        UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
+        await unityServicesHandler.Construct();
+        
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -77,7 +72,6 @@ public class AppStarter
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
         return (storiesProvider, result.Item1, levelLoader);
     }
-
     private AdvertisingButtonUIHandler TryInitAdvertisingButtonUIHandler(Wallet wallet, GlobalUIHandler globalUIHandler, GlobalSound globalSound)
     {
         AdvertisingButtonUIHandler advertisingButtonUIHandler = null;

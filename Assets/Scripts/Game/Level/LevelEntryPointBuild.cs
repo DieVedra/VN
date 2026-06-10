@@ -91,6 +91,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _globalSound.SetAudioClipProvider(_levelLoadDataHandler.AudioClipProvider);
         await _levelLoadDataHandler.LoadStartSeriaContent(StoryData);
         ConstructSound();
+        ConstructCharacterViewer();
         ConstructBackground();
         
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
@@ -142,9 +143,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.StoryStarted = true;
         }
         InitLocalization();
-        ViewerCreatorBuildMode viewerCreatorBuildMode = new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
-        CharacterViewer.Construct(viewerCreatorBuildMode);
-        ConstructWardrobeCharacterViewer(viewerCreatorBuildMode);
         NodeGraphInitializer = new NodeGraphInitializer(_levelLoadDataHandler.CharacterProviderBuildMode.CustomizableCharacterIndexesCustodians,
             _characterProvider, _backgroundBuildMode,
             _levelUIProviderBuildMode, CharacterViewer, _wardrobeCharacterViewer,
@@ -166,6 +164,15 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelUIProviderBuildMode.PhoneUIHandler.TryRestartPhoneTime(StoryData.CurrentPhoneMinute);
         }
     }
+
+    private void ConstructCharacterViewer()
+    {
+        ViewerCreatorBuildMode viewerCreatorBuildMode =
+            new ViewerCreatorBuildMode(PrefabsProvider.SpriteViewerAssetProvider);
+        CharacterViewer.Construct(viewerCreatorBuildMode);
+        ConstructWardrobeCharacterViewer(viewerCreatorBuildMode);
+    }
+
     private void OnApplicationQuit()
     {
         Save();
@@ -361,7 +368,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private async UniTask PreSceneTransition()
     {
         Save();
-        Shutdown();
         await _globalSound.SmoothAudio.StopSoundsOnPreSceneTransition(_cancellationTokenSource.Token);
+        Shutdown();
     }
 }
