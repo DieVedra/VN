@@ -1,19 +1,32 @@
-﻿
-using System.IO;
+﻿using System.IO;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class JSonSave : ISaveMetod
+public class JSonSave : ISaveMethod
 {
-    private const string _fileFormat = ".json";
-    public string FileFormat => _fileFormat;
+    private const string _fileName = "/Save";
 
-    public T Load<T>(string path)
+    private readonly string _savePath;
+
+    private const string _fileFormat = ".json";
+
+    public JSonSave()
     {
-        if (File.Exists(path) == true)
+        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
+    }
+
+    public UniTask Construct()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public async UniTask<T> Load<T>()
+    {
+        if (File.Exists(_savePath) == true)
         {
-            string json = File.ReadAllText(path);
-            Debug.Log($"File is Loaded  {path}");
+            string json = File.ReadAllText(_savePath);
+            Debug.Log($"File is Loaded  {_savePath}");
             return JsonConvert.DeserializeObject<T>(json);
         }
         else
@@ -23,7 +36,7 @@ public class JSonSave : ISaveMetod
         }
     }
 
-    public void Save(string path, object data)
+    public async UniTask Save(SaveData data)
     {
         if (data != null)
         {
@@ -32,9 +45,9 @@ public class JSonSave : ISaveMetod
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
             };
-            string json = JsonConvert.SerializeObject(data, settings);
-            File.WriteAllText(path, json);
-            Debug.Log($"File Saved: {path}");
+            string json = JsonConvert.SerializeObject(data as object, settings);
+            File.WriteAllText(_savePath, json);
+            Debug.Log($"File Saved: {_savePath}");
         }
     }
 }

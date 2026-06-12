@@ -24,10 +24,9 @@ public class EntryPoint: MonoBehaviour
 
 
     [Inject]
-    private void Construct(SaveServiceProvider saveServiceProvider, PrefabsProvider prefabsProvider,
+    private void Construct(PrefabsProvider prefabsProvider,
         GlobalSound globalSound, GlobalUIHandler globalUIHandler, PanelsLocalizationHandler panelsLocalizationHandler)
     {
-        _saveServiceProvider = saveServiceProvider;
         _globalSound = globalSound;
         _prefabsProvider = prefabsProvider;
         _onSceneTransition = new ReactiveCommand();
@@ -35,7 +34,11 @@ public class EntryPoint: MonoBehaviour
         {
             _wallet = ProjectContext.Instance.Container.Resolve<Wallet>();
         }
-
+        if (ProjectContext.Instance.Container.HasBinding<SaveServiceProvider>())
+        {
+            _saveServiceProvider = ProjectContext.Instance.Container.Resolve<SaveServiceProvider>();
+        }
+        
         _globalUIHandler = globalUIHandler;
         _panelsLocalizationHandler = panelsLocalizationHandler;
     }
@@ -45,17 +48,27 @@ public class EntryPoint: MonoBehaviour
         Application.targetFrameRate = _targetFrameRate;
         StartConfigAssetProvider startConfigAssetProvider = new StartConfigAssetProvider();
         StartConfig sc = await startConfigAssetProvider.Load();
-        _saveServiceProvider.LoadSaveData(sc);
+
+        if (ProjectContext.Instance.Container.HasBinding<SaveServiceProvider>() == false)
+        {
+            _saveServiceProvider = new SaveServiceProvider(sc);
+            ProjectContext.Instance.Container.Bind<SaveServiceProvider>().FromInstance(_saveServiceProvider).AsSingle();
+        }
+        _saveServiceProvider.Init(_wallet, _globalSound, _storiesProvider,
+            _panelsLocalizationHandler, _mainMenuUIProvider);
+        
         if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
         {
             _wallet = new Wallet(_saveServiceProvider.SaveData);
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
+
         _iconsUISpriteAtlasAssetProvider = new IconsUISpriteAtlasAssetProvider();
         _appStarter = new AppStarter();
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
                 _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _iconsUISpriteAtlasAssetProvider);
+        await _saveServiceProvider.LoadSaveData(sc);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
@@ -77,23 +90,22 @@ public class EntryPoint: MonoBehaviour
     private void Shutdown()
     {
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
-        _saveServiceProvider.SaveFromMainMenu(_wallet, _globalSound, _storiesProvider,
-            _panelsLocalizationHandler, _mainMenuUIProvider);
         _wallet.Shutdown();
         _mainMenuUIProvider?.Shutdown();
         _iconsUISpriteAtlasAssetProvider?.Release();
     }
 
-    private void OnApplicationQuit()
+    private async void OnApplicationQuit()
     {
+        await _saveServiceProvider.SaveFromMainMenu();
         Shutdown();
         _globalSound.ShutdownFromMenu();
         _globalUIHandler.Shutdown();
         AnalyticsService.Instance.Flush();
     }
-    [Button()]
-    public void TestCrash()
-    {
-        Utils.ForceCrash(ForcedCrashCategory.FatalError);
-    }
+    // [Button()]
+    // public void TestCrash()
+    // {
+    //     Utils.ForceCrash(ForcedCrashCategory.FatalError);
+    // }
 }

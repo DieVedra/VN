@@ -923,8 +923,10 @@
               <e p="SaveData.cs" t="Include" />
               <e p="SaveMetods" t="Include">
                 <e p="BinarySave.cs" t="Include" />
-                <e p="ISaveMetod.cs" t="Include" />
+                <e p="ISaveMethod.cs" t="Include" />
                 <e p="JSonSave.cs" t="Include" />
+                <e p="SaveMethod.cs" t="Include" />
+                <e p="UnityCloudSaveMethod.cs" t="Include" />
               </e>
               <e p="SaveService.cs" t="Include" />
               <e p="SaveServiceProvider.cs" t="Include" />
@@ -980,7 +982,6 @@
             <e p="GlobalUIHandlerInstaller.cs" t="Include" />
             <e p="LocalizationHandlerInstaller.cs" t="Include" />
             <e p="PrefabsProviderInstaller.cs" t="Include" />
-            <e p="SaveServiceProviderInstaller.cs" t="Include" />
           </e>
           <e p="Nodes" t="Include">
             <e p="AddSpriteNodeToBackground" t="Include">
@@ -1985,9 +1986,11 @@
               </e>
             </e>
           </e>
-          <e p="com.unity.addressables@1.16.19" t="Include">
+          <e p="com.unity.addressables@1.20.3" t="Include">
             <e p="Editor" t="Include">
               <e p="AddressableAssetSettingsDefaultObject.cs" t="Include" />
+              <e p="AddressableEditorInitialization.cs" t="Include" />
+              <e p="AssemblyInfo.cs" t="Include" />
               <e p="Build" t="Include">
                 <e p="AddressableAnalytics.cs" t="Include" />
                 <e p="AddressableAssetSettingsLocator.cs" t="Include" />
@@ -2031,8 +2034,10 @@
                   <e p="BuildLayoutPrinter.cs" t="Include" />
                 </e>
                 <e p="LinkXMLGenerator.cs" t="Include" />
+                <e p="MonoScriptBundleNaming.cs" t="Include" />
                 <e p="RevertUnchangedAssetsToPreviousAssetState.cs" t="Include" />
                 <e p="SceneManagerState.cs" t="Include" />
+                <e p="ShaderBundleNaming.cs" t="Include" />
               </e>
               <e p="Diagnostics" t="Include">
                 <e p="Data" t="Include">
@@ -2067,9 +2072,12 @@
                 <e p="AddressableAssetGroupTemplateInspector.cs" t="Include" />
                 <e p="AddressableAssetSettingsInspector.cs" t="Include" />
                 <e p="AddressableAssetsSettingsGroupEditor.cs" t="Include" />
+                <e p="AddressableAssetsSettingsGroupEditorBuildMenu.cs" t="Include" />
                 <e p="AddressableAssetsSettingsGroupTreeView.cs" t="Include" />
                 <e p="AddressableAssetsSettingsLabelMaskPopup.cs" t="Include" />
                 <e p="AddressableAssetsWindow.cs" t="Include" />
+                <e p="AddressableReadOnlyAttribute.cs" t="Include" />
+                <e p="AddressablesGUIUtility.cs" t="Include" />
                 <e p="AnalyzeRuleGUI.cs" t="Include" />
                 <e p="AnalyzeWindow.cs" t="Include" />
                 <e p="AssetInspectorGUI.cs" t="Include" />
@@ -2085,6 +2093,7 @@
                 <e p="HostingServicesProfileVarsTreeView.cs" t="Include" />
                 <e p="HostingServicesWindow.cs" t="Include" />
                 <e p="LabelWindow.cs" t="Include" />
+                <e p="ProfileDataSourceDropdownWindow.cs" t="Include" />
                 <e p="ProfileTreeView.cs" t="Include" />
                 <e p="ProfileValueReferenceDrawer.cs" t="Include" />
                 <e p="ProfileWindow.cs" t="Include" />
@@ -2113,8 +2122,10 @@
                 <e p="AddressableAssetUtility.cs" t="Include" />
                 <e p="AddressableScenesManager.cs" t="Include" />
                 <e p="AddressablesFileEnumeration.cs" t="Include" />
+                <e p="AssetReferenceDrawerUtilities.cs" t="Include" />
                 <e p="BuiltinSceneCache.cs" t="Include" />
                 <e p="CacheInitializationSettings.cs" t="Include" />
+                <e p="CcdFolder.cs" t="Include" />
                 <e p="GlobalInitialization.cs" t="Include" />
                 <e p="GroupSchemas" t="Include">
                   <e p="BundledAssetGroupSchema.cs" t="Include" />
@@ -2123,7 +2134,10 @@
                 </e>
                 <e p="KeyDataStore.cs" t="Include" />
                 <e p="LabelTable.cs" t="Include" />
+                <e p="OrgData.cs" t="Include" />
                 <e p="Preferences.cs" t="Include" />
+                <e p="ProfileDataSourceSettings.cs" t="Include" />
+                <e p="ProfileGroupType.cs" t="Include" />
                 <e p="ProfileValueReference.cs" t="Include" />
                 <e p="ProjectConfigData.cs" t="Include" />
               </e>
@@ -2132,6 +2146,7 @@
             <e p="Runtime" t="Include">
               <e p="Addressables.cs" t="Include" />
               <e p="AddressablesImpl.cs" t="Include" />
+              <e p="AssemblyInfo.cs" t="Include" />
               <e p="AssetLabelReference.cs" t="Include" />
               <e p="AssetReference.cs" t="Include" />
               <e p="AssetReferenceUIRestriction.cs" t="Include" />
@@ -2140,6 +2155,7 @@
                 <e p="AddressablesRuntimeProperties.cs" t="Include" />
                 <e p="CacheInitialization.cs" t="Include" />
                 <e p="CheckCatalogsOperation.cs" t="Include" />
+                <e p="CleanBundleCacheOperation.cs" t="Include" />
                 <e p="InitializationObjectsOperation.cs" t="Include" />
                 <e p="InitializationOperation.cs" t="Include" />
                 <e p="PackedPlayModeBuildLogs.cs" t="Include" />
@@ -2147,6 +2163,7 @@
                 <e p="UpdateCatalogsOperation.cs" t="Include" />
               </e>
               <e p="ResourceLocators" t="Include">
+                <e p="CcdManagedData.cs" t="Include" />
                 <e p="ContentCatalogData.cs" t="Include" />
                 <e p="DynamicResourceLocators.cs" t="Include" />
                 <e p="IResourceLocator.cs" t="Include" />
@@ -2155,6 +2172,7 @@
                 <e p="ResourceLocationMap.cs" t="Include" />
               </e>
               <e p="ResourceManager" t="Include">
+                <e p="AssemblyInfo.cs" t="Include" />
                 <e p="AsyncOperations" t="Include">
                   <e p="AsyncOperationBase.cs" t="Include" />
                   <e p="AsyncOperationHandle.cs" t="Include" />
@@ -2163,7 +2181,9 @@
                   <e p="DownloadStatus.cs" t="Include" />
                   <e p="GroupOperation.cs" t="Include" />
                   <e p="ProviderOperation.cs" t="Include" />
+                  <e p="UnityWebRequestOperation.cs" t="Include" />
                 </e>
+                <e p="CcdManager.cs" t="Include" />
                 <e p="Diagnostics" t="Include">
                   <e p="DiagnosticEvent.cs" t="Include" />
                   <e p="DiagnosticEventCollector.cs" t="Include" />
@@ -2205,7 +2225,10 @@
                   <e p="Exceptions.cs" t="Include" />
                   <e p="ListWithEvents.cs" t="Include" />
                   <e p="MonoBehaviourCallbackHooks.cs" t="Include" />
+                  <e p="OperationCacheKeys.cs" t="Include" />
+                  <e p="PlatformUtilities.cs" t="Include" />
                   <e p="ResourceManagerConfig.cs" t="Include" />
+                  <e p="UnityWebRequestUtilities.cs" t="Include" />
                 </e>
               </e>
               <e p="ResourceProviders" t="Include">
@@ -2221,9 +2244,45 @@
               </e>
             </e>
           </e>
-          <e p="com.unity.ads@3.7.1" t="Include">
+          <e p="com.unity.ads@3.7.5" t="Include">
             <e p="Editor" t="Include">
               <e p="AssemblyInfo.cs" t="Include" />
+              <e p="DevX" t="Include">
+                <e p="EditorGameServices" t="Include">
+                  <e p="AdsService.cs" t="Include" />
+                  <e p="AdsServiceEnabler.cs" t="Include" />
+                  <e p="AdsServiceIdentifier.cs" t="Include" />
+                  <e p="Analytics" t="Include">
+                    <e p="EditorGameServiceAnalyticsSender.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="Networking" t="Include">
+                  <e p="RequestGameIds.cs" t="Include" />
+                </e>
+                <e p="Settings" t="Include">
+                  <e p="AdsServiceTopMenu.cs" t="Include" />
+                  <e p="AdsSettingsProvider.cs" t="Include" />
+                  <e p="GameIdsUi.cs" t="Include" />
+                  <e p="GettingStartedUi.cs" t="Include" />
+                  <e p="PluginUtils.cs" t="Include" />
+                  <e p="TestModeUi.cs" t="Include" />
+                  <e p="UiConstants.cs" t="Include" />
+                  <e p="UIUtils.cs" t="Include" />
+                </e>
+                <e p="StyleSheets" t="Include">
+                  <e p="AdsService.uss" t="Include" />
+                </e>
+                <e p="UnityEngine.Advertisements.DevX.Editor.asmdef" t="Include" />
+                <e p="Utils" t="Include">
+                  <e p="AdsDashboardUrls.cs" t="Include" />
+                  <e p="EditorTimer.cs" t="Include" />
+                </e>
+                <e p="UXML" t="Include">
+                  <e p="AdsServiceGameIds.uxml" t="Include" />
+                  <e p="AdsServiceGettingStarted.uxml" t="Include" />
+                  <e p="AdsServiceTestMode.uxml" t="Include" />
+                </e>
+              </e>
               <e p="Parser" t="Include">
                 <e p="ISkAdNetworkParser.cs" t="Include" />
                 <e p="SkAdNetworkFileExtension.cs" t="Include" />
@@ -4423,7 +4482,7 @@
               </e>
             </e>
           </e>
-          <e p="com.unity.scriptablebuildpipeline@1.15.2" t="Include">
+          <e p="com.unity.scriptablebuildpipeline@1.20.2" t="Include">
             <e p="Editor" t="Include">
               <e p="AssemblyInfo.cs" t="Include" />
               <e p="CacheServer" t="Include">
@@ -4485,7 +4544,9 @@
                 <e p="CalculateAssetDependencyData.cs" t="Include" />
                 <e p="CalculateCustomDependencyData.cs" t="Include" />
                 <e p="CalculateSceneDependencyData.cs" t="Include" />
+                <e p="ClusterBuildLayout.cs" t="Include" />
                 <e p="CreateBuiltInShadersBundle.cs" t="Include" />
+                <e p="CreateMonoScriptBundle.cs" t="Include" />
                 <e p="GenerateBundleCommands.cs" t="Include" />
                 <e p="GenerateBundleMaps.cs" t="Include" />
                 <e p="GenerateBundlePacking.cs" t="Include" />
@@ -4513,6 +4574,7 @@
                 <e p="CacheServerDownloader.cs" t="Include" />
                 <e p="CacheServerUploader.cs" t="Include" />
                 <e p="CommonStrings.cs" t="Include" />
+                <e p="ContentFileIdentifiers.cs" t="Include" />
                 <e p="ExtensionMethods.cs" t="Include" />
                 <e p="FileCompressor.cs" t="Include" />
                 <e p="GraphicsSettingsApi.cs" t="Include" />
@@ -4532,7 +4594,16 @@
                 <e p="TaskCachingUtility.cs" t="Include" />
                 <e p="ThreadingManager.cs" t="Include" />
                 <e p="TrackerExtensions.cs" t="Include" />
+                <e p="USerialize" t="Include">
+                  <e p="Deserializer.cs" t="Include" />
+                  <e p="Serializer.cs" t="Include" />
+                  <e p="USerialize.cs" t="Include" />
+                </e>
+                <e p="USerializeTools" t="Include">
+                  <e p="DumpToText.cs" t="Include" />
+                </e>
                 <e p="ValidationMethods.cs" t="Include" />
+                <e p="VersionedCallbackAttribute.cs" t="Include" />
               </e>
               <e p="WriteTypes" t="Include">
                 <e p="AssetBundleWriteOperation.cs" t="Include" />
@@ -4571,8 +4642,9 @@
               <e p="Unity.Searcher.Editor.asmdef" t="Include" />
             </e>
           </e>
-          <e p="com.unity.services.analytics@4.0.1" t="Include">
+          <e p="com.unity.services.analytics@4.1.0" t="Include">
             <e p="Editor" t="Include">
+              <e p="CoreStatsIntegration.cs" t="Include" />
               <e p="Settings" t="Include">
                 <e p="AnalyticsEditorGameService.cs" t="Include" />
                 <e p="AnalyticsSettingsProvider.cs" t="Include" />
@@ -4583,6 +4655,7 @@
               <e p="AnalyticsService.cs" t="Include" />
               <e p="AnalyticsServiceInstance.Consent.cs" t="Include" />
               <e p="AnalyticsServiceInstance.cs" t="Include" />
+              <e p="AnalyticsServiceInstance.UserID.cs" t="Include" />
               <e p="AssemblyInfo.cs" t="Include" />
               <e p="Data" t="Include">
                 <e p="StdCommonParams.cs" t="Include" />
@@ -4643,6 +4716,7 @@
                   <e p="ConsentCheckException.cs" t="Include" />
                   <e p="ConsentStatus.cs" t="Include" />
                   <e p="ConsentTracker.cs" t="Include" />
+                  <e p="CoreStatsHelper.cs" t="Include" />
                   <e p="GeoAPI.cs" t="Include" />
                   <e p="GeoIPResponse.cs" t="Include" />
                 </e>
@@ -4654,6 +4728,460 @@
               </e>
               <e p="SdkVersion.cs" t="Include" />
               <e p="Unity.Services.Analytics.asmdef" t="Include" />
+            </e>
+          </e>
+          <e p="com.unity.services.authentication@2.0.0" t="Include">
+            <e p="Editor" t="Include">
+              <e p="Analytics" t="Include">
+                <e p="AuthenticationEditorAnalytics.cs" t="Include" />
+              </e>
+              <e p="AssemblyInfo.cs" t="Include" />
+              <e p="AuthenticationAdminClient.cs" t="Include" />
+              <e p="AuthenticationAdminClientManager.cs" t="Include" />
+              <e p="AuthenticationEditorService.cs" t="Include" />
+              <e p="IAuthenticationAdminClient.cs" t="Include" />
+              <e p="IdProviders" t="Include">
+                <e p="IdProvider.cs" t="Include" />
+                <e p="IdProviderCustomSettingsElement.cs" t="Include" />
+                <e p="IdProviderElement.cs" t="Include" />
+                <e p="IdProviderOptions.cs" t="Include" />
+                <e p="IdProviderRegistry.cs" t="Include" />
+              </e>
+              <e p="Network" t="Include">
+                <e p="AuthenticationAdminNetworkClient.cs" t="Include" />
+                <e p="IAuthenticationAdminNetworkClient.cs" t="Include" />
+                <e p="Requests" t="Include">
+                  <e p="CreateIdProviderRequest.cs" t="Include" />
+                  <e p="TokenExchangeRequest.cs" t="Include" />
+                  <e p="UpdateIdProviderRequest.cs" t="Include" />
+                </e>
+                <e p="Responses" t="Include">
+                  <e p="GetIdDomainResponse.cs" t="Include" />
+                  <e p="IdProviderResponse.cs" t="Include" />
+                  <e p="ListIdProviderResponse.cs" t="Include" />
+                  <e p="TokenExchangeErrorResponse.cs" t="Include" />
+                  <e p="TokenExchangeResponse.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Settings" t="Include">
+                <e p="AuthenticationSettingsElement.cs" t="Include" />
+                <e p="AuthenticationSettingsHelper.cs" t="Include" />
+                <e p="AuthenticationSettingsProvider.cs" t="Include" />
+              </e>
+              <e p="Unity.Services.Authentication.Editor.asmdef" t="Include" />
+              <e p="USS" t="Include">
+                <e p="AuthenticationStyleSheet.uss" t="Include" />
+                <e p="ConfigureProjectStyleSheet.uss" t="Include" />
+              </e>
+              <e p="Utilities" t="Include">
+                <e p="AuthenticationIdentifier.cs" t="Include" />
+                <e p="AuthenticationTopMenu.cs" t="Include" />
+                <e p="GenesisTokenProvider.cs" t="Include" />
+                <e p="IdProviderNames.cs" t="Include" />
+                <e p="IGenesisTokenProvider.cs" t="Include" />
+              </e>
+              <e p="UXML" t="Include">
+                <e p="AuthenticationProjectSettings.uxml" t="Include" />
+                <e p="ConfigureProject.uxml" t="Include" />
+                <e p="IdProviderElement.uxml" t="Include" />
+              </e>
+            </e>
+            <e p="Runtime" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+              <e p="AuthenticationErrorCodes.cs" t="Include" />
+              <e p="AuthenticationService.cs" t="Include" />
+              <e p="AuthenticationServiceInternal.cs" t="Include" />
+              <e p="AuthenticationState.cs" t="Include" />
+              <e p="Compatibility" t="Include">
+                <e p="Models.cs" t="Include" />
+                <e p="Utilities.cs" t="Include" />
+              </e>
+              <e p="Core" t="Include">
+                <e p="AuthenticationExtensions.cs" t="Include" />
+                <e p="AuthenticationPackageInitializer.cs" t="Include" />
+              </e>
+              <e p="Exceptions" t="Include">
+                <e p="AuthenticationException.cs" t="Include" />
+              </e>
+              <e p="IAuthenticationService.cs" t="Include" />
+              <e p="Metrics" t="Include">
+                <e p="AuthenticationMetrics.cs" t="Include" />
+                <e p="IAuthenticationMetrics.cs" t="Include" />
+              </e>
+              <e p="Models" t="Include">
+                <e p="Components" t="Include">
+                  <e p="AccessTokenComponent.cs" t="Include" />
+                  <e p="EnvironmentIdComponent.cs" t="Include" />
+                  <e p="PlayerIdComponent.cs" t="Include" />
+                  <e p="Profile" t="Include">
+                    <e p="IProfile.cs" t="Include" />
+                    <e p="ProfileComponent.cs" t="Include" />
+                    <e p="ProfileEventArgs.cs" t="Include" />
+                  </e>
+                  <e p="SessionTokenComponent.cs" t="Include" />
+                  <e p="WellKnownKeysComponent.cs" t="Include" />
+                </e>
+                <e p="Identity.cs" t="Include" />
+                <e p="LinkOptions.cs" t="Include" />
+                <e p="PlayerInfo.cs" t="Include" />
+                <e p="Requests" t="Include">
+                  <e p="LinkWithExternalTokenRequest.cs" t="Include" />
+                  <e p="SessionTokenRequest.cs" t="Include" />
+                  <e p="SignInWithExternalTokenRequest.cs" t="Include" />
+                  <e p="UnlinkRequest.cs" t="Include" />
+                </e>
+                <e p="Responses" t="Include">
+                  <e p="AuthenticationErrorResponse.cs" t="Include" />
+                  <e p="ExternalIdentity.cs" t="Include" />
+                  <e p="LinkResponse.cs" t="Include" />
+                  <e p="PlayerInfoResponse.cs" t="Include" />
+                  <e p="SignInResponse.cs" t="Include" />
+                  <e p="UnlinkResponse.cs" t="Include" />
+                  <e p="User.cs" t="Include" />
+                  <e p="WellKnownKey.cs" t="Include" />
+                  <e p="WellKnownKeysResponse.cs" t="Include" />
+                </e>
+                <e p="Security" t="Include">
+                  <e p="AccessToken.cs" t="Include" />
+                  <e p="AccessTokenExtraClaims.cs" t="Include" />
+                  <e p="BaseJwt.cs" t="Include" />
+                </e>
+                <e p="Settings" t="Include">
+                  <e p="AuthenticationSettings.cs" t="Include" />
+                  <e p="IAuthenticationSettings.cs" t="Include" />
+                  <e p="INetworkConfiguration.cs" t="Include" />
+                  <e p="NetworkConfiguration.cs" t="Include" />
+                </e>
+                <e p="SignInOptions.cs" t="Include" />
+              </e>
+              <e p="Network" t="Include">
+                <e p="AuthenticationNetworkClient.cs" t="Include" />
+                <e p="HttpUtilities.cs" t="Include" />
+                <e p="IAuthenticationNetworkClient.cs" t="Include" />
+                <e p="INetworkHandler.cs" t="Include" />
+                <e p="NetworkHandler.cs" t="Include" />
+                <e p="WebRequest.cs" t="Include" />
+                <e p="WebRequestException.cs" t="Include" />
+                <e p="WebRequestVerb.cs" t="Include" />
+              </e>
+              <e p="Unity.Services.Authentication.asmdef" t="Include" />
+              <e p="Utilities" t="Include">
+                <e p="Cache" t="Include">
+                  <e p="AuthenticationCache.cs" t="Include" />
+                  <e p="IAuthenticationCache.cs" t="Include" />
+                  <e p="ICache.cs" t="Include" />
+                </e>
+                <e p="DateTime" t="Include">
+                  <e p="DateTimeWrapper.cs" t="Include" />
+                  <e p="IDateTimeWrapper.cs" t="Include" />
+                </e>
+                <e p="IdProviderKeys.cs" t="Include" />
+                <e p="Jwt" t="Include">
+                  <e p="IJwtDecoder.cs" t="Include" />
+                  <e p="JwtDecoder.cs" t="Include" />
+                </e>
+                <e p="Logger.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="com.unity.services.ccd.management@2.2.2" t="Include">
+            <e p="Editor" t="Include">
+              <e p="Apis" t="Include">
+                <e p="BadgesApi.cs" t="Include" />
+                <e p="BadgesApiRequests.cs" t="Include" />
+                <e p="BucketAccessTokensApi.cs" t="Include" />
+                <e p="BucketAccessTokensApiRequests.cs" t="Include" />
+                <e p="BucketsApi.cs" t="Include" />
+                <e p="BucketsApiRequests.cs" t="Include" />
+                <e p="ContentApi.cs" t="Include" />
+                <e p="ContentApiRequests.cs" t="Include" />
+                <e p="DefaultApi.cs" t="Include" />
+                <e p="DefaultApiRequests.cs" t="Include" />
+                <e p="EntriesApi.cs" t="Include" />
+                <e p="EntriesApiRequests.cs" t="Include" />
+                <e p="EnvironmentsApi.cs" t="Include" />
+                <e p="EnvironmentsApiRequests.cs" t="Include" />
+                <e p="OrgsApi.cs" t="Include" />
+                <e p="OrgsApiRequests.cs" t="Include" />
+                <e p="PermissionsApi.cs" t="Include" />
+                <e p="PermissionsApiRequests.cs" t="Include" />
+                <e p="ReleasesApi.cs" t="Include" />
+                <e p="ReleasesApiRequests.cs" t="Include" />
+                <e p="UsersApi.cs" t="Include" />
+                <e p="UsersApiRequests.cs" t="Include" />
+              </e>
+              <e p="CcdManagementService.cs" t="Include" />
+              <e p="CcdManagementServiceProvider.cs" t="Include" />
+              <e p="Configuration" t="Include">
+                <e p="Configuration.cs" t="Include" />
+              </e>
+              <e p="ErrorMitigation" t="Include">
+                <e p="IRetryPolicy.cs" t="Include" />
+                <e p="RetryPolicy.cs" t="Include" />
+                <e p="RetryPolicyConfig.cs" t="Include" />
+                <e p="StatusCodePolicyConfig.cs" t="Include" />
+              </e>
+              <e p="Http" t="Include">
+                <e p="AsyncOpRetry.cs" t="Include" />
+                <e p="BaseApiClient.cs" t="Include" />
+                <e p="DeserializationException.cs" t="Include" />
+                <e p="DeserializationSettings.cs" t="Include" />
+                <e p="HttpClient.cs" t="Include" />
+                <e p="HttpClientResponse.cs" t="Include" />
+                <e p="HttpException.cs" t="Include" />
+                <e p="IDeserializable.cs" t="Include" />
+                <e p="IHttpClient.cs" t="Include" />
+                <e p="JsonHelpers.cs" t="Include" />
+                <e p="JsonObject.cs" t="Include" />
+                <e p="JsonObjectConverter.cs" t="Include" />
+                <e p="ResponseDeserializationException.cs" t="Include" />
+                <e p="ResponseHandler.cs" t="Include" />
+                <e p="Responses.cs" t="Include" />
+                <e p="UnityWebRequestHelpers.cs" t="Include" />
+              </e>
+              <e p="Models" t="Include">
+                <e p="AuthenticationError.cs" t="Include" />
+                <e p="AuthorizationError.cs" t="Include" />
+                <e p="CcdBadge.cs" t="Include" />
+                <e p="CcdBadgeAssign.cs" t="Include" />
+                <e p="CcdBucket.cs" t="Include" />
+                <e p="CcdBucketAccessToken.cs" t="Include" />
+                <e p="CcdBucketAccessTokenCreate.cs" t="Include" />
+                <e p="CcdBucketAccessTokenUpdate.cs" t="Include" />
+                <e p="CcdBucketAttributes.cs" t="Include" />
+                <e p="CcdBucketCreate.cs" t="Include" />
+                <e p="CcdBucketPermissions.cs" t="Include" />
+                <e p="CcdBucketUpdate.cs" t="Include" />
+                <e p="CcdEntry.cs" t="Include" />
+                <e p="CcdEntryCreate.cs" t="Include" />
+                <e p="CcdEntryCreateByPath.cs" t="Include" />
+                <e p="CcdEntryUpdate.cs" t="Include" />
+                <e p="CcdEnvironment.cs" t="Include" />
+                <e p="CcdErrorCodes.cs" t="Include" />
+                <e p="CcdHttpError.cs" t="Include" />
+                <e p="CcdManagementIOneOf.cs" t="Include" />
+                <e p="CcdMetricQuantity.cs" t="Include" />
+                <e p="CcdOrg.cs" t="Include" />
+                <e p="CcdOrgTosUpdate.cs" t="Include" />
+                <e p="CcdOrgUsage.cs" t="Include" />
+                <e p="CcdPermission.cs" t="Include" />
+                <e p="CcdPermissionCreate.cs" t="Include" />
+                <e p="CcdPermissionUpdate.cs" t="Include" />
+                <e p="CcdPromoteBucket.cs" t="Include" />
+                <e p="CcdPromoteBucketResponse.cs" t="Include" />
+                <e p="CcdPromotion.cs" t="Include" />
+                <e p="CcdRelease.cs" t="Include" />
+                <e p="CcdReleaseChangeVersion.cs" t="Include" />
+                <e p="CcdReleaseCreate.cs" t="Include" />
+                <e p="CcdReleaseEntry.cs" t="Include" />
+                <e p="CcdReleaseEntryCreate.cs" t="Include" />
+                <e p="CcdReleaseUpdate.cs" t="Include" />
+                <e p="CcdUsage.cs" t="Include" />
+                <e p="CcdUser.cs" t="Include" />
+                <e p="CcdUserAPIKey.cs" t="Include" />
+                <e p="CcdVersion.cs" t="Include" />
+                <e p="ConflictError.cs" t="Include" />
+                <e p="GatewayTimeoutError.cs" t="Include" />
+                <e p="InlineObject.cs" t="Include" />
+                <e p="InlineObject1.cs" t="Include" />
+                <e p="InlineResponse400.cs" t="Include" />
+                <e p="InlineResponse401.cs" t="Include" />
+                <e p="InlineResponse403.cs" t="Include" />
+                <e p="InlineResponse404.cs" t="Include" />
+                <e p="InlineResponse429.cs" t="Include" />
+                <e p="InlineResponse500.cs" t="Include" />
+                <e p="InlineResponse503.cs" t="Include" />
+                <e p="InternalServerError.cs" t="Include" />
+                <e p="MethodNotAllowedError.cs" t="Include" />
+                <e p="NotFoundError.cs" t="Include" />
+                <e p="PayloadTooLargeError.cs" t="Include" />
+                <e p="QuotaExceededError.cs" t="Include" />
+                <e p="RatelimitExceededError.cs" t="Include" />
+                <e p="ServiceUnavailableError.cs" t="Include" />
+                <e p="TooManyRequestsError.cs" t="Include" />
+                <e p="ValidationError.cs" t="Include" />
+              </e>
+              <e p="Scheduler" t="Include">
+                <e p="EngineStateHelper.cs" t="Include" />
+                <e p="ThreadHelper.cs" t="Include" />
+              </e>
+              <e p="SDK" t="Include">
+                <e p="CcdManagement.cs" t="Include" />
+                <e p="Classes" t="Include">
+                  <e p="ContentStatus.cs" t="Include" />
+                  <e p="InternalUploadContentRequest.cs" t="Include" />
+                  <e p="ProjectData.cs" t="Include" />
+                </e>
+                <e p="Exceptions" t="Include">
+                  <e p="CcdManagementErrorCodes.cs" t="Include" />
+                  <e p="CcdManagementException.cs" t="Include" />
+                </e>
+                <e p="ICcdManagementService.cs" t="Include" />
+                <e p="ICcdManagementServiceSDKConfiguration.cs" t="Include" />
+                <e p="Options" t="Include">
+                  <e p="Badges" t="Include">
+                    <e p="UpdateBadgeOptions.cs" t="Include" />
+                  </e>
+                  <e p="Buckets" t="Include">
+                    <e p="CreateBucketOptions.cs" t="Include" />
+                    <e p="DiffEntriesOptions.cs" t="Include" />
+                    <e p="PromoteBucketOptions.cs" t="Include" />
+                    <e p="UpdateBucketOptions.cs" t="Include" />
+                  </e>
+                  <e p="Content" t="Include">
+                    <e p="UploadContentOptions.cs" t="Include" />
+                  </e>
+                  <e p="Entries" t="Include">
+                    <e p="EntryByPathOptions.cs" t="Include" />
+                    <e p="EntryModelOptions.cs" t="Include" />
+                    <e p="EntryOptions.cs" t="Include" />
+                    <e p="EntryVersionsOptions.cs" t="Include" />
+                  </e>
+                  <e p="PageOptions.cs" t="Include" />
+                  <e p="Permissions" t="Include">
+                    <e p="CreatePermissionsOption.cs" t="Include" />
+                    <e p="UpdatePermissionsOptions.cs" t="Include" />
+                  </e>
+                  <e p="Releases" t="Include">
+                    <e p="CreateReleaseOptions.cs" t="Include" />
+                    <e p="ReleaseByBadgeOptions.cs" t="Include" />
+                    <e p="ReleaseDiffOptions.cs" t="Include" />
+                    <e p="ReleaseEntryOptions.cs" t="Include" />
+                    <e p="ReleaseStatsOptions.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="WrappedCcdManagementService.cs" t="Include" />
+              </e>
+              <e p="Settings" t="Include">
+                <e p="CcdManagementGameService.cs" t="Include" />
+                <e p="CcdManagementIdentifier.cs" t="Include" />
+                <e p="CcdManagementSettingsCommonUI.cs" t="Include" />
+                <e p="CcdManagementSettingsDisabledUI.cs" t="Include" />
+                <e p="CcdManagementSettingsEnabledUI.cs" t="Include" />
+                <e p="CcdManagementSettingsLoadingUI.cs" t="Include" />
+                <e p="CcdManagementSettingsProvider.cs" t="Include" />
+                <e p="CcdManagementTopMenu.cs" t="Include" />
+                <e p="UiConstants.cs" t="Include" />
+                <e p="UIUtils.cs" t="Include" />
+              </e>
+              <e p="TusDotNetClient" t="Include">
+                <e p="TusClient.cs" t="Include" />
+                <e p="TusException.cs" t="Include" />
+                <e p="TusHeaderNames.cs" t="Include" />
+                <e p="TusHTTPClient.cs" t="Include" />
+                <e p="TusHttpRequest.cs" t="Include" />
+                <e p="TusHttpResponse.cs" t="Include" />
+                <e p="TusOperation.cs" t="Include" />
+                <e p="TusServerInfo.cs" t="Include" />
+              </e>
+              <e p="Unity.Services.Ccd.Management.asmdef" t="Include" />
+              <e p="USS" t="Include">
+                <e p="CcdManagementStyleSheet.uss" t="Include" />
+              </e>
+              <e p="UXML" t="Include">
+                <e p="CcdManagementSettingsCommon.uxml" t="Include" />
+                <e p="CcdManagementSettingsDisabled.uxml" t="Include" />
+                <e p="CcdManagementSettingsEnabledwAddr.uxml" t="Include" />
+                <e p="CcdManagementSettingsEnabledwoAddr.uxml" t="Include" />
+                <e p="CcdManagementSettingsLoading.uxml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="com.unity.services.cloudsave@2.0.1" t="Include">
+            <e p="Editor" t="Include">
+              <e p="CloudSaveEditorGameService.cs" t="Include" />
+              <e p="CloudSaveSettingsProvider.cs" t="Include" />
+              <e p="Unity.Services.CloudSave.asmdef" t="Include" />
+            </e>
+            <e p="Runtime" t="Include">
+              <e p="ApiClient.cs" t="Include" />
+              <e p="AuthenticationWrapper.cs" t="Include" />
+              <e p="CloudSaveInitializer.cs" t="Include" />
+              <e p="CloudSaveService.cs" t="Include" />
+              <e p="Exceptions" t="Include">
+                <e p="CloudSaveAPIErrorHandler.cs" t="Include" />
+                <e p="CloudSaveException.cs" t="Include" />
+                <e p="CloudSaveRateLimitedException.cs" t="Include" />
+                <e p="CloudSaveValidationException.cs" t="Include" />
+              </e>
+              <e p="Generated" t="Include">
+                <e p="Runtime" t="Include">
+                  <e p="Apis" t="Include">
+                    <e p="DataApi.cs" t="Include" />
+                    <e p="DataApiRequests.cs" t="Include" />
+                    <e p="FilesApi.cs" t="Include" />
+                    <e p="FilesApiRequests.cs" t="Include" />
+                  </e>
+                  <e p="Configuration" t="Include">
+                    <e p="Configuration.cs" t="Include" />
+                  </e>
+                  <e p="Http" t="Include">
+                    <e p="AsyncOpRetry.cs" t="Include" />
+                    <e p="BaseApiClient.cs" t="Include" />
+                    <e p="DeserializationException.cs" t="Include" />
+                    <e p="DeserializationSettings.cs" t="Include" />
+                    <e p="HttpClient.cs" t="Include" />
+                    <e p="HttpClientResponse.cs" t="Include" />
+                    <e p="HttpException.cs" t="Include" />
+                    <e p="IHttpClient.cs" t="Include" />
+                    <e p="JsonHelpers.cs" t="Include" />
+                    <e p="JsonObject.cs" t="Include" />
+                    <e p="JsonObjectConverter.cs" t="Include" />
+                    <e p="ResponseDeserializationException.cs" t="Include" />
+                    <e p="ResponseHandler.cs" t="Include" />
+                    <e p="Responses.cs" t="Include" />
+                    <e p="UnityWebRequestHelpers.cs" t="Include" />
+                  </e>
+                  <e p="Models" t="Include">
+                    <e p="AttemptedItem.cs" t="Include" />
+                    <e p="BadRequestOneOfErrorResponse.cs" t="Include" />
+                    <e p="BadRequestOneOfErrorResponseOneOf.cs" t="Include" />
+                    <e p="BasicErrorResponse.cs" t="Include" />
+                    <e p="BatchBasicErrorBody.cs" t="Include" />
+                    <e p="BatchBasicErrorResponse.cs" t="Include" />
+                    <e p="BatchConflictErrorResponse.cs" t="Include" />
+                    <e p="BatchConflictErrorResponseData.cs" t="Include" />
+                    <e p="BatchValidationErrorBody.cs" t="Include" />
+                    <e p="BatchValidationErrorResponse.cs" t="Include" />
+                    <e p="CloudSaveIOneOf.cs" t="Include" />
+                    <e p="ConflictErrorResponse.cs" t="Include" />
+                    <e p="ConflictErrorResponseData.cs" t="Include" />
+                    <e p="DeleteItem400OneOf.cs" t="Include" />
+                    <e p="FileDetails.cs" t="Include" />
+                    <e p="FileItem.cs" t="Include" />
+                    <e p="FileListResponse.cs" t="Include" />
+                    <e p="FileListResponseLinks.cs" t="Include" />
+                    <e p="FileStorageSetupDetails.cs" t="Include" />
+                    <e p="GetItems400OneOf.cs" t="Include" />
+                    <e p="GetItemsResponse.cs" t="Include" />
+                    <e p="GetItemsResponseLinks.cs" t="Include" />
+                    <e p="GetKeys400OneOf.cs" t="Include" />
+                    <e p="GetKeysResponse.cs" t="Include" />
+                    <e p="InlineResponse200.cs" t="Include" />
+                    <e p="Item.cs" t="Include" />
+                    <e p="KeyMetadata.cs" t="Include" />
+                    <e p="ModifiedMetadata.cs" t="Include" />
+                    <e p="SetItem400OneOf.cs" t="Include" />
+                    <e p="SetItemBatch400OneOf.cs" t="Include" />
+                    <e p="SetItemBatchBody.cs" t="Include" />
+                    <e p="SetItemBatchResponse.cs" t="Include" />
+                    <e p="SetItemBatchResponseResults.cs" t="Include" />
+                    <e p="SetItemBody.cs" t="Include" />
+                    <e p="SetItemResponse.cs" t="Include" />
+                    <e p="SignedUrlResponse.cs" t="Include" />
+                    <e p="ValidationErrorBody.cs" t="Include" />
+                    <e p="ValidationErrorResponse.cs" t="Include" />
+                  </e>
+                  <e p="Scheduler" t="Include">
+                    <e p="EngineStateHelper.cs" t="Include" />
+                    <e p="ThreadHelper.cs" t="Include" />
+                  </e>
+                </e>
+              </e>
+              <e p="RateLimiter.cs" t="Include" />
+              <e p="SaveData.cs" t="Include" />
+              <e p="SaveData.deprecated.cs" t="Include" />
+              <e p="Unity.Services.CloudSave.asmdef" t="Include" />
             </e>
           </e>
           <e p="com.unity.services.core@1.4.0" t="Include">
@@ -6870,6 +7398,11 @@
       <e p="Unity.Searcher.Editor.csproj" t="IncludeRecursive" />
       <e p="Unity.Services.Analytics.csproj" t="IncludeRecursive" />
       <e p="Unity.Services.Analytics.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.Services.Authentication.csproj" t="IncludeRecursive" />
+      <e p="Unity.Services.Authentication.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.Services.Ccd.Management.csproj" t="IncludeRecursive" />
+      <e p="Unity.Services.CloudSave.csproj" t="IncludeRecursive" />
+      <e p="Unity.Services.CloudSave.Editor.csproj" t="IncludeRecursive" />
       <e p="Unity.Services.Core.Analytics.csproj" t="IncludeRecursive" />
       <e p="Unity.Services.Core.Configuration.csproj" t="IncludeRecursive" />
       <e p="Unity.Services.Core.Configuration.Editor.csproj" t="IncludeRecursive" />
@@ -6898,6 +7431,7 @@
       <e p="UnityEditor.TestRunner.csproj" t="IncludeRecursive" />
       <e p="UnityEditor.XR.LegacyInputHelpers.csproj" t="IncludeRecursive" />
       <e p="UnityEngine.Advertisements.csproj" t="IncludeRecursive" />
+      <e p="UnityEngine.Advertisements.DevX.Editor.csproj" t="IncludeRecursive" />
       <e p="UnityEngine.Advertisements.Editor.csproj" t="IncludeRecursive" />
       <e p="UnityEngine.Monetization.csproj" t="IncludeRecursive" />
       <e p="UnityEngine.Purchasing.AppleCore.csproj" t="IncludeRecursive" />

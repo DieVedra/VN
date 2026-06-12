@@ -11,8 +11,8 @@ public class AppStarter
     {
         await Addressables.InitializeAsync();
         UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
-        await unityServicesHandler.Construct();
-        
+        await unityServicesHandler.Construct(startConfig.AnalyticsStatus);
+        await saveServiceProvider.SaveService.Construct();
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -248,5 +248,4 @@ public class AppStarter
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
         return await storiesProviderAssetProvider.Load();
     }
-
 }

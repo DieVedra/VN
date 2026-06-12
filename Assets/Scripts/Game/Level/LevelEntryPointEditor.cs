@@ -24,6 +24,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private Wallet _wallet;
     [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
+    [SerializeField] private SaveMethod _saveMethod;
 
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -40,6 +41,8 @@ public class LevelEntryPointEditor : LevelEntryPoint
     {
         PrefabsProvider = new PrefabsProvider();
         await PrefabsProvider.Init();
+        await Load();
+
         Init();
     }
     
@@ -49,11 +52,9 @@ public class LevelEntryPointEditor : LevelEntryPoint
         DisableNodesContentEvent?.Execute();
         _seriaGameStatsProviderEditor.Init();
         _gameStatsViewer.Construct(_seriaGameStatsProviderEditor.GameStatsHandler.Stats);
-        SaveServiceProvider = new SaveServiceProvider();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
         ReactiveProperty<bool> phoneNodeIsActive = new ReactiveProperty<bool>();
         _phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, phoneNodeIsActive);
-        Load();
         ConstructSound();
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
@@ -111,11 +112,13 @@ public class LevelEntryPointEditor : LevelEntryPoint
         base.Shutdown();
     }
 
-    private void Load()
+    private async UniTask Load()
     {
+        SaveServiceProvider = new SaveServiceProvider(_startConfig);
+        await SaveServiceProvider.SaveService.Construct();
         if (Application.isPlaying && LoadSaveData == true)
         {
-            if (SaveServiceProvider.LoadSaveData(_startConfig) == true)
+            if (await SaveServiceProvider.LoadSaveData(_startConfig) == true)
             {
                 _saveData = SaveServiceProvider.SaveData;
                 _wallet = new Wallet(_saveData);

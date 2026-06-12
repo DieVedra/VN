@@ -1,40 +1,33 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
 
 public class SaveService
 {
-    private const string _fileName = "/Save";
-    private readonly string _savePath;
-    private ISaveMetod _saveMethod;
-    public SaveService(ISaveMetod saveMethod)
+    private ISaveMethod _saveMethod;
+    public SaveService(ISaveMethod saveMethod)
     {
         _saveMethod = saveMethod;
-        
-        _savePath = Path.Combine(Application.dataPath + _fileName + _saveMethod.FileFormat);
-
-
-        // _savePath = Path.Combine(Application.persistentDataPath, _fileName + _saveMethod.FileFormat);
-        
     }
-
-    public bool LoadData(out SaveData outSaveData)
+    public async UniTask Construct()
     {
-        outSaveData = _saveMethod.Load<SaveData>(_savePath);
-        if (outSaveData != null)
+        await UnityServices.InitializeAsync();
+        
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
     }
-
-    public void Save(SaveData saveData)
+    public async UniTask<SaveData> LoadData()
     {
-        _saveMethod.Save(_savePath, saveData);
+        return await _saveMethod.Load<SaveData>();
+    }
+
+    public async UniTask Save(SaveData saveData)
+    {
+        await _saveMethod.Save(saveData);
     }
 
     public static WardrobeSaveData[] CreateWardrobeSaveDatas(IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> customizableCharacterIndexesCustodians)

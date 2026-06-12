@@ -1,27 +1,34 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class BinarySave : ISaveMetod
+public class BinarySave : ISaveMethod
 {
+    private const string _fileName = "/Save";
     private const string _fileFormat = ".dat";
-
+    private readonly string _savePath;
     private readonly BinaryFormatter _binaryFormatter;
 
     public BinarySave()
     {
         _binaryFormatter = new BinaryFormatter();
+        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
     }
 
-    public string FileFormat => _fileFormat;
 
-    public T Load<T>(string path)
+    public UniTask Construct()
     {
-        if (File.Exists(path) == true)
+        throw new System.NotImplementedException();
+    }
+
+    public async UniTask<T> Load<T>()
+    {
+        if (File.Exists(_savePath) == true)
         {
-            using FileStream file = new FileStream(path, FileMode.Open);
+            using FileStream file = new FileStream(_savePath, FileMode.Open);
             T result = (T)_binaryFormatter.Deserialize(file);
-            Debug.Log($"File is Loaded  {path}");
+            Debug.Log($"File is Loaded  {_savePath}");
             return result;
         }
         else
@@ -31,15 +38,15 @@ public class BinarySave : ISaveMetod
         }
     }
 
-    public void Save(string path, object data)
+    public async UniTask Save(SaveData data)
     {
         if (data != null)
         {
-            using (FileStream file = new FileStream(path, FileMode.Create))
+            using (FileStream file = new FileStream(_savePath, FileMode.Create))
             {
                 Debug.Log("File Saved");
 
-                _binaryFormatter.Serialize(file, data);
+                _binaryFormatter.Serialize(file, data as object);
             }
         }
     }

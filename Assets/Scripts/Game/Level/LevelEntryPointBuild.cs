@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
@@ -104,7 +105,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         Init();
-
+        var evt = new Unity.Services.Analytics.Internal.Event("level_start", null);
+        evt.Parameters.Set($"StoryName:", StoryData.StoryName);
+        evt.Parameters.Set($"CurrentSeriaIndex:", StoryData.CurrentSeriaIndex);
+        evt.Parameters.Set($"CurrentNodeGraphIndex:", StoryData.CurrentNodeGraphIndex);
+        evt.Parameters.Set($"CurrentNodeIndex:", StoryData.CurrentNodeIndex);
+        evt.Parameters.Set($"CurrentProgressPercent:", $"{StoryData.CurrentProgressPercent}%");
+        AnalyticsService.Instance.RecordInternalEvent(evt);
+        AnalyticsService.Instance.Flush();
 
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
@@ -173,9 +181,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         ConstructWardrobeCharacterViewer(viewerCreatorBuildMode);
     }
 
-    private void OnApplicationQuit()
+    private async void OnApplicationQuit()
     {
-        Save();
+        await Save();
         Shutdown();
         _cancellationTokenSource?.Cancel();
     }
@@ -202,7 +210,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _iconsUISpriteAtlasAssetProvider?.Release();
         base.Shutdown();
     }
-    private void Save()
+    private async UniTask Save()
     {
         if (LoadSaveData == true)
         {
@@ -223,7 +231,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             StoryData.CustomizableCharacterIndex = _wardrobeCharacterViewer.CustomizableCharacterIndex;
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
             SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryKey] = StoryData;
-            SaveServiceProvider.SaveLevelProgress();
+            await SaveServiceProvider.SaveLevelProgress();
         }
     }
 
@@ -367,7 +375,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
     private async UniTask PreSceneTransition()
     {
-        Save();
+        await Save();
         await _globalSound.SmoothAudio.StopSoundsOnPreSceneTransition(_cancellationTokenSource.Token);
         Shutdown();
     }

@@ -1,60 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class SaveServiceProvider
 {
     public readonly SaveService SaveService;
     private SaveData _saveData;
-    
+    private Wallet _wallet;
+    private GlobalSound _globalSound;
+    private StoriesProvider _storiesProvider;
+    private PanelsLocalizationHandler _panelsLocalizationHandler;
+    private MainMenuUIProvider _mainMenuUIProvider;
     public string CurrentStoryKey;
-    
+
+    private bool _isInitedKey;
     public SaveData SaveData => _saveData;
     public bool SaveHasBeenLoaded { get; private set; }
 
-    public SaveServiceProvider()
+    public SaveServiceProvider(StartConfig sc)
     {
         SaveHasBeenLoaded = false;
-        SaveService = new SaveService(new JSonSave());
-    }
-
-    public void SaveLevelProgress()
-    {
-        SaveService.Save(_saveData);
-    }
-
-    // public void SaveFromMainMenu(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
-    //     PanelsLocalizationHandler panelsLocalizationHandler)
-    // {
-    //     _saveData.Monets = wallet.GetMonetsCount;
-    //     _saveData.Hearts = wallet.GetHeartsCount;
-    //     _saveData.SoundStatus = globalSound.SoundStatus.Value;
-    //     storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
-    //     _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
-    //
-    // }
-    public void SaveFromMainMenu(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
-        PanelsLocalizationHandler panelsLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
-    {
-        _saveData.Monets = wallet.GetMonetsCount;
-        _saveData.Hearts = wallet.GetHeartsCount;
-        _saveData.SoundStatus = globalSound.SoundStatus.Value;
-        storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
-        _saveData.LanguageLocalizationKey = panelsLocalizationHandler.GetKey;
-        
-        
-        
-        
-        if (mainMenuUIProvider.PlayStoryPanelHandler?.GetCurrentStoryName != String.Empty)
+        SetSaveDataDefault(sc);
+        switch (sc.SaveMethod)
         {
-            _saveData.NameStartStory = mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
+            case SaveMethod.JsonSave:
+                SaveService = new SaveService(new JSonSave());
+                break;
+            
+            case SaveMethod.BinarySave:
+                SaveService = new SaveService(new BinarySave());
+                break;
+            
+            case SaveMethod.UnityCloudSave:
+                SaveService = new SaveService(new UnityCloudSaveMethod());
+                break;
         }
 
-        SaveService.Save(_saveData);
+        _isInitedKey = false;
     }
-    public bool LoadSaveData(StartConfig sc)
+
+    public void Init(Wallet wallet, GlobalSound globalSound, StoriesProvider storiesProvider,
+        PanelsLocalizationHandler panelsLocalizationHandler, MainMenuUIProvider mainMenuUIProvider)
     {
-        if (SaveService.LoadData(out _saveData) == true)
+        _wallet =  wallet;
+        _globalSound = globalSound;
+        _storiesProvider = storiesProvider;
+        _panelsLocalizationHandler = panelsLocalizationHandler;
+        _mainMenuUIProvider = mainMenuUIProvider;
+        _isInitedKey = true;
+    }
+    public async UniTask SaveLevelProgress()
+    {
+        await SaveService.Save(_saveData);
+    }
+    public async UniTask SaveFromMainMenu()
+    {
+        if (_isInitedKey)
+        {
+            _saveData.Monets = _wallet.GetMonetsCount;
+            _saveData.Hearts = _wallet.GetHeartsCount;
+            _saveData.SoundStatus = _globalSound.SoundStatus.Value;
+            _storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
+            _saveData.LanguageLocalizationKey = _panelsLocalizationHandler.GetKey;
+            if (_mainMenuUIProvider.PlayStoryPanelHandler?.GetCurrentStoryName != String.Empty)
+            {
+                _saveData.NameStartStory = _mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
+            }
+
+            await SaveService.Save(_saveData);
+        }
+    }
+    public async UniTask<bool> LoadSaveData(StartConfig sc)
+    {
+        _saveData = await SaveService.LoadData();
+        
+        if (_saveData != null)
         {
             Debug.Log($"SaveData: true");
             SaveHasBeenLoaded = true;
