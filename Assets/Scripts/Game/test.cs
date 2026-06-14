@@ -4,47 +4,40 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] private List<int> operations;
-    [SerializeField] private int _taskCountMax;
+    [SerializeField] private SpriteAtlas _spriteAtlas;
+    [SerializeField] private string code;
+    [SerializeField] private string name;
     [Button()]
     private void test1()
     {
-        AddToQueue(operations);
+        var keyNameSpriteFinder = new KeyNameSpriteFinder();
+        
+        Sprite[] s = new Sprite[_spriteAtlas.spriteCount];
+        _spriteAtlas.GetSprites(s);
+        
+        
+        Debug.Log($"{keyNameSpriteFinder.GetNameWithoutKey(_spriteAtlas, name)}");
     }
     
     [Button()]
     private void test2()
     {
-        
-    }
-    
-    public void AddToQueue(List<int> operations, CancellationTokenSource cancellationToken = null)
-    {
-        if (operations.Count > _taskCountMax)
+        Sprite[] s = new Sprite[_spriteAtlas.spriteCount];
+        _spriteAtlas.GetSprites(s);
+        foreach (var VARIABLE in s)
         {
-            int iterations = operations.Count / _taskCountMax;
-            int minIndex = iterations * _taskCountMax;
-            int maxIndex = operations.Count - 1;
-            for (int i = 0; i < iterations; i++)
-            {
-                Debug.Log($"minIndex: {minIndex}     maxIndex: {maxIndex}");
+            Debug.Log($"{VARIABLE.name}");
 
-                var list = new List<int>();
-                for (int j = maxIndex; j >= minIndex; j--)
-                {
-                    Debug.Log($"index: {j}");
-
-                    list.Add(operations[j]);
-                    operations.RemoveAt(j);
-                }
-                Debug.Log($"Added: {list.Count}");
-                maxIndex = minIndex - 1;
-                minIndex -= _taskCountMax;
-            }
         }
-        Debug.Log($" last Added: {operations.Count}");
+    }
+    [Button()]
+    private void test3()
+    {
+        Debug.Log($"{_spriteAtlas.GetSprite(name).name}");
+
     }
 }

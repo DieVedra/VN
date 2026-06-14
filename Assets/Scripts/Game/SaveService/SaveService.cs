@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
 
 public class SaveService
 {
@@ -13,12 +11,7 @@ public class SaveService
     }
     public async UniTask Construct()
     {
-        await UnityServices.InitializeAsync();
-        
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        }
+        await _saveMethod.Construct();
     }
     public async UniTask<SaveData> LoadData()
     {

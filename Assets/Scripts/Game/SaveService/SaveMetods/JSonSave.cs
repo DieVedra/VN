@@ -6,19 +6,13 @@ using UnityEngine;
 public class JSonSave : ISaveMethod
 {
     private const string _fileName = "/Save";
-
-    private readonly string _savePath;
-
     private const string _fileFormat = ".json";
-
-    public JSonSave()
-    {
-        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
-    }
+    private string _savePath;
 
     public UniTask Construct()
     {
-        throw new System.NotImplementedException();
+        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
+        return default;
     }
 
     public async UniTask<T> Load<T>()

@@ -43,5 +43,8 @@ public class StoryData
         WardrobeSaveDatas = new List<WardrobeSaveData>();
         PhoneSaveDatas = new List<PhoneSaveData>();
         AudioEffectsIsOn = new List<AudioEffect>();
+        ReadedContactNodeCaseIndexes = new List<int>();
+        OnlineContactsKeys = new List<string>();
+        NotificationsKeys = new List<string>();
     }
 }

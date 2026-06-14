@@ -48,6 +48,7 @@ public class SeriaPartNodeGraph : NodeGraph
 		else
 		{
 			_currentNode.Enter().Forget();
+			
 		}
 	}
 

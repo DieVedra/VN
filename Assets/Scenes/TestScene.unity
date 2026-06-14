@@ -485,8 +485,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8438293c5c94f7a89fc03122613aea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operations: 
-  _taskCountMax: 0
+  _spriteAtlas: {fileID: 4343727234628468602, guid: 81eae2a615b152b45986a5ffad7d8c0c, type: 2}
+  code: str_4F394F1E
+  name: FunIcon
 --- !u!4 &1085120967
 Transform:
   m_ObjectHideFlags: 0
@@ -2705,6 +2706,7 @@ MonoBehaviour:
   _panelRectTransform: {fileID: 0}
   _imageRectTransform: {fileID: 0}
   _image: {fileID: 0}
+  _additionalImage: {fileID: 0}
   _canvasGroup: {fileID: 5188177907333701022}
   _durationAnim: 0.2
   _heightOffset: 0
@@ -4015,7 +4017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &5188177907936260530
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5352,6 +5354,7 @@ MonoBehaviour:
   _timerImageRectTransform: {fileID: 5188177908016930341}
   _choicesParent: {fileID: 0}
   _timerPanelCanvasGroup: {fileID: 5188177907365011463}
+  _timerImage: {fileID: 0}
   _monetResourceParent: {fileID: 0}
   _heartResourceParent: {fileID: 0}
   _durationAnim: 0.2

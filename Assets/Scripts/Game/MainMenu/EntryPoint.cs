@@ -2,8 +2,6 @@
 using UniRx;
 using Unity.Services.Analytics;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Diagnostics;
 using Zenject;
 
 public class EntryPoint: MonoBehaviour
@@ -54,21 +52,17 @@ public class EntryPoint: MonoBehaviour
             _saveServiceProvider = new SaveServiceProvider(sc);
             ProjectContext.Instance.Container.Bind<SaveServiceProvider>().FromInstance(_saveServiceProvider).AsSingle();
         }
-        _saveServiceProvider.Init(_wallet, _globalSound, _storiesProvider,
-            _panelsLocalizationHandler, _mainMenuUIProvider);
-        
+
         if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
         {
             _wallet = new Wallet(_saveServiceProvider.SaveData);
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
-
         _iconsUISpriteAtlasAssetProvider = new IconsUISpriteAtlasAssetProvider();
         _appStarter = new AppStarter();
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
                 _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _iconsUISpriteAtlasAssetProvider);
-        await _saveServiceProvider.LoadSaveData(sc);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
@@ -91,17 +85,17 @@ public class EntryPoint: MonoBehaviour
     {
         _panelsLocalizationHandler.UnsubscribeChangeLanguage();
         _wallet.Shutdown();
-        _mainMenuUIProvider?.Shutdown();
         _iconsUISpriteAtlasAssetProvider?.Release();
+        _mainMenuUIProvider?.Shutdown();
     }
 
     private async void OnApplicationQuit()
     {
         await _saveServiceProvider.SaveFromMainMenu();
-        Shutdown();
         _globalSound.ShutdownFromMenu();
         _globalUIHandler.Shutdown();
         AnalyticsService.Instance.Flush();
+        Shutdown();
     }
     // [Button()]
     // public void TestCrash()

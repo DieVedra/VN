@@ -11,8 +11,9 @@ public class AppStarter
     {
         await Addressables.InitializeAsync();
         UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
-        await unityServicesHandler.Construct(startConfig.AnalyticsStatus);
+        await unityServicesHandler.Construct(startConfig);
         await saveServiceProvider.SaveService.Construct();
+        await saveServiceProvider.LoadSaveData();
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -28,11 +29,14 @@ public class AppStarter
 
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(wallet, globalUIHandler, darkeningBackgroundFrameUIHandlerMainMenu, panelsLocalizationHandler.LanguageChanged,
+            await CreateMainMenuUIProvider(saveServiceProvider, globalUIHandler, darkeningBackgroundFrameUIHandlerMainMenu, panelsLocalizationHandler.LanguageChanged,
                 swipeDetectorOff);
         MainMenuUIProvider mainMenuUIProvider = result.Item1;
         MainMenuUIView mainMenuUIView = result.Item2;
         Transform tr = result.Item3;
+        
+        saveServiceProvider.Init(wallet, globalSound, storiesProvider,
+            panelsLocalizationHandler, mainMenuUIProvider);
 
         panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(
             ListExtensions.MergeIReadOnlyLists(mainMenuUIProvider.GetLocalizableContent(), storiesProvider.GetLocalizableContent())
@@ -169,7 +173,7 @@ public class AppStarter
         return loadIndicatorUIHandler;
     }
 
-    private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(Wallet wallet,
+    private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(SaveServiceProvider saveServiceProvider,
         GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
         ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
@@ -181,7 +185,7 @@ public class AppStarter
         ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
 
         var mainMenuUIViewTransform = mainMenuUIView.transform;
-        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler);
+        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, saveServiceProvider);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser,
             globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);

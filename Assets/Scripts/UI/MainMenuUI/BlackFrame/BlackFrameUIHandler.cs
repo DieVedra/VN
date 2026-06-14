@@ -45,7 +45,13 @@ public class BlackFrameUIHandler
     public void Shutdown()
     {
         _cancellationTokenSource?.Cancel();
-        Addressables.ReleaseInstance(_blackFrameView.gameObject);
+        if (_blackFrameView != null && _blackFrameView.gameObject != null)
+        {
+            if (_blackFrameView.gameObject.activeInHierarchy || _blackFrameView.gameObject.scene.isLoaded)
+            {
+                Addressables.ReleaseInstance(_blackFrameView.gameObject);
+            }
+        }
     }
 
     public void SetAsLastSibling()

@@ -53,7 +53,7 @@ public class StatCasesSpawner
                     statCaseView = await _gameEndPanelAssetProvider.LoadStatCasePrefab(statContentRectTransform);
                 }
 
-                var sprite = _iconsUISpriteAtlasAssetProvider.GetSprite(stat.NameKey);
+                var sprite = _iconsUISpriteAtlasAssetProvider.GetSpriteByKey(stat.NameKey);
                 if (sprite != null)
                 {
                     statCaseView.ImageCase.sprite = sprite;

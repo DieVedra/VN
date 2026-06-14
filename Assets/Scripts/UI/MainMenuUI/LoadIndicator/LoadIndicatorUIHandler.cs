@@ -42,7 +42,13 @@ public class LoadIndicatorUIHandler : ILocalizable
 
     public void Shutdown()
     {
-        StopIndicate();
+        if (_loadIndicatorView != null && _loadIndicatorView.gameObject != null)
+        {
+            if (_loadIndicatorView.gameObject.activeInHierarchy || _loadIndicatorView.gameObject.scene.isLoaded)
+            {
+                StopIndicate();
+            }
+        }
         _assetLoaded = false;
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

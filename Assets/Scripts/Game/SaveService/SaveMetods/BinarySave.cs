@@ -7,19 +7,15 @@ public class BinarySave : ISaveMethod
 {
     private const string _fileName = "/Save";
     private const string _fileFormat = ".dat";
-    private readonly string _savePath;
-    private readonly BinaryFormatter _binaryFormatter;
-
-    public BinarySave()
-    {
-        _binaryFormatter = new BinaryFormatter();
-        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
-    }
+    private string _savePath;
+    private BinaryFormatter _binaryFormatter;
 
 
     public UniTask Construct()
     {
-        throw new System.NotImplementedException();
+        _binaryFormatter = new BinaryFormatter();
+        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
+        return default;
     }
 
     public async UniTask<T> Load<T>()

@@ -12,6 +12,7 @@ public class SaveServiceProvider
     private StoriesProvider _storiesProvider;
     private PanelsLocalizationHandler _panelsLocalizationHandler;
     private MainMenuUIProvider _mainMenuUIProvider;
+    private StartConfig _startConfig;
     public string CurrentStoryKey;
 
     private bool _isInitedKey;
@@ -21,7 +22,8 @@ public class SaveServiceProvider
     public SaveServiceProvider(StartConfig sc)
     {
         SaveHasBeenLoaded = false;
-        SetSaveDataDefault(sc);
+        _startConfig = sc;
+        SetSaveDataDefault();
         switch (sc.SaveMethod)
         {
             case SaveMethod.JsonSave:
@@ -63,6 +65,18 @@ public class SaveServiceProvider
             _saveData.SoundStatus = _globalSound.SoundStatus.Value;
             _storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
             _saveData.LanguageLocalizationKey = _panelsLocalizationHandler.GetKey;
+            if (_mainMenuUIProvider == null)
+            {
+                Debug.Log(0);
+            }
+            if (_mainMenuUIProvider.PlayStoryPanelHandler == null)
+            {
+                Debug.Log(1);
+            }
+            if (_mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName == null)
+            {
+                Debug.Log(2);
+            }
             if (_mainMenuUIProvider.PlayStoryPanelHandler?.GetCurrentStoryName != String.Empty)
             {
                 _saveData.NameStartStory = _mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
@@ -71,10 +85,13 @@ public class SaveServiceProvider
             await SaveService.Save(_saveData);
         }
     }
-    public async UniTask<bool> LoadSaveData(StartConfig sc)
+    public async UniTask<bool> LoadSaveData()
     {
         _saveData = await SaveService.LoadData();
-        
+        foreach (var VARIABLE in _saveData.StoryDatas)
+        {
+            Debug.Log($"{VARIABLE.Key}: StoryStarted {VARIABLE.Value.StoryStarted}");
+        }
         if (_saveData != null)
         {
             Debug.Log($"SaveData: true");
@@ -83,7 +100,7 @@ public class SaveServiceProvider
         else
         {
             SaveHasBeenLoaded = false;
-            SetSaveDataDefault(sc);
+            SetSaveDataDefault();
             Debug.Log($"SaveData: false");
         }
 
@@ -113,14 +130,42 @@ public class SaveServiceProvider
         }
     }
 
-    private void SetSaveDataDefault(StartConfig sc)
+    private void SetSaveDataDefault()
     {
         _saveData = new SaveData
         {
-            Monets = sc.Monets,
-            Hearts = sc.Hearts,
-            SoundStatus = sc.SoundStatus,
+            Monets = _startConfig.Monets,
+            Hearts = _startConfig.Hearts,
+            SoundStatus = _startConfig.SoundStatus,
             StoryDatas = new Dictionary<string, StoryData>()
+        };
+    }
+
+    public void DeleteProgressByStory(string key)
+    {
+        if (_saveData.StoryDatas.TryGetValue(key, out StoryData storyData))
+        {
+            _saveData.StoryDatas[key] = GetSkippedStoryData(storyData);
+        }
+    }
+
+    public void DeleteAllProgress()
+    {
+        foreach (var pair in _saveData.StoryDatas)
+        {
+            if (_saveData.StoryDatas.TryGetValue(pair.Key, out  StoryData storyData))
+            {
+                _saveData.StoryDatas[pair.Key] = GetSkippedStoryData(storyData);
+            }
+        }
+    }
+
+    private StoryData GetSkippedStoryData(StoryData oldStoryData)
+    {
+        return new StoryData
+        {
+            StoryName = oldStoryData.StoryName, NameUISpriteAtlas = oldStoryData.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
+            CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = oldStoryData.StoryIndex
         };
     }
 }

@@ -17,6 +17,7 @@ public class UnityCloudSaveMethod : ISaveMethod
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            Debug.Log($"PlayerID для поиска в Dashboard: {AuthenticationService.Instance.PlayerId}");
         }
     }
     public async UniTask<T> Load<T>()

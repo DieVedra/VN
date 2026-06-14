@@ -118,7 +118,7 @@ public class LevelEntryPointEditor : LevelEntryPoint
         await SaveServiceProvider.SaveService.Construct();
         if (Application.isPlaying && LoadSaveData == true)
         {
-            if (await SaveServiceProvider.LoadSaveData(_startConfig) == true)
+            if (await SaveServiceProvider.LoadSaveData() == true)
             {
                 _saveData = SaveServiceProvider.SaveData;
                 _wallet = new Wallet(_saveData);

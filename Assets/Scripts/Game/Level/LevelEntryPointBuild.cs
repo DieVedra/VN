@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using Unity.Services.Analytics;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Zenject;
 
 public class LevelEntryPointBuild : LevelEntryPoint

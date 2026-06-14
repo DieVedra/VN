@@ -17,6 +17,7 @@ public class PlayStoryPanelHandler : ILocalizable
     private PlayStoryPanel _playStoryPanel;
     private RectTransform _rectTransformPanel;
     private readonly BlackFrameUIHandler _blackFrameUIHandler;
+    private readonly SaveServiceProvider _saveServiceProvider;
     private readonly ReactiveCommand _onExitEndRC;
     private Story _currentStory;
 
@@ -41,9 +42,10 @@ public class PlayStoryPanelHandler : ILocalizable
         }
     }
 
-    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler)
+    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
+        _saveServiceProvider = saveServiceProvider;
         _onExitEndRC = new ReactiveCommand();
     }
 
@@ -65,7 +67,13 @@ public class PlayStoryPanelHandler : ILocalizable
 
     public void Shutdown()
     {
-        Addressables.ReleaseInstance(_playStoryPanel.gameObject);
+        if (_playStoryPanel != null && _playStoryPanel.gameObject != null)
+        {
+            if (_playStoryPanel.gameObject.activeInHierarchy || _playStoryPanel.gameObject.scene.isLoaded)
+            {
+                Addressables.ReleaseInstance(_playStoryPanel.gameObject);
+            }
+        }
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
@@ -93,7 +101,14 @@ public class PlayStoryPanelHandler : ILocalizable
         
         _playStoryPanel.ResetProgressButton.onClick.AddListener(story.ResetProgress);
         _playStoryPanel.ButtonOpen.onClick.AddListener(PlayChangedStory);
-        
+        if (story.StoryStarted)
+        {
+            _playStoryPanel.ResetProgressButton.onClick.AddListener(() =>
+            {
+                _saveServiceProvider.DeleteProgressByStory(story.StoryName);
+            });
+        }
+
         _playStoryPanel.ExitButton.onClick.AddListener(() =>
         {
             Hide().Forget();
@@ -101,7 +116,7 @@ public class PlayStoryPanelHandler : ILocalizable
     }
     private async UniTaskVoid Hide()
     {
-        UnsubscrimeAllButtons();
+        UnsubscribeAllButtons();
         await UniTask.WhenAll(
             _rectTransformPanel.DOScale(_hideScale, AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
             _playStoryPanel.CanvasGroup.DOFade( AnimationValuesProvider.MinValue,AnimationValuesProvider.HalfValue).WithCancellation(_cancellationTokenSource.Token),
@@ -111,7 +126,7 @@ public class PlayStoryPanelHandler : ILocalizable
         _onExitEndRC.Execute();
     }
 
-    private void UnsubscrimeAllButtons()
+    private void UnsubscribeAllButtons()
     {
         _playStoryPanel.ExitButton.onClick.RemoveAllListeners();
         _playStoryPanel.LikeButton.onClick.RemoveAllListeners();
@@ -145,7 +160,7 @@ public class PlayStoryPanelHandler : ILocalizable
 
     private void PlayChangedStory()
     {
-        UnsubscrimeAllButtons();
+        UnsubscribeAllButtons();
         _levelLoader.StartLoadPart1(_currentStory).Forget();
     }
 }
