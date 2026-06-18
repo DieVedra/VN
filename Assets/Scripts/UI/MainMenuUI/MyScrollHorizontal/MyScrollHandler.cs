@@ -243,17 +243,14 @@ public class MyScrollHandler : ILocalizable
 
     private void InitOpenButton(StoryPanel panel, Story story)
     {
-        Debug.Log($"InitOpenButton: {story.StoryStarted}");
         panel.ButtonOpen.onClick.AddListener(() =>
         {
             if (_myScrollMover.IsMove == false)
             {
                 UnsubscribeScrollContentButtons();
                 _swipeDetector.Disable();
-                Debug.Log($"InitOpenButton1: {story.StoryStarted}");
 
                 _playStoryPanelHandler.Show(story).Forget();
-                Debug.Log($"InitOpenButton2: {story.StoryStarted}");
 
                 _playStoryPanelHandler.OnExitEndRC.Subscribe(_=>
                 {
@@ -266,7 +263,6 @@ public class MyScrollHandler : ILocalizable
     }
     private void InitContinueButton(StoryPanel panel, Story story)
     {
-        Debug.Log($"story.StoryStarted:   {story.StoryStarted}");
         if (story.StoryStarted)
         {
             panel.TextButtonContinue.text = _buttonContinueText;

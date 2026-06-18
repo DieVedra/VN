@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 [Serializable]
 public class Wallet

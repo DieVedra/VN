@@ -52,7 +52,8 @@ public class EntryPoint: MonoBehaviour
             _saveServiceProvider = new SaveServiceProvider(sc);
             ProjectContext.Instance.Container.Bind<SaveServiceProvider>().FromInstance(_saveServiceProvider).AsSingle();
         }
-
+        await _saveServiceProvider.SaveService.Construct();
+        await _saveServiceProvider.LoadSaveData();
         if (ProjectContext.Instance.Container.HasBinding<Wallet>() == false)
         {
             _wallet = new Wallet(_saveServiceProvider.SaveData);

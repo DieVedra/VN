@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class PlayStoryPanel : StoryPanel
 {
     [SerializeField] private Button _wardrobeButton;
     [SerializeField] private Button _resetProgressButton;
+    [SerializeField] private Button _skipCashButton;
     [SerializeField] private Button _likeButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private TextMeshProUGUI _textSeria;
@@ -19,6 +21,7 @@ public class PlayStoryPanel : StoryPanel
     
     public Button WardrobeButton => _wardrobeButton;
     public Button ResetProgressButton => _resetProgressButton;
+    public Button SkipCashButton => _skipCashButton;
     public Button LikeButton => _likeButton;
     public Button ExitButton => _exitButton;
     public TextMeshProUGUI TextSeria => _textSeria;

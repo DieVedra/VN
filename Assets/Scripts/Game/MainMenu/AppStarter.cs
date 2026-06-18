@@ -12,8 +12,6 @@ public class AppStarter
         await Addressables.InitializeAsync();
         UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
         await unityServicesHandler.Construct(startConfig);
-        await saveServiceProvider.SaveService.Construct();
-        await saveServiceProvider.LoadSaveData();
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -185,7 +183,7 @@ public class AppStarter
         ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
 
         var mainMenuUIViewTransform = mainMenuUIView.transform;
-        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, saveServiceProvider);
+        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, saveServiceProvider, globalUIHandler.ConfirmedPanelUIHandler);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser,
             globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);

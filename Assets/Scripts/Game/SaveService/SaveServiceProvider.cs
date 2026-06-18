@@ -23,7 +23,6 @@ public class SaveServiceProvider
     {
         SaveHasBeenLoaded = false;
         _startConfig = sc;
-        SetSaveDataDefault();
         switch (sc.SaveMethod)
         {
             case SaveMethod.JsonSave:
@@ -65,18 +64,6 @@ public class SaveServiceProvider
             _saveData.SoundStatus = _globalSound.SoundStatus.Value;
             _storiesProvider.TryUpdateStoryDatas(_saveData.StoryDatas);
             _saveData.LanguageLocalizationKey = _panelsLocalizationHandler.GetKey;
-            if (_mainMenuUIProvider == null)
-            {
-                Debug.Log(0);
-            }
-            if (_mainMenuUIProvider.PlayStoryPanelHandler == null)
-            {
-                Debug.Log(1);
-            }
-            if (_mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName == null)
-            {
-                Debug.Log(2);
-            }
             if (_mainMenuUIProvider.PlayStoryPanelHandler?.GetCurrentStoryName != String.Empty)
             {
                 _saveData.NameStartStory = _mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
@@ -88,10 +75,6 @@ public class SaveServiceProvider
     public async UniTask<bool> LoadSaveData()
     {
         _saveData = await SaveService.LoadData();
-        foreach (var VARIABLE in _saveData.StoryDatas)
-        {
-            Debug.Log($"{VARIABLE.Key}: StoryStarted {VARIABLE.Value.StoryStarted}");
-        }
         if (_saveData != null)
         {
             Debug.Log($"SaveData: true");
