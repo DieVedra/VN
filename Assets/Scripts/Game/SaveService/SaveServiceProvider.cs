@@ -124,31 +124,28 @@ public class SaveServiceProvider
         };
     }
 
-    public void DeleteProgressByStory(string key)
-    {
-        if (_saveData.StoryDatas.TryGetValue(key, out StoryData storyData))
-        {
-            _saveData.StoryDatas[key] = GetSkippedStoryData(storyData);
-        }
-    }
+    // public void DeleteProgressByStory(string key)
+    // {
+    //     if (_saveData.StoryDatas.TryGetValue(key, out StoryData storyData))
+    //     {
+    //         _saveData.StoryDatas[key] = GetSkippedStoryData(storyData);
+    //     }
+    // }
 
     public void DeleteAllProgress()
     {
-        foreach (var pair in _saveData.StoryDatas)
+        foreach (var story in _storiesProvider.Stories)
         {
-            if (_saveData.StoryDatas.TryGetValue(pair.Key, out  StoryData storyData))
-            {
-                _saveData.StoryDatas[pair.Key] = GetSkippedStoryData(storyData);
-            }
+            story.ResetProgress();
         }
     }
 
-    private StoryData GetSkippedStoryData(StoryData oldStoryData)
-    {
-        return new StoryData
-        {
-            StoryName = oldStoryData.StoryName, NameUISpriteAtlas = oldStoryData.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
-            CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = oldStoryData.StoryIndex
-        };
-    }
+    // private StoryData GetSkippedStoryData(StoryData oldStoryData)
+    // {
+    //     return new StoryData
+    //     {
+    //         StoryName = oldStoryData.StoryName, NameUISpriteAtlas = oldStoryData.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
+    //         CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = oldStoryData.StoryIndex
+    //     };
+    // }
 }

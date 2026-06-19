@@ -6,6 +6,8 @@ public class LevelLoadDataHandler
     public const int IndexFirstSeriaData = 0;
     private const int _indexFirstName = 0;
     private const int _numberFirstSeria = 1;
+    private readonly string _storyName;
+
     private readonly PanelsLocalizationHandler _panelsLocalizationHandler;
     public readonly CharacterProviderBuildMode CharacterProviderBuildMode;
     public readonly SeriaGameStatsProviderBuild SeriaGameStatsProviderBuild;
@@ -22,7 +24,7 @@ public class LevelLoadDataHandler
     public int CurrentLoadPercent => _loadAssetsPercentHandler.CurrentLoadPercentReactiveProperty.Value;
     public LoadAssetsPercentHandler LoadAssetsPercentHandler => _loadAssetsPercentHandler;
 
-    public LevelLoadDataHandler(PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,
+    public LevelLoadDataHandler(string storyName, PanelsLocalizationHandler panelsLocalizationHandler, PhoneMessagesCustodian phoneMessagesCustodian,
         LevelLocalizationProvider levelLocalizationProvider, PhoneSaveHandler phoneSaveHandler, CharacterProviderBuildMode characterProviderBuildMode,
         Func<UniTask> createPhoneView, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,  
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty,
@@ -32,12 +34,12 @@ public class LevelLoadDataHandler
         _levelLocalizationProvider = levelLocalizationProvider;
         _currentSeriaLoadedNumberProperty = currentSeriaLoadedNumberProperty;
         _onContentIsLoadProperty = onContentIsLoadProperty;
-        SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild();
+        SeriaGameStatsProviderBuild = new SeriaGameStatsProviderBuild(storyName);
         CharacterProviderBuildMode = characterProviderBuildMode;
-        GameSeriesProvider = new GameSeriesProvider();
-        AudioClipProvider = new AudioClipProvider();
-        BackgroundDataProvider = new BackgroundDataProvider();
-        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(phoneMessagesCustodian, phoneSaveHandler, createPhoneView);
+        GameSeriesProvider = new GameSeriesProvider(storyName);
+        AudioClipProvider = new AudioClipProvider(storyName);
+        BackgroundDataProvider = new BackgroundDataProvider(storyName);
+        PhoneProviderInBuildMode = new PhoneProviderInBuildMode(storyName, phoneMessagesCustodian, phoneSaveHandler, createPhoneView);
         _loadAssetsPercentHandler = new LoadAssetsPercentHandler(
             GameSeriesProvider,
             SeriaGameStatsProviderBuild,

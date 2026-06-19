@@ -36,11 +36,11 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         _inMainMenu = true;
     }
 
-    public async UniTask Init(SaveData saveData, string defaultLanguageKey)
+    public async UniTask Init(SaveData saveData, LocalizationInfoHolder localizationInfoHolder, string defaultLanguageKey)
     {
         _defaultLanguageKey = defaultLanguageKey;
         _saveData = saveData;
-        _localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
+        _localizationInfoHolder = localizationInfoHolder;
         TryDefineLanguageKey();
         await LoadCurrentLanguage();
     }

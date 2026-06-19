@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class AudioClipProvider
 {
-    private const string _nameMusicAsset = "MusicAudioDataSeria";
-    private const string _nameAmbientAsset = "AmbientAudioDataSeria";
+    public const string NameMusicAsset = "MusicAudioDataSeria";
+    public const string NameAmbientAsset = "AmbientAudioDataSeria";
+    private readonly string _fullNameMusicAsset;
+    private readonly string _fullNameAmbientAsset;
+    private readonly string _storyName;
+
     private readonly DataProvider<AudioData> _musicAudioDataProvider;
     private readonly DataProvider<AudioData> _ambientAudioDataProvider;
     public IParticipiteInLoad MusicAudioDataProviderParticipiteInLoad => _musicAudioDataProvider;
@@ -15,16 +16,17 @@ public class AudioClipProvider
     public IReactiveCommand<AudioData> OnLoadMusicAudioData => _musicAudioDataProvider.OnLoad;
     public IReactiveCommand<AudioData> OnLoadAmbientAudioData => _ambientAudioDataProvider.OnLoad;
 
-    public AudioClipProvider()
+    public AudioClipProvider(string storyName)
     {
+        _storyName = storyName;
         _musicAudioDataProvider = new DataProvider<AudioData>();
         _ambientAudioDataProvider = new DataProvider<AudioData>();
     }
 
     public async UniTask Init()
     {
-        await UniTask.WhenAll(_musicAudioDataProvider.CreateNames(_nameMusicAsset),
-            _ambientAudioDataProvider.CreateNames(_nameAmbientAsset));
+        await UniTask.WhenAll(_musicAudioDataProvider.CreateNames($"{_storyName}{NameMusicAsset}"),
+            _ambientAudioDataProvider.CreateNames($"{_storyName}{NameAmbientAsset}"));
     }
     public void Shutdown()
     {

@@ -3,9 +3,11 @@ using Cysharp.Threading.Tasks;
 
 public class CharacterProviderBuildMode : ILocalizable
 {
-    private const string _charactersDataProviderName = "CharactersDataProviderSeria";
-    private const string _charactersProviderName = "CharactersProviderSeria";
-
+    public const string CharactersDataProviderName = "CharactersDataProviderSeria";
+    public const string CharactersProviderName = "CharactersProviderSeria";
+    
+    private readonly string _fullCharactersDataProviderName;
+    private readonly string _fullCharactersProviderName;
     private readonly CharactersCreator _charactersCreator;
     private readonly DataProvider<CharactersProvider> _charactersProvider;
     private readonly DataProvider<CharactersDataProvider> _charactersDataProvider;
@@ -19,8 +21,10 @@ public class CharacterProviderBuildMode : ILocalizable
     public IReadOnlyDictionary<string, CustomizableCharacterIndexesCustodian> CustomizableCharacterIndexesCustodians => _customizableCharacterIndexesCustodians;
 
 
-    public CharacterProviderBuildMode(IReadOnlyList<WardrobeSaveData> wardrobeSaveDatas = null)
+    public CharacterProviderBuildMode(string storyName, IReadOnlyList<WardrobeSaveData> wardrobeSaveDatas = null)
     {
+        _fullCharactersDataProviderName = $"{storyName}{CharactersDataProviderName}";
+        _fullCharactersProviderName = $"{storyName}{CharactersProviderName}";
         _charactersProvider = new DataProvider<CharactersProvider>();
         _charactersDataProvider = new DataProvider<CharactersDataProvider>();
         
@@ -43,8 +47,8 @@ public class CharacterProviderBuildMode : ILocalizable
 
     public async UniTask Construct()
     {
-        await UniTask.WhenAll(_charactersProvider.CreateNames(_charactersProviderName),
-            _charactersDataProvider.CreateNames(_charactersDataProviderName));
+        await UniTask.WhenAll(_charactersProvider.CreateNames(_fullCharactersProviderName),
+            _charactersDataProvider.CreateNames(_fullCharactersDataProviderName));
     }
     public void Shutdown()
     {

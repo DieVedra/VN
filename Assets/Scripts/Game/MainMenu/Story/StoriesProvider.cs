@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "StoriesProvider", order = 51)]
@@ -28,10 +27,9 @@ public class StoriesProvider : ScriptableObject
             {
                 var newStory = new StoryData
                 {
-                    StoryName = story.StoryName, NameUISpriteAtlas = story.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
-                    CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = story.MyIndex
+                    StoryName = story.StoryName, NameUISpriteAtlas = story.NameUISpriteAtlas, StoryIndex = story.MyIndex
                 };
-                
+                story.ResetProgress(newStory);
                 saveData.StoryDatas.Add(story.StoryName, newStory);
             }
         }

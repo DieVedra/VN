@@ -39,9 +39,13 @@ public class AppStarter
         panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(
             ListExtensions.MergeIReadOnlyLists(mainMenuUIProvider.GetLocalizableContent(), storiesProvider.GetLocalizableContent())
             );
+        var localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
+
+        var cashCleaner = new CashCleaner(localizationInfoHolder);
         if (loadScreenUIHandler.IsStarted == false)
         {
-            await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, startConfig.DefaultLanguageLocalizationKey);
+            await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, localizationInfoHolder,
+                startConfig.DefaultLanguageLocalizationKey);
         }
 
         panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
@@ -67,7 +71,7 @@ public class AppStarter
 
         await prefabsProvider.Init();
         mainMenuUIView.gameObject.SetActive(true);
-        await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, wallet,
+        await InitMainMenuUI(globalSound.SoundStatus, panelsLocalizationHandler, levelLoader, mainMenuUIProvider, wallet, cashCleaner,
             mainMenuUIView, tr, storiesProvider, iconsUISpriteAtlasAssetProvider, startIndexStory);
 
 
@@ -197,12 +201,12 @@ public class AppStarter
     }
 
     private async UniTask InitMainMenuUI(IReactiveProperty<bool> soundStatus, ILocalizationChanger localizationChanger, LevelLoader levelLoader, 
-        MainMenuUIProvider mainMenuUIProvider, Wallet wallet,
+        MainMenuUIProvider mainMenuUIProvider, Wallet wallet, CashCleaner cashCleaner,
         MainMenuUIView mainMenuUIView, Transform mainMenuUIViewTransform, StoriesProvider storiesProvider,
         IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider, int startIndexStory)
     {
         await mainMenuUIProvider.DarkeningBackgroundFrameUIHandler.Init(mainMenuUIViewTransform);
-        await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, mainMenuUIViewTransform);
+        await mainMenuUIProvider.PlayStoryPanelHandler.Init(levelLoader, cashCleaner, mainMenuUIViewTransform);
         await mainMenuUIProvider.MyScrollHandler.Construct(storiesProvider.Stories, mainMenuUIProvider.PlayStoryPanelHandler,
             levelLoader, startIndexStory);
         await iconsUISpriteAtlasAssetProvider.LoadSpriteAtlas(IconsUISpriteAtlasAssetProvider.Name);

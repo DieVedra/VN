@@ -4,8 +4,21 @@ using UniRx;
 
 public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGameStatsProvider
 {
-    private const string SeriaGameStatsProviderName = "StatProviderSeria";
+    public const string SeriaGameStatsProviderName = "StatProviderSeria";
+    private readonly string _fullSeriaGameStatsProviderName;
     private GameStatsHandler _gameStatsHandler;
+    public GameStatsHandler GameStatsHandler => _gameStatsHandler;
+    public SeriaGameStatsProviderBuild(string storyName)
+    {
+        _fullSeriaGameStatsProviderName = $"{storyName}{SeriaGameStatsProviderName}";
+        BaseCompositeDisposable = new CompositeDisposable();
+        _gameStatsHandler = new GameStatsHandler();
+        OnLoad.Subscribe(_ =>
+        {
+            _gameStatsHandler.AddNextSeriaStats(_.Stats);
+        }).AddTo(BaseCompositeDisposable);
+    }
+
     public List<T> GetEmptyTStat<T>(int seriaIndex) where T : BaseStat
     {
         int seriaNumber = ++seriaIndex;
@@ -31,17 +44,6 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
         return stats;
     }
 
-    public GameStatsHandler GameStatsHandler => _gameStatsHandler;
-    public SeriaGameStatsProviderBuild()
-    {
-        BaseCompositeDisposable = new CompositeDisposable();
-        _gameStatsHandler = new GameStatsHandler();
-        OnLoad.Subscribe(_ =>
-        {
-            _gameStatsHandler.AddNextSeriaStats(_.Stats);
-        }).AddTo(BaseCompositeDisposable);
-    }
-
     public List<Stat> GetEmptyStatsFromCurrentSeria(int seriaIndex)
     {
         int seriaNumber = ++seriaIndex;
@@ -65,7 +67,7 @@ public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGam
 
     public async UniTask<int> Init()
     {
-        await CreateNames(SeriaGameStatsProviderName);
+        await CreateNames(_fullSeriaGameStatsProviderName);
         if (AssetsFinded == true)
         {
             return NamesCount;

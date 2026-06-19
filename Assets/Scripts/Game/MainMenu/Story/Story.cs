@@ -59,33 +59,37 @@ public class Story  : ILocalizable
         return _storyData.IsLiked;
     }
 
-    public void ResetProgress()
+    public void ResetProgress(StoryData storyData)
     {
-        _storyData.CurrentProgressPercent = 0;
-        _storyData.CurrentSeriaIndex = 0;
-        _storyData.CurrentNodeGraphIndex = 0;
-        _storyData.CurrentNodeIndex = 0;
-        _storyData.CurrentAudioMusicKey = null;
-        _storyData.CurrentAudioAmbientKey = null;
-        _storyData.IsLiked = false;
-        _storyData.StoryStarted = false;
-        _storyData.PutOnSwimsuitKey = false;
-        _storyData.AudioEffectsIsOn?.Clear();
-        _storyData.PhoneNodeIsActiveOnSave = false;
-        _storyData.ReadedContactNodeCaseIndexes.Clear();
-        _storyData.OnlineContactsKeys.Clear();
-        _storyData.NotificationsKeys.Clear();
-        _storyData.PhoneSaveDatas.Clear();
-        if (_storyData.BackgroundSaveData != null)
+        storyData.CurrentProgressPercent = 0;
+        storyData.CurrentSeriaIndex = 0;
+        storyData.CurrentNodeGraphIndex = 0;
+        storyData.CurrentNodeIndex = 0;
+        storyData.CurrentAudioMusicKey = null;
+        storyData.CurrentAudioAmbientKey = null;
+        storyData.IsLiked = false;
+        storyData.StoryStarted = false;
+        storyData.PutOnSwimsuitKey = false;
+        storyData.AudioEffectsIsOn?.Clear();
+        storyData.PhoneNodeIsActiveOnSave = false;
+        storyData.ReadedContactNodeCaseIndexes.Clear();
+        storyData.OnlineContactsKeys.Clear();
+        storyData.NotificationsKeys.Clear();
+        storyData.PhoneSaveDatas.Clear();
+        if (storyData.BackgroundSaveData != null)
         {
-            _storyData.BackgroundSaveData.AdditionalImagesInfo?.Clear();
-            _storyData.BackgroundSaveData.ArtOpenedKeys?.Clear();
-            _storyData.BackgroundSaveData.CurrentBackgroundPosition = (int)BackgroundPosition.Central;
-            _storyData.BackgroundSaveData.CurrentKeyBackgroundContent = null;
+            storyData.BackgroundSaveData.AdditionalImagesInfo?.Clear();
+            storyData.BackgroundSaveData.ArtOpenedKeys?.Clear();
+            storyData.BackgroundSaveData.CurrentBackgroundPosition = (int)BackgroundPosition.Central;
+            storyData.BackgroundSaveData.CurrentKeyBackgroundContent = null;
         }
 
-        _storyData.Stats?.Clear();
-        _storyData.WardrobeSaveDatas?.Clear();
+        storyData.Stats?.Clear();
+        storyData.WardrobeSaveDatas?.Clear();
+    }
+    public void ResetProgress()
+    {
+        ResetProgress(_storyData);
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

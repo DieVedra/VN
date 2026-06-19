@@ -22,6 +22,7 @@ public class PlayStoryPanelHandler : ILocalizable
     private readonly LocalizationString _confirmedButtonText = "Да";
     
     private ContentHeightCalculator _contentHeightCalculator;
+    private CashCleaner _cashCleaner;
     private LevelLoader _levelLoader;
     private readonly Transform _parent;
     private PlayStoryPanel _playStoryPanel;
@@ -62,9 +63,10 @@ public class PlayStoryPanelHandler : ILocalizable
         _onExitEndRC = new ReactiveCommand();
     }
 
-    public async UniTask Init(LevelLoader levelLoader, Transform parent)
+    public async UniTask Init(LevelLoader levelLoader, CashCleaner cashCleaner,  Transform parent)
     {
         _levelLoader = levelLoader;
+        _cashCleaner = cashCleaner;
         PlayStoryPanelAssetProvider storyPanelAssetProvider = new PlayStoryPanelAssetProvider();
         _playStoryPanel = await storyPanelAssetProvider.CreatePlayStoryPanel(parent);
         _playStoryPanel.gameObject.SetActive(false);
@@ -140,8 +142,9 @@ public class PlayStoryPanelHandler : ILocalizable
                         HeightPanel, FontSizeValue, () =>
                         {
                             story.ResetProgress();
-                            _saveServiceProvider.DeleteProgressByStory(story.StoryName);
+                            _saveServiceProvider.SaveFromMainMenu().Forget();
                             TrySubscribeResetProgressButton(story);
+                            _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
                         },
                         () =>
                         {

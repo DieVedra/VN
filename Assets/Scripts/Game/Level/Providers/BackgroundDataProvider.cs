@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class BackgroundDataProvider
 {
-    private const string _locations = "Locations";
-    private const string _additionalImages = "AdditionalImages";
-    private const string _arts = "Arts";
-    private const string _compressed = "Compressed";
-    private const string _backgroundDataSeriaNameAsset = "BackgroundDataSeria";
-    private const string _wardrobeBackgroundDataNameAsset = "WardrobeBackgroundData";
+    public const string Locations = "Locations";
+    public const string AdditionalImages = "AdditionalImages";
+    public const string Arts = "Arts";
+    public const string Compressed = "Compressed";
+    public const string BackgroundDataSeriaNameAsset = "BackgroundDataSeria";
+    public const string WardrobeBackgroundDataNameAsset = "WardrobeBackgroundData";
+    
+    private readonly string _storyName;
     
     private readonly DataProvider<BackgroundData> _locationDataProvider;
     private readonly DataProvider<BackgroundData> _additionalImagesDataProvider;
@@ -22,19 +24,15 @@ public class BackgroundDataProvider
     public IParticipiteInLoad ArtsDataLoadProviderParticipiteInLoad => _artsDataProvider;
     public IParticipiteInLoad WardrobeBackgroundDataLoadProviderParticipiteInLoad => _wardrobeBackgroundDataProvider;
     
-    // public IReadOnlyList<BackgroundData> GetLocationDatas => _locationDataProvider.GetDatas;
-    // public IReadOnlyList<BackgroundData> GetAdditionalImagesDatas => _additionalImagesDataProvider.GetDatas;
-    // public IReadOnlyList<BackgroundData> GetArtsDatas => _artsDataProvider.GetDatas;
-    
-    
     public IReactiveCommand<BackgroundData> OnLoadLocationData => _locationDataProvider.OnLoad;
     public IReactiveCommand<BackgroundData> OnLoadAdditionalImagesData => _additionalImagesDataProvider.OnLoad;
     public IReactiveCommand<BackgroundData> OnLoadArtsData => _artsDataProvider.OnLoad;
     public IReactiveCommand<BackgroundData> OnLoadWardrobeData => _wardrobeBackgroundDataProvider.OnLoad;
 
 
-    public BackgroundDataProvider()
+    public BackgroundDataProvider(string storyName)
     {
+        _storyName = storyName;
         _locationDataProvider = new DataProvider<BackgroundData>();
         _additionalImagesDataProvider = new DataProvider<BackgroundData>();
         _artsDataProvider = new DataProvider<BackgroundData>();
@@ -47,7 +45,7 @@ public class BackgroundDataProvider
             _locationDataProvider.CreateNames(GetNameLocations()),
             _additionalImagesDataProvider.CreateNames(GetNameAdditionalImages()),
             _artsDataProvider.CreateNames(GetNameArts()),
-            _wardrobeBackgroundDataProvider.CreateNames(_wardrobeBackgroundDataNameAsset));
+            _wardrobeBackgroundDataProvider.CreateNames(WardrobeBackgroundDataNameAsset));
     }
     public void Shutdown()
     {
@@ -75,33 +73,33 @@ public class BackgroundDataProvider
     {
         if (HDMode == false)
         {
-            return $"{_locations}{_compressed}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{Locations}{Compressed}{BackgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_locations}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{Locations}{BackgroundDataSeriaNameAsset}";
         }
     }
     private string GetNameAdditionalImages(bool HDMode = false)
     {
         if (HDMode == false)
         {
-            return $"{_additionalImages}{_compressed}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{AdditionalImages}{Compressed}{BackgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_additionalImages}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{AdditionalImages}{BackgroundDataSeriaNameAsset}";
         }
     }
     private string GetNameArts(bool HDMode = false)
     {
         if (HDMode == false)
         {
-            return $"{_arts}{_compressed}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{Arts}{Compressed}{BackgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_arts}{_backgroundDataSeriaNameAsset}";
+            return $"{_storyName}{Arts}{BackgroundDataSeriaNameAsset}";
         }
     }
 }

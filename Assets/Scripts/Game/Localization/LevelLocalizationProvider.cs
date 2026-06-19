@@ -6,8 +6,9 @@ using UnityEngine.Rendering;
 
 public class LevelLocalizationProvider : IParticipiteInLoad
 {
+    public const string NameLevelLocalizationAsset = "FileLocalizationSeria";
     private const int _deleteValue = 2;
-    private const string _nameLevelLocalizationAsset = "FileLocalizationSeria";
+    private readonly string _storyName;
     private readonly ILocalizationChanger _localizationChanger;
     private readonly ReactiveProperty<int> _currentSeriaIndexReactiveProperty;
     private readonly AssetExistsHandler _assetExistsHandler;
@@ -21,8 +22,9 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     public int PercentComplete => _localizationFileProvider.GetPercentComplete();
     public LocalizationFileProvider LocalizationFileProvider => _localizationFileProvider;
     public IReadOnlyDictionary<string, string> Localization => _localization;
-    public LevelLocalizationProvider(ILocalizationChanger localizationChanger, ReactiveProperty<int> currentSeriaIndexReactiveProperty)
+    public LevelLocalizationProvider(string storyName, ILocalizationChanger localizationChanger, ReactiveProperty<int> currentSeriaIndexReactiveProperty)
     {
+        _storyName = storyName;
         _localizationChanger = localizationChanger;
         _currentSeriaIndexReactiveProperty = currentSeriaIndexReactiveProperty;
         _localizationFileProvider = new LocalizationFileProvider();
@@ -61,7 +63,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     }
     private string CreateName(int seriaNumber, string languageKey)
     {
-        return $"{languageKey}{_nameLevelLocalizationAsset}{seriaNumber}";
+        return $"{_storyName}{languageKey}{NameLevelLocalizationAsset}{seriaNumber}";
     }
 
     public bool IsLocalizationHasBeenChanged()

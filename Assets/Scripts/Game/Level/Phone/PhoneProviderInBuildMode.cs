@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
 {
+    private readonly string _storyName;
     private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly Func<UniTask> _createPhoneView;
-    private const string _nameDataProviderAsset = "PhoneProviderSeria";
-    private const string _nameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
+    public const string NameDataProviderAsset = "PhoneProviderSeria";
+    public const string NameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
 
     private NotificationViewPrefabAssetProvider _notificationViewPrefabAssetProvider;
     private OutcomingMessagePrefabAssetProvider _outcomingMessagePrefabAssetProvider;
@@ -32,8 +33,9 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     private bool _phoneSystemInitilized;
 
 
-    public PhoneProviderInBuildMode(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView)
+    public PhoneProviderInBuildMode(string storyName, PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, Func<UniTask> createPhoneView)
     {
+        _storyName = storyName;
         _phoneMessagesCustodian = phoneMessagesCustodian;
         _createPhoneView = createPhoneView;
         _dataProviders = new DataProvider<PhoneProvider>();
@@ -62,8 +64,8 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders.GetDatas, checkMathSeriaIndex);
         _phoneCreator = new PhoneCreator(_dataProviders.GetDatas, _phoneMessagesCustodian, checkMathSeriaIndex);
-        await UniTask.WhenAll(_dataProviders.CreateNames(_nameDataProviderAsset),
-            _contactsToSeriaProviders.CreateNames(_nameContactsToSeriaProviderAsset));
+        await UniTask.WhenAll(_dataProviders.CreateNames($"{_storyName}{NameDataProviderAsset}"),
+            _contactsToSeriaProviders.CreateNames($"{_storyName}{NameContactsToSeriaProviderAsset}"));
     }
 
     public void FillPhoneSaveInfo(StoryData data)

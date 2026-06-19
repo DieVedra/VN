@@ -56,7 +56,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _setLocalizationChangeEvent = new SetLocalizationChangeEvent();
         _blockGameControlPanelUIEvent = new BlockGameControlPanelUIEvent<bool>();
         _currentSeriaIndexReactiveProperty = new ReactiveProperty<int>(DefaultSeriaIndex);
-        _levelLocalizationProvider = new LevelLocalizationProvider(_panelsLocalizationHandler, _currentSeriaIndexReactiveProperty);
+        _levelLocalizationProvider = new LevelLocalizationProvider(SaveServiceProvider.CurrentStoryKey, _panelsLocalizationHandler, _currentSeriaIndexReactiveProperty);
         SwitchToNextSeriaEvent = new SwitchToNextSeriaEvent<bool>();
         SwitchToNextNodeEvent = new SwitchToNextNodeEvent();
         SwitchToAnotherNodeGraphEvent = new SwitchToAnotherNodeGraphEvent<SeriaPartNodeGraph>();
@@ -73,16 +73,20 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex; 
                 _currentSeriaLoadedNumberProperty.SetValue(StoryData.CurrentSeriaIndex);
 
-                _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
-                    _levelLocalizationProvider, phoneSaveHandler, new CharacterProviderBuildMode(StoryData.WardrobeSaveDatas), CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
+                _levelLoadDataHandler = new LevelLoadDataHandler(StoryData.StoryName, _panelsLocalizationHandler, phoneMessagesCustodian,
+                    _levelLocalizationProvider, phoneSaveHandler, new CharacterProviderBuildMode(SaveServiceProvider.CurrentStoryKey, StoryData.WardrobeSaveDatas),
+                    CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty,
                     _onContentIsLoadProperty);
             }
         }
         else
         {
             _currentSeriaLoadedNumberProperty.SetValue(0);
-            _levelLoadDataHandler = new LevelLoadDataHandler(_panelsLocalizationHandler, phoneMessagesCustodian,
-                _levelLocalizationProvider, phoneSaveHandler, new CharacterProviderBuildMode(), CreatePhoneView, SwitchToNextSeriaEvent, _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
+            _levelLoadDataHandler = new LevelLoadDataHandler(SaveServiceProvider.CurrentStoryKey, _panelsLocalizationHandler, phoneMessagesCustodian,
+                _levelLocalizationProvider, phoneSaveHandler, 
+                new CharacterProviderBuildMode(SaveServiceProvider.CurrentStoryKey),
+                CreatePhoneView, SwitchToNextSeriaEvent,
+                _currentSeriaLoadedNumberProperty, _onContentIsLoadProperty);
         }
 
 
