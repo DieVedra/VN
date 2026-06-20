@@ -7,9 +7,11 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, GlobalUIHandler globalUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig,
+        IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
         await Addressables.InitializeAsync();
+        Addressables.CleanBundleCache();
         UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
         await unityServicesHandler.Construct(startConfig);
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
@@ -41,7 +43,7 @@ public class AppStarter
             );
         var localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
 
-        var cashCleaner = new CashCleaner(localizationInfoHolder);
+        var cashCleaner = new CashCleaner(storiesProvider);
         if (loadScreenUIHandler.IsStarted == false)
         {
             await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, localizationInfoHolder,

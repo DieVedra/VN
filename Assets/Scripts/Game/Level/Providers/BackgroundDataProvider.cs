@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class BackgroundDataProvider
 {
-    public const string Locations = "Locations";
-    public const string AdditionalImages = "AdditionalImages";
-    public const string Arts = "Arts";
-    public const string Compressed = "Compressed";
-    public const string BackgroundDataSeriaNameAsset = "BackgroundDataSeria";
-    public const string WardrobeBackgroundDataNameAsset = "WardrobeBackgroundData";
+    private const string _locations = "Locations";
+    private const string _additionalImages = "AdditionalImages";
+    private const string _arts = "Arts";
+    private const string _compressed = "Compressed";
+    private const string _backgroundDataSeriaNameAsset = "BackgroundDataSeria";
+    private const string _wardrobeBackgroundDataNameAsset = "WardrobeBackgroundData";
     
     private readonly string _storyName;
     
@@ -45,7 +43,7 @@ public class BackgroundDataProvider
             _locationDataProvider.CreateNames(GetNameLocations()),
             _additionalImagesDataProvider.CreateNames(GetNameAdditionalImages()),
             _artsDataProvider.CreateNames(GetNameArts()),
-            _wardrobeBackgroundDataProvider.CreateNames(WardrobeBackgroundDataNameAsset));
+            _wardrobeBackgroundDataProvider.CreateNames(_wardrobeBackgroundDataNameAsset));
     }
     public void Shutdown()
     {
@@ -73,33 +71,33 @@ public class BackgroundDataProvider
     {
         if (HDMode == false)
         {
-            return $"{_storyName}{Locations}{Compressed}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_locations}{_compressed}{_backgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_storyName}{Locations}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_locations}{_backgroundDataSeriaNameAsset}";
         }
     }
     private string GetNameAdditionalImages(bool HDMode = false)
     {
         if (HDMode == false)
         {
-            return $"{_storyName}{AdditionalImages}{Compressed}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_additionalImages}{_compressed}{_backgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_storyName}{AdditionalImages}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_additionalImages}{_backgroundDataSeriaNameAsset}";
         }
     }
     private string GetNameArts(bool HDMode = false)
     {
         if (HDMode == false)
         {
-            return $"{_storyName}{Arts}{Compressed}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_arts}{_compressed}{_backgroundDataSeriaNameAsset}";
         }
         else
         {
-            return $"{_storyName}{Arts}{BackgroundDataSeriaNameAsset}";
+            return $"{_storyName}{_arts}{_backgroundDataSeriaNameAsset}";
         }
     }
 }

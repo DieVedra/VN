@@ -2,11 +2,10 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class LevelLocalizationProvider : IParticipiteInLoad
 {
-    public const string NameLevelLocalizationAsset = "FileLocalizationSeria";
+    private const string _nameLevelLocalizationAsset = "FileLocalizationSeria";
     private const int _deleteValue = 2;
     private readonly string _storyName;
     private readonly ILocalizationChanger _localizationChanger;
@@ -63,7 +62,7 @@ public class LevelLocalizationProvider : IParticipiteInLoad
     }
     private string CreateName(int seriaNumber, string languageKey)
     {
-        return $"{_storyName}{languageKey}{NameLevelLocalizationAsset}{seriaNumber}";
+        return $"{_storyName}{languageKey}{_nameLevelLocalizationAsset}{seriaNumber}";
     }
 
     public bool IsLocalizationHasBeenChanged()

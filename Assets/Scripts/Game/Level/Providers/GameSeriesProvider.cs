@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 
 public class GameSeriesProvider : DataProvider<SeriaNodeGraphsHandler>
 {
-    public const string NodeGraphsHandlerSeriaName = "NodeGraphsHandlerSeria";
+    private const string _nodeGraphsHandlerSeriaName = "NodeGraphsHandlerSeria";
     private readonly string _storyName;
 
     public GameSeriesProvider(string storyName)
@@ -13,7 +13,7 @@ public class GameSeriesProvider : DataProvider<SeriaNodeGraphsHandler>
 
     public async UniTask<int> Init()
     {
-        await CreateNames($"{_storyName}{NodeGraphsHandlerSeriaName}");
+        await CreateNames($"{_storyName}{_nodeGraphsHandlerSeriaName}");
         if (AssetsFinded == true)
         {
             return NamesCount;

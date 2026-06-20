@@ -3,8 +3,8 @@ using Cysharp.Threading.Tasks;
 
 public class CharacterProviderBuildMode : ILocalizable
 {
-    public const string CharactersDataProviderName = "CharactersDataProviderSeria";
-    public const string CharactersProviderName = "CharactersProviderSeria";
+    private const string _charactersDataProviderName = "CharactersDataProviderSeria";
+    private const string _charactersProviderName = "CharactersProviderSeria";
     
     private readonly string _fullCharactersDataProviderName;
     private readonly string _fullCharactersProviderName;
@@ -23,8 +23,8 @@ public class CharacterProviderBuildMode : ILocalizable
 
     public CharacterProviderBuildMode(string storyName, IReadOnlyList<WardrobeSaveData> wardrobeSaveDatas = null)
     {
-        _fullCharactersDataProviderName = $"{storyName}{CharactersDataProviderName}";
-        _fullCharactersProviderName = $"{storyName}{CharactersProviderName}";
+        _fullCharactersDataProviderName = $"{storyName}{_charactersDataProviderName}";
+        _fullCharactersProviderName = $"{storyName}{_charactersProviderName}";
         _charactersProvider = new DataProvider<CharactersProvider>();
         _charactersDataProvider = new DataProvider<CharactersDataProvider>();
         

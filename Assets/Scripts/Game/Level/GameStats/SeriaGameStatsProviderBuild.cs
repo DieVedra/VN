@@ -4,13 +4,13 @@ using UniRx;
 
 public class SeriaGameStatsProviderBuild : DataProvider<SeriaStatProvider>, IGameStatsProvider
 {
-    public const string SeriaGameStatsProviderName = "StatProviderSeria";
+    private const string _seriaGameStatsProviderName = "StatProviderSeria";
     private readonly string _fullSeriaGameStatsProviderName;
     private GameStatsHandler _gameStatsHandler;
     public GameStatsHandler GameStatsHandler => _gameStatsHandler;
     public SeriaGameStatsProviderBuild(string storyName)
     {
-        _fullSeriaGameStatsProviderName = $"{storyName}{SeriaGameStatsProviderName}";
+        _fullSeriaGameStatsProviderName = $"{storyName}{_seriaGameStatsProviderName}";
         BaseCompositeDisposable = new CompositeDisposable();
         _gameStatsHandler = new GameStatsHandler();
         OnLoad.Subscribe(_ =>

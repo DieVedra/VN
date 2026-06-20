@@ -119,11 +119,41 @@ public class PlayStoryPanelHandler : ILocalizable
         _playStoryPanel.ResetProgressButton.gameObject.SetActive(true);
         
         TrySubscribeResetProgressButton(story);
-        
+        TrySubscribeCleanCashButton(story);
         _playStoryPanel.ExitButton.onClick.AddListener(() =>
         {
             Hide().Forget();
         });
+    }
+
+    private void TrySubscribeCleanCashButton(Story story)
+    {
+        if (story.StoryStarted)
+        {
+            _playStoryPanel.SkipCashButton.interactable = true;
+            ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
+            
+            _playStoryPanel.SkipCashButton.onClick.AddListener(() =>
+            {
+                _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
+                _confirmedPanelUIHandler.Show(_cashLabelTextToConfirmedPanel, _cashQuestionTextToConfirmedPanel,
+                    _confirmedButtonText,
+                    HeightPanel, FontSizeValue, () =>
+                    {
+                        _cashCleaner.CleanCashStory(story.StoryName);
+                    },
+                    () =>
+                    {
+                        TrySubscribeCleanCashButton(story);
+                    }).Forget();
+            });
+        }
+        else
+        {
+            _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
+            _playStoryPanel.SkipCashButton.interactable = false;
+            ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
+        }
     }
 
     private void TrySubscribeResetProgressButton(Story story)
@@ -133,7 +163,6 @@ public class PlayStoryPanelHandler : ILocalizable
             _playStoryPanel.ResetProgressButton.interactable = true;
             ChangeColorButtonIcon(ref _imageProgress, _playStoryPanel.ResetProgressButton);
             
-
             _playStoryPanel.ResetProgressButton.onClick.AddListener(() =>
                 {
                     _playStoryPanel.ResetProgressButton.onClick.RemoveAllListeners();

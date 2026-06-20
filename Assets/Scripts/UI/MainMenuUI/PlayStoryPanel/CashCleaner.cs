@@ -1,36 +1,25 @@
 ﻿
+using UnityEngine.AddressableAssets;
+
 public class CashCleaner
 {
-    private readonly AssetExistsHandler _assetExistsHandler = new AssetExistsHandler();
-    private readonly LocalizationInfoHolder _localizationInfoHolder;
+    private readonly StoriesProvider _storiesProvider;
 
-    public CashCleaner(LocalizationInfoHolder localizationInfoHolder)
+    public CashCleaner(StoriesProvider storiesProvider)
     {
-        _localizationInfoHolder = localizationInfoHolder;
+        _storiesProvider = storiesProvider;
     }
 
     public void CleanCashStory(string storyName)
     {
-        // GameSeriesProvider.NodeGraphsHandlerSeriaName
-        // CharacterProviderBuildMode.CharactersProviderName
-        // CharacterProviderBuildMode.CharactersDataProviderName
-        // SeriaGameStatsProviderBuild.SeriaGameStatsProviderName
-        // AudioClipProvider.NameAmbientAsset
-        // AudioClipProvider.NameMusicAsset
-        
-        // BackgroundDataProvider.Locations
-        // BackgroundDataProvider.AdditionalImages
-        // BackgroundDataProvider.Arts
-        // BackgroundDataProvider.Compressed
-        // BackgroundDataProvider.BackgroundDataSeriaNameAsset
-        // BackgroundDataProvider.WardrobeBackgroundDataNameAsset
-        // PhoneProviderInBuildMode.NameDataProviderAsset
-        // PhoneProviderInBuildMode.NameContactsToSeriaProviderAsset
-        // LevelLocalizationProvider.NameLevelLocalizationAsset
+        Addressables.ClearDependencyCacheAsync(storyName);
     }
 
     public void CleanAllCash()
     {
-        
+        foreach (var story in _storiesProvider.Stories)
+        {
+            Addressables.ClearDependencyCacheAsync(story.StoryName);
+        }
     }
 }

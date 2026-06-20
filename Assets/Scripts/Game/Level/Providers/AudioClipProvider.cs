@@ -3,8 +3,8 @@ using UniRx;
 
 public class AudioClipProvider
 {
-    public const string NameMusicAsset = "MusicAudioDataSeria";
-    public const string NameAmbientAsset = "AmbientAudioDataSeria";
+    private const string _nameMusicAsset = "MusicAudioDataSeria";
+    private const string _nameAmbientAsset = "AmbientAudioDataSeria";
     private readonly string _fullNameMusicAsset;
     private readonly string _fullNameAmbientAsset;
     private readonly string _storyName;
@@ -25,8 +25,8 @@ public class AudioClipProvider
 
     public async UniTask Init()
     {
-        await UniTask.WhenAll(_musicAudioDataProvider.CreateNames($"{_storyName}{NameMusicAsset}"),
-            _ambientAudioDataProvider.CreateNames($"{_storyName}{NameAmbientAsset}"));
+        await UniTask.WhenAll(_musicAudioDataProvider.CreateNames($"{_storyName}{_nameMusicAsset}"),
+            _ambientAudioDataProvider.CreateNames($"{_storyName}{_nameAmbientAsset}"));
     }
     public void Shutdown()
     {

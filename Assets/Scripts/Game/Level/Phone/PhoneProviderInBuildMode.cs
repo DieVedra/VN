@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
 {
     private readonly string _storyName;
     private readonly PhoneMessagesCustodian _phoneMessagesCustodian;
     private readonly Func<UniTask> _createPhoneView;
-    public const string NameDataProviderAsset = "PhoneProviderSeria";
-    public const string NameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
+    private const string _nameDataProviderAsset = "PhoneProviderSeria";
+    private const string _nameContactsToSeriaProviderAsset = "PhoneContactsToSeria";
 
     private NotificationViewPrefabAssetProvider _notificationViewPrefabAssetProvider;
     private OutcomingMessagePrefabAssetProvider _outcomingMessagePrefabAssetProvider;
@@ -64,8 +63,8 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
         var checkMathSeriaIndex = new CheckMathSeriaIndex();
         _phoneContactsHandler = new PhoneContactsHandler(_contactsToSeriaProviders.GetDatas, checkMathSeriaIndex);
         _phoneCreator = new PhoneCreator(_dataProviders.GetDatas, _phoneMessagesCustodian, checkMathSeriaIndex);
-        await UniTask.WhenAll(_dataProviders.CreateNames($"{_storyName}{NameDataProviderAsset}"),
-            _contactsToSeriaProviders.CreateNames($"{_storyName}{NameContactsToSeriaProviderAsset}"));
+        await UniTask.WhenAll(_dataProviders.CreateNames($"{_storyName}{_nameDataProviderAsset}"),
+            _contactsToSeriaProviders.CreateNames($"{_storyName}{_nameContactsToSeriaProviderAsset}"));
     }
 
     public void FillPhoneSaveInfo(StoryData data)
