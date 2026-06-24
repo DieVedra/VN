@@ -9,6 +9,10 @@ public class SettingsPanelButtonUIHandler
     private Button _settingsButton;
     private SettingsPanelUIHandler _settingsPanelUIHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
+    private readonly CashCleaner _cashCleaner;
+    private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
+    private readonly SaveServiceProvider _saveServiceProvider;
+    private readonly StoriesProvider _storiesProvider;
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private SettingsButtonView _settingsButtonView;
     private Transform _parent;
@@ -20,11 +24,16 @@ public class SettingsPanelButtonUIHandler
     public bool IsInited { get; private set; }
     public RectTransform SettingsButtonRectTransform => _settingsButtonView.transform as RectTransform;
     public SettingsPanelButtonUIHandler(Transform parent, GlobalCanvasCloser globalCanvasCloser, SettingsPanelUIHandler settingsPanelUIHandler, 
-        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler)
+        LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        CashCleaner cashCleaner, ConfirmedPanelUIHandler confirmedPanelUIHandler, SaveServiceProvider saveServiceProvider, StoriesProvider storiesProvider)
     {
         _parent = parent;
         _globalCanvasCloser = globalCanvasCloser;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
+        _cashCleaner = cashCleaner;
+        _confirmedPanelUIHandler = confirmedPanelUIHandler;
+        _saveServiceProvider = saveServiceProvider;
+        _storiesProvider = storiesProvider;
         _settingsPanelUIHandler = settingsPanelUIHandler;
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         IsInited = false;
@@ -68,7 +77,7 @@ public class SettingsPanelButtonUIHandler
         }
         if (_settingsPanelUIHandler.AssetIsLoaded == false)
         {
-            _settingsPanelUIHandler.Init(_parent, _globalCanvasCloser, _soundStatus, _localizationChanger).Forget();
+            _settingsPanelUIHandler.Init(_parent, _globalCanvasCloser, _cashCleaner, _confirmedPanelUIHandler, _saveServiceProvider, _storiesProvider, _soundStatus, _localizationChanger).Forget();
             _loadIndicatorUIHandler.SetClearIndicateMode();
             _loadIndicatorUIHandler.StartIndicate();
             

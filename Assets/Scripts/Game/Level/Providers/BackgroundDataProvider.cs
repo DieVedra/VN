@@ -43,7 +43,7 @@ public class BackgroundDataProvider
             _locationDataProvider.CreateNames(GetNameLocations()),
             _additionalImagesDataProvider.CreateNames(GetNameAdditionalImages()),
             _artsDataProvider.CreateNames(GetNameArts()),
-            _wardrobeBackgroundDataProvider.CreateNames(_wardrobeBackgroundDataNameAsset));
+            _wardrobeBackgroundDataProvider.CreateNames($"{_storyName}{_wardrobeBackgroundDataNameAsset}"));
     }
     public void Shutdown()
     {

@@ -1,8 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class GameEndPanelHandler
+public class GameEndPanelHandler : ILocalizable
 {
     public readonly LocalizationString TextLabel;
     public readonly LocalizationString TextDescription;
@@ -68,5 +69,10 @@ public class GameEndPanelHandler
             (gameObject = _gameEndPanelView.gameObject).SetActive(false);
             Addressables.ReleaseInstance(gameObject);
         }
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new []{ButtonBackToMenu, TextLabel, TextDescription};
     }
 }

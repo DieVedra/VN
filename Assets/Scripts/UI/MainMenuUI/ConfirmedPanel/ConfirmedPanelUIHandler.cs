@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
-public class ConfirmedPanelUIHandler
+public class ConfirmedPanelUIHandler : ILocalizable
 {
+    public readonly LocalizationString ConfirmedButtonText = "Да";
     private LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private readonly ConfirmedPanelAssetProvider _confirmedPanelAssetProvider;
@@ -93,5 +94,10 @@ public class ConfirmedPanelUIHandler
     {
         _confirmedPanelView.ConfirmedButton.onClick.RemoveAllListeners();
         _confirmedPanelView.ExitButton.onClick.RemoveAllListeners();
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {ConfirmedButtonText};
     }
 }

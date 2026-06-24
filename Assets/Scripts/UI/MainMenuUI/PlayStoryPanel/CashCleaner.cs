@@ -1,8 +1,13 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 
-public class CashCleaner
+public class CashCleaner : ILocalizable
 {
+    public const int FontSizeValue = 80;
+    public const float HeightPanel = 650f;
+    public readonly LocalizationString CashLabelTextToConfirmedPanel = "Кэш";
+    public readonly LocalizationString CashQuestionTextToConfirmedPanel  = "Удалить кэш истории для экономии памяти?";
     private readonly StoriesProvider _storiesProvider;
 
     public CashCleaner(StoriesProvider storiesProvider)
@@ -21,5 +26,10 @@ public class CashCleaner
         {
             Addressables.ClearDependencyCacheAsync(story.StoryName);
         }
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new [] {CashLabelTextToConfirmedPanel, CashQuestionTextToConfirmedPanel};
     }
 }

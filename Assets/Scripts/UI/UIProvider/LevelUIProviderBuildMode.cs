@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
 {
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
@@ -41,13 +40,11 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        List<LocalizationString> strings = new List<LocalizationString>()
-        {
-            GameEndPanelHandler.TextDescription, GameEndPanelHandler.TextLabel, GameEndPanelHandler.ButtonBackToMenu,
-            AwaitLoadContentPanelHandler.AwaitLoadText
-        };
+        List<LocalizationString> strings = new List<LocalizationString>();
         strings.AddRange(GameControlPanelUIHandler.GetLocalizableContent());
         strings.AddRange(PhoneUIHandler.GetLocalizableContent());
+        strings.AddRange(AwaitLoadContentPanelHandler.GetLocalizableContent());
+        strings.AddRange(GameEndPanelHandler.GetLocalizableContent());
         return strings;
     }
 }

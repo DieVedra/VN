@@ -10,17 +10,12 @@ using UnityEngine.UI;
 
 public class PlayStoryPanelHandler : ILocalizable
 {
-    public const int FontSizeValue = 80;
-    public const float HeightPanel = 850f;
     private const int _childIndex = 0;
+    private const float _multiplier = 0.5f;
+    private const float _widthOffset = 40f;
     private readonly LocalizationString _seriaText = "Серия";
     private readonly LocalizationString _playButtonText = "Играть";
-    private readonly LocalizationString _progressLabelTextToConfirmedPanel = "Прогресс";
-    private readonly LocalizationString _progressQuestionTextToConfirmedPanel = "Сбросить текущий прогресс?";
-    private readonly LocalizationString _cashLabelTextToConfirmedPanel = "Кэш";
-    private readonly LocalizationString _cashQuestionTextToConfirmedPanel  = "Удалить кэш истории для экономии памяти?";
-    private readonly LocalizationString _confirmedButtonText = "Да";
-    
+    private readonly StoryLabelsProvider _storyLabelsProvider = new StoryLabelsProvider();
     private ContentHeightCalculator _contentHeightCalculator;
     private CashCleaner _cashCleaner;
     private LevelLoader _levelLoader;
@@ -55,7 +50,8 @@ public class PlayStoryPanelHandler : ILocalizable
         }
     }
 
-    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider, ConfirmedPanelUIHandler confirmedPanelUIHandler)
+    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider,
+        ConfirmedPanelUIHandler confirmedPanelUIHandler)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
         _saveServiceProvider = saveServiceProvider;
@@ -74,7 +70,6 @@ public class PlayStoryPanelHandler : ILocalizable
         _rectTransformPanel = _playStoryPanel.GetComponent<RectTransform>();
         _hideScale = new Vector2(_playStoryPanel.HideScaleValue, _playStoryPanel.HideScaleValue);
         _contentHeightCalculator = new ContentHeightCalculator(_playStoryPanel.TextDescription);
-
         _unhideScale = _rectTransformPanel.localScale;
         _rectTransformPanel.localScale = _hideScale;
         _cancellationTokenSource = new CancellationTokenSource();
@@ -92,8 +87,7 @@ public class PlayStoryPanelHandler : ILocalizable
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new LocalizationString[] {_seriaText, _playButtonText, _progressLabelTextToConfirmedPanel,
-            _progressQuestionTextToConfirmedPanel, _cashLabelTextToConfirmedPanel, _cashQuestionTextToConfirmedPanel, _confirmedButtonText};
+        return new [] {_seriaText, _playButtonText, _storyLabelsProvider.ProgressLabelTextToConfirmedPanel, _storyLabelsProvider.ProgressQuestionTextToConfirmedPanel};
     }
 
     public async UniTaskVoid Show(Story story)
@@ -103,8 +97,7 @@ public class PlayStoryPanelHandler : ILocalizable
         InitLikeButton();
         _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
         _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
-
-        _contentHeightCalculator.UpdateTextSize(story.Description);
+        SetDescriptionText(story.Description);
         _playStoryPanel.gameObject.SetActive(true);
         _playStoryPanel.PlayButtonText.text = _playButtonText;
         Transform tr = _playStoryPanel.transform;
@@ -126,6 +119,13 @@ public class PlayStoryPanelHandler : ILocalizable
         });
     }
 
+    private void SetDescriptionText(string text)
+    {
+        var rect = _playStoryPanel.Content.rect;
+        _contentHeightCalculator.UpdateTextSize(text, rect.width - _widthOffset);
+        var vector2 = new Vector2 {x = _playStoryPanel.RectTransformDescription.anchoredPosition.x, y = -(_playStoryPanel.RectTransformDescription.sizeDelta.y * _multiplier)};
+        _playStoryPanel.RectTransformDescription.anchoredPosition = vector2;
+    }
     private void TrySubscribeCleanCashButton(Story story)
     {
         if (story.StoryStarted)
@@ -136,9 +136,9 @@ public class PlayStoryPanelHandler : ILocalizable
             _playStoryPanel.SkipCashButton.onClick.AddListener(() =>
             {
                 _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
-                _confirmedPanelUIHandler.Show(_cashLabelTextToConfirmedPanel, _cashQuestionTextToConfirmedPanel,
-                    _confirmedButtonText,
-                    HeightPanel, FontSizeValue, () =>
+                _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel, _cashCleaner.CashQuestionTextToConfirmedPanel,
+                    _confirmedPanelUIHandler.ConfirmedButtonText,
+                    StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue, () =>
                     {
                         _cashCleaner.CleanCashStory(story.StoryName);
                     },
@@ -162,13 +162,12 @@ public class PlayStoryPanelHandler : ILocalizable
         {
             _playStoryPanel.ResetProgressButton.interactable = true;
             ChangeColorButtonIcon(ref _imageProgress, _playStoryPanel.ResetProgressButton);
-            
             _playStoryPanel.ResetProgressButton.onClick.AddListener(() =>
                 {
                     _playStoryPanel.ResetProgressButton.onClick.RemoveAllListeners();
-                    _confirmedPanelUIHandler.Show(_progressLabelTextToConfirmedPanel, _progressQuestionTextToConfirmedPanel,
-                        _confirmedButtonText,
-                        HeightPanel, FontSizeValue, () =>
+                    _confirmedPanelUIHandler.Show(_storyLabelsProvider.ProgressLabelTextToConfirmedPanel, _storyLabelsProvider.ProgressQuestionTextToConfirmedPanel,
+                        _confirmedPanelUIHandler.ConfirmedButtonText,
+                        StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue, () =>
                         {
                             story.ResetProgress();
                             _saveServiceProvider.SaveFromMainMenu().Forget();

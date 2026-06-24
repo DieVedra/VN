@@ -12,6 +12,8 @@ public class StoryPanel : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI _textButtonContinue;
     [SerializeField] protected Button _buttonOpen;
     [SerializeField] protected Button _buttonContinue;
+    [SerializeField] protected RectTransform _content;
+    [SerializeField] protected RectTransform _rectTransformDescription;
     public Image ImageEffectChange => _imageEffectChange;
     public TextMeshProUGUI TextDescription => _textDescription;
     public TextMeshProUGUI TextButtonOpen => _textButtonOpen;
@@ -20,4 +22,6 @@ public class StoryPanel : MonoBehaviour
     public Button ButtonContinue => _buttonContinue;
     public Image ImageBackground => _imageBackground;
     public Image ImageLabel => _imageLabel;
+    public RectTransform Content => _content;
+    public RectTransform RectTransformDescription => _rectTransformDescription;
 }

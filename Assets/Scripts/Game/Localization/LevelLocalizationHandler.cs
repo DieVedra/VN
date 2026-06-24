@@ -102,10 +102,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
 
     private void SetText(LocalizationString localizationString, bool addToDelete = false)
     {
-        if (localizationString == null)
-        {
-            Debug.Log($"localizationString == null");
-        }
         if (localizationString?.Key != null)
         {
             if (_levelLocalizationProvider.Localization.TryGetValue(localizationString.Key, out string text))

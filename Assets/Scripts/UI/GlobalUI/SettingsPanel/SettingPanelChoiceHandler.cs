@@ -15,12 +15,20 @@ public class SettingPanelChoiceHandler
         _leftButton = leftButton;
         _rightButton = rightButton;
         _textChoice = textChoice;
-        
-        _leftButton.onClick.AddListener(MoveLeft);
-        _rightButton.onClick.AddListener(MoveRight);
-        SetTextAndExecute();
     }
 
+    public void Init()
+    {
+        SetTextAndExecute();
+        _leftButton.onClick.AddListener(MoveLeft);
+        _rightButton.onClick.AddListener(MoveRight);
+    }
+
+    public void Shutdown()
+    {
+        _leftButton.onClick.RemoveAllListeners();
+        _rightButton.onClick.RemoveAllListeners();
+    }
     private void MoveLeft()
     {
         int index = _localizationChanger.CurrentLanguageKeyIndex.Value;

@@ -313,10 +313,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
         shopMoneyButtonsUIHandler.InitFromGameControlPanel(LevelUIView.GameControlPanelView.ShopMoneyButtonView,
             monetResourcePanelHandler, heartsResourcePanelHandler);
 
-
+        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        var storiesProvider = await storiesProviderAssetProvider.Load();
+        var cashCleaner = new CashCleaner(storiesProvider);
         var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
-            _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler,
-            buttonTransitionToMainSceneUIHandler, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);
+            _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler, buttonTransitionToMainSceneUIHandler,
+            cashCleaner, SaveServiceProvider, storiesProvider, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);
 
         var story = _storiesProvider.Stories[StoryData.StoryIndex];
         var gameEndPanelHandler = new GameEndPanelHandler(_levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler, story.TextLabelGameEndPanel, story.TextDescriptionGameEndPanel, 

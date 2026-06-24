@@ -1,6 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
-public class AwaitLoadContentPanelHandler
+public class AwaitLoadContentPanelHandler : ILocalizable
 {
     private const float _delay = 1f;
     public readonly LocalizationString AwaitLoadText = "Пожалуйста, дождитесь окончания загрузки контента...";
@@ -43,5 +44,10 @@ public class AwaitLoadContentPanelHandler
         {
             _blackFrameUIHandler.OpenTranslucent(_delay).Forget();
         }
+    }
+
+    public IReadOnlyList<LocalizationString> GetLocalizableContent()
+    {
+        return new[] {AwaitLoadText};
     }
 }

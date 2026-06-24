@@ -8,28 +8,31 @@ public class ContentHeightCalculator
     private readonly float _maxWidth;
     private Vector2 _padding = new Vector2(_x, _y);
     private readonly TextMeshProUGUI _tmpText;
-    private readonly RectTransform _rectTransform;
+    private readonly RectTransform _textComponentRectTransform;
     private readonly RectTransform _parentRectTransform;
 
     public ContentHeightCalculator(TextMeshProUGUI tmpText)
     {
         _tmpText = tmpText;
-        _rectTransform = _tmpText.transform as RectTransform;
+        _textComponentRectTransform = _tmpText.transform as RectTransform;
         _parentRectTransform = _tmpText.transform.parent as RectTransform;
-        _maxWidth = _rectTransform.sizeDelta.x;
+        if (_textComponentRectTransform is { }) _maxWidth = _textComponentRectTransform.sizeDelta.x;
     }
-    public void UpdateTextSize(string text)
+    public void UpdateTextSize(string text, float maxWidth)
     {
         _tmpText.text = text;
         _tmpText.ForceMeshUpdate();
-        Vector2 preferredSize = _tmpText.GetPreferredValues(_maxWidth, float.PositiveInfinity);
-        _rectTransform.sizeDelta = new Vector2(
-            _maxWidth + _padding.x,
+        Vector2 preferredSize = _tmpText.GetPreferredValues(maxWidth, float.PositiveInfinity);
+        _textComponentRectTransform.sizeDelta = new Vector2(
+            maxWidth + _padding.x,
             preferredSize.y + _padding.y);
         
         _parentRectTransform.sizeDelta = new Vector2(
             _parentRectTransform.sizeDelta.x,
-            preferredSize.y + _padding.y
-        );
+            preferredSize.y + _padding.y);
+    }
+    public void UpdateTextSize(string text)
+    {
+        UpdateTextSize(text, _maxWidth);
     }
 }

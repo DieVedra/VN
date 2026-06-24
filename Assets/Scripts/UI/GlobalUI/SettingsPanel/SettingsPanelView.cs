@@ -8,6 +8,8 @@ public class SettingsPanelView : MonoBehaviour
     [SerializeField] private Button _vkButton;
     [SerializeField] private Button _instaButton;
     [SerializeField] private Button _patreonButton;
+    [SerializeField] private Button _clearCashButton;
+    [SerializeField] private Button _clearProgressButton;
     
     [SerializeField] private TextMeshProUGUI _textLabel;
 
@@ -20,6 +22,8 @@ public class SettingsPanelView : MonoBehaviour
     public Button VkButton => _vkButton;
     public Button InstaButton => _instaButton;
     public Button PatreonButton => _patreonButton;
+    public Button ClearCashButton => _clearCashButton;
+    public Button ClearProgressButton => _clearProgressButton;
     
     public TextMeshProUGUI TextPanelLabel => _textLabel;
     

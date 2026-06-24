@@ -20,30 +20,31 @@ public class AppStarter
         var loadScreenUIHandler = TryInitLoadScreenUIHandler(globalUIHandler);
         ReactiveCommand<bool> swipeDetectorOff = null;
         var storiesProvider = await CreateStoriesProvider();
+        var cashCleaner = new CashCleaner(storiesProvider);
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
         var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(wallet, globalUIHandler, globalSound);
-        
+
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
             advertisingButtonUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI);
 
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
-            await CreateMainMenuUIProvider(saveServiceProvider, globalUIHandler, darkeningBackgroundFrameUIHandlerMainMenu, panelsLocalizationHandler.LanguageChanged,
-                swipeDetectorOff);
+            await CreateMainMenuUIProvider(saveServiceProvider, globalUIHandler, darkeningBackgroundFrameUIHandlerMainMenu,
+                cashCleaner, storiesProvider, panelsLocalizationHandler.LanguageChanged, swipeDetectorOff);
         MainMenuUIProvider mainMenuUIProvider = result.Item1;
         MainMenuUIView mainMenuUIView = result.Item2;
         Transform tr = result.Item3;
-        
+
         saveServiceProvider.Init(wallet, globalSound, storiesProvider,
             panelsLocalizationHandler, mainMenuUIProvider);
 
-        panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(
-            ListExtensions.MergeIReadOnlyLists(mainMenuUIProvider.GetLocalizableContent(), storiesProvider.GetLocalizableContent())
-            );
+        panelsLocalizationHandler.SetPanelsLocalizableContentFromMainMenu(ListExtensions.MergeIReadOnlyLists(
+            mainMenuUIProvider.GetLocalizableContent(),
+            storiesProvider.GetLocalizableContent(),
+            cashCleaner.GetLocalizableContent()));
         var localizationInfoHolder = await new LocalizationHandlerAssetProvider().LoadLocalizationHandlerAsset();
 
-        var cashCleaner = new CashCleaner(storiesProvider);
         if (loadScreenUIHandler.IsStarted == false)
         {
             await panelsLocalizationHandler.Init(saveServiceProvider.SaveData, localizationInfoHolder,
@@ -178,7 +179,7 @@ public class AppStarter
     }
 
     private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(SaveServiceProvider saveServiceProvider,
-        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
+        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, CashCleaner cashCleaner, StoriesProvider storiesProvider,
         ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
         MainMenuCanvasAssetProvider menuCanvasAssetProvider = new MainMenuCanvasAssetProvider();
@@ -191,7 +192,8 @@ public class AppStarter
         var mainMenuUIViewTransform = mainMenuUIView.transform;
         var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, saveServiceProvider, globalUIHandler.ConfirmedPanelUIHandler);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser,
-            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
+            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler, cashCleaner,
+            globalUIHandler.ConfirmedPanelUIHandler, saveServiceProvider, storiesProvider);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
         var bottomPanelUIHandler = new BottomPanelUIHandler(globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler.AdvertisingButtonUIHandler, languageChanged);

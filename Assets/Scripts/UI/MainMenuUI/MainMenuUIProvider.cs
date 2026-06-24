@@ -75,6 +75,7 @@ public class MainMenuUIProvider : ILocalizable
             _localizableContent.AddRange(ShopMoneyPanelUIHandler.GetLocalizableContent());
             _localizableContent.AddRange(BottomPanelUIHandler.GetLocalizableContent());
             _localizableContent.AddRange(MyScrollHandler.GetLocalizableContent());
+            _localizableContent.AddRange(ConfirmedPanelUIHandler.GetLocalizableContent());
         }
 
         return _localizableContent;

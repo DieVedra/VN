@@ -29,8 +29,8 @@ public class GameControlPanelUIHandler : ILocalizable
     private bool _panelIsBlocked;
     public GameControlPanelUIHandler(GameControlPanelView gameControlPanelView, GlobalUIHandler globalUIHandler,
         GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler, ILevelPercentProvider levelPercentProvider,
-        BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
+        ButtonTransitionToMainSceneUIHandler buttonTransitionToMainSceneUIHandler, CashCleaner cashCleaner, SaveServiceProvider saveServiceProvider,
+        StoriesProvider storiesProvider, ILevelPercentProvider levelPercentProvider, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI)
     {
         _transformControlPanel = gameControlPanelView.transform;
         _gameControlPanelView = gameControlPanelView;
@@ -49,7 +49,8 @@ public class GameControlPanelUIHandler : ILocalizable
         _gameControlPanelView.SettingsButtonView.gameObject.SetActive(false);
         _gameControlPanelView.ButtonGoToMainMenu.gameObject.SetActive(false);
         _settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser, 
-            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler);
+            globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler, cashCleaner,
+            globalUIHandler.ConfirmedPanelUIHandler, saveServiceProvider, storiesProvider);
         _settingsPanelButtonUIHandler.BaseInit(_gameControlPanelView.SettingsButtonView,
             globalSound.SoundStatus, panelsLocalizationHandler, false);
 
@@ -71,7 +72,7 @@ public class GameControlPanelUIHandler : ILocalizable
             _gameControlPanelView.ButtonGoToMainMenu.onClick.RemoveAllListeners();
             _confirmedPanelUIHandler.Show(
                 _buttonTransitionToMainSceneUIHandler.LabelText, _buttonTransitionToMainSceneUIHandler.TranscriptionText,
-                _buttonTransitionToMainSceneUIHandler.ButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
+                _confirmedPanelUIHandler.ConfirmedButtonText, ButtonTransitionToMainSceneUIHandler.HeightPanel,
                 ButtonTransitionToMainSceneUIHandler.FontSizeValue, 
                 ()=> {
                     _buttonTransitionToMainSceneUIHandler.Press().Forget();
@@ -92,7 +93,8 @@ public class GameControlPanelUIHandler : ILocalizable
             _loadIndicatorUIHandler.GetLocalizableContent(), 
             _buttonTransitionToMainSceneUIHandler.GetLocalizableContent(), 
             _settingsPanelUIHandler.GetLocalizableContent(), 
-            _shopMoneyPanelUIHandler.GetLocalizableContent());
+            _shopMoneyPanelUIHandler.GetLocalizableContent(),
+            _confirmedPanelUIHandler.GetLocalizableContent());
     }
 
     private async UniTaskVoid ShowGameControlPanel()
