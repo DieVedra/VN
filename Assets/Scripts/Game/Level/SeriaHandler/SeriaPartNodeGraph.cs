@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using XNode;
+using Event = Unity.Services.Analytics.Internal.Event;
 
 [CreateAssetMenu(fileName = "LevelPartNodeGraph", menuName = "NodeGraphs/LevelPartNodeGraph", order = 51)]
 public class SeriaPartNodeGraph : NodeGraph
@@ -14,14 +15,15 @@ public class SeriaPartNodeGraph : NodeGraph
 	private List<BaseNode> _baseNodes;
 	private NodeGraphInitializer _nodeGraphInitializer;
 	private CompositeDisposable _switchToNextNodeEventСompositeDisposable;
-
+	private Event _analyticsEvent;
 	public int CurrentNodeIndex => nodes.IndexOf(_currentNode);
 	public int NodeIndexToSave => nodes.IndexOf(_toSaveNode);
 	public bool PutOnSwimsuitKey { get; private set; }
 	
-	public void Init(NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
+	public void Init(Event analyticsEvent, NodeGraphInitializer nodeGraphInitializer, int currentSeriaIndex = 0, int currentNodeIndex = 0)
 	{
 		_nodeGraphInitializer = nodeGraphInitializer;
+		_analyticsEvent = analyticsEvent;
 		if (currentNodeIndex > 0)
 		{
 			_currentNodeIndex = currentNodeIndex;
@@ -66,6 +68,7 @@ public class SeriaPartNodeGraph : NodeGraph
 
 	private async UniTaskVoid MoveNext()
 	{
+		_analyticsEvent?.Parameters.Set($"MoveNext:", $"Index: {CurrentNodeIndex} Type:{_currentNode.GetType()}");
 		_toSaveNode = _currentNode.GetNextNode();
 		await _currentNode.Exit();
 		_currentNode = _toSaveNode;

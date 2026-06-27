@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
 using XNode;
+using Event = Unity.Services.Analytics.Internal.Event;
 
 public class GameSeriesHandler : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameSeriesHandler : MonoBehaviour
     private const string _outputPortName = "Output";
     public const string InputPortName = "Input";
     protected NodeGraphInitializer NodeGraphInitializer;
+    protected Event AnalyticsEvent;
     protected SwitchToNextSeriaEvent<bool> SwitchToNextSeriaEvent;
     protected ReactiveProperty<int> CurrentSeriaIndexReactiveProperty;
     public int CurrentSeriaIndex => CurrentSeriaIndexReactiveProperty.Value;
@@ -36,7 +38,7 @@ public class GameSeriesHandler : MonoBehaviour
         {
             SeriaNodeGraphsHandlers[currentSeriaIndex - 1].Shutdown();
         }
-        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
+        SeriaNodeGraphsHandlers[currentSeriaIndex].Construct(AnalyticsEvent, NodeGraphInitializer, currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
     public NodePort GetNodePort(int nodeIndex)
     {

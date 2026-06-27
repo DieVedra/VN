@@ -2,21 +2,25 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UniRx;
 using UnityEngine;
+using Event = Unity.Services.Analytics.Internal.Event;
 
 [CreateAssetMenu(fileName = "NodeGraphsHandlerSeria", menuName = "NodeGraphs/NodeGraphsHandlerSeria", order = 51)]
 public class SeriaNodeGraphsHandler : ScriptableObject
 {
     [SerializeField, Expandable] private List<SeriaPartNodeGraph> _seriaPartNodeGraphs;
     private CompositeDisposable _switchToAnotherNodeGraphEventСompositeDisposable;
+    private Event _analyticsEvent;
+
     public int CurrentNodeGraphIndex { get; private set; }
     public int CurrentNodeIndex => _seriaPartNodeGraphs[CurrentNodeGraphIndex].CurrentNodeIndex;
 
     private int _currentSeriaIndex;
     private NodeGraphInitializer _nodeGraphInitializer;
     public IReadOnlyList<SeriaPartNodeGraph> SeriaPartNodeGraphs => _seriaPartNodeGraphs;
-    public void Construct(NodeGraphInitializer nodeGraphInitializer,
+    public void Construct(Event analyticsEvent, NodeGraphInitializer nodeGraphInitializer,
         int currentSeriaIndex, int currentNodeGraphIndex, int currentNodeIndex)
     {
+        _analyticsEvent = analyticsEvent;
         _nodeGraphInitializer = nodeGraphInitializer;
         CurrentNodeGraphIndex = currentNodeGraphIndex;
         _currentSeriaIndex = currentSeriaIndex;
@@ -57,7 +61,9 @@ public class SeriaNodeGraphsHandler : ScriptableObject
     }
     private void InitGraph(int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
-        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_nodeGraphInitializer, currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
+        _analyticsEvent?.Parameters.Set($"InitGraph: ", $"{currentNodeGraphIndex}");
+        _seriaPartNodeGraphs[currentNodeGraphIndex].Init(_analyticsEvent, _nodeGraphInitializer,
+            currentSeriaIndex: currentSeriaIndex, currentNodeIndex: currentNodeIndex);
     }
     private int GetIndexCurrentNode(SeriaPartNodeGraph seriaPartNodeGraph)
     {

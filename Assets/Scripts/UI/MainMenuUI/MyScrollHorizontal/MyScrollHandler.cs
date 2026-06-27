@@ -99,7 +99,6 @@ public class MyScrollHandler : ILocalizable
             _playStoryPanelHandler = playStoryPanelHandler;
             _levelLoader = levelLoader;
             await CreateContent();
-            // SubscribeScrollContentButtons();
             _content.anchoredPosition = Vector2.zero;
             _content.anchoredPosition = new Vector2(
                 _content.anchoredPosition.x + CalculateAddValueToPositionXContentToFirstContentElement(_moveStep, _contentCount), AnimationValuesProvider.MinValue);

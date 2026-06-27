@@ -1,5 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 public class CashCleaner : ILocalizable
@@ -10,14 +10,39 @@ public class CashCleaner : ILocalizable
     public readonly LocalizationString CashQuestionTextToConfirmedPanel  = "Удалить кэш истории для экономии памяти?";
     private readonly StoriesProvider _storiesProvider;
 
-    public CashCleaner(StoriesProvider storiesProvider)
+    private readonly SaveServiceProvider _saveServiceProvider;
+    public CashCleaner(StoriesProvider storiesProvider, SaveServiceProvider saveServiceProvider)
     {
         _storiesProvider = storiesProvider;
+        _saveServiceProvider = saveServiceProvider;
     }
 
+    public void Construct()
+    {
+#if !UNITY_EDITOR
+        Addressables.CleanBundleCache();
+#endif
+    }
+
+    public bool GetClearButtonActiveKey(string storyName)
+    {
+        bool result = false;
+        if (_saveServiceProvider.SaveData.StoryDatas.TryGetValue(storyName, out StoryData storyData))
+        {
+            if (storyData.CashHasBeenLoaded == true)
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
     public void CleanCashStory(string storyName)
     {
-        Addressables.ClearDependencyCacheAsync(storyName);
+        if (_saveServiceProvider.SaveData.StoryDatas.TryGetValue(storyName, out StoryData storyData))
+        {
+            Addressables.ClearDependencyCacheAsync(storyName);
+            storyData.CashHasBeenLoaded = false;
+        }
     }
 
     public void CleanAllCash()

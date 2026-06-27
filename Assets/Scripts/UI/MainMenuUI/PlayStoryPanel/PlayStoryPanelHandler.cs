@@ -128,17 +128,17 @@ public class PlayStoryPanelHandler : ILocalizable
     }
     private void TrySubscribeCleanCashButton(Story story)
     {
-        if (story.StoryStarted)
+        if (_cashCleaner.GetClearButtonActiveKey(story.StoryName))
         {
             _playStoryPanel.SkipCashButton.interactable = true;
             ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
-            
             _playStoryPanel.SkipCashButton.onClick.AddListener(() =>
             {
                 _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
                 _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel, _cashCleaner.CashQuestionTextToConfirmedPanel,
                     _confirmedPanelUIHandler.ConfirmedButtonText,
-                    StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue, () =>
+                    StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue,
+                    () =>
                     {
                         _cashCleaner.CleanCashStory(story.StoryName);
                     },

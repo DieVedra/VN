@@ -181,6 +181,7 @@ public class ChoiceNode : BaseNode, ILocalizable
     {
         _choiceCases[index].InitLocalizationString(text);
     }
+#if UNITY_EDITOR
     private void AddCase()
     {
         if (DynamicOutputs.Count() < MaxCaseCount)
@@ -200,6 +201,7 @@ public class ChoiceNode : BaseNode, ILocalizable
             EditorUtility.SetDirty(this);
         }
     }
+#endif
 
     private void Awake()
     {

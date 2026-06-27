@@ -40,8 +40,10 @@ public class PhoneProviderInEditMode : MonoBehaviour, IPhoneProvider
         {
             _views[i].IsNewkey = false;
         }
+#if UNITY_EDITOR
         _phoneContentProvider = new PhoneContentProvider(_contactPrefab, _incomingMessagePrefab, _outcomingMessagePrefab,
             _contactBlockNotificationPrefab, _notificationViewPrefab, AddView);
+#endif
         TryDestroyOld();
         if (Application.isPlaying)
         {

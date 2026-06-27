@@ -57,8 +57,6 @@ public class SwitchNodeLogic
                 break;
             }
         }
-        Debug.Log($"result {caseFoundSuccessfuly} {indexCase}");
-
         return (caseFoundSuccessfuly, indexCase);
     }
 

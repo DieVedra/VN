@@ -40,7 +40,6 @@ public class BaseEvent
     }
     public virtual void Execute()
     {
-        Debug.Log($"Execute() {this}");
         BaseReactiveCommand.Execute();
     }
 }

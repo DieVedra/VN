@@ -40,7 +40,6 @@ public class LevelLocalizationHandler : ILevelLocalizationHandler
     }
     public void TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandler seriaNodeGraphsHandler)
     {
-        Debug.Log($"TrySetLocalizationToCurrentLevelContent {seriaNodeGraphsHandler.name}");
         SetLocalizationToSeriaTexts(seriaNodeGraphsHandler);
         SetLocalizationToStats(_gameStatsHandler);
         SetLocalizationToCharacters();

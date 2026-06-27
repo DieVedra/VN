@@ -14,10 +14,10 @@ public class UnityServicesHandler
         await AnalyticsService.Instance.SetAnalyticsEnabled(startConfig.CrashlyticsStatus);
         if (startConfig.CrashlyticsStatus)
         {
-            var evt = new Unity.Services.Analytics.Internal.Event("menu_start", null);
+        var evt = new Unity.Services.Analytics.Internal.Event("menu_start", null);
             evt.Parameters.Set($"{Application.platform.ToString()}", Application.version);
             AnalyticsService.Instance.RecordInternalEvent(evt);
-            AnalyticsService.Instance.Flush();
+              AnalyticsService.Instance.Flush();
         }
 
         if (startConfig.AnalyticsStatus)

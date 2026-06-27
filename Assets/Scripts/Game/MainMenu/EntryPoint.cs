@@ -72,10 +72,6 @@ public class EntryPoint: MonoBehaviour
         _saveServiceProvider.TrySetStoryDatas(_storiesProvider);
         _onSceneTransition.Subscribe(_ =>
         {
-            var storyName = _mainMenuUIProvider.PlayStoryPanelHandler.GetCurrentStoryName;
-            _saveServiceProvider.TrySetStartStory(storyName);
-            // _saveServiceProvider.CurrentStoryIndex = _storiesProvider.GetIndexByName(storyName);
-            _saveServiceProvider.CurrentStoryKey = storyName;
             Shutdown();
         });
     }
@@ -96,9 +92,4 @@ public class EntryPoint: MonoBehaviour
         AnalyticsService.Instance.Flush();
         Shutdown();
     }
-    // [Button()]
-    // public void TestCrash()
-    // {
-    //     Utils.ForceCrash(ForcedCrashCategory.FatalError);
-    // }
 }

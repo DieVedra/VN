@@ -36,8 +36,6 @@ public class SwitchNode : BaseNode, IPutOnSwimsuit
     }
     public override UniTask Enter(bool isMerged = false)
     {
-        Debug.Log($"SN");
-
         if (_isNodeForStats)
         {
             var result = SwitchNodeLogic.GetPortIndexOnSwitchResult(_casesForStats);

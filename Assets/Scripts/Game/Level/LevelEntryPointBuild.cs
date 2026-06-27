@@ -5,6 +5,8 @@ using UniRx;
 using Unity.Services.Analytics;
 using UnityEngine;
 using Zenject;
+using Unity.Services.Analytics.Internal;
+using Event = Unity.Services.Analytics.Internal.Event;
 
 public class LevelEntryPointBuild : LevelEntryPoint
 {
@@ -35,6 +37,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
     private LevelUISpriteAtlasAssetProvider _levelUISpriteAtlasAssetProvider;
     private IconsUISpriteAtlasAssetProvider _iconsUISpriteAtlasAssetProvider;
     private StoriesProvider _storiesProvider;
+    private Event _analyticsEvent;
     private GameStatsHandler _gameStatsHandler => _levelLoadDataHandler.SeriaGameStatsProviderBuild.GameStatsHandler;
     private ICharacterProvider _characterProvider => _levelLoadDataHandler.CharacterProviderBuildMode.CharacterProvider;
 
@@ -108,15 +111,14 @@ public class LevelEntryPointBuild : LevelEntryPoint
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
         Init();
-        var evt = new Unity.Services.Analytics.Internal.Event("level_start", null);
-        evt.Parameters.Set($"StoryName:", StoryData.StoryName);
-        evt.Parameters.Set($"CurrentSeriaIndex:", StoryData.CurrentSeriaIndex);
-        evt.Parameters.Set($"CurrentNodeGraphIndex:", StoryData.CurrentNodeGraphIndex);
-        evt.Parameters.Set($"CurrentNodeIndex:", StoryData.CurrentNodeIndex);
-        evt.Parameters.Set($"CurrentProgressPercent:", $"{StoryData.CurrentProgressPercent}%");
-        AnalyticsService.Instance.RecordInternalEvent(evt);
-        AnalyticsService.Instance.Flush();
+        _analyticsEvent = new Event("level_start", null);
+        _analyticsEvent.Parameters.Set($"StoryName:", StoryData.StoryName);
+        _analyticsEvent.Parameters.Set($"CurrentSeriaIndex:", StoryData.CurrentSeriaIndex);
+        _analyticsEvent.Parameters.Set($"CurrentNodeGraphIndex:", StoryData.CurrentNodeGraphIndex);
+        _analyticsEvent.Parameters.Set($"CurrentNodeIndex:", StoryData.CurrentNodeIndex);
+        _analyticsEvent.Parameters.Set($"CurrentProgressPercent:", $"{StoryData.CurrentProgressPercent}%");
 
+        StoryData.CashHasBeenLoaded = true;
         await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
@@ -162,13 +164,13 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         if (StoryData == null)
         {
-            _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
+            _gameSeriesHandlerBuildMode.Construct(_analyticsEvent, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent,
                 _onContentIsLoadProperty, _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent);
         }
         else
         {
-            _gameSeriesHandlerBuildMode.Construct(_levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
+            _gameSeriesHandlerBuildMode.Construct(_analyticsEvent, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,
                 NodeGraphInitializer, _currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent, _onContentIsLoadProperty,
                 _onAwaitLoadContentEvent, _currentSeriaLoadedNumberProperty, _onEndGameEvent,
                 StoryData.CurrentSeriaIndex, StoryData.CurrentNodeGraphIndex, StoryData.CurrentNodeIndex, StoryData.PutOnSwimsuitKey);
@@ -189,6 +191,9 @@ public class LevelEntryPointBuild : LevelEntryPoint
         await Save();
         Shutdown();
         _cancellationTokenSource?.Cancel();
+        _analyticsEvent.Parameters.Set($"Level end", null);
+        AnalyticsService.Instance.RecordInternalEvent(_analyticsEvent);
+        AnalyticsService.Instance.Flush();
     }
 
     protected override void ConstructBackground()
@@ -315,7 +320,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
 
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
         var storiesProvider = await storiesProviderAssetProvider.Load();
-        var cashCleaner = new CashCleaner(storiesProvider);
+        var cashCleaner = new CashCleaner(storiesProvider, SaveServiceProvider);
         var gameControlPanelUIHandler = new GameControlPanelUIHandler(LevelUIView.GameControlPanelView, _globalUIHandler,
             _globalSound, _panelsLocalizationHandler, _darkeningBackgroundFrameUIHandler, buttonTransitionToMainSceneUIHandler,
             cashCleaner, SaveServiceProvider, storiesProvider, LevelCompletePercentCalculator, _blockGameControlPanelUIEvent);

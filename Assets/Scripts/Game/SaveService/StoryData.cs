@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class StoryData
@@ -14,6 +15,7 @@ public class StoryData
     public bool IsLiked;
     public List<AudioEffect> AudioEffectsIsOn;
     public bool StoryStarted;
+    [FormerlySerializedAs("CashNotBeenCleaned")] public bool CashHasBeenLoaded;
     public bool PutOnSwimsuitKey;
     
     public bool PhoneNodeIsActiveOnSave;

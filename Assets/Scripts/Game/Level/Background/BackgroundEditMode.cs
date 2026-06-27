@@ -35,8 +35,10 @@ public class BackgroundEditMode : Background
             }
         }
         BackgroundPool = new BackgroundPool(_prefabSpriteRenderer, _poolParent);
+#if UNITY_EDITOR
         BackgroundContent1.Construct(disableNodesContentEvent, setLighting, BackgroundPool);
         BackgroundContent2.Construct(disableNodesContentEvent, setLighting, BackgroundPool);
+#endif
         ColorOverlay.color = Color.clear;
         ConstructDictionary(ref _backgroundContentDictionary, ref BackgroundContentValuesDictionary, _locationsDatas);
         ConstructDictionary(ref _additionalImagesToBackgroundDictionary, ref AdditionalImagesToBackgroundDictionary, _additionalImagesDatas);
@@ -71,10 +73,11 @@ public class BackgroundEditMode : Background
         }
         baseContentDictionary = contentDictionary;
     }
-
+#if UNITY_EDITOR
     private void OnDestroy()
     {
         BackgroundContent1.Shutdown();
         BackgroundContent2.Shutdown();
     }
+#endif
 }

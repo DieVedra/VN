@@ -11,7 +11,6 @@ public class AppStarter
         IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
         await Addressables.InitializeAsync();
-        Addressables.CleanBundleCache();
         UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
         await unityServicesHandler.Construct(startConfig);
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
@@ -20,7 +19,8 @@ public class AppStarter
         var loadScreenUIHandler = TryInitLoadScreenUIHandler(globalUIHandler);
         ReactiveCommand<bool> swipeDetectorOff = null;
         var storiesProvider = await CreateStoriesProvider();
-        var cashCleaner = new CashCleaner(storiesProvider);
+        var cashCleaner = new CashCleaner(storiesProvider, saveServiceProvider);
+        cashCleaner.Construct();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
         var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(wallet, globalUIHandler, globalSound);

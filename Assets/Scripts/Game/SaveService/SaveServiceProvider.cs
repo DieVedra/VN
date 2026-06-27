@@ -86,7 +86,6 @@ public class SaveServiceProvider
             SetSaveDataDefault();
             Debug.Log($"SaveData: false");
         }
-
         return SaveHasBeenLoaded;
     }
 
@@ -124,14 +123,6 @@ public class SaveServiceProvider
         };
     }
 
-    // public void DeleteProgressByStory(string key)
-    // {
-    //     if (_saveData.StoryDatas.TryGetValue(key, out StoryData storyData))
-    //     {
-    //         _saveData.StoryDatas[key] = GetSkippedStoryData(storyData);
-    //     }
-    // }
-
     public void DeleteAllProgress()
     {
         foreach (var story in _storiesProvider.Stories)
@@ -139,13 +130,4 @@ public class SaveServiceProvider
             story.ResetProgress();
         }
     }
-
-    // private StoryData GetSkippedStoryData(StoryData oldStoryData)
-    // {
-    //     return new StoryData
-    //     {
-    //         StoryName = oldStoryData.StoryName, NameUISpriteAtlas = oldStoryData.NameUISpriteAtlas, CurrentNodeGraphIndex = 0,
-    //         CurrentNodeIndex = 0, PutOnSwimsuitKey = false, StoryIndex = oldStoryData.StoryIndex
-    //     };
-    // }
 }

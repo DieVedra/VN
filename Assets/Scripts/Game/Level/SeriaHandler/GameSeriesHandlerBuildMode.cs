@@ -1,6 +1,6 @@
 ﻿using System;
 using UniRx;
-using UnityEngine;
+using Event = Unity.Services.Analytics.Internal.Event;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGraphsProvider
 {
@@ -13,13 +13,14 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
     private CompositeDisposable _compositeDisposable;
     public SeriaNodeGraphsHandler GetCurrentSeriaNodeGraphsHandler() => SeriaNodeGraphsHandlers[CurrentSeriaIndexReactiveProperty.Value];
 
-    public void Construct(LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
+    public void Construct(Event analyticsEvent, LevelLocalizationHandler levelLocalizationHandler, GameSeriesProvider gameSeriesProvider,
         NodeGraphInitializer nodeGraphInitializer,
         ReactiveProperty<int> currentSeriaIndexReactiveProperty, SwitchToNextSeriaEvent<bool> switchToNextSeriaEvent,
         OnContentIsLoadProperty<bool> onContentIsLoadProperty, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         CurrentSeriaLoadedNumberProperty<int> currentSeriaLoadedNumberProperty, OnEndGameEvent onEndGameEvent,
         int currentSeriaIndex = 0, int currentNodeGraphIndex = 0, int currentNodeIndex = 0, bool putOnSwimsuitKey = false)
     {
+        AnalyticsEvent = analyticsEvent;
         _levelLocalizationHandler = levelLocalizationHandler;
         SwitchToNextSeriaEvent = switchToNextSeriaEvent;
         _onEndGameEvent = onEndGameEvent;
@@ -40,6 +41,7 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
 
     protected override void InitSeria(int currentSeriaIndex, int currentNodeGraphIndex = 0, int currentNodeIndex = 0)
     {
+        AnalyticsEvent.Parameters.Set($"InitSeria: ", $"{currentSeriaIndex}");
         _levelLocalizationHandler.TrySetLocalizationToCurrentLevelContent(SeriaNodeGraphsHandlers[currentSeriaIndex]);
         base.InitSeria(currentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
     }
