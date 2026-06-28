@@ -7,7 +7,7 @@ public class AppStarter
 {
     public async UniTask<(StoriesProvider, MainMenuUIProvider, LevelLoader)> StartApp(PrefabsProvider prefabsProvider, 
         Wallet wallet, GlobalUIHandler globalUIHandler, ReactiveCommand onSceneTransition, SaveServiceProvider saveServiceProvider,
-        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig,
+        GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, StoriesProvider storiesProvider,
         IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
         await Addressables.InitializeAsync();
@@ -18,9 +18,8 @@ public class AppStarter
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
         var loadScreenUIHandler = TryInitLoadScreenUIHandler(globalUIHandler);
         ReactiveCommand<bool> swipeDetectorOff = null;
-        var storiesProvider = await CreateStoriesProvider();
         var cashCleaner = new CashCleaner(storiesProvider, saveServiceProvider);
-        cashCleaner.Construct();
+        await cashCleaner.Construct();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
         var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(wallet, globalUIHandler, globalSound);
@@ -251,11 +250,5 @@ public class AppStarter
     {
         return new LevelLoader(storiesProvider, mainMenuUIProvider.LoadScreenUIHandler,
             mainMenuUIViewTransform, onSceneTransition, saveServiceProvider);
-    }
-
-    private async UniTask<StoriesProvider> CreateStoriesProvider()
-    {
-        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
-        return await storiesProviderAssetProvider.Load();
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cysharp.Threading.Tasks;
@@ -9,7 +8,6 @@ using UnityEngine;
 public class PanelsLocalizationHandler : ILocalizationChanger
 {
     private string _defaultLanguageKey;
-    // private const string DefaultLanguageKey = "ru";
     private readonly LocalizationFileProvider _loader;
     private LocalizationInfoHolder _localizationInfoHolder;
     private SaveData _saveData;
@@ -129,21 +127,33 @@ public class PanelsLocalizationHandler : ILocalizationChanger
         else
         {
             systemLanguageKey = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
             if (string.IsNullOrEmpty(systemLanguageKey) == true)
             {
                 systemLanguageKey = _defaultLanguageKey;
             }
         }
+
+        if (TrySetLanguageName(systemLanguageKey) == false)
+        {
+            TrySetLanguageName(_defaultLanguageKey);
+        }
+    }
+
+    private bool TrySetLanguageName(string systemLanguageKey)
+    {
+        bool result = false;
         for (int i = 0; i < _localizationInfoHolder.LanguageNames.Count; i++)
         {
             _currentLanguageKeyIndex.Value = i;
             if (_localizationInfoHolder.LanguageNames[i].Key == systemLanguageKey)
             {
                 _currentMyLanguageName = _localizationInfoHolder.LanguageNames[i];
+                result = true;
                 break;
             }
         }
+
+        return result;
     }
 
     private async UniTask LoadCurrentLanguage()

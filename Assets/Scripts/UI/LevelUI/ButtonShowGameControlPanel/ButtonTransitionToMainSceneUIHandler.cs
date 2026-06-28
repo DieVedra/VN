@@ -13,7 +13,6 @@ public class ButtonTransitionToMainSceneUIHandler : ILocalizable
 
     public readonly LocalizationString LabelText = "Точно?";
     public readonly LocalizationString TranscriptionText = "Вернуться в главное меню?";
-    // public readonly LocalizationString ButtonText = "Да";
 
     private readonly LoadScreenUIHandler _loadScreenUIHandler;
     private readonly Func<UniTask> _preSceneTransitionOperation;

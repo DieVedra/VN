@@ -57,18 +57,20 @@ public class EntryPoint: MonoBehaviour
             _wallet = new Wallet(_saveServiceProvider.SaveData);
             ProjectContext.Instance.Container.Bind<Wallet>().FromInstance(_wallet).AsSingle();
         }
+        var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
+        _storiesProvider = await storiesProviderAssetProvider.Load();
+        _storiesProvider.Init(_saveServiceProvider.SaveData);
         _iconsUISpriteAtlasAssetProvider = new IconsUISpriteAtlasAssetProvider();
         _appStarter = new AppStarter();
         (StoriesProvider, MainMenuUIProvider, LevelLoader) result =
             await _appStarter.StartApp(_prefabsProvider, _wallet, _globalUIHandler, _onSceneTransition,
-                _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _iconsUISpriteAtlasAssetProvider);
+                _saveServiceProvider, _globalSound, _panelsLocalizationHandler, sc, _storiesProvider, _iconsUISpriteAtlasAssetProvider);
 
         _storiesProvider = result.Item1;
         _mainMenuUIProvider = result.Item2;
         _levelLoader = result.Item3;
         _saveServiceProvider.TrySetLanguageLocalizationKey(_panelsLocalizationHandler.GetKey);
 
-        _storiesProvider.Init(_saveServiceProvider.SaveData);
         _saveServiceProvider.TrySetStoryDatas(_storiesProvider);
         _onSceneTransition.Subscribe(_ =>
         {

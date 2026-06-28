@@ -1,5 +1,6 @@
 ﻿using System;
 using UniRx;
+using UnityEngine;
 using Event = Unity.Services.Analytics.Internal.Event;
 
 public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGraphsProvider

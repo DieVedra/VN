@@ -86,6 +86,7 @@ public class Story  : ILocalizable
 
         storyData.Stats?.Clear();
         storyData.WardrobeSaveDatas?.Clear();
+        _storyData = storyData;
     }
     public void ResetProgress()
     {

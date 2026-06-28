@@ -110,17 +110,21 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
             phoneMessagesCustodian, _setLocalizationChangeEvent);
         _levelUIProviderBuildMode.GameControlPanelUIHandler.SettingsPanelButtonUIHandler.InitInLevel(_levelLocalizationHandler);
+        InitAnalyticsEvent();
         Init();
+        StoryData.CashHasBeenLoaded = true;
+        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
+        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
+    }
+
+    private void InitAnalyticsEvent()
+    {
         _analyticsEvent = new Event("level_start", null);
         _analyticsEvent.Parameters.Set($"StoryName:", StoryData.StoryName);
         _analyticsEvent.Parameters.Set($"CurrentSeriaIndex:", StoryData.CurrentSeriaIndex);
         _analyticsEvent.Parameters.Set($"CurrentNodeGraphIndex:", StoryData.CurrentNodeGraphIndex);
         _analyticsEvent.Parameters.Set($"CurrentNodeIndex:", StoryData.CurrentNodeIndex);
         _analyticsEvent.Parameters.Set($"CurrentProgressPercent:", $"{StoryData.CurrentProgressPercent}%");
-
-        StoryData.CashHasBeenLoaded = true;
-        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
-        _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
     private void InitLevelCompletePercentCalculator()
@@ -162,6 +166,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _globalSound, _wallet, _levelLoadDataHandler.SeriaGameStatsProviderBuild, _levelLoadDataHandler.PhoneProviderInBuildMode,
             SwitchToNextNodeEvent, SwitchToAnotherNodeGraphEvent, DisableNodesContentEvent, SwitchToNextSeriaEvent, _setLocalizationChangeEvent, _phoneNodeIsActive);
 
+        
         if (StoryData == null)
         {
             _gameSeriesHandlerBuildMode.Construct(_analyticsEvent, _levelLocalizationHandler, _levelLoadDataHandler.GameSeriesProvider,

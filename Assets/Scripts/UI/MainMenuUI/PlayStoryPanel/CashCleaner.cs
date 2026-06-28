@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class CashCleaner : ILocalizable
 {
@@ -17,11 +20,43 @@ public class CashCleaner : ILocalizable
         _saveServiceProvider = saveServiceProvider;
     }
 
-    public void Construct()
+    public async UniTask Construct()
     {
-#if !UNITY_EDITOR
-        Addressables.CleanBundleCache();
-#endif
+// #if !UNITY_EDITOR
+        string cachePath = Path.Combine(Application.persistentDataPath, "UnityCache", "Shared");
+        
+        if (!Directory.Exists(cachePath))
+        {
+            Debug.Log("Папка кэша не существует, пропускаем очистку");
+            return;
+        }
+        AsyncOperationHandle<bool> cleanOp = default;
+        try
+        {
+            cleanOp = Addressables.CleanBundleCache();
+            bool success = await cleanOp.Task.AsUniTask();
+
+            if (success)
+            {
+                Debug.Log("Кэш успешно очищен");
+            }
+            else
+            {
+                Debug.LogWarning("Очистка кэша вернула false");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Ошибка при очистке кэша: {e.Message}");
+        }
+        finally
+        {
+            if (cleanOp.IsValid())
+            {
+                Addressables.Release(cleanOp);
+            }
+        }
+// #endif
     }
 
     public bool GetClearButtonActiveKey(string storyName)
