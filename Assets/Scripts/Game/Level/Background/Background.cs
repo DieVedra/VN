@@ -123,6 +123,10 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public async UniTask ShowImageInPlayMode(string keyArt, CancellationToken cancellationToken)
     {
+        Debug.Log($"keyArt: {keyArt}");
+        Debug.Log($"ArtsSpritesDictionary: {ArtsSpritesDictionary.Count}");
+        
+        
         if (string.IsNullOrEmpty(keyArt) == false && ArtsSpritesDictionary.TryGetValue(keyArt, out var value))
         {
             ArtShower.color = new Color(1f,1f,1f,0f);

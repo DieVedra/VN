@@ -64,6 +64,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         CharacterViewer.Construct(DisableNodesContentEvent, viewerCreatorEditMode);
         ConstructWardrobeCharacterViewer(viewerCreatorEditMode);
         ConstructBackground();
+        if (Application.isPlaying == false)
+        {
+            _characterProviderEditMode.Construct();
+        }
         _phoneProviderInEditMode.Construct(phoneMessagesCustodian, _phoneSaveHandler);
         InitLevelUIProvider(_phoneProviderInEditMode.PhoneContentProvider, phoneMessagesCustodian, _phoneSaveHandler);
         NodeGraphInitializer = new NodeGraphInitializer(_characterProviderEditMode.CustomizableCharacterIndexesCustodians, _characterProvider, _backgroundEditMode, _levelUIProviderEditMode,

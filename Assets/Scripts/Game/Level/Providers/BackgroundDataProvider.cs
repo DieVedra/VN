@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
 public class BackgroundDataProvider
 {
@@ -54,17 +55,20 @@ public class BackgroundDataProvider
     }
     public void CheckMatchNumbersSeriaWithNumberAssets(int seriaNumber, int seriaNameAssetIndex)
     {
-
         _locationDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
         _additionalImagesDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
         _artsDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
+        Debug.Log($"_artsDataProvider AssetsFinded: {_artsDataProvider.AssetsFinded}");
         _wardrobeBackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
     }
     public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
     {
         await _locationDataProvider.TryLoadData(nextSeriaNameAssetIndex);
         await _additionalImagesDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        
+        Debug.Log($"_artsDataProvider.TryLoadData1:   {nextSeriaNameAssetIndex}");
         await _artsDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        Debug.Log($"_artsDataProvider.TryLoadData2: {_artsDataProvider.GetDatas.Count}");
         await _wardrobeBackgroundDataProvider.TryLoadData(nextSeriaNameAssetIndex);
     }
     private string GetNameLocations(bool HDMode = false)
@@ -93,6 +97,7 @@ public class BackgroundDataProvider
     {
         if (HDMode == false)
         {
+            Debug.Log($"GetNameArts: {_storyName}{_arts}{_compressed}{_backgroundDataSeriaNameAsset}");
             return $"{_storyName}{_arts}{_compressed}{_backgroundDataSeriaNameAsset}";
         }
         else

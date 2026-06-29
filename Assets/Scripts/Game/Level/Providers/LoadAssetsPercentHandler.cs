@@ -60,7 +60,7 @@ public class LoadAssetsPercentHandler
     public void StopCalculatePercent()
     {
         _isCalculating = false;
-        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource?.Cancel();
         CalculateLoadPercent();
     }
     private void CalculateLoadPercent()

@@ -56,27 +56,42 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     }
     public bool CheckMatchNumbersSeriaWithNumberAsset(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
+        Debug.Log($"CheckMatchNumbersSeriaWithNumberAsset AssetsFinded: {AssetsFinded} {this}");
+
         if (AssetsFinded == true)
         {
+            var ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
+            Debug.Log($"1 ParticipiteInLoad = {ParticipiteInLoad}    nextSeriaNumber: {nextSeriaNumber}    nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
+            foreach (var VARIABLE in _names)
+            {
+                Debug.Log($"{VARIABLE}");
+
+            }
             return ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
         }
         else
         {
+            Debug.Log($"2 ParticipiteInLoad = false");
+
             return ParticipiteInLoad = false;
         }
     }
     public async UniTask<bool> TryLoadData(int nextSeriaNameAssetIndex)
     {
+        Debug.Log($"TryLoadData1 ParticipiteInLoad {ParticipiteInLoad}  {GetType()}   {this}");
         if (ParticipiteInLoad == true)
         {
             var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
             _datas.Add(data);
             OnLoad.Execute(data);
             LastLoaded = data;
+            Debug.Log($"TryLoadData2");
+
             return true;
         }
         else
         {
+            Debug.Log($"TryLoadData3");
             return false;
         }
     }
