@@ -10,9 +10,6 @@ public class AppStarter
         GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, StoriesProvider storiesProvider,
         IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
-        await Addressables.InitializeAsync();
-        UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
-        await unityServicesHandler.Construct(startConfig);
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -50,12 +47,17 @@ public class AppStarter
                 startConfig.DefaultLanguageLocalizationKey);
         }
 
+
         panelsLocalizationHandler.SetLanguagePanelsAndMenuStory();
         panelsLocalizationHandler.SubscribeChangeLanguage();
         if (loadScreenUIHandler.IsStarted == false)
         {
             loadScreenUIHandler.ShowOnStart();
         }
+
+        await Addressables.InitializeAsync();
+        UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
+        await unityServicesHandler.Construct(startConfig);
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
         int startIndexStory = 0;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class LevelLoadDataHandler
 {
@@ -70,6 +71,7 @@ public class LevelLoadDataHandler
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
+        Debug.Log($"++++++++++++++++++++++  LoadSTARTSeriaContent");
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName);
         _loadAssetsPercentHandler.StartCalculatePercent();
@@ -90,10 +92,13 @@ public class LevelLoadDataHandler
         }
         _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _loadAssetsPercentHandler.StopCalculatePercent();
+        Debug.Log($"-------------------  LoadSTARTSeriaContent");
     }
 
     public async UniTask LoadNextSeriesContent()
     {
+        Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
+
         if (_currentSeriaLoadedNumberProperty.GetValue < _seriesCount)
         {
             _onContentIsLoadProperty.SetValue(true);
@@ -102,7 +107,13 @@ public class LevelLoadDataHandler
             int nextSeriaIndex = _currentSeriaLoadedNumberProperty.GetValue;
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
+            Debug.Log($"1LOAD NEXT SERIA CONTENT NUMBER: {nextSeriaIndex}");
+
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
+            Debug.Log($"2LOAD NEXT SERIA CONTENT NUMBER: {nextSeriaIndex}");
+
+            Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
+
             await LoadCurrentLocalization(nextSeriaNumber);
             await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
             await GameSeriesProvider.TryLoadData(nextSeriaIndex);
@@ -114,6 +125,8 @@ public class LevelLoadDataHandler
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!
             _onContentIsLoadProperty.SetValue(false);
         }
+        Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
+
     }
 
     private async UniTask InitLoaders()
@@ -132,7 +145,6 @@ public class LevelLoadDataHandler
         CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
-
         BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
         SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
         PhoneProviderInBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);

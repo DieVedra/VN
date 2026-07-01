@@ -10,11 +10,13 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     private readonly MatchNumbersHandler _matchNumbersHandler;
     private readonly List<T> _datas;
     private List<string> _names;
+    private string _nameToLoad;
+    private bool _participiteInLoad;
     public List<string> Names => _names;
     public MatchNumbersHandler MatchNumbersHandler => _matchNumbersHandler;
 
     public bool AssetsFinded { get; private set; }
-    public bool ParticipiteInLoad { get; private set; }
+    public bool ParticipiteInLoad => _participiteInLoad;
     public int PercentComplete => _scriptableObjectAssetLoader.GetPercentComplete();
     public int NamesCount => _names.Count;
     public IReadOnlyList<T> GetDatas => _datas;
@@ -45,7 +47,8 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
         _compositeDisposableOnLoad?.Clear();
         BaseCompositeDisposable?.Clear();
         _scriptableObjectAssetLoader.TryAbortLoad();
-        ParticipiteInLoad = false;
+        _participiteInLoad = false;
+        Debug.Log($"DataProvider {this}  Shutdown");
     }
 
     public async UniTask CreateNames(string nameAsset)
@@ -56,42 +59,45 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     }
     public bool CheckMatchNumbersSeriaWithNumberAsset(int nextSeriaNumber, int nextSeriaNameAssetIndex)
     {
-        Debug.Log($"CheckMatchNumbersSeriaWithNumberAsset AssetsFinded: {AssetsFinded} {this}");
+        Debug.Log($"CheckMatchNumbersSeriaWithNumberAsset AssetsFinded: {AssetsFinded} {this}        nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
 
         if (AssetsFinded == true)
         {
-            var ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
-            Debug.Log($"1 ParticipiteInLoad = {ParticipiteInLoad}    nextSeriaNumber: {nextSeriaNumber}    nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
-            foreach (var VARIABLE in _names)
-            {
-                Debug.Log($"{VARIABLE}");
-
-            }
-            return ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
+            // var ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
+            _participiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset1(out _nameToLoad, _names, nextSeriaNumber);
+            Debug.Log($"1 ParticipiteInLoad = {_participiteInLoad}    nextSeriaNumber: {nextSeriaNumber}    nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
+            return _participiteInLoad;
         }
         else
         {
             Debug.Log($"2 ParticipiteInLoad = false");
 
-            return ParticipiteInLoad = false;
+            // return ParticipiteInLoad = false;
+            _participiteInLoad = false;
+            return _participiteInLoad;
         }
     }
     public async UniTask<bool> TryLoadData(int nextSeriaNameAssetIndex)
     {
-        Debug.Log($"TryLoadData1 ParticipiteInLoad {ParticipiteInLoad}  {GetType()}   {this}");
-        if (ParticipiteInLoad == true)
+        Debug.Log($"TryLoadData1 ParticipiteInLoad {_participiteInLoad}  {GetType()}   {this}");
+        foreach (var VARIABLE in _names)
         {
-            var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
+            Debug.Log($"{VARIABLE}");
+        }
+        if (_participiteInLoad == true)
+        {
+            // var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
+            var data = await _scriptableObjectAssetLoader.Load<T>(_nameToLoad);
             _datas.Add(data);
             OnLoad.Execute(data);
             LastLoaded = data;
-            Debug.Log($"TryLoadData2");
+            Debug.Log($"Data Loaded  _nameToLoad: {_nameToLoad}");
 
             return true;
         }
         else
         {
-            Debug.Log($"TryLoadData3");
+            Debug.Log($"Data Not Loaded  _nameToLoad: {_nameToLoad}");
             return false;
         }
     }

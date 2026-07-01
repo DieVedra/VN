@@ -35,9 +35,6 @@ public class GameSeriesHandlerBuildMode : GameSeriesHandler, ICurrentSeriaNodeGr
         {
             AddSeria(seria);
         }
-
-        Debug.Log($"CurrentSeriaIndex: {CurrentSeriaIndex}, currentNodeGraphIndex: {currentNodeGraphIndex}, currentNodeIndex: {currentNodeIndex}");
-        Debug.Log($"SeriaNodeGraphsHandlers  {SeriaNodeGraphsHandlers.Count}");
         SeriaNodeGraphsHandlers[currentSeriaIndex].SeriaPartNodeGraphs[currentNodeGraphIndex].SetKeyPutOnSwimsuit(putOnSwimsuitKey);
         gameSeriesProvider.OnLoad.Subscribe(AddSeria);
         InitSeria(CurrentSeriaIndex, currentNodeGraphIndex, currentNodeIndex);
