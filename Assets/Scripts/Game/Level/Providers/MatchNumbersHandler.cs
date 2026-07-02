@@ -9,14 +9,14 @@ public class MatchNumbersHandler
     private const char _minSymbol = '0';
     private const char _maxSymbol = '9';
     private StringBuilder _stringBuilder = new StringBuilder();
-    public bool CheckMatchNumbersSeriaWithNumberAsset1(out string resultNameAsset, List<string> names, int number)
+    public bool CheckMatchNumbersSeriaWithNumberAsset1(ref string resultNameAsset, List<string> names, int number)
     {
         bool result = false;
         resultNameAsset = null;
-        _stringBuilder.Clear();
         char symbol;
         foreach (var name in names)
         {
+            _stringBuilder.Clear();
             for (int i = 0; i < name.Length; i++)
             {
                 symbol = name[i];
@@ -25,16 +25,21 @@ public class MatchNumbersHandler
                     _stringBuilder.Append(symbol);
                 }
             }
-
+            Debug.Log($"SB: |{_stringBuilder.ToString()}|    name: {name} number: {number}");
             if (int.TryParse(_stringBuilder.ToString(), out int resultNumber))
             {
+                Debug.Log($"TryParseTrue");
+
                 if (resultNumber == number)
                 {
                     result = true;
                     resultNameAsset = name;
+                    
                     break;
                 }
             }
+            
+            Debug.Log($"                                       ");
         }
         return result;
     }

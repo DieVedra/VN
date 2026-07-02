@@ -109,14 +109,14 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
     }
 
 
-    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
+    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber)
     {
-        _dataProviders.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        _contactsToSeriaProviders.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        _dataProviders.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
+        _contactsToSeriaProviders.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
     }
-    public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
+    public async UniTask TryLoadDatas()
     {
-        if (await _dataProviders.TryLoadData(nextSeriaNameAssetIndex))
+        if (await _dataProviders.TryLoadData())
         {
             if (_phoneSystemInitilized == false)
             {
@@ -124,7 +124,7 @@ public class PhoneProviderInBuildMode : IPhoneProvider, ILocalizable
                 _phoneSystemInitilized = true;
             }
         }
-        await _contactsToSeriaProviders.TryLoadData(nextSeriaNameAssetIndex);
+        await _contactsToSeriaProviders.TryLoadData();
     }
 
     public IReadOnlyList<LocalizationString> GetLocalizableContent()

@@ -73,15 +73,15 @@ public class LevelLoadDataHandler
     {
         Debug.Log($"++++++++++++++++++++++  LoadSTARTSeriaContent");
         await InitLoaders();
-        CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria, _indexFirstName);
+        CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria);
         _loadAssetsPercentHandler.StartCalculatePercent();
         await LoadCurrentLocalization(_numberFirstSeria);
-        await GameSeriesProvider.TryLoadData(_indexFirstName);
-        await SeriaGameStatsProviderBuild.TryLoadData(_indexFirstName);
-        await BackgroundDataProvider.TryLoadDatas(_indexFirstName);
-        await CharacterProviderBuildMode.TryLoadDatas(_indexFirstName);
-        await AudioClipProvider.TryLoadDatas(_indexFirstName);
-        await PhoneProviderInBuildMode.TryLoadDatas(_indexFirstName);
+        await GameSeriesProvider.TryLoadData();
+        await SeriaGameStatsProviderBuild.TryLoadData();
+        await BackgroundDataProvider.TryLoadDatas();
+        await CharacterProviderBuildMode.TryLoadDatas();
+        await AudioClipProvider.TryLoadDatas();
+        await PhoneProviderInBuildMode.TryLoadDatas();
         if (storyData != null)
         {
             PhoneProviderInBuildMode.PhoneSaveHandler.SetPhoneInfoFromSaveData(storyData);
@@ -93,6 +93,12 @@ public class LevelLoadDataHandler
         _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _loadAssetsPercentHandler.StopCalculatePercent();
         Debug.Log($"-------------------  LoadSTARTSeriaContent");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+
     }
 
     public async UniTask LoadNextSeriesContent()
@@ -107,26 +113,24 @@ public class LevelLoadDataHandler
             int nextSeriaIndex = _currentSeriaLoadedNumberProperty.GetValue;
             nextSeriaNumber++;
             await UniTask.Yield(PlayerLoopTiming.Initialization);
-            Debug.Log($"1LOAD NEXT SERIA CONTENT NUMBER: {nextSeriaIndex}");
-
-            CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaIndex);
-            Debug.Log($"2LOAD NEXT SERIA CONTENT NUMBER: {nextSeriaIndex}");
-
-            Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
-
+            CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
             await LoadCurrentLocalization(nextSeriaNumber);
-            await CharacterProviderBuildMode.TryLoadDatas(nextSeriaIndex);
-            await GameSeriesProvider.TryLoadData(nextSeriaIndex);
-            await AudioClipProvider.TryLoadDatas(nextSeriaIndex);
-            await BackgroundDataProvider.TryLoadDatas(nextSeriaIndex);
-            await SeriaGameStatsProviderBuild.TryLoadData(nextSeriaIndex);
-            await PhoneProviderInBuildMode.TryLoadDatas(nextSeriaIndex);
+            await CharacterProviderBuildMode.TryLoadDatas();
+            await GameSeriesProvider.TryLoadData();
+            await AudioClipProvider.TryLoadDatas();
+            await BackgroundDataProvider.TryLoadDatas();
+            await SeriaGameStatsProviderBuild.TryLoadData();
+            await PhoneProviderInBuildMode.TryLoadDatas();
             
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!
             _onContentIsLoadProperty.SetValue(false);
         }
-        Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
-
+        Debug.Log($"----------------  LoadNEXTSeriaContent");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
+        Debug.Log($"                              ");
     }
 
     private async UniTask InitLoaders()
@@ -140,14 +144,14 @@ public class LevelLoadDataHandler
             PhoneProviderInBuildMode.Init());
     }
 
-    private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
+    private void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber)
     {
-        CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
-        GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
-        BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
-        SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        PhoneProviderInBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber, nextSeriaNameAssetIndex);
+        CharacterProviderBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
+        GameSeriesProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
+        AudioClipProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
+        BackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
+        SeriaGameStatsProviderBuild.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
+        PhoneProviderInBuildMode.CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
     }
     private void OnSwitchToNextSeria(bool key)
     {

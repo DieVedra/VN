@@ -33,14 +33,14 @@ public class AudioClipProvider
         _musicAudioDataProvider.Shutdown();
         _ambientAudioDataProvider.Shutdown();
     }
-    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
+    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber)
     {
-        _musicAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        _ambientAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        _musicAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
+        _ambientAudioDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
     }
-    public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
+    public async UniTask TryLoadDatas()
     {
-        await _musicAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex);
-        await _ambientAudioDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        await _musicAudioDataProvider.TryLoadData();
+        await _ambientAudioDataProvider.TryLoadData();
     }
 }

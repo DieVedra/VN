@@ -72,15 +72,15 @@ public class CharacterProviderBuildMode : ILocalizable
         return strings;
     }
 
-    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber, int nextSeriaNameAssetIndex)
+    public void CheckMatchNumbersSeriaWithNumberAssets(int nextSeriaNumber)
     {
-        _charactersDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
-        _charactersProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber, nextSeriaNameAssetIndex);
+        _charactersDataProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
+        _charactersProvider.CheckMatchNumbersSeriaWithNumberAsset(nextSeriaNumber);
     }
 
-    public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
+    public async UniTask TryLoadDatas()
     {
-        await _charactersProvider.TryLoadData(nextSeriaNameAssetIndex);
-        await _charactersDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        await _charactersProvider.TryLoadData();
+        await _charactersDataProvider.TryLoadData();
     }
 }

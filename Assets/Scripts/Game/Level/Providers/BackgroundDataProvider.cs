@@ -53,19 +53,19 @@ public class BackgroundDataProvider
         _artsDataProvider.Shutdown();
         _wardrobeBackgroundDataProvider.Shutdown();
     }
-    public void CheckMatchNumbersSeriaWithNumberAssets(int seriaNumber, int seriaNameAssetIndex)
+    public void CheckMatchNumbersSeriaWithNumberAssets(int seriaNumber)
     {
-        _locationDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
-        _additionalImagesDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
-        _artsDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
-        _wardrobeBackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber, seriaNameAssetIndex);
+        _locationDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber);
+        _additionalImagesDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber);
+        _artsDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber);
+        _wardrobeBackgroundDataProvider.CheckMatchNumbersSeriaWithNumberAsset(seriaNumber);
     }
-    public async UniTask TryLoadDatas(int nextSeriaNameAssetIndex)
+    public async UniTask TryLoadDatas()
     {
-        await _locationDataProvider.TryLoadData(nextSeriaNameAssetIndex);
-        await _additionalImagesDataProvider.TryLoadData(nextSeriaNameAssetIndex);
-        await _artsDataProvider.TryLoadData(nextSeriaNameAssetIndex);
-        await _wardrobeBackgroundDataProvider.TryLoadData(nextSeriaNameAssetIndex);
+        await _locationDataProvider.TryLoadData();
+        await _additionalImagesDataProvider.TryLoadData();
+        await _artsDataProvider.TryLoadData();
+        await _wardrobeBackgroundDataProvider.TryLoadData();
     }
     private string GetNameLocations(bool HDMode = false)
     {
