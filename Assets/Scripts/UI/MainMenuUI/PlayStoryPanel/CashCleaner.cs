@@ -59,7 +59,7 @@ public class CashCleaner : ILocalizable
 // #endif
     }
 
-    public bool GetClearButtonActiveKey(string storyName)
+    public bool GetKeyActiveClearCashButton(string storyName)
     {
         bool result = false;
         if (_saveServiceProvider.SaveData.StoryDatas.TryGetValue(storyName, out StoryData storyData))

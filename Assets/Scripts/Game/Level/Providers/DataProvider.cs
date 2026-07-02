@@ -12,8 +12,6 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     private List<string> _names;
     private string _nameToLoad;
     private bool _participiteInLoad;
-    public List<string> Names => _names;
-    public MatchNumbersHandler MatchNumbersHandler => _matchNumbersHandler;
 
     public bool AssetsFinded { get; private set; }
     public bool ParticipiteInLoad => _participiteInLoad;
@@ -58,61 +56,30 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     }
     public bool CheckMatchNumbersSeriaWithNumberAsset(int nextSeriaNumber)
     {
-        // Debug.Log($"CheckMatchNumbersSeriaWithNumberAsset AssetsFinded: {AssetsFinded} {this}");
-
         if (AssetsFinded == true)
         {
-            // var ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
-            _participiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset1(ref _nameToLoad, _names, nextSeriaNumber);
-            // Debug.Log($"1 ParticipiteInLoad = {_participiteInLoad}    nextSeriaNumber: {nextSeriaNumber}    _nameToLoad: ||{_nameToLoad}||");
+            _participiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(ref _nameToLoad, _names, nextSeriaNumber);
             return _participiteInLoad;
         }
         else
         {
-            // Debug.Log($"2 ParticipiteInLoad = false");
-
-            // return ParticipiteInLoad = false;
             _participiteInLoad = false;
             return _participiteInLoad;
         }
     }
     public async UniTask<bool> TryLoadData()
     {
-        // foreach (var VARIABLE in _names)
-        // {
-        //     Debug.Log($"{VARIABLE}");
-        // }
-
-        // Debug.Log($"TryLoadData1 ParticipiteInLoad {_participiteInLoad}  {GetType()}   {this}  _name to load: ||{_nameToLoad}||");
         if (_participiteInLoad == true)
         {
-            // var data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
             var data = await _scriptableObjectAssetLoader.Load<T>(_nameToLoad);
             _datas.Add(data);
             OnLoad.Execute(data);
             LastLoaded = data;
-            // Debug.Log($"Data Loaded  _nameToLoad: ||{_nameToLoad}||");
             return true;
         }
         else
         {
-            // Debug.Log($"Data Not Loaded  _nameToLoad: ||{_nameToLoad}||");
             return false;
-        }
-    }
-    public async UniTask<T> TryLoadDataAndGet(int nextSeriaNameAssetIndex)
-    {
-        if (ParticipiteInLoad == true)
-        {
-            T data = await _scriptableObjectAssetLoader.Load<T>(_names[nextSeriaNameAssetIndex]);
-            _datas.Add(data);
-            OnLoad.Execute(data);
-            LastLoaded = data;
-            return data;
-        }
-        else
-        {
-            return default;
         }
     }
 }

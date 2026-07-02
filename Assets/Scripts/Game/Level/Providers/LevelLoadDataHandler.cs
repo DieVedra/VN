@@ -1,11 +1,8 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class LevelLoadDataHandler
 {
-    public const int IndexFirstSeriaData = 0;
-    private const int _indexFirstName = 0;
     private const int _numberFirstSeria = 1;
     private readonly string _storyName;
 
@@ -71,7 +68,6 @@ public class LevelLoadDataHandler
     }
     public async UniTask LoadStartSeriaContent(StoryData storyData = null)
     {
-        Debug.Log($"++++++++++++++++++++++  LoadSTARTSeriaContent");
         await InitLoaders();
         CheckMatchNumbersSeriaWithNumberAssets(_numberFirstSeria);
         _loadAssetsPercentHandler.StartCalculatePercent();
@@ -92,19 +88,10 @@ public class LevelLoadDataHandler
         }
         _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _loadAssetsPercentHandler.StopCalculatePercent();
-        Debug.Log($"-------------------  LoadSTARTSeriaContent");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-
     }
 
     public async UniTask LoadNextSeriesContent()
     {
-        Debug.Log($"++++++++++++++++++++++  LoadNEXTSeriaContent");
-
         if (_currentSeriaLoadedNumberProperty.GetValue < _seriesCount)
         {
             _onContentIsLoadProperty.SetValue(true);
@@ -125,12 +112,6 @@ public class LevelLoadDataHandler
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!
             _onContentIsLoadProperty.SetValue(false);
         }
-        Debug.Log($"----------------  LoadNEXTSeriaContent");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
-        Debug.Log($"                              ");
     }
 
     private async UniTask InitLoaders()

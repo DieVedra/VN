@@ -6,31 +6,20 @@ public class BackgroundBuildMode : Background
 {
     public void SubscribeProviders(BackgroundDataProvider backgroundDataProvider)
     {
-        Debug.Log($"SubscribeProviders");
-
         backgroundDataProvider.OnLoadAdditionalImagesData.Subscribe(_ =>
         {
-            Debug.Log($"OnLoadAdditionalImagesData {_.BackgroundContentValues.Count}");
-
             AddContent(ref AdditionalImagesToBackgroundDictionary, _);
         });
         backgroundDataProvider.OnLoadArtsData.Subscribe(_ =>
         {
-            Debug.Log($"OnLoadArtsData  {_.BackgroundContentValues.Count}");
             AddContent(ref ArtsSpritesDictionary, _);
-            Debug.Log($"ArtsSpritesDictionary  {ArtsSpritesDictionary.Count}");
-
         });
         backgroundDataProvider.OnLoadLocationData.Subscribe(_ =>
         {
-            Debug.Log($"OnLoadLocationData {_.BackgroundContentValues.Count}");
-
             AddContent(ref BackgroundContentValuesDictionary, _);
         });
         backgroundDataProvider.OnLoadWardrobeData.Subscribe(_ =>
         {
-            Debug.Log($"OnLoadWardrobeData {_.BackgroundContentValues.Count}");
-
             AddContent(ref WardrobeBackgroundContentValuesDictionary, _);
         });
     }

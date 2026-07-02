@@ -103,6 +103,7 @@ public class PlayStoryPanelHandler : ILocalizable
         Transform tr = _playStoryPanel.transform;
         _blackFrameUIHandler.Transform.SetAsLastSibling();
         tr.SetAsLastSibling();
+        DisableClearCashAndResetProgressButtons();
         await UniTask.WhenAll(
             _blackFrameUIHandler.CloseTranslucent(false),
             _rectTransformPanel.DOScale(_unhideScale, AnimationValuesProvider.HalfValue).SetEase(Ease.OutQuart).WithCancellation(_cancellationTokenSource.Token),
@@ -128,7 +129,7 @@ public class PlayStoryPanelHandler : ILocalizable
     }
     private void TrySubscribeCleanCashButton(Story story)
     {
-        if (_cashCleaner.GetClearButtonActiveKey(story.StoryName))
+        if (_cashCleaner.GetKeyActiveClearCashButton(story.StoryName))
         {
             _playStoryPanel.SkipCashButton.interactable = true;
             ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
@@ -140,6 +141,7 @@ public class PlayStoryPanelHandler : ILocalizable
                     StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue,
                     () =>
                     {
+                        _playStoryPanel.SkipCashButton.interactable = false;
                         _cashCleaner.CleanCashStory(story.StoryName);
                     },
                     () =>
@@ -156,6 +158,11 @@ public class PlayStoryPanelHandler : ILocalizable
         }
     }
 
+    private void DisableClearCashAndResetProgressButtons()
+    {
+        _playStoryPanel.ResetProgressButton.interactable = false;
+        _playStoryPanel.SkipCashButton.interactable = false;
+    }
     private void TrySubscribeResetProgressButton(Story story)
     {
         if (story.StoryStarted)

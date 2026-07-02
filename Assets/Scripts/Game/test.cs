@@ -51,7 +51,6 @@ public class test : MonoBehaviour
     [Button()]
     private void test1()
     {
-        Debug.Log(_matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex));
     }
     
     [Button()]
@@ -72,28 +71,6 @@ public class test : MonoBehaviour
     [Button()]
     public void CheckMatchNumbersSeriaWithNumberAsset()
     {
-        Debug.Log($"CheckMatchNumbersSeriaWithNumberAsset AssetsFinded: {AssetsFinded} {this}        nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
-
-        if (AssetsFinded.Value == true)
-        {
-            Debug.Log($"+++++++    {_names[nextSeriaNameAssetIndex]}    ?    {nextSeriaNumber}");
-            foreach (var VARIABLE in _names)
-            {
-                Debug.Log($"{VARIABLE}");
-            }
-            Debug.Log($"----------");
-
-            // var ParticipiteInLoad = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
-            ParticipiteInLoad.Value = _matchNumbersHandler.CheckMatchNumbersSeriaWithNumberAsset(_names, nextSeriaNumber, nextSeriaNameAssetIndex);
-            Debug.Log($"1 ParticipiteInLoad = {ParticipiteInLoad}    nextSeriaNumber: {nextSeriaNumber}    nextSeriaNameAssetIndex: {nextSeriaNameAssetIndex}");
-        }
-        else
-        {
-            Debug.Log($"2 ParticipiteInLoad = false");
-
-            // return ParticipiteInLoad = false;
-            ParticipiteInLoad.Value = false;
-        }
     }
     private string GetNameArts(bool HDMode = false)
     {
