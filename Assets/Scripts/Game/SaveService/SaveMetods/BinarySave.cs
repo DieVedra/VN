@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class BinarySave : ISaveMethod
 {
-    private const string _fileName = "/Save";
-    private const string _fileFormat = ".dat";
+    private const string _fileName = "Save.json";
     private string _savePath;
     private BinaryFormatter _binaryFormatter;
 
@@ -14,7 +13,7 @@ public class BinarySave : ISaveMethod
     public UniTask Construct()
     {
         _binaryFormatter = new BinaryFormatter();
-        _savePath = Path.Combine(Application.dataPath + _fileName + _fileFormat);
+        _savePath = Path.Combine(Application.persistentDataPath + _fileName);
         return default;
     }
 
