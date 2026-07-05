@@ -47,7 +47,7 @@ public class BackgroundEditMode : Background
         
         if (Application.isPlaying && BackgroundSaveData != null)
         {
-            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo);
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo, true);
         }
     }
     private void ConstructDictionary(ref SerializedDictionary<string, BackgroundContentValues> contentDictionary,

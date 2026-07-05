@@ -19,7 +19,7 @@ public class AppStarter
         await cashCleaner.Construct();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
-        var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(wallet, globalUIHandler, globalSound);
+        var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(startConfig, wallet, globalUIHandler, globalSound);
 
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
             advertisingButtonUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI);
@@ -27,7 +27,7 @@ public class AppStarter
 
         (MainMenuUIProvider, MainMenuUIView, Transform) result =
             await CreateMainMenuUIProvider(saveServiceProvider, globalUIHandler, darkeningBackgroundFrameUIHandlerMainMenu,
-                cashCleaner, storiesProvider, panelsLocalizationHandler.LanguageChanged, swipeDetectorOff);
+                cashCleaner, storiesProvider, startConfig, panelsLocalizationHandler.LanguageChanged, swipeDetectorOff);
         MainMenuUIProvider mainMenuUIProvider = result.Item1;
         MainMenuUIView mainMenuUIView = result.Item2;
         Transform tr = result.Item3;
@@ -82,19 +82,25 @@ public class AppStarter
         loadScreenUIHandler.HideOnMainMenuMove().Forget();
         return (storiesProvider, result.Item1, levelLoader);
     }
-    private AdvertisingButtonUIHandler TryInitAdvertisingButtonUIHandler(Wallet wallet, GlobalUIHandler globalUIHandler, GlobalSound globalSound)
+    private AdvertisingButtonUIHandler TryInitAdvertisingButtonUIHandler(StartConfig startConfig, Wallet wallet, GlobalUIHandler globalUIHandler, GlobalSound globalSound)
     {
-        AdvertisingButtonUIHandler advertisingButtonUIHandler = null;
-        if (globalUIHandler.AdvertisingButtonUIHandler == null)
+        if (startConfig.AdvertisementStatus)
         {
-            advertisingButtonUIHandler = new AdvertisingButtonUIHandler(wallet, globalSound.GetSoundPause());
+            AdvertisingButtonUIHandler advertisingButtonUIHandler = null;
+            if (globalUIHandler.AdvertisingButtonUIHandler == null)
+            {
+                advertisingButtonUIHandler = new AdvertisingButtonUIHandler(wallet, startConfig.AdvertisementMonetReward, startConfig.AdvertisementHearthReward, globalSound.GetSoundPause());
+            }
+            else
+            {
+                advertisingButtonUIHandler = globalUIHandler.AdvertisingButtonUIHandler;
+            }
+            return advertisingButtonUIHandler;
         }
         else
         {
-            advertisingButtonUIHandler = globalUIHandler.AdvertisingButtonUIHandler;
-
+            return null;
         }
-        return advertisingButtonUIHandler;
     }
 
     private static ShopMoneyPanelUIHandler TryInitShopMoneyPanelUIHandler(Wallet wallet, GlobalUIHandler globalUIHandler,
@@ -180,7 +186,7 @@ public class AppStarter
     }
 
     private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(SaveServiceProvider saveServiceProvider,
-        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, CashCleaner cashCleaner, StoriesProvider storiesProvider,
+        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, CashCleaner cashCleaner, StoriesProvider storiesProvider, StartConfig startConfig,
         ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
         MainMenuCanvasAssetProvider menuCanvasAssetProvider = new MainMenuCanvasAssetProvider();
@@ -197,7 +203,7 @@ public class AppStarter
             globalUIHandler.ConfirmedPanelUIHandler, saveServiceProvider, storiesProvider);
         var shopMoneyButtonsUIHandler = new ShopMoneyButtonsUIHandler(globalUIHandler.ShopMoneyPanelUIHandler);
         var myScrollHandler = new MyScrollHandler(mainMenuUIView.MyScrollUIView, languageChanged, swipeDetectorOff);
-        var bottomPanelUIHandler = new BottomPanelUIHandler(globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler.AdvertisingButtonUIHandler, languageChanged);
+        var bottomPanelUIHandler = new BottomPanelUIHandler(globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler.AdvertisingButtonUIHandler, languageChanged, startConfig.AdvertisementStatus);
         MainMenuUIProvider mainMenuUIProvider = new MainMenuUIProvider(darkeningBackgroundFrameUIHandler,
             playStoryPanelHandler, settingsPanelButtonUIHandler, globalUIHandler.SettingsPanelUIHandler, globalUIHandler.ShopMoneyPanelUIHandler,
             shopMoneyButtonsUIHandler, globalUIHandler.ConfirmedPanelUIHandler, globalUIHandler, bottomPanelUIHandler, myScrollHandler,

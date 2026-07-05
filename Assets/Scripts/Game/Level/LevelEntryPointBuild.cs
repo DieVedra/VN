@@ -5,7 +5,6 @@ using UniRx;
 using Unity.Services.Analytics;
 using UnityEngine;
 using Zenject;
-using Unity.Services.Analytics.Internal;
 using Event = Unity.Services.Analytics.Internal.Event;
 
 public class LevelEntryPointBuild : LevelEntryPoint
@@ -295,7 +294,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             var caseChoice = await choicePanelCasePrefabProvider.InstantiatePrefab(LevelUIView.ChoicePanelUI.ChoicesParent);
             ChoiceCaseView choiceCaseView = caseChoice.GetComponent<ChoiceCaseView>();
             choiceCaseView.ButtonChoice.image.sprite =
-                _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+                _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.PanelName);
             choiceCasesViews.Add(choiceCaseView);
         }
 
@@ -308,7 +307,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         customizationCharacterPanelUI.SkinImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.BodyIconName);
         customizationCharacterPanelUI.HairImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.HairstyleIconName);
         customizationCharacterPanelUI.ClothImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.ClothesIconName);
-        customizationCharacterPanelUI.PlayButtonImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.NarrativePanelName);
+        customizationCharacterPanelUI.PlayButtonImage.sprite = _levelUISpriteAtlasAssetProvider.GetSprite(LevelUISpriteAtlasAssetProvider.PanelName);
 
         customizationCharacterPanelUI.transform.SetSiblingIndex(customizationCharacterPanelUI.SiblingIndex);
         customizationCharacterPanelUI.gameObject.SetActive(false);

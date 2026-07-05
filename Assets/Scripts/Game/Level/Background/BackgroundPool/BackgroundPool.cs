@@ -16,7 +16,10 @@ public class BackgroundPool
     {
         return _pool.Get();
     }
-    
+    public void ReturnRenderer(SpriteRenderer renderer)
+    {
+        _pool.Return(renderer);
+    }
     private SpriteRenderer OnCreate()
     {
         var res = Object.Instantiate(_prefab, _parent);

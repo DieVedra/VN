@@ -11,6 +11,7 @@ public class JSonSave : ISaveMethod
     public UniTask Construct()
     {
         _savePath = Path.Combine(Application.persistentDataPath + _fileName);
+        Debug.Log(_savePath);
         return default;
     }
 

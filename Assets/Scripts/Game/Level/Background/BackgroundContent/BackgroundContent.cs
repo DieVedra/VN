@@ -141,7 +141,7 @@ public class BackgroundContent : MonoBehaviour
                 break;
         }
     }
-    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage, string keyBackground)
+    public void AddAdditionalSprite(Sprite sprite, Vector2 localPosition, Color color, string keyAdditionalImage, string keyBackground, bool fromSave = false)
     {
         if (string.IsNullOrEmpty(keyBackground) == false)
         {
@@ -177,7 +177,14 @@ public class BackgroundContent : MonoBehaviour
             spriteRenderer.color = color;
             transform1.localPosition = localPosition;
             spriteRenderer.sortingOrder = dictionaryCount;
-            spriteRenderer.gameObject.SetActive(true);
+            if (fromSave == false)
+            {
+                spriteRenderer.gameObject.SetActive(true);
+            }
+            else
+            {
+                spriteRenderer.gameObject.SetActive(false);
+            }
         }
     }
     public void RemoveAdditionalSprite(string keyAdditionalImage, string keyBackground)

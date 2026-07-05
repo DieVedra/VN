@@ -8,18 +8,20 @@ public class BottomPanelUIHandler : ILocalizable
     private const int _sublingIndex = 4;
     private readonly ConfirmedPanelUIHandler _confirmedPanelUIHandler;
     private readonly ReactiveCommand _languageChanged;
+    private readonly bool _advertisementStatus;
     private readonly ExitButtonUIHandler _exitButtonUIHandler;
     private readonly AdvertisingButtonUIHandler _advertisingButtonUIHandler;
     private BottomPanelView _bottomPanelView;
     private CompositeDisposable _compositeDisposable;
     
     public BottomPanelUIHandler(ConfirmedPanelUIHandler confirmedPanelUIHandler, AdvertisingButtonUIHandler advertisingButtonUIHandler,
-        ReactiveCommand languageChanged)
+        ReactiveCommand languageChanged, bool advertisementStatus)
     {
         _confirmedPanelUIHandler = confirmedPanelUIHandler;
         _exitButtonUIHandler = new ExitButtonUIHandler();
         _advertisingButtonUIHandler = advertisingButtonUIHandler;
         _languageChanged = languageChanged;
+        _advertisementStatus = advertisementStatus;
     }
 
     public void Shutdown()
@@ -34,13 +36,21 @@ public class BottomPanelUIHandler : ILocalizable
     }
     public IReadOnlyList<LocalizationString> GetLocalizableContent()
     {
-        return new[]
+        if (_advertisementStatus)
         {
-            _exitButtonUIHandler.ButtonText, _exitButtonUIHandler.ExitText, _exitButtonUIHandler.LabelTextToConfirmedPanel,
-            _exitButtonUIHandler.TranscriptionTextToConfirmedPanel, _advertisingButtonUIHandler.ButtonText,
-            _advertisingButtonUIHandler.AdvertisingButtonText, _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
-            _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel
-        };
+            return new[]
+            {
+                _exitButtonUIHandler.ButtonText, _exitButtonUIHandler.ExitText, _exitButtonUIHandler.LabelTextToConfirmedPanel,
+                _exitButtonUIHandler.TranscriptionTextToConfirmedPanel, _advertisingButtonUIHandler.ButtonText,
+                _advertisingButtonUIHandler.AdvertisingButtonText, _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+                _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel
+            };
+        }
+        else
+        {
+            return new[] {_exitButtonUIHandler.ButtonText, _exitButtonUIHandler.ExitText, _exitButtonUIHandler.LabelTextToConfirmedPanel,
+                _exitButtonUIHandler.TranscriptionTextToConfirmedPanel};
+        }
     }
 
     public void Init(BottomPanelView bottomPanelView)
@@ -60,32 +70,44 @@ public class BottomPanelUIHandler : ILocalizable
 
     private void ChangedLanguage()
     {
-        _bottomPanelView.ShowAdvertisingButtonText.text = _advertisingButtonUIHandler.AdvertisingButtonText;
+        if (_advertisementStatus)
+        {
+            _bottomPanelView.ShowAdvertisingButtonText.text = _advertisingButtonUIHandler.AdvertisingButtonText;
+        }
+
         _bottomPanelView.GameExitButtonText.text = _exitButtonUIHandler.ExitText;
     }
 
     private void SubscribeButtons()
     {
         SubscribeGameExitButton();
-        SubscribeAdvertisingButton();
+        TrySubscribeAdvertisingButton();
         _bottomPanelView.transform.SetSiblingIndex(_sublingIndex);
         _bottomPanelView.gameObject.SetActive(true);
     }
 
-    private void SubscribeAdvertisingButton()
+    private void TrySubscribeAdvertisingButton()
     {
-        _bottomPanelView.ShowAdvertisingButton.onClick.AddListener(() =>
+        if (_advertisementStatus)
+        { 
+            _bottomPanelView.ShowAdvertisingButton.gameObject.SetActive(true);
+            _bottomPanelView.ShowAdvertisingButton.onClick.AddListener(() =>
+            {
+                _bottomPanelView.ShowAdvertisingButton.onClick.RemoveAllListeners();
+                _confirmedPanelUIHandler.Show(
+                    _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+                    _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
+                    _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
+                    AdvertisingButtonUIHandler.FontSizeValue,
+                    () => { _advertisingButtonUIHandler.Show(TrySubscribeAdvertisingButton).Forget(); },
+                    TrySubscribeAdvertisingButton,
+                    true).Forget();
+            });
+        }
+        else
         {
-            _bottomPanelView.ShowAdvertisingButton.onClick.RemoveAllListeners();
-            _confirmedPanelUIHandler.Show(
-                _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
-                _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
-                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
-                AdvertisingButtonUIHandler.FontSizeValue,
-                () => { _advertisingButtonUIHandler.Show(SubscribeAdvertisingButton).Forget(); },
-                SubscribeAdvertisingButton,
-                true).Forget();
-        });
+            _bottomPanelView.ShowAdvertisingButton.gameObject.SetActive(false);
+        }
     }
 
     private void SubscribeGameExitButton()

@@ -64,6 +64,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
             
             foreach (var pair2 in pair1.Value)
             {
+                
                 posToSave = pair2.Value.transform.localPosition;
                 dataAdditionalImages.Add(new AdditionalImageData(pair2.Key, posToSave.x, posToSave.y, pair2.Value.color));
             }
@@ -72,7 +73,7 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
         storyData.BackgroundSaveData = BackgroundSaveData;
     }
 
-    protected void TryAddAddebleContentToBackgroundContent(Dictionary<string, List<AdditionalImageData>> additionalImagesInfo)
+    protected void TryAddAddebleContentToBackgroundContent(Dictionary<string, List<AdditionalImageData>> additionalImagesInfo, bool fromSave = false)
     {
         foreach (var pair1 in additionalImagesInfo)
         {
@@ -83,20 +84,20 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
                     if (AdditionalImagesToBackgroundDictionary.TryGetValue(data.Key, out var value))
                     {
                         AddAdditionalSpriteToBackgroundContent(pair1.Key, data.Key, new Vector2(data.PosX, data.PosY),
-                            new Color(data.ColorR, data.ColorG, data.ColorB, data.ColorA));
+                            new Color(data.ColorR, data.ColorG, data.ColorB, data.ColorA), fromSave);
                     }
                 }
             }
         }
     }
 
-    public void AddAdditionalSpriteToBackgroundContent(string keyBackground, string keyAdditionalImage, Vector2 localPosition, Color color)
+    public void AddAdditionalSpriteToBackgroundContent(string keyBackground, string keyAdditionalImage, Vector2 localPosition, Color color, bool fromSave = false)
     {
         if (string.IsNullOrEmpty(keyAdditionalImage) == false &&
             AdditionalImagesToBackgroundDictionary.TryGetValue(keyAdditionalImage, out var value))
         {
             BackgroundContent1.AddAdditionalSprite(
-                value.GetSprite(), localPosition, color, keyAdditionalImage, keyBackground);
+                value.GetSprite(), localPosition, color, keyAdditionalImage, keyBackground, fromSave);
         }
     }
 
@@ -123,10 +124,6 @@ public class Background : MonoBehaviour , IBackgroundsProviderToBackgroundNode, 
 
     public async UniTask ShowImageInPlayMode(string keyArt, CancellationToken cancellationToken)
     {
-        Debug.Log($"keyArt: {keyArt}");
-        Debug.Log($"ArtsSpritesDictionary: {ArtsSpritesDictionary.Count}");
-        
-        
         if (string.IsNullOrEmpty(keyArt) == false && ArtsSpritesDictionary.TryGetValue(keyArt, out var value))
         {
             ArtShower.color = new Color(1f,1f,1f,0f);

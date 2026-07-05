@@ -60,7 +60,7 @@ public class GlobalUIHandler
             await loadIndicatorUIHandler.Init(_canvasTransform);
             await blackFrameUIHandler.Init(_canvasTransform);
             _confirmedPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
-            advertisingButtonUIHandler.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
+            advertisingButtonUIHandler?.Init(_canvasTransform, _globalCanvasCloser, loadIndicatorUIHandler, blackFrameUIHandler);
             shopMoneyPanelUIHandler.Init(_canvasTransform, _globalCanvasCloser, advertisingButtonUIHandler, _confirmedPanelUIHandler);
             await loadScreenUIHandler.Init(_canvasTransform, loadIndicatorUIHandler, blackFrameUIHandler, _globalCanvasCloser);
         }

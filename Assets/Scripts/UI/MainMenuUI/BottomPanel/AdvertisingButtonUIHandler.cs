@@ -19,15 +19,19 @@ public class AdvertisingButtonUIHandler
     private GlobalCanvasCloser _globalCanvasCloser;
 
     private readonly Wallet _wallet;
+    private readonly int _advertisementMonetReward;
+    private readonly int _advertisementHearthReward;
     private readonly IReactiveProperty<bool> _soundPause;
     private AdvertisingPanelPrefabProvider _advertisingPanelPrefabProvider;
     private AdvertisingPanelView _advertisingPanelView;
     private bool _isInited;
 
     public bool AssetIsLoad { get; private set; }
-    public AdvertisingButtonUIHandler(Wallet wallet, IReactiveProperty<bool> soundPause)
+    public AdvertisingButtonUIHandler(Wallet wallet, int advertisementMonetReward, int advertisementHearthReward, IReactiveProperty<bool> soundPause)
     {
         _wallet = wallet;
+        _advertisementMonetReward = advertisementMonetReward;
+        _advertisementHearthReward = advertisementHearthReward;
         _soundPause = soundPause;
         _advertisingPanelPrefabProvider = new AdvertisingPanelPrefabProvider();
         AssetIsLoad = false;
@@ -75,8 +79,8 @@ public class AdvertisingButtonUIHandler
             _advertisingPanelView.ButtonExit.onClick.RemoveAllListeners();
             _darkeningBackgroundFrameUIHandler.OpenTranslucent().Forget();
             _advertisingPanelView.gameObject.SetActive(false);
-            _wallet.AddCash(_advertisingPanelView.MonetReward, false);
-            _wallet.AddHearts(_advertisingPanelView.HeartsReward, false);
+            _wallet.AddCash(_advertisementMonetReward, false);
+            _wallet.AddHearts(_advertisementHearthReward, false);
             operationPutExitButton?.Invoke();
             _soundPause.Value = false;
             _darkeningBackgroundFrameUIHandler.OpenTranslucent(() =>

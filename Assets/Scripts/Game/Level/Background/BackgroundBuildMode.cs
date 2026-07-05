@@ -34,7 +34,7 @@ public class BackgroundBuildMode : Background
         if (BackgroundSaveData != null)
         {
             SetBackgroundPosition((BackgroundPosition)BackgroundSaveData.CurrentBackgroundPosition, BackgroundSaveData.CurrentKeyBackgroundContent);
-            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo);
+            TryAddAddebleContentToBackgroundContent(BackgroundSaveData.AdditionalImagesInfo, true);
         }
     }
 
