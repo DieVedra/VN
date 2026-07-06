@@ -18,7 +18,7 @@ public class AppStarter
         var cashCleaner = new CashCleaner(storiesProvider, saveServiceProvider);
         await cashCleaner.Construct();
         var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
-        var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
+        var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(startConfig, wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
         var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(startConfig, wallet, globalUIHandler, globalSound);
 
         await globalUIHandler.Init(loadScreenUIHandler, settingsPanelUIHandler, shopMoneyPanelUIHandler,
@@ -103,14 +103,14 @@ public class AppStarter
         }
     }
 
-    private static ShopMoneyPanelUIHandler TryInitShopMoneyPanelUIHandler(Wallet wallet, GlobalUIHandler globalUIHandler,
+    private static ShopMoneyPanelUIHandler TryInitShopMoneyPanelUIHandler(StartConfig startConfig, Wallet wallet, GlobalUIHandler globalUIHandler,
         LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler blackFrameUIHandler, ref ReactiveCommand<bool> swipeDetectorOff)
     {
         ShopMoneyPanelUIHandler shopMoneyPanelUIHandler;
         if (globalUIHandler.ShopMoneyPanelUIHandler == null)
         {
             shopMoneyPanelUIHandler = new ShopMoneyPanelUIHandler(loadIndicatorUIHandler, blackFrameUIHandler, wallet,
-                swipeDetectorOff);
+                swipeDetectorOff, startConfig.AdvertisementStatus);
         }
         else
         {

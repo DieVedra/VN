@@ -13,6 +13,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     private readonly ShopMoneyAssetLoader _shopMoneyAssetLoader;
     private readonly LoadIndicatorUIHandler _loadIndicatorUIHandler;
     private readonly Wallet _wallet;
+    private readonly bool _advertisementStatus;
     private Transform _parent;
     private BlackFrameUIHandler _darkeningBackgroundFrameUIHandler;
     private ShopMoneyPanelView _shopMoneyPanelView;
@@ -29,13 +30,14 @@ public class ShopMoneyPanelUIHandler : ILocalizable
     public RectTransform HeartsIndicatorPanel => _shopMoneyPanelView.HeartsIndicatorPanel;
     public bool PanelIsLoaded { get; private set; }
     public ShopMoneyPanelUIHandler(LoadIndicatorUIHandler loadIndicatorUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler,
-        Wallet wallet, ReactiveCommand<bool> swipeDetectorOff)
+        Wallet wallet, ReactiveCommand<bool> swipeDetectorOff, bool advertisementStatus)
     {
         PanelIsLoaded = false;
         _shopMoneyAssetLoader = new ShopMoneyAssetLoader();
         _loadIndicatorUIHandler = loadIndicatorUIHandler;
         _darkeningBackgroundFrameUIHandler = darkeningBackgroundFrameUIHandler;
         _wallet = wallet;
+        _advertisementStatus = advertisementStatus;
         SwipeDetectorOff = swipeDetectorOff;
         _lastShopMode = ShopMoneyMode.Monets;
     }
@@ -108,7 +110,7 @@ public class ShopMoneyPanelUIHandler : ILocalizable
 
     private void InitPanel(ShopMoneyMode mode)
     {
-        SubscribeAdvertisingButton();
+        TrySubscribeAdvertisingButton();
         _shopMoneyPanelView.ExitButton.onClick.AddListener(() =>
         {
             _shopMoneyPanelView.ExitButton.onClick.RemoveAllListeners();
@@ -125,20 +127,29 @@ public class ShopMoneyPanelUIHandler : ILocalizable
         }
     }
 
-    private void SubscribeAdvertisingButton()
+    private void TrySubscribeAdvertisingButton()
     {
-        _shopMoneyPanelView.AdvertisingButton.onClick.AddListener(() =>
+        if (_advertisementStatus)
         {
-            _shopMoneyPanelView.AdvertisingButton.onClick.RemoveAllListeners();
-            _confirmedPanelUIHandler.Show(
-                _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
-                _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
-                _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
-                AdvertisingButtonUIHandler.FontSizeValue,
-                () => { _advertisingButtonUIHandler.Show(SubscribeAdvertisingButton).Forget(); },
-                SubscribeAdvertisingButton,
-                true).Forget();
-        });
+            _shopMoneyPanelView.AdvertisingButton.gameObject.SetActive(true);
+            _shopMoneyPanelView.AdvertisingButton.interactable = true;
+            _shopMoneyPanelView.AdvertisingButton.onClick.AddListener(() =>
+            {
+                _shopMoneyPanelView.AdvertisingButton.onClick.RemoveAllListeners();
+                _confirmedPanelUIHandler.Show(
+                    _advertisingButtonUIHandler.LabelTextToConfirmedPanel,
+                    _advertisingButtonUIHandler.TranscriptionTextToConfirmedPanel,
+                    _advertisingButtonUIHandler.ButtonText, AdvertisingButtonUIHandler.HeightPanel,
+                    AdvertisingButtonUIHandler.FontSizeValue,
+                    () => { _advertisingButtonUIHandler.Show(TrySubscribeAdvertisingButton).Forget(); },
+                    TrySubscribeAdvertisingButton,
+                    true).Forget();
+            });
+        }
+        else
+        {
+            _shopMoneyPanelView.AdvertisingButton.gameObject.SetActive(false);
+        }
     }
 
     private bool TrySwitchMode(ShopMoneyMode mode)

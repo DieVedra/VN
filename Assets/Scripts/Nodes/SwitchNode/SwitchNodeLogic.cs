@@ -24,11 +24,10 @@ public class SwitchNodeLogic
     public (bool, int) GetPortIndexOnSwitchResult(List<CaseForStats> cases)
     {
         CaseForStats caseForStats;
-        int count1 = cases.Count;
         int count2;
         bool caseFoundSuccessfuly = false;
         int indexCase = 0;
-        for (int i = 0; i < count1; i++)
+        for (int i = 0; i < cases.Count; i++)
         {
             caseForStats = cases[i];
             count2 = caseForStats.CaseStats.Count;
@@ -43,9 +42,10 @@ public class SwitchNodeLogic
             }
 
             count2 = caseForStats.AdditionalCaseStats.Count;
+
             for (int j = 0; j < count2; j++)
             {
-                AdditionalCaseStats additionalCaseStats = caseForStats.AdditionalCaseStats[i];
+                AdditionalCaseStats additionalCaseStats = caseForStats.AdditionalCaseStats[j];
                 Stat stat = _statsDictionary[additionalCaseStats.Stat1Key];
                 int value2 = _statsDictionary[additionalCaseStats.Stat2Key].Value;
                 _toSwitch.Add(() => Comparison(additionalCaseStats.IndexCurrentOperator, stat, value2));

@@ -67,6 +67,15 @@ public class SwitchNodeEditorLogic
             DrawLabel(caseStats[i].LocalizationNameToGame.DefaultText);
             if (serializedPropertyToggle.boolValue)
             {
+                var a =serializedProperty.FindPropertyRelative("_indexCurrentOperator");
+                if (a == null)
+                {
+                    Debug.Log(111111);
+                }
+                
+                Debug.Log($"_switchNodeLogic.Operators {_switchNodeLogic.Operators.Length}");
+
+                
                 DrawPopup(_switchNodeLogic.Operators ,serializedProperty.FindPropertyRelative("_indexCurrentOperator"), 40f);
                 DrawInt(serializedProperty.FindPropertyRelative("_value"));
             }
