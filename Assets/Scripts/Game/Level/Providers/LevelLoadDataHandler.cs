@@ -78,6 +78,7 @@ public class LevelLoadDataHandler
         await CharacterProviderBuildMode.TryLoadDatas();
         await AudioClipProvider.TryLoadDatas();
         await PhoneProviderInBuildMode.TryLoadDatas();
+        _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         if (storyData != null)
         {
             PhoneProviderInBuildMode.PhoneSaveHandler.SetPhoneInfoFromSaveData(storyData);
@@ -86,7 +87,6 @@ public class LevelLoadDataHandler
                 await LoadNextSeriesContent();
             }
         }
-        _currentSeriaLoadedNumberProperty.SetValue(_numberFirstSeria);
         _loadAssetsPercentHandler.StopCalculatePercent();
     }
 

@@ -15,9 +15,9 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
         GameEndPanelHandler gameEndPanelHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, PanelResourceVisionHandler panelResourceVisionHandler,
-        Action phoneInitOperation)
+        Action phoneInitOperation, bool fromSaveKey)
         : base(levelUIView, blackFrameUIHandler, choiceCasesViews, wallet, disableNodesContentEvent, switchToNextNodeEvent,
-            customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler, phoneInitOperation)
+            customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler, phoneInitOperation, fromSaveKey)
     {
         GameControlPanelUIHandler = gameControlPanelUIHandler;
         GameEndPanelHandler = gameEndPanelHandler;

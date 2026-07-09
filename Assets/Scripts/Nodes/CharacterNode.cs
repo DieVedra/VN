@@ -65,7 +65,7 @@ public class CharacterNode : BaseNode, IPutOnSwimsuit, ILocalizable
             _characterPanelUIHandler.AnimationPanelWithScale.FadePanelWithScale(CancellationTokenSource.Token, _directionType));
         _characterPanelUIHandler.DisappearanceCharacterTalkInPlayMode();
         _characterViewer.gameObject.SetActive(false);
-        _compositeDisposable.Dispose();
+        _compositeDisposable?.Dispose();
         _compositeDisposable = null;
     }
 

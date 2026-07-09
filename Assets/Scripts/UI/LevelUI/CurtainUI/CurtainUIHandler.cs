@@ -12,22 +12,34 @@ public class CurtainUIHandler
     protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
     public readonly Image CurtainImage;
     public readonly Transform Transform;
-    public CurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
+    private bool _fromSave;
+    public CurtainUIHandler(BlackFrameView blackFrameView, bool fromSave, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
     {
         Transform = blackFrameView.transform;
         BlackFrameView = blackFrameView;
         BlockGameControlPanelUI = blockGameControlPanelUI;
         CurtainImage = BlackFrameView.Image;
+        _fromSave = fromSave;
     }
     
     
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
-        BlockGameControlPanelUI?.Execute(false);
-        BlackFrameView.gameObject.SetActive(true);
-        SkipAtCloses();
-        await CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
-        BlackFrameView.gameObject.SetActive(false);
+        Debug.Log($"CurtainOpens1");
+        if (_fromSave == false)
+        {
+            BlockGameControlPanelUI?.Execute(false);
+            BlackFrameView.gameObject.SetActive(true);
+            SkipAtCloses();
+            await CurtainImage.DOFade(AnimationValuesProvider.MinValue, AnimationValuesProvider.MaxValue).WithCancellation(cancellationToken);
+            BlackFrameView.gameObject.SetActive(false);
+        }
+        else
+        {
+            _fromSave = false;
+        }
+
+        Debug.Log($"CurtainOpens2");
     }
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)

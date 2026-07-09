@@ -130,12 +130,14 @@ public class LoadScreenUIHandler : ILocalizable
 
     public async UniTask HideOnLevelMove()
     {
+        Debug.Log($"HideOnLevelMove()1");
         await _blackFrameUIHandler.Close();
         _loadScreenUIView.gameObject.SetActive(false);
         _indicatorUIHandler.StopIndicate();
         _loadWordsHandler.StopSubstitutingWords();
         await _blackFrameUIHandler.Open();
         _globalCanvasCloser.TryDisable();
+        Debug.Log($"HideOnLevelMove()2");
     }
 
     public async UniTaskVoid HideOnMainMenuMove()

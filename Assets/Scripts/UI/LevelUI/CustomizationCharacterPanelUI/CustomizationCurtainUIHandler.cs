@@ -9,7 +9,7 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
     private int _blackoutFrameSiblingIndexBufer;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
     public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
-        : base(blackFrameView, blockGameControlPanelUI){}
+        : base(blackFrameView, false, blockGameControlPanelUI){}
 
     public void SetCurtainUnderTargetPanel(int targetSiblingIndex)
     {

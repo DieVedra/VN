@@ -112,7 +112,8 @@ public class LevelEntryPointBuild : LevelEntryPoint
         InitAnalyticsEvent();
         Init();
         StoryData.CashHasBeenLoaded = true;
-        await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
+        // await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
+        _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove().Forget();;
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
 
@@ -346,7 +347,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
                 _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerBuildMode.GetNodePort);
-            });
+            }, true);
     }
     private void InitLocalization()
     {
