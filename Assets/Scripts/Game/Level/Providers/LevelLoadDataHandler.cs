@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class LevelLoadDataHandler
 {
@@ -73,7 +74,9 @@ public class LevelLoadDataHandler
         _loadAssetsPercentHandler.StartCalculatePercent();
         await LoadCurrentLocalization(_numberFirstSeria);
         await GameSeriesProvider.TryLoadData();
+        Debug.Log($"SeriaGameStatsProviderBuild.NameToLoad:   {SeriaGameStatsProviderBuild.NameToLoad}");
         await SeriaGameStatsProviderBuild.TryLoadData();
+        Debug.Log($"SeriaGameStatsProviderBuild.LastLoaded:   {SeriaGameStatsProviderBuild.LastLoaded.name}");
         await BackgroundDataProvider.TryLoadDatas();
         await CharacterProviderBuildMode.TryLoadDatas();
         await AudioClipProvider.TryLoadDatas();
@@ -97,8 +100,9 @@ public class LevelLoadDataHandler
             _onContentIsLoadProperty.SetValue(true);
             _loadAssetsPercentHandler.SetDefault();
             int nextSeriaNumber = _currentSeriaLoadedNumberProperty.GetValue;
-            int nextSeriaIndex = _currentSeriaLoadedNumberProperty.GetValue;
+            // int nextSeriaIndex = _currentSeriaLoadedNumberProperty.GetValue;
             nextSeriaNumber++;
+            Debug.Log($"LoadNextSeriesContent  nextSeriaNumber: {nextSeriaNumber} ");
             await UniTask.Yield(PlayerLoopTiming.Initialization);
             CheckMatchNumbersSeriaWithNumberAssets(nextSeriaNumber);
             await LoadCurrentLocalization(nextSeriaNumber);
@@ -106,7 +110,9 @@ public class LevelLoadDataHandler
             await GameSeriesProvider.TryLoadData();
             await AudioClipProvider.TryLoadDatas();
             await BackgroundDataProvider.TryLoadDatas();
+            Debug.Log($"SeriaGameStatsProviderBuild.NameToLoad:   {SeriaGameStatsProviderBuild.NameToLoad}");
             await SeriaGameStatsProviderBuild.TryLoadData();
+            Debug.Log($"SeriaGameStatsProviderBuild.LastLoaded:   {SeriaGameStatsProviderBuild.LastLoaded.name}");
             await PhoneProviderInBuildMode.TryLoadDatas();
             
             _currentSeriaLoadedNumberProperty.SetValue(nextSeriaNumber); //!!!!

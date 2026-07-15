@@ -19,6 +19,7 @@ public class DataProvider<T> : IParticipiteInLoad where T : ScriptableObject
     public int NamesCount => _names.Count;
     public IReadOnlyList<T> GetDatas => _datas;
     public T LastLoaded { get; private set; }
+    public string NameToLoad => _nameToLoad;
 
     public readonly ReactiveCommand<T> OnLoad;
     protected CompositeDisposable BaseCompositeDisposable;

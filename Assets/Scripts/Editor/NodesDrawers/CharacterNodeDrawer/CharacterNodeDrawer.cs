@@ -70,17 +70,23 @@ public class CharacterNodeDrawer : NodeEditor
     private string[] _namesEmotionsCharactersToPopup;
     private string _name;
     private int _numberCoincidences = 0;
+    private bool _initialized = false;
+
     public override void OnBodyGUI()
     {
-        if (_characterNode == null)
+        if (!_initialized)
         {
             _characterNode = target as CharacterNode;
+            if (_characterNode == null) return;
+            
             _lineDrawer = new LineDrawer();
             _popupDrawer = new PopupDrawer();
             _enumPopupDrawer = new EnumPopupDrawer();
             _stringBuilder = new StringBuilder();
             _localizationStringTextDrawer = new LocalizationStringTextDrawer(new SimpleTextValidator(_symbolMaxCount));
+            
             serializedObject.Update();
+            
             TryInitProperty(ref _indexLookProperty, _indexLookNameProperty);
             TryInitProperty(ref _indexEmotionProperty, _indexEmotionNameProperty);
             TryInitProperty(ref _overrideNameProperty, _overrideNameNameProperty);
@@ -95,84 +101,146 @@ public class CharacterNodeDrawer : NodeEditor
             TryInitProperty(ref _toggleIsSwimsuitProperty, _toggleIsSwimsuitNameProperty);
             TryInitProperty(ref _inputPortProperty, _inputNameProperty);
             TryInitProperty(ref _outputPortProperty, _outputNameProperty);
-            _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
-            _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
+            
+            if (_localizationTextCharacterProperty != null)
+                _localizationStringText = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_localizationTextCharacterProperty);
+            if (_overridedNameProperty != null)
+                _localizationStringOverridedName = _localizationStringTextDrawer.GetLocalizationStringFromProperty(_overridedNameProperty);
+            
+            _initialized = true;
+            return;
         }
-        else
+        
+        if (_characterNode == null || _inputPortProperty == null || _outputPortProperty == null)
         {
-            serializedObject.Update();
+            _initialized = false;
+            return;
+        }
+        
+        serializedObject.Update();
+        
+        try
+        {
+            EditorGUILayout.BeginVertical();
+            
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             NodeEditorGUILayout.PropertyField(_outputPortProperty);
+            
             EditorGUI.BeginChangeCheck();
+            
             _localizationStringTextDrawer.DrawTextField(_localizationStringText, _currentTextLabel, validateText: false);
             _lineDrawer.DrawHorizontalLine(Color.green);
+            
             DrawPopupCharacters();
+            
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
                 SetInfoToView();
             }
+            
+            EditorGUILayout.EndVertical();
+        }
+        catch (ArgumentException e)
+        {
+            Debug.LogWarning($"[CharacterNodeDrawer] GUI error: {e.Message}");
+            
+            try { EditorGUILayout.EndVertical(); } catch { }
         }
     }
 
     private void DrawPopupCharacters()
     {
-        if (_characterNode.Characters != null && _characterNode.Characters.Count > 0)
+        if (_characterNode.Characters == null || _characterNode.Characters.Count == 0)
+            return;
+
+        SetCharactersNames();
+        
+        EditorGUILayout.LabelField(_currentCharacterLabel);
+        _popupDrawer.DrawPopup(_namesCharactersToPopupArray, _indexCharacterProperty);
+        
+        if (_previousIndexCharacterProperty != null && _indexCharacterProperty != null)
         {
-            SetCharactersNames();
-            EditorGUILayout.LabelField(_currentCharacterLabel);
-            _popupDrawer.DrawPopup(_namesCharactersToPopupArray, _indexCharacterProperty);
-            
             if (_previousIndexCharacterProperty.intValue != _indexCharacterProperty.intValue)
             {
-                _indexEmotionProperty.intValue = 0;
-                _indexLookProperty.intValue = 0;
+                if (_indexEmotionProperty != null) _indexEmotionProperty.intValue = 0;
+                if (_indexLookProperty != null) _indexLookProperty.intValue = 0;
                 _previousIndexCharacterProperty.intValue = _indexCharacterProperty.intValue;
             }
+        }
 
-            DrawToggle(_overrideNameProperty, "Override NameText ");
-            if (_overrideNameProperty.boolValue == true)
-            {
-                _localizationStringTextDrawer.DrawTextField(_localizationStringOverridedName, _overrideNameLabel, false);
-            }
+        DrawToggle(_overrideNameProperty, "Override NameText ");
+        
+        if (_overrideNameProperty != null && _overrideNameProperty.boolValue)
+        {
+            _localizationStringTextDrawer.DrawTextField(_localizationStringOverridedName, _overrideNameLabel, false);
+        }
+        
+        if (_foldoutIsOpenProperty != null)
+        {
+            _foldoutIsOpenProperty.boolValue = EditorGUILayout.Foldout(
+                _foldoutIsOpenProperty.boolValue, _fouldoutLabel, true);
             
-            _foldoutIsOpenProperty.boolValue = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutIsOpenProperty.boolValue, _fouldoutLabel);
             if (_foldoutIsOpenProperty.boolValue)
             {
-                _enumPopupDrawer.DrawEnumPopup<DirectionType>(_directionCharacterProperty, _currentDirectionLabel);
-
-                if (_characterNode.Characters[_indexCharacterProperty.intValue] is CustomizableCharacter customizableCharacter)
-                {
-                    TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup,
-                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex().GetMySprites);
-                        
-                    _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
-                        _currentEmotionLabel,
-                        customizableCharacter.GetCurrentEmotionsDataByBodyIndex().GetMySprites, _indexEmotionProperty);
-                        
-                    DrawToggle(_toggleIsSwimsuitProperty, "Is Swimsuit Look");
-                }
-                else if(_characterNode.Characters[_indexCharacterProperty.intValue] is SimpleCharacter simpleCharacter)
-                {
-                    TryInitNames(ref _namesLookCharactersToPopup, simpleCharacter.Looks);
-                    _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
-                        simpleCharacter.Looks, _indexLookProperty);
-
-                    if (simpleCharacter.Emotions != null)
-                    {
-                        TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, simpleCharacter.Emotions);
-                        _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
-                            simpleCharacter.Emotions, _indexEmotionProperty);
-                    }
-                }
-                DrawToggle(_toggleShowPanelProperty, "Show text panel");
+                DrawFoldoutContent();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
         }
+    }
+
+    private void DrawFoldoutContent()
+    {
+        if (_directionCharacterProperty != null)
+            _enumPopupDrawer.DrawEnumPopup<DirectionType>(_directionCharacterProperty, _currentDirectionLabel);
+
+        if (_indexCharacterProperty == null || _characterNode.Characters == null)
+            return;
+            
+        if (_indexCharacterProperty.intValue >= _characterNode.Characters.Count)
+            return;
+
+        var character = _characterNode.Characters[_indexCharacterProperty.intValue];
+        
+        if (character is CustomizableCharacter customizableCharacter)
+        {
+            var emotions = customizableCharacter.GetCurrentEmotionsDataByBodyIndex()?.GetMySprites;
+            if (emotions != null)
+            {
+                TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, emotions);
+                _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup,
+                    _currentEmotionLabel, emotions, _indexEmotionProperty);
+            }
+                
+            DrawToggle(_toggleIsSwimsuitProperty, "Is Swimsuit Look");
+        }
+        else if (character is SimpleCharacter simpleCharacter)
+        {
+            if (simpleCharacter.Looks != null)
+            {
+                TryInitNames(ref _namesLookCharactersToPopup, simpleCharacter.Looks);
+                _popupDrawer.DrawSpritePopup(_namesLookCharactersToPopup, _currentLookLabel,
+                    simpleCharacter.Looks, _indexLookProperty);
+            }
+
+            if (simpleCharacter.Emotions != null)
+            {
+                TryInitEmotionsNames(ref _namesEmotionsCharactersToPopup, simpleCharacter.Emotions);
+                _popupDrawer.DrawSpritePopup(_namesEmotionsCharactersToPopup, _currentEmotionLabel,
+                    simpleCharacter.Emotions, _indexEmotionProperty);
+            }
+        }
+        
+        DrawToggle(_toggleShowPanelProperty, "Show text panel");
     }
 
     private void TryInitNames(ref string[] names, IReadOnlyList<MySprite> spriteData)
     {
+        if (spriteData == null)
+        {
+            names = Array.Empty<string>();
+            return;
+        }
+        
         var count = spriteData.Count;
         List<string> names1 = new List<string>(count);
         for (int i = 0; i < count; i++)
@@ -184,6 +252,7 @@ public class CharacterNodeDrawer : NodeEditor
         }
         names = names1.ToArray();
     }
+    
     private void TryInitEmotionsNames(ref string[] names, IReadOnlyList<MySprite> spriteData)
     {
         TryInitNames(ref names, spriteData);
@@ -208,12 +277,15 @@ public class CharacterNodeDrawer : NodeEditor
 
     private void SetCharactersNames()
     {
+        if (_previousCharactersCountProperty == null || _characterNode?.Characters == null)
+            return;
+            
         if (_previousCharactersCountProperty.intValue != _characterNode.Characters.Count)
         {
             InitCharactersNames();
             _previousCharactersCountProperty.intValue = _characterNode.Characters.Count;
         }
-        else if(_namesCharactersToPopupArray == null)
+        else if (_namesCharactersToPopupArray == null)
         {
             InitCharactersNames();
         }
@@ -221,13 +293,14 @@ public class CharacterNodeDrawer : NodeEditor
 
     private void InitCharactersNames()
     {
-        if (_namesCharactersToPopupArray == null)
+        if (_characterNode?.Characters == null)
+            return;
+            
+        int count = _characterNode.Characters.Count;
+        
+        if (_namesCharactersToPopupArray == null || _namesCharactersToPopupArray.Length != count)
         {
-            _namesCharactersToPopupArray = new string[_characterNode.Characters.Count];
-        }
-        else if (_namesCharactersToPopupArray.Length != _characterNode.Characters.Count)
-        {
-            _namesCharactersToPopupArray = new string[_characterNode.Characters.Count];
+            _namesCharactersToPopupArray = new string[count];
         }
         else
         {
@@ -237,25 +310,23 @@ public class CharacterNodeDrawer : NodeEditor
             }
         }
 
-        for (int i = 0; i < _characterNode.Characters.Count; i++)
+        for (int i = 0; i < count; i++)
         {
             _character = _characterNode.Characters[i];
             _numberCoincidences = 0;
             _name = _characterNode.Characters[i].MyNameText;
             _stringBuilder.Clear();
+            
             if (_character != null)
             {
                 for (int j = 0; j < _namesCharactersToPopupArray.Length; j++)
                 {
-                    if (_namesCharactersToPopupArray[j] != null)
+                    if (_namesCharactersToPopupArray[j] != null && _name == _namesCharactersToPopupArray[j])
                     {
-                        if (_name == _namesCharactersToPopupArray[j])
-                        {
-                            _stringBuilder.Append(_name);
-                            _stringBuilder.Append(' ');
-                            _stringBuilder.Append(++_numberCoincidences);
-                            _name = _stringBuilder.ToString();
-                        }
+                        _stringBuilder.Append(_name);
+                        _stringBuilder.Append(' ');
+                        _stringBuilder.Append(++_numberCoincidences);
+                        _name = _stringBuilder.ToString();
                     }
                 }
                 _namesCharactersToPopupArray[i] = _name;
@@ -273,6 +344,8 @@ public class CharacterNodeDrawer : NodeEditor
 
     private void DrawToggle(SerializedProperty serializedProperty, string label)
     {
+        if (serializedProperty == null) return;
+        
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField(label);
         serializedProperty.boolValue = EditorGUILayout.Toggle(serializedProperty.boolValue);

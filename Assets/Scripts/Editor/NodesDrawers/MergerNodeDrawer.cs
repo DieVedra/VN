@@ -1,5 +1,4 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using MyProject;
 using UnityEditor;
@@ -15,8 +14,10 @@ public class MergerNodeDrawer : NodeEditor
     private SerializedProperty _showNeedClickToSwitchNextSlideSerializedProperty;
     private SerializedProperty _enterAsyncModeSerializedProperty;
     private SerializedProperty _exitAsyncModeSerializedProperty;
+    private SerializedProperty _inputPortProperty;
     
     private MyProject.EnumPopupDrawer _enumPopupDrawer;
+    private bool _needsRepaint;
 
     public override void OnBodyGUI()
     {
@@ -26,13 +27,21 @@ public class MergerNodeDrawer : NodeEditor
             _showNeedClickToSwitchNextSlideSerializedProperty = serializedObject.FindProperty("_autoSwitchToNextSlide");
             _enterAsyncModeSerializedProperty = serializedObject.FindProperty("_enterAsyncMode");
             _exitAsyncModeSerializedProperty = serializedObject.FindProperty("_exitAsyncMode");
+            _inputPortProperty = serializedObject.FindProperty("Input");
             _enumPopupDrawer = new EnumPopupDrawer();
+            return;
         }
-        else
+        
+        serializedObject.Update();
+        
+        EditorGUILayout.BeginVertical();
+        
+        try
         {
-            serializedObject.Update();
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("Input"));
+            NodeEditorGUILayout.PropertyField(_inputPortProperty);
+            
             EditorGUI.BeginChangeCheck();
+            
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("AutoSwitchToNextSlide: ");
             _showNeedClickToSwitchNextSlideSerializedProperty.boolValue = EditorGUILayout.Toggle(_showNeedClickToSwitchNextSlideSerializedProperty.boolValue);
@@ -44,24 +53,32 @@ public class MergerNodeDrawer : NodeEditor
             EditorGUILayout.Space(10f);
             EditorGUILayout.LabelField($"Dynamic ports count: {_mergerNode.DynamicOutputs.Count()}");
             EditorGUILayout.Space(10f);
+            
             EditorGUILayout.BeginHorizontal();
+            
             if (GUILayout.Button("Add Output"))
             {
-                AddPort();
+                _needsRepaint = true;
+                EditorApplication.delayCall += () => AddPort();
             }
 
             if (GUILayout.Button("Remove"))
             {
-                RemovePort();
+                _needsRepaint = true;
+                EditorApplication.delayCall += () => RemovePort();
             }
 
             EditorGUILayout.EndHorizontal();
-            if (_mergerNode.DynamicOutputs.Count() > 0)
+            
+            var ports = _mergerNode.DynamicOutputs.ToList();
+            if (ports.Count > 0)
             {
-                foreach (var port in _mergerNode.DynamicOutputs)
+                EditorGUILayout.BeginVertical("box");
+                foreach (var port in ports)
                 {
                     DrawPort(port.fieldName);
                 }
+                EditorGUILayout.EndVertical();
             }
 
             if (EditorGUI.EndChangeCheck())
@@ -69,14 +86,27 @@ public class MergerNodeDrawer : NodeEditor
                 serializedObject.ApplyModifiedProperties();
             }
         }
+        catch (System.ArgumentException) {}
+        
+        EditorGUILayout.EndVertical();
+        
+        if (_needsRepaint)
+        {
+            _needsRepaint = false;
+            NodeEditorWindow.current.Repaint();
+        }
     }
+    
     private void AddPort()
     {
         CallMethod(ref _addPortMethod, "AddDynamicPort");
+        NodeEditorWindow.current.Repaint();
     }
+    
     private void RemovePort()
     {
         CallMethod(ref _removePortMethod, "RemovePorts");
+        NodeEditorWindow.current.Repaint();
     }
 
     private void CallMethod(ref MethodInfo methodInfo, string name)
@@ -85,10 +115,18 @@ public class MergerNodeDrawer : NodeEditor
         {
             methodInfo = _mergerNode.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
         }
-        methodInfo.Invoke(_mergerNode, null);
+        methodInfo?.Invoke(_mergerNode, null);
     }
+    
     private void DrawPort(string name)
     {
-        NodeEditorGUILayout.PortField(new GUIContent(name), target.GetOutputPort(name));
+        var port = target.GetOutputPort(name);
+        if (port == null) return;
+        
+        try
+        {
+            NodeEditorGUILayout.PortField(new GUIContent(name), port);
+        }
+        catch (System.ArgumentException) { }
     }
 }

@@ -245,6 +245,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
             _levelLoadDataHandler.PhoneProviderInBuildMode.FillPhoneSaveInfo(StoryData);
             SaveServiceProvider.SaveData.StoryDatas[SaveServiceProvider.CurrentStoryKey] = StoryData;
             await SaveServiceProvider.SaveLevelProgress();
+            Debug.Log($"StoryData Save CurrentNodeIndex: {StoryData.CurrentNodeIndex} | CurrentSeriaIndex: {StoryData.CurrentSeriaIndex} | CurrentNodeGraphIndex: {StoryData.CurrentNodeGraphIndex}");
         }
     }
 

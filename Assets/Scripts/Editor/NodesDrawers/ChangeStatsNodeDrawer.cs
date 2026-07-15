@@ -25,42 +25,59 @@ public class ChangeStatsNodeDrawer : NodeEditor
             _phoneModeProperty = serializedObject.FindProperty("_phoneMode");
             _inputPortProperty = serializedObject.FindProperty("Input");
             _outputPortProperty = serializedObject.FindProperty("Output");
+            return;
         }
-        else
+        
+        serializedObject.Update();
+        
+        EditorGUILayout.BeginVertical();
+        
+        try
         {
-            serializedObject.Update();
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             NodeEditorGUILayout.PropertyField(_outputPortProperty);
+            
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Phone Mode: ");
             _phoneModeProperty.boolValue = EditorGUILayout.Toggle(_phoneModeProperty.boolValue);
             EditorGUILayout.EndHorizontal();
 
-            _showKey = EditorGUILayout.BeginFoldoutHeaderGroup(_showKey, "Settings");
+            _showKey = EditorGUILayout.Foldout(_showKey, "Settings", true);
             if (_showKey)
             {
                 DrawStats(_changeStatsNode.BaseStatsLocalizations);
             }
-
-            EditorGUILayout.EndFoldoutHeaderGroup();
+            
             serializedObject.ApplyModifiedProperties();
         }
+        catch (System.ArgumentException)
+        {
+        }
+        
+        EditorGUILayout.EndVertical();
     }
 
     private void DrawStats(IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations)
     {
+        EditorGUILayout.BeginVertical("box");
+        
         for (int i = 0; i < _statsProperty.arraySize; i++)
         {
             EditorGUILayout.BeginHorizontal();
+            
             _statProperty = _statsProperty.GetArrayElementAtIndex(i);
             EditorGUILayout.LabelField($"{baseStatsChoiceLocalizations[i].LocalizationNameToGame.DefaultText}: ", GUILayout.Width(200f));
+            
             _valueProperty = _statProperty.FindPropertyRelative("_value");
             _valueProperty.intValue = EditorGUILayout.IntField(_valueProperty.intValue, GUILayout.Width(30f));
+            
             EditorGUILayout.LabelField($"Notification: ", GUILayout.Width(80f));
             _notificationKeyProperty = _statProperty.FindPropertyRelative("_notificationKey");
             _notificationKeyProperty.boolValue = EditorGUILayout.Toggle(_notificationKeyProperty.boolValue);
+            
             EditorGUILayout.EndHorizontal();
-
         }
+        
+        EditorGUILayout.EndVertical();
     }
 }
