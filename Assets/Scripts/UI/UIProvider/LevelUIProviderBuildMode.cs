@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UniRx;
+
 public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
 {
     public readonly GameControlPanelUIHandler GameControlPanelUIHandler;
@@ -15,7 +17,7 @@ public class LevelUIProviderBuildMode : LevelUIProviderEditMode, ILocalizable
         GameEndPanelHandler gameEndPanelHandler,
         LoadAssetsPercentHandler loadAssetsPercentHandler, OnAwaitLoadContentEvent<AwaitLoadContentPanel> onAwaitLoadContentEvent,
         OnEndGameEvent onEndGameEvent, PhoneContentProvider phoneContentProvider, PanelResourceVisionHandler panelResourceVisionHandler,
-        Action phoneInitOperation, bool fromSaveKey)
+        Action phoneInitOperation, ReactiveProperty<bool> fromSaveKey)
         : base(levelUIView, blackFrameUIHandler, choiceCasesViews, wallet, disableNodesContentEvent, switchToNextNodeEvent,
             customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler, phoneInitOperation, fromSaveKey)
     {

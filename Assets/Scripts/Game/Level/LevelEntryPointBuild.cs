@@ -67,9 +67,12 @@ public class LevelEntryPointBuild : LevelEntryPoint
         _onContentIsLoadProperty = new OnContentIsLoadProperty<bool>();
         var phoneMessagesCustodian = new PhoneMessagesCustodian();
         _phoneNodeIsActive = new ReactiveProperty<bool>();
+        ReactiveProperty<bool> fromSaveKey = new ReactiveProperty<bool>();
+        _globalUIHandler.LoadScreenUIHandler.InitFromLevel(fromSaveKey);
         PhoneSaveHandler phoneSaveHandler = new PhoneSaveHandler(phoneMessagesCustodian, _phoneNodeIsActive);
         if (LoadSaveData == true)
         {
+            fromSaveKey.Value = true;
             if (SaveServiceProvider.SaveData.StoryDatas.TryGetValue(SaveServiceProvider.CurrentStoryKey, out StoryData))
             {
                 _currentSeriaIndexReactiveProperty.Value = StoryData.CurrentSeriaIndex; 
@@ -83,6 +86,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
         else
         {
+            fromSaveKey.Value = false;
             _currentSeriaLoadedNumberProperty.SetValue(0);
             _levelLoadDataHandler = new LevelLoadDataHandler(SaveServiceProvider.CurrentStoryKey, _panelsLocalizationHandler, phoneMessagesCustodian,
                 _levelLocalizationProvider, phoneSaveHandler, 
@@ -103,7 +107,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         var storiesProviderAssetProvider = new StoriesProviderAssetProvider();
         _storiesProvider = await storiesProviderAssetProvider.Load();
         InitLevelCompletePercentCalculator();
-        await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler);
+        await InitLevelUIProvider(phoneMessagesCustodian, phoneSaveHandler, fromSaveKey);
         _levelLocalizationHandler = new LevelLocalizationHandler(_gameSeriesHandlerBuildMode, _levelLocalizationProvider,
             _levelLoadDataHandler.CharacterProviderBuildMode,
             _gameStatsHandler, _levelUIProviderBuildMode.PhoneUIHandler, _levelLoadDataHandler.PhoneProviderInBuildMode,
@@ -112,7 +116,6 @@ public class LevelEntryPointBuild : LevelEntryPoint
         InitAnalyticsEvent();
         Init();
         StoryData.CashHasBeenLoaded = true;
-        // await _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove();
         _globalUIHandler.LoadScreenUIHandler.HideOnLevelMove().Forget();;
         _levelLoadDataHandler.LoadNextSeriesContent().Forget();
     }
@@ -249,7 +252,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
         }
     }
 
-    private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler)
+    private async UniTask InitLevelUIProvider(PhoneMessagesCustodian phoneMessagesCustodian, PhoneSaveHandler phoneSaveHandler, ReactiveProperty<bool> fromSaveKey)
     {
         LevelCanvasAssetProvider levelCanvasAssetProvider = new LevelCanvasAssetProvider();
         _levelUISpriteAtlasAssetProvider = new LevelUISpriteAtlasAssetProvider();
@@ -348,7 +351,7 @@ public class LevelEntryPointBuild : LevelEntryPoint
                 _phoneView.transform.SetParent(LevelUIView.transform);
                 LevelUIView.PhoneUIView.transform.SetSiblingIndex(PhoneUIHandler.PhoneSiblingIndex);
                 _levelUIProviderBuildMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerBuildMode.GetNodePort);
-            }, true);
+            }, fromSaveKey);
     }
     private void InitLocalization()
     {

@@ -59,13 +59,13 @@ public class MergerNodeDrawer : NodeEditor
             if (GUILayout.Button("Add Output"))
             {
                 _needsRepaint = true;
-                EditorApplication.delayCall += () => AddPort();
+                EditorApplication.delayCall += AddPort;
             }
 
             if (GUILayout.Button("Remove"))
             {
                 _needsRepaint = true;
-                EditorApplication.delayCall += () => RemovePort();
+                EditorApplication.delayCall += RemovePort;
             }
 
             EditorGUILayout.EndHorizontal();

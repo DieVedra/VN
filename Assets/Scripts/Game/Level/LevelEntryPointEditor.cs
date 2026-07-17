@@ -24,7 +24,6 @@ public class LevelEntryPointEditor : LevelEntryPoint
     [SerializeField] private Wallet _wallet;
     [SerializeField, Expandable] private StartConfig _startConfig;
     [SerializeField] private string _storyKey;
-    [SerializeField] private SaveMethod _saveMethod;
 
     [Space]
     [SerializeField] private bool _initializeInEditMode;
@@ -238,9 +237,10 @@ public class LevelEntryPointEditor : LevelEntryPoint
         
         BlackFrameUIHandler blackFrameUIHandler = new BlackFrameUIHandler(_blackFrameView);
         _levelUIProviderEditMode = new LevelUIProviderEditMode(LevelUIView, blackFrameUIHandler, 
-            LevelUIView.ChoicePanelUI.ChoicesParent.GetComponentsInChildren<ChoiceCaseView>(true), _wallet, DisableNodesContentEvent,
-            SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler,
-            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian, phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);});
+            LevelUIView.ChoicePanelUI.ChoicesParent.GetComponentsInChildren<ChoiceCaseView>(true),
+            _wallet, DisableNodesContentEvent, SwitchToNextNodeEvent, customizationCharacterPanelUI, phoneContentProvider, panelResourceVisionHandler,
+            ()=>{_levelUIProviderEditMode.PhoneUIHandler.Init(LevelUIView.PhoneUIView, phoneMessagesCustodian,
+                phoneSaveHandler, _gameSeriesHandlerEditorMode.GetNodePort);}, new ReactiveProperty<bool>());
     }
     protected override void ConstructWardrobeCharacterViewer(ViewerCreator viewerCreatorEditMode)
     {

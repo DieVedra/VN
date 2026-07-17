@@ -22,7 +22,7 @@ public class LevelUIProviderEditMode
         LevelUIView levelUIView, BlackFrameUIHandler blackFrameUIHandler, IReadOnlyList<ChoiceCaseView> choiceCasesViews,
         Wallet wallet, DisableNodesContentEvent disableNodesContentEvent, SwitchToNextNodeEvent switchToNextNodeEvent,
         CustomizationCharacterPanelUI customizationCharacterPanelUI, PhoneContentProvider phoneContentProvider,
-        PanelResourceVisionHandler panelResourceVisionHandler, Action phoneInitOperation, bool fromSaveKey = false)
+        PanelResourceVisionHandler panelResourceVisionHandler, Action phoneInitOperation, ReactiveProperty<bool> fromSaveKey)
     {
         levelUIView.gameObject.SetActive(true);
         NarrativePanelUI narrativePanelUI = levelUIView.NarrativePanelUI;
@@ -42,7 +42,7 @@ public class LevelUIProviderEditMode
         CustomizationCharacterPanelUIHandler = new CustomizationCharacterPanelUIHandler(customizationCharacterPanelUI, PanelResourceVisionHandler);
         HeaderSeriesPanelHandlerUI = new HeaderSeriesPanelHandlerUI(headerSeriesPanelUI);
         CurtainUIHandler = new CurtainUIHandler(blackFrameUIHandler.BlackFrameView, fromSave: fromSaveKey);
-        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView);
+        CustomizationCurtainUIHandler = new CustomizationCurtainUIHandler(blackFrameUIHandler.BlackFrameView, fromSaveKey);
 
         if (Application.isPlaying == false)
         {

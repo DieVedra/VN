@@ -91,7 +91,7 @@ public class MergerNode : BaseNode
             _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Exit());
         }
         await KeepTasks(_exitAsyncMode);
-        _mergedNodeSharedStorage.TaskList.Clear();
+        _mergedNodeSharedStorage.Clear();
     }
 
     private async UniTask RunTasksEntered()
@@ -101,7 +101,6 @@ public class MergerNode : BaseNode
             _mergedNodeSharedStorage.TaskList.Add(GetBaseNode(mergerObject.Value).Enter(true));
         }
         await KeepTasks(_enterAsyncMode);
-        _mergedNodeSharedStorage.TaskList.Clear();
     }
 
     private async UniTask KeepTasks(AsyncMode asyncMode)
@@ -115,6 +114,7 @@ public class MergerNode : BaseNode
                 await UniTask.WhenAny(_mergedNodeSharedStorage.TaskList);
                 break;
         }
+        _mergedNodeSharedStorage.TaskList.Clear();
     }
 
     public override void SkipEnterTransition()

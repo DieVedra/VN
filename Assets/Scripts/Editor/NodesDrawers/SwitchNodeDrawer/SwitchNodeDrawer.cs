@@ -42,11 +42,9 @@ public class SwitchNodeDrawer : NodeEditor
         _switchNodeLogic.TryInitStatsNames();
         _switchNodeLogic.TryUpdateAdditionalCases();
         serializedObject.Update();
-        
-        EditorGUILayout.BeginVertical();
-        
         try
         {
+            EditorGUILayout.BeginVertical();
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             
             if (_nodeForBoolSerializedProperty.boolValue == false)
@@ -78,13 +76,13 @@ public class SwitchNodeDrawer : NodeEditor
                 if (GUILayout.Button("Add CaseForStats"))
                 {
                     _needsRepaint = true;
-                    EditorApplication.delayCall += () => AddStatPort();
+                    EditorApplication.delayCall += AddStatPort;
                 }
 
                 if (GUILayout.Button("RemoveStatPort"))
                 {
                     _needsRepaint = true;
-                    EditorApplication.delayCall += () => RemoveStatPort();
+                    EditorApplication.delayCall += RemoveStatPort;
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -128,12 +126,11 @@ public class SwitchNodeDrawer : NodeEditor
             {
                 NodeEditorGUILayout.PortField(new GUIContent("Default Port "), _switchNode.OutputPortBaseNode);
             }
-
+            EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
         catch (System.ArgumentException) {}
         
-        EditorGUILayout.EndVertical();
         
         if (_needsRepaint)
         {

@@ -93,18 +93,4 @@ public class SmoothTransitionNode : BaseNode
             _curtainUIHandler.CurtainClosesImmediate();
         }
     }
-
-    // private async UniTask WithDelayCheck(Func<UniTask> operation)
-    // {
-    //     if (_customDelay == true)
-    //     {
-    //         Debug.Log($"WithDelayCheck");
-    //         operation.Invoke().Forget();
-    //         await UniTask.Delay(TimeSpan.FromSeconds(_delay), cancellationToken: CancellationTokenSource.Token);
-    //     }
-    //     else
-    //     {
-    //         await operation.Invoke();
-    //     }
-    // }
 }

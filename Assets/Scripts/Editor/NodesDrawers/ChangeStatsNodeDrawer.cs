@@ -30,10 +30,11 @@ public class ChangeStatsNodeDrawer : NodeEditor
         
         serializedObject.Update();
         
-        EditorGUILayout.BeginVertical();
         
         try
         {
+            EditorGUILayout.BeginVertical();
+
             NodeEditorGUILayout.PropertyField(_inputPortProperty);
             NodeEditorGUILayout.PropertyField(_outputPortProperty);
             
@@ -47,14 +48,11 @@ public class ChangeStatsNodeDrawer : NodeEditor
             {
                 DrawStats(_changeStatsNode.BaseStatsLocalizations);
             }
-            
+            EditorGUILayout.EndVertical();
+
             serializedObject.ApplyModifiedProperties();
         }
-        catch (System.ArgumentException)
-        {
-        }
-        
-        EditorGUILayout.EndVertical();
+        catch (System.ArgumentException) { }
     }
 
     private void DrawStats(IReadOnlyList<ILocalizationString> baseStatsChoiceLocalizations)

@@ -126,6 +126,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         ChoiceResultEvent.Shutdown();
         ShowNotification(choiceCaseResult.BaseStatsChoice);
         PressedPortIndex = _choiceCases.IndexOf(choiceCaseResult);
+        GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         if (_showOutput == true)
         {
             TryFindConnectedPorts(OutputPortBaseNode);
@@ -134,9 +135,6 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             TryFindConnectedPorts(GetOutputPort(GetPortName(PressedPortIndex)));
         }
-        
-        
-        GameStatsProvider.GameStatsHandler.UpdateStats(choiceCaseResult.BaseStatsChoiceIReadOnly);
         SwitchToNextNodeEvent.Execute();
     }
 
@@ -148,7 +146,7 @@ public class ChoiceNode : BaseNode, ILocalizable
         {
             if (notificationNodeFinded == false && outputPort.GetConnection(i).node is NotificationNode notificationNode)
             {
-                notificationNode.Enter().Forget();
+                SetNextNode(notificationNode);
                 notificationNodeFinded = true;
             }
             else if (nextNodeFinded == false)

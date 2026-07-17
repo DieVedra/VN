@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 
 public class LoadScreenUIHandler : ILocalizable
@@ -20,6 +21,7 @@ public class LoadScreenUIHandler : ILocalizable
     private Sprite _logoSpriteDefault;
     private RectTransform _rectTransformLogoImage;
     private GlobalCanvasCloser _globalCanvasCloser;
+    private ReactiveProperty<bool> _fromSaveKey;
     private bool _isInited;
 
     public Transform ParentMask => _loadScreenUIView.LoadScreenMaskImage.transform;
@@ -67,6 +69,10 @@ public class LoadScreenUIHandler : ILocalizable
         }
     }
 
+    public void InitFromLevel(ReactiveProperty<bool> fromSaveKey)
+    {
+        _fromSaveKey = fromSaveKey;
+    }
     public async UniTask ShowToMainMenuMove()
     {
         _loadScreenUIView.LoadScreenImage.sprite = _backgrountSpriteDefault;
@@ -135,8 +141,10 @@ public class LoadScreenUIHandler : ILocalizable
         _loadScreenUIView.gameObject.SetActive(false);
         _indicatorUIHandler.StopIndicate();
         _loadWordsHandler.StopSubstitutingWords();
+        _fromSaveKey.Value = false;
         await _blackFrameUIHandler.Open();
         _globalCanvasCloser.TryDisable();
+        
         Debug.Log($"HideOnLevelMove()2");
     }
 

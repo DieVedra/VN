@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +13,8 @@ public class CurtainUIHandler
     protected readonly BlockGameControlPanelUIEvent<bool> BlockGameControlPanelUI;
     public readonly Image CurtainImage;
     public readonly Transform Transform;
-    private bool _fromSave;
-    public CurtainUIHandler(BlackFrameView blackFrameView, bool fromSave, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
+    private ReactiveProperty<bool> _fromSave;
+    public CurtainUIHandler(BlackFrameView blackFrameView, ReactiveProperty<bool> fromSave, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
     {
         Transform = blackFrameView.transform;
         BlackFrameView = blackFrameView;
@@ -25,8 +26,7 @@ public class CurtainUIHandler
     
     public virtual async UniTask CurtainOpens(CancellationToken cancellationToken)
     {
-        Debug.Log($"CurtainOpens1");
-        if (_fromSave == false)
+        if (_fromSave.Value == false)
         {
             BlockGameControlPanelUI?.Execute(false);
             BlackFrameView.gameObject.SetActive(true);
@@ -36,10 +36,8 @@ public class CurtainUIHandler
         }
         else
         {
-            _fromSave = false;
+            _fromSave.Value = false;
         }
-
-        Debug.Log($"CurtainOpens2");
     }
 
     public virtual async UniTask CurtainCloses(CancellationToken cancellationToken)

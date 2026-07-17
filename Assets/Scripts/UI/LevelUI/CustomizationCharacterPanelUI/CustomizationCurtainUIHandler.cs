@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 using UnityEngine;
 
 public class CustomizationCurtainUIHandler : CurtainUIHandler
@@ -8,8 +9,8 @@ public class CustomizationCurtainUIHandler : CurtainUIHandler
     private const float _fadeEndValue = 0.3f;
     private int _blackoutFrameSiblingIndexBufer;
     private Color _colorHide = new Color(_fadeEndValue,_fadeEndValue,_fadeEndValue,_fadeEndValue);
-    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
-        : base(blackFrameView, false, blockGameControlPanelUI){}
+    public CustomizationCurtainUIHandler(BlackFrameView blackFrameView, ReactiveProperty<bool> fromSave, BlockGameControlPanelUIEvent<bool> blockGameControlPanelUI = null)
+        : base(blackFrameView, fromSave, blockGameControlPanelUI){}
 
     public void SetCurtainUnderTargetPanel(int targetSiblingIndex)
     {
