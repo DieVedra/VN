@@ -215,6 +215,7 @@ public class BlockScreenHandler : PhoneScreenBaseHandler
             float delay = _startPosX;
             foreach (var content in activeContent)
             {
+                content.transform.localScale = new Vector3(ScaleValueMin, ScaleValueMin, ScaleValueMin);
                 content.transform.DOScale(_scaleValueMax, _duration).SetDelay(delay)
                     .SetLoops(LoopsCount, LoopType.Yoyo).WithCancellation(CancellationTokenSource.Token);
                 delay += _scaleAnimationDelay;

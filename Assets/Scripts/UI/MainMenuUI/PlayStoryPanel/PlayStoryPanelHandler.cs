@@ -32,6 +32,7 @@ public class PlayStoryPanelHandler : ILocalizable
     private Vector2 _hideScale;
     private Vector2 _unhideScale;
     private CancellationTokenSource _cancellationTokenSource;
+    private bool _cleanCashButtonEnable = false;
 
     public ReactiveCommand OnExitEndRC => _onExitEndRC;
 
@@ -50,13 +51,14 @@ public class PlayStoryPanelHandler : ILocalizable
         }
     }
 
-    public PlayStoryPanelHandler(BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider,
+    public PlayStoryPanelHandler(StartConfig startConfig, BlackFrameUIHandler blackFrameUIHandler, SaveServiceProvider saveServiceProvider,
         ConfirmedPanelUIHandler confirmedPanelUIHandler)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
         _saveServiceProvider = saveServiceProvider;
         _confirmedPanelUIHandler = confirmedPanelUIHandler;
         _onExitEndRC = new ReactiveCommand();
+        _cleanCashButtonEnable = startConfig.CCDStatus;
     }
 
     public async UniTask Init(LevelLoader levelLoader, CashCleaner cashCleaner,  Transform parent)
@@ -129,32 +131,40 @@ public class PlayStoryPanelHandler : ILocalizable
     }
     private void TrySubscribeCleanCashButton(Story story)
     {
-        if (_cashCleaner.GetKeyActiveClearCashButton(story.StoryName))
+        if (_cleanCashButtonEnable)
         {
-            _playStoryPanel.SkipCashButton.interactable = true;
-            ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
-            _playStoryPanel.SkipCashButton.onClick.AddListener(() =>
+            _playStoryPanel.SkipCashButton.gameObject.SetActive(true);
+            if (_cashCleaner.GetKeyActiveClearCashButton(story.StoryName))
+            {
+                _playStoryPanel.SkipCashButton.interactable = true;
+                ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
+                _playStoryPanel.SkipCashButton.onClick.AddListener(() =>
+                {
+                    _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
+                    _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel, _cashCleaner.CashQuestionTextToConfirmedPanel,
+                        _confirmedPanelUIHandler.ConfirmedButtonText,
+                        StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue,
+                        () =>
+                        {
+                            _playStoryPanel.SkipCashButton.interactable = false;
+                            _cashCleaner.CleanCashStory(story.StoryName);
+                        },
+                        () =>
+                        {
+                            TrySubscribeCleanCashButton(story);
+                        }).Forget();
+                });
+            }
+            else
             {
                 _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
-                _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel, _cashCleaner.CashQuestionTextToConfirmedPanel,
-                    _confirmedPanelUIHandler.ConfirmedButtonText,
-                    StoryLabelsProvider.HeightPanel, StoryLabelsProvider.FontSizeValue,
-                    () =>
-                    {
-                        _playStoryPanel.SkipCashButton.interactable = false;
-                        _cashCleaner.CleanCashStory(story.StoryName);
-                    },
-                    () =>
-                    {
-                        TrySubscribeCleanCashButton(story);
-                    }).Forget();
-            });
+                _playStoryPanel.SkipCashButton.interactable = false;
+                ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
+            }
         }
         else
         {
-            _playStoryPanel.SkipCashButton.onClick.RemoveAllListeners();
-            _playStoryPanel.SkipCashButton.interactable = false;
-            ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
+            _playStoryPanel.SkipCashButton.gameObject.SetActive(false);
         }
     }
 

@@ -6,6 +6,7 @@ public class PhoneScreenBaseHandler
 {
     private const int _indexFirstLetter = 0;
     public const int LoopsCount = -1;
+    public const float ScaleValueMin = 1f;
     protected const float AlphaMax = 1f;
     protected const float AlphaMin = 0.5f;
 

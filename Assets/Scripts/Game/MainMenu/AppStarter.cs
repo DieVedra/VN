@@ -10,6 +10,8 @@ public class AppStarter
         GlobalSound globalSound, PanelsLocalizationHandler panelsLocalizationHandler, StartConfig startConfig, StoriesProvider storiesProvider,
         IconsUISpriteAtlasAssetProvider iconsUISpriteAtlasAssetProvider)
     {
+        CheckInternetConnectionHandler checkInternetConnectionHandler = new CheckInternetConnectionHandler();
+        await checkInternetConnectionHandler.CheckInternetConnection();
         var loadIndicatorUIHandler = TryInitLoadIndicatorUIHandler(globalUIHandler);
         var blackFrameUIHandlerForGlobalUI = TryInitBlackFrameUIHandler(globalUIHandler);
         var darkeningBackgroundFrameUIHandlerMainMenu = new BlackFrameUIHandler();
@@ -17,7 +19,7 @@ public class AppStarter
         ReactiveCommand<bool> swipeDetectorOff = null;
         var cashCleaner = new CashCleaner(storiesProvider, saveServiceProvider);
         await cashCleaner.Construct();
-        var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
+        var settingsPanelUIHandler = TryInitSettingsPanelUIHandler(startConfig, globalUIHandler, blackFrameUIHandlerForGlobalUI, loadIndicatorUIHandler, panelsLocalizationHandler, out swipeDetectorOff);
         var shopMoneyPanelUIHandler = TryInitShopMoneyPanelUIHandler(startConfig, wallet, globalUIHandler, loadIndicatorUIHandler, blackFrameUIHandlerForGlobalUI, ref swipeDetectorOff);
         var advertisingButtonUIHandler = TryInitAdvertisingButtonUIHandler(startConfig, wallet, globalUIHandler, globalSound);
 
@@ -56,7 +58,7 @@ public class AppStarter
         }
 
         await Addressables.InitializeAsync();
-        UnityServicesHandler unityServicesHandler = new UnityServicesHandler();
+        UnityServicesHandler unityServicesHandler = new UnityServicesHandler(checkInternetConnectionHandler);
         await unityServicesHandler.Construct(startConfig);
 
         globalSound.SetGlobalSoundData(await new GlobalAudioAssetProvider().LoadGlobalAudioAsset());
@@ -121,7 +123,7 @@ public class AppStarter
         return shopMoneyPanelUIHandler;
     }
 
-    private static SettingsPanelUIHandler TryInitSettingsPanelUIHandler(GlobalUIHandler globalUIHandler, BlackFrameUIHandler blackFrameUIHandler,
+    private static SettingsPanelUIHandler TryInitSettingsPanelUIHandler(StartConfig startConfig, GlobalUIHandler globalUIHandler, BlackFrameUIHandler blackFrameUIHandler,
         LoadIndicatorUIHandler loadIndicatorUIHandler, PanelsLocalizationHandler panelsLocalizationHandler, out ReactiveCommand<bool> swipeDetectorOff)
     {
         SettingsPanelUIHandler settingsPanelUIHandler;
@@ -129,7 +131,8 @@ public class AppStarter
         {
             swipeDetectorOff = new ReactiveCommand<bool>();
             settingsPanelUIHandler =
-                new SettingsPanelUIHandler(blackFrameUIHandler, loadIndicatorUIHandler, panelsLocalizationHandler.LanguageChanged, swipeDetectorOff);
+                new SettingsPanelUIHandler(blackFrameUIHandler, loadIndicatorUIHandler, panelsLocalizationHandler.LanguageChanged,
+                    swipeDetectorOff, startConfig.CCDStatus);
         }
         else
         {
@@ -186,8 +189,8 @@ public class AppStarter
     }
 
     private async UniTask<(MainMenuUIProvider, MainMenuUIView, Transform)> CreateMainMenuUIProvider(SaveServiceProvider saveServiceProvider,
-        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, CashCleaner cashCleaner, StoriesProvider storiesProvider, StartConfig startConfig,
-        ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
+        GlobalUIHandler globalUIHandler, BlackFrameUIHandler darkeningBackgroundFrameUIHandler, CashCleaner cashCleaner, StoriesProvider storiesProvider,
+        StartConfig startConfig, ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOff)
     {
         MainMenuCanvasAssetProvider menuCanvasAssetProvider = new MainMenuCanvasAssetProvider();
         MainMenuUIView mainMenuUIView = await menuCanvasAssetProvider.CreateAsset();
@@ -197,7 +200,7 @@ public class AppStarter
         ResourcePanelHandler heartsResourcePanelHandler = new ResourcePanelHandler();
 
         var mainMenuUIViewTransform = mainMenuUIView.transform;
-        var playStoryPanelHandler = new PlayStoryPanelHandler(darkeningBackgroundFrameUIHandler, saveServiceProvider, globalUIHandler.ConfirmedPanelUIHandler);
+        var playStoryPanelHandler = new PlayStoryPanelHandler(startConfig, darkeningBackgroundFrameUIHandler, saveServiceProvider, globalUIHandler.ConfirmedPanelUIHandler);
         var settingsPanelButtonUIHandler = new SettingsPanelButtonUIHandler(globalUIHandler.GlobalUITransforn, globalUIHandler.GlobalCanvasCloser,
             globalUIHandler.SettingsPanelUIHandler, globalUIHandler.LoadIndicatorUIHandler, globalUIHandler.BlackFrameUIHandler, cashCleaner,
             globalUIHandler.ConfirmedPanelUIHandler, saveServiceProvider, storiesProvider);

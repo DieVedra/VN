@@ -62,6 +62,7 @@ public class ContactsShower
     private void CreateContact(PhoneContact phoneContact, HashSet<string> unreadebleContacts, ReactiveCommand<PhoneContact> switchToDialogScreenCommand)
     {
         ContactView view = _contactsPool.Get();
+        view.transform.localScale = new Vector3(PhoneScreenBaseHandler.ScaleValueMin, PhoneScreenBaseHandler.ScaleValueMin, PhoneScreenBaseHandler.ScaleValueMin);
         view.RectTransform.SetParent(_contactsTransform);
         ExpansionSizeContactsFrame(view);
         TrySetIcon(phoneContact, view.TextIcon, view.Image);

@@ -9,6 +9,7 @@ public class StartConfig : ScriptableObject
     [SerializeField] private bool _analyticsStatus;
     [SerializeField] private bool _crashlyticsStatus;
     [SerializeField] private bool _advertisementStatus;
+    [SerializeField] private bool _cCDStatus;
     [SerializeField] private int _advertisementMonetReward;
     [SerializeField] private int _advertisementHearthReward;
     [SerializeField] private string _nameStartStory;
@@ -20,6 +21,7 @@ public class StartConfig : ScriptableObject
     public bool AnalyticsStatus => _analyticsStatus;
     public bool CrashlyticsStatus => _crashlyticsStatus;
     public bool AdvertisementStatus => _advertisementStatus;
+    public bool CCDStatus => _cCDStatus;
     public int AdvertisementMonetReward =>  _advertisementMonetReward;
     public int AdvertisementHearthReward =>  _advertisementHearthReward;
     public string NameStartStory => _nameStartStory;

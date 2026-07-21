@@ -13,6 +13,7 @@ public class SettingsPanelUIHandler : ILocalizable
     private SettingPanelChoiceHandler _settingPanelChoiceHandler;
     private BlackFrameUIHandler _blackFrameUIHandler;
     private LoadIndicatorUIHandler _loadIndicatorUIHandle;
+    private readonly bool _ccdStatus;
     private CashCleaner _cashCleaner;
     private GlobalCanvasCloser _globalCanvasCloser;
     private ConfirmedPanelUIHandler _confirmedPanelUIHandler;
@@ -29,10 +30,11 @@ public class SettingsPanelUIHandler : ILocalizable
     public bool IsInLevel { get; private set; }
 
     public SettingsPanelUIHandler(BlackFrameUIHandler blackFrameUIHandler, LoadIndicatorUIHandler loadIndicatorUIHandler,
-        ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOffReactiveCommand)
+        ReactiveCommand languageChanged, ReactiveCommand<bool> swipeDetectorOffReactiveCommand, bool CCDStatus)
     {
         _blackFrameUIHandler = blackFrameUIHandler;
         _loadIndicatorUIHandle = loadIndicatorUIHandler;
+        _ccdStatus = CCDStatus;
         SwipeDetectorOffReactiveCommand = swipeDetectorOffReactiveCommand;
         LanguageChangedReactiveCommand = languageChanged;
         languageChanged.Subscribe(_ =>
@@ -89,7 +91,7 @@ public class SettingsPanelUIHandler : ILocalizable
         _settingsPanelView.transform.SetAsLastSibling();
         LanguageChanged();
         _settingPanelChoiceHandler.Init();
-        SubscribeClearCashButton();
+        TrySubscribeClearCashButton();
         TryClearProgressLevels();
         
         
@@ -122,16 +124,24 @@ public class SettingsPanelUIHandler : ILocalizable
         });
     }
 
-    private void SubscribeClearCashButton()
+    private void TrySubscribeClearCashButton()
     {
-        _settingsPanelView.ClearCashButton.onClick.AddListener(() =>
+        if (_ccdStatus)
         {
-            _settingsPanelView.ClearCashButton.onClick.RemoveAllListeners();
-            _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel,
-                _cashCleaner.CashQuestionTextToConfirmedPanel, _confirmedPanelUIHandler.ConfirmedButtonText,
-                CashCleaner.HeightPanel, CashCleaner.FontSizeValue, () => { _cashCleaner.CleanAllCash(); },
-                SubscribeClearCashButton).Forget();
-        });
+            _settingsPanelView.ClearCashButton.gameObject.SetActive(true);
+            _settingsPanelView.ClearCashButton.onClick.AddListener(() =>
+            {
+                _settingsPanelView.ClearCashButton.onClick.RemoveAllListeners();
+                _confirmedPanelUIHandler.Show(_cashCleaner.CashLabelTextToConfirmedPanel,
+                    _cashCleaner.CashQuestionTextToConfirmedPanel, _confirmedPanelUIHandler.ConfirmedButtonText,
+                    CashCleaner.HeightPanel, CashCleaner.FontSizeValue, () => { _cashCleaner.CleanAllCash(); },
+                    TrySubscribeClearCashButton).Forget();
+            });
+        }
+        else
+        {
+            _settingsPanelView.ClearCashButton.gameObject.SetActive(false);
+        }
     }
 
     private void LanguageChanged()

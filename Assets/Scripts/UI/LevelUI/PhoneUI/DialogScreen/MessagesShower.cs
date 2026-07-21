@@ -216,6 +216,7 @@ public class MessagesShower
     private void SetMessage(MessageView view, PhoneMessage phoneMessage, bool addToMessageHistoryKey)
     {
         SetDialogToDefaultPos();
+        view.ViewRectTransform.localScale = new Vector3(PhoneScreenBaseHandler.ScaleValueMin, PhoneScreenBaseHandler.ScaleValueMin, PhoneScreenBaseHandler.ScaleValueMin);
         view.Text.text = phoneMessage.TextMessage;
         _setLocalizationChangeEvent.SubscribeWithCompositeDisposable(() =>
         {
