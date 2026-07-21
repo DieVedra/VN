@@ -67,6 +67,15 @@ public class PlayStoryPanelHandler : ILocalizable
         _cashCleaner = cashCleaner;
         PlayStoryPanelAssetProvider storyPanelAssetProvider = new PlayStoryPanelAssetProvider();
         _playStoryPanel = await storyPanelAssetProvider.CreatePlayStoryPanel(parent);
+        
+        if (_cleanCashButtonEnable)
+        {
+            _playStoryPanel.SkipCashButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            _playStoryPanel.SkipCashButton.gameObject.SetActive(false);
+        }
         _playStoryPanel.gameObject.SetActive(false);
         _playStoryPanel.transform.SetSiblingIndex(_playStoryPanel.HierarchyIndex);
         _rectTransformPanel = _playStoryPanel.GetComponent<RectTransform>();
@@ -162,10 +171,6 @@ public class PlayStoryPanelHandler : ILocalizable
                 ChangeColorButtonIcon(ref _imageCash, _playStoryPanel.SkipCashButton);
             }
         }
-        else
-        {
-            _playStoryPanel.SkipCashButton.gameObject.SetActive(false);
-        }
     }
 
     private void DisableClearCashAndResetProgressButtons()
@@ -190,6 +195,7 @@ public class PlayStoryPanelHandler : ILocalizable
                             _saveServiceProvider.SaveFromMainMenu().Forget();
                             TrySubscribeResetProgressButton(story);
                             _playStoryPanel.ProgressText.text = $"{story.ProgressPercent}%";
+                            _playStoryPanel.TextSeria.text = $"{_seriaText} {story.CurrentSeriaNumber}";
                         },
                         () =>
                         {

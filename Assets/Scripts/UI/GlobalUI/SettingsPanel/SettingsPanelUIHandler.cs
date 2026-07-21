@@ -49,6 +49,14 @@ public class SettingsPanelUIHandler : ILocalizable
         if (AssetIsLoaded == false)
         {
             _settingsPanelView = await new SettingsPanelAssetProvider().CreateSettingsPanel(parent);
+            if (_ccdStatus)
+            {
+                _settingsPanelView.ClearCashButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                _settingsPanelView.ClearCashButton.gameObject.SetActive(false);
+            }
             _globalCanvasCloser = globalCanvasCloser;
             _soundStatus = soundStatus;
             _settingPanelChoiceHandler = new SettingPanelChoiceHandler(localizationChanger,
@@ -137,10 +145,6 @@ public class SettingsPanelUIHandler : ILocalizable
                     CashCleaner.HeightPanel, CashCleaner.FontSizeValue, () => { _cashCleaner.CleanAllCash(); },
                     TrySubscribeClearCashButton).Forget();
             });
-        }
-        else
-        {
-            _settingsPanelView.ClearCashButton.gameObject.SetActive(false);
         }
     }
 

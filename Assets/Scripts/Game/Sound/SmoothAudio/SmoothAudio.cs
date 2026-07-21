@@ -45,12 +45,20 @@ public class SmoothAudio
     }
     public async UniTask SmoothStopAudio(CancellationToken cancellationToken, AudioSourceType audioSourceType, string audioClipKey = null)
     {
+        Debug.Log(1);
+        if (cancellationToken == null)
+        {
+            Debug.Log($"cancellationToken == null");
+
+        }
         SetCurrentAudioKey(audioClipKey, audioSourceType);
         if (_audioSources[audioSourceType].clip != null)
         {
             await Fade(cancellationToken, _stopEndValue, _duration, audioSourceType);
             _audioSources[audioSourceType].clip = null;
         }
+        Debug.Log(2);
+
     }
     public async UniTask SmoothPlayAudio(AudioClip audioClip, CancellationToken cancellationToken)
     {

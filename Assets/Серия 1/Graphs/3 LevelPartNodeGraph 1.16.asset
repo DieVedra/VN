@@ -466,6 +466,70 @@ MonoBehaviour:
   _timerPortIndex: 0
   _showOutput: 0
   _addTimer: 0
+--- !u!114 &-7679239248345088999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f180cf4cc964f7b88f574a1bfe7919b, type: 3}
+  m_Name: Switch
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3144, y: -2920}
+  ports:
+    keys:
+    - OutputTrueBool
+    - Input
+    - Output
+    values:
+    - _fieldName: OutputTrueBool
+      _node: {fileID: -7679239248345088999}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 4466235438656562087}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -7679239248345088999}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: -1624861195299647145}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 3263700719712167387}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -7679239248345088999}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -3525967191039727059}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _casesForStats: []
+  _isNodeForStats: 0
+  _isNodeForBool: 1
+  _removeAdditionalCaseIndex: 0
 --- !u!114 &-6625208968108423824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,12 +635,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_6B6A2799
   _indexCharacter: 0
   _indexEmotion: 3
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 0
   _previousCharactersCount: 5
   _directionType: 1
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -694,12 +758,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_D1D1D024
   _indexCharacter: 4
   _indexEmotion: 0
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 4
   _previousCharactersCount: 5
   _directionType: 0
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -760,12 +824,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_A50B9826
   _indexCharacter: 4
   _indexEmotion: 0
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 4
   _previousCharactersCount: 5
   _directionType: 0
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -1262,7 +1326,10 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 3263700719712167387}
+        node: {fileID: -7679239248345088999}
+        reroutePoints: []
+      - fieldName: Output
+        node: {fileID: 4466235438656562087}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1346,12 +1413,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_301557A3
   _indexCharacter: 0
   _indexEmotion: 3
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 0
   _previousCharactersCount: 5
   _directionType: 1
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -1411,12 +1478,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_2928AD22
   _indexCharacter: 0
   _indexEmotion: 3
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 0
   _previousCharactersCount: 5
   _directionType: 1
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -1533,6 +1600,9 @@ MonoBehaviour:
       - fieldName: Input
         node: {fileID: -252547840279322926}
         reroutePoints: []
+      - fieldName: Input
+        node: {fileID: -7679239248345088999}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1592,7 +1662,7 @@ MonoBehaviour:
       _dynamic: 0
   namenode: 
   _seriaPartNodeGraph: {fileID: 11400000, guid: 402ffba333b83c84e802fa6e358fbafe, type: 2}
-  _putOnSwimsuit: 0
+  _putOnSwimsuit: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1627,6 +1697,8 @@ MonoBehaviour:
   - {fileID: 5365951572672755765}
   - {fileID: -1624861195299647145}
   - {fileID: 3263700719712167387}
+  - {fileID: -7679239248345088999}
+  - {fileID: 4466235438656562087}
 --- !u!114 &1433833577174277915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,12 +1751,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_3144B248
   _indexCharacter: 4
   _indexEmotion: 4
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 4
   _previousCharactersCount: 5
   _directionType: 0
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -1759,7 +1831,7 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2520, y: -2168}
+  position: {x: -3656, y: -2664}
   ports:
     keys:
     - Input
@@ -1780,7 +1852,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: -3525967191039727059}
+        node: {fileID: -7679239248345088999}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1857,6 +1929,70 @@ MonoBehaviour:
   _autoSwitchToNextSlide: 0
   _enterAsyncMode: 0
   _exitAsyncMode: 0
+--- !u!114 &4466235438656562087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd9bcd7fcb427bbf1572de7a683a3e, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2408, y: -2968}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 4466235438656562087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: OutputTrueBool
+        node: {fileID: -7679239248345088999}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 4466235438656562087}
+      _typeQualifiedName: Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: -3525967191039727059}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  namenode: 
+  _currentMusicSoundIndex: 0
+  _currentAmbientSoundIndex: 0
+  _currentMusicSoundKey: 
+  _currentAmbientSoundKey: "\u041F\u043B\u044F\u0436 \u0438 \u0433\u043E\u0440\u044B
+    \u041F\u0440\u0438\u044F\u0442\u043D\u044B\u0439 \u0437\u0432\u0443\u043A \u0432\u043E\u043B\u043D
+    \u043D\u0430 \u043C\u043E\u0440\u0435"
+  _isInstantNodeTransition: 1
+  _volumeMusicSound: 1
+  _volumeAmbientSound: 1
+  _smoothMusicTransitionKey: 0
+  _isMusicSmoothVolumeIncrease: 0
+  _isMusicSmoothVolumeDecrease: 0
+  _smoothTransitionKeyAmbientSound: 0
+  _isSmoothVolumeIncreaseAmbientSound: 1
+  _isSmoothVolumeDecreaseAmbientSound: 0
+  _showMusicSoundsKey: 0
+  _showAmbientSoundsKey: 1
+  _showEffectsKey: 0
+  _audioEffects: 
+  _effectKeys: 
 --- !u!114 &5365951572672755765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1964,12 +2100,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_BB73E49D
   _indexCharacter: 4
   _indexEmotion: 0
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 4
   _previousCharactersCount: 5
   _directionType: 0
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -2043,12 +2179,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_35BCF84F
   _indexCharacter: 0
   _indexEmotion: 0
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 0
   _previousCharactersCount: 5
   _directionType: 1
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:
@@ -2110,12 +2246,12 @@ MonoBehaviour:
     <Key>k__BackingField: str_8B06A37C
   _indexCharacter: 0
   _indexEmotion: 3
-  _indexLook: 0
+  _indexLook: 1
   _previousIndexCharacter: 0
   _previousCharactersCount: 5
   _directionType: 1
   _foldoutIsOpen: 1
-  _toggleIsSwimsuit: 0
+  _toggleIsSwimsuit: 1
   _toggleShowPanel: 1
   _overrideName: 0
   _overridedNameLocalization:

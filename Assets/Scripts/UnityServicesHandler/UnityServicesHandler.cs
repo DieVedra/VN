@@ -15,6 +15,7 @@ public class UnityServicesHandler
 
     public async UniTask Construct(StartConfig startConfig)
     {
+        await _checkInternetConnectionHandler.CheckInternetConnection();
         if (_checkInternetConnectionHandler.Result)
         {
             if (startConfig.CrashlyticsStatus || startConfig.AnalyticsStatus || startConfig.AdvertisementStatus)
